@@ -1,5 +1,6 @@
 import config from 'config'
 
+import createReducer from './utils/createReducer'
 // ------------------------------------
 // Initial State
 // ------------------------------------
@@ -339,47 +340,65 @@ export const validateMacaroon = macaroonPath => async dispatch => {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [SET_CONNECTION_TYPE]: (state, { connectionType }) => ({ ...state, connectionType }),
-  [SET_CONNECTION_URI]: (state, { connectionString }) => ({ ...state, connectionString }),
-  [SET_CONNECTION_HOST]: (state, { connectionHost }) => ({ ...state, connectionHost }),
-  [SET_CONNECTION_CERT]: (state, { connectionCert }) => ({ ...state, connectionCert }),
-  [SET_CONNECTION_MACAROON]: (state, { connectionMacaroon }) => ({ ...state, connectionMacaroon }),
-  [SET_ALIAS]: (state, { alias }) => ({ ...state, alias }),
-  [SET_NAME]: (state, { name }) => ({ ...state, name }),
-  [SET_AUTOPILOT]: (state, { autopilot }) => ({ ...state, autopilot }),
-  [SET_CHAIN]: (state, { chain }) => ({ ...state, chain }),
-  [SET_NETWORK]: (state, { network }) => ({ ...state, network }),
-  [SET_SEED]: (state, { seed }) => ({ ...state, seed, isFetchingSeed: false }),
-  [SET_LNDCONNECT]: (state, { lndConnect }) => ({ ...state, lndConnect }),
-  [SET_PASSWORD]: (state, { password }) => ({ ...state, password }),
-  [SET_PASSPHRASE]: (state, { passphrase }) => ({ ...state, passphrase }),
-  [VALIDATING_HOST]: (state, { validatingHost }) => ({ ...state, validatingHost }),
-  [VALIDATING_CERT]: (state, { validatingCert }) => ({ ...state, validatingCert }),
-  [VALIDATING_MACAROON]: (state, { validatingMacaroon }) => ({ ...state, validatingMacaroon }),
+  [SET_CONNECTION_TYPE]: (state, { connectionType }) => {
+    state.connectionType = connectionType
+  },
+  [SET_CONNECTION_URI]: (state, { connectionString }) => {
+    state.connectionString = connectionString
+  },
+  [SET_CONNECTION_HOST]: (state, { connectionHost }) => {
+    state.connectionHost = connectionHost
+  },
+  [SET_CONNECTION_CERT]: (state, { connectionCert }) => {
+    state.connectionCert = connectionCert
+  },
+  [SET_CONNECTION_MACAROON]: (state, { connectionMacaroon }) => {
+    state.connectionMacaroon = connectionMacaroon
+  },
+  [SET_ALIAS]: (state, { alias }) => {
+    state.alias = alias
+  },
+  [SET_NAME]: (state, { name }) => {
+    state.name = name
+  },
+  [SET_AUTOPILOT]: (state, { autopilot }) => {
+    state.autopilot = autopilot
+  },
+  [SET_CHAIN]: (state, { chain }) => {
+    state.chain = chain
+  },
+  [SET_NETWORK]: (state, { network }) => {
+    state.network = network
+  },
+  [SET_SEED]: (state, { seed }) => {
+    state.seed = seed
+    state.isFetchingSeed = false
+  },
+  [SET_LNDCONNECT]: (state, { lndConnect }) => {
+    state.lndConnect = lndConnect
+  },
+  [SET_PASSWORD]: (state, { password }) => {
+    state.password = password
+  },
+  [SET_PASSPHRASE]: (state, { passphrase }) => {
+    state.passphrase = passphrase
+  },
+  [VALIDATING_HOST]: (state, { validatingHost }) => {
+    state.validatingHost = validatingHost
+  },
+  [VALIDATING_CERT]: (state, { validatingCert }) => {
+    state.validatingCert = validatingCert
+  },
+  [VALIDATING_MACAROON]: (state, { validatingMacaroon }) => {
+    state.validatingMacaroon = validatingMacaroon
+  },
   [RESET_ONBOARDING]: state => ({ ...state, ...initialState }),
-  [OPEN_SKIP_BACKUP_DIALOG]: state => ({
-    ...state,
-    isSkipBackupDialogOpen: true,
-  }),
-  [CLOSE_SKIP_BACKUP_DIALOG]: state => ({
-    ...state,
-    isSkipBackupDialogOpen: false,
-  }),
+  [OPEN_SKIP_BACKUP_DIALOG]: state => {
+    state.isSkipBackupDialogOpen = true
+  },
+  [CLOSE_SKIP_BACKUP_DIALOG]: state => {
+    state.isSkipBackupDialogOpen = false
+  },
 }
 
-// ------------------------------------
-// Reducer
-// ------------------------------------
-
-/**
- * onboardingReducer - Onboarding reducer.
- *
- * @param  {object} state = initialState Initial state
- * @param  {object} action Action
- * @returns {object} Next state
- */
-export default function onboardingReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
-}
+export default createReducer(initialState, ACTION_HANDLERS)

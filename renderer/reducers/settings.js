@@ -4,6 +4,7 @@ import set from 'lodash/set'
 import { createSelector } from 'reselect'
 import difference from '@zap/utils/difference'
 import { showError } from './notification'
+import createReducer from './utils/createReducer'
 
 // ------------------------------------
 // Initial State
@@ -95,14 +96,18 @@ export const saveConfigOverrides = values => async (dispatch, getState) => {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [INIT_SETTINGS]: state => ({ ...state }),
+  [INIT_SETTINGS]: () => {}, // noop
   [INIT_SETTINGS_SUCCESS]: (state, { settings }) => ({
     ...state,
     ...settings,
     isSettingsLoaded: true,
   }),
-  [INIT_SETTINGS_FAILURE]: (state, { initSettingsError }) => ({ ...state, initSettingsError }),
-  [SET_SETTING]: (state, { key, value }) => ({ ...state, ...{ ...state.settings, [key]: value } }),
+  [INIT_SETTINGS_FAILURE]: (state, { initSettingsError }) => {
+    state.initSettingsError = initSettingsError
+  },
+  [SET_SETTING]: (state, { key, value }) => {
+    state[key] = value
+  },
 }
 
 // ------------------------------------
@@ -119,19 +124,4 @@ settingsSelectors.currentConfig = createSelector(
 )
 export { settingsSelectors }
 
-// ------------------------------------
-// Reducer
-// ------------------------------------
-
-/**
- * settingsReducer - Settings reducer.
- *
- * @param  {object} state = initialState Initial state
- * @param  {object} action Action
- * @returns {object} Next state
- */
-export default function settingsReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
-}
+export default createReducer(initialState, ACTION_HANDLERS)

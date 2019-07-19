@@ -2,6 +2,7 @@ import config from 'config'
 import { createSelector } from 'reselect'
 import { showError } from './notification'
 import { putSetting } from './settings'
+import createReducer from './utils/createReducer'
 
 // ------------------------------------
 // Initial State
@@ -212,16 +213,18 @@ export const initWallets = () => async dispatch => {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [SET_WALLETS]: (state, { wallets }) => ({ ...state, wallets }),
-  [SET_WALLETS_LOADED]: state => ({ ...state, isWalletsLoaded: true }),
-  [OPEN_DELETE_WALLET_DIALOG]: state => ({
-    ...state,
-    isDeleteDialogOpen: true,
-  }),
-  [CLOSE_DELETE_WALLET_DIALOG]: state => ({
-    ...state,
-    isDeleteDialogOpen: false,
-  }),
+  [SET_WALLETS]: (state, { wallets }) => {
+    state.wallets = wallets
+  },
+  [SET_WALLETS_LOADED]: state => {
+    state.isWalletsLoaded = true
+  },
+  [OPEN_DELETE_WALLET_DIALOG]: state => {
+    state.isDeleteDialogOpen = true
+  },
+  [CLOSE_DELETE_WALLET_DIALOG]: state => {
+    state.isDeleteDialogOpen = false
+  },
 }
 
 // ------------------------------------
@@ -276,19 +279,4 @@ walletSelectors.lndconnectQRCode = createSelector(
 
 export { walletSelectors }
 
-// ------------------------------------
-// Reducer
-// ------------------------------------
-
-/**
- * walletReducer - Wallet reducer.
- *
- * @param  {object} state = initialState Initial state
- * @param  {object} action Action
- * @returns {object} Next state
- */
-export default function walletReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
-}
+export default createReducer(initialState, ACTION_HANDLERS)

@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import { dark, light } from 'themes'
 import { putConfig, settingsSelectors } from './settings'
+import createReducer from './utils/createReducer'
 
 // ------------------------------------
 // Initial State
@@ -54,7 +55,7 @@ export const setTheme = currentTheme => async dispatch => {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [SET_THEME]: state => ({ ...state }),
+  [SET_THEME]: () => {}, //noop
 }
 
 // ------------------------------------
@@ -81,19 +82,4 @@ themeSelectors.currentThemeSettings = createSelector(
 
 export { themeSelectors }
 
-// ------------------------------------
-// Reducer
-// ------------------------------------
-
-/**
- * themeReducer - Theme reducer.
- *
- * @param  {object} state = initialState Initial state
- * @param  {object} action Action
- * @returns {object} Next state
- */
-export default function themeReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
-}
+export default createReducer(initialState, ACTION_HANDLERS)
