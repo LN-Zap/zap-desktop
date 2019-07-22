@@ -57,7 +57,7 @@ function SkipButton({ children }) {
             isDisabled={wizardState.isSubmitting}
             isProcessing={wizardState.isSubmitting}
             mr={3}
-            onClick={() => wizardApi.skip()}
+            onClick={() => wizardApi.skip(true)}
             type="button"
             variant="secondary"
           >
@@ -178,16 +178,14 @@ class Debug extends React.Component {
 
 class Step extends React.Component {
   static propTypes = {
-    component: PropTypes.func.isRequired,
+    component: PropTypes.object.isRequired,
   }
 
   render() {
-    const { component, ...rest } = this.props
+    const { component } = this.props
     return (
       <WizardContext.Consumer>
-        {({ wizardApi, wizardState }) =>
-          React.createElement(component, { ...rest, wizardApi, wizardState })
-        }
+        {({ wizardApi, wizardState }) => React.cloneElement(component, { wizardApi, wizardState })}
       </WizardContext.Consumer>
     )
   }
@@ -214,6 +212,7 @@ class Wizard extends React.Component {
       currentItem: steps && steps[0] && steps[0].key,
       currentStep: 0,
       direction: 'next',
+      isSkip: false, // if the wizard is currently in skip mode
       isSubmitting: false,
       formState: {},
     }
@@ -228,6 +227,7 @@ class Wizard extends React.Component {
         currentItem: steps[nextStep].key,
         currentStep: nextStep,
         direction: 'previous',
+        isSkip: false,
         formState: {},
       })
     }
@@ -242,6 +242,7 @@ class Wizard extends React.Component {
         currentItem: steps[nextStep].key,
         currentStep: nextStep,
         direction: 'next',
+        isSkip: false,
         formState: {},
       })
     }
@@ -252,11 +253,12 @@ class Wizard extends React.Component {
   }
 
   handleNext = () => {
-    if (this.formApi) {
+    const { isSkip } = this.state
+    if (isSkip || !this.formApi) {
+      this.nextStep()
+    } else {
       this.setState({ isSubmitting: true })
       this.formApi.submitForm()
-    } else {
-      this.nextStep()
     }
   }
 
@@ -266,11 +268,15 @@ class Wizard extends React.Component {
     return steps[currentStep].props
   }
 
-  handleSkip = skipConfirmed => {
-    const { onSkip } = this.getCurrentStepProps()
-    // skip either if it was confirmed or if there is no `onSkip` handler
-    // meaning confirmation is not needed
-    return skipConfirmed || !onSkip ? this.nextStep() : onSkip()
+  /**
+   *  handleSkip - Toggles skip mode.
+   *
+   * @param value if skip mode is currently active
+   */
+  handleSkip = value => {
+    this.setState({
+      isSkip: value,
+    })
   }
 
   navigateTo = stepId => {
@@ -306,7 +312,7 @@ class Wizard extends React.Component {
   }
 
   /**
-   * canSkip - Checks wheter current step is skipable.
+   * canSkip - Checks whether current step is skipable.
    *
    * @returns {boolean} true if current step can be skipped
    * @memberof Wizard
@@ -332,11 +338,11 @@ class Wizard extends React.Component {
           wizardApi: {
             previous: this.handlePrevious,
             next: this.handleNext,
-            skip: this.handleSkip,
             navigateTo: this.navigateTo,
             onSubmit: this.onSubmit,
             onSubmitFailure: this.onSubmitFailure,
             onChange: this.onChange,
+            skip: this.handleSkip,
             getApi: this.getApi,
             canSkip: this.canSkip,
             getState: () => this.state,
