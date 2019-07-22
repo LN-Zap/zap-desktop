@@ -21,6 +21,7 @@ class BackupSetup extends React.Component {
     isSkipBackupDialogOpen: PropTypes.bool,
     setBackupProvider: PropTypes.func.isRequired,
     showError: PropTypes.func.isRequired,
+    showSkipBackupDialog: PropTypes.func,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
   }
@@ -28,6 +29,14 @@ class BackupSetup extends React.Component {
   static defaultProps = {
     wizardApi: {},
     wizardState: {},
+  }
+
+  componentDidUpdate() {
+    const { wizardState, showSkipBackupDialog, isSkipBackupDialogOpen } = this.props
+    const { isSkip } = wizardState
+    if (isSkip && showSkipBackupDialog && !isSkipBackupDialogOpen) {
+      showSkipBackupDialog()
+    }
   }
 
   handleSubmit = values => {
@@ -39,12 +48,18 @@ class BackupSetup extends React.Component {
     this.formApi = formApi
   }
 
+  onCancelSkip = () => {
+    const { wizardApi, hideSkipBackupDialog } = this.props
+    hideSkipBackupDialog()
+    wizardApi.skip(false)
+  }
+
   onSkip = () => {
     const { setBackupProvider, wizardApi, hideSkipBackupDialog, showError, intl } = this.props
     try {
       setBackupProvider(null)
       hideSkipBackupDialog()
-      wizardApi.skip(true)
+      wizardApi.next()
     } catch (e) {
       const message = intl.formatMessage({ ...messages.backup_skip_error })
       showError(`${message}: ${e.message}`)
@@ -52,13 +67,7 @@ class BackupSetup extends React.Component {
   }
 
   render() {
-    const {
-      wizardApi,
-      wizardState,
-      isRestoreMode,
-      isSkipBackupDialogOpen,
-      hideSkipBackupDialog,
-    } = this.props
+    const { wizardApi, wizardState, isRestoreMode, isSkipBackupDialogOpen } = this.props
     const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
 
@@ -117,7 +126,7 @@ class BackupSetup extends React.Component {
         <SkipBackupsDialog
           isOpen={isSkipBackupDialogOpen}
           isRestoreMode={isRestoreMode}
-          onCancel={hideSkipBackupDialog}
+          onCancel={this.onCancelSkip}
           onSkip={this.onSkip}
         />
       </Container>
