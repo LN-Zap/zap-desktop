@@ -1,4 +1,3 @@
-export Alias from './Alias'
 export Autopilot from './Autopilot'
 export ConnectionConfirm from './ConnectionConfirm'
 export ConnectionDetails from './ConnectionDetails'
