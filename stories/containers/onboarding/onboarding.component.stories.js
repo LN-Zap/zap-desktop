@@ -1,7 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import {
-  Alias,
   Autopilot,
   ConnectionType,
   ConnectionDetails,
@@ -36,7 +35,6 @@ storiesOf('Containers.Onboarding.Forms', module)
   .add('Login', () => <Login />)
   .add('Password', () => <Password />)
   .add('Recover', () => <Recover seed={[]} />)
-  .add('Alias', () => <Alias />)
   .add('Name', () => <Name />)
   .add('Network', () => <Network />)
   .add('Autopilot', () => <Autopilot />)
