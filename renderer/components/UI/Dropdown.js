@@ -96,7 +96,7 @@ MenuItemText.defaultProps = {
  * MenuItem
  */
 export const MenuItem = withTheme(
-  ({ item, onClick, active, theme, hasParent, hasChildren, ...rest }) => (
+  ({ item, onClick, active, theme, hasParent, hasChildren, valueField, ...rest }) => (
     <MenuItemText key={item.key} onClick={() => onClick(item.key)} {...rest}>
       <Flex alignItems="center" pr={2}>
         {hasParent && (
@@ -109,7 +109,7 @@ export const MenuItem = withTheme(
             {active && <Check height="0.95em" />}
           </Text>
         )}
-        <Text mr={2}>{item.value}</Text>
+        <Text mr={2}>{item[valueField]}</Text>
 
         <Flex alignItems="center" color="gray" justifyContent="flex-end" ml="auto" width="20px">
           {hasChildren && <AngleRight height="8px" />}
@@ -120,7 +120,18 @@ export const MenuItem = withTheme(
 )
 
 const Dropdown = injectIntl(
-  ({ activeKey, intl, items, justify, theme, buttonOpacity, onChange, messageMapper, ...rest }) => {
+  ({
+    activeKey,
+    intl,
+    items,
+    justify,
+    theme,
+    buttonOpacity,
+    onChange,
+    messageMapper,
+    valueField,
+    ...rest
+  }) => {
     // State to track dropdown open state.
     const [isOpen, setIsOpen] = useState(false)
     const toggleMenu = () => setIsOpen(!isOpen)
@@ -133,7 +144,7 @@ const Dropdown = injectIntl(
     let itemsArray = items.map(item => {
       if (typeof item === 'string') {
         return {
-          value: item,
+          [valueField]: item,
           key: item,
         }
       }
@@ -170,7 +181,7 @@ const Dropdown = injectIntl(
                 mr={1}
                 textAlign="left"
               >
-                {selectedItem ? selectedItem.value : activeKey}{' '}
+                {selectedItem ? selectedItem[valueField] : activeKey}{' '}
               </Text>
               <Flex color="gray">
                 {isOpen ? <AngleUp width="0.6em" /> : <AngleDown width="0.6em" />}
@@ -187,6 +198,7 @@ const Dropdown = injectIntl(
                       active={activeKey === item.key}
                       item={item}
                       onClick={() => handleClick(item.key)}
+                      valueField={valueField}
                     />
                   )
                 })}
@@ -199,6 +211,10 @@ const Dropdown = injectIntl(
   }
 )
 
+Dropdown.defaultProps = {
+  valueField: 'value',
+}
+
 Dropdown.propTypes = {
   activeKey: PropTypes.string.isRequired,
   buttonOpacity: PropTypes.number,
@@ -206,6 +222,7 @@ Dropdown.propTypes = {
   justify: PropTypes.string,
   onChange: PropTypes.func,
   theme: PropTypes.object.isRequired,
+  valueField: PropTypes.string,
 }
 
 export default withTheme(Dropdown)

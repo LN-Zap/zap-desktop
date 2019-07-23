@@ -101,6 +101,7 @@ const CurrencyFieldGroup = React.forwardRef(
               ml={2}
               mt={40}
               onChange={handleCryptoCurrencyChange}
+              valueField="name"
             />
           </Flex>
           <Flex justifyContent="center" mt={42} width={1 / 11}>
