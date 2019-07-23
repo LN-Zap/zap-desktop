@@ -126,7 +126,7 @@
   "components.Channels.channel_sort_name": "Anim",
   "components.Channels.channel_sort_open_date": "Dáta oscailte",
   "components.Channels.channel_sort_remote_balance": "Iarmhéid cianda",
-  "components.Channels.channels": "Cainéil",
+  "components.Channels.channels": "",
   "components.Channels.close_button": "Dún an Mhuir nIocht",
   "components.Channels.close_channel_dialog_acknowledgement": "Tuigim gur gníomh dochúlaithe é seo",
   "components.Channels.close_channel_dialog_cancel_text": "Cealaigh",
