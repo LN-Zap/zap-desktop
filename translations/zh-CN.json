@@ -181,6 +181,7 @@
   "components.Channels.remote_balance": "",
   "components.Channels.remote_pubkey": "",
   "components.Channels.search_placeholder": "",
+  "components.Channels.show_all": "",
   "components.Channels.total": "总共",
   "components.Channels.total_capacity": "",
   "components.Channels.total_capacity_receive": "",

@@ -4,7 +4,8 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   local_balance: 'Local Balance',
   remote_balance: 'Remote Balance',
-  channels: 'Channels',
+  channels:
+    '{totalCount, plural, =0 {No channels} other {Showing {count} of {totalCount} channels}}',
   capacity: 'Capacity',
   error_not_enough_funds: 'Not enough funds',
   total_capacity: 'Total Capacity',
@@ -105,4 +106,5 @@ export default defineMessages({
   channel_desc_sort: 'Switch to descending order',
   channel_sort_label: 'Sort by:',
   channel_filter_label: 'Show:',
+  show_all: 'show all',
 })

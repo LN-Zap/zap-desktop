@@ -11,18 +11,7 @@ storiesOf('Containers.Channels', module)
         sections: [
           {
             sectionFn: () => {
-              const channels = [
-                {
-                  key: 1,
-                },
-                {
-                  key: 2,
-                },
-                {
-                  key: 3,
-                },
-              ]
-              return <ChannelCount channels={channels} />
+              return <ChannelCount count={5} totalCount={10} />
             },
           },
         ],

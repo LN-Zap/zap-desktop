@@ -14,6 +14,7 @@ const ChannelsHeader = ({
   sort,
   sorters,
   changeSort,
+  currentChannelCount,
   updateChannelSearchQuery,
   setChannelViewMode,
   searchQuery,
@@ -38,6 +39,7 @@ const ChannelsHeader = ({
       changeSort={changeSort}
       channels={channels}
       channelViewMode={channelViewMode}
+      currentChannelCount={currentChannelCount}
       fetchChannels={fetchChannels}
       filter={filter}
       filters={filters}
@@ -59,6 +61,7 @@ ChannelsHeader.propTypes = {
   changeSort: PropTypes.func.isRequired,
   channels: PropTypes.array,
   channelViewMode: PropTypes.string.isRequired,
+  currentChannelCount: PropTypes.number.isRequired,
   fetchChannels: PropTypes.func.isRequired,
   filter: PropTypes.string.isRequired,
   filters: PropTypes.array.isRequired,

@@ -10,7 +10,7 @@ storiesOf('Containers.Channels', module)
       {
         sections: [
           {
-            sectionFn: () => <ChannelsHeader />,
+            sectionFn: () => <ChannelsHeader currentChannelCount={3} />,
           },
         ],
       },

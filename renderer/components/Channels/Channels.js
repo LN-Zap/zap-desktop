@@ -49,7 +49,10 @@ class Channels extends React.Component {
     return (
       <Panel {...rest}>
         <Panel.Header>
-          <ChannelsHeader updateChannelSearchQuery={this.updateChannelSearchQuery} />
+          <ChannelsHeader
+            currentChannelCount={channels.length}
+            updateChannelSearchQuery={this.updateChannelSearchQuery}
+          />
         </Panel.Header>
         <Panel.Body
           css={`
