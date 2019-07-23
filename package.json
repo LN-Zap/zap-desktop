@@ -322,7 +322,7 @@
     "bip21": "2.0.2",
     "bip39-en": "1.1.1",
     "bitcoinjs-lib": "5.0.5",
-    "bolt11": "1.2.5",
+    "bolt11": "1.2.6",
     "coininfo": "5.1.0",
     "comlinkjs": "3.2.0",
     "config": "3.1.0",
