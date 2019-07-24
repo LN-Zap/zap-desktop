@@ -26,7 +26,7 @@
   "components.Activity.InvoiceModal.title_requested": "Richiesto",
   "components.Activity.Payment.amount": "Importo del pagamento",
   "components.Activity.Payment.fee": "Commissione di pagamento",
-  "components.Activity.Payment.status_error": "Si è verificato un problema durante l'elaborazione del pagamento.",
+  "components.Activity.Payment.status_error": "",
   "components.Activity.Payment.status_processing": "Stiamo processando il tuo pagamento...",
   "components.Activity.Payment.status_success": "Pagamento effettuato con successo.",
   "components.Activity.Payment.type": "Pagamento Lightning",
