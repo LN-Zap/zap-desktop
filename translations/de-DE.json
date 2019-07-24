@@ -26,7 +26,7 @@
   "components.Activity.InvoiceModal.title_requested": "Angefragt",
   "components.Activity.Payment.amount": "Betrag",
   "components.Activity.Payment.fee": "Gebühr",
-  "components.Activity.Payment.status_error": "Während dem Senden der Transaktion ist ein Fehler aufgetreten.",
+  "components.Activity.Payment.status_error": "",
   "components.Activity.Payment.status_processing": "Deine Zahlung wird bearbeitet...",
   "components.Activity.Payment.status_success": "Zahlung wurde erfolgreich ausgeführt.",
   "components.Activity.Payment.type": "Lightning Zahlung",
