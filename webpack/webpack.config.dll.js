@@ -27,6 +27,7 @@ export default merge.smart(baseConfig, {
     'rimraf',
     'source-map-support',
     'googleapis',
+    'keytar',
   ],
   entry: {
     renderer: Object.keys(dependencies),
