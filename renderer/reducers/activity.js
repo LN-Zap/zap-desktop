@@ -26,6 +26,7 @@ const initialState = {
     itemType: null,
     itemId: null,
   },
+  errorDialogDetails: null,
   searchText: null,
   isActivityLoading: false,
   activityLoadingError: null,
@@ -42,6 +43,8 @@ export const UPDATE_SEARCH_TEXT = 'UPDATE_SEARCH_TEXT'
 export const FETCH_ACTIVITY_HISTORY = 'FETCH_ACTIVITY_HISTORY'
 export const FETCH_ACTIVITY_HISTORY_SUCCESS = 'FETCH_ACTIVITY_HISTORY_SUCCESS'
 export const FETCH_ACTIVITY_HISTORY_FAILURE = 'FETCH_ACTIVITY_HISTORY_FAILURE'
+export const OPEN_ERROR_DETAILS_DIALOG = 'OPEN_ERROR_DETAILS_DIALOG'
+export const CLOSE_ERROR_DETAILS_DIALOG = 'CLOSE_ERROR_DETAILS_DIALOG'
 
 // ------------------------------------
 // Helpers
@@ -163,6 +166,30 @@ const prepareData = (data, searchText) => {
 // ------------------------------------
 
 /**
+ * showErrorDetailsDialog - Show the activity error detail dialog.
+ *
+ * @param {object} error Error description
+ * @returns {object} Action
+ */
+export function showErrorDetailsDialog(error) {
+  return {
+    type: OPEN_ERROR_DETAILS_DIALOG,
+    error,
+  }
+}
+
+/**
+ * hideErrorDetailsDialog - Hide the activity error detail dialog.
+ *
+ * @returns {object} Action
+ */
+export function hideErrorDetailsDialog() {
+  return {
+    type: CLOSE_ERROR_DETAILS_DIALOG,
+  }
+}
+
+/**
  * showActivityModal - Show the activity modal with a given activity item.
  *
  * @param {string} itemType Item type
@@ -257,6 +284,12 @@ const ACTION_HANDLERS = {
     state.isActivityLoading = false
     state.activityLoadingError = error
   },
+  [OPEN_ERROR_DETAILS_DIALOG]: (state, { error }) => {
+    state.errorDialogDetails = error
+  },
+  [CLOSE_ERROR_DETAILS_DIALOG]: state => {
+    state.errorDialogDetails = null
+  },
 }
 
 // ------------------------------------
@@ -265,6 +298,7 @@ const ACTION_HANDLERS = {
 
 const activitySelectors = {}
 const filterSelector = state => state.activity.filter
+const errorDialogDetailsSelector = state => state.activity.errorDialogDetails
 const filtersSelector = state => state.activity.filters
 const searchTextSelector = state => state.activity.searchText
 const modalItemTypeSelector = state => state.activity.modal.itemType
@@ -473,6 +507,13 @@ const FILTERS = {
   EXPIRED_ACTIVITY: expiredActivity,
   INTERNAL_ACTIVITY: internalActivity,
 }
+
+activitySelectors.isErrorDialogOpen = createSelector(
+  errorDialogDetailsSelector,
+  error => Boolean(error)
+)
+
+activitySelectors.errorDialogDetailsSelector = errorDialogDetailsSelector
 
 activitySelectors.currentActivity = createSelector(
   filterSelector,

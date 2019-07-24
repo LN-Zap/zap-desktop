@@ -7,6 +7,6 @@ export default defineMessages({
   type: 'Lightning payment',
   status_processing: 'Processing your payment...',
   status_success: 'Your payment was successful.',
-  status_error: 'There was a problem sending your payment.',
+  status_error: 'There was a problem sending your payment. Click for more details.',
   unknown: 'Unknown',
 })
