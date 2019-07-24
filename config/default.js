@@ -50,7 +50,7 @@ module.exports = {
       minchansize: 20000,
       maxchansize: 16777215,
       allocation: 0.6,
-      minconfs: 0,
+      minconfs: 1,
       heuristics: {
         externalscore: 0.95,
         preferential: 0.05,
