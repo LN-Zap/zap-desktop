@@ -427,6 +427,8 @@
   "components.Request.copy_button_text": "",
   "components.Request.current_value": "",
   "components.Request.description": "",
+  "components.Request.expired": "",
+  "components.Request.expires": "",
   "components.Request.memo": "Poznámka",
   "components.Request.memo_placeholder": "",
   "components.Request.memo_tooltip": "",
