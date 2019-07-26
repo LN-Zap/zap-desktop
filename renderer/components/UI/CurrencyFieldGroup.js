@@ -35,27 +35,7 @@ const CurrencyFieldGroup = React.forwardRef(
     },
     ref
   ) => {
-    // Whether update of a linked input (crypto<->fiat) is enabled.
-    // This ref is used in a process of linked value calculations to prevent circular updates.
-    const blockUpdates = useRef(false)
-
-    // Prevent updates of linked form values.
-    const blockLinkedUpdates = () => {
-      blockUpdates.current = true
-    }
-
-    // informed calls onValueChange multiple time during value updates
-    // because of masks and patterns applied on top of UI elements
-    // give value a chance to settle before enabling updates again
-    const unblockLinkedUpdates = async () => {
-      await Promise.resolve()
-      blockUpdates.current = false
-    }
-
-    // Get current block status of linked form elements.
-    const isLinkedUpdatesBlocked = () => {
-      return blockUpdates.current
-    }
+    const shouldUpdate = useRef(true)
 
     /**
      * handleAmountCryptoChange - Set the amountFiat field whenever the crypto amount changes.
@@ -63,14 +43,15 @@ const CurrencyFieldGroup = React.forwardRef(
      * @param {string} value Value
      */
     const handleAmountCryptoChange = async value => {
-      if (!isLinkedUpdatesBlocked()) {
-        blockLinkedUpdates()
-        const lastPrice = currentTicker[fiatCurrency]
-        const fiatValue = convert(cryptoUnit, 'fiat', value, lastPrice)
+      const lastPrice = currentTicker[fiatCurrency]
+      const fiatValue = convert(cryptoUnit, 'fiat', value, lastPrice)
+      const upd = shouldUpdate.current
+      shouldUpdate.current = false
+      if (upd) {
         formApi.setValue('amountFiat', fiatValue)
-        await unblockLinkedUpdates()
       }
-      onChange && onChange()
+      await Promise.resolve()
+      shouldUpdate.current = true
     }
 
     /**
@@ -79,14 +60,15 @@ const CurrencyFieldGroup = React.forwardRef(
      * @param {string} value Value
      */
     const handleAmountFiatChange = async value => {
-      if (!isLinkedUpdatesBlocked()) {
-        blockLinkedUpdates()
-        const lastPrice = currentTicker[fiatCurrency]
-        const cryptoValue = convert('fiat', cryptoUnit, value, lastPrice)
+      const lastPrice = currentTicker[fiatCurrency]
+      const cryptoValue = convert('fiat', cryptoUnit, value, lastPrice)
+      const upd = shouldUpdate.current
+      shouldUpdate.current = false
+      if (upd) {
         formApi.setValue('amountCrypto', cryptoValue)
-        await unblockLinkedUpdates()
       }
-      onChange && onChange()
+      await Promise.resolve()
+      shouldUpdate.current = true
     }
 
     /**
