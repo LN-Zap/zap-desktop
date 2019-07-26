@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import { FormattedMessage } from 'react-intl'
@@ -34,15 +34,23 @@ const CurrencyFieldGroup = React.forwardRef(
     },
     ref
   ) => {
+    const shouldUpdate = useRef(true)
+
     /**
      * handleAmountCryptoChange - Set the amountFiat field whenever the crypto amount changes.
      *
      * @param {Event} e Event
      */
-    const handleAmountCryptoChange = e => {
+    const handleAmountCryptoChange = async value => {
       const lastPrice = currentTicker[fiatCurrency]
-      const value = convert(cryptoUnit, 'fiat', e.target.value, lastPrice)
-      formApi.setValue('amountFiat', value)
+      const fiatValue = convert(cryptoUnit, 'fiat', value, lastPrice)
+      const upd = shouldUpdate.current
+      shouldUpdate.current = false
+      if (upd) {
+        formApi.setValue('amountFiat', fiatValue)
+      }
+      await Promise.resolve()
+      shouldUpdate.current = true
     }
 
     /**
@@ -50,10 +58,16 @@ const CurrencyFieldGroup = React.forwardRef(
      *
      * @param {Event} e Event
      */
-    const handleAmountFiatChange = e => {
+    const handleAmountFiatChange = async value => {
       const lastPrice = currentTicker[fiatCurrency]
-      const value = convert('fiat', cryptoUnit, e.target.value, lastPrice)
-      formApi.setValue('amountCrypto', value)
+      const cryptoValue = convert('fiat', cryptoUnit, value, lastPrice)
+      const upd = shouldUpdate.current
+      shouldUpdate.current = false
+      if (upd) {
+        formApi.setValue('amountCrypto', cryptoValue)
+      }
+      await Promise.resolve()
+      shouldUpdate.current = true
     }
 
     /**
@@ -88,7 +102,7 @@ const CurrencyFieldGroup = React.forwardRef(
                 isRequired={isRequired}
                 label={cryptoLabel || <FormattedMessage {...messages.amount} />}
                 name="amountCrypto"
-                onChange={handleAmountCryptoChange}
+                onValueChange={handleAmountCryptoChange}
                 validate={validate}
                 validateOnBlur={validateOnBlur}
                 validateOnChange={validateOnChange}
@@ -117,7 +131,7 @@ const CurrencyFieldGroup = React.forwardRef(
                 isDisabled={isDisabled}
                 label={fiatLabel || <Span>&nbsp;</Span>}
                 name="amountFiat"
-                onChange={handleAmountFiatChange}
+                onValueChange={handleAmountFiatChange}
                 width={150}
               />
             </Box>
