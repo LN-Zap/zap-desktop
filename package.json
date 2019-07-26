@@ -291,6 +291,7 @@
     "lnd-binary": "0.3.12",
     "minimist": "1.2.0",
     "mock-spawn": "0.2.6",
+    "native-ext-loader": "2.3.0",
     "prettier": "1.18.2",
     "ps-node": "0.1.6",
     "react-storybook-addon-chapters": "3.1.4",
