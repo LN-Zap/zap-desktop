@@ -17,6 +17,14 @@ const config = merge.smart(baseConfig, {
   entry: {
     main: path.join(rootDir, 'electron', 'main'),
   },
+  module: {
+    rules: [
+      {
+        test: /\.node$/,
+        loader: 'native-ext-loader',
+      },
+    ],
+  },
   output: {
     filename: '[name].js',
     publicPath,
