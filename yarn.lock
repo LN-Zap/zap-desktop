@@ -4115,7 +4115,7 @@ babel-plugin-react-intl@3.5.1, babel-plugin-react-intl@^3.0.1:
   integrity sha512-1jlEJCSmLaJM4tjIKpu64UZ833COCHmwR77bFJDOye+zlwf80uR1b8p41l4tClx1QsrfI+qV6w/5AiPYQgaMUQ==
   dependencies:
     fs-extra "^8.0.1"
-    intl-messageformat-parser "^1.6.5"
+    intl-messageformat-parser "^1.8.1"
 
 babel-plugin-styled-components@1.10.6, "babel-plugin-styled-components@>= 1":
   version "1.10.6"
