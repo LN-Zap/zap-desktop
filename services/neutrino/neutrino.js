@@ -4,6 +4,7 @@ import { spawn } from 'child_process'
 import config from 'config'
 import delay from '@zap/utils/delay'
 import { mainLog, lndLog, lndLogGetLevel } from '@zap/utils/log'
+import getPackageDetails from '@zap/utils/getPackageDetails'
 import getLndListen from '@zap/utils/getLndListen'
 import fetchBlockHeight from '@zap/utils/fetchBlockHeight'
 
@@ -367,6 +368,8 @@ class Neutrino extends EventEmitter {
     const neutrinoArgs = []
 
     neutrinoArgs.push('--bitcoin.node=neutrino')
+    neutrinoArgs.push('--neutrino.useragentname=zap-desktop')
+    neutrinoArgs.push(`--neutrino.useragentversion=${getPackageDetails().version}`)
     neutrinoArgs.push(`--${this.lndConfig.chain}.${this.lndConfig.network}`)
     config.lnd.neutrino[this.lndConfig.chain][this.lndConfig.network].forEach(node =>
       neutrinoArgs.push(`--neutrino.connect=${node}`)

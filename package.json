@@ -44,7 +44,7 @@
   },
   "config": {
     "lnd-binary": {
-      "binaryVersion": "0.7.0-beta-rc3-1-gf366eed4",
+      "binaryVersion": "0.7.1-beta-rc2-3-g3d84693a",
       "binarySite": "https://github.com/LN-Zap/lnd/releases/download"
     }
   },
@@ -340,7 +340,7 @@
     "informed": "2.11.7",
     "is-electron-renderer": "2.0.1",
     "jstimezonedetect": "1.0.6",
-    "lnd-grpc": "0.3.0-4",
+    "lnd-grpc": "0.3.0-beta.3",
     "lndconnect": "0.2.7",
     "lodash": "4.17.14",
     "node-fetch": "2.6.0",
