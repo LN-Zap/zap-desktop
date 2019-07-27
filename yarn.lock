@@ -4109,21 +4109,10 @@ babel-plugin-react-intl-auto@1.7.2:
     "@babel/types" "^7.4.4"
     murmurhash3js "^3.0.1"
 
-babel-plugin-react-intl@3.3.3:
-  version "3.3.3"
-  resolved "https://registry.yarnpkg.com/babel-plugin-react-intl/-/babel-plugin-react-intl-3.3.3.tgz#108c2c67b0acece72834f08c850d09616b7cc649"
-  integrity sha512-T63b52KjxsJC1BrW4qWIdWZEMfaVGmnVYL/sOKiwWv11XVPNqiQ51IRqAPHbJ6fpbZmrlJ9IwAdgzZnathLiKA==
-  dependencies:
-    "@babel/core" "^7.4.5"
-    "@babel/helper-plugin-utils" "^7.0.0"
-    "@types/babel__core" "^7.1.2"
-    fs-extra "^8.0.1"
-    intl-messageformat-parser "^1.6.8"
-
-babel-plugin-react-intl@^3.0.1:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-react-intl/-/babel-plugin-react-intl-3.2.0.tgz#37c6d5c51ce5ab6f078e6db4bd7c1707d62a4179"
-  integrity sha512-/nfbTRrSdwzIafpR7onAO1H7t+z3DNTPYXtGj/+FFeMl9BfrYjZ1zwsmMQGLSW2LxOyLp23+GCZine/2O5wrJQ==
+babel-plugin-react-intl@3.5.1, babel-plugin-react-intl@^3.0.1:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-react-intl/-/babel-plugin-react-intl-3.5.1.tgz#57d22cae27238b4020403b13de9e763267937648"
+  integrity sha512-1jlEJCSmLaJM4tjIKpu64UZ833COCHmwR77bFJDOye+zlwf80uR1b8p41l4tClx1QsrfI+qV6w/5AiPYQgaMUQ==
   dependencies:
     fs-extra "^8.0.1"
     intl-messageformat-parser "^1.6.5"
@@ -9689,15 +9678,10 @@ intl-messageformat-parser@1.4.0:
   resolved "https://registry.yarnpkg.com/intl-messageformat-parser/-/intl-messageformat-parser-1.4.0.tgz#b43d45a97468cadbe44331d74bb1e8dea44fc075"
   integrity sha1-tD1FqXRoytvkQzHXS7Ho3qRPwHU=
 
-intl-messageformat-parser@^1.6.5:
-  version "1.6.5"
-  resolved "https://registry.yarnpkg.com/intl-messageformat-parser/-/intl-messageformat-parser-1.6.5.tgz#40f5fc19855f203389a3fc926cc3c88d7a573496"
-  integrity sha512-hngOkdq6FZxT6iEpEqOzGO/8rshM/v+sShGBl6yv8SQmU6lCc4vtfBHNqpSC0Dxuq4tedMkYFQGnKy5b1Tx5GA==
-
-intl-messageformat-parser@^1.6.8:
-  version "1.6.8"
-  resolved "https://registry.yarnpkg.com/intl-messageformat-parser/-/intl-messageformat-parser-1.6.8.tgz#2edfe914227b9faea34fb5b2742bc1c53afef926"
-  integrity sha512-wnjxkKzAOKUgtBYYqVoDf2xt8zSf/c/m7FrQSmaz0SL3LNEMzVzzYXeLLda//RD3s6Ae4Tj2CgpAmY0Fnrws6A==
+intl-messageformat-parser@^1.8.1:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/intl-messageformat-parser/-/intl-messageformat-parser-1.8.1.tgz#0eb14c5618333be4c95c409457b66c8c33ddcc01"
+  integrity sha512-IMSCKVf0USrM/959vj3xac7s8f87sc+80Y/ipBzdKy4ifBv5Gsj2tZ41EAaURVg01QU71fYr77uA8Meh6kELbg==
 
 intl-messageformat@^2.0.0, intl-messageformat@^2.1.0:
   version "2.2.0"
