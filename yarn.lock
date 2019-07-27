@@ -11039,20 +11039,20 @@ lnd-grpc@0.3.0-beta.3:
     untildify "4.0.0"
     validator "11.1.0"
 
-lndconnect@0.2.7:
-  version "0.2.7"
-  resolved "https://registry.yarnpkg.com/lndconnect/-/lndconnect-0.2.7.tgz#62ed8b1f38fd3bfd6c956c6f6d794169e10e26a4"
-  integrity sha512-+gfE4qWr4elyc7bXrLQRGL2x3qzgSsz5ym0ioJGHF/bgjmAVXXd/vvc1MqgC45zXmw+ctS9RgIobBr+DxQYVlA==
+lndconnect@0.2.8:
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/lndconnect/-/lndconnect-0.2.8.tgz#d0b64f3ecdb4981f4a0fe3584050849cf1ebb6e0"
+  integrity sha512-Im/PTTBodHf+debwxXESIAcVjRwfFhi2ZLvVwuqrG8jyzfll6JWoQ3uYwSG1MILeY7cuC3gLBuPM6kNGaN9drg==
   dependencies:
     base64url "^3.0.1"
     decode-uri-component "^0.2.0"
     strict-uri-encode "^2.0.0"
     untildify "^4.0.0"
 
-lndconnect@0.2.8:
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/lndconnect/-/lndconnect-0.2.8.tgz#d0b64f3ecdb4981f4a0fe3584050849cf1ebb6e0"
-  integrity sha512-Im/PTTBodHf+debwxXESIAcVjRwfFhi2ZLvVwuqrG8jyzfll6JWoQ3uYwSG1MILeY7cuC3gLBuPM6kNGaN9drg==
+lndconnect@0.2.9:
+  version "0.2.9"
+  resolved "https://registry.yarnpkg.com/lndconnect/-/lndconnect-0.2.9.tgz#82cae8a2d07ea3a03315fb3085096d838f15477c"
+  integrity sha512-kw4A63wg9yygfM3xQZcvSbLLoK0ZGfFLyiCDMJOy5P5Pq6e76sJLDgy9WODqdTg69elK7xwthp806xOjJLdhVw==
   dependencies:
     base64url "^3.0.1"
     decode-uri-component "^0.2.0"
