@@ -6820,10 +6820,10 @@ detect-indent@^4.0.0:
   dependencies:
     repeating "^2.0.0"
 
-detect-indent@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/detect-indent/-/detect-indent-5.0.0.tgz#3871cc0a6a002e8c3e5b3cf7f336264675f06b9d"
-  integrity sha1-OHHMCmoALow+Wzz38zYmRnXwa50=
+detect-indent@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/detect-indent/-/detect-indent-6.0.0.tgz#0abd0f549f69fc6659a254fe96786186b6f528fd"
+  integrity sha512-oSyFlqaTHCItVRGK5RmrmjB+CmaMOW7IaNA/kdxqhoa6d17j/5ce9O9eWXmV/KEdRwqpQA+Vqe8a8Bsybu4YnA==
 
 detect-libc@^1.0.2:
   version "1.0.3"
@@ -8043,20 +8043,20 @@ extglob@^2.0.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
-extract-react-intl-messages@1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/extract-react-intl-messages/-/extract-react-intl-messages-1.0.1.tgz#dce5e9700f81e46dd010c59df04db202d1b68bc2"
-  integrity sha512-VPaPsPiaY3npHndydDe2nQyswK9/1W8P8G9yVoB49GLXr3guHSeRE8d1ITTFT/eJc9AHyHA3OKhj7lmdVZgxog==
+extract-react-intl-messages@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/extract-react-intl-messages/-/extract-react-intl-messages-1.0.2.tgz#d2496d91127d1409bb6425f742c52312aa2f6063"
+  integrity sha512-RgZEhBy+NoRgP7zbXZIvx4iT51/Yhg0/L9VzANnyfGz1nsxfGPrLQ7VA7t5MVjelPnkE+k7WLDvQ1XDkjOYMXA==
   dependencies:
     extract-react-intl "^0.9.0"
     flat "^4.1.0"
-    js-yaml "^3.12.1"
-    load-json-file "^5.1.0"
+    js-yaml "^3.13.1"
+    load-json-file "^6.2.0"
     lodash.pick "^4.4.0"
     meow "^5.0.0"
     mkdirp "^0.5.1"
-    sort-keys "^2.0.0"
-    write-json-file "^3.0.2"
+    sort-keys "^3.0.0"
+    write-json-file "^4.1.1"
 
 extract-react-intl@^0.9.0:
   version "0.9.0"
@@ -10079,7 +10079,19 @@ is-plain-obj@^1.0.0, is-plain-obj@^1.1.0:
   resolved "https://registry.yarnpkg.com/is-plain-obj/-/is-plain-obj-1.1.0.tgz#71a50c8429dfca773c92a390a4a03b39fcd51d3e"
   integrity sha1-caUMhCnfync8kqOQpKA7OfzVHT4=
 
-is-plain-object@2.0.4, is-plain-object@^2.0.1, is-plain-object@^2.0.3, is-plain-object@^2.0.4:
+is-plain-obj@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/is-plain-obj/-/is-plain-obj-2.0.0.tgz#7fd1a7f1b69e160cde9181d2313f445c68aa2679"
+  integrity sha512-EYisGhpgSCwspmIuRHGjROWTon2Xp8Z7U03Wubk/bTL5TTRC5R1rGVgyjzBrk9+ULdH6cRD06KRcw/xfqhVYKQ==
+
+is-plain-object@3.0.0, is-plain-object@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/is-plain-object/-/is-plain-object-3.0.0.tgz#47bfc5da1b5d50d64110806c199359482e75a928"
+  integrity sha512-tZIpofR+P05k8Aocp7UI/2UTa9lTJSebCXpFFoR9aibpokDj/uXBsJ8luUu0tTVYKkMU6URDUuOfJZ7koewXvg==
+  dependencies:
+    isobject "^4.0.0"
+
+is-plain-object@^2.0.1, is-plain-object@^2.0.3, is-plain-object@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/is-plain-object/-/is-plain-object-2.0.4.tgz#2c163b3fafb1b606d9d17928f05c2a1c38e07677"
   integrity sha512-h5PpgXkWitc38BBMYawTYMWJHFZJVnBquFE57xFpjB8pJFiF6gZ+bU+WyI/yqXiFR5mdLsgYNaPe8uao6Uv9Og==
@@ -10159,7 +10171,7 @@ is-text-path@^1.0.0:
   dependencies:
     text-extensions "^1.0.0"
 
-is-typedarray@~1.0.0:
+is-typedarray@^1.0.0, is-typedarray@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/is-typedarray/-/is-typedarray-1.0.0.tgz#e479c80858df0c1b11ddda6940f96011fcda4a9a"
   integrity sha1-5HnICFjfDBsR3dppQPlgEfzaSpo=
@@ -11114,16 +11126,15 @@ load-json-file@^4.0.0:
     pify "^3.0.0"
     strip-bom "^3.0.0"
 
-load-json-file@^5.1.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/load-json-file/-/load-json-file-5.3.0.tgz#4d3c1e01fa1c03ea78a60ac7af932c9ce53403f3"
-  integrity sha512-cJGP40Jc/VXUsp8/OrnyKyTZ1y6v/dphm3bioS+RrKXjK2BB6wHUd6JptZEFDGgGahMT+InnZO5i1Ei9mpC8Bw==
+load-json-file@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/load-json-file/-/load-json-file-6.2.0.tgz#5c7770b42cafa97074ca2848707c61662f4251a1"
+  integrity sha512-gUD/epcRms75Cw8RT1pUdHugZYM5ce64ucs2GEISABwkRsOQr0q2wm/MV2TKThycIe5e0ytRweW2RZxclogCdQ==
   dependencies:
     graceful-fs "^4.1.15"
-    parse-json "^4.0.0"
-    pify "^4.0.1"
-    strip-bom "^3.0.0"
-    type-fest "^0.3.0"
+    parse-json "^5.0.0"
+    strip-bom "^4.0.0"
+    type-fest "^0.6.0"
 
 loader-runner@^2.3.0:
   version "2.4.0"
@@ -15191,12 +15202,12 @@ sort-keys@^1.0.0:
   dependencies:
     is-plain-obj "^1.0.0"
 
-sort-keys@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/sort-keys/-/sort-keys-2.0.0.tgz#658535584861ec97d730d6cf41822e1f56684128"
-  integrity sha1-ZYU1WEhh7JfXMNbPQYIuH1ZoQSg=
+sort-keys@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/sort-keys/-/sort-keys-3.0.0.tgz#fa751737e3da363ef80632d4fd78e324d661fe9a"
+  integrity sha512-77XUKMiZN5LvQXZ9sgWfJza19AvYIDwaDGwGiULM+B5XYru8Z90Oh06JvqDlJczvjjYvssrV0aK1GI6+YXvn5A==
   dependencies:
-    is-plain-obj "^1.0.0"
+    is-plain-obj "^2.0.0"
 
 source-list-map@^2.0.0:
   version "2.0.1"
@@ -15628,6 +15639,11 @@ strip-bom@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/strip-bom/-/strip-bom-3.0.0.tgz#2334c18e9c759f7bdd56fdef7e9ae3d588e68ed3"
   integrity sha1-IzTBjpx1n3vdVv3vfprj1YjmjtM=
+
+strip-bom@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/strip-bom/-/strip-bom-4.0.0.tgz#9c3505c1db45bcedca3d9cf7a16f5c5aa3901878"
+  integrity sha512-3xurFv5tEgii33Zi8Jtp55wEIILR9eh34FAW00PZf+JnSsTmV/ioewSgQl97JHvgjoRGwPShsWm+IdrxB35d0w==
 
 strip-eof@^1.0.0:
   version "1.0.0"
@@ -16584,6 +16600,13 @@ typed-styles@^0.0.7:
   resolved "https://registry.yarnpkg.com/typed-styles/-/typed-styles-0.0.7.tgz#93392a008794c4595119ff62dde6809dbc40a3d9"
   integrity sha512-pzP0PWoZUhsECYjABgCGQlRGL1n7tOHsgwYv3oIiEpJwGhFTuty/YNeduxQYzXXa3Ge5BdT6sHYIQYpl4uJ+5Q==
 
+typedarray-to-buffer@^3.1.5:
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/typedarray-to-buffer/-/typedarray-to-buffer-3.1.5.tgz#a97ee7a9ff42691b9f783ff1bc5112fe3fca9080"
+  integrity sha512-zdu8XMNEDepKKR+XYOXAVPtWui0ly0NtohUscw+UmaHiAWT8hrV1rr//H6V+0DvJ3OQ19S979M0laLfX8rm82Q==
+  dependencies:
+    is-typedarray "^1.0.0"
+
 typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
@@ -17516,7 +17539,7 @@ write-file-atomic@2.4.1:
     imurmurhash "^0.1.4"
     signal-exit "^3.0.2"
 
-write-file-atomic@^2.0.0, write-file-atomic@^2.4.2:
+write-file-atomic@^2.0.0:
   version "2.4.3"
   resolved "https://registry.yarnpkg.com/write-file-atomic/-/write-file-atomic-2.4.3.tgz#1fd2e9ae1df3e75b8d8c367443c692d4ca81f481"
   integrity sha512-GaETH5wwsX+GcnzhPgKcKjJ6M2Cq3/iZp1WyY/X1CSqrW+jVNM9Y7D8EC2sM4ZG/V8wZlSniJnCKWPmBYAucRQ==
@@ -17525,17 +17548,27 @@ write-file-atomic@^2.0.0, write-file-atomic@^2.4.2:
     imurmurhash "^0.1.4"
     signal-exit "^3.0.2"
 
-write-json-file@^3.0.2:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/write-json-file/-/write-json-file-3.2.0.tgz#65bbdc9ecd8a1458e15952770ccbadfcff5fe62a"
-  integrity sha512-3xZqT7Byc2uORAatYiP3DHUUAVEkNOswEWNs9H5KXiicRTvzYzYqKjYc4G7p+8pltvAw641lVByKVtMpf+4sYQ==
+write-file-atomic@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/write-file-atomic/-/write-file-atomic-3.0.0.tgz#1b64dbbf77cb58fd09056963d63e62667ab4fb21"
+  integrity sha512-EIgkf60l2oWsffja2Sf2AL384dx328c0B+cIYPTQq5q2rOYuDV00/iPFBOUiDKKwKMOhkymH8AidPaRvzfxY+Q==
   dependencies:
-    detect-indent "^5.0.0"
+    imurmurhash "^0.1.4"
+    is-typedarray "^1.0.0"
+    signal-exit "^3.0.2"
+    typedarray-to-buffer "^3.1.5"
+
+write-json-file@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/write-json-file/-/write-json-file-4.1.1.tgz#d527936d9f32696ac5a0448c6d424db3724036c4"
+  integrity sha512-wHI383JJbaZeaxWAk57LeX8iq7od/nfDbp/Hkk31al5rmYvc0gtt4lkw+nt8KJW8u9Uy9GcoHeYE3v6BUl0ZUw==
+  dependencies:
+    detect-indent "^6.0.0"
     graceful-fs "^4.1.15"
-    make-dir "^2.1.0"
-    pify "^4.0.1"
-    sort-keys "^2.0.0"
-    write-file-atomic "^2.4.2"
+    is-plain-obj "^2.0.0"
+    make-dir "^3.0.0"
+    sort-keys "^3.0.0"
+    write-file-atomic "^3.0.0"
 
 write@1.0.3:
   version "1.0.3"
