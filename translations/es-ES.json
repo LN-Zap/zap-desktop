@@ -431,6 +431,8 @@
   "components.Request.copy_button_text": "Copiar factura",
   "components.Request.current_value": "Monto actual",
   "components.Request.description": "Puede solicitar {chain} ({ticker}) a través de Lightning Network. Simplemente ingrese la cantidad que desea solicitar en el campo a continuación. Despues, Zap generará un código QR y una factura Lightning.",
+  "components.Request.expired": "",
+  "components.Request.expires": "",
   "components.Request.memo": "Memorándum",
   "components.Request.memo_placeholder": "Por ejemplo \"La cena de anoche\"",
   "components.Request.memo_tooltip": "Añade un memorándum a tu solicitud de pago para que el destinatario vea al pagar.",

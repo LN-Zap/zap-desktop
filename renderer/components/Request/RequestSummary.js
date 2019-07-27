@@ -154,7 +154,11 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
           ) : (
             <>
               <Text color={getStatusColor()} fontWeight="normal">
-                {isExpired ? 'Expired ' : 'Expires '}
+                {isExpired ? (
+                  <FormattedMessage {...messages.expired} />
+                ) : (
+                  <FormattedMessage {...messages.expires} />
+                )}{' '}
                 <FormattedRelative
                   updateInterval={1000}
                   value={decodedInvoice.timeExpireDateString}

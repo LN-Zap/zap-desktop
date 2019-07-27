@@ -431,6 +431,8 @@
   "components.Request.copy_button_text": "Copy invoice",
   "components.Request.current_value": "Current value",
   "components.Request.description": "Zap will generate a QR-Code and a lightning invoice so that you can receive {chain} ({ticker}) through the Lightning Network.",
+  "components.Request.expired": "Expired",
+  "components.Request.expires": "Expires",
   "components.Request.memo": "Memo",
   "components.Request.memo_placeholder": "For example \"Dinner last night\"",
   "components.Request.memo_tooltip": "Add some describer text to your payment request for the recipient to see when paying.",

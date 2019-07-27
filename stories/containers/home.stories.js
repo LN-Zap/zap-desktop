@@ -17,7 +17,7 @@ const wallets = [
     autopilotMaxchannels: 5,
     autopilotMaxchansize: 16777215,
     autopilotMinchansize: 20000,
-    autopilotMinconfs: 0,
+    autopilotMinconfs: 1,
     autopilotPrivate: true,
     chain: 'bitcoin',
     network: 'testnet',

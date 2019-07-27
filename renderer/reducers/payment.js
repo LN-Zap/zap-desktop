@@ -66,8 +66,8 @@ const decoratePayment = (payment, nodes = []) => {
   let pubkey = payment.path && payment.path[payment.path.length - 1]
 
   // If we don't have a pubkey, try to get it from the payment request.
-  if (!pubkey && payment.payment_request) {
-    const paymentRequest = decodePayReq(payment.payment_request)
+  if (!pubkey && payment.paymentRequest) {
+    const paymentRequest = decodePayReq(payment.paymentRequest)
     pubkey = paymentRequest.payeeNodeKey
   }
 
