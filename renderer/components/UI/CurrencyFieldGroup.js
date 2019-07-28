@@ -30,11 +30,15 @@ const CurrencyFieldGroup = React.forwardRef(
       validate,
       validateOnBlur,
       validateOnChange,
+      onChange,
       ...rest
     },
     ref
   ) => {
-    const shouldUpdate = useRef(true)
+    // whether update of a linked input (crypto<->fiat) is enabled
+    // this ref is used in a process of linked value calculations to
+    // circular updates
+    const shouldUpdateLinked = useRef(true)
 
     /**
      * handleAmountCryptoChange - Set the amountFiat field whenever the crypto amount changes.
@@ -44,13 +48,18 @@ const CurrencyFieldGroup = React.forwardRef(
     const handleAmountCryptoChange = async value => {
       const lastPrice = currentTicker[fiatCurrency]
       const fiatValue = convert(cryptoUnit, 'fiat', value, lastPrice)
-      const upd = shouldUpdate.current
-      shouldUpdate.current = false
-      if (upd) {
+      // temporarily disable updates to prevent dead loop
+      const doUpdate = shouldUpdateLinked.current
+      shouldUpdateLinked.current = false
+      if (doUpdate) {
         formApi.setValue('amountFiat', fiatValue)
       }
+      // informed calls onValueChange multiple time during value updates
+      // because of masks and patterns applied on top of UI elements
+      // give value a chance to settle before enabling updates again
       await Promise.resolve()
-      shouldUpdate.current = true
+      shouldUpdateLinked.current = true
+      onChange && onChange()
     }
 
     /**
@@ -61,13 +70,17 @@ const CurrencyFieldGroup = React.forwardRef(
     const handleAmountFiatChange = async value => {
       const lastPrice = currentTicker[fiatCurrency]
       const cryptoValue = convert('fiat', cryptoUnit, value, lastPrice)
-      const upd = shouldUpdate.current
-      shouldUpdate.current = false
-      if (upd) {
+      const doUpdate = shouldUpdateLinked.current
+      shouldUpdateLinked.current = false
+      if (doUpdate) {
         formApi.setValue('amountCrypto', cryptoValue)
       }
+      // informed calls onValueChange multiple time during value updates
+      // because of masks and patterns applied on top of UI elements
+      // give value a chance to settle before enabling updates again
       await Promise.resolve()
-      shouldUpdate.current = true
+      shouldUpdateLinked.current = true
+      onChange && onChange()
     }
 
     /**
@@ -171,6 +184,7 @@ CurrencyFieldGroup.propTypes = {
   initialAmountFiat: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   isDisabled: PropTypes.bool,
   isRequired: PropTypes.bool,
+  onChange: PropTypes.func,
   setCryptoCurrency: PropTypes.func.isRequired,
   setFiatCurrency: PropTypes.func.isRequired,
   validate: PropTypes.func,
