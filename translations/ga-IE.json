@@ -26,7 +26,7 @@
   "components.Activity.InvoiceModal.title_requested": "Iarrtar",
   "components.Activity.Payment.amount": "Méid íocaíochta",
   "components.Activity.Payment.fee": "Táille íocaíochta",
-  "components.Activity.Payment.status_error": "Bhí fadhb ann le do chuid íocaíochta a sheoladh.",
+  "components.Activity.Payment.status_error": "",
   "components.Activity.Payment.status_processing": "Tá Zap ag próiseáil d'íocaíochta. Is féidir é seo a dhéanamh go dtí 01:00 nóiméad.",
   "components.Activity.Payment.status_success": "D'éirigh le d'íocaíocht.",
   "components.Activity.Payment.type": "Íocaíocht lightning",

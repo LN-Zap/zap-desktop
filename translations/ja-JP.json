@@ -26,7 +26,7 @@
   "components.Activity.InvoiceModal.title_requested": "要求済み",
   "components.Activity.Payment.amount": "数量",
   "components.Activity.Payment.fee": "フィー",
-  "components.Activity.Payment.status_error": "お支払いの手続き中に問題が発生しました。",
+  "components.Activity.Payment.status_error": "",
   "components.Activity.Payment.status_processing": "お支払い処理中･･･",
   "components.Activity.Payment.status_success": "お支払いは成功した ！",
   "components.Activity.Payment.type": "ライトニングペイメンツ",
