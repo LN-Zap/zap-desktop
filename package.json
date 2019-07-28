@@ -371,7 +371,7 @@
     "styled-reset": "2.0.16",
     "tildify": "2.0.0",
     "untildify": "4.0.0",
-    "validator": "11.0.0",
+    "validator": "11.1.0",
     "yup": "0.27.0"
   },
   "resolutions": {
