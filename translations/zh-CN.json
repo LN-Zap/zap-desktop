@@ -26,7 +26,7 @@
   "components.Activity.InvoiceModal.title_requested": "已请求",
   "components.Activity.Payment.amount": "数量",
   "components.Activity.Payment.fee": "矿工费",
-  "components.Activity.Payment.status_error": "发送您的交易时出现问题。",
+  "components.Activity.Payment.status_error": "",
   "components.Activity.Payment.status_processing": "Zap 正在处理您的付款。这可能需要01:00 分钟。",
   "components.Activity.Payment.status_success": "您的付款已成功",
   "components.Activity.Payment.type": "闪电网络支付",

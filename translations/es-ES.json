@@ -26,7 +26,7 @@
   "components.Activity.InvoiceModal.title_requested": "Solicitado",
   "components.Activity.Payment.amount": "Monto",
   "components.Activity.Payment.fee": "Comisión",
-  "components.Activity.Payment.status_error": "Ocurrió un error con su pago",
+  "components.Activity.Payment.status_error": "",
   "components.Activity.Payment.status_processing": "Procesando su pago...",
   "components.Activity.Payment.status_success": "Su pago ha sido exitoso",
   "components.Activity.Payment.type": "Pago de Lightning",
