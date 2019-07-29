@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import { FormattedMessage } from 'react-intl'
@@ -30,30 +30,63 @@ const CurrencyFieldGroup = React.forwardRef(
       validate,
       validateOnBlur,
       validateOnChange,
+      onChange,
       ...rest
     },
     ref
   ) => {
+    // Whether update of a linked input (crypto<->fiat) is enabled.
+    // This ref is used in a process of linked value calculations to prevent circular updates.
+    const blockUpdates = useRef(false)
+
+    // Prevent updates of linked form values.
+    const blockLinkedUpdates = () => {
+      blockUpdates.current = true
+    }
+
+    // informed calls onValueChange multiple time during value updates
+    // because of masks and patterns applied on top of UI elements
+    // give value a chance to settle before enabling updates again
+    const unblockLinkedUpdates = async () => {
+      await Promise.resolve()
+      blockUpdates.current = false
+    }
+
+    // Get current block status of linked form elements.
+    const isLinkedUpdatesBlocked = () => {
+      return blockUpdates.current
+    }
+
     /**
      * handleAmountCryptoChange - Set the amountFiat field whenever the crypto amount changes.
      *
-     * @param {Event} e Event
+     * @param {string} value Value
      */
-    const handleAmountCryptoChange = e => {
-      const lastPrice = currentTicker[fiatCurrency]
-      const value = convert(cryptoUnit, 'fiat', e.target.value, lastPrice)
-      formApi.setValue('amountFiat', value)
+    const handleAmountCryptoChange = async value => {
+      if (!isLinkedUpdatesBlocked()) {
+        blockLinkedUpdates()
+        const lastPrice = currentTicker[fiatCurrency]
+        const fiatValue = convert(cryptoUnit, 'fiat', value, lastPrice)
+        formApi.setValue('amountFiat', fiatValue)
+        await unblockLinkedUpdates()
+      }
+      onChange && onChange()
     }
 
     /**
      * handleAmountFiatChange - Set the amountCrypto field whenever the fiat amount changes.
      *
-     * @param {Event} e Event
+     * @param {string} value Value
      */
-    const handleAmountFiatChange = e => {
-      const lastPrice = currentTicker[fiatCurrency]
-      const value = convert('fiat', cryptoUnit, e.target.value, lastPrice)
-      formApi.setValue('amountCrypto', value)
+    const handleAmountFiatChange = async value => {
+      if (!isLinkedUpdatesBlocked()) {
+        blockLinkedUpdates()
+        const lastPrice = currentTicker[fiatCurrency]
+        const cryptoValue = convert('fiat', cryptoUnit, value, lastPrice)
+        formApi.setValue('amountCrypto', cryptoValue)
+        await unblockLinkedUpdates()
+      }
+      onChange && onChange()
     }
 
     /**
@@ -88,7 +121,7 @@ const CurrencyFieldGroup = React.forwardRef(
                 isRequired={isRequired}
                 label={cryptoLabel || <FormattedMessage {...messages.amount} />}
                 name="amountCrypto"
-                onChange={handleAmountCryptoChange}
+                onValueChange={handleAmountCryptoChange}
                 validate={validate}
                 validateOnBlur={validateOnBlur}
                 validateOnChange={validateOnChange}
@@ -117,7 +150,7 @@ const CurrencyFieldGroup = React.forwardRef(
                 isDisabled={isDisabled}
                 label={fiatLabel || <Span>&nbsp;</Span>}
                 name="amountFiat"
-                onChange={handleAmountFiatChange}
+                onValueChange={handleAmountFiatChange}
                 width={150}
               />
             </Box>
@@ -157,6 +190,7 @@ CurrencyFieldGroup.propTypes = {
   initialAmountFiat: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   isDisabled: PropTypes.bool,
   isRequired: PropTypes.bool,
+  onChange: PropTypes.func,
   setCryptoCurrency: PropTypes.func.isRequired,
   setFiatCurrency: PropTypes.func.isRequired,
   validate: PropTypes.func,
