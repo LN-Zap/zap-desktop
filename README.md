@@ -56,37 +56,9 @@ Once you have the .exe file downloaded, simply **double click** on the file.
 
 ### Linux
 
-Once you have the .zip file downloaded, simply **double click** the file to unzip or run the following command:
+Once you have the .AppImage file downloaded you must [make the file executable](https://docs.appimage.org/user-guide/run-appimages.html).
 
-```bash
-unzip file.zip
-```
-
-You have the option to either install Zap through the [.deb](#.deb-file) or [.AppImage](#.appimage-file) files.
-
-#### .deb File
-
-Once you have the .deb file extracted, you can install Zap by **double clicking** on the file or through the `dpkg` command:
-
-```bash
-sudo dpkg -i file.deb
-```
-
-If this is your first time installing zap, you may have some unmet dependencies. This can be resolved with the following command:
-
-```bash
-sudo apt-get -f install
-```
-
-To run Zap you can either navigate through the GUI or run the following command:
-
-```bash
-zap-desktop
-```
-
-#### .AppImage File
-
-Once you have the .AppImage file extracted, you can either **double click** the file or by running in the cli:
+Once executible you can run either **double click** the file or run via the cli:
 
 ```bash
 ./file.AppImage
