@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.Message should render correctly with default props 1`] = `
-<Styled(Styled(styled.div))
+<Message__StyledMessage
   fontSize="s"
   fontWeight="normal"
 >
@@ -18,5 +18,5 @@ exports[`component.UI.Message should render correctly with default props 1`] = `
       A message
     </Styled(styled.div)>
   </Styled(styled.div)>
-</Styled(Styled(styled.div))>
+</Message__StyledMessage>
 `;

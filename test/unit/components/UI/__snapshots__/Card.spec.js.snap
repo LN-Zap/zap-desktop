@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.Card should render correctly 1`] = `
-<Styled(Styled(styled.div))
+<Card__StyledCard
   as="section"
   bg="primaryColor"
   borderRadius={5}
@@ -10,5 +10,5 @@ exports[`component.UI.Card should render correctly 1`] = `
   p={3}
 >
   content
-</Styled(Styled(styled.div))>
+</Card__StyledCard>
 `;
