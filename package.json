@@ -150,13 +150,6 @@
       "icon": "resources/linux",
       "target": [
         {
-          "target": "deb",
-          "arch": [
-            "x64",
-            "ia32"
-          ]
-        },
-        {
           "target": "AppImage",
           "arch": [
             "x64",
@@ -168,7 +161,6 @@
         "Comment": "Zap - Lightning wallet",
         "Icon": "zap",
         "Name": "Zap",
-        "Path": "/opt/zap",
         "StartupNotify": "true",
         "Terminal": "false",
         "Type": "Application",
