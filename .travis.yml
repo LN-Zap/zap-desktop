@@ -30,6 +30,7 @@ before_install:
   - |
     if [ $TRAVIS_OS_NAME == "linux" ]; then
       sudo apt-get install gcc-multilib g++-multilib
+      sudo apt-get install libsecret-1-dev
     fi
   - curl -sL https://raw.githubusercontent.com/travis-ci/artifacts/master/install | bash
 
