@@ -35,51 +35,57 @@ const CurrencyFieldGroup = React.forwardRef(
     },
     ref
   ) => {
-    // whether update of a linked input (crypto<->fiat) is enabled
-    // this ref is used in a process of linked value calculations to
-    // circular updates
-    const shouldUpdateLinked = useRef(true)
+    // Whether update of a linked input (crypto<->fiat) is enabled.
+    // This ref is used in a process of linked value calculations to prevent circular updates.
+    const blockUpdates = useRef(false)
+
+    // Prevent updates of linked form values.
+    const blockLinkedUpdates = () => {
+      blockUpdates.current = true
+    }
+
+    // informed calls onValueChange multiple time during value updates
+    // because of masks and patterns applied on top of UI elements
+    // give value a chance to settle before enabling updates again
+    const unblockLinkedUpdates = async () => {
+      await Promise.resolve()
+      blockUpdates.current = false
+    }
+
+    // Get current block status of linked form elements.
+    const isLinkedUpdatesBlocked = () => {
+      return blockUpdates.current
+    }
 
     /**
      * handleAmountCryptoChange - Set the amountFiat field whenever the crypto amount changes.
      *
-     * @param {Event} e Event
+     * @param {string} value Value
      */
     const handleAmountCryptoChange = async value => {
-      const lastPrice = currentTicker[fiatCurrency]
-      const fiatValue = convert(cryptoUnit, 'fiat', value, lastPrice)
-      // temporarily disable updates to prevent dead loop
-      const doUpdate = shouldUpdateLinked.current
-      shouldUpdateLinked.current = false
-      if (doUpdate) {
+      if (!isLinkedUpdatesBlocked()) {
+        blockLinkedUpdates()
+        const lastPrice = currentTicker[fiatCurrency]
+        const fiatValue = convert(cryptoUnit, 'fiat', value, lastPrice)
         formApi.setValue('amountFiat', fiatValue)
+        await unblockLinkedUpdates()
       }
-      // informed calls onValueChange multiple time during value updates
-      // because of masks and patterns applied on top of UI elements
-      // give value a chance to settle before enabling updates again
-      await Promise.resolve()
-      shouldUpdateLinked.current = true
       onChange && onChange()
     }
 
     /**
      * handleAmountFiatChange - Set the amountCrypto field whenever the fiat amount changes.
      *
-     * @param {Event} e Event
+     * @param {string} value Value
      */
     const handleAmountFiatChange = async value => {
-      const lastPrice = currentTicker[fiatCurrency]
-      const cryptoValue = convert('fiat', cryptoUnit, value, lastPrice)
-      const doUpdate = shouldUpdateLinked.current
-      shouldUpdateLinked.current = false
-      if (doUpdate) {
+      if (!isLinkedUpdatesBlocked()) {
+        blockLinkedUpdates()
+        const lastPrice = currentTicker[fiatCurrency]
+        const cryptoValue = convert('fiat', cryptoUnit, value, lastPrice)
         formApi.setValue('amountCrypto', cryptoValue)
+        await unblockLinkedUpdates()
       }
-      // informed calls onValueChange multiple time during value updates
-      // because of masks and patterns applied on top of UI elements
-      // give value a chance to settle before enabling updates again
-      await Promise.resolve()
-      shouldUpdateLinked.current = true
       onChange && onChange()
     }
 
