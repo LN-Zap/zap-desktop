@@ -17,11 +17,8 @@ function installLnd(platform, arch, dest) {
 }
 
 installLnd('darwin', 'amd64', 'resources/bin/mac/x64')
-  .then(() => installLnd('darwin', '386', 'resources/bin/mac/ia32'))
   .then(() => installLnd('windows', 'amd64', 'resources/bin/win/x64'))
-  .then(() => installLnd('windows', '386', 'resources/bin/win/ia32'))
   .then(() => installLnd('linux', 'amd64', 'resources/bin/linux/x64'))
-  .then(() => installLnd('linux', '386', 'resources/bin/linux/ia32'))
   .catch(e => {
     // eslint-disable-next-line no-console
     console.warn(e)
