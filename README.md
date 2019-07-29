@@ -56,7 +56,9 @@ Once you have the .exe file downloaded, simply **double click** on the file.
 
 ### Linux
 
-Once you have the .AppImage file extracted, you can either **double click** the file or by running in the cli:
+Once you have the .AppImage file downloaded you must [make the file executable](https://docs.appimage.org/user-guide/run-appimages.html).
+
+Once executible you can run either **double click** the file or run via the cli:
 
 ```bash
 ./file.AppImage
