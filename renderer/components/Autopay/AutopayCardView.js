@@ -76,6 +76,9 @@ AutopayCardView.propTypes = {
   merchant: PropTypes.shape({
     description: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
+    isActive: PropTypes.bool,
+    limit: PropTypes.string.isRequired,
+    limitCurrency: PropTypes.string.isRequired,
     nickname: PropTypes.string.isRequired,
     pubkey: PropTypes.string.isRequired,
   }),
