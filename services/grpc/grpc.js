@@ -19,12 +19,14 @@ const WALLET_UNLOCKER_TIMEOUT = 1000 * 60
 
 /**
  * LND gRPC wrapper.
- * @extends EventEmitter
+ *
+ * @augments EventEmitter
  */
 class ZapGrpc extends EventEmitter {
   /**
    * State properties that should be reset after a disconnect.
-   * @type {Object}
+   *
+   * @type {object}
    */
   static VOLATILE_STATE = {
     options: {},
