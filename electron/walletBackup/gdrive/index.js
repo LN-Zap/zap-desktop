@@ -8,7 +8,7 @@ export default class BackupService extends TokenBasedBackupService {
   /**
    * init - Setups gdrive service for usage. This method must be called before calling any other methods
    *
-   * @param {Object} tokens google api compliant token desc
+   * @param {object} tokens google api compliant token desc
    * `{access_token,expiry_date,refresh_token,scope,token_type}`
    * @returns
    * @memberof BackupService

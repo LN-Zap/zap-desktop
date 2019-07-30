@@ -4,9 +4,9 @@ import { forwardEvent } from '@zap/utils/events'
 /**
  * Base class for backup services that use tokens
  *
- * @export
+ * @exports
  * @class TokenBasedBackupService
- * @extends {EventEmitter}
+ * @augments EventEmitter
  */
 export default class TokenBasedBackupService extends EventEmitter {
   // backup service connection. represents concrete service API (such as dropbox or google drive)

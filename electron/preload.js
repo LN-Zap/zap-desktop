@@ -13,8 +13,10 @@ import validateHost from '@zap/utils/validateHost'
 import splitHostname from '@zap/utils/splitHostname'
 import LndConfig from '@zap/utils/lndConfig'
 import { normalizeBackupDir } from './walletBackup/local'
+
 /**
  * List of domains that we will allow users to be redirected to.
+ *
  * @type {Array}
  */
 const WHITELISTED_DOMAINS = [
@@ -31,6 +33,7 @@ const WHITELISTED_DOMAINS = [
 
 /**
  * List of environment variables that we want to make available.
+ *
  * @type {Array}
  */
 const WHITELISTED_ENV_VARS = ['DEBUG', 'DEBUG_LEVEL', 'DEBUG_PROD', 'NODE_ENV', 'HOT']
