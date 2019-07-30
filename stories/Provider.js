@@ -20,6 +20,10 @@ window.db = db
 
 window.Zap = {
   openExternal: uri => window.open(uri, '_blank'),
+  splitHostname: host => {
+    const { hostname = host, port } = new URL(`http://${host}`)
+    return { host: hostname, port }
+  },
 }
 
 window.ipcRenderer = new EventEmitter()
