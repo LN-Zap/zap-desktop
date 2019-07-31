@@ -5760,13 +5760,13 @@ crypto-random-string@^1.0.0:
   resolved "https://registry.yarnpkg.com/crypto-random-string/-/crypto-random-string-1.0.0.tgz#a230f64f568310e1498009940790ec99545bca7e"
   integrity sha1-ojD2T1aDEOFJgAmUB5DsmVRbyn4=
 
-csp-html-webpack-plugin@3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/csp-html-webpack-plugin/-/csp-html-webpack-plugin-3.0.2.tgz#46589d9c1622968af3d279a3a3ce64de4c7fa4e4"
-  integrity sha512-78aCKk1GMJN0j63VG7BOeybFbYgV3pZtCWYITHBhUG9m4GbiHDV1NRiQrPogQSoDplDyjuuX6vejgloPbA2pJQ==
+csp-html-webpack-plugin@3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/csp-html-webpack-plugin/-/csp-html-webpack-plugin-3.0.3.tgz#b2215664ebebbc3ceb84aadff0521f170ce0be65"
+  integrity sha512-E7IYkTYbh7lY2VpPa8snMrH0muoVCIdPb5dAW9dOX5CFRqeZNsBqqIBejlHJ2cn6rFrrQZ/s/vIh0ZTooBP+xQ==
   dependencies:
     cheerio "^1.0.0-rc.2"
-    lodash "^4.17.11"
+    lodash "^4.17.15"
     memory-fs "^0.4.1"
 
 css-color-keywords@^1.0.0:
