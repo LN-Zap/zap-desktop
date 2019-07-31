@@ -301,7 +301,7 @@
     "testcafe-react-selectors": "3.1.0",
     "url-loader": "2.1.0",
     "webpack": "4.38.0",
-    "webpack-bundle-analyzer": "3.3.2",
+    "webpack-bundle-analyzer": "3.4.1",
     "webpack-cli": "3.3.6",
     "webpack-dev-server": "3.7.2",
     "webpack-merge": "4.2.1"
