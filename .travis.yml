@@ -52,7 +52,8 @@ jobs:
       deploy:
         skip_cleanup: true
         provider: script
-        script: yarn release --linux
+        script:
+          - yarn release --linux
         on:
           repo: LN-Zap/zap-desktop
           all_branches: true
@@ -64,7 +65,8 @@ jobs:
       deploy:
         skip_cleanup: true
         provider: script
-        script: yarn release --mac
+        script:
+          - yarn release --mac
         on:
           repo: LN-Zap/zap-desktop
           all_branches: true

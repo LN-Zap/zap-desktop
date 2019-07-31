@@ -103,9 +103,17 @@
       }
     ],
     "artifactName": "${productName}-${os}-${arch}-v${version}.${ext}",
+    "afterSign": "./scripts/afterSignHook.js",
+    "asarUnpack": [
+      "**/*.node"
+    ],
     "mac": {
       "category": "public.app-category.finance",
       "icon": "resources/icon.icns",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "./resources/mac/entitlements.mac.inherit.plist",
+      "entitlementsInherit": "./resources/mac/entitlements.mac.inherit.plist",
       "target": [
         "dmg",
         "zip"
@@ -244,6 +252,7 @@
     "electron": "6.1.4",
     "electron-builder": "22.1.0",
     "electron-devtools-installer": "2.2.4",
+    "electron-notarize": "0.2.0",
     "electron-updater": "4.2.0",
     "enzyme": "3.10.0",
     "enzyme-adapter-react-16": "1.15.1",
