@@ -1,12 +1,14 @@
 os: unstable
 
+platform:
+  - x64
+
 environment:
   DEBUG: electron-builder
-  matrix:
-    - nodejs_version: STABLE
+  nodejs_version: STABLE
 
 init:
-  - ps: Install-Product node $env:nodejs_version
+  - ps: Install-Product node $env:nodejs_version x64
   - cmd: set NODE_OPTIONS=--max-old-space-size=1024
 
 cache:
