@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass'
+import { Flex } from 'rebass'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import {
   Bar,
@@ -125,14 +125,12 @@ class Request extends React.Component {
   renderHelpText = () => {
     const { chainName, cryptoUnitName } = this.props
     return (
-      <Box mb={4}>
-        <Text textAlign="justify">
-          <FormattedMessage
-            {...messages.description}
-            values={{ chain: chainName, ticker: cryptoUnitName }}
-          />
-        </Text>
-      </Box>
+      <Text mb={4}>
+        <FormattedMessage
+          {...messages.description}
+          values={{ chain: chainName, ticker: cryptoUnitName }}
+        />
+      </Text>
     )
   }
 
