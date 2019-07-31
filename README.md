@@ -26,7 +26,7 @@ We have an active [slack][slack] channel where you can join the discussion on de
 - [Security](#security)
 - [Install](#install)
 - [Usage](#usage)
-- [Advanced Usage](#advanced-usage)
+- [Documentation](#documentation)
 - [Get Help](#get-help)
 - [Maintainers](#maintainers)
 - [Contribute](#contribute)
@@ -64,9 +64,15 @@ Once executible you can run either **double click** the file or run via the cli:
 ./file.AppImage
 ```
 
-## Advanced Usage
+## Documentation
 
-If you would like to install from source, run a full bitcoin node, or connect to a custom lnd instance please see the [advanced usage](docs/ADVANCED.md) page.
+If you would like to install from source, run a full bitcoin node, connect to a custom lnd instance or get involved with development please refer to our documentation:
+
+- [Advanced usage](docs/ADVANCED.md)
+- [Configuration](docs/CONFIG.md)
+- [Contributing](docs/CONTRIBUTING.md)
+- [Debugging](docs/DEBUGGING.md)
+- [Troubleshooting](docs/TROUBLESHOOTING.md)
 
 ## Get Help
 
