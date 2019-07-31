@@ -434,14 +434,12 @@ class Pay extends React.Component {
           show &&
           (styles => (
             <animated.div style={styles}>
-              <Box mb={4}>
-                <Text textAlign="justify">
-                  <FormattedMessage
-                    {...messages.description}
-                    values={{ chain: chainName, ticker: cryptoUnitName }}
-                  />
-                </Text>
-              </Box>
+              <Text mb={4}>
+                <FormattedMessage
+                  {...messages.description}
+                  values={{ chain: chainName, ticker: cryptoUnitName }}
+                />
+              </Text>
             </animated.div>
           ))
         }
