@@ -2290,14 +2290,14 @@
     "@svgr/babel-plugin-transform-react-native-svg" "^4.2.0"
     "@svgr/babel-plugin-transform-svg-component" "^4.2.0"
 
-"@svgr/cli@4.3.1":
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/@svgr/cli/-/cli-4.3.1.tgz#ee4da73b866c81d3fca4ea642df1279924d0cf77"
-  integrity sha512-et42q/arMztdgzwqVm3IEu1b/sDDOvqYgu3DHZ8wOBkn34XwPbIYfhHfWSYxyqAOBa3zarOPmJJsfv7+gIugAw==
+"@svgr/cli@4.3.2":
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/@svgr/cli/-/cli-4.3.2.tgz#fb20fd33429f0d0dfc6c7178e8bfc1e86006e9de"
+  integrity sha512-QdYzVgsowOWpOwkX+3+EK6zxlttADc2v6t0Baj2xETAdhBcpFAf/nZ0xw6b5zxdbGk8fm3nxJyPUddYuBkgzpg==
   dependencies:
-    "@svgr/core" "^4.3.1"
-    "@svgr/plugin-jsx" "^4.3.1"
-    "@svgr/plugin-prettier" "^4.3.1"
+    "@svgr/core" "^4.3.2"
+    "@svgr/plugin-jsx" "^4.3.2"
+    "@svgr/plugin-prettier" "^4.3.2"
     "@svgr/plugin-svgo" "^4.3.1"
     camelcase "^5.3.1"
     chalk "^2.4.2"
@@ -2307,7 +2307,7 @@
     output-file-sync "^2.0.1"
     recursive-readdir "^2.2.2"
 
-"@svgr/core@^4.3.1", "@svgr/core@^4.3.2":
+"@svgr/core@^4.3.2":
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/@svgr/core/-/core-4.3.2.tgz#939c89be670ad79b762f4c063f213f0e02535f2e"
   integrity sha512-N+tP5CLFd1hP9RpO83QJPZY3NL8AtrdqNbuhRgBkjE/49RnMrrRsFm1wY8pueUfAGvzn6tSXUq29o6ah8RuR5w==
@@ -2323,7 +2323,7 @@
   dependencies:
     "@babel/types" "^7.4.4"
 
-"@svgr/plugin-jsx@^4.3.1", "@svgr/plugin-jsx@^4.3.2":
+"@svgr/plugin-jsx@^4.3.2":
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/@svgr/plugin-jsx/-/plugin-jsx-4.3.2.tgz#ce9ddafc8cdd74da884c9f7af014afcf37f93d3c"
   integrity sha512-+1GW32RvmNmCsOkMoclA/TppNjHPLMnNZG3/Ecscxawp051XJ2MkO09Hn11VcotdC2EPrDfT8pELGRo+kbZ1Eg==
@@ -2333,7 +2333,7 @@
     "@svgr/hast-util-to-babel-ast" "^4.3.2"
     svg-parser "^2.0.0"
 
-"@svgr/plugin-prettier@^4.3.1":
+"@svgr/plugin-prettier@^4.3.2":
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/@svgr/plugin-prettier/-/plugin-prettier-4.3.2.tgz#41a95cf0c52a58e2d9841434d227e120d7d533f7"
   integrity sha512-GErOZQ0n/OinFDjyXg9svfVRNWP+18qqIxsc/9xRoRY7R/cPlnXkadLF7NdgDgSP2BYtt7XGcZ9TU+Skr1B3tw==
