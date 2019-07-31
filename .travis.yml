@@ -53,13 +53,6 @@ script:
     yarn coveralls || travis_terminate 1
     set +e
 
-after_success:
-  - test $TRAVIS_REPO_SLUG = 'LN-Zap/zap-desktop' &&
-    test $TRAVIS_BRANCH = "master" &&
-    test $TRAVIS_PULL_REQUEST = "false" &&
-    test $TRAVIS_OS_NAME = "osx" &&
-    yarn storybook:deploy -r https://$GH_TOKEN@github.com/$TRAVIS_REPO_SLUG.git
-
 after_failure:
   - artifacts upload ./screenshots
 
@@ -75,8 +68,6 @@ jobs:
       name: Deploy to Github
       if: (NOT type IN (pull_request)) AND (branch IN (master,next))
       script: skip
-      after_success: skip
-      after_failure: skip
       deploy:
         skip_cleanup: true
         provider: script
@@ -90,8 +81,6 @@ jobs:
       name: Deploy to Github
       if: (NOT type IN (pull_request)) AND (branch IN (master,next))
       script: skip
-      after_success: skip
-      after_failure: skip
       deploy:
         skip_cleanup: true
         provider: script
