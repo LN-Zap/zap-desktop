@@ -77,5 +77,9 @@ yarn lint
 
 See [DEBUGGING.md](./DEBUGGING.md)
 
+### Configuration
+
+See [CONFIG.md](./CONFIG.md)
+
 [issues]: https://github.com/LN-Zap/zap-desktop/issues
 [slack]: https://join.slack.com/t/zaphq/shared_invite/enQtMzMxMzIzNDU0NTY3LTgyM2QwYzAyZTA5OTAyMjEwMTQxZmZmZmZkNWUzMTU2MmMyNmMxNjY4Y2VjY2FiYTRkMTkwMTRlMTE4YjM2MWY

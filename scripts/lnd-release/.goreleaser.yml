@@ -6,7 +6,6 @@ builds:
       - windows
     goarch:
       - amd64
-      - '386'
     binary: lnd
     main: ./cmd/lnd
     ldflags:
@@ -20,7 +19,6 @@ builds:
       - windows
     goarch:
       - amd64
-      - '386'
     binary: lncli
     main: ./cmd/lncli
     ldflags:

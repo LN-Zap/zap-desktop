@@ -44,7 +44,7 @@
   },
   "config": {
     "lnd-binary": {
-      "binaryVersion": "0.7.1-beta-rc2-3-g3d84693a",
+      "binaryVersion": "0.7.1-beta-3-g26af2265",
       "binarySite": "https://github.com/LN-Zap/lnd/releases/download"
     }
   },
@@ -138,8 +138,7 @@
         {
           "target": "nsis",
           "arch": [
-            "x64",
-            "ia32"
+            "x64"
           ]
         }
       ]
@@ -152,8 +151,7 @@
         {
           "target": "AppImage",
           "arch": [
-            "x64",
-            "ia32"
+            "x64"
           ]
         }
       ],
