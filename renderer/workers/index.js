@@ -1,4 +1,5 @@
 import { proxy } from 'comlinkjs'
+import proxymise from './proxymise'
 
 const Neutrino = proxy(new Worker(`./neutrino.worker.js`))
 const ZapGrpc = proxy(new Worker('./grpc.worker.js'))
@@ -14,7 +15,8 @@ class NeutrinoInstance {
     return NeutrinoInstance.instance
   }
 }
-export const neutrinoService = new NeutrinoInstance()
+
+export const neutrino = proxymise(new NeutrinoInstance())
 
 /**
  * [GrpcInstance description]
@@ -27,4 +29,5 @@ class GrpcInstance {
     return GrpcInstance.instance
   }
 }
-export const grpcService = new GrpcInstance()
+
+export const grpc = proxymise(new GrpcInstance())
