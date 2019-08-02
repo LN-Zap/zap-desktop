@@ -271,12 +271,10 @@ class Wizard extends React.Component {
   /**
    *  handleSkip - Toggles skip mode.
    *
-   * @param value if skip mode is currently active
+   * @param {boolean} isSkip Boolean indicating if skip mode is currently active
    */
-  handleSkip = value => {
-    this.setState({
-      isSkip: value,
-    })
+  handleSkip = isSkip => {
+    this.setState({ isSkip })
   }
 
   navigateTo = stepId => {

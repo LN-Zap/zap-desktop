@@ -10,8 +10,6 @@
 import React from 'react'
 import { IntlProvider, intlShape } from 'react-intl'
 import { mount, shallow } from 'enzyme'
-
-// Ppass default messages to the IntlProvider.
 import messages from '@zap/translations/en.json'
 
 // Create the IntlProvider to retrieve context for wrapping around.

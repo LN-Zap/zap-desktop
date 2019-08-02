@@ -1,6 +1,4 @@
 import { addLocaleData } from 'react-intl'
-
-// Load locale data.
 import bg from 'react-intl/locale-data/bg'
 import cs from 'react-intl/locale-data/cs'
 import de from 'react-intl/locale-data/de'
