@@ -1,8 +1,8 @@
 import Dexie from 'dexie'
 import decode from 'lndconnect/decode'
 import encode from 'lndconnect/encode'
-import getDbName from '@zap/utils/db'
 import config from 'config'
+import getDbName from '@zap/utils/db'
 
 /**
  * initDb - Initialise the database and make it globally accessible.

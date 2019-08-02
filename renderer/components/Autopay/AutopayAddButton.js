@@ -2,8 +2,8 @@ import React from 'react'
 import { Card, Flex } from 'rebass'
 import { themeGet } from 'styled-system'
 import styled, { withTheme } from 'styled-components'
-import { Text } from 'components/UI'
 import { tint } from 'polished'
+import { Text } from 'components/UI'
 
 const Gradient = styled(Card)`
   background: linear-gradient(

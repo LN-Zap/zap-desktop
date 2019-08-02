@@ -1,6 +1,6 @@
+import matches from 'lodash/matches'
 import delay from '@zap/utils/delay'
 import genId from '@zap/utils/genId'
-import matches from 'lodash/matches'
 import createReducer from './utils/createReducer'
 // ------------------------------------
 // Initial State

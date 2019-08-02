@@ -5,18 +5,15 @@ import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 import { Flex, Box } from 'rebass'
 import styled from 'styled-components'
-
 import { usePrevious, useOnKeydown } from 'hooks'
 import { Panel, Wizard, Modal, ModalOverlayStyles } from 'components/UI'
 import messages from 'components/Onboarding/messages'
 import { backupSelectors } from 'reducers/backup'
-
 import {
   isMainnetAutopilot,
   isNetworkSelectionEnabled,
   isSCBRestoreEnabled,
 } from '@zap/utils/featureFlag'
-
 import * as Steps from './Steps'
 
 /**

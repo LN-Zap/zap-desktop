@@ -2,14 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Box, Flex } from 'rebass'
+import { animated, Transition } from 'react-spring/renderprops'
 import Radio from 'components/UI/Radio'
 import Text from 'components/UI/Text'
 import Heading from 'components/UI/Heading'
 import BaseCard from 'components/UI/Card'
-
 import BoltOnboarding from 'components/Icon/BoltOnboarding'
-
-import { animated, Transition } from 'react-spring/renderprops'
 
 const Card = styled(BaseCard)`
   position: relative;

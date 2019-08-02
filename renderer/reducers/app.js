@@ -1,6 +1,6 @@
-import delay from '@zap/utils/delay'
 import { send } from 'redux-electron-ipc'
 import { createSelector } from 'reselect'
+import delay from '@zap/utils/delay'
 import { initDb } from '@zap/renderer/store/db'
 import { showError } from 'reducers/notification'
 import { tickerSelectors } from './ticker'

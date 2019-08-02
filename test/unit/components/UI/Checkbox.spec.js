@@ -1,9 +1,9 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { Checkbox } from 'components/UI'
 import { Form } from 'informed'
-import { dark } from 'themes'
 import { ThemeProvider } from 'styled-components'
+import { Checkbox } from 'components/UI'
+import { dark } from 'themes'
 
 describe('component.UI.Checkbox', () => {
   it('should render correctly', () => {

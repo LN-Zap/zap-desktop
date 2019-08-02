@@ -1,5 +1,4 @@
 import webpack from 'webpack'
-
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 
 const plugins = [

@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, FormattedTime, injectIntl, intlShape } from 'react-intl'
-
-import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
 import { Box, Flex } from 'rebass'
+import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
 import { Message, Text } from 'components/UI'
 import { CryptoValue, FiatValue } from 'containers/UI'
 import ErrorLink from '../ErrorLink'

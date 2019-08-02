@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-
 import { ChannelCloseDialog } from 'components/Channels'
 import { hideCloseChannelDialog, closeChannel, channelsSelectors } from 'reducers/channels'
 import { showNotification } from 'reducers/notification'

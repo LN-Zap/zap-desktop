@@ -45,6 +45,13 @@ module.exports = {
     // 'sort-imports': 'error',
     'import/no-extraneous-dependencies': 0,
     'import/prefer-default-export': 0,
+    'import/order': [
+      'warn',
+      {
+        groups: [['external', 'builtin'], ['internal', 'index', 'sibling', 'parent']],
+        'newlines-between': 'never',
+      },
+    ],
     'jsdoc/match-description': [
       'warn',
       { matchDescription: '^(.* - )([A-Z]|[`\\d_])([\\s\\S]*[.?!`])?$' },

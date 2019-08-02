@@ -6,7 +6,6 @@ import { Card } from 'components/UI'
 import ActivityFilter from './ActivityFilter'
 import ActivityRefresh from './ActivityRefresh'
 import ActivitySearch from './ActivitySearch'
-
 import messages from './messages'
 
 const ActivityActions = ({

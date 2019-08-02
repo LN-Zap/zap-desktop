@@ -1,8 +1,8 @@
 import React from 'react'
 import { Form } from 'informed'
 import renderer from 'react-test-renderer'
-import { dark } from 'themes'
 import { ThemeProvider } from 'styled-components'
+import { dark } from 'themes'
 import { Range } from 'components/UI'
 
 describe('component.UI.Range', () => {

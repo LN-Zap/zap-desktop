@@ -1,7 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { Box, Flex } from 'rebass'
-
 import Autopay from 'components/Icon/Autopay'
 import AutopayCheck from 'components/Icon/AutopayCheck'
 import AngleDown from 'components/Icon/AngleDown'

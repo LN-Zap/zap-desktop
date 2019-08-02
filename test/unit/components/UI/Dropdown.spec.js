@@ -1,7 +1,7 @@
 import React from 'react'
-import { Dropdown } from 'components/UI'
 import renderer from 'react-test-renderer'
 import { IntlProvider } from 'react-intl'
+import { Dropdown } from 'components/UI'
 import { dark } from 'themes'
 
 const currencies = [

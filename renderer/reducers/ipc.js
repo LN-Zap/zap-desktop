@@ -2,7 +2,6 @@ import createIpc from 'redux-electron-ipc'
 import { initApp, terminateApp, openPreferences } from './app'
 import { killNeutrino } from './neutrino'
 import { receiveLocale } from './locale'
-
 import { bitcoinPaymentUri, lightningPaymentUri } from './pay'
 import { lndconnectUri } from './onboarding'
 import {
