@@ -1,5 +1,4 @@
 import { BrowserWindow } from 'electron'
-
 import { google } from 'googleapis'
 import { parse } from 'url'
 import { Readable } from 'stream'

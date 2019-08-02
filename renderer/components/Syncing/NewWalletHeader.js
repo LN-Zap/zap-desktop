@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Header, Link } from 'components/UI'
 import { FormattedMessage } from 'react-intl'
+import { Header, Link } from 'components/UI'
 import messages from './messages'
 
 const NewWalletHeader = ({ network }) => (

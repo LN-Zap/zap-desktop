@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
-import { Donut, Heading } from 'components/UI'
 import { FormattedMessage } from 'react-intl'
+import { Donut, Heading } from 'components/UI'
 import messages from './messages'
 
 const ChannelsMenuHeader = ({

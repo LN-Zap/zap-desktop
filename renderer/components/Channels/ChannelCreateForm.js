@@ -21,7 +21,6 @@ import { CurrencyFieldGroup, CryptoValue } from 'containers/UI'
 import Padlock from 'components/Icon/Padlock'
 import ChannelBackButton from './ChannelBackButton'
 import ChannelCreateSummary from './ChannelCreateSummary'
-
 import messages from './messages'
 import {
   TRANSACTION_SPEED_SLOW,

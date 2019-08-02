@@ -1,8 +1,8 @@
 import fs from 'fs'
 import path from 'path'
 import { promisify } from 'util'
-import chainify from '@zap/utils/chainify'
 import config from 'config'
+import chainify from '@zap/utils/chainify'
 
 const mkdirAsync = promisify(fs.mkdir)
 const writeFileAsync = promisify(fs.writeFile)

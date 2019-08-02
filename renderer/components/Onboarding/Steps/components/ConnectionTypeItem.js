@@ -1,6 +1,5 @@
 import React from 'react'
 import { RadioCard } from 'components/UI'
-
 import ConnectOnboarding from 'components/Icon/ConnectOnboarding'
 import ImportOnboarding from 'components/Icon/ImportOnboarding'
 import PlusOnboarding from 'components/Icon/PlusOnboarding'

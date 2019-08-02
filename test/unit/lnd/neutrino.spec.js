@@ -1,6 +1,6 @@
+import mockSpawn from 'mock-spawn'
 import Neutrino from '@zap/services/neutrino'
 import LndConfig from '@zap/utils/lndConfig'
-import mockSpawn from 'mock-spawn'
 
 jest.mock('child_process', () => {
   var mockSpawn = require('mock-spawn')

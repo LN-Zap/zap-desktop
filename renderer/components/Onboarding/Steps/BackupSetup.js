@@ -8,7 +8,6 @@ import { BACKUP_FORM_WIDTH, BACKUP_FORM_HEIGHT } from './components/settings'
 import BaseBackupTypeItem from './components/BackupTypeItem'
 import Container from './components/Container'
 import SkipBackupsDialog from './components/SkipBackupsDialog'
-
 import messages from './messages'
 
 const BackupTypeItem = withFieldApi('backupType')(BaseBackupTypeItem)

@@ -1,5 +1,4 @@
 import config from 'config'
-
 import createReducer from './utils/createReducer'
 // ------------------------------------
 // Initial State

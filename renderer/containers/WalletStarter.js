@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { startActiveWallet } from 'reducers/lnd'
 import { Redirect } from 'react-router'
+import { startActiveWallet } from 'reducers/lnd'
 import { walletSelectors } from 'reducers/wallet'
 
 /**

@@ -1,11 +1,10 @@
 import React from 'react'
 import { Form } from 'informed'
 import renderer from 'react-test-renderer'
-import { dark } from 'themes'
 import { ThemeProvider } from 'styled-components'
-import { Select } from 'components/UI'
-
 import { IntlProvider } from 'react-intl'
+import { dark } from 'themes'
+import { Select } from 'components/UI'
 
 describe('component.UI.Toggle', () => {
   it('should render correctly', () => {

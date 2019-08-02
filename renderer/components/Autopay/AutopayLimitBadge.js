@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Card, Flex, Box } from 'rebass'
-
 import { themeGet } from 'styled-system'
 import styled, { withTheme } from 'styled-components'
 import { tint } from 'polished'

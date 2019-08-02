@@ -9,7 +9,6 @@ import { initBackupService } from 'reducers/backup'
 import { setModals, modalSelectors } from 'reducers/modal'
 import { fetchSuggestedNodes } from 'reducers/channels'
 import { initTickers } from 'reducers/ticker'
-
 import App from 'components/App'
 
 const mapStateToProps = state => ({
