@@ -1,10 +1,8 @@
 // based on https://github.com/rhysd/electron-about-window
-'use strict'
 
+import path from 'path'
 import electron, { BrowserWindow } from 'electron'
 import isDev from 'electron-is-dev'
-
-const path = require('path')
 
 let window = null
 

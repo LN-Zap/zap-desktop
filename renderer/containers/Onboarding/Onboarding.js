@@ -94,13 +94,8 @@ const getBaseSteps = connectionType => {
     <Wizard.Step key={component.key} canSkip={component.props.canSkip} component={component} />
   ))
 }
-/**
- *
- *
- * @param {*} props component props
- * @returns
- */
-function Onboarding(props) {
+
+const Onboarding = props => {
   const {
     connectionType,
     network,
