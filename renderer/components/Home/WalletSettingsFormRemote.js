@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Box } from 'rebass'
 import {
@@ -12,7 +11,6 @@ import {
   RowLabel,
   LndConnectionStringEditor,
 } from 'components/UI'
-
 import messages from './messages'
 
 const WalletSettingsFormRemote = ({

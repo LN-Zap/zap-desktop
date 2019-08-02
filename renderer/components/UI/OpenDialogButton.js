@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box } from 'rebass'
-import Copy from 'components/Icon/FolderOpen'
 import styled from 'styled-components'
+import Copy from 'components/Icon/FolderOpen'
 import Button from './Button'
 
 const CustomButton = styled(Button)`

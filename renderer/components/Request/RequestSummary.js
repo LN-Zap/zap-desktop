@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react'
-import createScheduler from '@zap/utils/scheduler'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import {
@@ -9,8 +8,9 @@ import {
   intlShape,
   injectIntl,
 } from 'react-intl'
-import { decodePayReq } from '@zap/utils/crypto'
 import copy from 'copy-to-clipboard'
+import { decodePayReq } from '@zap/utils/crypto'
+import createScheduler from '@zap/utils/scheduler'
 import { Bar, DataRow, Button, QRCode, Text } from 'components/UI'
 import { CryptoSelector, CryptoValue, FiatSelector, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'

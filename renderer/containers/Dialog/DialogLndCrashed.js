@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-
 import { DialogLndCrashed } from 'components/Dialog'
 import { neutrinoReset, neutrinoSelectors } from 'reducers/neutrino'
 

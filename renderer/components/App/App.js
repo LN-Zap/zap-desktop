@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
-import createScheduler from '@zap/utils/scheduler'
 import PropTypes from 'prop-types'
-import Wallet from 'containers/Wallet'
 import { Flex } from 'rebass'
+import createScheduler from '@zap/utils/scheduler'
+import Wallet from 'containers/Wallet'
 import Activity from 'containers/Activity'
 
 // Bitcoin blocks come on average every 10 mins

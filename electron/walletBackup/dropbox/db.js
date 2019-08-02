@@ -1,7 +1,6 @@
 import EventEmitter from 'events'
 import fetch from 'node-fetch'
 import { Dropbox } from 'dropbox/lib'
-
 import delay from '@zap/utils/delay'
 import * as api from './dbApi'
 

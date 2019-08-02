@@ -1,7 +1,6 @@
 import { connect } from 'react-redux'
 import { tickerSelectors } from 'reducers/ticker'
 import { showActivityModal, showErrorDetailsDialog } from 'reducers/activity'
-
 import Payment from 'components/Activity/Payment'
 
 const mapDispatchToProps = {

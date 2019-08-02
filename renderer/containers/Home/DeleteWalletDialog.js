@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-
 import { DeleteWalletDialog } from 'components/Home'
 import { hideDeleteWalletDialog, deleteWallet, walletSelectors } from 'reducers/wallet'
 

@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
-import { Bar, Heading, Page } from '@zap/renderer/components/UI'
 import lightningPayReq from 'bolt11'
+import { Bar, Heading, Page } from '@zap/renderer/components/UI'
 
 export const Window = props => (
   <Page

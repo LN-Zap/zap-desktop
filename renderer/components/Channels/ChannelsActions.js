@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Box, Flex } from 'rebass'
-import { ButtonCreate, Card, Text } from 'components/UI'
 import { themeGet } from 'styled-system'
 import styled from 'styled-components'
+import { ButtonCreate, Card, Text } from 'components/UI'
 import ChannelFilter from './ChannelFilter'
 import ChannelSort from './ChannelSort'
 import ChannelSearch from './ChannelSearch'
@@ -12,7 +12,6 @@ import ChannelsRefresh from './ChannelsRefresh'
 import ChannelsViewButtons from './ChannelsViewButtons'
 import ChannelSortDirectionButton from './ChannelSortDirectionButton'
 import ChannelCount from './ChannelCount'
-
 import messages from './messages'
 
 const ResetSearchText = styled(Text)`

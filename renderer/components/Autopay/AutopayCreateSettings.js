@@ -1,10 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import styled from 'styled-components'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Flex } from 'rebass'
-
 import { CryptoValue, CryptoSelector, FiatValue } from 'containers/UI'
 import { Bar, DataRow, Range, Text, Toggle } from 'components/UI'
 import { Truncate } from 'components/Util'

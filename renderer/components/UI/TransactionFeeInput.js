@@ -9,7 +9,6 @@ import Spinner from 'components/UI/Spinner'
 import Text from 'components/UI/Text'
 import CryptoValue from 'containers/UI/CryptoValue'
 import CryptoSelector from 'containers/UI/CryptoSelector'
-
 import messages from './messages'
 import {
   TRANSACTION_SPEED_SLOW,

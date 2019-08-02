@@ -1,6 +1,6 @@
-import createScheduler from '@zap/utils/scheduler'
 import isEqual from 'lodash/isEqual'
 import EventEmitter from 'events'
+import createScheduler from '@zap/utils/scheduler'
 
 /**
  * streamify - Creates polling stream for the specified LND command.
