@@ -1,7 +1,7 @@
 import config from 'config'
 import { createSelector } from 'reselect'
 import { proxyValue } from 'comlinkjs'
-import { grpcService } from 'workers'
+import { grpc } from 'workers'
 import { fetchInfo, setInfo } from './info'
 import { startNeutrino, stopNeutrino } from './neutrino'
 import { putWallet, removeWallet, setActiveWallet, walletSelectors } from './wallet'
@@ -138,8 +138,6 @@ function unsubFromGrpcEvents(grpc) {
 export const connectGrpcService = lndConfig => async dispatch => {
   dispatch({ type: CONNECT_GRPC })
 
-  const grpc = await grpcService
-
   const handleInvoiceSubscription = proxyValue(data => dispatch(receiveInvoiceData(data)))
   const handleGetInfoSubscription = proxyValue(data => dispatch(setInfo(data)))
   const handleTransactionSubscription = proxyValue(data => dispatch(receiveTransactionData(data)))
@@ -182,7 +180,6 @@ export const connectGrpcService = lndConfig => async dispatch => {
 export const disconnectGrpcService = () => async dispatch => {
   dispatch({ type: DISCONNECT_GRPC })
   try {
-    const grpc = await grpcService
     // Disconnect event listeners.
     unsubFromGrpcEvents(grpc)
     await grpc.disconnect()
@@ -358,7 +355,6 @@ export const setWalletUnlockerGrpcActive = () => ({
 export const unlockWallet = password => async dispatch => {
   dispatch({ type: UNLOCK_WALLET })
   try {
-    const grpc = await grpcService
     await grpc.unlock(password)
     dispatch(walletUnlocked())
   } catch (error) {
@@ -408,7 +404,6 @@ export const fetchSeed = () => async dispatch => {
     await dispatch(startLnd(wallet))
 
     // Call genSeed method.
-    const grpc = await grpcService
     const data = await grpc.services.WalletUnlocker.genSeed()
     dispatch(fetchSeedSuccess(data.cipher_seed_mnemonic))
   } catch (error) {
@@ -473,7 +468,6 @@ export const createWallet = ({ recover } = {}) => async (dispatch, getState) => 
     await dispatch(startLnd(wallet))
 
     // Call initWallet method.
-    const grpc = await grpcService
     await grpc.initWallet({
       wallet_password: Buffer.from(state.onboarding.password),
       aezeed_passphrase: state.onboarding.passphrase
