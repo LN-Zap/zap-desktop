@@ -1,6 +1,6 @@
 import get from 'lodash/get'
 import { createSelector } from 'reselect'
-import { grpcService } from 'workers'
+import { grpc } from 'workers'
 import { openModal, closeModal } from './modal'
 import { settingsSelectors } from './settings'
 import { showError } from './notification'
@@ -84,7 +84,6 @@ export const initAddresses = () => async (dispatch, getState) => {
 export const newAddress = addressType => async dispatch => {
   dispatch({ type: NEW_ADDRESS, addressType })
   try {
-    const grpc = await grpcService
     const data = await grpc.services.Lightning.newAddress({ type: ADDRESS_TYPES[addressType] })
     await dispatch(newAddressSuccess(addressType, data.address))
   } catch (error) {
