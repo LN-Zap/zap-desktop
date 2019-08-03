@@ -148,7 +148,7 @@ export const getDb = name => {
    * @class Wallet
    * Wallet helper class.
    */
-  const Wallet = db.wallets.defineClass({
+  const walletSchema = {
     id: Number,
     type: String,
     network: String,
@@ -165,12 +165,13 @@ export const getDb = name => {
     autopilotPrivate: Boolean,
     autopilotMinconfs: Number,
     backup: Object,
-  })
+  }
+  const Wallet = db.wallets.defineClass(walletSchema)
 
   // Strip out all unknown properties on create.
   db.wallets.hook('creating', function(primKey, obj) {
     Object.keys(obj).forEach(key => {
-      if (!Object.keys(db.wallets.schema.instanceTemplate).includes(key)) {
+      if (!Object.keys(walletSchema).includes(key)) {
         delete obj[key]
       }
     })
@@ -179,7 +180,7 @@ export const getDb = name => {
   // Strip out all unknown properties on update.
   db.wallets.hook('updating', function(modifications, primKey, obj) {
     return Object.keys({ ...obj, ...modifications }).reduce((acc, cur) => {
-      const isValidKey = Object.keys(db.wallets.schema.instanceTemplate).includes(cur)
+      const isValidKey = Object.keys(walletSchema).includes(cur)
       const isInMods = Object.keys(modifications).includes(cur)
       let newVal = isInMods ? modifications[cur] : obj[cur]
       return {
