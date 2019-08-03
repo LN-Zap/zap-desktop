@@ -107,7 +107,8 @@ export const newAddressSuccess = (addressType, address) => async (dispatch, getS
   if (pubKey) {
     const node = await window.db.nodes.get(pubKey)
     if (node) {
-      await node.setCurrentAddress(addressType, address)
+      node.setCurrentAddress(addressType, address)
+      await window.db.nodes.put(node)
     } else {
       await window.db.nodes.put({ id: pubKey, addresses: { [addressType]: address } })
     }
