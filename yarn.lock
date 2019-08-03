@@ -10690,10 +10690,10 @@ linux-platform-info@^0.0.3:
   dependencies:
     os-family "^1.0.0"
 
-lnd-binary@0.3.12:
-  version "0.3.12"
-  resolved "https://registry.yarnpkg.com/lnd-binary/-/lnd-binary-0.3.12.tgz#5cce3d789ff0eaf0049e4e83d71d20e1892b64ae"
-  integrity sha512-I6T6MGw+7S84lj2eTX3pY9bNAOygWq6Oxa0ILb3BM81nujo7so5mfIOEAcCnNKBQKN+GA36nssxBKc2g3jo2/g==
+lnd-binary@0.3.13:
+  version "0.3.13"
+  resolved "https://registry.yarnpkg.com/lnd-binary/-/lnd-binary-0.3.13.tgz#c0e9c5591798278a478660afc92c768db092b8b4"
+  integrity sha512-A531dMkOeG8ytMrGuNmjYr3MhfLk9jQVsk/NCYk0dHSz//bp1kUJobl03yhw0DuThQrn7vjkoWO9qpuMCsXexw==
   dependencies:
     axios "^0.19.0"
     cacache "^11.3.3"
