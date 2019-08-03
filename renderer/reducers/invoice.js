@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { showSystemNotification } from '@zap/utils/notifications'
 import { convert } from '@zap/utils/btc'
-import { grpcService } from 'workers'
+import { grpc } from 'workers'
 import { fetchBalance } from './balance'
 import { fetchChannels } from './channels'
 import { showError } from './notification'
@@ -147,7 +147,6 @@ export function sendInvoice() {
  */
 export const fetchInvoices = () => async dispatch => {
   dispatch(getInvoices())
-  const grpc = await grpcService
   const invoices = await grpc.services.Lightning.listInvoices({ num_max_invoices: 2500 })
   dispatch(receiveInvoices(invoices))
 }
@@ -190,7 +189,6 @@ export const createInvoice = (amount, cryptoUnit, memo, isPrivate) => async (
   const currentConfig = settingsSelectors.currentConfig(state)
 
   try {
-    const grpc = await grpcService
     const invoice = await grpc.services.Lightning.createInvoice({
       value,
       memo,
