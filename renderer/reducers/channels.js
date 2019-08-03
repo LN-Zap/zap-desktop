@@ -5,7 +5,7 @@ import throttle from 'lodash/throttle'
 import config from 'config'
 import { requestSuggestedNodes } from '@zap/utils/api'
 import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
-import { grpcService } from 'workers'
+import { grpc } from 'workers'
 import { updateNotification, showWarning, showError } from './notification'
 import { fetchBalance } from './balance'
 import { walletSelectors } from './wallet'
@@ -485,7 +485,6 @@ export const fetchSuggestedNodes = () => async dispatch => {
  */
 export const fetchChannels = () => async dispatch => {
   dispatch(getChannels())
-  const grpc = await grpcService
   const channels = await grpc.services.Lightning.getChannels()
   dispatch(receiveChannels(channels))
 }
@@ -536,7 +535,6 @@ export const openChannel = data => async (dispatch, getState) => {
 
   // Attempt to open the channel.
   try {
-    const grpc = await grpcService
     const data = await grpc.services.Lightning.connectAndOpen({
       pubkey,
       host,
@@ -638,7 +636,6 @@ export const closeChannel = () => async (dispatch, getState) => {
 
     // Attempt to open the channel.
     try {
-      const grpc = await grpcService
       const data = await grpc.services.Lightning.closeChannel({
         channel_point: {
           funding_txid,
