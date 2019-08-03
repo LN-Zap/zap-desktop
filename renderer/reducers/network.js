@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { grpcService } from 'workers'
+import { grpc } from 'workers'
 import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
 import createReducer from './utils/createReducer'
 
@@ -103,7 +103,6 @@ export function getDescribeNetwork() {
  */
 export const fetchDescribeNetwork = () => async dispatch => {
   dispatch(getDescribeNetwork())
-  const grpc = await grpcService
   const data = await grpc.services.Lightning.describeGraph()
   dispatch(receiveDescribeNetwork(data))
 }
