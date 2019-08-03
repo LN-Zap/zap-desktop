@@ -4,7 +4,7 @@ import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
 import { decodePayReq, getNodeAlias } from '@zap/utils/crypto'
 import { convert } from '@zap/utils/btc'
 import delay from '@zap/utils/delay'
-import { grpcService } from 'workers'
+import { grpc } from 'workers'
 import createReducer from './utils/createReducer'
 import { fetchBalance } from './balance'
 import { fetchChannels } from './channels'
@@ -161,7 +161,6 @@ export const sendPayment = data => dispatch => {
  */
 export const fetchPayments = () => async dispatch => {
   dispatch(getPayments())
-  const grpc = await grpcService
   const payments = await grpc.services.Lightning.listPayments()
   dispatch(receivePayments(payments))
 }
@@ -225,7 +224,6 @@ export const payInvoice = ({
 
   // Submit the payment to LND.
   try {
-    const grpc = await grpcService
     const data = await grpc.services.Lightning.sendPayment({
       payment_request: payReq,
       amt,
