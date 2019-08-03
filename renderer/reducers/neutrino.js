@@ -1,7 +1,7 @@
 import { send } from 'redux-electron-ipc'
 import { createSelector } from 'reselect'
 import { proxyValue } from 'comlinkjs'
-import { neutrinoService } from 'workers'
+import { neutrino } from 'workers'
 import { showSystemNotification } from '@zap/utils/notifications'
 import { setHasSynced } from './info'
 import createReducer from './utils/createReducer'
@@ -95,7 +95,6 @@ const parseHeightUpdates = data => {
  * @returns {Function} Thunk
  */
 export const killNeutrino = (event, signal) => async dispatch => {
-  const neutrino = await neutrinoService
   await neutrino.shutdown({ signal })
   dispatch(send('killNeutrinoSuccess'))
 }
@@ -153,8 +152,6 @@ export const neutrinoReset = () => {
  * @returns {Function} Thunk
  */
 export const initNeutrino = () => async (dispatch, getState) => {
-  const neutrino = await neutrinoService
-
   neutrino.on(
     'NEUTRINO_WALLET_UNLOCKER_GRPC_ACTIVE',
     proxyValue(() => {
@@ -237,8 +234,6 @@ export const startNeutrino = lndConfig => async (dispatch, getState) => {
   }
 
   dispatch({ type: START_NEUTRINO })
-
-  const neutrino = await neutrinoService
   try {
     // Initialise the Neutrino service.
     await neutrino.init(lndConfig)
@@ -315,8 +310,6 @@ export const stopNeutrino = () => async (dispatch, getState) => {
   dispatch({ type: STOP_NEUTRINO })
 
   try {
-    const neutrino = await neutrinoService
-
     // Remove grpc interface activation listeners prior to shutdown.
     neutrino.removeAllListeners('NEUTRINO_WALLET_UNLOCKER_GRPC_ACTIVE')
     neutrino.removeAllListeners('NEUTRINO_LIGHTNING_GRPC_ACTIVE')
