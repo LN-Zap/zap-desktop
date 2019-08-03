@@ -1,6 +1,6 @@
 import set from 'lodash/set'
 import { send } from 'redux-electron-ipc'
-import { grpcService } from 'workers'
+import { grpc } from 'workers'
 import { isSCBRestoreEnabled } from '@zap/utils/featureFlag'
 import { walletSelectors } from './wallet'
 import { infoSelectors } from './info'
@@ -296,7 +296,6 @@ export const initBackupService = walletId => async (dispatch, getState) => {
  */
 export const backupCurrentWallet = (walletId, backup) => async (dispatch, getState) => {
   const getFreshBackup = async () => {
-    const grpc = await grpcService
     if (await grpc.services.Lightning.hasMethod('exportAllChannelBackups')) {
       return await grpc.services.Lightning.exportAllChannelBackups({})
     }
@@ -398,7 +397,6 @@ export const queryWalletBackup = (walletId, provider) => async (dispatch, getSta
  */
 export const restoreWallet = backup => async dispatch => {
   try {
-    const grpc = await grpcService
     const result = await grpc.services.Lightning.restoreChannelBackups({
       multi_chan_backup: backup,
     })
