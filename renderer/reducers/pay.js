@@ -1,5 +1,5 @@
 import get from 'lodash/get'
-import { grpcService } from 'workers'
+import { grpc } from 'workers'
 import { estimateFeeRange } from '@zap/utils/fee'
 import { settingsSelectors } from './settings'
 import createReducer from './utils/createReducer'
@@ -98,7 +98,6 @@ export const queryFees = (address, amountInSats) => async (dispatch, getState) =
 export const queryRoutes = (pubKey, amount) => async dispatch => {
   dispatch({ type: QUERY_ROUTES, pubKey })
   try {
-    const grpc = await grpcService
     const { routes } = await grpc.services.Lightning.queryRoutes({ pub_key: pubKey, amt: amount })
     dispatch({ type: QUERY_ROUTES_SUCCESS, routes })
   } catch (e) {
