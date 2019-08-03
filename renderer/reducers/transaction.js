@@ -3,7 +3,7 @@ import { showSystemNotification } from '@zap/utils/notifications'
 import { convert } from '@zap/utils/btc'
 import delay from '@zap/utils/delay'
 import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
-import { grpcService } from 'workers'
+import { grpc } from 'workers'
 import { addressSelectors, newAddress } from './address'
 import { fetchBalance } from './balance'
 import { fetchChannels, channelsSelectors, getChannelData } from './channels'
@@ -83,7 +83,6 @@ export function sendTransaction(data) {
  */
 export const fetchTransactions = () => async dispatch => {
   dispatch({ type: GET_TRANSACTIONS })
-  const grpc = await grpcService
   const transactions = await grpc.services.Lightning.getTransactions()
   dispatch(receiveTransactions(transactions))
 }
@@ -153,7 +152,6 @@ export const sendCoins = ({
 
   // Submit the transaction to LND.
   try {
-    const grpc = await grpcService
     const { txid } = await grpc.services.Lightning.sendCoins(payload)
     dispatch(transactionSuccessful({ ...payload, txid }))
   } catch (e) {
