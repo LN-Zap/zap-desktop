@@ -1,4 +1,4 @@
-import { grpcService } from 'workers'
+import { grpc } from 'workers'
 import createReducer from './utils/createReducer'
 
 // ------------------------------------
@@ -31,7 +31,6 @@ export const FETCH_PEERS_FAILURE = 'FETCH_PEERS_FAILURE'
 export const fetchPeers = () => async dispatch => {
   dispatch({ type: FETCH_PEERS })
   try {
-    const grpc = await grpcService
     const { peers } = await grpc.services.Lightning.listPeers()
     dispatch({ type: FETCH_PEERS_SUCCESS, peers })
   } catch (error) {
