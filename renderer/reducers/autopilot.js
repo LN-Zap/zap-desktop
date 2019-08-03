@@ -1,4 +1,4 @@
-import { grpcService } from 'workers'
+import { grpc } from 'workers'
 import { requestNodeScores } from '@zap/utils/api'
 import { infoSelectors } from './info'
 import createReducer from './utils/createReducer'
@@ -48,7 +48,6 @@ export const updateAutopilotNodeScores = () => async (dispatch, getState) => {
     if (!scores) {
       throw new Error('Node scores empty')
     }
-    const grpc = await grpcService
     await grpc.services.Autopilot.setScores({
       heuristic: 'externalscore',
       scores,
