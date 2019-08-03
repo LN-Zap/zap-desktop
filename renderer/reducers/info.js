@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import get from 'lodash/get'
 import { networks } from '@zap/utils/crypto'
-import { grpcService } from 'workers'
+import { grpc } from 'workers'
 import { initAddresses } from './address'
 import { putWallet, walletSelectors } from './wallet'
 import { settingsSelectors } from './settings'
@@ -134,7 +134,6 @@ export const setHasSynced = hasSynced => async (dispatch, getState) => {
  */
 export const fetchInfo = () => async dispatch => {
   dispatch(getInfo())
-  const grpc = await grpcService
   const info = await grpc.services.Lightning.getInfo()
   dispatch(receiveInfo(info))
 }
