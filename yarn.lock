@@ -15427,10 +15427,10 @@ styled-components@4.3.2:
     stylis-rule-sheet "^0.0.10"
     supports-color "^5.5.0"
 
-styled-reset@2.0.17:
-  version "2.0.17"
-  resolved "https://registry.yarnpkg.com/styled-reset/-/styled-reset-2.0.17.tgz#b0eb9e3dc9db082c248b9f7b3d8b55d764b61a39"
-  integrity sha512-d1TJhM2mlQ/Y85wXohBkWn5eopNiDtk1Sde5mWadW8ACmRqlNrSPFl0+xscv1J2ZNZRsWjIueKtms7/i+VIACQ==
+styled-reset@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/styled-reset/-/styled-reset-3.0.0.tgz#40cba48a94e921477c9fcb3aa40cbe0e5dae9f6a"
+  integrity sha512-uOrKGqLWYc4tKPpwEq/dqtjXsZKursSEK6157D+apMNikrMHu7PMlAlZIiK5A/DBhyT8V4vC1lWF4qR7go7dhg==
   dependencies:
     opencollective "^1.0.3"
     opencollective-postinstall "2.0.2"
