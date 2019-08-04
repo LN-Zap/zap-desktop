@@ -252,7 +252,7 @@
     "electron-updater": "4.1.2",
     "enzyme": "3.10.0",
     "enzyme-adapter-react-16": "1.14.0",
-    "enzyme-to-json": "3.3.5",
+    "enzyme-to-json": "3.4.0",
     "eslint": "5.16.0",
     "eslint-config-airbnb": "17.1.1",
     "eslint-config-prettier": "6.0.0",
