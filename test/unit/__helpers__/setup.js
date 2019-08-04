@@ -10,8 +10,8 @@ configure({ adapter: new Adapter() })
 jest.setTimeout(25000)
 
 jest.mock('workers', () => ({
-  neutrinoService: jest.fn(),
-  grpcService: jest.fn(),
+  neutrino: jest.fn(),
+  grpc: jest.fn(),
 }))
 
 jest.mock('dns')

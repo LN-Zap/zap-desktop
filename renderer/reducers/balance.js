@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { grpcService } from 'workers'
+import { grpc } from 'workers'
 import createReducer from './utils/createReducer'
 
 // ------------------------------------
@@ -35,7 +35,6 @@ export const FETCH_BALANCE_FAILURE = 'FETCH_BALANCE_FAILURE'
 export const fetchBalance = () => async dispatch => {
   try {
     dispatch({ type: FETCH_BALANCE })
-    const grpc = await grpcService
     const { walletBalance, channelBalance } = await grpc.services.Lightning.getBalance()
     dispatch({ type: FETCH_BALANCE_SUCCESS, walletBalance, channelBalance })
   } catch (error) {

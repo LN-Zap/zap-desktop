@@ -1,6 +1,6 @@
 import merge from 'lodash/merge'
 import mapValues from 'lodash/mapValues'
-import { grpcService } from 'workers'
+import { grpc } from 'workers'
 import { requestFees } from '@zap/utils/api'
 import { mainLog } from '@zap/utils/log'
 import { createError, UNSUPPORTED } from '@zap/utils/error'
@@ -29,7 +29,6 @@ export async function estimateLndFee(address, amount, targetConf) {
 
   try {
     mainLog.info('Fetching fees from lnd: %o', { address, amount, targetConf })
-    const grpc = await grpcService
     if (!(await grpc.services.Lightning.hasMethod('estimateFee'))) {
       throw createError('Method "estimateFee" is not supported by this version of lnd', UNSUPPORTED)
     }
