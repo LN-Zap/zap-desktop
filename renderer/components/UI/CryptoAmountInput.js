@@ -67,7 +67,7 @@ class CryptoAmountInput extends React.Component {
       case 'lits':
         return {
           precision: 0,
-          step: '0.00000001',
+          step: '1',
           placeholder: '00000000',
           pattern: '[0-9]*',
         }
