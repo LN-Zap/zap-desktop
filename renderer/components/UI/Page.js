@@ -1,5 +1,6 @@
 import React from 'react'
 import { Flex } from 'rebass'
+import { themeGet } from 'styled-system'
 
 const Page = props => (
   <Flex
@@ -12,7 +13,7 @@ const Page = props => (
       overflow: hidden;
       min-width: 900px;
       min-height: 425px;
-      box-shadow: 0 20px 70px rgba(0, 0, 0, 0.55);
+      box-shadow: ${themeGet('shadows.l')};
     `}
     {...props}
   />

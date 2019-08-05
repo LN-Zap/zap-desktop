@@ -1,10 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
+import { themeGet } from 'styled-system'
 import { Flex } from 'rebass'
 
 const SidebarBox = styled(Flex)`
   overflow: hidden;
-  box-shadow: 0 2px 24px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: ${themeGet('shadows.m')};
   z-index: 1;
 `
 

@@ -66,7 +66,7 @@ export const Menu = styled(Box)`
   overflow-y: auto;
   list-style-type: none;
   border-radius: 3px;
-  box-shadow: 0 3px 4px 0 rgba(30, 30, 30, 0.5);
+  box-shadow: ${themeGet('shadows.s')};
   right: ${props => (props.justify === 'right' ? 0 : null)};
 `
 

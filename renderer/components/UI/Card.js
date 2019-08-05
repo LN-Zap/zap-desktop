@@ -12,7 +12,7 @@ const Card = React.forwardRef((props, ref) => {
       as="section"
       bg="primaryColor"
       borderRadius={5}
-      boxShadow="0 2px 24px 0 rgba(0, 0, 0, 0.5)"
+      boxShadow="m"
       color="primaryText"
       p={3}
       {...props}
