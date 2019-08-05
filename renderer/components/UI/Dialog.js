@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Card, Flex } from 'rebass'
+import { useCloseOnUnmount, useOnKeydown } from 'hooks'
 import Button from './Button'
 import Heading from './Heading'
 import CloseButton from './CloseButton'
@@ -13,6 +14,9 @@ const createButtons = buttons =>
   ))
 
 const Dialog = ({ header, onClose, buttons, width, children }) => {
+  useCloseOnUnmount(onClose)
+  useOnKeydown('Escape', onClose)
+
   // check if buttons is a descriptive array  or a React renderable node
   const buttonsLayout = React.isValidElement(buttons) ? buttons : createButtons(buttons)
 

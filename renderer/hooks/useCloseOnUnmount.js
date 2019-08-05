@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+
 /**
  * useCloseOnUnmount - React hook to be used with modals and dialog boxes.
  * This is useful to ensure dialog is always closed even in case unmounted together with parent.

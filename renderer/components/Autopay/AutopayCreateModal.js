@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { DialogOverlay } from 'components/UI'
-import { useCloseOnUnmount, useOnKeydown } from 'hooks'
 import AutopayCreateForm from './AutopayCreateForm'
 import AutopayModalBody from './AutopayModalBody'
 
@@ -15,8 +14,6 @@ const AutopayCreateModal = ({
   showNotification,
 }) => {
   const isOpen = Boolean(selectedMerchant)
-  useOnKeydown('Escape', onClose)
-  useCloseOnUnmount(onClose)
   if (!isOpen) {
     return null
   }
