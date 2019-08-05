@@ -9,7 +9,7 @@ import { useCloseOnUnmount, useOnKeydown } from 'hooks'
 import messages from './messages'
 
 const DialogWrapper = ({ intl, isOpen, walletDir, onDelete, onCancel }) => {
-  useCloseOnUnmount(isOpen, onCancel)
+  useCloseOnUnmount(onCancel)
   useOnKeydown('Escape', onCancel)
 
   if (!isOpen) {

@@ -16,7 +16,7 @@ const AutopayCreateModal = ({
 }) => {
   const isOpen = Boolean(selectedMerchant)
   useOnKeydown('Escape', onClose)
-  useCloseOnUnmount(isOpen, onClose)
+  useCloseOnUnmount(onClose)
   if (!isOpen) {
     return null
   }
