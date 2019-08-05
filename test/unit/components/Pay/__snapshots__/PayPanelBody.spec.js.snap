@@ -1,0 +1,191 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.Pay.PayPanelBody current step is not summary should render correctly 1`] = `
+<Fragment>
+  <PayHelpText
+    amountInSats={1}
+    chain="testnet"
+    chainName="Bitcoin"
+    cryptoUnit="sats"
+    cryptoUnitName="satoshi"
+    currentStep="amount"
+    formApi={Object {}}
+    handlePayReqChange={[Function]}
+    initialAmountCrypto={null}
+    initialAmountFiat={null}
+    intl={Object {}}
+    lndTargetConfirmations={
+      Object {
+        "fast": 10,
+        "medium": 5,
+        "slow": 1,
+      }
+    }
+    network=""
+    previousStep={null}
+    queryFees={[Function]}
+    redirectPayReq={null}
+    routes={Array []}
+    walletBalanceConfirmed={1}
+  />
+  <PayAddressField
+    amountInSats={1}
+    chain="testnet"
+    chainName="Bitcoin"
+    cryptoUnit="sats"
+    cryptoUnitName="satoshi"
+    currentStep="amount"
+    formApi={Object {}}
+    handlePayReqChange={[Function]}
+    initialAmountCrypto={null}
+    initialAmountFiat={null}
+    intl={Object {}}
+    lndTargetConfirmations={
+      Object {
+        "fast": 10,
+        "medium": 5,
+        "slow": 1,
+      }
+    }
+    network=""
+    queryFees={[Function]}
+    redirectPayReq={null}
+    routes={Array []}
+    walletBalanceConfirmed={1}
+  />
+  <PayAmountFields
+    amountInSats={1}
+    chain="testnet"
+    chainName="Bitcoin"
+    cryptoUnit="sats"
+    cryptoUnitName="satoshi"
+    currentStep="amount"
+    formApi={Object {}}
+    handlePayReqChange={[Function]}
+    initialAmountCrypto={null}
+    initialAmountFiat={null}
+    intl={Object {}}
+    lndTargetConfirmations={
+      Object {
+        "fast": 10,
+        "medium": 5,
+        "slow": 1,
+      }
+    }
+    network=""
+    onchainFees={Object {}}
+    queryFees={[Function]}
+    redirectPayReq={null}
+    routes={Array []}
+    walletBalanceConfirmed={1}
+  />
+</Fragment>
+`;
+
+exports[`component.Pay.PayPanelBody current step is summary should render correctly 1`] = `
+<Fragment>
+  <PayHelpText
+    amountInSats={1}
+    chain="testnet"
+    chainName="Bitcoin"
+    cryptoUnit="sats"
+    cryptoUnitName="satoshi"
+    currentStep="summary"
+    formApi={Object {}}
+    handlePayReqChange={[Function]}
+    initialAmountCrypto={null}
+    initialAmountFiat={null}
+    intl={Object {}}
+    lndTargetConfirmations={
+      Object {
+        "fast": 10,
+        "medium": 5,
+        "slow": 1,
+      }
+    }
+    network=""
+    previousStep={null}
+    queryFees={[Function]}
+    redirectPayReq={null}
+    routes={Array []}
+    walletBalanceConfirmed={1}
+  />
+  <PayAddressField
+    amountInSats={1}
+    chain="testnet"
+    chainName="Bitcoin"
+    cryptoUnit="sats"
+    cryptoUnitName="satoshi"
+    currentStep="summary"
+    formApi={Object {}}
+    handlePayReqChange={[Function]}
+    initialAmountCrypto={null}
+    initialAmountFiat={null}
+    intl={Object {}}
+    lndTargetConfirmations={
+      Object {
+        "fast": 10,
+        "medium": 5,
+        "slow": 1,
+      }
+    }
+    network=""
+    queryFees={[Function]}
+    redirectPayReq={null}
+    routes={Array []}
+    walletBalanceConfirmed={1}
+  />
+  <PayAmountFields
+    amountInSats={1}
+    chain="testnet"
+    chainName="Bitcoin"
+    cryptoUnit="sats"
+    cryptoUnitName="satoshi"
+    currentStep="summary"
+    formApi={Object {}}
+    handlePayReqChange={[Function]}
+    initialAmountCrypto={null}
+    initialAmountFiat={null}
+    intl={Object {}}
+    lndTargetConfirmations={
+      Object {
+        "fast": 10,
+        "medium": 5,
+        "slow": 1,
+      }
+    }
+    network=""
+    onchainFees={Object {}}
+    queryFees={[Function]}
+    redirectPayReq={null}
+    routes={Array []}
+    walletBalanceConfirmed={1}
+  />
+  <PaySummary
+    amountInSats={1}
+    chain="testnet"
+    chainName="Bitcoin"
+    cryptoUnit="sats"
+    cryptoUnitName="satoshi"
+    currentStep="summary"
+    formApi={Object {}}
+    handlePayReqChange={[Function]}
+    initialAmountCrypto={null}
+    initialAmountFiat={null}
+    intl={Object {}}
+    lndTargetConfirmations={
+      Object {
+        "fast": 10,
+        "medium": 5,
+        "slow": 1,
+      }
+    }
+    network=""
+    onchainFees={Object {}}
+    queryFees={[Function]}
+    redirectPayReq={null}
+    routes={Array []}
+    walletBalanceConfirmed={1}
+  />
+</Fragment>
+`;

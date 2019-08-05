@@ -1,0 +1,340 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.Pay.PayAmountFields current step is "address" should render correctly 1`] = `
+<Component
+  context={
+    PayAmountFields {
+      "amountInput": Object {
+        "current": null,
+      },
+      "context": Object {},
+      "focusAmountInput": [Function],
+      "getFee": [Function],
+      "props": Object {
+        "cryptoUnit": "sats",
+        "currentStep": "address",
+        "formApi": Object {
+          "getState": [Function],
+        },
+        "initialAmountCrypto": 1,
+        "initialAmountFiat": 1,
+        "intl": Object {},
+        "isOnchain": false,
+        "isQueryingFees": true,
+        "lndTargetConfirmations": Object {
+          "fast": 6,
+          "medium": 3,
+          "slow": 1,
+        },
+        "onchainFees": Object {
+          "fast": 10,
+          "medium": 5,
+          "slow": 1,
+        },
+        "queryFees": [Function],
+        "walletBalanceConfirmed": 1,
+      },
+      "refs": Object {},
+      "setCoinSweep": [Function],
+      "setState": [Function],
+      "state": null,
+      "updateFees": [Function],
+      "updater": Updater {
+        "_callbacks": Array [],
+        "_renderer": ReactShallowRenderer {
+          "_context": Object {},
+          "_didScheduleRenderPhaseUpdate": false,
+          "_dispatcher": Object {
+            "readContext": [Function],
+            "useCallback": [Function],
+            "useContext": [Function],
+            "useDebugValue": [Function],
+            "useEffect": [Function],
+            "useImperativeHandle": [Function],
+            "useLayoutEffect": [Function],
+            "useMemo": [Function],
+            "useReducer": [Function],
+            "useRef": [Function],
+            "useState": [Function],
+          },
+          "_element": <PayAmountFields
+            cryptoUnit="sats"
+            currentStep="address"
+            formApi={
+              Object {
+                "getState": [Function],
+              }
+            }
+            initialAmountCrypto={1}
+            initialAmountFiat={1}
+            intl={Object {}}
+            isOnchain={false}
+            isQueryingFees={true}
+            lndTargetConfirmations={
+              Object {
+                "fast": 6,
+                "medium": 3,
+                "slow": 1,
+              }
+            }
+            onchainFees={
+              Object {
+                "fast": 10,
+                "medium": 5,
+                "slow": 1,
+              }
+            }
+            queryFees={[Function]}
+            walletBalanceConfirmed={1}
+          />,
+          "_firstWorkInProgressHook": null,
+          "_forcedUpdate": false,
+          "_instance": [Circular],
+          "_isReRender": false,
+          "_newState": null,
+          "_numberOfReRenders": 0,
+          "_renderPhaseUpdates": null,
+          "_rendered": <Unknown
+            context={[Circular]}
+            state="hide"
+          >
+            [Function]
+          </Unknown>,
+          "_rendering": false,
+          "_updater": [Circular],
+          "_workInProgressHook": null,
+        },
+      },
+    }
+  }
+  state="hide"
+>
+  <Component />
+</Component>
+`;
+
+exports[`component.Pay.PayAmountFields current step is "amount" should render correctly 1`] = `
+<Component
+  context={
+    PayAmountFields {
+      "amountInput": Object {
+        "current": null,
+      },
+      "context": Object {},
+      "focusAmountInput": [Function],
+      "getFee": [Function],
+      "props": Object {
+        "cryptoUnit": "sats",
+        "currentStep": "amount",
+        "formApi": Object {
+          "getState": [Function],
+        },
+        "initialAmountCrypto": 1,
+        "initialAmountFiat": 1,
+        "intl": Object {},
+        "isOnchain": false,
+        "isQueryingFees": true,
+        "lndTargetConfirmations": Object {
+          "fast": 6,
+          "medium": 3,
+          "slow": 1,
+        },
+        "onchainFees": Object {
+          "fast": 10,
+          "medium": 5,
+          "slow": 1,
+        },
+        "queryFees": [Function],
+        "walletBalanceConfirmed": 1,
+      },
+      "refs": Object {},
+      "setCoinSweep": [Function],
+      "setState": [Function],
+      "state": null,
+      "updateFees": [Function],
+      "updater": Updater {
+        "_callbacks": Array [],
+        "_renderer": ReactShallowRenderer {
+          "_context": Object {},
+          "_didScheduleRenderPhaseUpdate": false,
+          "_dispatcher": Object {
+            "readContext": [Function],
+            "useCallback": [Function],
+            "useContext": [Function],
+            "useDebugValue": [Function],
+            "useEffect": [Function],
+            "useImperativeHandle": [Function],
+            "useLayoutEffect": [Function],
+            "useMemo": [Function],
+            "useReducer": [Function],
+            "useRef": [Function],
+            "useState": [Function],
+          },
+          "_element": <PayAmountFields
+            cryptoUnit="sats"
+            currentStep="amount"
+            formApi={
+              Object {
+                "getState": [Function],
+              }
+            }
+            initialAmountCrypto={1}
+            initialAmountFiat={1}
+            intl={Object {}}
+            isOnchain={false}
+            isQueryingFees={true}
+            lndTargetConfirmations={
+              Object {
+                "fast": 6,
+                "medium": 3,
+                "slow": 1,
+              }
+            }
+            onchainFees={
+              Object {
+                "fast": 10,
+                "medium": 5,
+                "slow": 1,
+              }
+            }
+            queryFees={[Function]}
+            walletBalanceConfirmed={1}
+          />,
+          "_firstWorkInProgressHook": null,
+          "_forcedUpdate": false,
+          "_instance": [Circular],
+          "_isReRender": false,
+          "_newState": null,
+          "_numberOfReRenders": 0,
+          "_renderPhaseUpdates": null,
+          "_rendered": <Unknown
+            context={[Circular]}
+            state="show"
+          >
+            [Function]
+          </Unknown>,
+          "_rendering": false,
+          "_updater": [Circular],
+          "_workInProgressHook": null,
+        },
+      },
+    }
+  }
+  state="show"
+>
+  <Component />
+</Component>
+`;
+
+exports[`component.Pay.PayAmountFields current step is "summary" should render correctly 1`] = `
+<Component
+  context={
+    PayAmountFields {
+      "amountInput": Object {
+        "current": null,
+      },
+      "context": Object {},
+      "focusAmountInput": [Function],
+      "getFee": [Function],
+      "props": Object {
+        "cryptoUnit": "sats",
+        "currentStep": "summary",
+        "formApi": Object {
+          "getState": [Function],
+        },
+        "initialAmountCrypto": 1,
+        "initialAmountFiat": 1,
+        "intl": Object {},
+        "isOnchain": false,
+        "isQueryingFees": true,
+        "lndTargetConfirmations": Object {
+          "fast": 6,
+          "medium": 3,
+          "slow": 1,
+        },
+        "onchainFees": Object {
+          "fast": 10,
+          "medium": 5,
+          "slow": 1,
+        },
+        "queryFees": [Function],
+        "walletBalanceConfirmed": 1,
+      },
+      "refs": Object {},
+      "setCoinSweep": [Function],
+      "setState": [Function],
+      "state": null,
+      "updateFees": [Function],
+      "updater": Updater {
+        "_callbacks": Array [],
+        "_renderer": ReactShallowRenderer {
+          "_context": Object {},
+          "_didScheduleRenderPhaseUpdate": false,
+          "_dispatcher": Object {
+            "readContext": [Function],
+            "useCallback": [Function],
+            "useContext": [Function],
+            "useDebugValue": [Function],
+            "useEffect": [Function],
+            "useImperativeHandle": [Function],
+            "useLayoutEffect": [Function],
+            "useMemo": [Function],
+            "useReducer": [Function],
+            "useRef": [Function],
+            "useState": [Function],
+          },
+          "_element": <PayAmountFields
+            cryptoUnit="sats"
+            currentStep="summary"
+            formApi={
+              Object {
+                "getState": [Function],
+              }
+            }
+            initialAmountCrypto={1}
+            initialAmountFiat={1}
+            intl={Object {}}
+            isOnchain={false}
+            isQueryingFees={true}
+            lndTargetConfirmations={
+              Object {
+                "fast": 6,
+                "medium": 3,
+                "slow": 1,
+              }
+            }
+            onchainFees={
+              Object {
+                "fast": 10,
+                "medium": 5,
+                "slow": 1,
+              }
+            }
+            queryFees={[Function]}
+            walletBalanceConfirmed={1}
+          />,
+          "_firstWorkInProgressHook": null,
+          "_forcedUpdate": false,
+          "_instance": [Circular],
+          "_isReRender": false,
+          "_newState": null,
+          "_numberOfReRenders": 0,
+          "_renderPhaseUpdates": null,
+          "_rendered": <Unknown
+            context={[Circular]}
+            state="remove"
+          >
+            [Function]
+          </Unknown>,
+          "_rendering": false,
+          "_updater": [Circular],
+          "_workInProgressHook": null,
+        },
+      },
+    }
+  }
+  state="remove"
+>
+  <Component />
+</Component>
+`;
