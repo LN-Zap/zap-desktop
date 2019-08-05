@@ -7,7 +7,7 @@ import { Dialog, Text, DialogOverlay, Heading, Button } from 'components/UI'
 import messages from './messages'
 
 const ErrorDetailsDialog = ({ error, isOpen, onCopy, onClose, ...rest }) => {
-  useCloseOnUnmount(isOpen, onClose)
+  useCloseOnUnmount(onClose)
   useOnKeydown('Escape', onClose)
 
   if (!isOpen) {
