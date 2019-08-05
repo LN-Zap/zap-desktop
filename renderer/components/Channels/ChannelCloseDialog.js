@@ -5,12 +5,9 @@ import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { withFieldState } from 'informed'
 import Delete from 'components/Icon/Delete'
 import { Dialog, Text, Heading, Button, Checkbox, Form, DialogOverlay } from 'components/UI'
-import { useCloseOnUnmount } from 'hooks'
 import messages from './messages'
 
 const DialogWrapper = ({ intl, isForceClose, isOpen, onClose, onCancel, csvDelay }) => {
-  useCloseOnUnmount(isOpen, onCancel)
-
   if (!isOpen) {
     return null
   }
