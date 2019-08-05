@@ -1,10 +1,10 @@
 export const space = [0, 4, 8, 16, 32, 45, 72, 108]
 
 export const shadows = {
-  xs: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
-  s: ' 0 3px 4px 0 rgba(0, 0, 0, 0.3)',
+  xs: '0 2px 3px 0 rgba(0, 0, 0, 0.3)',
+  s: '0 2px 4px 0 rgba(0, 0, 0, 0.4)',
   m: '0 2px 24px 0 rgba(0, 0, 0, 0.5)',
-  l: '0 20px 70px rgba(0, 0, 0, 0.55)',
+  l: '0 20px 70px 0 rgba(0, 0, 0, 0.6)',
 }
 
 export const palette = {
