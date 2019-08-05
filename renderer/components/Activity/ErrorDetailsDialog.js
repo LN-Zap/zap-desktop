@@ -2,14 +2,10 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 import copy from 'copy-to-clipboard'
-import { useCloseOnUnmount, useOnKeydown } from 'hooks'
 import { Dialog, Text, DialogOverlay, Heading, Button } from 'components/UI'
 import messages from './messages'
 
 const ErrorDetailsDialog = ({ error, isOpen, onCopy, onClose, ...rest }) => {
-  useCloseOnUnmount(onClose)
-  useOnKeydown('Escape', onClose)
-
   if (!isOpen) {
     return null
   }
