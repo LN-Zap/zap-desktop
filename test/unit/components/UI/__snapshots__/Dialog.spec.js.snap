@@ -63,7 +63,7 @@ exports[`component.UI.Dialog should render correctly with one button 1`] = `
 <Styled(styled.div)
   bg="primaryColor"
   borderRadius={5}
-  boxShadow="0 3px 4px 0 rgba(0, 0, 0, 0.5)"
+  boxShadow="m"
   width={550}
 >
   <CloseButton
@@ -117,7 +117,7 @@ exports[`component.UI.Dialog should render correctly with two buttons 1`] = `
 <Styled(styled.div)
   bg="primaryColor"
   borderRadius={5}
-  boxShadow="0 3px 4px 0 rgba(0, 0, 0, 0.5)"
+  boxShadow="m"
   width={550}
 >
   <CloseButton
