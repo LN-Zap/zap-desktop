@@ -5,8 +5,9 @@ import { Heading, MainContent, Panel, Sidebar } from 'components/UI'
 import ZapLogo from 'components/Icon/ZapLogo'
 import ProfilePaneConnect from 'containers/Profile/ProfilePaneConnect'
 import ProfilePaneNodeInfo from 'containers/Profile/ProfilePaneNodeInfo'
+import PaneSignMessage from 'containers/Profile/PaneSignMessage'
 import ProfileMenu from '../ProfileMenu'
-import { PANE_NODEINFO, PANE_LNDCONNECT, DEFAULT_PANE } from '../constants'
+import { PANE_NODEINFO, PANE_LNDCONNECT, PANE_SIGNMESSAGE, DEFAULT_PANE } from '../constants'
 import messages from './messages'
 
 const ProfilePage = ({ activeWalletSettings }) => {
@@ -14,6 +15,7 @@ const ProfilePage = ({ activeWalletSettings }) => {
   const isLocalWallet = activeWalletSettings.type === 'local'
 
   const hasNodeInfoPane = group === PANE_NODEINFO
+  const hasSignMessagePane = group === PANE_SIGNMESSAGE
   const hasConnectPane = group === PANE_LNDCONNECT && !isLocalWallet
 
   return (
@@ -35,6 +37,7 @@ const ProfilePage = ({ activeWalletSettings }) => {
         </Heading.h1>
         {hasNodeInfoPane && <ProfilePaneNodeInfo />}
         {hasConnectPane && <ProfilePaneConnect />}
+        {hasSignMessagePane && <PaneSignMessage />}
       </MainContent>
     </>
   )
