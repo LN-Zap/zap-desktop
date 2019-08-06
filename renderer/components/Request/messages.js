@@ -11,7 +11,9 @@ export default defineMessages({
   payment_request: 'Payment request',
   total: 'Total',
   memo: 'Memo',
+  fallback_address: 'Fallback address',
   memo_placeholder: 'For example "Dinner last night"',
+  add_error: 'An error has occurred',
   routing_hints_label: 'Include routing hints',
   routing_hints_tooltip: 'Whether this invoice should include routing hints for private channels.',
   memo_tooltip:
