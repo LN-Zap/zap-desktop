@@ -12,6 +12,14 @@ exports[`component.UI.LightningInvoiceInput should render correctly 1`] = `
   flex-direction: column;
 }
 
+.c2 {
+  box-sizing: border-box;
+  margin-top: 4px;
+  font-size: 11px;
+  color: #959595;
+  line-height: 1.4;
+}
+
 .c1 {
   padding: 16px;
   color: #ffffff;
@@ -49,13 +57,19 @@ exports[`component.UI.LightningInvoiceInput should render correctly 1`] = `
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
-      placeholder="Paste a Lightning Payment Request or bitcoin Address here"
       required={false}
       rows={5}
       spellCheck="false"
       value=""
       width={1}
     />
+    <div
+      className="c2"
+      color="gray"
+      fontSize="s"
+    >
+      Paste a Lightning Payment Request or bitcoin Address here
+    </div>
   </div>
 </form>
 `;
