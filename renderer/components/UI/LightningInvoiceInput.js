@@ -63,7 +63,7 @@ class LightningInvoiceInput extends React.Component {
 
     return (
       <InformedTextArea
-        placeholder={intl.formatMessage(
+        description={intl.formatMessage(
           {
             ...messages.payreq_placeholder,
           },
