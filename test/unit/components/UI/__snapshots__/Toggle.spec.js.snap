@@ -50,7 +50,7 @@ exports[`component.UI.Toggle should render correctly 1`] = `
   -webkit-transition: 0.4s;
   transition: 0.4s;
   border-radius: 50%;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.5);
+  box-shadow: 0 2px 3px 0 rgba(0,0,0,0.3);
 }
 
 .c0 input:checked + .slider {

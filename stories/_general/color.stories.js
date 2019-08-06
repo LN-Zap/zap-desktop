@@ -11,9 +11,8 @@ const Swatch = ({ name, color }) => (
   <Element>
     <Flex mb={2}>
       <Card
-        // bg={color}
         borderRadius={8}
-        boxShadow="0 2px 6px rgba(0, 0, 0, 0.3)"
+        boxShadow="s"
         css={`
           background: ${color};
           height: 50px;

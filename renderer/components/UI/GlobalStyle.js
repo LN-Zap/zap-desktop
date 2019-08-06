@@ -117,7 +117,7 @@ const GlobalStyle = createGlobalStyle`
     line-height: 1.4;
     padding: 6px 10px;
     word-wrap: break-word;
-    box-shadow: 0 3px 4px 0 rgba(30, 30, 30, 0.5), 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    box-shadow: ${themeGet('shadows.s')};
   }
 
   [data-hint]:hover::before,
