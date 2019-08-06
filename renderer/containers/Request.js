@@ -5,6 +5,7 @@ import { createInvoice, invoiceSelectors } from 'reducers/invoice'
 import { showNotification } from 'reducers/notification'
 import { walletSelectors } from 'reducers/wallet'
 import { infoSelectors } from 'reducers/info'
+import { settingsSelectors } from 'reducers/settings'
 
 const mapStateToProps = state => ({
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
@@ -14,6 +15,7 @@ const mapStateToProps = state => ({
   isProcessing: state.invoice.invoiceLoading,
   payReq: state.invoice.invoice,
   invoice: invoiceSelectors.invoice(state),
+  willUseFallback: settingsSelectors.currentConfig(state).invoices.useAddressFallback,
 })
 
 const mapDispatchToProps = {

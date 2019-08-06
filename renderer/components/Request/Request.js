@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { intlShape } from '@zap/i18n'
 import { Bar, Button, Header, Panel, Span, Text, Tooltip } from 'components/UI'
 import { Form, Label, TextArea, Toggle } from 'components/Form'
@@ -30,6 +30,7 @@ class Request extends React.Component {
     isProcessing: PropTypes.bool,
     payReq: PropTypes.string,
     showNotification: PropTypes.func.isRequired,
+    willUseFallback: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -89,9 +90,32 @@ class Request extends React.Component {
    *
    * @param  {object} values submitted form values.
    */
-  onSubmit = values => {
-    const { cryptoUnit, createInvoice } = this.props
-    createInvoice(values.amountCrypto, cryptoUnit, values.memo, values.routingHints)
+  onSubmit = async values => {
+    const {
+      cryptoUnit,
+      createInvoice,
+      willUseFallback,
+      createNewAddress,
+      intl,
+      showError,
+    } = this.props
+    try {
+      const invoiceArgs = {
+        amount: values.amountCrypto,
+        cryptoUnit,
+        memo: values.memo,
+        isPrivate: values.routingHints,
+      }
+
+      if (willUseFallback) {
+        invoiceArgs.fallbackAddress = await createNewAddress()
+      }
+
+      createInvoice(invoiceArgs)
+    } catch (e) {
+      const message = intl.formatMessage({ ...messages.add_error })
+      showError(message)
+    }
   }
 
   /**
@@ -189,6 +213,9 @@ class Request extends React.Component {
       invoice,
       payReq,
       showNotification,
+      createNewAddress,
+      showError,
+      willUseFallback,
       ...rest
     } = this.props
     const { currentStep } = this.state
