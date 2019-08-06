@@ -19,7 +19,7 @@ const ProfilePaneNodeInfo = ({ intl, showNotification, ...rest }) => {
       const message = formApi.getValue('message')
       const { signature } = await grpc.services.Lightning.signMessage({ msg: Buffer.from(message) })
       setSig(signature)
-    } catch {
+    } catch (e) {
       setSig(intl.formatMessage({ ...messages.sign_error }))
     }
   }
