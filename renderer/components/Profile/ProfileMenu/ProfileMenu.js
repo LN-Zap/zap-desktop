@@ -6,28 +6,17 @@ import { PANE_NODEINFO, PANE_LNDCONNECT, PANE_SIGNMESSAGE, PANE_VERIFYMESSAGE } 
 import messages from './messages'
 
 const ProfileMenu = ({ group, setGroup, isLocalWallet, ...rest }) => {
-  // Define all possible menu links.
-  const nodeInfoLink = {
-    id: PANE_NODEINFO,
-    title: <FormattedMessage {...messages.profile_pane_nodeinfo_title} />,
-    onClick: () => setGroup(PANE_NODEINFO),
-  }
-  const connectLink = {
-    id: PANE_LNDCONNECT,
-    title: <FormattedMessage {...messages.profile_pane_connect_title} />,
-    onClick: () => setGroup(PANE_LNDCONNECT),
-  }
+  const menuLink = (id, message) => ({
+    id,
+    title: <FormattedMessage {...message} />,
+    onClick: () => setGroup(id),
+  })
 
-  const signMessageLink = {
-    id: PANE_SIGNMESSAGE,
-    title: <FormattedMessage {...messages.sign_message_title} />,
-    onClick: () => setGroup(PANE_SIGNMESSAGE),
-  }
-  const verifyMessageLink = {
-    id: PANE_VERIFYMESSAGE,
-    title: <FormattedMessage {...messages.verify_message_title} />,
-    onClick: () => setGroup(PANE_VERIFYMESSAGE),
-  }
+  // Define all possible menu links.
+  const nodeInfoLink = menuLink(PANE_NODEINFO, messages.profile_pane_nodeinfo_title)
+  const connectLink = menuLink(PANE_LNDCONNECT, messages.profile_pane_connect_title)
+  const signMessageLink = menuLink(PANE_SIGNMESSAGE, messages.sign_message_title)
+  const verifyMessageLink = menuLink(PANE_VERIFYMESSAGE, messages.verify_message_title)
 
   // Get set of menu links based on wallet type.
   const getLocalLinks = () => [nodeInfoLink, signMessageLink, verifyMessageLink]
