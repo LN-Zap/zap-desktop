@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import { Request } from 'components/Request'
 import { fetchTickers, tickerSelectors } from 'reducers/ticker'
+import { createNewAddress } from 'reducers/address'
 import { createInvoice, invoiceSelectors } from 'reducers/invoice'
 import { showNotification, showError } from 'reducers/notification'
 import { walletSelectors } from 'reducers/wallet'

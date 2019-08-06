@@ -22,6 +22,7 @@ class Request extends React.Component {
     }).isRequired,
     chainName: PropTypes.string.isRequired,
     createInvoice: PropTypes.func.isRequired,
+    createNewAddress: PropTypes.func.isRequired,
     cryptoUnit: PropTypes.string.isRequired,
     cryptoUnitName: PropTypes.string.isRequired,
     fetchTickers: PropTypes.func.isRequired,
