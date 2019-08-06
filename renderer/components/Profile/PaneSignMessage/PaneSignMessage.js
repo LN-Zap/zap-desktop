@@ -1,33 +1,36 @@
 import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
-import { grpc } from 'workers'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Box, Flex } from 'rebass'
-import { Bar, CopyBox, DataRow, TextArea, Text, Form, Button } from 'components/UI'
+import { grpc } from 'workers'
+import { Bar, CopyBox, TextArea, Text, Form, Button } from 'components/UI'
 import messages from './messages'
 
 const ProfilePaneNodeInfo = ({ intl, showNotification, ...rest }) => {
   const [sig, setSig] = useState(null)
+
   const formApiRef = useRef(null)
   const notifyOfCopy = () =>
     showNotification(intl.formatMessage({ ...messages.sig_copied_notification_description }))
+
   const onSignMessage = async () => {
     try {
       const { current: formApi } = formApiRef
       const message = formApi.getValue('message')
       const { signature } = await grpc.services.Lightning.signMessage({ msg: Buffer.from(message) })
-
       setSig(signature)
     } catch {
-      setSig('Can not create sig')
+      setSig(intl.formatMessage({ ...messages.sign_error }))
     }
   }
+
   return (
     <Box as="section" {...rest}>
       <Form
         getApi={api => {
           formApiRef.current = api
         }}
+        onSubmit={onSignMessage}
       >
         <Flex alignItems="stretch" flexDirection="column">
           <Text fontWeight="normal">
@@ -48,7 +51,7 @@ const ProfilePaneNodeInfo = ({ intl, showNotification, ...rest }) => {
             field="message"
             spellCheck="false"
           />
-          <Button alignSelf="flex-end" mt={3} onClick={onSignMessage} variant="normal">
+          <Button alignSelf="flex-end" mt={3} type="submit" variant="normal">
             <FormattedMessage {...messages.sign_message_action} />
           </Button>
           {sig && (
@@ -73,13 +76,8 @@ const ProfilePaneNodeInfo = ({ intl, showNotification, ...rest }) => {
 }
 
 ProfilePaneNodeInfo.propTypes = {
-  activeWalletSettings: PropTypes.object.isRequired,
-  backupProvider: PropTypes.string,
-  commitString: PropTypes.string,
   intl: intlShape.isRequired,
-  nodeUriOrPubkey: PropTypes.string.isRequired,
   showNotification: PropTypes.func.isRequired,
-  versionString: PropTypes.string.isRequired,
 }
 
 export default injectIntl(ProfilePaneNodeInfo)

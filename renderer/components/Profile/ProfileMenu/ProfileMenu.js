@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Menu } from 'components/UI'
-import { PANE_NODEINFO, PANE_LNDCONNECT } from '../constants'
+import { PANE_NODEINFO, PANE_LNDCONNECT, PANE_SIGNMESSAGE } from '../constants'
 import messages from './messages'
 
 const ProfileMenu = ({ group, setGroup, isLocalWallet, ...rest }) => {
@@ -18,9 +18,15 @@ const ProfileMenu = ({ group, setGroup, isLocalWallet, ...rest }) => {
     onClick: () => setGroup(PANE_LNDCONNECT),
   }
 
+  const signMessageLink = {
+    id: PANE_SIGNMESSAGE,
+    title: <FormattedMessage {...messages.sign_message_pane_connect_title} />,
+    onClick: () => setGroup(PANE_SIGNMESSAGE),
+  }
+
   // Get set of menu links based on wallet type.
-  const getLocalLinks = () => [nodeInfoLink]
-  const getRemoteLinks = () => [nodeInfoLink, connectLink]
+  const getLocalLinks = () => [nodeInfoLink, signMessageLink]
+  const getRemoteLinks = () => [nodeInfoLink, connectLink, signMessageLink]
   const items = isLocalWallet ? getLocalLinks() : getRemoteLinks()
 
   return <Menu items={items} selectedItem={group} {...rest} />
