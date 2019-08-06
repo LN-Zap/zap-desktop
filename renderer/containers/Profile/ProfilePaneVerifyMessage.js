@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { showNotification } from 'reducers/notification'
-import PaneSignMessage from 'components/Profile/PaneSignMessage'
+import ProfilePaneVerifyMessage from 'components/Profile/ProfilePaneVerifyMessage'
 
 const mapDispatchToProps = {
   showNotification,
@@ -9,4 +9,4 @@ const mapDispatchToProps = {
 export default connect(
   null,
   mapDispatchToProps
-)(PaneSignMessage)
+)(ProfilePaneVerifyMessage)

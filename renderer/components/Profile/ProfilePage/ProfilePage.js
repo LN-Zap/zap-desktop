@@ -5,8 +5,8 @@ import { Heading, MainContent, Panel, Sidebar } from 'components/UI'
 import ZapLogo from 'components/Icon/ZapLogo'
 import ProfilePaneConnect from 'containers/Profile/ProfilePaneConnect'
 import ProfilePaneNodeInfo from 'containers/Profile/ProfilePaneNodeInfo'
-import PaneSignMessage from 'containers/Profile/PaneSignMessage'
-import PaneVerifyMessage from 'containers/Profile/PaneVerifyMessage'
+import ProfilePaneSignMessage from 'containers/Profile/ProfilePaneSignMessage'
+import ProfilePaneVerifyMessage from 'containers/Profile/ProfilePaneVerifyMessage'
 import ProfileMenu from '../ProfileMenu'
 import {
   PANE_NODEINFO,
@@ -45,8 +45,8 @@ const ProfilePage = ({ activeWalletSettings }) => {
         </Heading.h1>
         {hasNodeInfoPane && <ProfilePaneNodeInfo />}
         {hasConnectPane && <ProfilePaneConnect />}
-        {hasSignMessagePane && <PaneSignMessage />}
-        {hasVerifyMessagePane && <PaneVerifyMessage />}
+        {hasSignMessagePane && <ProfilePaneSignMessage />}
+        {hasVerifyMessagePane && <ProfilePaneVerifyMessage />}
       </MainContent>
     </>
   )
