@@ -424,6 +424,30 @@ export const fetchSeedSuccess = cipher_seed_mnemonic => dispatch => {
 }
 
 /**
+ * signMessage - Sign a message with a node's private key.
+ *
+ * @param {string} message Message to sign
+ * @returns {Function} Thunk
+ */
+export const signMessage = message => () => {
+  return grpc.services.Lightning.signMessage({ msg: Buffer.from(message) })
+}
+
+/**
+ * verifyMessage - Verify `signature` over the given `message`.
+ *
+ * @param {string} message Message to verify
+ * @param {string} signature Signature
+ * @returns {Function} Thunk
+ */
+export const verifyMessage = (message, signature) => () => {
+  return grpc.services.Lightning.verifyMessage({
+    msg: Buffer.from(message),
+    signature: signature,
+  })
+}
+
+/**
  * fetchSeedError - Fetch seed error callback.
  *
  * @param {string} error Error message
