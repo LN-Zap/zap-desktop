@@ -1,7 +1,10 @@
 import { tint } from 'polished'
+import merge from 'lodash/merge'
 import base from './base'
 
-const createThemeVariant = (name, colors) => {
+const createThemeVariant = (name, overrides = {}) => {
+  const { colors, ...rest } = overrides
+
   const buttons = {
     normal: {
       backgroundColor: colors.tertiaryColor,
@@ -82,7 +85,7 @@ const createThemeVariant = (name, colors) => {
     },
   }
 
-  return {
+  const theme = {
     name,
     ...base,
     colors,
@@ -90,6 +93,8 @@ const createThemeVariant = (name, colors) => {
     cards,
     messages,
   }
+
+  return merge({}, theme, rest)
 }
 
 export default createThemeVariant

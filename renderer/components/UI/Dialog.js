@@ -28,12 +28,7 @@ const Dialog = ({ header, onClose, buttons, width, children }) => {
   )
 
   return (
-    <Card
-      bg="primaryColor"
-      borderRadius={5}
-      boxShadow="0 3px 4px 0 rgba(0, 0, 0, 0.5)"
-      width={width}
-    >
+    <Card bg="primaryColor" borderRadius={5} boxShadow="m" width={width}>
       <CloseButton onClick={onClose} size="s" />
       <Flex
         alignItems="center"

@@ -4,6 +4,7 @@ import { asField } from 'informed'
 import { compose } from 'redux'
 import { injectIntl, intlShape } from 'react-intl'
 import styled, { withTheme } from 'styled-components'
+import { themeGet } from 'styled-system'
 import Downshift from 'downshift'
 import { Box, Flex } from 'rebass'
 import system from '@rebass/components'
@@ -28,7 +29,7 @@ const SelectOptionList = styled.ul`
   transition: opacity 0.1s ease;
   background-color: ${props => props.theme.colors.secondaryColor};
   border-radius: 5px;
-  box-shadow: 0 3px 4px 0 rgba(30, 30, 30, 0.5);
+  box-shadow: ${themeGet('shadows.s')};
 `
 
 const SelectOptionItem = styled(
