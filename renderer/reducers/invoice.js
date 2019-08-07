@@ -168,6 +168,7 @@ export const receiveInvoices = ({ invoices }) => dispatch => {
  * @param {string} cryptoUnit Crypto unit (sats, bits, btc)
  * @param {string} memo Memo
  * @param {boolean} isPrivate Set to true to include routing hints
+ * @param {string} fallbackAddress on-chain address fallback
  * @returns {Function} Thunk
  */
 export const createInvoice = (amount, cryptoUnit, memo, isPrivate) => async (
