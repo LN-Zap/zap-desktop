@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import { Request } from 'components/Request'
 import { fetchTickers, tickerSelectors } from 'reducers/ticker'
 import { createInvoice, invoiceSelectors } from 'reducers/invoice'
-import { showNotification } from 'reducers/notification'
+import { showNotification, showError } from 'reducers/notification'
 import { walletSelectors } from 'reducers/wallet'
 import { infoSelectors } from 'reducers/info'
 import { settingsSelectors } from 'reducers/settings'
@@ -22,6 +22,8 @@ const mapDispatchToProps = {
   createInvoice,
   fetchTickers,
   showNotification,
+  createNewAddress,
+  showError,
 }
 
 export default connect(

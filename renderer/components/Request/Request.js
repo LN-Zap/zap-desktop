@@ -29,6 +29,7 @@ class Request extends React.Component {
     invoice: PropTypes.object,
     isProcessing: PropTypes.bool,
     payReq: PropTypes.string,
+    showError: PropTypes.func.isRequired,
     showNotification: PropTypes.func.isRequired,
     willUseFallback: PropTypes.bool,
   }
