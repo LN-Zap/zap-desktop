@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Box, Flex } from 'rebass'
-import { grpc } from 'workers'
 import { Bar, CopyBox, TextArea, Text, Form, Button, Input, Message } from 'components/UI'
 import messages from './messages'
 
@@ -18,7 +17,7 @@ VerificationStatus.propTypes = {
   isValid: PropTypes.bool,
 }
 
-const ProfilePaneNodeInfo = ({ intl, showNotification, ...rest }) => {
+const ProfilePaneNodeInfo = ({ intl, verifyMessage, showNotification, ...rest }) => {
   const [info, setInfo] = useState(null)
   const formApiRef = useRef(null)
 
@@ -32,10 +31,7 @@ const ProfilePaneNodeInfo = ({ intl, showNotification, ...rest }) => {
       const { current: formApi } = formApiRef
       const message = formApi.getValue('message')
       const signature = formApi.getValue('signature')
-      const { valid, pubkey } = await grpc.services.Lightning.verifyMessage({
-        msg: Buffer.from(message),
-        signature: signature,
-      })
+      const { valid, pubkey } = await verifyMessage(message, signature)
       setInfo({ valid, pubkey })
     } catch (e) {
       setInfo({ valid: false })
@@ -62,15 +58,14 @@ const ProfilePaneNodeInfo = ({ intl, showNotification, ...rest }) => {
           <TextArea
             css={`
               word-break: break-all;
+              height: 90px;
             `}
             description={intl.formatMessage({ ...messages.verify_message_desc })}
+            field="message"
             isRequired
             label={intl.formatMessage({ ...messages.verify_message_label })}
-            onChange={reset}
-            {...rest}
-            field="message"
             mb={3}
-            mt={2}
+            onChange={reset}
             spellCheck="false"
           />
           <Input
@@ -87,7 +82,7 @@ const ProfilePaneNodeInfo = ({ intl, showNotification, ...rest }) => {
 
           {info && (
             <>
-              <Text fontWeight="normal" mt={5}>
+              <Text fontWeight="normal" mt={4}>
                 <FormattedMessage {...messages.verification} />
               </Text>
               <Bar />
@@ -111,6 +106,7 @@ const ProfilePaneNodeInfo = ({ intl, showNotification, ...rest }) => {
 ProfilePaneNodeInfo.propTypes = {
   intl: intlShape.isRequired,
   showNotification: PropTypes.func.isRequired,
+  verifyMessage: PropTypes.func.isRequired,
 }
 
 export default injectIntl(ProfilePaneNodeInfo)
