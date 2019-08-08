@@ -11,10 +11,8 @@ import { Flex } from 'rebass'
 import Search from 'components/Icon/Search'
 import { withInputValidation } from 'hocs'
 import Message from './Message'
-import Label from './Label'
-import Span from './Span'
+import InputLabel from './InputLabel'
 import Text from './Text'
-import Tooltip from './Tooltip'
 
 const isFieldValid = ({ value, error, touched }) => {
   return value && !error && touched
@@ -233,25 +231,10 @@ class Input extends React.Component {
         className={className}
       >
         {label && (
-          <Flex mb={2}>
-            <Label htmlFor={field}>
-              {label}
-              {isRequired && (
-                <Span
-                  css={`
-                    vertical-align: top;
-                  `}
-                  fontSize="s"
-                >
-                  {' '}
-                  *
-                </Span>
-              )}
-            </Label>
-            {tooltip && <Tooltip ml={1}>{tooltip}</Tooltip>}
-          </Flex>
+          <InputLabel field={field} isRequired={isRequired} tooltip={tooltip}>
+            {label}
+          </InputLabel>
         )}
-
         <Flex alignItems="center">
           {type === 'search' && <SearchIcon width={iconSize} />}
           <SystemInput
