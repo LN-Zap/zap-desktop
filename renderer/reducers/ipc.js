@@ -4,6 +4,7 @@ import { killNeutrino } from './neutrino'
 import { receiveLocale } from './locale'
 import { bitcoinPaymentUri, lightningPaymentUri } from './pay'
 import { lndconnectUri } from './onboarding'
+import { saveInvoiceFailure, saveInvoiceSuccess } from './activity'
 import {
   backupTokensUpdated,
   saveBackupSuccess,
@@ -26,6 +27,8 @@ const ipc = createIpc({
   backupServiceInitialized,
   queryWalletBackupSuccess,
   queryWalletBackupFailure,
+  saveInvoiceSuccess,
+  saveInvoiceFailure,
 })
 
 export default ipc
