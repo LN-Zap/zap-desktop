@@ -333,7 +333,7 @@
     "is-electron-renderer": "2.0.1",
     "jstimezonedetect": "1.0.6",
     "keytar": "4.13.0",
-    "lnd-grpc": "0.3.0-beta.3",
+    "lnd-grpc": "0.3.0-beta.4",
     "lndconnect": "0.2.9",
     "lodash": "4.17.15",
     "node-fetch": "2.6.0",
