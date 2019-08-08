@@ -230,9 +230,31 @@ storiesOf('Forms', module)
     </Box>
   ))
   .add('Select', () => (
-    <Form>
-      <Select field="fieldName" items={selectItems} />
-    </Form>
+    <>
+      <Form mb={4}>
+        <Select field="fieldName" items={selectItems} />
+      </Form>
+      <Form mb={4}>
+        <Select field="fieldName" items={selectItems} label="Select with title" />
+      </Form>
+      <Form mb={4}>
+        <Select
+          field="fieldName"
+          items={selectItems}
+          label="Select with tooltip"
+          tooltip="Some detailed help text"
+        />
+      </Form>
+      <Form mb={4}>
+        <Select
+          field="fieldName"
+          isRequired
+          items={selectItems}
+          label="Required"
+          tooltip="Some detailed help text"
+        />
+      </Form>
+    </>
   ))
   .add('Radio', () => (
     <Form>
