@@ -48,7 +48,7 @@ class LightningInvoiceInput extends React.Component {
       if (invoiceIsLn) {
         try {
           const invoice = decodePayReq(value)
-          if (!invoice || (!invoice.satoshis || !invoice.millisatoshis)) {
+          if (!invoice || (!invoice.satoshis && !invoice.millisatoshis)) {
             throw new Error('Invalid invoice')
           }
         } catch (e) {
