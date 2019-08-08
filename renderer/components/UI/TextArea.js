@@ -10,10 +10,8 @@ import system from '@rebass/components'
 import { Flex } from 'rebass'
 import { withInputValidation } from 'hocs'
 import Message from './Message'
-import Label from './Label'
-import Span from './Span'
+import InputLabel from './InputLabel'
 import Text from './Text'
-import Tooltip from './Tooltip'
 
 const isFieldValid = ({ value, error, asyncError, touched }) => {
   return value && !error && !asyncError && touched
@@ -187,23 +185,9 @@ class TextArea extends React.PureComponent {
     return (
       <Flex flexDirection="column" justifyContent={justifyContent} {...spaceProps}>
         {label && (
-          <Flex mb={2}>
-            <Label htmlFor={field} mb={2}>
-              {label}
-              {isRequired && (
-                <Span
-                  css={`
-                    vertical-align: top;
-                  `}
-                  fontSize="s"
-                >
-                  {' '}
-                  *
-                </Span>
-              )}
-            </Label>
-            {tooltip && <Tooltip ml={1}>{tooltip}</Tooltip>}
-          </Flex>
+          <InputLabel field={field} isRequired={isRequired} tooltip={tooltip}>
+            {label}
+          </InputLabel>
         )}
         <SystemTextArea
           ref={this.inputRef}
