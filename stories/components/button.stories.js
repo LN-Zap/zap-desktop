@@ -5,6 +5,7 @@ import { Flex, Box } from 'rebass'
 import { Button } from 'components/UI'
 import ArrowLeft from 'components/Icon/ArrowLeft'
 import ArrowRight from 'components/Icon/ArrowRight'
+import Padlock from 'components/Icon/Padlock'
 
 storiesOf('Components', module).addWithChapters('Button', {
   subtitle: 'Buttons for forms and anything else that the user might want to click on.',
@@ -77,6 +78,14 @@ storiesOf('Components', module).addWithChapters('Button', {
           sectionFn: () => (
             <Button isProcessing onClick={action('clicked')}>
               Processing
+            </Button>
+          ),
+        },
+        {
+          title: 'With an icon',
+          sectionFn: () => (
+            <Button icon={Padlock} onClick={action('clicked')}>
+              Locked
             </Button>
           ),
         },
