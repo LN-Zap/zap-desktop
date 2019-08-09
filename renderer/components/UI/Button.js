@@ -26,7 +26,17 @@ Wrapper.displayName = 'Button'
  * <Button><Basic button</Button>
  */
 const Button = React.forwardRef((props, ref) => {
-  let { children, isActive, isDisabled, isProcessing, size, variant, className, ...rest } = props
+  let {
+    children,
+    isActive,
+    isDisabled,
+    isProcessing,
+    size,
+    variant,
+    className,
+    icon: Icon,
+    ...rest
+  } = props
   const sizes = {
     small: {
       x: 3,
@@ -51,7 +61,6 @@ const Button = React.forwardRef((props, ref) => {
   const wrapperClasses = [className, isActive ? 'active' : null]
     .filter(cls => Boolean(cls))
     .join(' ')
-
   return (
     <Wrapper
       ref={ref}
@@ -63,9 +72,10 @@ const Button = React.forwardRef((props, ref) => {
       variant={variant}
       {...rest}
     >
-      {isProcessing ? (
+      {isProcessing || Icon ? (
         <Flex alignItems="center">
           {isProcessing && <Spinner />}
+          {!isProcessing && Icon && <Icon />}
           <Text fontFamily="sans" fontWeight={fontWeight} ml={2}>
             {children}
           </Text>
@@ -84,6 +94,7 @@ Button.displayName = 'Button'
 Button.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+  icon: PropTypes.func,
   isActive: PropTypes.bool,
   isDisabled: PropTypes.bool,
   isProcessing: PropTypes.bool,
