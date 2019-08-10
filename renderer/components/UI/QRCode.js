@@ -57,9 +57,11 @@ const BottomRight = styled(CornerCard)`
 const CodeWrapper = styled(Box)`
   border-style: solid;
   border-color: white;
+  display: inline-flex;
   position: absolute;
-  top: calc(10% - 2px);
-  left: calc(10% - 2px);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   filter: ${props => (props.isObfuscated ? 'blur(3px)' : 'none')};
   transition: ${props => (props.isObfuscated ? 'none' : 'all 0.5s ease')};
 `
@@ -80,9 +82,6 @@ const Code = styled(QRCode)`
   border-style: solid;
   border-color: white;
   border-width: 8px;
-  position: absolute;
-  top: calc(10% - 2px);
-  left: calc(10% - 2px);
 `
 
 /**
