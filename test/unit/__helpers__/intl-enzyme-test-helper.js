@@ -8,10 +8,10 @@
  */
 
 import React from 'react'
-import { IntlProvider, intlShape } from 'react-intl'
+import { IntlProvider } from 'react-intl'
 import { mount, shallow } from 'enzyme'
 import messages from '@zap/translations/en.json'
-
+import { intlShape } from '@zap/i18n'
 // Create the IntlProvider to retrieve context for wrapping around.
 const intlProvider = new IntlProvider({ locale: 'en', messages }, {})
 const { intl } = intlProvider.getChildContext()

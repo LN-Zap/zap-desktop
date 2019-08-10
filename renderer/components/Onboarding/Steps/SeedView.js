@@ -1,10 +1,11 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { Flex } from 'rebass'
 import { Bar, Form, Header, Input, Message, Span, Spinner, Text } from 'components/UI'
 import messages from './messages'
+import { intlShape } from '@zap/i18n'
 
 const SeedWord = ({ index, word }) => (
   <Text as="li" my={2}>

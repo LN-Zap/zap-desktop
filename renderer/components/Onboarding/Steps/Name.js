@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { Box } from 'rebass'
+import { intlShape } from '@zap/i18n'
 import { Bar, Form, Header, Input } from 'components/UI'
 import messages from './messages'
 

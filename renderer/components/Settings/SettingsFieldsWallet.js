@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import map from 'lodash/map'
 import get from 'lodash/get'
 import { Bar, DataRow, Select } from 'components/UI'
 import { getSupportedProviders } from '@zap/utils/rateProvider'
 import { FieldLabel, PositiveIntegerField } from './SettingsFieldHelpers'
 import messages from './messages'
+import { intlShape } from '@zap/i18n'
 
 const addressItems = [{ key: 'p2wkh' }, { key: 'np2wkh' }]
 const addressMessageMapper = key => {

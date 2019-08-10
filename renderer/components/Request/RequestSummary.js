@@ -1,13 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
-import {
-  FormattedMessage,
-  FormattedRelative,
-  FormattedTime,
-  intlShape,
-  injectIntl,
-} from 'react-intl'
+import { FormattedMessage, FormattedRelative, FormattedTime, injectIntl } from 'react-intl'
 import copy from 'copy-to-clipboard'
 import { decodePayReq } from '@zap/utils/crypto'
 import createScheduler from '@zap/utils/scheduler'
@@ -15,6 +9,7 @@ import { Bar, DataRow, Button, QRCode, Text } from 'components/UI'
 import { CryptoSelector, CryptoValue, FiatSelector, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
 import messages from './messages'
+import { intlShape } from '@zap/i18n'
 
 const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest }) => {
   const [isExpired, setIsExpired] = useState()

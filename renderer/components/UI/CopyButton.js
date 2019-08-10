@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import copy from 'copy-to-clipboard'
 import Button from 'components/UI/Button'
 import Copy from 'components/Icon/Copy'
 import messages from './messages'
+import { intlShape } from '@zap/i18n'
 
 const CopyButton = ({ value, hint, intl, onCopy, p, size, ...rest }) => {
   const doCopy = () => {

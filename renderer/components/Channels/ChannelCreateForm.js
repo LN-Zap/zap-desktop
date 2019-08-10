@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { Keyframes } from 'react-spring/renderprops.cjs'
 import get from 'lodash/get'
 import { Box, Flex } from 'rebass'
+import { intlShape } from '@zap/i18n'
 import { convert } from '@zap/utils/btc'
 import {
   Bar,
@@ -27,7 +28,6 @@ import {
   TRANSACTION_SPEED_MEDIUM,
   TRANSACTION_SPEED_FAST,
 } from './constants'
-
 /**
  * Animation to handle showing/hiding the amount fields.
  */

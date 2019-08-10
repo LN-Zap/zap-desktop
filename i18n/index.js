@@ -3,9 +3,8 @@ import { lookup } from 'country-data-lookup'
 import createDebug from 'debug'
 import isRenderer from 'is-electron-renderer'
 import PropTypes from 'prop-types'
-import { IntlShape } from 'react-intl'
 
-export const intlShape = PropTypes.instanceOf(IntlShape)
+export const intlShape = PropTypes.instanceOf(Object)
 
 // Define list of language that we will support.
 export const locales = [

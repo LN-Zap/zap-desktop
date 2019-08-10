@@ -1,6 +1,7 @@
 import React from 'react'
-import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass'
+import { intlShape } from '@zap/i18n'
 import { Heading } from 'components/UI'
 import Autopay from 'components/Icon/Autopay'
 import messages from './messages'
