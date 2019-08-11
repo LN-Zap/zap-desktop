@@ -323,7 +323,7 @@
     "debug-logger": "0.4.1",
     "dexie": "3.0.0-alpha.8",
     "downshift": "3.2.12",
-    "dropbox": "4.0.28",
+    "dropbox": "4.0.30",
     "electron-is-dev": "1.1.0",
     "get-port": "5.0.0",
     "googleapis": "40.0.0",
