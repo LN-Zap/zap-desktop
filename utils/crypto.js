@@ -49,6 +49,25 @@ export const decodePayReq = (payReq, addDefaults = true) => {
 }
 
 /**
+ * extractMemo - Extracts memo from a payment request.
+ *
+ * @param {string} payReq Payment request
+ * @returns {string|null} Memo
+ */
+export const extractMemo = payReq => {
+  try {
+    if (payReq) {
+      const request = decodePayReq(payReq)
+      const descriptionTag = request.tags.find(tag => tag.tagName === 'description') || {}
+      return descriptionTag.data
+    }
+    return null
+  } catch (e) {
+    return null
+  }
+}
+
+/**
  * formatValue - Turns parsed number into a string.
  *
  * @param {number|string} integer Integer part
