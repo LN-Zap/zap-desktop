@@ -11,7 +11,7 @@ exports[`component.UI.Countdown should render correctly with default props 1`] =
   />
    
   <injectIntl(FormattedRelativeTime)
-    style="short"
+    style="long"
     updateIntervalInSeconds={1}
   />
 </Text>
