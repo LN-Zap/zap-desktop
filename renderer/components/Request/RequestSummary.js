@@ -1,22 +1,23 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
-import { FormattedMessage, FormattedRelative, FormattedTime, injectIntl } from 'react-intl'
+import { FormattedMessage, FormattedRelativeTime, FormattedTime, injectIntl } from 'react-intl'
 import copy from 'copy-to-clipboard'
 import { decodePayReq } from '@zap/utils/crypto'
 import createScheduler from '@zap/utils/scheduler'
+import getUnixTime from '@zap/utils/time'
 import { Bar, DataRow, Button, QRCode, Text } from 'components/UI'
 import { CryptoSelector, CryptoValue, FiatSelector, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
-import messages from './messages'
 import { intlShape } from '@zap/i18n'
+import messages from './messages'
 
 const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest }) => {
   const [isExpired, setIsExpired] = useState()
 
   const scheduler = useRef(createScheduler())
-  const decodedInvoice = decodePayReq(payReq)
-
+  const decodedInvoice = useMemo(() => decodePayReq(payReq), [payReq])
+  const expiryDelta = useRef(decodedInvoice.timeExpireDate - getUnixTime() / 1000)
   // Set up scheduler to recheck expired state every second.
   useEffect(() => {
     const schedulerInstance = scheduler.current
@@ -154,9 +155,11 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
                 ) : (
                   <FormattedMessage {...messages.expires} />
                 )}{' '}
-                <FormattedRelative
-                  updateInterval={1000}
-                  value={decodedInvoice.timeExpireDateString}
+                <FormattedRelativeTime
+                  numeric="auto"
+                  unit="second"
+                  updateIntervalInSeconds={1}
+                  value={expiryDelta.current}
                 />
               </Text>
               <Text color={getStatusColor()} fontWeight="normal">
