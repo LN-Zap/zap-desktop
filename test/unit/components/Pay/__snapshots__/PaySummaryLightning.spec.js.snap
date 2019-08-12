@@ -52,7 +52,7 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
               />
             </Text>
           </styled.div>
-          <Connect(WithTheme(InjectIntl(Component)))
+          <Connect(WithTheme(injectIntl(Component)))
             ml={2}
           />
         </Styled(styled.div)>
@@ -100,14 +100,13 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
   />
   <DataRow
     left={
-      <FormattedMessage
+      <injectIntl(FormattedMessage)
         defaultMessage="Fee"
         id="components.Pay.fee"
-        values={Object {}}
       />
     }
     right={
-      <FormattedMessage
+      <injectIntl(FormattedMessage)
         defaultMessage="unknown"
         id="components.Pay.fee_unknown"
         values={
@@ -124,10 +123,9 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
   />
   <DataRow
     left={
-      <FormattedMessage
+      <injectIntl(FormattedMessage)
         defaultMessage="Total"
         id="components.Pay.total"
-        values={Object {}}
       />
     }
     right={

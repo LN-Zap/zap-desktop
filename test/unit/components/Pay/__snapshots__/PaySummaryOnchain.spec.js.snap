@@ -103,29 +103,26 @@ exports[`component.Form.PaySummaryOnchain should render correctly 1`] = `
     left={
       <ForwardRef(styled.div)>
         <Text>
-          <FormattedMessage
+          <injectIntl(FormattedMessage)
             defaultMessage="Fee"
             id="components.Pay.fee"
-            values={Object {}}
           />
         </Text>
         <Text
           color="gray"
           fontWeight="light"
         >
-          <FormattedMessage
+          <injectIntl(FormattedMessage)
             defaultMessage="Added to total"
             id="components.Pay.fee_addition"
-            values={Object {}}
           />
         </Text>
       </ForwardRef(styled.div)>
     }
     right={
-      <FormattedMessage
+      <injectIntl(FormattedMessage)
         defaultMessage="unknown"
         id="components.Pay.fee_unknown"
-        values={Object {}}
       />
     }
   />
