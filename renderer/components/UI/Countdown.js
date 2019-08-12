@@ -16,19 +16,20 @@ class Countdown extends React.Component {
     countdownStyle: PropTypes.string,
     isContinual: PropTypes.bool,
     offset: PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date)]).isRequired,
+    onExpire: PropTypes.func,
     updateInterval: PropTypes.number,
   }
 
   static defaultProps = {
     colorActive: 'superGreen',
     colorExpired: 'superRed',
-    countdownStyle: 'short',
+    countdownStyle: 'long',
     isContinual: true,
     updateInterval: 1,
   }
 
   componentDidMount() {
-    let { offset } = this.props
+    let { offset, onExpire } = this.props
     let expiresIn = offset
 
     if (offset instanceof Date) {
@@ -40,10 +41,14 @@ class Countdown extends React.Component {
 
     if (expiresIn >= 0) {
       this.setState({ isExpired: false })
-      const timer = setInterval(() => this.setState({ isExpired: true }), this.expiresIn * 1000)
+      const timer = setInterval(() => {
+        this.setState({ isExpired: true })
+        onExpire && onExpire()
+      }, this.expiresIn * 1000)
       this.setState({ timer })
     } else {
       this.setState({ isExpired: true })
+      onExpire && onExpire()
     }
   }
 
@@ -59,6 +64,7 @@ class Countdown extends React.Component {
       countdownStyle,
       isContinual,
       offset,
+      onExpire,
       updateInterval,
       ...rest
     } = this.props
