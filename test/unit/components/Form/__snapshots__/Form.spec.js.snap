@@ -3,6 +3,7 @@
 exports[`component.UI.Form should render correctly 1`] = `
 <form
   className=""
+  noValidate={true}
   onKeyDown={[Function]}
   onReset={[Function]}
   onSubmit={[Function]}

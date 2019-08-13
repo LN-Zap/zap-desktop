@@ -40,6 +40,7 @@ const Form = ({ asyncValidators, onSubmit, onSubmitFailure, getApi, ...rest }) =
     <FormInner
       {...rest}
       getApi={getApiWrapper}
+      noValidate
       onSubmit={onBeforeSubmit}
       onSubmitFailure={onSubmitFailure}
     />

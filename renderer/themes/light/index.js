@@ -1,4 +1,4 @@
-import createThemeVariant from '../util'
+import { createThemeVariant } from '../util'
 import colors from './colors'
 import shadows from './shadows'
 

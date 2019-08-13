@@ -40,6 +40,11 @@ exports[`component.UI.LightningInvoiceInput should render correctly 1`] = `
   border-color: #fd9800;
 }
 
+.c1::-webkit-search-decoration:hover,
+.c1::-webkit-search-cancel-button:hover {
+  cursor: pointer;
+}
+
 <form
   onKeyDown={[Function]}
   onReset={[Function]}
@@ -54,6 +59,7 @@ exports[`component.UI.LightningInvoiceInput should render correctly 1`] = `
       fontFamily="sans"
       fontSize="m"
       fontWeight="light"
+      name="name"
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
