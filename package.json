@@ -48,9 +48,6 @@
       "binarySite": "https://github.com/LN-Zap/lnd/releases/download"
     }
   },
-  "sideEffects": [
-    "./i18n/locale.js"
-  ],
   "browserslist": [
     "electron 5.0"
   ],
@@ -343,7 +340,7 @@
     "react": "16.8.6",
     "react-dom": "16.8.6",
     "react-hot-loader": "4.12.10",
-    "react-intl": "2.9.0",
+    "react-intl": "3.1.5",
     "react-intl-redux": "2.1.1",
     "react-redux": "7.1.0",
     "react-router-dom": "5.0.1",

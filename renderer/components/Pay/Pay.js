@@ -5,7 +5,7 @@ import debounce from 'lodash/debounce'
 import get from 'lodash/get'
 import { Box, Flex } from 'rebass'
 import { animated, Keyframes, Transition } from 'react-spring/renderprops.cjs'
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { decodePayReq, getMinFee, getMaxFee, isOnchain, isLn } from '@zap/utils/crypto'
 import { convert } from '@zap/utils/btc'
 import {
@@ -30,7 +30,7 @@ import {
   TRANSACTION_SPEED_FAST,
 } from './constants'
 import messages from './messages'
-
+import { intlShape } from '@zap/i18n'
 /**
  * Animation to handle showing/hiding the payReq field.
  */

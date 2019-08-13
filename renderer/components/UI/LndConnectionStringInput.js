@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { intlShape, injectIntl } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import { isValidLndConnectUri, isValidBtcPayConfig } from '@zap/utils/connectionString'
 import TextArea from './TextArea'
 import messages from './messages'
+import { intlShape } from '@zap/i18n'
 
 const mask = value => value && value.trim()
 

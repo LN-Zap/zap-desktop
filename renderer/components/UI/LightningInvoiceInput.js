@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { asField } from 'informed'
 import { isOnchain, isLn, decodePayReq } from '@zap/utils/crypto'
 import { BasicTextArea } from './TextArea'
 import Message from './Message'
 import messages from './messages'
+import { intlShape } from '@zap/i18n'
 
 class LightningInvoiceInput extends React.Component {
   static displayName = 'LightningInvoiceInput'

@@ -1,52 +1,29 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
-import {
-  FormattedMessage,
-  FormattedRelative,
-  FormattedTime,
-  intlShape,
-  injectIntl,
-} from 'react-intl'
+import { FormattedMessage, FormattedTime, injectIntl } from 'react-intl'
 import copy from 'copy-to-clipboard'
 import { decodePayReq } from '@zap/utils/crypto'
-import createScheduler from '@zap/utils/scheduler'
-import { Bar, DataRow, Button, QRCode, Text } from 'components/UI'
+import getUnixTime from '@zap/utils/time'
+import { Bar, DataRow, Button, QRCode, Text, Countdown } from 'components/UI'
 import { CryptoSelector, CryptoValue, FiatSelector, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
+import { intlShape } from '@zap/i18n'
 import messages from './messages'
 
 const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest }) => {
-  const [isExpired, setIsExpired] = useState()
+  const decodedInvoice = useMemo(() => decodePayReq(payReq), [payReq])
+  const [isExpired, setIsExpired] = useState(false)
+  const [expiryDelta, setExpiryDelta] = useState(
+    decodedInvoice.timeExpireDate - getUnixTime() / 1000
+  )
 
-  const scheduler = useRef(createScheduler())
-  const decodedInvoice = decodePayReq(payReq)
-
-  // Set up scheduler to recheck expired state every second.
   useEffect(() => {
-    const schedulerInstance = scheduler.current
-
-    const refreshIsExpired = () => {
-      const expiresIn = decodedInvoice.timeExpireDate * 1000 - Date.now()
-      const isInvoiceExpired = Boolean(expiresIn <= 0)
-      isInvoiceExpired && setIsExpired(true)
-    }
-
-    refreshIsExpired()
-
-    if (isExpired) {
-      schedulerInstance.removeAllTasks()
-    } else {
-      schedulerInstance.addTask({
-        task: refreshIsExpired,
-        baseDelay: 1000,
-      })
-    }
-    // Clear scheduler on unmount.
+    setExpiryDelta(decodedInvoice.timeExpireDate - getUnixTime() / 1000)
     return () => {
-      schedulerInstance.removeAllTasks()
+      setIsExpired(false)
     }
-  }, [isExpired, decodedInvoice])
+  }, [decodedInvoice])
 
   const copyToClipboard = data => {
     copy(data)
@@ -153,18 +130,15 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
             </Text>
           ) : (
             <>
-              <Text color={getStatusColor()} fontWeight="normal">
-                {isExpired ? (
-                  <FormattedMessage {...messages.expired} />
-                ) : (
-                  <FormattedMessage {...messages.expires} />
-                )}{' '}
-                <FormattedRelative
-                  updateInterval={1000}
-                  value={decodedInvoice.timeExpireDateString}
-                />
-              </Text>
-              <Text color={getStatusColor()} fontWeight="normal">
+              <Countdown
+                color={getStatusColor()}
+                countdownStyle="long"
+                isContinual={false}
+                offset={expiryDelta}
+                onExpire={() => setIsExpired(true)}
+              />
+
+              <Text color={getStatusColor()} fontWeight="light">
                 <FormattedMessage {...messages.not_paid} />
               </Text>
             </>

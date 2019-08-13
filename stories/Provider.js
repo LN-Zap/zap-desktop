@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import config from 'config'
-import '@zap/i18n/locale'
 import EventEmitter from 'events'
 import { Provider as ReduxProvider } from 'react-intl-redux'
 import jstz from 'jstimezonedetect'

@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import { asField } from 'informed'
 import { compose } from 'redux'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import styled, { withTheme } from 'styled-components'
 import { themeGet } from 'styled-system'
 import Downshift from 'downshift'
@@ -16,6 +16,7 @@ import Text from './Text'
 import { BasicInput } from './Input'
 import InputLabel from './InputLabel'
 import messages from './messages'
+import { intlShape } from '@zap/i18n'
 
 const SelectOptionList = styled.ul`
   padding: 0;

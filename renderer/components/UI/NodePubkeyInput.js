@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import * as yup from 'yup'
 import { asField } from 'informed'
 import { BasicInput } from './Input'
 import Message from './Message'
 import messages from './messages'
+import { intlShape } from '@zap/i18n'
 
 class NodePubkeyInput extends React.Component {
   static propTypes = {

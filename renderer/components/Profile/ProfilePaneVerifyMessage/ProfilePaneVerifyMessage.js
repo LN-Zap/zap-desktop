@@ -1,9 +1,10 @@
 import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass'
 import { Bar, CopyBox, TextArea, Text, Form, Button, Input, Message } from 'components/UI'
 import messages from './messages'
+import { intlShape } from '@zap/i18n'
 
 const VerificationStatus = ({ isValid }) => (
   <Message mt={3} variant={isValid ? 'success' : 'error'}>

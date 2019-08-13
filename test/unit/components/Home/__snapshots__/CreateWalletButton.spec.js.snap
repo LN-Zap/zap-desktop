@@ -25,10 +25,9 @@ exports[`component.CreateWalletButton should render correctly 1`] = `
       lineHeight="22px"
       ml={2}
     >
-      <FormattedMessage
+      <injectIntl(FormattedMessage)
         defaultMessage="Create new wallet"
         id="components.Home.create_wallet_button_text"
-        values={Object {}}
       />
     </Text>
   </Styled(styled.div)>

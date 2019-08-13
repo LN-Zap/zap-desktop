@@ -25,9 +25,6 @@ const BackgroundPrimaryWithTheme = withTheme(({ theme, ...rest }) => (
   />
 ))
 
-// Register supported locales.
-import '@zap/i18n/locale'
-
 // Get translations.
 import translations from '@zap/i18n/translation'
 
