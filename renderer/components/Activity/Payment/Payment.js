@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, FormattedTime, injectIntl, intlShape } from 'react-intl'
+import { FormattedMessage, FormattedTime, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass'
+import { intlShape } from '@zap/i18n'
 import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
 import { Message, Text } from 'components/UI'
 import { CryptoValue, FiatValue } from 'containers/UI'
 import ErrorLink from '../ErrorLink'
 import messages from './messages'
-
 /**
  * getDisplayNodeName - Given a payment object devise the most appropriate display name.
  *

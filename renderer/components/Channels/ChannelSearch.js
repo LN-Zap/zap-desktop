@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
-import { Form, Input } from 'components/UI'
+import { Form, Input } from 'components/Form'
 
 const ChannelSearch = ({ searchQuery, placeholder, updateChannelSearchQuery, ...rest }) => {
   const formApi = useRef(null)

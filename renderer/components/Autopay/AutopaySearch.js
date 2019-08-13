@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { intlShape, injectIntl } from 'react-intl'
-import { Form, Input } from 'components/UI'
+import { injectIntl } from 'react-intl'
+import { intlShape } from '@zap/i18n'
+import { Form, Input } from 'components/Form'
 import messages from './messages'
 
 const AutopaySearch = ({ intl, searchQuery, updateAutopaySearchQuery, ...rest }) => (

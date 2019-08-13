@@ -48,9 +48,6 @@
       "binarySite": "https://github.com/LN-Zap/lnd/releases/download"
     }
   },
-  "sideEffects": [
-    "./i18n/locale.js"
-  ],
   "browserslist": [
     "electron 5.0"
   ],
@@ -261,7 +258,7 @@
     "eslint-import-resolver-webpack": "0.11.1",
     "eslint-plugin-compat": "3.3.0",
     "eslint-plugin-import": "2.18.2",
-    "eslint-plugin-jest": "22.14.1",
+    "eslint-plugin-jest": "22.15.0",
     "eslint-plugin-jsdoc": "15.8.0",
     "eslint-plugin-json": "1.4.0",
     "eslint-plugin-jsx-a11y": "6.2.3",
@@ -275,7 +272,7 @@
     "fake-indexeddb": "2.1.1",
     "gh-pages": "2.1.0",
     "html-webpack-plugin": "3.2.0",
-    "husky": "3.0.2",
+    "husky": "3.0.3",
     "jest": "24.8.0",
     "jest-styled-components": "6.3.3",
     "lnd-binary": "0.3.13",
@@ -296,7 +293,7 @@
     "stylelint-config-styled-components": "0.1.1",
     "stylelint-formatter-pretty": "1.1.2",
     "stylelint-processor-styled-components": "1.8.0",
-    "testcafe": "1.3.3",
+    "testcafe": "1.4.0",
     "testcafe-browser-provider-electron": "0.0.10",
     "testcafe-react-selectors": "3.1.0",
     "url-loader": "2.1.0",
@@ -322,7 +319,7 @@
     "debug": "4.1.1",
     "debug-logger": "0.4.1",
     "dexie": "3.0.0-alpha.8",
-    "downshift": "3.2.10",
+    "downshift": "3.2.12",
     "dropbox": "4.0.28",
     "electron-is-dev": "1.1.0",
     "get-port": "5.0.0",
@@ -333,7 +330,7 @@
     "is-electron-renderer": "2.0.1",
     "jstimezonedetect": "1.0.6",
     "keytar": "4.13.0",
-    "lnd-grpc": "0.3.0-beta.3",
+    "lnd-grpc": "0.3.0-beta.4",
     "lndconnect": "0.2.9",
     "lodash": "4.17.15",
     "node-fetch": "2.6.0",
@@ -343,7 +340,7 @@
     "react": "16.8.6",
     "react-dom": "16.8.6",
     "react-hot-loader": "4.12.10",
-    "react-intl": "2.9.0",
+    "react-intl": "3.1.5",
     "react-intl-redux": "2.1.1",
     "react-redux": "7.1.0",
     "react-router-dom": "5.0.1",

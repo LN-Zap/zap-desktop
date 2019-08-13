@@ -1,9 +1,11 @@
 import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass'
-import { Bar, CopyBox, TextArea, Text, Form, Button } from 'components/UI'
+import { Bar, CopyBox, Text, Button } from 'components/UI'
+import { TextArea, Form } from 'components/Form'
 import messages from './messages'
+import { intlShape } from '@zap/i18n'
 
 const ProfilePaneNodeInfo = ({ intl, signMessage, showNotification, ...rest }) => {
   const [sig, setSig] = useState(null)

@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import { connect } from 'react-redux'
 import CopyButton from 'components/UI/CopyButton'
 import { showNotification } from 'reducers/notification'
 import messages from './messages'
+import { intlShape } from '@zap/i18n'
 
 const WrappedCopyButton = ({ intl, onCopy, name, showNotification, value, ...rest }) => {
   const notifyOfCopy = () => {

@@ -1,16 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { Box } from 'rebass'
-import {
-  Bar,
-  DataRow,
-  Input,
-  Text,
-  OpenDialogInput,
-  RowLabel,
-  LndConnectionStringEditor,
-} from 'components/UI'
+import { intlShape } from '@zap/i18n'
+import { Bar, DataRow, Text } from 'components/UI'
+import { Input, OpenDialogInput, RowLabel, LndConnectionStringEditor } from 'components/Form'
 import messages from './messages'
 
 const WalletSettingsFormRemote = ({

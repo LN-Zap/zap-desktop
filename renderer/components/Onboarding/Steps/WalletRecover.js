@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
-import { Bar, Form, Header, Message, Input, Spinner, Text } from 'components/UI'
+import { FormattedMessage, injectIntl } from 'react-intl'
+import { Bar, Header, Message, Spinner, Text } from 'components/UI'
+import { Form, Input } from 'components/Form'
+import { intlShape } from '@zap/i18n'
 import ErrorDialog from './components/ErrorDialog'
 import messages from './messages'
 

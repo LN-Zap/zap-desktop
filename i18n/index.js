@@ -2,6 +2,9 @@ import get from 'lodash/get'
 import { lookup } from 'country-data-lookup'
 import createDebug from 'debug'
 import isRenderer from 'is-electron-renderer'
+import PropTypes from 'prop-types'
+
+export const intlShape = PropTypes.instanceOf(Object)
 
 // Define list of language that we will support.
 export const locales = [

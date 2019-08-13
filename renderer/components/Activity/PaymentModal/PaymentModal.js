@@ -1,8 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedDate, FormattedTime, FormattedMessage, injectIntl, intlShape } from 'react-intl'
+import { FormattedDate, FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
 import { Flex } from 'rebass'
+import { intlShape } from '@zap/i18n'
 import { Bar, DataRow, Header, Panel, Text } from 'components/UI'
+import { extractMemo } from '@zap/utils/crypto'
 import { CopyButton, CryptoSelector, CryptoValue, FiatSelector, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
 import Lightning from 'components/Icon/Lightning'
@@ -16,6 +18,7 @@ class PaymentModal extends React.PureComponent {
 
   render() {
     const { item, intl, ...rest } = this.props
+    const memo = item && extractMemo(item.payment_request)
     return (
       <Panel {...rest}>
         <Panel.Header>
@@ -39,7 +42,6 @@ class PaymentModal extends React.PureComponent {
           />
 
           <Bar variant="light" />
-
           <DataRow
             left={<FormattedMessage {...messages.current_value} />}
             right={
@@ -49,6 +51,12 @@ class PaymentModal extends React.PureComponent {
               </Flex>
             }
           />
+          {memo && (
+            <>
+              <Bar variant="light" />
+              <DataRow left={<FormattedMessage {...messages.memo} />} right={memo} />
+            </>
+          )}
 
           <Bar variant="light" />
 

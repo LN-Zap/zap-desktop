@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, FormattedRelative } from 'react-intl'
+import { FormattedMessage, FormattedRelativeTime } from 'react-intl'
 import Text from './Text'
 import messages from './messages'
 
@@ -14,32 +14,41 @@ class Countdown extends React.Component {
     colorActive: PropTypes.string,
     colorExpired: PropTypes.string,
     countdownStyle: PropTypes.string,
-    date: PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date)]).isRequired,
     isContinual: PropTypes.bool,
+    offset: PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date)]).isRequired,
+    onExpire: PropTypes.func,
     updateInterval: PropTypes.number,
   }
 
   static defaultProps = {
     colorActive: 'superGreen',
     colorExpired: 'superRed',
-    countdownStyle: 'best fit',
+    countdownStyle: 'long',
     isContinual: true,
-    updateInterval: 1000,
+    updateInterval: 1,
   }
 
   componentDidMount() {
-    let { date } = this.props
-    if (date instanceof Date) {
-      date = new Date(date)
+    let { offset, onExpire } = this.props
+    let expiresIn = offset
+
+    if (offset instanceof Date) {
+      expiresIn = offset - Date.now()
+      this.expiresIn = Math.round(expiresIn / 1000)
+    } else {
+      this.expiresIn = expiresIn
     }
 
-    const expiresIn = date - Date.now()
     if (expiresIn >= 0) {
       this.setState({ isExpired: false })
-      const timer = setInterval(() => this.setState({ isExpired: true }), expiresIn)
+      const timer = setInterval(() => {
+        this.setState({ isExpired: true })
+        onExpire && onExpire()
+      }, this.expiresIn * 1000)
       this.setState({ timer })
     } else {
       this.setState({ isExpired: true })
+      onExpire && onExpire()
     }
   }
 
@@ -54,7 +63,8 @@ class Countdown extends React.Component {
       colorExpired,
       countdownStyle,
       isContinual,
-      date,
+      offset,
+      onExpire,
       updateInterval,
       ...rest
     } = this.props
@@ -69,10 +79,10 @@ class Countdown extends React.Component {
         {(!isExpired || (isExpired && isContinual)) && (
           <React.Fragment>
             {` `}
-            <FormattedRelative
+            <FormattedRelativeTime
               style={countdownStyle}
-              updateInterval={updateInterval}
-              value={new Date(date)}
+              updateIntervalInSeconds={updateInterval}
+              value={this.expiresIn}
             />
           </React.Fragment>
         )}

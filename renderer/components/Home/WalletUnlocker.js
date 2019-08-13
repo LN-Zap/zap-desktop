@@ -1,8 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
-import { Button, Form, Input } from 'components/UI'
+import { intlShape } from '@zap/i18n'
+import { Button } from 'components/UI'
+import { Form, Input } from 'components/Form'
 import WalletHeader from './WalletHeader'
 import messages from './messages'
 

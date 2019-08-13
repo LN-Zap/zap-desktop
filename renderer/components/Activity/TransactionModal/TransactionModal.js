@@ -7,9 +7,9 @@ import {
   FormattedMessage,
   FormattedNumber,
   injectIntl,
-  intlShape,
 } from 'react-intl'
 import { Flex } from 'rebass'
+import { intlShape } from '@zap/i18n'
 import blockExplorer from '@zap/utils/blockExplorer'
 import { Bar, DataRow, Header, Link, Panel, Span, Text } from 'components/UI'
 import { CopyButton, CryptoSelector, CryptoValue, FiatSelector, FiatValue } from 'containers/UI'

@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass'
 import { CopyBox, Bar, Header, QRCode } from 'components/UI'
 import { WalletName } from 'components/Util'
 import messages from './messages'
+import { intlShape } from '@zap/i18n'
 
 const ReceiveModal = ({
   currentAddress,

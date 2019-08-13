@@ -1,20 +1,8 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { Flex } from 'rebass'
-import {
-  Button,
-  Dropdown,
-  Form,
-  Input,
-  Label,
-  LightningInvoiceInput,
-  Message,
-  Notification,
-  Range,
-  TextArea,
-  Toggle,
-  Tooltip,
-} from 'components/UI'
+import { Button, Dropdown, Message, Notification, Tooltip } from 'components/UI'
+import { Form, Input, Label, LightningInvoiceInput, Range, TextArea, Toggle } from 'components/Form'
 import { Column, Group, Element } from '../helpers'
 import { Provider } from '../Provider'
 
