@@ -5,10 +5,10 @@ import { compose } from 'redux'
 import PropTypes from 'prop-types'
 import { asField } from 'informed'
 import styled, { withTheme } from 'styled-components'
-import { styles } from 'styled-system'
 import system from '@rebass/components'
 import { Flex } from 'rebass'
 import Search from 'components/Icon/Search'
+import { extractSpaceProps } from 'themes/util'
 import { withInputValidation } from 'hocs'
 import { Message, Text } from 'components/UI'
 import InputLabel from './InputLabel'
@@ -202,16 +202,7 @@ class Input extends React.Component {
     const { hasFocus } = this.state
     const { setValue, setTouched } = fieldApi
     const { value } = fieldState
-
-    // Extract any styled-system space props so that we can apply them directly to the wrapper.
-    const spaceProps = {}
-    Object.keys(rest).forEach(key => {
-      /*eslint-disable react/forbid-foreign-prop-types*/
-      if ([...Object.keys(styles.space.propTypes), 'width'].includes(key)) {
-        spaceProps[key] = rest[key]
-        delete rest[key]
-      }
-    })
+    const [spaceProps, otherProps] = extractSpaceProps(rest)
 
     const getValue = () => {
       if (typeof value === 'undefined') {
@@ -238,7 +229,7 @@ class Input extends React.Component {
           {type === 'search' && <SearchIcon width={iconSize} />}
           <SystemInput
             p={variant === 'thin' ? 2 : 3}
-            {...rest}
+            {...otherProps}
             ref={this.inputRef}
             disabled={isDisabled}
             field={field}

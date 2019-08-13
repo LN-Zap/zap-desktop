@@ -8,6 +8,7 @@ import styled, { withTheme } from 'styled-components'
 import { styles } from 'styled-system'
 import system from '@rebass/components'
 import { Flex } from 'rebass'
+import { extractSpaceProps } from 'themes/util'
 import { withInputValidation } from 'hocs'
 import { Message, Text } from 'components/UI'
 import InputLabel from './InputLabel'
@@ -170,16 +171,7 @@ class TextArea extends React.PureComponent {
     const { hasFocus } = this.state
     const { setValue, setTouched } = fieldApi
     const { maskedValue } = fieldState
-
-    // Extract any styled-system space props so that we can apply them directly to the wrapper.
-    const spaceProps = {}
-    Object.keys(rest).forEach(key => {
-      /*eslint-disable react/forbid-foreign-prop-types*/
-      if ([...Object.keys(styles.space.propTypes), 'width'].includes(key)) {
-        spaceProps[key] = rest[key]
-        delete rest[key]
-      }
-    })
+    const [spaceProps, otherProps] = extractSpaceProps(rest)
 
     return (
       <Flex flexDirection="column" justifyContent={justifyContent} {...spaceProps}>
@@ -189,6 +181,7 @@ class TextArea extends React.PureComponent {
           </InputLabel>
         )}
         <SystemTextArea
+          {...otherProps}
           ref={this.inputRef}
           disabled={isDisabled}
           field={field}
@@ -220,7 +213,6 @@ class TextArea extends React.PureComponent {
           required={isRequired}
           theme={theme}
           value={!maskedValue && maskedValue !== 0 ? '' : maskedValue}
-          {...rest}
         />
         {description && (
           <Text color="gray" fontSize="s" mt={1}>
