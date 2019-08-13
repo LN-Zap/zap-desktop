@@ -3,8 +3,9 @@
 exports[`component.UI.BackgroundTertiary should render correctly 1`] = `
 .c0 {
   box-sizing: border-box;
-  color: primaryText;
+  margin: 0;
   background-color: tertiaryColor;
+  color: primaryText;
 }
 
 <div

@@ -3,17 +3,19 @@
 exports[`component.UI.Radio should render correctly 1`] = `
 .c2 {
   box-sizing: border-box;
-  font-size: 13px;
+  margin: 0;
   color: #ffffff;
+  font-size: 13px;
   line-height: 1.4;
 }
 
 .c3 {
   box-sizing: border-box;
-  margin-top: 8px;
-  font-size: 13px;
+  margin: 0;
   color: #959595;
+  font-size: 13px;
   line-height: 1.4;
+  margin-top: 8px;
 }
 
 .c1 {
@@ -28,6 +30,7 @@ exports[`component.UI.Radio should render correctly 1`] = `
 
 .c0 {
   box-sizing: border-box;
+  margin: 0;
 }
 
 .c0 .container {

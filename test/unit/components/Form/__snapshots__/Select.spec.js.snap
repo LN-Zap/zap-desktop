@@ -3,29 +3,32 @@
 exports[`component.UI.Toggle should render correctly 1`] = `
 .c4 {
   box-sizing: border-box;
+  margin: 0;
 }
 
 .c0 {
   box-sizing: border-box;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+  margin: 0;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-}
-
-.c2 {
-  box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+}
+
+.c2 {
+  box-sizing: border-box;
+  margin: 0;
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .c3 {

@@ -3,14 +3,8 @@
 exports[`component.UI.ActionBar should render correctly 1`] = `
 .c0 {
   box-sizing: border-box;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-right: 64px;
+  margin: 0;
   background-color: secondaryColor;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
@@ -18,10 +12,18 @@ exports[`component.UI.ActionBar should render correctly 1`] = `
   -webkit-justify-content: flex-end;
   -ms-flex-pack: end;
   justify-content: flex-end;
+  padding-bottom: 8px;
+  padding-right: 64px;
+  padding-top: 8px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .c2 {
   box-sizing: border-box;
+  margin: 0;
   font-family: sans;
   font-weight: normal;
 }
@@ -29,25 +31,25 @@ exports[`component.UI.ActionBar should render correctly 1`] = `
 .c1 {
   box-sizing: border-box;
   margin: 0;
-  margin-right: 128px;
-  padding-top: 16px;
-  padding-bottom: 16px;
   padding-left: 0;
   padding-right: 0;
-  font-size: inherit;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  margin-right: 128px;
   color: white;
   background-color: blue;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   display: inline-block;
+  font-size: inherit;
+  font-weight: bold;
+  border: 0;
+  border-radius: 4px;
   text-align: center;
   line-height: inherit;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-weight: bold;
-  border: 0;
-  border-radius: 0;
   border-radius: 0;
   -webkit-transition: all 0.25s;
   transition: all 0.25s;
@@ -69,25 +71,25 @@ exports[`component.UI.ActionBar should render correctly 1`] = `
 .c3 {
   box-sizing: border-box;
   margin: 0;
-  margin-right: 0;
-  padding-top: 16px;
-  padding-bottom: 16px;
   padding-left: 64px;
   padding-right: 64px;
-  font-size: inherit;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  margin-right: 0;
   color: white;
   background-color: blue;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   display: inline-block;
+  font-size: inherit;
+  font-weight: bold;
+  border: 0;
+  border-radius: 4px;
   text-align: center;
   line-height: inherit;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-weight: bold;
-  border: 0;
-  border-radius: 5px;
   border-radius: 5px;
   -webkit-transition: all 0.25s;
   transition: all 0.25s;
@@ -113,8 +115,6 @@ exports[`component.UI.ActionBar should render correctly 1`] = `
     className="c1"
     color="white"
     disabled={false}
-    fontSize="inherit"
-    fontWeight="bold"
     onClick={[Function]}
   >
     <div
@@ -129,8 +129,6 @@ exports[`component.UI.ActionBar should render correctly 1`] = `
     className="c3"
     color="white"
     disabled={false}
-    fontSize="inherit"
-    fontWeight="bold"
     onClick={[Function]}
   >
     <div

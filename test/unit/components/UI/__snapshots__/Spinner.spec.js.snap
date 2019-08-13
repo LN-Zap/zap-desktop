@@ -3,6 +3,7 @@
 exports[`component.UI.Spinner should render correctly 1`] = `
 .c0 {
   box-sizing: border-box;
+  margin: 0;
   color: lightningOrange;
 }
 
