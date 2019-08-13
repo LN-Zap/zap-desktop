@@ -3,16 +3,17 @@
 exports[`component.UI.Sidebar should render correctly 1`] = `
 .c0 {
   box-sizing: border-box;
-  width: 33.33333333333333%;
-  color: primaryText;
+  margin: 0;
   background-color: primaryColor;
+  color: primaryText;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  width: 33.33333333333333%;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
   overflow: hidden;
   z-index: 1;
 }

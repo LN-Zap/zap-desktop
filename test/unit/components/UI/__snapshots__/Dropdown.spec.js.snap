@@ -3,18 +3,20 @@
 exports[`component.Dropdown should render correctly 1`] = `
 .c2 {
   box-sizing: border-box;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+  margin: 0;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .c5 {
   box-sizing: border-box;
+  margin: 0;
   color: gray;
   display: -webkit-box;
   display: -webkit-flex;
@@ -24,32 +26,38 @@ exports[`component.Dropdown should render correctly 1`] = `
 
 .c4 {
   box-sizing: border-box;
-  margin-right: 4px;
-  font-size: m;
+  margin: 0;
   color: primaryText;
-  text-align: left;
+  font-size: m;
   line-height: normal;
+  margin-right: 4px;
+  text-align: left;
 }
 
 .c0 {
   box-sizing: border-box;
+  margin: 0;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-flex-wrap: none;
+  -ms-flex-wrap: none;
+  flex-wrap: none;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex-wrap: none;
-  -ms-flex-wrap: none;
-  flex-wrap: none;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
 }
 
 .c1 {
   box-sizing: border-box;
   margin: 0;
+  font-weight: normal;
+  margin: 0;
   padding: 0;
+  text-align: left;
   font-size: m;
+  line-height: normal;
   font-weight: normal;
   -webkit-appearance: none;
   -moz-appearance: none;

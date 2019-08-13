@@ -3,6 +3,9 @@
 exports[`component.UI.QRCode should render correctly 1`] = `
 .c0 {
   box-sizing: border-box;
+  margin: 0;
+  width: 150px;
+  height: 150px;
   position: relative;
   width: 180px;
   height: 180px;
@@ -11,6 +14,9 @@ exports[`component.UI.QRCode should render correctly 1`] = `
 
 .c1 {
   box-sizing: border-box;
+  margin: 0;
+  width: 150px;
+  height: 150px;
   position: relative;
   width: 180px;
   height: 180px;
@@ -18,9 +24,10 @@ exports[`component.UI.QRCode should render correctly 1`] = `
 
 .c2 {
   box-sizing: border-box;
+  margin: 0;
+  width: 150px;
+  height: 150px;
   border: 1px;
-  border-color: #fd9800;
-  border-radius: 10%;
   border-color: #fd9800;
   border-radius: 10%;
   display: inline-block;
@@ -36,9 +43,10 @@ exports[`component.UI.QRCode should render correctly 1`] = `
 
 .c3 {
   box-sizing: border-box;
+  margin: 0;
+  width: 150px;
+  height: 150px;
   border: 1px;
-  border-color: #fd9800;
-  border-radius: 10%;
   border-color: #fd9800;
   border-radius: 10%;
   display: inline-block;
@@ -54,9 +62,10 @@ exports[`component.UI.QRCode should render correctly 1`] = `
 
 .c4 {
   box-sizing: border-box;
+  margin: 0;
+  width: 150px;
+  height: 150px;
   border: 1px;
-  border-color: #fd9800;
-  border-radius: 10%;
   border-color: #fd9800;
   border-radius: 10%;
   display: inline-block;
@@ -72,9 +81,10 @@ exports[`component.UI.QRCode should render correctly 1`] = `
 
 .c5 {
   box-sizing: border-box;
+  margin: 0;
+  width: 150px;
+  height: 150px;
   border: 1px;
-  border-color: #fd9800;
-  border-radius: 10%;
   border-color: #fd9800;
   border-radius: 10%;
   display: inline-block;
@@ -90,6 +100,7 @@ exports[`component.UI.QRCode should render correctly 1`] = `
 
 .c6 {
   box-sizing: border-box;
+  margin: 0;
   border-style: solid;
   border-color: white;
   position: absolute;
@@ -103,6 +114,7 @@ exports[`component.UI.QRCode should render correctly 1`] = `
 
 .c8 {
   box-sizing: border-box;
+  margin: 0;
   background-color: white;
   border-style: solid;
   border-color: white;

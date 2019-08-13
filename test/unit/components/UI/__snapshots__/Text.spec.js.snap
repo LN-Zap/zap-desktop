@@ -3,8 +3,9 @@
 exports[`component.UI.Text should render correctly 1`] = `
 .c0 {
   box-sizing: border-box;
-  font-size: m;
+  margin: 0;
   color: primaryText;
+  font-size: m;
   line-height: normal;
 }
 

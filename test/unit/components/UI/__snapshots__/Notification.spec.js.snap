@@ -3,52 +3,57 @@
 exports[`component.UI.Notification should render correctly 1`] = `
 .c1 {
   box-sizing: border-box;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+  margin: 0;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
-}
-
-.c2 {
-  box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+}
+
+.c2 {
+  box-sizing: border-box;
+  margin: 0;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .c3 {
   box-sizing: border-box;
+  margin: 0;
   font-size: xl;
 }
 
 .c4 {
   box-sizing: border-box;
-  margin-left: 8px;
+  margin: 0;
   font-weight: normal;
+  margin-left: 8px;
 }
 
 .c5 {
   box-sizing: border-box;
-  margin-top: 4px;
+  margin: 0;
   font-size: xs;
+  margin-top: 4px;
 }
 
 .c0 {
   box-sizing: border-box;
-  padding-top: 16px;
-  padding-bottom: 16px;
+  margin: 0;
   padding-left: 16px;
   padding-right: 16px;
-  border-radius: 5px;
+  padding-top: 16px;
+  padding-bottom: 16px;
   border-radius: 5px;
   box-shadow: s;
   cursor: pointer;

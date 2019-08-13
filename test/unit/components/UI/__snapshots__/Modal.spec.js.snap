@@ -3,18 +3,20 @@
 exports[`component.UI.Modal should render correctly 1`] = `
 .c3 {
   box-sizing: border-box;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+  margin: 0;
   -webkit-box-pack: end;
   -webkit-justify-content: flex-end;
   -ms-flex-pack: end;
   justify-content: flex-end;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .c4 {
   box-sizing: border-box;
+  margin: 0;
   padding: 8px;
   height: 40px;
   cursor: pointer;
@@ -23,8 +25,9 @@ exports[`component.UI.Modal should render correctly 1`] = `
 
 .c5 {
   box-sizing: border-box;
-  color: primaryText;
+  margin: 0;
   background-color: primaryColor;
+  color: primaryText;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -38,6 +41,11 @@ exports[`component.UI.Modal should render correctly 1`] = `
 
 .c1 {
   box-sizing: border-box;
+  margin: 0;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
   padding-top: 16px;
   padding-left: 16px;
   padding-right: 16px;
@@ -45,10 +53,6 @@ exports[`component.UI.Modal should render correctly 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: end;
-  -webkit-justify-content: flex-end;
-  -ms-flex-pack: end;
-  justify-content: flex-end;
   position: absolute;
   top: 0;
   left: 0;
@@ -59,14 +63,16 @@ exports[`component.UI.Modal should render correctly 1`] = `
 
 .c0 {
   box-sizing: border-box;
-  color: primaryText;
+  margin: 0;
   background-color: primaryColor;
+  color: primaryText;
   height: 100%;
   width: 100%;
 }
 
 .c2 {
   box-sizing: border-box;
+  margin: 0;
   color: primaryText;
   pointer-events: auto;
   display: inline-block;
