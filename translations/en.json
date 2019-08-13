@@ -573,5 +573,12 @@
   "components.Wallet.menu_item_autopay": "Autopay",
   "components.Wallet.pay": "Pay",
   "components.Wallet.request": "Receive",
-  "containers.UI.copied_to_clipbpard": "{name} has been copied to your clipboard"
+  "containers.UI.copied_to_clipbpard": "{name} has been copied to your clipboard",
+  "reducers.address_new_address_error": "Unable to get {addressType} address: {error}",
+  "reducers.backup_import_error": "Backup import has failed: {error}",
+  "reducers.backup_import_success": "Wallet backup imported successfully",
+  "reducers.backup_not_found_error": "Unable to find backup file",
+  "reducers.channels_open_warning": "Channel opening initiated",
+  "reducers.payment_send_error": "Unable to send payment: Invalid invoice (no payment hash)",
+  "reducers.settings_init_error": "Unable to load settings: {error}"
 }
