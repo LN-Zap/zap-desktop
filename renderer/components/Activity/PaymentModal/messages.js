@@ -8,4 +8,5 @@ export default defineMessages({
   fee: 'Total fee',
   current_value: 'Current value',
   preimage: 'Payment preimage',
+  memo: 'Memo',
 })
