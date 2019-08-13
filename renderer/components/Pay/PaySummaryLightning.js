@@ -132,9 +132,10 @@ class PaySummaryLightning extends React.Component {
         <DataRow
           left={<FormattedMessage {...messages.total} />}
           right={
-            <React.Fragment>
-              <CryptoValue value={amountInSatoshis + maxFee} /> {cryptoUnitName}
-            </React.Fragment>
+            <Flex alignItems="baseline">
+              <CryptoSelector mr={2} />
+              <CryptoValue value={amountInSatoshis + maxFee} />
+            </Flex>
           }
         />
 
