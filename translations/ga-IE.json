@@ -209,7 +209,7 @@
   "components.Dialog.lnd_crashed_dialog_signal": "",
   "components.Dialog.lnd_crashed_dialog_unknown": "",
   "components.Form.amount": "Méid",
-  "components.Form.calculating": "",
+  "components.Form.calculating": "ríomh",
   "components.Form.fee": "",
   "components.Form.fee_per_byte": "",
   "components.Form.fee_unknown": "",

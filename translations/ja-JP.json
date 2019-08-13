@@ -208,7 +208,7 @@
   "components.Dialog.lnd_crashed_dialog_messgage": "",
   "components.Dialog.lnd_crashed_dialog_signal": "",
   "components.Dialog.lnd_crashed_dialog_unknown": "",
-  "components.Form.amount": "",
+  "components.Form.amount": "金額",
   "components.Form.calculating": "",
   "components.Form.fee": "",
   "components.Form.fee_per_byte": "",
