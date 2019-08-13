@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { Box } from 'rebass'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { intlShape } from '@zap/i18n'
-import { Bar, Form, Header, Input } from 'components/UI'
+import { Bar, Header } from 'components/UI'
+import { Form, Input } from 'components/Form'
 import messages from './messages'
 
 class Password extends React.Component {

@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import { withFormApi } from 'informed'
+import { Span } from 'components/UI'
 import Padlock from 'components/Icon/Padlock'
 import LndConnectionStringInput from './LndConnectionStringInput'
 import Toggle from './Toggle'
-import Span from './Span'
 import Label from './Label'
 
 const LndConnectionStringEditor = ({ formApi, field, hideStringMessage, ...rest }) => {

@@ -2,7 +2,7 @@ import React from 'react'
 import { Box } from 'rebass'
 import styled from 'styled-components'
 import Copy from 'components/Icon/FolderOpen'
-import Button from './Button'
+import { Button } from 'components/UI'
 
 const CustomButton = styled(Button)`
   margin-left: -46px;

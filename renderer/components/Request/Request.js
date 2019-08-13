@@ -2,25 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import {
-  Bar,
-  Button,
-  Form,
-  Header,
-  Label,
-  Panel,
-  Span,
-  Text,
-  TextArea,
-  Toggle,
-  Tooltip,
-} from 'components/UI'
-import { CurrencyFieldGroup } from 'containers/UI'
+import { intlShape } from '@zap/i18n'
+import { Bar, Button, Header, Panel, Span, Text, Tooltip } from 'components/UI'
+import { Form, Label, TextArea, Toggle } from 'components/Form'
+import { CurrencyFieldGroup } from 'containers/Form'
 import Lightning from 'components/Icon/Lightning'
 import Padlock from 'components/Icon/Padlock'
 import RequestSummary from './RequestSummary'
 import messages from './messages'
-import { intlShape } from '@zap/i18n'
 
 class Request extends React.Component {
   state = {

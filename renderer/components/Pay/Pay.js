@@ -8,18 +8,10 @@ import { animated, Keyframes, Transition } from 'react-spring/renderprops.cjs'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { decodePayReq, getMinFee, getMaxFee, isOnchain, isLn } from '@zap/utils/crypto'
 import { convert } from '@zap/utils/btc'
-import {
-  Bar,
-  Form,
-  Message,
-  LightningInvoiceInput,
-  Panel,
-  Text,
-  TransactionFeeInput,
-  Toggle,
-  Label,
-} from 'components/UI'
-import { CurrencyFieldGroup, CryptoValue } from 'containers/UI'
+import { Bar, Message, Panel, Text } from 'components/UI'
+import { Form, LightningInvoiceInput, TransactionFeeInput, Toggle, Label } from 'components/Form'
+import { CryptoValue } from 'containers/UI'
+import { CurrencyFieldGroup } from 'containers/Form'
 import PaySummaryLightning from 'containers/Pay/PaySummaryLightning'
 import PaySummaryOnChain from 'containers/Pay/PaySummaryOnChain'
 import PayButtons from './PayButtons'

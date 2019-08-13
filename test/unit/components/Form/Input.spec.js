@@ -3,15 +3,15 @@ import { Form } from 'informed'
 import renderer from 'react-test-renderer'
 import { ThemeProvider } from 'styled-components'
 import { dark } from 'themes'
-import { Range } from 'components/UI'
+import { Input } from 'components/Form'
 
-describe('component.UI.Range', () => {
+describe('component.UI.Input', () => {
   it('should render correctly', () => {
     const tree = renderer
       .create(
         <ThemeProvider theme={dark}>
           <Form>
-            <Range field="name" />
+            <Input field="name" theme={dark} />
           </Form>
         </ThemeProvider>
       )

@@ -2,7 +2,7 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 import { ThemeProvider } from 'styled-components'
 import { dark } from 'themes'
-import { Form, Radio, RadioGroup } from 'components/UI'
+import { Form, Radio, RadioGroup } from 'components/Form'
 
 describe('component.UI.Radio', () => {
   it('should render correctly', () => {

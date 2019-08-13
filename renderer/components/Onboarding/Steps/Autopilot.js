@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Bar, Form, Header, RadioGroup, Radio } from 'components/UI'
+import { Bar, Header } from 'components/UI'
+import { Form, RadioGroup, Radio } from 'components/Form'
 import messages from './messages'
 
 class Autopilot extends React.Component {

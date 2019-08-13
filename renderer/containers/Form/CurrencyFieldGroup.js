@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { CurrencyFieldGroup } from 'components/UI'
+import { CurrencyFieldGroup } from 'components/Form'
 import { tickerSelectors, setCryptoUnit, setFiatTicker } from 'reducers/ticker'
 
 const mapStateToProps = state => ({

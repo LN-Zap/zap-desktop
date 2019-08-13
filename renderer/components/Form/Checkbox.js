@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Flex } from 'rebass'
 import styled from 'styled-components'
 import Check from 'components/Icon/Check'
-import Text from './Text'
+import { Text } from 'components/UI'
 
 const mapOutlineBorderColor = props => {
   const {

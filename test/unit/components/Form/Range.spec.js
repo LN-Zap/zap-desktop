@@ -3,15 +3,15 @@ import { Form } from 'informed'
 import renderer from 'react-test-renderer'
 import { ThemeProvider } from 'styled-components'
 import { dark } from 'themes'
-import { Toggle } from 'components/UI'
+import { Range } from 'components/Form'
 
-describe('component.UI.Toggle', () => {
+describe('component.UI.Range', () => {
   it('should render correctly', () => {
     const tree = renderer
       .create(
         <ThemeProvider theme={dark}>
           <Form>
-            <Toggle field="name" />
+            <Range field="name" />
           </Form>
         </ThemeProvider>
       )

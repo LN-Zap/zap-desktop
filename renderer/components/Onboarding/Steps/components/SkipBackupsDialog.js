@@ -5,7 +5,8 @@ import { FormattedMessage, injectIntl } from 'react-intl'
 import { withFieldState } from 'informed'
 import { intlShape } from '@zap/i18n'
 import Warning from 'components/Icon/Warning'
-import { Dialog, Text, Heading, Button, Checkbox, Form, DialogOverlay } from 'components/UI'
+import { Dialog, Text, Heading, Button, DialogOverlay } from 'components/UI'
+import { Checkbox, Form } from 'components/Form'
 import messages from './messages'
 
 const DialogWrapper = ({ intl, isOpen, isRestoreMode, onSkip, onCancel }) => {

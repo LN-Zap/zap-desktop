@@ -4,24 +4,16 @@ import renderer from 'react-test-renderer'
 import { ThemeProvider } from 'styled-components'
 import { IntlProvider } from 'react-intl'
 import { dark } from 'themes'
-import { Select } from 'components/UI'
+import { NodePubkeyInput } from 'components/Form'
 
-describe('component.UI.Toggle', () => {
+describe('component.UI.NodePubkeyInput', () => {
   it('should render correctly', () => {
-    const selectItems = [
-      { value: '- Please select -', key: '' },
-      { value: 'Apple', key: 'apple' },
-      { value: 'Pear', key: 'pear' },
-      { value: 'Orange', key: 'orange' },
-      { value: 'Grape', key: 'grape' },
-      { value: 'Banana', key: 'banana' },
-    ]
     const tree = renderer
       .create(
         <IntlProvider locale="en">
           <ThemeProvider theme={dark}>
             <Form>
-              <Select field="name" items={selectItems} />
+              <NodePubkeyInput field="name" theme={dark} />
             </Form>
           </ThemeProvider>
         </IntlProvider>

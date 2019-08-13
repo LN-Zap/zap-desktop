@@ -4,7 +4,8 @@ import { FormattedMessage } from 'react-intl'
 import encode from 'lndconnect/encode'
 import decode from 'lndconnect/decode'
 import parseConnectionString from '@zap/utils/btcpayserver'
-import { Bar, Form, Header, Span, Text } from 'components/UI'
+import { Bar, Header, Span, Text } from 'components/UI'
+import { Form } from 'components/Form'
 import messages from './messages'
 
 class ConnectionConfirm extends React.Component {
