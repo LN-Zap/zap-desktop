@@ -9,7 +9,8 @@ import bip39 from 'bip39-en'
 import { Flex } from 'rebass'
 import { intlShape } from '@zap/i18n'
 import parseSeed from '@zap/utils/parseSeed'
-import { Bar, Form, Header, Input, Label } from 'components/UI'
+import { Bar, Header } from 'components/UI'
+import { Form, Input, Label } from 'components/Form'
 import messages from './messages'
 
 class SeedWord extends React.Component {

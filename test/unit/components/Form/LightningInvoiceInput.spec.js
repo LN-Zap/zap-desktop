@@ -4,16 +4,16 @@ import renderer from 'react-test-renderer'
 import { ThemeProvider } from 'styled-components'
 import { IntlProvider } from 'react-intl'
 import { dark } from 'themes'
-import { NodePubkeyInput } from 'components/UI'
+import { LightningInvoiceInput } from 'components/Form'
 
-describe('component.UI.NodePubkeyInput', () => {
+describe('component.UI.LightningInvoiceInput', () => {
   it('should render correctly', () => {
     const tree = renderer
       .create(
         <IntlProvider locale="en">
           <ThemeProvider theme={dark}>
             <Form>
-              <NodePubkeyInput field="name" theme={dark} />
+              <LightningInvoiceInput chain="bitcoin" field="name" network="mainnet" theme={dark} />
             </Form>
           </ThemeProvider>
         </IntlProvider>

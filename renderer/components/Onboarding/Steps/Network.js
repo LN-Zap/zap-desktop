@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Bar, Form, Header, Message, RadioGroup, Radio } from 'components/UI'
+import { Bar, Header, Message } from 'components/UI'
+import { Form, RadioGroup, Radio } from 'components/Form'
 import { isMainnetAsDefault } from '@zap/utils/featureFlag'
 import messages from './messages'
 

@@ -2,9 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Flex } from 'rebass'
+import { Span, Tooltip } from 'components/UI'
 import Label from './Label'
-import Span from './Span'
-import Tooltip from './Tooltip'
 
 const Supertext = styled(Span)`
   vertical-align: top;

@@ -4,16 +4,24 @@ import renderer from 'react-test-renderer'
 import { ThemeProvider } from 'styled-components'
 import { IntlProvider } from 'react-intl'
 import { dark } from 'themes'
-import { LightningInvoiceInput } from 'components/UI'
+import { Select } from 'components/Form'
 
-describe('component.UI.LightningInvoiceInput', () => {
+describe('component.UI.Toggle', () => {
   it('should render correctly', () => {
+    const selectItems = [
+      { value: '- Please select -', key: '' },
+      { value: 'Apple', key: 'apple' },
+      { value: 'Pear', key: 'pear' },
+      { value: 'Orange', key: 'orange' },
+      { value: 'Grape', key: 'grape' },
+      { value: 'Banana', key: 'banana' },
+    ]
     const tree = renderer
       .create(
         <IntlProvider locale="en">
           <ThemeProvider theme={dark}>
             <Form>
-              <LightningInvoiceInput chain="bitcoin" field="name" network="mainnet" theme={dark} />
+              <Select field="name" items={selectItems} />
             </Form>
           </ThemeProvider>
         </IntlProvider>

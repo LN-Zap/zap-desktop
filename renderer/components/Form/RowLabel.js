@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
+import { Text } from 'components/UI'
 import Label from './Label'
-import Text from './Text'
 
 const RowLabel = ({ nameMessage, descMessage, htmlFor }) => {
   return (

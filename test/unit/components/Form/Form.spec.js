@@ -1,6 +1,6 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { Form } from 'components/UI'
+import { Form } from 'components/Form'
 
 describe('component.UI.Form', () => {
   it('should render correctly', () => {

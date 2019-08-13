@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { Bar, Form, Header, Input, OpenDialogInput } from 'components/UI'
+import { Bar, Header } from 'components/UI'
+import { Form, Input, OpenDialogInput } from 'components/Form'
 import ConnectionDetailsTabs from './ConnectionDetailsTabs'
 import messages from './messages'
 

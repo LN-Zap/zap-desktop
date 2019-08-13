@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
-import { Form } from 'components/UI'
-import messages from './messages'
 import { intlShape } from '@zap/i18n'
+import { Form } from 'components/Form'
+import messages from './messages'
 
 const SettingsForm = ({
   intl,

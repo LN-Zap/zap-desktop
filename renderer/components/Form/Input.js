@@ -10,9 +10,8 @@ import system from '@rebass/components'
 import { Flex } from 'rebass'
 import Search from 'components/Icon/Search'
 import { withInputValidation } from 'hocs'
-import Message from './Message'
+import { Message, Text } from 'components/UI'
 import InputLabel from './InputLabel'
-import Text from './Text'
 
 const isFieldValid = ({ value, error, touched }) => {
   return value && !error && touched

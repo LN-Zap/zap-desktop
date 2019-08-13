@@ -3,10 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Box, Flex } from 'rebass'
 import { animated, Transition } from 'react-spring/renderprops'
-import Radio from 'components/UI/Radio'
-import Text from 'components/UI/Text'
-import Heading from 'components/UI/Heading'
-import BaseCard from 'components/UI/Card'
+import Radio from './Radio'
+import { Text, Heading, Card as BaseCard } from 'components/UI'
 import BoltOnboarding from 'components/Icon/BoltOnboarding'
 
 const Card = styled(BaseCard)`

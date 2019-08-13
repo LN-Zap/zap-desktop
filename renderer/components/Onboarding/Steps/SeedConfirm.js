@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Flex } from 'rebass'
 import { intlShape } from '@zap/i18n'
-import { Bar, Form, Header, Input, Label, Span } from 'components/UI'
+import { Bar, Header, Span } from 'components/UI'
+import { Form, Input, Label } from 'components/Form'
 import messages from './messages'
 
 class SeedConfirm extends React.Component {

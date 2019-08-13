@@ -6,19 +6,10 @@ import get from 'lodash/get'
 import { Box, Flex } from 'rebass'
 import { intlShape } from '@zap/i18n'
 import { convert } from '@zap/utils/btc'
-import {
-  Bar,
-  Button,
-  Form,
-  NodePubkeyInput,
-  Label,
-  Panel,
-  Span,
-  Text,
-  Toggle,
-  TransactionFeeInput,
-} from 'components/UI'
-import { CurrencyFieldGroup, CryptoValue } from 'containers/UI'
+import { Bar, Button, Panel, Span, Text } from 'components/UI'
+import { Form, NodePubkeyInput, Label, Toggle, TransactionFeeInput } from 'components/Form'
+import { CryptoValue } from 'containers/UI'
+import { CurrencyFieldGroup } from 'containers/Form'
 import Padlock from 'components/Icon/Padlock'
 import ChannelBackButton from './ChannelBackButton'
 import ChannelCreateSummary from './ChannelCreateSummary'

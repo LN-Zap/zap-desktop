@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Form, Spinner, Text } from 'components/UI'
+import { Spinner, Text } from 'components/UI'
+import { Form } from 'components/Form'
 import ErrorDialog from './components/ErrorDialog'
 import messages from './messages'
 

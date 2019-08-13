@@ -2,8 +2,8 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { Box } from 'rebass'
+import { Button, MainContent, Page } from 'components/UI'
 import {
-  Button,
   Checkbox,
   CryptoAmountInput,
   FiatAmountInput,
@@ -14,15 +14,13 @@ import {
   LndConnectionStringInput,
   NodePubkeyInput,
   IntegerInput,
-  MainContent,
-  Page,
   Radio,
   RadioGroup,
   Range,
   Select,
   TextArea,
   Toggle,
-} from 'components/UI'
+} from 'components/Form'
 
 const validate = value => {
   return !value || value.length < 5 ? 'Field must be at least five characters' : null

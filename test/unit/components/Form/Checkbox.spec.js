@@ -1,17 +1,18 @@
 import React from 'react'
-import { Form } from 'informed'
 import renderer from 'react-test-renderer'
+import { Form } from 'informed'
 import { ThemeProvider } from 'styled-components'
+import { Checkbox } from 'components/Form'
 import { dark } from 'themes'
-import { Input } from 'components/UI'
 
-describe('component.UI.Input', () => {
+describe('component.UI.Checkbox', () => {
   it('should render correctly', () => {
     const tree = renderer
       .create(
         <ThemeProvider theme={dark}>
           <Form>
-            <Input field="name" />
+            <Checkbox field="name" label="cb" />
+            <Checkbox description="desc" field="name2" label="cb" />
           </Form>
         </ThemeProvider>
       )

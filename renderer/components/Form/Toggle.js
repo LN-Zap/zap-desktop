@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { themeGet } from 'styled-system'
 import { Flex } from 'rebass'
 import { BasicCheckbox, asField } from 'informed'
-import Text from './Text'
+import { Text } from 'components/UI'
 
 const Wrapper = styled.div`
   position: relative;

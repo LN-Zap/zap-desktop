@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { currencies, locales, getLanguageName } from '@zap/i18n'
-import { Bar, DataRow, Toggle, Select } from 'components/UI'
+import { Bar, DataRow } from 'components/UI'
+import { Toggle, Select } from 'components/Form'
 import { FieldLabel } from './SettingsFieldHelpers'
 import messages from './messages'
 

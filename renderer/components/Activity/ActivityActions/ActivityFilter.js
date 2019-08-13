@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Flex } from 'rebass'
-import { Dropdown, Label } from 'components/UI'
+import { Dropdown } from 'components/UI'
+import { Label } from 'components/Form'
 import messages from './messages'
 
 const messageMapper = key => {

@@ -3,7 +3,7 @@ import { Form } from 'informed'
 import renderer from 'react-test-renderer'
 import { ThemeProvider } from 'styled-components'
 import { dark } from 'themes'
-import { Input } from 'components/UI'
+import { Input } from 'components/Form'
 
 describe('component.UI.Input', () => {
   it('should render correctly', () => {
@@ -11,7 +11,7 @@ describe('component.UI.Input', () => {
       .create(
         <ThemeProvider theme={dark}>
           <Form>
-            <Input field="name" theme={dark} />
+            <Input field="name" />
           </Form>
         </ThemeProvider>
       )
