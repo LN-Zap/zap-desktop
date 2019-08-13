@@ -70,7 +70,6 @@ exports[`component.UI.Input should render correctly 1`] = `
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
-        readOnly={false}
         value=""
         width={1}
       />
