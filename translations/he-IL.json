@@ -574,11 +574,11 @@
   "components.Wallet.pay": "",
   "components.Wallet.request": "",
   "containers.UI.copied_to_clipbpard": "",
-  "reducers.address_new_address_error": "",
-  "reducers.backup_import_error": "",
-  "reducers.backup_import_success": "",
-  "reducers.backup_not_found_error": "",
-  "reducers.channels_open_warning": "",
-  "reducers.payment_send_error": "",
-  "reducers.settings_init_error": ""
+  "reducers.messages.address_new_address_error": "",
+  "reducers.messages.backup_import_error": "",
+  "reducers.messages.backup_import_success": "",
+  "reducers.messages.backup_not_found_error": "",
+  "reducers.messages.channels_open_warning": "",
+  "reducers.messages.payment_send_error": "",
+  "reducers.messages.settings_init_error": ""
 }
