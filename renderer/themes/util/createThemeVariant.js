@@ -1,6 +1,6 @@
 import { tint } from 'polished'
 import merge from 'lodash/merge'
-import base from './base'
+import base from '../base'
 
 const createThemeVariant = (name, overrides = {}) => {
   const { colors, ...rest } = overrides
