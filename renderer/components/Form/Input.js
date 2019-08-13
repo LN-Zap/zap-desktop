@@ -1,62 +1,15 @@
-/* eslint-disable react/no-multi-comp */
-
 import React from 'react'
 import { compose } from 'redux'
 import PropTypes from 'prop-types'
 import { asField } from 'informed'
 import styled, { withTheme } from 'styled-components'
-import system from '@rebass/components'
 import { Flex } from 'rebass'
 import Search from 'components/Icon/Search'
 import { extractSpaceProps } from 'themes/util'
 import { withInputValidation } from 'hocs'
 import { Message, Text } from 'components/UI'
 import InputLabel from './InputLabel'
-
-const isFieldValid = ({ value, error, touched }) => {
-  return value && !error && touched
-}
-
-const mapDefaultBorderColor = props => {
-  const {
-    isDisabled,
-    isReadOnly,
-    fieldState,
-    fieldState: { error, asyncError },
-    theme: {
-      colors: { gray, superGreen, superRed },
-    },
-  } = props
-  let borderColor = gray
-
-  if (isFieldValid(fieldState) && !props.highlightOnValid) {
-    return borderColor
-  }
-
-  if (isReadOnly || isDisabled) {
-    borderColor = gray
-  } else if (error || asyncError) {
-    borderColor = superRed
-  } else if (isFieldValid(fieldState)) {
-    borderColor = superGreen
-  }
-  return borderColor
-}
-
-const mapFocusBorderColor = props => {
-  const {
-    fieldState,
-    theme: {
-      colors: { lightningOrange, superGreen },
-    },
-  } = props
-
-  if (!props.highlightOnValid) {
-    return lightningOrange
-  }
-
-  return fieldState.touched && isFieldValid(fieldState) ? superGreen : lightningOrange
-}
+import { createSystemInput } from './util'
 
 const SearchIcon = styled(Search)`
   margin-right: -${props => props.width}px;
@@ -66,44 +19,7 @@ const SearchIcon = styled(Search)`
 `
 
 // Create an html input element that accepts all style props from styled-system.
-const SystemInput = styled(
-  system(
-    {
-      as: 'input',
-      border: 1,
-      borderColor: 'gray',
-      borderRadius: 5,
-      bg: 'transparent',
-      color: 'primaryText',
-      fontFamily: 'sans',
-      fontSize: 'm',
-      fontWeight: 'light',
-      p: 3,
-      width: 1,
-    },
-    'space',
-    'color',
-    'borders',
-    'borderColor',
-    'borderRadius',
-    'fontFamily',
-    'textAlign',
-    'fontSize',
-    'fontWeight',
-    'width'
-  )
-)`
-  opacity: ${props => (props.isDisabled || props.isReadOnly ? '0.6' : 'inherit')};
-  outline: none;
-  border-color: ${mapDefaultBorderColor};
-  &:not([readOnly]):not([disabled]):focus {
-    border-color: ${mapFocusBorderColor};
-  }
-  ::-webkit-search-decoration:hover,
-  ::-webkit-search-cancel-button:hover {
-    cursor: pointer;
-  }
-`
+export const SystemInput = createSystemInput('input')
 
 /**
  * @name Input

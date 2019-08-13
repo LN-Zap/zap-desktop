@@ -1,99 +1,17 @@
-/* eslint-disable react/no-multi-comp */
-
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { asField } from 'informed'
-import styled, { withTheme } from 'styled-components'
-import { styles } from 'styled-system'
-import system from '@rebass/components'
+import { withTheme } from 'styled-components'
 import { Flex } from 'rebass'
 import { extractSpaceProps } from 'themes/util'
 import { withInputValidation } from 'hocs'
 import { Message, Text } from 'components/UI'
 import InputLabel from './InputLabel'
+import { createSystemInput } from './util'
 
-const isFieldValid = ({ value, error, asyncError, touched }) => {
-  return value && !error && !asyncError && touched
-}
-
-const mapDefaultBorderColor = props => {
-  const {
-    isDisabled,
-    isReadOnly,
-    fieldState,
-    fieldState: { error, asyncError },
-    theme: {
-      colors: { gray, superGreen, superRed },
-    },
-  } = props
-
-  let borderColor = gray
-
-  if (!props.highlightOnValid) {
-    return borderColor
-  }
-
-  if (isReadOnly || isDisabled) {
-    borderColor = gray
-  } else if (error || asyncError) {
-    borderColor = superRed
-  } else if (isFieldValid(fieldState)) {
-    borderColor = superGreen
-  }
-  return borderColor
-}
-
-const mapFocusBorderColor = props => {
-  const {
-    fieldState,
-    theme: {
-      colors: { lightningOrange, superGreen },
-    },
-  } = props
-
-  if (!props.highlightOnValid) {
-    return lightningOrange
-  }
-
-  return isFieldValid(fieldState) ? superGreen : lightningOrange
-}
-
-// Create an html textarea element that accepts all style props from styled-system.
-const SystemTextArea = styled(
-  system(
-    {
-      as: 'textarea',
-      border: 1,
-      borderColor: 'gray',
-      borderRadius: 5,
-      bg: 'transparent',
-      color: 'primaryText',
-      fontFamily: 'sans',
-      fontSize: 'm',
-      fontWeight: 'light',
-      p: 3,
-      width: 1,
-      rows: 5,
-    },
-    'space',
-    'color',
-    'borders',
-    'borderColor',
-    'borderRadius',
-    'fontFamily',
-    'fontSize',
-    'fontWeight',
-    'width'
-  )
-)`
-  opacity: ${props => (props.isDisabled || props.isReadOnly ? '0.6' : 'inherit')};
-  outline: none;
-  border-color: ${mapDefaultBorderColor};
-  &:not([readOnly]):not([disabled]):focus {
-    border-color: ${mapFocusBorderColor};
-  }
-`
+// Create an html input element that accepts all style props from styled-system.
+export const SystemTextArea = createSystemInput('textarea')
 
 /**
  * @name TextArea
