@@ -1,11 +1,12 @@
 import get from 'lodash/get'
 import { createSelector } from 'reselect'
 import { grpc } from 'workers'
+import { getIntl } from '@zap/i18n'
 import { openModal, closeModal } from './modal'
 import { settingsSelectors } from './settings'
 import { showError } from './notification'
 import createReducer from './utils/createReducer'
-
+import messages from './messages'
 // ------------------------------------
 // Initial State
 // ------------------------------------
@@ -124,8 +125,10 @@ export const newAddressSuccess = (addressType, address) => async (dispatch, getS
  * @returns {Function} Thunk
  */
 export const newAddressFailure = (addressType, error) => dispatch => {
-  // TODO: i18n compatibility.
-  dispatch(showError(`Unable to get ${addressType} address: ${error}`))
+  const intl = getIntl()
+  dispatch(
+    showError(intl.formatMessage(messages.address_new_address_error, { addressType, error }))
+  )
   dispatch({
     type: NEW_ADDRESS_FAILURE,
     addressType,

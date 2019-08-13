@@ -3,6 +3,7 @@ import { proxyValue } from 'comlinkjs'
 import orderBy from 'lodash/orderBy'
 import throttle from 'lodash/throttle'
 import config from 'config'
+import { getIntl } from '@zap/i18n'
 import { requestSuggestedNodes } from '@zap/utils/api'
 import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
 import { grpc } from 'workers'
@@ -12,7 +13,7 @@ import { walletSelectors } from './wallet'
 import { getNodeDisplayName, updateNodeData, networkSelectors } from './network'
 import { putConfig, settingsSelectors } from './settings'
 import createReducer from './utils/createReducer'
-
+import messages from './messages'
 // ------------------------------------
 // Initial State
 // ------------------------------------
@@ -531,7 +532,12 @@ export const openChannel = data => async (dispatch, getState) => {
   dispatch(addLoadingChannel(loadingChannel))
 
   // Show notification.
-  dispatch(showWarning('Channel opening initiated', { payload: { pubkey }, isProcessing: true }))
+  dispatch(
+    showWarning(getIntl().formatMessage(messages.channels_open_warning), {
+      payload: { pubkey },
+      isProcessing: true,
+    })
+  )
 
   // Attempt to open the channel.
   try {

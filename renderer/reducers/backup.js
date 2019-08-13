@@ -1,12 +1,13 @@
 import set from 'lodash/set'
 import { send } from 'redux-electron-ipc'
 import { grpc } from 'workers'
+import { getIntl } from '@zap/i18n'
 import { isSCBRestoreEnabled } from '@zap/utils/featureFlag'
 import { walletSelectors } from './wallet'
 import { infoSelectors } from './info'
 import { showError, showNotification } from './notification'
 import createReducer from './utils/createReducer'
-
+import messages from './messages'
 // ------------------------------------
 // Initial State
 // ------------------------------------
@@ -149,8 +150,7 @@ export const queryWalletBackupSuccess = (event, { walletId, backup }) => async d
  * @returns {Function} Thunk
  */
 export const queryWalletBackupFailure = () => async dispatch => {
-  // TODO add intl support
-  dispatch(showError(`Unable to find backup file`))
+  dispatch(showError(getIntl().formatMessage(messages.backup_not_found_error)))
 }
 
 // ------------------------------------
@@ -396,15 +396,15 @@ export const queryWalletBackup = (walletId, provider) => async (dispatch, getSta
  * @returns {Function} Thunk
  */
 export const restoreWallet = backup => async dispatch => {
+  const intl = getIntl()
   try {
     const result = await grpc.services.Lightning.restoreChannelBackups({
       multi_chan_backup: backup,
     })
-    // TODO add intl support
-    dispatch(showNotification(`Wallet backup imported successfully`))
+    dispatch(showNotification(intl.formatMessage(messages.backup_import_success)))
     return result
   } catch (e) {
-    dispatch(showError(`Backup import has failed: ${e.message}`))
+    dispatch(showError(intl.formatMessage(messages.backup_import_error, { error: e.message })))
   }
 }
 
