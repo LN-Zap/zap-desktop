@@ -1,6 +1,7 @@
 import { send } from 'redux-electron-ipc'
 import { updateIntl } from 'react-intl-redux'
 import translations from '@zap/i18n/translation'
+import { setIntlLocale } from '@zap/i18n'
 import { putConfig, settingsSelectors } from './settings'
 
 // ------------------------------------
@@ -53,7 +54,7 @@ export const setLocale = locale => async (dispatch, getState) => {
       messages: state.locale[locale],
     })
   )
-
+  setIntlLocale(locale)
   // Save the new locale setting.
   await dispatch(putConfig('locale', locale))
 
