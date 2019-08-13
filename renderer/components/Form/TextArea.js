@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { asField } from 'informed'
@@ -13,138 +13,136 @@ import { createSystemInput } from './util'
 // Create an html input element that accepts all style props from styled-system.
 export const SystemTextArea = createSystemInput('textarea')
 
-/**
- * @name TextArea
- * @example
- * <TextArea />
- */
-class TextArea extends React.PureComponent {
-  static displayName = 'TextArea'
+const TextArea = ({
+  description,
+  onChange,
+  onBlur,
+  onFocus,
+  forwardedRef,
+  label,
+  initialValue,
+  isDisabled,
+  isRequired,
+  isReadOnly,
+  theme,
+  field,
+  fieldApi,
+  fieldState,
+  justifyContent,
+  hasMessage,
+  variant,
+  className,
+  tooltip,
+  willAutoFocus,
+  ...rest
+}) => {
+  const [hasFocus, setFocus] = useState(false)
+  const inputRef = useRef(forwardedRef)
+  const [spaceProps, otherProps] = extractSpaceProps(rest)
+  const { setValue, setTouched } = fieldApi
+  const { value, maskedValue, error, asyncError } = fieldState
 
-  static propTypes = {
-    description: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-    field: PropTypes.string.isRequired,
-    fieldApi: PropTypes.object.isRequired,
-    fieldState: PropTypes.object.isRequired,
-    forwardedRef: PropTypes.object,
-    hasMessage: PropTypes.bool,
-    highlightOnValid: PropTypes.bool,
-    isDisabled: PropTypes.bool,
-    isReadOnly: PropTypes.bool,
-    isRequired: PropTypes.bool,
-    justifyContent: PropTypes.string,
-    label: PropTypes.string,
-    onBlur: PropTypes.func,
-    onChange: PropTypes.func,
-    onFocus: PropTypes.func,
-    theme: PropTypes.object.isRequired,
-    tooltip: PropTypes.string,
-    variant: PropTypes.string,
-    willAutoFocus: PropTypes.bool,
-  }
-
-  static defaultProps = {
-    hasMessage: true,
-    highlightOnValid: true,
-  }
-
-  state = {
-    hasFocus: false,
-  }
-
-  constructor(props) {
-    super(props)
-    const { forwardedRef } = this.props
-    this.inputRef = forwardedRef || React.createRef()
-  }
-
-  componentDidMount() {
-    const { willAutoFocus } = this.props
+  useEffect(() => {
     if (willAutoFocus) {
-      this.inputRef.current.focus()
+      inputRef.current.focus()
     }
+  }, [willAutoFocus])
+
+  const getValue = () => {
+    if (typeof value === 'undefined') {
+      return initialValue
+    }
+    return !maskedValue && maskedValue !== 0 ? '' : maskedValue
   }
 
-  render() {
-    const {
-      description,
-      onChange,
-      onBlur,
-      onFocus,
-      forwardedRef,
-      label,
-      isDisabled,
-      isRequired,
-      isReadOnly,
-      theme,
-      field,
-      fieldApi,
-      fieldState,
-      justifyContent,
-      hasMessage,
-      variant,
-      tooltip,
-      ...rest
-    } = this.props
-    const { hasFocus } = this.state
-    const { setValue, setTouched } = fieldApi
-    const { maskedValue } = fieldState
-    const [spaceProps, otherProps] = extractSpaceProps(rest)
+  return (
+    <Flex
+      flexDirection="column"
+      justifyContent={justifyContent}
+      {...spaceProps}
+      className={className}
+    >
+      {label && (
+        <InputLabel field={field} isRequired={isRequired} tooltip={tooltip}>
+          {label}
+        </InputLabel>
+      )}
+      <SystemTextArea
+        {...otherProps}
+        ref={inputRef}
+        disabled={isDisabled}
+        fieldState={fieldState}
+        name={field}
+        onBlur={e => {
+          // set touched to true to enforce validity highlight.
+          setTouched(true)
+          // Make the state aware that the element is no longer focused.
+          setFocus(false)
+          if (onBlur) {
+            onBlur(e)
+          }
+        }}
+        onChange={e => {
+          setValue(e.target.value)
+          if (onChange) {
+            onChange(e)
+          }
+        }}
+        onFocus={e => {
+          // Make the state aware that the element is now focused.
+          setFocus(true)
+          if (onFocus) {
+            onFocus(e)
+          }
+        }}
+        p={variant === 'thin' ? 2 : 3}
+        readOnly={isReadOnly}
+        required={isRequired}
+        theme={theme}
+        value={getValue()}
+      />
+      {description && (
+        <Text color="gray" fontSize="s" mt={1}>
+          {description}
+        </Text>
+      )}
+      {hasMessage && (error || asyncError) && (
+        <Message mt={1} variant={hasFocus ? 'warning' : 'error'}>
+          {error || asyncError}
+        </Message>
+      )}
+    </Flex>
+  )
+}
 
-    return (
-      <Flex flexDirection="column" justifyContent={justifyContent} {...spaceProps}>
-        {label && (
-          <InputLabel field={field} isRequired={isRequired} tooltip={tooltip}>
-            {label}
-          </InputLabel>
-        )}
-        <SystemTextArea
-          {...otherProps}
-          ref={this.inputRef}
-          disabled={isDisabled}
-          field={field}
-          fieldState={fieldState}
-          onBlur={e => {
-            // set touched to true to enforce validity highlight.
-            setTouched(true)
-            // Make the state aware that the element is no longer focused.
-            this.setState({ hasFocus: false })
-            if (onBlur) {
-              onBlur(e)
-            }
-          }}
-          onChange={e => {
-            setValue(e.target.value)
-            if (onChange) {
-              onChange(e)
-            }
-          }}
-          onFocus={e => {
-            // Make the state aware that the element is now focused.
-            this.setState({ hasFocus: true })
-            if (onFocus) {
-              onFocus(e)
-            }
-          }}
-          p={variant === 'thin' ? 2 : 3}
-          readOnly={isReadOnly}
-          required={isRequired}
-          theme={theme}
-          value={!maskedValue && maskedValue !== 0 ? '' : maskedValue}
-        />
-        {description && (
-          <Text color="gray" fontSize="s" mt={1}>
-            {description}
-          </Text>
-        )}
-        {hasMessage && (fieldState.error || fieldState.asyncError) && (
-          <Message mt={1} variant={hasFocus ? 'warning' : 'error'}>
-            {fieldState.error || fieldState.asyncError}
-          </Message>
-        )}
-      </Flex>
-    )
-  }
+TextArea.propTypes = {
+  className: PropTypes.string,
+  description: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  field: PropTypes.string.isRequired,
+  fieldApi: PropTypes.object.isRequired,
+  fieldState: PropTypes.object.isRequired,
+  forwardedRef: PropTypes.object,
+  hasMessage: PropTypes.bool,
+  highlightOnValid: PropTypes.bool,
+  initialValue: PropTypes.string,
+  isDisabled: PropTypes.bool,
+  isReadOnly: PropTypes.bool,
+  isRequired: PropTypes.bool,
+  justifyContent: PropTypes.string,
+  label: PropTypes.string,
+  onBlur: PropTypes.func,
+  onChange: PropTypes.func,
+  onFocus: PropTypes.func,
+  theme: PropTypes.object.isRequired,
+  tooltip: PropTypes.string,
+  variant: PropTypes.string,
+  willAutoFocus: PropTypes.bool,
+}
+
+TextArea.defaultProps = {
+  hasMessage: true,
+  highlightOnValid: true,
+  initialValue: '',
 }
 
 const BasicTextArea = withTheme(TextArea)
