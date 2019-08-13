@@ -573,5 +573,12 @@
   "components.Wallet.menu_item_autopay": "",
   "components.Wallet.pay": "Сплатити",
   "components.Wallet.request": "Запит",
-  "containers.UI.copied_to_clipbpard": ""
+  "containers.UI.copied_to_clipbpard": "",
+  "reducers.address_new_address_error": "",
+  "reducers.backup_import_error": "",
+  "reducers.backup_import_success": "",
+  "reducers.backup_not_found_error": "",
+  "reducers.channels_open_warning": "",
+  "reducers.payment_send_error": "",
+  "reducers.settings_init_error": ""
 }

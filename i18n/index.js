@@ -4,6 +4,8 @@ import createDebug from 'debug'
 import isRenderer from 'is-electron-renderer'
 import PropTypes from 'prop-types'
 
+export { getIntl, setIntlLocale } from './intl'
+
 export const intlShape = PropTypes.instanceOf(Object)
 
 // Define list of language that we will support.

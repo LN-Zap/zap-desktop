@@ -3,9 +3,10 @@ import merge from 'lodash/merge'
 import set from 'lodash/set'
 import { createSelector } from 'reselect'
 import difference from '@zap/utils/difference'
+import { getIntl } from '@zap/i18n'
 import { showError } from './notification'
 import createReducer from './utils/createReducer'
-
+import messages from './messages'
 // ------------------------------------
 // Initial State
 // ------------------------------------
@@ -48,8 +49,11 @@ export const initSettings = () => async dispatch => {
     dispatch({ type: INIT_SETTINGS_SUCCESS, settings })
   } catch (e) {
     dispatch({ type: INIT_SETTINGS_FAILURE, initSettingsError: e })
-    // TODO: i18n compatibility.
-    dispatch(showError(`Unable to load settings: ${e.message}`, { timeout: 0 }))
+    dispatch(
+      showError(getIntl().formatMessage(messages.settings_init_error, { error: e.message }), {
+        timeout: 0,
+      })
+    )
   }
 }
 

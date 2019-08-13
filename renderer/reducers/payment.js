@@ -1,6 +1,7 @@
 import config from 'config'
 import { createSelector } from 'reselect'
 import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
+import { getIntl } from '@zap/i18n'
 import { decodePayReq, getNodeAlias } from '@zap/utils/crypto'
 import { convert } from '@zap/utils/btc'
 import delay from '@zap/utils/delay'
@@ -10,7 +11,7 @@ import { fetchBalance } from './balance'
 import { fetchChannels } from './channels'
 import { networkSelectors } from './network'
 import { showError } from './notification'
-
+import messages from './messages'
 // ------------------------------------
 // Initial State
 // ------------------------------------
@@ -136,7 +137,7 @@ export const sendPayment = data => dispatch => {
   const paymentHashTag = invoice.tags ? invoice.tags.find(t => t.tagName === 'payment_hash') : null
 
   if (!paymentHashTag || !paymentHashTag.data) {
-    dispatch(showError('Unable to send payment: Invalid invoice (no payment hash)'))
+    dispatch(showError(getIntl().formatMessage(messages.payment_send_error)))
     return
   }
 
