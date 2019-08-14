@@ -1,3 +1,4 @@
+import React from 'react'
 import { connect } from 'react-redux'
 import { fetchPeers } from 'reducers/peers'
 import { setIsWalletOpen } from 'reducers/wallet'
@@ -10,6 +11,7 @@ import { setModals, modalSelectors } from 'reducers/modal'
 import { fetchSuggestedNodes } from 'reducers/channels'
 import { initTickers } from 'reducers/ticker'
 import App from 'components/App'
+import AppErrorBoundary from 'components/App/AppErrorBoundary'
 
 const mapStateToProps = state => ({
   isAppReady: appSelectors.isAppReady(state),
@@ -29,7 +31,15 @@ const mapDispatchToProps = {
   fetchSuggestedNodes,
 }
 
-export default connect(
+const ConnectedApp = connect(
   mapStateToProps,
   mapDispatchToProps
 )(App)
+
+const AppWithErrorBoundaries = props => (
+  <AppErrorBoundary>
+    <ConnectedApp {...props} />
+  </AppErrorBoundary>
+)
+
+export default AppWithErrorBoundaries
