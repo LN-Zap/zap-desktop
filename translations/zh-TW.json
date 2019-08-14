@@ -35,6 +35,7 @@
   "components.Activity.PaymentModal.current_value": "",
   "components.Activity.PaymentModal.date_sent": "",
   "components.Activity.PaymentModal.fee": "矿工费",
+  "components.Activity.PaymentModal.memo": "备注",
   "components.Activity.PaymentModal.preimage": "",
   "components.Activity.PaymentModal.subtitle": "",
   "components.Activity.PaymentModal.title_sent": "",

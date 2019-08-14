@@ -35,6 +35,7 @@
   "components.Activity.PaymentModal.current_value": "Aktueller Wert",
   "components.Activity.PaymentModal.date_sent": "Sendedatum",
   "components.Activity.PaymentModal.fee": "Gebühr",
+  "components.Activity.PaymentModal.memo": "Memo",
   "components.Activity.PaymentModal.preimage": "Zahlung Urbild",
   "components.Activity.PaymentModal.subtitle": "Lightning Zahlung",
   "components.Activity.PaymentModal.title_sent": "Gesendet",
