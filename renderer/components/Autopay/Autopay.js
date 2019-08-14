@@ -1,7 +1,7 @@
 import React from 'react'
 import { ThemeProvider } from 'styled-components'
-import { Panel, Heading } from 'components/UI'
 import { FormattedMessage } from 'react-intl'
+import { Panel, Heading } from 'components/UI'
 import AutopayList from 'containers/Autopay/AutopayList'
 import AutopayMerchantList from 'containers/Autopay/AutopayMerchantList'
 import AutopayCreateModal from 'containers/Autopay/AutopayCreateModal'
@@ -12,9 +12,11 @@ import AutopayActions from './AutopayActions'
 import messages from './messages'
 
 const customiseTheme = theme => {
-  return createThemeVariant('autopilot', {
-    ...theme.colors,
-    lightningOrange: palette.superBlue,
+  return createThemeVariant('autopay', {
+    colors: {
+      ...theme.colors,
+      lightningOrange: palette.superBlue,
+    },
   })
 }
 
