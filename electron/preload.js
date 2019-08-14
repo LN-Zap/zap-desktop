@@ -21,6 +21,7 @@ import { normalizeBackupDir } from './walletBackup/local'
  */
 const WHITELISTED_DOMAINS = [
   'blockstream.info',
+  'github.com',
   'coinfaucet.eu',
   'insight.litecore.io',
   'live.blockcypher.com',
