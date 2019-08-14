@@ -206,6 +206,7 @@
   "components.Dialog.app_crashed_dialog_header": "",
   "components.Dialog.app_crashed_dialog_hide_stack": "",
   "components.Dialog.app_crashed_dialog_show_stack": "",
+  "components.Dialog.app_crashed_dialog_submit_issue": "",
   "components.Dialog.app_crashed_dialog_text": "",
   "components.Dialog.lnd_crashed_dialog_button_text": "U redu",
   "components.Dialog.lnd_crashed_dialog_code": "Kod greške:",
