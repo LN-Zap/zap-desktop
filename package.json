@@ -330,7 +330,7 @@
     "informed": "2.11.7",
     "is-electron-renderer": "2.0.1",
     "jstimezonedetect": "1.0.6",
-    "lnd-grpc": "0.3.0-beta.3",
+    "lnd-grpc": "0.3.0-beta.5",
     "lndconnect": "0.2.7",
     "lodash": "4.17.14",
     "node-fetch": "2.6.0",

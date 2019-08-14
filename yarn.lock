@@ -3755,7 +3755,7 @@ babel-plugin-styled-components@1.10.6, "babel-plugin-styled-components@>= 1":
     "@babel/helper-annotate-as-pure" "^7.0.0"
     "@babel/helper-module-imports" "^7.0.0"
     babel-plugin-syntax-jsx "^6.18.0"
-    lodash "^4.17.10"
+    lodash "^4.17.11"
 
 babel-plugin-syntax-async-functions@^6.8.0:
   version "6.13.0"
@@ -10660,16 +10660,16 @@ lnd-binary@0.3.11:
     "true-case-path" "^2.0.0"
     unzip-stream "^0.3.0"
 
-lnd-grpc@0.3.0-beta.3:
-  version "0.3.0-beta.3"
-  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.3.0-beta.3.tgz#2238e0f08307efb482f95eb9217b560b1d362e85"
-  integrity sha512-1Zefsal6ddqGcuLJJ7i4Zsx2D7ddvBtCmH47wlGbmmB9HDXfJqtLC9fWwP6Z3sr44fDPD/J39jcbrSxqcxTW2Q==
+lnd-grpc@0.3.0-beta.5:
+  version "0.3.0-beta.5"
+  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.3.0-beta.5.tgz#0f83f7ea769990ca40f36c7fee82358db33a413b"
+  integrity sha512-d0EW16KKg2why0BS1FO6btJ9phvFgBEgJBBOgVjNBFJWzGfDIPUfnw+emyzqttRyplSm1nT7GOzlNb4j68+Amw==
   dependencies:
     "@grpc/grpc-js" "0.5.2"
     "@ln-zap/proto-loader" "0.5.1"
     debug "4.1.1"
     javascript-state-machine "3.1.0"
-    lndconnect "0.2.8"
+    lndconnect "0.2.9"
     lodash.defaultsdeep "4.6.1"
     semver "6.3.0"
     untildify "4.0.0"
@@ -10685,10 +10685,10 @@ lndconnect@0.2.7:
     strict-uri-encode "^2.0.0"
     untildify "^4.0.0"
 
-lndconnect@0.2.8:
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/lndconnect/-/lndconnect-0.2.8.tgz#d0b64f3ecdb4981f4a0fe3584050849cf1ebb6e0"
-  integrity sha512-Im/PTTBodHf+debwxXESIAcVjRwfFhi2ZLvVwuqrG8jyzfll6JWoQ3uYwSG1MILeY7cuC3gLBuPM6kNGaN9drg==
+lndconnect@0.2.9:
+  version "0.2.9"
+  resolved "https://registry.yarnpkg.com/lndconnect/-/lndconnect-0.2.9.tgz#82cae8a2d07ea3a03315fb3085096d838f15477c"
+  integrity sha512-kw4A63wg9yygfM3xQZcvSbLLoK0ZGfFLyiCDMJOy5P5Pq6e76sJLDgy9WODqdTg69elK7xwthp806xOjJLdhVw==
   dependencies:
     base64url "^3.0.1"
     decode-uri-component "^0.2.0"

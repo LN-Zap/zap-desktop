@@ -18,5 +18,5 @@ export default function(ms, promise, message = 'Timed out') {
     return value
   }
   // Returns a race between our timeout and the passed in promise
-  return Promise.race([promise, timeout]).then(clearTimer, clearTimer)
+  return Promise.race([promise, timeout]).finally(clearTimer)
 }
