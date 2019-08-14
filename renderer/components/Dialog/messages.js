@@ -8,4 +8,8 @@ export default defineMessages({
   lnd_crashed_dialog_messgage: 'Error message:',
   lnd_crashed_dialog_unknown: 'Unknown',
   lnd_crashed_dialog_button_text: 'Ok',
+  app_crashed_dialog_text: 'Ok',
+  app_crashed_dialog_header: 'Unexpected error has occurred',
+  app_crashed_dialog_show_stack: 'Show stack trace',
+  app_crashed_dialog_hide_stack: 'Hide stack trace',
 })
