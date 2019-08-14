@@ -3,11 +3,20 @@ import PropTypes from 'prop-types'
 import { Flex, Box } from 'rebass'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
+import styled from 'styled-components'
+import { themeGet } from 'styled-system'
 import Delete from 'components/Icon/Delete'
-import { Dialog, Heading, DialogOverlay, Text, Button } from 'components/UI'
+import { Dialog, Heading, DialogOverlay, Text, Button, Bar, Span } from 'components/UI'
 import messages from './messages'
 
-const DialogAppCrashed = ({ onCancel, error, history, isOpen }) => {
+const ShowDetails = styled(Span)`
+  &:hover {
+    color: ${themeGet('colors.lightningOrange')};
+  }
+  cursor: pointer;
+`
+
+const DialogAppCrashed = ({ onCancel, onSubmit, error, history, isOpen }) => {
   const [isStackVisible, setIsStackVisible] = useState(false)
   const handleClose = () => {
     onCancel && onCancel()
@@ -20,7 +29,7 @@ const DialogAppCrashed = ({ onCancel, error, history, isOpen }) => {
 
   const header = (
     <Flex alignItems="center" flexDirection="column" mb={4}>
-      <Box color="superRed" mb={2}>
+      <Box color="lightningOrange" mb={2}>
         <Delete height={72} width={72} />
       </Box>
       <Heading.h1>
@@ -30,26 +39,37 @@ const DialogAppCrashed = ({ onCancel, error, history, isOpen }) => {
   )
 
   const body = error && (
-    <>
-      <Text>{error.toString()}</Text>
-      <Button onClick={() => setIsStackVisible(!isStackVisible)} variant="secondary">
-        <FormattedMessage
-          {...messages[
-            isStackVisible ? 'app_crashed_dialog_hide_stack' : 'app_crashed_dialog_show_stack'
-          ]}
-        />
-      </Button>
+    <Flex alignItems="center" flexDirection="column" px={4} width={640}>
+      <Text textAlign="center">
+        {error.message}
+        <ShowDetails
+          color="gray"
+          fontSize="s"
+          ml={1}
+          onClick={() => setIsStackVisible(!isStackVisible)}
+        >
+          {'('}
+          <FormattedMessage
+            {...messages[
+              isStackVisible ? 'app_crashed_dialog_hide_stack' : 'app_crashed_dialog_show_stack'
+            ]}
+          />
+          {')'}
+        </ShowDetails>
+      </Text>
+
       {isStackVisible && (
-        <Text color="gray" fontSize="xs" px={4}>
-          {error.stack}
-        </Text>
+        <>
+          <Bar mb={2} mt={3} mx={4} variant="light" width="100%" />
+          <Text color="gray">{error.stack}</Text>
+        </>
       )}
-    </>
+    </Flex>
   )
 
   const buttons = (
-    <Button onClick={handleClose} variant="danger">
-      <FormattedMessage {...messages.app_crashed_dialog_text} />
+    <Button onClick={() => onSubmit && onSubmit(error)} variant="normal">
+      <FormattedMessage {...messages.app_crashed_dialog_submit_issue} />
     </Button>
   )
 
@@ -68,7 +88,8 @@ DialogAppCrashed.propTypes = {
     push: PropTypes.func.isRequired,
   }),
   isOpen: PropTypes.bool.isRequired,
-  onCancel: PropTypes.func,
+  onCancel: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 }
 
 export default withRouter(injectIntl(DialogAppCrashed))
