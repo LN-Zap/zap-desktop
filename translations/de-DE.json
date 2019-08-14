@@ -207,7 +207,7 @@
   "components.Dialog.app_crashed_dialog_hide_stack": "",
   "components.Dialog.app_crashed_dialog_show_stack": "",
   "components.Dialog.app_crashed_dialog_submit_issue": "",
-  "components.Dialog.app_crashed_dialog_text": "",
+  "components.Dialog.app_crashed_dialog_text": "Ok",
   "components.Dialog.lnd_crashed_dialog_button_text": "Ok",
   "components.Dialog.lnd_crashed_dialog_code": "Fehlercode:",
   "components.Dialog.lnd_crashed_dialog_header": "Lnd ist unerwartet beendet!",
