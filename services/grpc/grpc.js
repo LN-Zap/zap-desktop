@@ -98,7 +98,7 @@ class ZapGrpc extends EventEmitter {
       )
       return await promiseTimeout(WALLET_UNLOCKER_TIMEOUT, grpc.activateLightning())
     } catch (e) {
-      grpcLog.debug(`Error when trying to connect to LND grpc: %o`, e)
+      grpcLog.error(`Error when trying to connect to LND grpc: %o`, e)
       throw e
     }
   }
@@ -118,7 +118,7 @@ class ZapGrpc extends EventEmitter {
       )
       return await promiseTimeout(WALLET_UNLOCKER_TIMEOUT, grpc.activateLightning())
     } catch (e) {
-      grpcLog.debug(`Error when trying to create wallet: %o`, e)
+      grpcLog.error(`Error when trying to create wallet: %o`, e)
       throw e
     }
   }
