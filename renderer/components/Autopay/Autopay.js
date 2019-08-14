@@ -12,7 +12,7 @@ import AutopayActions from './AutopayActions'
 import messages from './messages'
 
 const customiseTheme = theme => {
-  return createThemeVariant('autopilot', {
+  return createThemeVariant('autopay', {
     colors: {
       ...theme.colors,
       lightningOrange: palette.superBlue,
