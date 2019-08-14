@@ -59,8 +59,8 @@ class ZapUpdater {
   configure(settings) {
     Object.assign(this.settings, settings)
 
-    autoUpdater.allowDowngrade = false
     autoUpdater.channel = this.settings.channel
+    autoUpdater.allowDowngrade = false
   }
 
   /**

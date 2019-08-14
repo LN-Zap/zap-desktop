@@ -10,7 +10,7 @@ const isForceCloseDialog = state => {
 
 const csvDelay = state => {
   const selectedChannel = channelsSelectors.selectedChannel(state)
-  return selectedChannel ? selectedChannel.csv_delay : 0
+  return selectedChannel && selectedChannel.csv_delay ? selectedChannel.csv_delay : 0
 }
 
 const mapStateToProps = state => {

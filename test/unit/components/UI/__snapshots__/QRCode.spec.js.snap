@@ -103,9 +103,16 @@ exports[`component.UI.QRCode should render correctly 1`] = `
   margin: 0;
   border-style: solid;
   border-color: white;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
   position: absolute;
-  top: calc(10% - 2px);
-  left: calc(10% - 2px);
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
   -webkit-filter: none;
   filter: none;
   -webkit-transition: all 0.5s ease;
@@ -134,9 +141,6 @@ exports[`component.UI.QRCode should render correctly 1`] = `
   border-style: solid;
   border-color: white;
   border-width: 8px;
-  position: absolute;
-  top: calc(10% - 2px);
-  left: calc(10% - 2px);
 }
 
 <div

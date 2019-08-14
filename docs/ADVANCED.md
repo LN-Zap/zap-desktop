@@ -53,7 +53,6 @@ To setup your own `lnd` for use with Zap please follow the instructions on the [
 To test that everything has been installed correctly:
 
 ```bash
-yarn build
 yarn test
 ```
 
@@ -62,7 +61,7 @@ yarn test
 To run Zap in development mode:
 
 ```bash
-yarn && yarn dev
+yarn dev
 ```
 
 ### Linting
@@ -71,6 +70,16 @@ To check linting:
 
 ```bash
 yarn lint
+```
+
+### Packaging
+
+To build a production ready version of the app for your target platform:
+
+```bash
+yarn package --mac // Build for mac
+yarn package --win // Build for windows
+yarn package --linux // Build for linux
 ```
 
 ### Debugging
