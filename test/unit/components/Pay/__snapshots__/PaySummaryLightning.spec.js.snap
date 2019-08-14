@@ -131,13 +131,16 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
       />
     }
     right={
-      <React.Fragment>
+      <ForwardRef(Styled(styled.div))
+        alignItems="baseline"
+      >
+        <Memo(ConnectFunction)
+          mr={2}
+        />
         <CryptoValue
           value={10000}
         />
-         
-        BTC
-      </React.Fragment>
+      </ForwardRef(Styled(styled.div))>
     }
   />
   <Bar
