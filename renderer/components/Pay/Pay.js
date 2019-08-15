@@ -332,39 +332,94 @@ class Pay extends React.Component {
   }
 
   render() {
-    const { mx, width } = this.props
+    const { currentStep, invoice, isLn, isOnchain, previousStep } = this.state
+    const {
+      chain,
+      chainName,
+      changeFilter,
+      channelBalance,
+      closeModal,
+      cryptoUnit,
+      cryptoUnitName,
+      fetchTickers,
+      initialAmountCrypto,
+      initialAmountFiat,
+      intl,
+      isProcessing,
+      isQueryingFees,
+      lndTargetConfirmations,
+      network,
+      onchainFees,
+      payInvoice,
+      queryFees,
+      queryRoutes,
+      redirectPayReq,
+      routes,
+      sendCoins,
+      setRedirectPayReq,
+      walletBalanceConfirmed,
+      ...rest
+    } = this.props
 
     return (
       <Form
         css={`
           height: 100%;
         `}
+        {...rest}
         getApi={this.setFormApi}
-        mx={mx}
         onSubmit={this.onSubmit}
-        width={width}
       >
         {({ formState }) => (
           <Panel>
             <Panel.Header>
-              <PayPanelHeader {...this.props} {...this.state} />
+              <PayPanelHeader
+                chainName={chainName}
+                cryptoUnitName={cryptoUnitName}
+                isLn={isLn}
+                isOnchain={isOnchain}
+              />
             </Panel.Header>
             <Panel.Body py={3}>
               <PayPanelBody
-                {...this.props}
-                {...this.state}
                 amountInSats={this.amountInSats()}
+                chain={chain}
+                chainName={chainName}
+                cryptoUnit={cryptoUnit}
+                cryptoUnitName={cryptoUnitName}
+                currentStep={currentStep}
                 formApi={this.formApi}
                 handlePayReqChange={this.handlePayReqChange}
+                initialAmountCrypto={initialAmountCrypto}
+                initialAmountFiat={initialAmountFiat}
+                intl={intl}
+                invoice={invoice}
+                isLn={isLn}
+                isOnchain={isOnchain}
+                isQueryingFees={isQueryingFees}
+                lndTargetConfirmations={lndTargetConfirmations}
+                network={network}
+                onchainFees={onchainFees}
+                previousStep={previousStep}
+                queryFees={queryFees}
+                redirectPayReq={redirectPayReq}
+                routes={routes}
+                walletBalanceConfirmed={walletBalanceConfirmed}
               />
             </Panel.Body>
             <Panel.Footer>
               <PayPanelFooter
-                {...this.props}
-                {...this.state}
                 amountInSats={this.amountInSats()}
+                channelBalance={channelBalance}
+                cryptoUnitName={cryptoUnitName}
+                currentStep={currentStep}
                 formState={formState}
+                invoice={invoice}
+                isLn={isLn}
+                isOnchain={isOnchain}
+                isProcessing={isProcessing}
                 previousStep={this.goToPreviousStep}
+                walletBalanceConfirmed={walletBalanceConfirmed}
               />
             </Panel.Footer>
           </Panel>

@@ -8,14 +8,77 @@ import PaySummary from './PaySummary'
 import { PAY_FORM_STEPS } from './constants'
 
 const PayPanelBody = props => {
-  const { currentStep } = props
+  const {
+    amountInSats,
+    chain,
+    chainName,
+    cryptoUnit,
+    cryptoUnitName,
+    currentStep,
+    formApi,
+    handlePayReqChange,
+    initialAmountCrypto,
+    initialAmountFiat,
+    intl,
+    invoice,
+    isLn,
+    isOnchain,
+    isQueryingFees,
+    lndTargetConfirmations,
+    network,
+    onchainFees,
+    previousStep,
+    queryFees,
+    redirectPayReq,
+    routes,
+    walletBalanceConfirmed,
+  } = props
 
   return (
     <>
-      <PayHelpText {...props} />
-      <PayAddressField {...props} />
-      <PayAmountFields {...props} />
-      {currentStep === PAY_FORM_STEPS.summary && <PaySummary {...props} />}
+      <PayHelpText
+        chainName={chainName}
+        cryptoUnitName={cryptoUnitName}
+        currentStep={currentStep}
+        previousStep={previousStep}
+        redirectPayReq={redirectPayReq}
+      />
+      <PayAddressField
+        chain={chain}
+        currentStep={currentStep}
+        handlePayReqChange={handlePayReqChange}
+        intl={intl}
+        isLn={isLn}
+        network={network}
+        redirectPayReq={redirectPayReq}
+      />
+      <PayAmountFields
+        cryptoUnit={cryptoUnit}
+        currentStep={currentStep}
+        formApi={formApi}
+        initialAmountCrypto={initialAmountCrypto}
+        initialAmountFiat={initialAmountFiat}
+        intl={intl}
+        invoice={invoice}
+        isOnchain={isOnchain}
+        isQueryingFees={isQueryingFees}
+        lndTargetConfirmations={lndTargetConfirmations}
+        onchainFees={onchainFees}
+        queryFees={queryFees}
+        walletBalanceConfirmed={walletBalanceConfirmed}
+      />
+      {currentStep === PAY_FORM_STEPS.summary && (
+        <PaySummary
+          amountInSats={amountInSats}
+          currentStep={currentStep}
+          formApi={formApi}
+          isLn={isLn}
+          isOnchain={isOnchain}
+          lndTargetConfirmations={lndTargetConfirmations}
+          onchainFees={onchainFees}
+          routes={routes}
+        />
+      )}
     </>
   )
 }
@@ -42,6 +105,11 @@ PayPanelBody.propTypes = {
     slow: PropTypes.number.isRequired,
   }).isRequired,
   network: PropTypes.string.isRequired,
+  onchainFees: PropTypes.shape({
+    fast: PropTypes.number,
+    medium: PropTypes.number,
+    slow: PropTypes.number,
+  }),
   previousStep: PropTypes.string,
   queryFees: PropTypes.func.isRequired,
   redirectPayReq: PropTypes.object,
