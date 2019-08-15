@@ -22,7 +22,7 @@ import ModalStack from './ModalStack'
 import Onboarding from './Onboarding/Onboarding'
 import Syncing from './Syncing'
 import App from './App'
-import WalletStarter from './WalletStarter'
+import WalletStarter from './Wallet/WalletStarter'
 
 // Wrap the page with our isLoading HOC so that the app displays the loading graphic when it first mounts.
 const PageWithLoading = withLoading(Page)
