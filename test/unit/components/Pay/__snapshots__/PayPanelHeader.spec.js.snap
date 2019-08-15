@@ -5,10 +5,9 @@ exports[`component.Pay.PayPanelHeader is an LN transaction should render correct
   <PayHeader
     title={
       <React.Fragment>
-        <FormattedMessage
+        <injectIntl(FormattedMessage)
           defaultMessage="Send"
           id="components.Pay.send"
-          values={Object {}}
         />
          
         Bitcoin
@@ -31,10 +30,9 @@ exports[`component.Pay.PayPanelHeader is an on-chain transaction should render c
   <PayHeader
     title={
       <React.Fragment>
-        <FormattedMessage
+        <injectIntl(FormattedMessage)
           defaultMessage="Send"
           id="components.Pay.send"
-          values={Object {}}
         />
          
         Bitcoin

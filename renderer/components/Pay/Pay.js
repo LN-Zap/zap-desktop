@@ -1,14 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import config from 'config'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import { decodePayReq, getMaxFee, isOnchain, isLn } from '@zap/utils/crypto'
-import { Form, Panel } from 'components/UI'
+import { Panel } from 'components/UI'
+import { Form } from 'components/Form'
 import { getAmountInSats, getFeeRate } from './utils'
 import PayPanelBody from './PayPanelBody'
 import PayPanelFooter from './PayPanelFooter'
 import PayPanelHeader from './PayPanelHeader'
 import { PAY_FORM_STEPS } from './constants'
+import { intlShape } from '@zap/i18n'
 
 class Pay extends React.Component {
   static propTypes = {

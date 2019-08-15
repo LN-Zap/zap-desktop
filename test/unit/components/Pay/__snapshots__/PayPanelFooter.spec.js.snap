@@ -8,10 +8,9 @@ exports[`component.Pay.PayPanelFooter current step is "address" should render co
     isDisabled={false}
     isProcessing={false}
     nextButtonText={
-      <FormattedMessage
+      <injectIntl(FormattedMessage)
         defaultMessage="Next"
         id="components.Pay.next"
-        values={Object {}}
       />
     }
     previousStep={[Function]}
@@ -21,10 +20,9 @@ exports[`component.Pay.PayPanelFooter current step is "address" should render co
     mt={3}
     textAlign="center"
   >
-    <FormattedMessage
+    <injectIntl(FormattedMessage)
       defaultMessage="Your current balance"
       id="components.Pay.current_balance"
-      values={Object {}}
     />
     :
   </Text>
@@ -38,10 +36,9 @@ exports[`component.Pay.PayPanelFooter current step is "address" should render co
      
     sats
      
-    <FormattedMessage
+    <injectIntl(FormattedMessage)
       defaultMessage="(onchain),"
       id="components.Pay.on_chain"
-      values={Object {}}
     />
   </Text>
   <Text
@@ -54,10 +51,9 @@ exports[`component.Pay.PayPanelFooter current step is "address" should render co
      
     sats
      
-    <FormattedMessage
+    <injectIntl(FormattedMessage)
       defaultMessage="(in channels)"
       id="components.Pay.in_channels"
-      values={Object {}}
     />
   </Text>
 </styled.div>
@@ -72,10 +68,9 @@ exports[`component.Pay.PayPanelFooter current step is "summary" should render co
     isProcessing={false}
     nextButtonText={
       <React.Fragment>
-        <FormattedMessage
+        <injectIntl(FormattedMessage)
           defaultMessage="Send"
           id="components.Pay.send"
-          values={Object {}}
         />
          
         <CryptoValue
@@ -92,10 +87,9 @@ exports[`component.Pay.PayPanelFooter current step is "summary" should render co
     mt={3}
     textAlign="center"
   >
-    <FormattedMessage
+    <injectIntl(FormattedMessage)
       defaultMessage="Your current balance"
       id="components.Pay.current_balance"
-      values={Object {}}
     />
     :
   </Text>
@@ -109,10 +103,9 @@ exports[`component.Pay.PayPanelFooter current step is "summary" should render co
      
     sats
      
-    <FormattedMessage
+    <injectIntl(FormattedMessage)
       defaultMessage="(onchain),"
       id="components.Pay.on_chain"
-      values={Object {}}
     />
   </Text>
   <Text
@@ -125,10 +118,9 @@ exports[`component.Pay.PayPanelFooter current step is "summary" should render co
      
     sats
      
-    <FormattedMessage
+    <injectIntl(FormattedMessage)
       defaultMessage="(in channels)"
       id="components.Pay.in_channels"
-      values={Object {}}
     />
   </Text>
 </styled.div>

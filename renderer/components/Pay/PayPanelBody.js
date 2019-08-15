@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { intlShape } from 'react-intl'
+import { intlShape } from '@zap/i18n'
 import PayAddressField from './PayAddressField'
 import PayAmountFields from './PayAmountFields'
 import PayHelpText from './PayHelpText'

@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Box } from 'rebass'
-import { intlShape } from 'react-intl'
 import { Keyframes } from 'react-spring/renderprops.cjs'
-import { LightningInvoiceInput } from 'components/UI'
+import { intlShape } from '@zap/i18n'
+import { LightningInvoiceInput } from 'components/Form'
 import messages from './messages'
 import { PAY_FORM_STEPS } from './constants'
 
