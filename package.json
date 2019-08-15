@@ -340,7 +340,7 @@
     "qrcode.react": "0.9.3",
     "react": "16.8.6",
     "react-dom": "16.8.6",
-    "react-hot-loader": "4.12.10",
+    "react-hot-loader": "4.12.11",
     "react-intl": "3.1.5",
     "react-intl-redux": "2.1.1",
     "react-redux": "7.1.0",
