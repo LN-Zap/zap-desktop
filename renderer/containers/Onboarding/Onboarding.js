@@ -15,6 +15,7 @@ import {
   isSCBRestoreEnabled,
 } from '@zap/utils/featureFlag'
 import * as Steps from './Steps'
+import AppErrorBoundary from 'components/ErrorBoundary/AppErrorBoundary'
 
 /**
  * removeSteps - Remove for steps based on a set of conditions.
@@ -226,11 +227,13 @@ const OnboardingModal = ({ hasWallets, onClose, ...rest }) => {
   useOnKeydown('Escape', onClose)
 
   return (
-    <ModalOverlay>
-      <Modal hasClose={hasWallets} onClose={onClose} p={4}>
-        <OnboardingContainer {...rest} />
-      </Modal>
-    </ModalOverlay>
+    <AppErrorBoundary onCloseDialog={onClose}>
+      <ModalOverlay>
+        <Modal hasClose={hasWallets} onClose={onClose} p={4}>
+          <OnboardingContainer {...rest} />
+        </Modal>
+      </ModalOverlay>
+    </AppErrorBoundary>
   )
 }
 

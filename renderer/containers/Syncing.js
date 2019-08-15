@@ -10,6 +10,7 @@ import { showNotification } from 'reducers/notification'
 import Syncing from 'components/Syncing'
 import { Modal, ModalOverlayStyles } from 'components/UI'
 import { useOnKeydown } from 'hooks'
+import AppErrorBoundary from 'components/ErrorBoundary/AppErrorBoundary'
 
 const mapStateToProps = state => ({
   address: addressSelectors.currentAddress(state),
@@ -43,11 +44,13 @@ const ModalOverlay = styled.div`
 const SyncingModal = ({ onClose, ...rest }) => {
   useOnKeydown('Escape', onClose)
   return (
-    <ModalOverlay>
-      <Modal hasClose onClose={onClose} {...rest} p={4}>
-        <SyncingContainer />
-      </Modal>
-    </ModalOverlay>
+    <AppErrorBoundary onCloseDialog={onClose}>
+      <ModalOverlay>
+        <Modal hasClose onClose={onClose} {...rest} p={4}>
+          <SyncingContainer />
+        </Modal>
+      </ModalOverlay>
+    </AppErrorBoundary>
   )
 }
 
