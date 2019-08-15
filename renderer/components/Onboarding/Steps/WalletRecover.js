@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Bar, Header, Spinner, Text } from 'components/UI'
-import { Form, Input } from 'components/Form'
+import { Form, PasswordInput } from 'components/Form'
 import { intlShape } from '@zap/i18n'
 import ErrorDialog from './components/ErrorDialog'
 import messages from './messages'
@@ -119,15 +119,13 @@ class WalletRecover extends React.Component {
               {!isCreatingWallet && createWalletError && (
                 <>
                   {isInvalidPassphrase(createWalletError) ? (
-                    <Input
+                    <PasswordInput
                       autoComplete="current-password"
                       description={intl.formatMessage({ ...messages.passphrase_description })}
                       field="passphrase"
                       isRequired
                       label={<FormattedMessage {...messages.passphrase_label} />}
-                      name="passphrase"
                       placeholder={intl.formatMessage({ ...messages.passphrase_placeholder })}
-                      type="password"
                       validateOnBlur={shouldValidateInline}
                       validateOnChange={shouldValidateInline}
                       willAutoFocus

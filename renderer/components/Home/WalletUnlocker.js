@@ -4,7 +4,7 @@ import { FormattedMessage, injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
 import { intlShape } from '@zap/i18n'
 import { Button } from 'components/UI'
-import { Form, Input } from 'components/Form'
+import { Form, PasswordInput } from 'components/Form'
 import WalletHeader from './WalletHeader'
 import messages from './messages'
 
@@ -82,15 +82,14 @@ class WalletUnlocker extends React.Component {
           <>
             <WalletHeader wallet={wallet} />
 
-            <Input
+            <PasswordInput
+              autoComplete="current-password"
               field="password"
-              id="password"
               isRequired
               label={<FormattedMessage {...messages.wallet_unlocker_password_label} />}
               minLength={8}
               my={3}
               placeholder={intl.formatMessage({ ...messages.wallet_unlocker_password_placeholder })}
-              type="password"
               validateOnBlur
               validateOnChange={formState.invalid}
               willAutoFocus

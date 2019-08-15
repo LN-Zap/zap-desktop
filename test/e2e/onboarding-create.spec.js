@@ -51,6 +51,7 @@ test('should create a new wallet', async t => {
   const word1 = seed[seedConfirmState.state.seedWordIndexes[0] - 1]
   const word2 = seed[seedConfirmState.state.seedWordIndexes[1] - 1]
   const word3 = seed[seedConfirmState.state.seedWordIndexes[2] - 1]
+  const password = 'password'
 
   // Fill out and submit SeedConfirm form.
   await t
@@ -59,8 +60,32 @@ test('should create a new wallet', async t => {
     .typeText(onboarding.seeedWordInput3, word3, { paste: true })
     .click(onboarding.nextButton)
 
-    // Fill out and submit Password form.
-    .typeText(onboarding.passwordInput, 'password', { paste: true })
+    // Fill out Password form.
+    .typeText(onboarding.passwordInput, password, { paste: true })
+
+    // Check if "Show/Hide password" functionality is working
+    .click(onboarding.passwordInputSeePasswordButton)
+
+    // We can see the password now
+    .expect(onboarding.passwordInput.value)
+    .eql(password, 'password equals to what we entered earlier')
+
+    // Input type is text and not password as it was previously
+    .expect(onboarding.passwordInput.getAttribute('type'))
+    .eql('text')
+
+    // Click on the "Show/Hide password" button again to hide password
+    .click(onboarding.passwordInputSeePasswordButton)
+
+    // We can't see the password now
+    .expect(onboarding.passwordInput.textContent)
+    .notEql(password, 'password is hidden now')
+
+    // Input type is password and not text as it was previously
+    .expect(onboarding.passwordInput.getAttribute('type'))
+    .eql('password')
+
+    // Continue
     .click(onboarding.nextButton)
 
     // Fill out and submit Name form.

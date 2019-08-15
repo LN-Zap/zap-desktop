@@ -4,16 +4,10 @@ import { Box } from 'rebass'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { intlShape } from '@zap/i18n'
 import { Bar, Header } from 'components/UI'
-import { Form, Input } from 'components/Form'
-import SvgEye from 'components/Icon/Eye'
-import SvgEyeOff from 'components/Icon/EyeOff'
+import { Form, PasswordInput } from 'components/Form'
 import messages from './messages'
 
 class Password extends React.Component {
-  state = {
-    isPasswordVisible: false,
-  }
-
   static propTypes = {
     intl: intlShape.isRequired,
     setPassword: PropTypes.func.isRequired,
@@ -31,12 +25,6 @@ class Password extends React.Component {
     await setPassword(values.password)
   }
 
-  toggleIsPasswordVisible = () => {
-    this.setState(prevState => ({
-      isPasswordVisible: !prevState.isPasswordVisible,
-    }))
-  }
-
   setFormApi = formApi => {
     this.formApi = formApi
   }
@@ -45,7 +33,6 @@ class Password extends React.Component {
     const { wizardApi, wizardState, setPassword, intl, ...rest } = this.props
     const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
-    const { isPasswordVisible } = this.state
 
     return (
       <Form
@@ -77,37 +64,17 @@ class Password extends React.Component {
               <Bar my={4} />
 
               <Box>
-                <Input
+                <PasswordInput
                   autoComplete="current-password"
                   field="password"
                   isRequired
                   label={<FormattedMessage {...messages.password_label} />}
                   minLength={8}
-                  name="password"
                   placeholder={intl.formatMessage({ ...messages.password_placeholder })}
-                  type={isPasswordVisible ? 'text' : 'password'}
                   validateOnBlur={shouldValidateInline}
                   validateOnChange={shouldValidateInline}
                   willAutoFocus
-                >
-                  {(() => {
-                    const css = `
-                      cursor: pointer;
-                      height: 32px;
-                      padding: 0 8px;
-                      position: absolute;
-                      right: 8px;
-                      user-select: none;
-                      width: 32px;
-                    `
-
-                    return isPasswordVisible ? (
-                      <SvgEyeOff css={css} onClick={this.toggleIsPasswordVisible} />
-                    ) : (
-                      <SvgEye css={css} onClick={this.toggleIsPasswordVisible} />
-                    )
-                  })()}
-                </Input>
+                />
               </Box>
             </>
           )
