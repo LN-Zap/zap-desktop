@@ -8,6 +8,13 @@ export default class AppErrorBoundary extends Component {
     children: PropTypes.node,
   }
 
+  static submitErrorIssue(error) {
+    const url = window.Zap.createZapIssueTemplate('Unhandled React exception', error.stack, [
+      'type: bug 🐛',
+    ])
+    window.Zap.openExternal(url)
+  }
+
   constructor(props) {
     super(props)
     this.state = { error: null }
@@ -22,7 +29,7 @@ export default class AppErrorBoundary extends Component {
     const { error } = this.state
     const { children } = this.props
     if (error) {
-      return <AppCrashedDialog error={error} isOpen />
+      return <AppCrashedDialog error={error} isOpen onSubmit={AppErrorBoundary.submitErrorIssue} />
     }
 
     return children

@@ -12,6 +12,7 @@ import lndGrpcProtoDir from '@zap/utils/lndGrpcProtoDir'
 import validateHost from '@zap/utils/validateHost'
 import splitHostname from '@zap/utils/splitHostname'
 import LndConfig from '@zap/utils/lndConfig'
+import createZapIssueTemplate from '@zap/utils/github'
 import { normalizeBackupDir } from './walletBackup/local'
 
 /**
@@ -21,6 +22,7 @@ import { normalizeBackupDir } from './walletBackup/local'
  */
 const WHITELISTED_DOMAINS = [
   'blockstream.info',
+  'github.com',
   'coinfaucet.eu',
   'insight.litecore.io',
   'live.blockcypher.com',
@@ -143,6 +145,7 @@ window.Zap = {
   killNeutrino,
   splitHostname,
   normalizeBackupDir,
+  createZapIssueTemplate,
 }
 
 // Provide access to ipcRenderer.
