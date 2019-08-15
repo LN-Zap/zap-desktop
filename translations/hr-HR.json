@@ -584,7 +584,7 @@
   "reducers.messages.backup_import_error": "",
   "reducers.messages.backup_import_success": "",
   "reducers.messages.backup_not_found_error": "",
-  "reducers.messages.channels_open_warning": "",
+  "reducers.messages.channels_open_warning": "Otvaranje kanala započeto",
   "reducers.messages.payment_send_error": "",
   "reducers.messages.settings_init_error": ""
 }
