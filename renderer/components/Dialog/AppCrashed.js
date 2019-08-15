@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Flex, Box } from 'rebass'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { themeGet } from 'styled-system'
 import Delete from 'components/Icon/Delete'
@@ -16,12 +15,8 @@ const ShowDetails = styled(Span)`
   cursor: pointer;
 `
 
-const DialogAppCrashed = ({ onCancel, onSubmit, error, history, isOpen }) => {
+const DialogAppCrashed = ({ onClose, onSubmit, error, isOpen }) => {
   const [isStackVisible, setIsStackVisible] = useState(false)
-  const handleClose = () => {
-    onCancel && onCancel()
-    history.push('/logout')
-  }
 
   if (!isOpen) {
     return null
@@ -75,7 +70,7 @@ const DialogAppCrashed = ({ onCancel, onSubmit, error, history, isOpen }) => {
 
   return (
     <DialogOverlay alignItems="center" justifyContent="center">
-      <Dialog buttons={buttons} header={header} onClose={handleClose} width={640}>
+      <Dialog buttons={buttons} header={header} onClose={onClose} width={640}>
         {body}
       </Dialog>
     </DialogOverlay>
@@ -84,12 +79,9 @@ const DialogAppCrashed = ({ onCancel, onSubmit, error, history, isOpen }) => {
 
 DialogAppCrashed.propTypes = {
   error: PropTypes.object.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }),
   isOpen: PropTypes.bool.isRequired,
-  onCancel: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
 }
 
-export default withRouter(injectIntl(DialogAppCrashed))
+export default injectIntl(DialogAppCrashed)
