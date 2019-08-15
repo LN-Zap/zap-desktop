@@ -12,7 +12,7 @@ import lndGrpcProtoDir from '@zap/utils/lndGrpcProtoDir'
 import validateHost from '@zap/utils/validateHost'
 import splitHostname from '@zap/utils/splitHostname'
 import LndConfig from '@zap/utils/lndConfig'
-import createZapIssueTemplate from '@zap/utils/github'
+import getPackageDetails from '@zap/utils/getPackageDetails'
 import { normalizeBackupDir } from './walletBackup/local'
 
 /**
@@ -145,7 +145,7 @@ window.Zap = {
   killNeutrino,
   splitHostname,
   normalizeBackupDir,
-  createZapIssueTemplate,
+  getPackageDetails,
 }
 
 // Provide access to ipcRenderer.

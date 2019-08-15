@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import createZapIssueTemplate from '@zap/utils/github'
 import { mainLog } from '@zap/utils/log'
 import AppCrashedDialog from 'components/Dialog/AppCrashed'
 
@@ -14,9 +15,15 @@ export default class AppErrorBoundary extends Component {
   }
 
   static submitErrorIssue(error) {
-    const url = window.Zap.createZapIssueTemplate('Unhandled React exception', error.stack, [
-      'type: bug 🐛',
-    ])
+    const { productName, version } = window.Zap.getPackageDetails()
+
+    const url = createZapIssueTemplate({
+      title: 'Unhandled React exception',
+      body: error.stack,
+      labels: ['type: bug 🐛'],
+      productName,
+      version,
+    })
     window.Zap.openExternal(url)
   }
 

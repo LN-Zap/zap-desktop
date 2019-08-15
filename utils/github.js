@@ -1,16 +1,17 @@
 import newGithubIssueUrl from 'new-github-issue-url'
-import getPackageDetails from '@zap/utils/getPackageDetails'
 
 /**
  * createZapIssueTemplate - Creates zap issue template.
  *
- * @param {string} title issue title
- * @param {string} body issue body
- * @param {Array<string>} labels list of issue labels
+ * @param {object} options issue options
+ * @param {string} options.title issue title
+ * @param {string} options.body issue body
+ * @param {Array<string>} options.labels list of issue labels
+ * @param {string} options.productName zap!
+ * @param {string} options.version zap version
  * @returns {string} github issue url
  */
-export default function createZapIssueTemplate(title, body, labels) {
-  const { productName, version } = getPackageDetails()
+export default function createZapIssueTemplate({ title, body, labels, productName, version }) {
   return newGithubIssueUrl({
     user: 'LN-Zap',
     repo: 'zap-desktop',
