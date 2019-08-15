@@ -20,7 +20,7 @@ export default class AppErrorBoundary extends Component {
     const url = createZapIssueTemplate({
       title: 'Unhandled React exception',
       body: error.stack,
-      labels: ['type: bug 🐛'],
+      labels: ['type: bug 🐛', 'type: report'],
       productName,
       version,
     })
