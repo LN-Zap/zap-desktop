@@ -11,7 +11,7 @@ import { setModals, modalSelectors } from 'reducers/modal'
 import { fetchSuggestedNodes } from 'reducers/channels'
 import { initTickers } from 'reducers/ticker'
 import App from 'components/App'
-import AppErrorBoundary from 'components/App/AppErrorBoundary'
+import AppErrorBoundary from './ErrorBoundary'
 
 const mapStateToProps = state => ({
   isAppReady: appSelectors.isAppReady(state),
