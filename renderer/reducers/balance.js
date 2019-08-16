@@ -12,6 +12,8 @@ const initialState = {
   walletBalanceConfirmed: null,
   walletBalanceUnconfirmed: null,
   channelBalance: null,
+  channelBalanceConfirmed: null,
+  channelBalancePending: null,
   fetchBalanceError: null,
 }
 

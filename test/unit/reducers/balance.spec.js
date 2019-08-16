@@ -1,32 +1,45 @@
-import balanceReducer, { FETCH_BALANCE, FETCH_BALANCE_SUCCESS } from 'reducers/balance'
+import snapshotDiff from '../__helpers__/snapshotDiff'
+import reducer, {
+  FETCH_BALANCE,
+  FETCH_BALANCE_SUCCESS,
+  FETCH_BALANCE_FAILURE,
+} from 'reducers/balance'
 
 describe('reducers', () => {
   describe('balanceReducer', () => {
     it('should handle initial state', () => {
-      expect(balanceReducer(undefined, {})).toMatchSnapshot()
+      expect(reducer(undefined, {})).toMatchSnapshot()
     })
 
     it('should handle FETCH_BALANCE', () => {
-      expect(balanceReducer(undefined, { type: FETCH_BALANCE })).toMatchSnapshot()
+      const action = {
+        type: FETCH_BALANCE,
+      }
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle FETCH_BALANCE_SUCCESS', () => {
-      const walletBalance = {
-        total_balance: 1,
-        confirmed_balance: 1,
-        unconfirmed_balance: 1,
+      const action = {
+        type: FETCH_BALANCE_SUCCESS,
+        walletBalance: {
+          total_balance: 1,
+          confirmed_balance: 1,
+          unconfirmed_balance: 1,
+        },
+        channelBalance: {
+          balance: 1,
+          pending_open_balance: 1,
+        },
       }
-      const channelBalance = {
-        balance: 1,
-        pending_open_balance: 1,
-      }
-      expect(
-        balanceReducer(undefined, { type: FETCH_BALANCE_SUCCESS, walletBalance, channelBalance })
-      ).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
-    it('should handle unknown action type', () => {
-      expect(balanceReducer(undefined, { type: 'unknown' })).toMatchSnapshot()
+    it('should handle FETCH_BALANCE_FAILURE', () => {
+      const action = {
+        type: FETCH_BALANCE_FAILURE,
+        error: 'some error',
+      }
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
   })
 })
