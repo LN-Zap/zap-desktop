@@ -1,175 +1,455 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`reducers neutrinoReducer should handle CLEAR_CREATE_WALLET_ERROR 1`] = `
-Object {
-  "createWalletError": null,
-}
+exports[`reducers lndReducer should handle CLEAR_CREATE_WALLET_ERROR 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
 `;
 
-exports[`reducers neutrinoReducer should handle CLEAR_START_LND_ERROR 1`] = `
-Object {
-  "startLndError": null,
-}
+exports[`reducers lndReducer should handle CLEAR_START_LND_ERROR 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
 `;
 
-exports[`reducers neutrinoReducer should handle CONNECT_GRPC 1`] = `
-Object {
-  "isStartingGrpc": true,
-}
+exports[`reducers lndReducer should handle CONNECT_GRPC 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "createWalletError": null,
+    "fetchSeedError": null,
+    "isCreatingWallet": false,
+    "isFetchingSeed": false,
+    "isLightningGrpcActive": false,
+    "isLndActive": false,
+-   "isStartingGrpc": false,
++   "isStartingGrpc": true,
+    "isStartingLnd": false,
+    "isStoppingLnd": false,
+    "isUnlockingWallet": false,
+    "isWalletUnlockerGrpcActive": false,
+    "lndConfig": Object {},
+    "startLndError": null,
+    "stopLndError": null,
+    "unlockWalletError": null,
+  }
 `;
 
-exports[`reducers neutrinoReducer should handle CONNECT_GRPC_FAILURE 1`] = `
-Object {
-  "isStartingGrpc": false,
-}
+exports[`reducers lndReducer should handle CONNECT_GRPC_FAILURE 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
 `;
 
-exports[`reducers neutrinoReducer should handle CONNECT_GRPC_SUCCESS 1`] = `
-Object {
-  "isStartingGrpc": false,
-}
+exports[`reducers lndReducer should handle CONNECT_GRPC_SUCCESS 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
 `;
 
-exports[`reducers neutrinoReducer should handle CREATE_WALLET 1`] = `
-Object {
-  "createWalletError": null,
-  "isCreatingWallet": true,
-}
+exports[`reducers lndReducer should handle CREATE_WALLET 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "createWalletError": null,
+    "fetchSeedError": null,
+-   "isCreatingWallet": false,
++   "isCreatingWallet": true,
+    "isFetchingSeed": false,
+    "isLightningGrpcActive": false,
+    "isLndActive": false,
+    "isStartingGrpc": false,
+    "isStartingLnd": false,
+    "isStoppingLnd": false,
+    "isUnlockingWallet": false,
+    "isWalletUnlockerGrpcActive": false,
+    "lndConfig": Object {},
+    "startLndError": null,
+    "stopLndError": null,
+    "unlockWalletError": null,
+  }
 `;
 
-exports[`reducers neutrinoReducer should handle CREATE_WALLET_FAILURE 1`] = `
-Object {
-  "createWalletError": undefined,
-  "isCreatingWallet": false,
-}
+exports[`reducers lndReducer should handle CREATE_WALLET_FAILURE 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+-   "createWalletError": null,
++   "createWalletError": "some error",
+    "fetchSeedError": null,
+    "isCreatingWallet": false,
+    "isFetchingSeed": false,
+    "isLightningGrpcActive": false,
+    "isLndActive": false,
+    "isStartingGrpc": false,
+    "isStartingLnd": false,
+    "isStoppingLnd": false,
+    "isUnlockingWallet": false,
+    "isWalletUnlockerGrpcActive": false,
+    "lndConfig": Object {},
+    "startLndError": null,
+    "stopLndError": null,
+    "unlockWalletError": null,
+  }
 `;
 
-exports[`reducers neutrinoReducer should handle CREATE_WALLET_SUCCESS 1`] = `
-Object {
-  "createWalletError": null,
-  "isCreatingWallet": false,
-}
+exports[`reducers lndReducer should handle CREATE_WALLET_SUCCESS 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
 `;
 
-exports[`reducers neutrinoReducer should handle DISCONNECT_GRPC 1`] = `
-Object {
-  "isStoppingGrpc": true,
-}
+exports[`reducers lndReducer should handle DISCONNECT_GRPC 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "createWalletError": null,
+    "fetchSeedError": null,
+    "isCreatingWallet": false,
+    "isFetchingSeed": false,
+    "isLightningGrpcActive": false,
+    "isLndActive": false,
+    "isStartingGrpc": false,
+    "isStartingLnd": false,
++   "isStoppingGrpc": true,
+    "isStoppingLnd": false,
+    "isUnlockingWallet": false,
+    "isWalletUnlockerGrpcActive": false,
+    "lndConfig": Object {},
+    "startLndError": null,
+    "stopLndError": null,
+    "unlockWalletError": null,
+  }
 `;
 
-exports[`reducers neutrinoReducer should handle DISCONNECT_GRPC_FAILURE 1`] = `
-Object {
-  "isStoppingGrpc": false,
-}
+exports[`reducers lndReducer should handle DISCONNECT_GRPC_FAILURE 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "createWalletError": null,
+    "fetchSeedError": null,
+    "isCreatingWallet": false,
+    "isFetchingSeed": false,
+    "isLightningGrpcActive": false,
+    "isLndActive": false,
+    "isStartingGrpc": false,
+    "isStartingLnd": false,
++   "isStoppingGrpc": false,
+    "isStoppingLnd": false,
+    "isUnlockingWallet": false,
+    "isWalletUnlockerGrpcActive": false,
+    "lndConfig": Object {},
+    "startLndError": null,
+    "stopLndError": null,
+    "unlockWalletError": null,
+  }
 `;
 
-exports[`reducers neutrinoReducer should handle DISCONNECT_GRPC_SUCCESS 1`] = `
-Object {
-  "isLightningGrpcActive": false,
-  "isStoppingGrpc": false,
-  "isWalletUnlockerGrpcActive": false,
-}
+exports[`reducers lndReducer should handle DISCONNECT_GRPC_SUCCESS 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "createWalletError": null,
+    "fetchSeedError": null,
+    "isCreatingWallet": false,
+    "isFetchingSeed": false,
+    "isLightningGrpcActive": false,
+    "isLndActive": false,
+    "isStartingGrpc": false,
+    "isStartingLnd": false,
++   "isStoppingGrpc": false,
+    "isStoppingLnd": false,
+    "isUnlockingWallet": false,
+    "isWalletUnlockerGrpcActive": false,
+    "lndConfig": Object {},
+    "startLndError": null,
+    "stopLndError": null,
+    "unlockWalletError": null,
+  }
 `;
 
-exports[`reducers neutrinoReducer should handle FETCH_SEED 1`] = `
-Object {
-  "isFetchingSeed": true,
-}
+exports[`reducers lndReducer should handle FETCH_SEED 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "createWalletError": null,
+    "fetchSeedError": null,
+    "isCreatingWallet": false,
+-   "isFetchingSeed": false,
++   "isFetchingSeed": true,
+    "isLightningGrpcActive": false,
+    "isLndActive": false,
+    "isStartingGrpc": false,
+    "isStartingLnd": false,
+    "isStoppingLnd": false,
+    "isUnlockingWallet": false,
+    "isWalletUnlockerGrpcActive": false,
+    "lndConfig": Object {},
+    "startLndError": null,
+    "stopLndError": null,
+    "unlockWalletError": null,
+  }
 `;
 
-exports[`reducers neutrinoReducer should handle FETCH_SEED_FAILURE 1`] = `
-Object {
-  "fetchSeedError": "some error",
-  "isFetchingSeed": false,
-}
+exports[`reducers lndReducer should handle FETCH_SEED_FAILURE 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "createWalletError": null,
+-   "fetchSeedError": null,
++   "fetchSeedError": "some error",
+    "isCreatingWallet": false,
+    "isFetchingSeed": false,
+    "isLightningGrpcActive": false,
+    "isLndActive": false,
+    "isStartingGrpc": false,
+    "isStartingLnd": false,
+    "isStoppingLnd": false,
+    "isUnlockingWallet": false,
+    "isWalletUnlockerGrpcActive": false,
+    "lndConfig": Object {},
+    "startLndError": null,
+    "stopLndError": null,
+    "unlockWalletError": null,
+  }
 `;
 
-exports[`reducers neutrinoReducer should handle FETCH_SEED_SUCCESS 1`] = `
-Object {
-  "fetchSeedError": null,
-  "isFetchingSeed": false,
-}
+exports[`reducers lndReducer should handle FETCH_SEED_SUCCESS 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
 `;
 
-exports[`reducers neutrinoReducer should handle LND_LIGHTNING_GRPC_ACTIVE 1`] = `
-Object {
-  "isLightningGrpcActive": true,
-  "isWalletUnlockerGrpcActive": false,
-}
+exports[`reducers lndReducer should handle LND_LIGHTNING_GRPC_ACTIVE 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "createWalletError": null,
+    "fetchSeedError": null,
+    "isCreatingWallet": false,
+    "isFetchingSeed": false,
+-   "isLightningGrpcActive": false,
++   "isLightningGrpcActive": true,
+    "isLndActive": false,
+    "isStartingGrpc": false,
+    "isStartingLnd": false,
+    "isStoppingLnd": false,
+    "isUnlockingWallet": false,
+    "isWalletUnlockerGrpcActive": false,
+    "lndConfig": Object {},
+    "startLndError": null,
+    "stopLndError": null,
+    "unlockWalletError": null,
+  }
 `;
 
-exports[`reducers neutrinoReducer should handle LND_WALLET_UNLOCKER_GRPC_ACTIVE 1`] = `
-Object {
-  "isLightningGrpcActive": false,
-  "isWalletUnlockerGrpcActive": true,
-}
+exports[`reducers lndReducer should handle LND_WALLET_UNLOCKER_GRPC_ACTIVE 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "createWalletError": null,
+    "fetchSeedError": null,
+    "isCreatingWallet": false,
+    "isFetchingSeed": false,
+    "isLightningGrpcActive": false,
+    "isLndActive": false,
+    "isStartingGrpc": false,
+    "isStartingLnd": false,
+    "isStoppingLnd": false,
+    "isUnlockingWallet": false,
+-   "isWalletUnlockerGrpcActive": false,
++   "isWalletUnlockerGrpcActive": true,
+    "lndConfig": Object {},
+    "startLndError": null,
+    "stopLndError": null,
+    "unlockWalletError": null,
+  }
 `;
 
-exports[`reducers neutrinoReducer should handle START_LND 1`] = `
-Object {
-  "isStartingLnd": true,
-  "lndConfig": Object {
-    "chain": "bitcoin",
-    "network": "testnet",
-    "type": "local",
-  },
-}
+exports[`reducers lndReducer should handle START_LND 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "createWalletError": null,
+    "fetchSeedError": null,
+    "isCreatingWallet": false,
+    "isFetchingSeed": false,
+    "isLightningGrpcActive": false,
+    "isLndActive": false,
+    "isStartingGrpc": false,
+-   "isStartingLnd": false,
++   "isStartingLnd": true,
+    "isStoppingLnd": false,
+    "isUnlockingWallet": false,
+    "isWalletUnlockerGrpcActive": false,
+-   "lndConfig": Object {},
++   "lndConfig": Object {
++     "chain": "bitcoin",
++     "network": "testnet",
++     "type": "local",
++   },
+    "startLndError": null,
+    "stopLndError": null,
+    "unlockWalletError": null,
+  }
 `;
 
-exports[`reducers neutrinoReducer should handle START_LND_FAILURE 1`] = `
-Object {
-  "isStartingLnd": false,
-  "startLndError": Object {
-    "cert": "a cert error",
-    "host": "a host error",
-    "macaroon": "a macaroon error",
-  },
-}
+exports[`reducers lndReducer should handle START_LND_FAILURE 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "createWalletError": null,
+    "fetchSeedError": null,
+    "isCreatingWallet": false,
+    "isFetchingSeed": false,
+    "isLightningGrpcActive": false,
+    "isLndActive": false,
+    "isStartingGrpc": false,
+    "isStartingLnd": false,
+    "isStoppingLnd": false,
+    "isUnlockingWallet": false,
+    "isWalletUnlockerGrpcActive": false,
+    "lndConfig": Object {},
+-   "startLndError": null,
++   "startLndError": Object {
++     "cert": "a cert error",
++     "host": "a host error",
++     "macaroon": "a macaroon error",
++   },
+    "stopLndError": null,
+    "unlockWalletError": null,
+  }
 `;
 
-exports[`reducers neutrinoReducer should handle START_LND_SUCCESS 1`] = `
-Object {
-  "isLndActive": true,
-  "isStartingLnd": false,
-}
+exports[`reducers lndReducer should handle START_LND_SUCCESS 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "createWalletError": null,
+    "fetchSeedError": null,
+    "isCreatingWallet": false,
+    "isFetchingSeed": false,
+    "isLightningGrpcActive": false,
+-   "isLndActive": false,
++   "isLndActive": true,
+    "isStartingGrpc": false,
+    "isStartingLnd": false,
+    "isStoppingLnd": false,
+    "isUnlockingWallet": false,
+    "isWalletUnlockerGrpcActive": false,
+    "lndConfig": Object {},
+    "startLndError": null,
+    "stopLndError": null,
+    "unlockWalletError": null,
+  }
 `;
 
-exports[`reducers neutrinoReducer should handle STOP_LND 1`] = `
-Object {
-  "isStoppingLnd": true,
-  "stopLndError": null,
-}
+exports[`reducers lndReducer should handle STOP_LND 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "createWalletError": null,
+    "fetchSeedError": null,
+    "isCreatingWallet": false,
+    "isFetchingSeed": false,
+    "isLightningGrpcActive": false,
+    "isLndActive": false,
+    "isStartingGrpc": false,
+    "isStartingLnd": false,
+-   "isStoppingLnd": false,
++   "isStoppingLnd": true,
+    "isUnlockingWallet": false,
+    "isWalletUnlockerGrpcActive": false,
+    "lndConfig": Object {},
+    "startLndError": null,
+    "stopLndError": null,
+    "unlockWalletError": null,
+  }
 `;
 
-exports[`reducers neutrinoReducer should handle STOP_LND_SUCCESS 1`] = `
-Object {
-  "isLndActive": false,
-  "isStoppingLnd": false,
-  "stopLndError": null,
-}
+exports[`reducers lndReducer should handle STOP_LND_SUCCESS 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
 `;
 
-exports[`reducers neutrinoReducer should handle UNLOCK_WALLET 1`] = `
-Object {
-  "isUnlockingWallet": true,
-}
+exports[`reducers lndReducer should handle UNLOCK_WALLET 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "createWalletError": null,
+    "fetchSeedError": null,
+    "isCreatingWallet": false,
+    "isFetchingSeed": false,
+    "isLightningGrpcActive": false,
+    "isLndActive": false,
+    "isStartingGrpc": false,
+    "isStartingLnd": false,
+    "isStoppingLnd": false,
+-   "isUnlockingWallet": false,
++   "isUnlockingWallet": true,
+    "isWalletUnlockerGrpcActive": false,
+    "lndConfig": Object {},
+    "startLndError": null,
+    "stopLndError": null,
+    "unlockWalletError": null,
+  }
 `;
 
-exports[`reducers neutrinoReducer should handle UNLOCK_WALLET_FAILURE 1`] = `
-Object {
-  "isUnlockingWallet": false,
-  "unlockWalletError": "some error",
-}
+exports[`reducers lndReducer should handle UNLOCK_WALLET_FAILURE 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "createWalletError": null,
+    "fetchSeedError": null,
+    "isCreatingWallet": false,
+    "isFetchingSeed": false,
+    "isLightningGrpcActive": false,
+    "isLndActive": false,
+    "isStartingGrpc": false,
+    "isStartingLnd": false,
+    "isStoppingLnd": false,
+    "isUnlockingWallet": false,
+    "isWalletUnlockerGrpcActive": false,
+    "lndConfig": Object {},
+    "startLndError": null,
+    "stopLndError": null,
+-   "unlockWalletError": null,
++   "unlockWalletError": "some error",
+  }
 `;
 
-exports[`reducers neutrinoReducer should handle UNLOCK_WALLET_SUCCESS 1`] = `
-Object {
-  "isUnlockingWallet": false,
-  "unlockWalletError": null,
-}
+exports[`reducers lndReducer should handle UNLOCK_WALLET_SUCCESS 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
 `;
 
-exports[`reducers neutrinoReducer should handle initial state 1`] = `
+exports[`reducers lndReducer should handle initial state 1`] = `
 Object {
   "createWalletError": null,
   "fetchSeedError": null,
@@ -184,6 +464,7 @@ Object {
   "isWalletUnlockerGrpcActive": false,
   "lndConfig": Object {},
   "startLndError": null,
+  "stopLndError": null,
   "unlockWalletError": null,
 }
 `;
