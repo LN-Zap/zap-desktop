@@ -7,25 +7,28 @@ exports[`component.NoWallets should render correctly (no selected wallet) 1`] = 
   justifyContent="center"
 >
   <Heading4>
-    <injectIntl(FormattedMessage)
+    <FormattedMessage
       defaultMessage="Please select a wallet from the wallets menu."
       id="components.Home.no_active_wallet_message"
+      values={Object {}}
     />
   </Heading4>
   <Heading4
     my={1}
   >
     - 
-    <injectIntl(FormattedMessage)
+    <FormattedMessage
       defaultMessage="or"
       id="components.Home.or"
+      values={Object {}}
     />
      -
   </Heading4>
   <Heading4>
-    <injectIntl(FormattedMessage)
+    <FormattedMessage
       defaultMessage="Start creating one from here:"
       id="components.Home.create_wallet_prompt"
+      values={Object {}}
     />
   </Heading4>
   <CreateWalletButton
@@ -47,25 +50,28 @@ exports[`component.NoWallets should render correctly (no wallets) 1`] = `
   justifyContent="center"
 >
   <Heading4>
-    <injectIntl(FormattedMessage)
+    <FormattedMessage
       defaultMessage="Unfortunately you don’t have any wallets 😢"
       id="components.Home.no_wallets_message"
+      values={Object {}}
     />
   </Heading4>
   <Heading4
     my={1}
   >
     - 
-    <injectIntl(FormattedMessage)
+    <FormattedMessage
       defaultMessage="or"
       id="components.Home.or"
+      values={Object {}}
     />
      -
   </Heading4>
   <Heading4>
-    <injectIntl(FormattedMessage)
+    <FormattedMessage
       defaultMessage="Start creating one from here:"
       id="components.Home.create_wallet_prompt"
+      values={Object {}}
     />
   </Heading4>
   <CreateWalletButton
