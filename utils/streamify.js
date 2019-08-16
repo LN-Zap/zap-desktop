@@ -3,13 +3,11 @@ import EventEmitter from 'events'
 import createScheduler from '@zap/utils/scheduler'
 
 /**
- * streamify - Creates polling stream for the specified LND command.
+ * streamify - Creates polling stream for the specified routine.
  *
- * Streamify must be called in a `EventEmitter` context, meaning `this.emit` should exist.
- * e.g streamify.call(this,{...}).
  *
  * @param {*} streamDefinition - stream params
- * @param {Function} streamDefinition.command - `grpc` command,
+ * @param {Function} streamDefinition.command - polling function,
  * @param {string} streamDefinition.dataEventName - event name to that it used to dispatch `data` event,
  * @param {string} streamDefinition.errorEventName - event name to that it used to dispatch `error` event,
  * @param {number} streamDefinition.pollInterval - how frequent to execute `command`,
@@ -27,7 +25,7 @@ export default function streamify({
   const emitter = new EventEmitter()
   const scheduler = createScheduler()
 
-  const cancel = () => {
+  emitter.cancel = () => {
     scheduler.removeAllTasks()
     emitter.emit('end')
   }
@@ -37,24 +35,19 @@ export default function streamify({
     try {
       const result = await command()
       // only dispatch update if we got new results
-      if (!isEqual(result, prevResult)) {
-        prevResult = result
-        this.emit(dataEventName, result)
-        emitter.emit(errorEventName, result)
+      if (prevResult && !isEqual(result, prevResult)) {
+        emitter.emit(dataEventName, result)
       }
+      prevResult = result
     } catch (e) {
-      this.emit(errorEventName, e)
       emitter.emit(errorEventName, e)
       if (cancelOnError) {
-        cancel()
+        emitter.cancel()
       }
     }
   }
 
   scheduler.addTask({ task, baseDelay: pollInterval })
 
-  return {
-    on: emitter.on.bind(emitter),
-    cancel,
-  }
+  return emitter
 }
