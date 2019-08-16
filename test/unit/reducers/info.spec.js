@@ -1,30 +1,33 @@
-import infoReducer, { GET_INFO, RECEIVE_INFO } from 'reducers/info'
+import snapshotDiff from '../__helpers__/snapshotDiff'
+import reducer, { GET_INFO, RECEIVE_INFO, SET_HAS_SYNCED } from 'reducers/info'
 
 describe('reducers', () => {
   describe('infoReducer', () => {
     it('should handle initial state', () => {
-      expect(infoReducer(undefined, {})).toMatchSnapshot()
+      expect(reducer(undefined, {})).toMatchSnapshot()
     })
 
-    it('should have GET_INFO', () => {
-      expect(GET_INFO).toEqual('GET_INFO')
+    it('should handle GET_INFO', () => {
+      const action = {
+        type: GET_INFO,
+      }
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
-    it('should have RECEIVE_INFO', () => {
-      expect(RECEIVE_INFO).toEqual('RECEIVE_INFO')
+    it('should handle RECEIVE_INFO', () => {
+      const action = {
+        type: RECEIVE_INFO,
+        data: { semver: '0.5.2', chains: [{ chain: 'bitcoin', network: 'mainnet' }] },
+      }
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
-    it('should correctly getInfo', () => {
-      expect(infoReducer(undefined, { type: GET_INFO })).toMatchSnapshot()
-    })
-
-    it('should correctly receiveInfo', () => {
-      expect(
-        infoReducer(undefined, {
-          type: RECEIVE_INFO,
-          data: { semver: '0.5.2', chains: [{ chain: 'bitcoin', network: 'mainnet' }] },
-        })
-      ).toMatchSnapshot()
+    it('should handle SET_HAS_SYNCED', () => {
+      const action = {
+        type: SET_HAS_SYNCED,
+        hasSynced: true,
+      }
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
   })
 })
