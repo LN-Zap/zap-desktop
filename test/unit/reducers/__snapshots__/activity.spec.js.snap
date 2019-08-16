@@ -1,122 +1,251 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`reducers activityReducer should handle CHANGE_FILTER 1`] = `
-Object {
-  "activityLoadingError": null,
-  "errorDialogDetails": null,
-  "filter": undefined,
-  "filters": Array [
-    Object {
-      "key": "ALL_ACTIVITY",
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "activityLoadingError": null,
+    "errorDialogDetails": null,
+-   "filter": "ALL_ACTIVITY",
++   "filter": "SENT_ACTIVITY",
+    "filters": Array [
+      Object {
+        "key": "ALL_ACTIVITY",
+      },
+      Object {
+        "key": "SENT_ACTIVITY",
+      },
+      Object {
+        "key": "RECEIVED_ACTIVITY",
+      },
+      Object {
+        "key": "PENDING_ACTIVITY",
+      },
+      Object {
+        "key": "EXPIRED_ACTIVITY",
+      },
+      Object {
+        "key": "INTERNAL_ACTIVITY",
+      },
+    ],
+    "isActivityLoading": false,
+    "modal": Object {
+      "itemId": null,
+      "itemType": null,
     },
-    Object {
-      "key": "SENT_ACTIVITY",
-    },
-    Object {
-      "key": "RECEIVED_ACTIVITY",
-    },
-    Object {
-      "key": "PENDING_ACTIVITY",
-    },
-    Object {
-      "key": "EXPIRED_ACTIVITY",
-    },
-    Object {
-      "key": "INTERNAL_ACTIVITY",
-    },
-  ],
-  "isActivityLoading": false,
-  "modal": Object {
-    "itemId": null,
-    "itemType": null,
-  },
-  "searchText": null,
-}
+    "searchText": null,
+  }
+`;
+
+exports[`reducers activityReducer should handle CLOSE_ERROR_DETAILS_DIALOG 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
 `;
 
 exports[`reducers activityReducer should handle FETCH_ACTIVITY_HISTORY 1`] = `
-Object {
-  "isActivityLoading": true,
-}
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "activityLoadingError": null,
+    "errorDialogDetails": null,
+    "filter": "ALL_ACTIVITY",
+    "filters": Array [
+      Object {
+        "key": "ALL_ACTIVITY",
+      },
+      Object {
+        "key": "SENT_ACTIVITY",
+      },
+      Object {
+        "key": "RECEIVED_ACTIVITY",
+      },
+      Object {
+        "key": "PENDING_ACTIVITY",
+      },
+      Object {
+        "key": "EXPIRED_ACTIVITY",
+      },
+      Object {
+        "key": "INTERNAL_ACTIVITY",
+      },
+    ],
+-   "isActivityLoading": false,
++   "isActivityLoading": true,
+    "modal": Object {
+      "itemId": null,
+      "itemType": null,
+    },
+    "searchText": null,
+  }
 `;
 
 exports[`reducers activityReducer should handle FETCH_ACTIVITY_HISTORY_FAILURE 1`] = `
-Object {
-  "activityLoadingError": undefined,
-  "isActivityLoading": false,
-}
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+-   "activityLoadingError": null,
++   "activityLoadingError": "some error",
+    "errorDialogDetails": null,
+    "filter": "ALL_ACTIVITY",
+    "filters": Array [
+      Object {
+        "key": "ALL_ACTIVITY",
+      },
+      Object {
+        "key": "SENT_ACTIVITY",
+      },
+      Object {
+        "key": "RECEIVED_ACTIVITY",
+      },
+      Object {
+        "key": "PENDING_ACTIVITY",
+      },
+      Object {
+        "key": "EXPIRED_ACTIVITY",
+      },
+      Object {
+        "key": "INTERNAL_ACTIVITY",
+      },
+    ],
+    "isActivityLoading": false,
+    "modal": Object {
+      "itemId": null,
+      "itemType": null,
+    },
+    "searchText": null,
+  }
 `;
 
 exports[`reducers activityReducer should handle FETCH_ACTIVITY_HISTORY_SUCCESS 1`] = `
-Object {
-  "isActivityLoading": false,
-}
+Snapshot Diff:
+Compared values have no visual difference.
 `;
 
 exports[`reducers activityReducer should handle HIDE_ACTIVITY_MODAL 1`] = `
-Object {
-  "activityLoadingError": null,
-  "errorDialogDetails": null,
-  "filter": "ALL_ACTIVITY",
-  "filters": Array [
-    Object {
-      "key": "ALL_ACTIVITY",
+Snapshot Diff:
+Compared values have no visual difference.
+`;
+
+exports[`reducers activityReducer should handle OPEN_ERROR_DETAILS_DIALOG 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "activityLoadingError": null,
+-   "errorDialogDetails": null,
++   "errorDialogDetails": "some error",
+    "filter": "ALL_ACTIVITY",
+    "filters": Array [
+      Object {
+        "key": "ALL_ACTIVITY",
+      },
+      Object {
+        "key": "SENT_ACTIVITY",
+      },
+      Object {
+        "key": "RECEIVED_ACTIVITY",
+      },
+      Object {
+        "key": "PENDING_ACTIVITY",
+      },
+      Object {
+        "key": "EXPIRED_ACTIVITY",
+      },
+      Object {
+        "key": "INTERNAL_ACTIVITY",
+      },
+    ],
+    "isActivityLoading": false,
+    "modal": Object {
+      "itemId": null,
+      "itemType": null,
     },
-    Object {
-      "key": "SENT_ACTIVITY",
-    },
-    Object {
-      "key": "RECEIVED_ACTIVITY",
-    },
-    Object {
-      "key": "PENDING_ACTIVITY",
-    },
-    Object {
-      "key": "EXPIRED_ACTIVITY",
-    },
-    Object {
-      "key": "INTERNAL_ACTIVITY",
-    },
-  ],
-  "isActivityLoading": false,
-  "modal": Object {
-    "itemId": null,
-    "itemType": null,
-  },
-  "searchText": null,
-}
+    "searchText": null,
+  }
 `;
 
 exports[`reducers activityReducer should handle SHOW_ACTIVITY_MODAL 1`] = `
-Object {
-  "activityLoadingError": null,
-  "errorDialogDetails": null,
-  "filter": "ALL_ACTIVITY",
-  "filters": Array [
-    Object {
-      "key": "ALL_ACTIVITY",
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "activityLoadingError": null,
+    "errorDialogDetails": null,
+    "filter": "ALL_ACTIVITY",
+    "filters": Array [
+      Object {
+        "key": "ALL_ACTIVITY",
+      },
+      Object {
+        "key": "SENT_ACTIVITY",
+      },
+      Object {
+        "key": "RECEIVED_ACTIVITY",
+      },
+      Object {
+        "key": "PENDING_ACTIVITY",
+      },
+      Object {
+        "key": "EXPIRED_ACTIVITY",
+      },
+      Object {
+        "key": "INTERNAL_ACTIVITY",
+      },
+    ],
+    "isActivityLoading": false,
+    "modal": Object {
+-     "itemId": null,
+-     "itemType": null,
++     "itemId": "123",
++     "itemType": "transaction",
     },
-    Object {
-      "key": "SENT_ACTIVITY",
+    "searchText": null,
+  }
+`;
+
+exports[`reducers activityReducer should handle UPDATE_SEARCH_TEXT 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "activityLoadingError": null,
+    "errorDialogDetails": null,
+    "filter": "ALL_ACTIVITY",
+    "filters": Array [
+      Object {
+        "key": "ALL_ACTIVITY",
+      },
+      Object {
+        "key": "SENT_ACTIVITY",
+      },
+      Object {
+        "key": "RECEIVED_ACTIVITY",
+      },
+      Object {
+        "key": "PENDING_ACTIVITY",
+      },
+      Object {
+        "key": "EXPIRED_ACTIVITY",
+      },
+      Object {
+        "key": "INTERNAL_ACTIVITY",
+      },
+    ],
+    "isActivityLoading": false,
+    "modal": Object {
+      "itemId": null,
+      "itemType": null,
     },
-    Object {
-      "key": "RECEIVED_ACTIVITY",
-    },
-    Object {
-      "key": "PENDING_ACTIVITY",
-    },
-    Object {
-      "key": "EXPIRED_ACTIVITY",
-    },
-    Object {
-      "key": "INTERNAL_ACTIVITY",
-    },
-  ],
-  "isActivityLoading": false,
-  "modal": Object {
-    "itemId": undefined,
-    "itemType": undefined,
-  },
-  "searchText": null,
-}
+-   "searchText": null,
++   "searchText": "some text",
+  }
 `;
