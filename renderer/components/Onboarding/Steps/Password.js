@@ -4,7 +4,7 @@ import { Box } from 'rebass'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { intlShape } from '@zap/i18n'
 import { Bar, Header } from 'components/UI'
-import { Form, Input } from 'components/Form'
+import { Form, PasswordInput } from 'components/Form'
 import messages from './messages'
 
 class Password extends React.Component {
@@ -64,15 +64,13 @@ class Password extends React.Component {
               <Bar my={4} />
 
               <Box>
-                <Input
+                <PasswordInput
                   autoComplete="current-password"
                   field="password"
                   isRequired
                   label={<FormattedMessage {...messages.password_label} />}
                   minLength={8}
-                  name="password"
                   placeholder={intl.formatMessage({ ...messages.password_placeholder })}
-                  type="password"
                   validateOnBlur={shouldValidateInline}
                   validateOnChange={shouldValidateInline}
                   willAutoFocus

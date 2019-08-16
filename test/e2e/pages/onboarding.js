@@ -69,6 +69,7 @@ class Onboarding {
     .nth(2)
     .find('input')
   passwordInput = ReactSelector('Password Input').find('input')
+  passwordInputSeePasswordButton = ReactSelector('Password Input').find('svg')
   nameInput = ReactSelector('Name Input').find('input')
 
   hostInput = ReactSelector('ConnectionDetailsManual Input')
