@@ -2,6 +2,7 @@
 import { status } from '@grpc/grpc-js'
 import { grpcLog } from '@zap/utils/log'
 import streamify from '@zap/utils/streamify'
+import { forwardAll } from '@zap/utils/events'
 import methods from './lightning.methods'
 
 /**
@@ -129,12 +130,15 @@ function subscribeChannelBackups(payload = {}) {
  * @returns {object} polling stream for the LND getInfo command
  */
 function subscribeGetInfo({ pollInterval = 5000 } = {}) {
-  return streamify.call(this, {
+  const stream = streamify({
     command: methods.getInfo.bind(this),
     dataEventName: 'subscribeGetInfo.data',
     errorEventName: 'subscribeGetInfo.error',
     pollInterval,
   })
+  // Setup subscription event forwarders.
+  forwardAll(stream, 'subscribeGetInfo', this)
+  return stream
 }
 
 export default {
