@@ -86,10 +86,10 @@ const Input = ({
           {...otherProps}
           ref={inputRef}
           disabled={isDisabled}
-          field={field}
           fieldState={fieldState}
           maxLength={maxLength}
           minLength={minLength}
+          name={field}
           onBlur={e => {
             // set touched to true to enforce validity highlight
             setTouched(true)
@@ -115,6 +115,7 @@ const Input = ({
           p={variant === 'thin' ? 2 : 3}
           pl={type === 'search' ? 35 : null}
           readOnly={isReadOnly}
+          required={isRequired}
           theme={theme}
           type={type}
           value={getValue()}
