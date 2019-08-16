@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers backupReducer should handle SET_LOCAL_PATH 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "isRestoreMode": false,
+-   "localPath": null,
++   "localPath": "/some/path",
+    "provider": null,
+  }
+`;
+
+exports[`reducers backupReducer should handle SET_PROVIDER 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "isRestoreMode": false,
+    "localPath": null,
+-   "provider": null,
++   "provider": "some-provider",
+  }
+`;
+
+exports[`reducers backupReducer should handle SET_RESTORE_MODE 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+-   "isRestoreMode": false,
++   "isRestoreMode": true,
+    "localPath": null,
+    "provider": null,
+  }
+`;
+
+exports[`reducers backupReducer should handle initial state 1`] = `
+Object {
+  "isRestoreMode": false,
+  "localPath": null,
+  "provider": null,
+}
+`;
