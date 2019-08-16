@@ -14,11 +14,10 @@ import createReducer from './utils/createReducer'
 // ------------------------------------
 
 const initialState = {
-  invoiceLoading: false,
+  isInvoicesLoading: false,
   createInvoiceError: null,
   invoices: [],
   invoice: null,
-  data: {},
 }
 
 // ------------------------------------
@@ -26,19 +25,11 @@ const initialState = {
 // ------------------------------------
 
 export const SET_INVOICE = 'SET_INVOICE'
-
-export const GET_INVOICE = 'GET_INVOICE'
-export const RECEIVE_INVOICE = 'RECEIVE_INVOICE'
-export const RECEIVE_FORM_INVOICE = 'RECEIVE_FORM_INVOICE'
-
 export const GET_INVOICES = 'GET_INVOICES'
 export const RECEIVE_INVOICES = 'RECEIVE_INVOICES'
-
 export const SEND_INVOICE = 'SEND_INVOICE'
 export const INVOICE_SUCCESSFUL = 'INVOICE_SUCCESSFUL'
-
 export const INVOICE_FAILED = 'INVOICE_FAILED'
-
 export const UPDATE_INVOICE = 'UPDATE_INVOICE'
 
 // ------------------------------------
@@ -90,30 +81,6 @@ const decorateInvoice = invoice => {
 export function setInvoice(invoice) {
   return {
     type: SET_INVOICE,
-    invoice,
-  }
-}
-
-/**
- * getInvoice - Fetch an invoice from lnd.
- *
- * @returns {object} Action
- */
-export function getInvoice() {
-  return {
-    type: GET_INVOICE,
-  }
-}
-
-/**
- * receiveInvoice - Receive an invoice from lnd.
- *
- * @param {object} invoice Invoice data.
- * @returns {object} Action
- */
-export function receiveInvoice(invoice) {
-  return {
-    type: RECEIVE_INVOICE,
     invoice,
   }
 }
@@ -222,7 +189,7 @@ export const createInvoiceSuccess = invoice => dispatch => {
  * @returns {Function} Thunk
  */
 export const createInvoiceFailure = error => dispatch => {
-  dispatch({ type: INVOICE_FAILED, createInvoiceError: error.message })
+  dispatch({ type: INVOICE_FAILED, error: error.message })
   dispatch(showError(error.message))
 }
 
@@ -257,46 +224,33 @@ const ACTION_HANDLERS = {
   [SET_INVOICE]: (state, { invoice }) => {
     state.invoice = invoice
   },
-
-  [GET_INVOICE]: state => {
-    state.invoiceLoading = true
-  },
-  [RECEIVE_INVOICE]: (state, { invoice }) => {
-    state.invoiceLoading = false
-    state.invoice = invoice
-  },
-  [RECEIVE_FORM_INVOICE]: state => {
-    state.invoiceLoading = false
-  },
-
   [GET_INVOICES]: state => {
-    state.invoiceLoading = true
+    state.isInvoicesLoading = true
   },
   [RECEIVE_INVOICES]: (state, { invoices }) => {
-    state.invoiceLoading = false
+    state.isInvoicesLoading = false
     state.invoices = invoices
   },
-
   [SEND_INVOICE]: state => {
-    state.invoiceLoading = true
+    state.isInvoicesLoading = true
   },
   [INVOICE_SUCCESSFUL]: state => {
-    state.invoiceLoading = false
+    state.isInvoicesLoading = false
+    state.createInvoiceError = null
   },
-  [INVOICE_FAILED]: state => {
-    state.invoiceLoading = false
-    state.data = null
+  [INVOICE_FAILED]: (state, { error }) => {
+    state.isInvoicesLoading = false
+    state.createInvoiceError = error
   },
-
-  [UPDATE_INVOICE]: (state, action) => {
+  [UPDATE_INVOICE]: (state, { invoice }) => {
     const invoiceIndex = state.invoices.findIndex(
-      invoice => invoice.r_hash.toString('hex') === action.invoice.r_hash.toString('hex')
+      invoice => invoice.r_hash.toString('hex') === invoice.r_hash.toString('hex')
     )
     // update if exists or add new otherwise
     if (invoiceIndex >= 0) {
-      state.invoices[invoiceIndex] = { ...state.invoices[invoiceIndex], ...action.invoice }
+      state.invoices[invoiceIndex] = { ...state.invoices[invoiceIndex], ...invoice }
     } else {
-      state.invoices.push(action.invoice)
+      state.invoices.push(invoice)
     }
   },
 }

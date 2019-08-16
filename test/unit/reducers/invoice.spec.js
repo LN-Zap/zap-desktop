@@ -1,91 +1,73 @@
-import invoiceReducer, {
+import snapshotDiff from '../__helpers__/snapshotDiff'
+import reducer, {
   SET_INVOICE,
-  GET_INVOICE,
-  RECEIVE_INVOICE,
-  RECEIVE_FORM_INVOICE,
   GET_INVOICES,
   RECEIVE_INVOICES,
   SEND_INVOICE,
   INVOICE_SUCCESSFUL,
   INVOICE_FAILED,
+  UPDATE_INVOICE,
 } from 'reducers/invoice'
 
 describe('reducers', () => {
   describe('invoiceReducer', () => {
     it('should handle initial state', () => {
-      expect(invoiceReducer(undefined, {})).toMatchSnapshot()
+      expect(reducer(undefined, {})).toMatchSnapshot()
     })
 
-    it('should have SET_INVOICE', () => {
-      expect(SET_INVOICE).toEqual('SET_INVOICE')
+    it('should handle SET_INVOICE', () => {
+      const action = {
+        type: SET_INVOICE,
+        invoice: { r_hash: '123' },
+      }
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
-    it('should have GET_INVOICE', () => {
-      expect(GET_INVOICE).toEqual('GET_INVOICE')
+    it('should handle GET_INVOICES', () => {
+      const action = {
+        type: GET_INVOICES,
+      }
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
-    it('should have RECEIVE_INVOICE', () => {
-      expect(RECEIVE_INVOICE).toEqual('RECEIVE_INVOICE')
+    it('should handle RECEIVE_INVOICES', () => {
+      const action = {
+        type: RECEIVE_INVOICES,
+        invoices: [{ r_hash: '123' }, { r_hash: '456' }],
+      }
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
-    it('should have RECEIVE_FORM_INVOICE', () => {
-      expect(RECEIVE_FORM_INVOICE).toEqual('RECEIVE_FORM_INVOICE')
+    it('should handle SEND_INVOICE', () => {
+      const action = {
+        type: SEND_INVOICE,
+      }
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
-    it('should have GET_INVOICES', () => {
-      expect(GET_INVOICES).toEqual('GET_INVOICES')
+    it('should handle INVOICE_SUCCESSFUL', () => {
+      const action = {
+        type: INVOICE_SUCCESSFUL,
+      }
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
-    it('should have RECEIVE_INVOICES', () => {
-      expect(RECEIVE_INVOICES).toEqual('RECEIVE_INVOICES')
+    it('should handle INVOICE_FAILED', () => {
+      const action = {
+        type: INVOICE_FAILED,
+        error: 'some error',
+      }
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
-    it('should have SEND_INVOICE', () => {
-      expect(SEND_INVOICE).toEqual('SEND_INVOICE')
-    })
-
-    it('should have INVOICE_SUCCESSFUL', () => {
-      expect(INVOICE_SUCCESSFUL).toEqual('INVOICE_SUCCESSFUL')
-    })
-
-    it('should have INVOICE_FAILED', () => {
-      expect(INVOICE_FAILED).toEqual('INVOICE_FAILED')
-    })
-
-    it('should correctly setInvoice', () => {
-      expect(invoiceReducer(undefined, { type: SET_INVOICE, invoice: 'foo' })).toMatchSnapshot()
-    })
-
-    it('should correctly getInvoice', () => {
-      expect(invoiceReducer(undefined, { type: GET_INVOICE })).toMatchSnapshot()
-    })
-
-    it('should correctly receiveInvoice', () => {
-      expect(invoiceReducer(undefined, { type: RECEIVE_INVOICE, invoice: 'foo' })).toMatchSnapshot()
-    })
-
-    it('should correctly getInvoices', () => {
-      expect(invoiceReducer(undefined, { type: GET_INVOICES })).toMatchSnapshot()
-    })
-
-    it('should correctly receiveInvoices', () => {
-      expect(
-        invoiceReducer(undefined, { type: RECEIVE_INVOICES, invoices: [1, 2] })
-      ).toMatchSnapshot()
-    })
-
-    it('should correctly sendInvoice', () => {
-      expect(invoiceReducer(undefined, { type: SEND_INVOICE })).toMatchSnapshot()
-    })
-
-    it('should correctly invcoiceSuccessful', () => {
-      expect(
-        invoiceReducer(undefined, { type: INVOICE_SUCCESSFUL, invoice: 'foo' })
-      ).toMatchSnapshot()
-    })
-
-    it('should correctly invcoiceFailed', () => {
-      expect(invoiceReducer(undefined, { type: INVOICE_FAILED })).toMatchSnapshot()
+    it('should handle UPDATE_INVOICE', () => {
+      const action = {
+        type: UPDATE_INVOICE,
+        invoice: {
+          r_hash: '123',
+        },
+      }
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
   })
 })
