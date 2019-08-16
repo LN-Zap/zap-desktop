@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers contactsformReducer should handle UPDATE_CONTACT_FORM_SEARCH_QUERY 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+-   "searchQuery": null,
++   "searchQuery": "some text",
+  }
+`;
+
+exports[`reducers contactsformReducer should handle initial state 1`] = `
+Object {
+  "searchQuery": null,
+}
+`;
