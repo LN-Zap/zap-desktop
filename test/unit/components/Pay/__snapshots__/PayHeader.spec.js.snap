@@ -23,9 +23,10 @@ exports[`component.Pay.PayHeader offchain should render correctly 1`] = `
     />
   }
   subtitle={
-    <injectIntl(FormattedMessage)
+    <FormattedMessage
       defaultMessage="Lightning Payment"
       id="components.Pay.subtitle_offchain"
+      values={Object {}}
     />
   }
   title="Send Bitcoin"
@@ -42,9 +43,10 @@ exports[`component.Pay.PayHeader onchain should render correctly 1`] = `
     />
   }
   subtitle={
-    <injectIntl(FormattedMessage)
+    <FormattedMessage
       defaultMessage="On-Chain Payment"
       id="components.Pay.subtitle_onchain"
+      values={Object {}}
     />
   }
   title="Send Bitcoin"

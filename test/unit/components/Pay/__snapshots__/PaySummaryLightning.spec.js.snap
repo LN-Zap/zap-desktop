@@ -100,13 +100,14 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
   />
   <DataRow
     left={
-      <injectIntl(FormattedMessage)
+      <FormattedMessage
         defaultMessage="Fee"
         id="components.Pay.fee"
+        values={Object {}}
       />
     }
     right={
-      <injectIntl(FormattedMessage)
+      <FormattedMessage
         defaultMessage="unknown"
         id="components.Pay.fee_unknown"
         values={
@@ -123,9 +124,10 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
   />
   <DataRow
     left={
-      <injectIntl(FormattedMessage)
+      <FormattedMessage
         defaultMessage="Total"
         id="components.Pay.total"
+        values={Object {}}
       />
     }
     right={

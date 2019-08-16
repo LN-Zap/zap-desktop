@@ -3,16 +3,18 @@
 exports[`component.UI.Countdown should render correctly with default props 1`] = `
 <Text
   color="superRed"
-  date={Date { NaN }}
 >
-  <injectIntl(FormattedMessage)
+  <FormattedMessage
     defaultMessage="Expired"
     id="components.UI.expired"
+    values={Object {}}
   />
    
-  <injectIntl(FormattedRelativeTime)
+  <FormattedRelativeTime
     style="long"
+    unit="second"
     updateIntervalInSeconds={1}
+    value={NaN}
   />
 </Text>
 `;

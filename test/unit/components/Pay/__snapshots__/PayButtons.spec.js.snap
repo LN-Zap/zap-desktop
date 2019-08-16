@@ -26,9 +26,10 @@ exports[`component.Form.PayButtons should render correctly with default props 1`
         <Styled(styled.div)
           ml={1}
         >
-          <injectIntl(FormattedMessage)
+          <FormattedMessage
             defaultMessage="Back"
             id="components.Pay.back"
+            values={Object {}}
           />
         </Styled(styled.div)>
       </Styled(styled.div)>
@@ -44,9 +45,10 @@ exports[`component.Form.PayButtons should render correctly with default props 1`
     type="submit"
     variant="normal"
   >
-    <injectIntl(FormattedMessage)
+    <FormattedMessage
       defaultMessage="Next"
       id="components.Pay.next"
+      values={Object {}}
     />
   </Button>
   <styled.div
