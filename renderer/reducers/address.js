@@ -12,6 +12,8 @@ import messages from './messages'
 // ------------------------------------
 
 const initialState = {
+  isAddressLoading: false,
+  fetchAddressError: null,
   addressesLoading: {
     np2wkh: false,
     p2wkh: false,
@@ -20,7 +22,6 @@ const initialState = {
     np2wkh: null,
     p2wkh: null,
   },
-  walletModal: false,
 }
 
 // ------------------------------------
@@ -29,11 +30,10 @@ const initialState = {
 
 export const FETCH_ADDRESSES = 'FETCH_ADDRESSES'
 export const FETCH_ADDRESSES_SUCCESS = 'FETCH_ADDRESSES_SUCCESS'
+export const FETCH_ADDRESSES_FAILURE = 'FETCH_ADDRESSES_FAILURE'
 export const NEW_ADDRESS = 'NEW_ADDRESS'
 export const NEW_ADDRESS_SUCCESS = 'NEW_ADDRESS_SUCCESS'
 export const NEW_ADDRESS_FAILURE = 'NEW_ADDRESS_FAILURE'
-export const OPEN_WALLET_MODAL = 'OPEN_WALLET_MODAL'
-export const CLOSE_WALLET_MODAL = 'CLOSE_WALLET_MODAL'
 
 // LND expects types to be sent as int, so this object will allow mapping from string to int
 const ADDRESS_TYPES = {
@@ -54,26 +54,30 @@ export const closeWalletModal = () => dispatch => dispatch(closeModal('RECEIVE_M
  * @returns {Function} Thunk
  */
 export const initAddresses = () => async (dispatch, getState) => {
-  dispatch({ type: FETCH_ADDRESSES })
+  try {
+    dispatch({ type: FETCH_ADDRESSES })
 
-  const state = getState()
+    const state = getState()
 
-  // Get node information (addresses are keyed under the node pubkey).
-  const pubKey = state.info.data.identity_pubkey
-  const node = await window.db.nodes.get({ id: pubKey })
+    // Get node information (addresses are keyed under the node pubkey).
+    const pubKey = state.info.data.identity_pubkey
+    const node = await window.db.nodes.get({ id: pubKey })
 
-  // Get existing addresses for the node.
-  const addresses = get(node, 'addresses', {})
-  dispatch({ type: FETCH_ADDRESSES_SUCCESS, addresses })
+    // Get existing addresses for the node.
+    const addresses = get(node, 'addresses', {})
+    dispatch({ type: FETCH_ADDRESSES_SUCCESS, addresses })
 
-  // Ensure that we have an address for all supported address types.
-  await Promise.all(
-    Object.keys(ADDRESS_TYPES).map(type => {
-      if (!addresses[type]) {
-        return dispatch(newAddress(type))
-      }
-    })
-  )
+    // Ensure that we have an address for all supported address types.
+    await Promise.all(
+      Object.keys(ADDRESS_TYPES).map(type => {
+        if (!addresses[type]) {
+          return dispatch(newAddress(type))
+        }
+      })
+    )
+  } catch (error) {
+    dispatch({ type: FETCH_ADDRESSES_FAILURE, error: error.message })
+  }
 }
 
 /**
@@ -141,8 +145,17 @@ export const newAddressFailure = (addressType, error) => dispatch => {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
+  [FETCH_ADDRESSES]: state => {
+    state.isAddressLoading = true
+  },
   [FETCH_ADDRESSES_SUCCESS]: (state, { addresses }) => {
     state.addresses = addresses
+    state.isAddressLoading = false
+    state.fetchAddressError = null
+  },
+  [FETCH_ADDRESSES_FAILURE]: (state, { error }) => {
+    state.isAddressLoading = false
+    state.fetchAddressError = error
   },
   [NEW_ADDRESS]: (state, { addressType }) => {
     state.addressesLoading[addressType] = true
@@ -153,12 +166,6 @@ const ACTION_HANDLERS = {
   },
   [NEW_ADDRESS_FAILURE]: (state, { addressType }) => {
     state.addressesLoading[addressType] = false
-  },
-  [OPEN_WALLET_MODAL]: state => {
-    state.walletModal = true
-  },
-  [CLOSE_WALLET_MODAL]: state => {
-    state.walletModal = false
   },
 }
 
