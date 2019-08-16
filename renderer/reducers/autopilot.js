@@ -54,7 +54,7 @@ export const updateAutopilotNodeScores = () => async (dispatch, getState) => {
     })
     dispatch({ type: UPDATE_AUTOPILOT_NODE_SCORES_SUCCESS, scores })
   } catch (error) {
-    dispatch({ type: UPDATE_AUTOPILOT_NODE_SCORES_FAILURE, error })
+    dispatch({ type: UPDATE_AUTOPILOT_NODE_SCORES_FAILURE, error: error.message })
   }
 }
 
@@ -64,10 +64,11 @@ export const updateAutopilotNodeScores = () => async (dispatch, getState) => {
 
 const ACTION_HANDLERS = {
   [UPDATE_AUTOPILOT_NODE_SCORES]: state => {
-    state.isBalanceLoading = true
+    state.isFetchingNodeScores = true
   },
   [UPDATE_AUTOPILOT_NODE_SCORES_SUCCESS]: (state, { scores }) => {
     state.scores = scores
+    state.isFetchingNodeScores = false
   },
   [UPDATE_AUTOPILOT_NODE_SCORES_FAILURE]: (state, { error }) => {
     state.isFetchingNodeScores = false
