@@ -35,6 +35,19 @@ exports[`component.Pay.PayPanelBody current step is not summary should render co
     queryFees={[Function]}
     walletBalanceConfirmed={1}
   />
+  <PaySummaryWithTransition
+    amountInSats={1}
+    currentStep="amount"
+    formApi={Object {}}
+    lndTargetConfirmations={
+      Object {
+        "fast": 10,
+        "medium": 5,
+        "slow": 1,
+      }
+    }
+    routes={Array []}
+  />
 </Fragment>
 `;
 
@@ -73,7 +86,7 @@ exports[`component.Pay.PayPanelBody current step is summary should render correc
     queryFees={[Function]}
     walletBalanceConfirmed={1}
   />
-  <PaySummary
+  <PaySummaryWithTransition
     amountInSats={1}
     currentStep="summary"
     formApi={Object {}}
@@ -84,7 +97,6 @@ exports[`component.Pay.PayPanelBody current step is summary should render correc
         "slow": 1,
       }
     }
-    onchainFees={Object {}}
     routes={Array []}
   />
 </Fragment>

@@ -44,24 +44,21 @@ class PayAddressField extends React.Component {
     }
   }
 
+  getPaymentRequestLabel = () => {
+    const { currentStep, isLn } = this.props
+    let payReqLabel = 'request_label_onchain'
+    if (currentStep === PAY_FORM_STEPS.address) {
+      payReqLabel = 'request_label_combined'
+    } else if (isLn) {
+      payReqLabel = 'request_label_offchain'
+    }
+
+    const { intl } = this.props
+    return intl.formatMessage({ ...messages[payReqLabel] })
+  }
+
   render() {
-    const {
-      chain,
-      currentStep,
-      handlePayReqChange,
-      intl,
-      isLn,
-      network,
-      redirectPayReq,
-    } = this.props
-
-    const payReq_label =
-      currentStep === PAY_FORM_STEPS.address
-        ? 'request_label_combined'
-        : isLn
-        ? 'request_label_offchain'
-        : 'request_label_onchain'
-
+    const { chain, currentStep, handlePayReqChange, isLn, network, redirectPayReq } = this.props
     const addressFieldState = currentStep === PAY_FORM_STEPS.address || isLn ? 'big' : 'small'
 
     return (
@@ -80,7 +77,7 @@ class PayAddressField extends React.Component {
                 initialValue={redirectPayReq && redirectPayReq.address}
                 isReadOnly={currentStep !== PAY_FORM_STEPS.address}
                 isRequired
-                label={intl.formatMessage({ ...messages[payReq_label] })}
+                label={this.getPaymentRequestLabel()}
                 name="payReq"
                 network={network}
                 onValueChange={handlePayReqChange}

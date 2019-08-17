@@ -9,6 +9,7 @@ exports[`component.Pay.PayAddressField current step is "address" should render c
       PayAddressField {
         "context": Object {},
         "focusPayReqInput": [Function],
+        "getPaymentRequestLabel": [Function],
         "payReqInput": Object {
           "current": null,
         },
@@ -40,6 +41,7 @@ exports[`component.Pay.PayAddressField current step is "address" should render c
               "useMemo": [Function],
               "useReducer": [Function],
               "useRef": [Function],
+              "useResponder": [Function],
               "useState": [Function],
             },
             "_element": <PayAddressField
@@ -91,6 +93,7 @@ exports[`component.Pay.PayAddressField current step is "summary" and it is an LN
       PayAddressField {
         "context": Object {},
         "focusPayReqInput": [Function],
+        "getPaymentRequestLabel": [Function],
         "payReqInput": Object {
           "current": null,
         },
@@ -122,6 +125,7 @@ exports[`component.Pay.PayAddressField current step is "summary" and it is an LN
               "useMemo": [Function],
               "useReducer": [Function],
               "useRef": [Function],
+              "useResponder": [Function],
               "useState": [Function],
             },
             "_element": <PayAddressField
@@ -173,6 +177,7 @@ exports[`component.Pay.PayAddressField current step is "summary" and it is an on
       PayAddressField {
         "context": Object {},
         "focusPayReqInput": [Function],
+        "getPaymentRequestLabel": [Function],
         "payReqInput": Object {
           "current": null,
         },
@@ -204,6 +209,7 @@ exports[`component.Pay.PayAddressField current step is "summary" and it is an on
               "useMemo": [Function],
               "useReducer": [Function],
               "useRef": [Function],
+              "useResponder": [Function],
               "useState": [Function],
             },
             "_element": <PayAddressField

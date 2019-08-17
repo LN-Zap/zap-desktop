@@ -8,40 +8,9 @@ import { PAY_FORM_STEPS } from './constants'
 import { getFeeRate } from './utils'
 
 const PaySummary = props => {
-  const renderPaySummaryComponent = () => {
-    const { amountInSats, formApi, isLn, isOnchain, lndTargetConfirmations, routes } = props
-    const formState = formApi.getState()
-    const { speed, payReq, isCoinSweep } = formState.values
-    let minFee, maxFee
-    if (routes.length) {
-      minFee = getMinFee(routes)
-      maxFee = getMaxFee(routes)
-    }
-
-    if (isOnchain) {
-      return (
-        <PaySummaryOnChain
-          address={payReq}
-          amount={amountInSats}
-          fee={getFee()}
-          isCoinSweep={isCoinSweep}
-          lndTargetConfirmations={lndTargetConfirmations}
-          mt={-3}
-          speed={speed}
-        />
-      )
-    } else if (isLn) {
-      return (
-        <PaySummaryLightning
-          amount={amountInSats}
-          maxFee={maxFee}
-          minFee={minFee}
-          mt={-3}
-          payReq={payReq}
-        />
-      )
-    }
-  }
+  const { amountInSats, formApi, isOnchain, lndTargetConfirmations } = props
+  const formState = formApi.getState()
+  const { speed, payReq, isCoinSweep } = formState.values
 
   /**
    * getFee - Get the current per byte fee based on the form values.
@@ -56,23 +25,35 @@ const PaySummary = props => {
     return getFeeRate(onchainFees, speed)
   }
 
-  const { currentStep } = props
+  if (isOnchain) {
+    return (
+      <PaySummaryOnChain
+        address={payReq}
+        amount={amountInSats}
+        fee={getFee()}
+        isCoinSweep={isCoinSweep}
+        lndTargetConfirmations={lndTargetConfirmations}
+        mt={-3}
+        speed={speed}
+      />
+    )
+  }
+
+  const { routes } = props
+  let minFee, maxFee
+  if (routes.length) {
+    minFee = getMinFee(routes)
+    maxFee = getMaxFee(routes)
+  }
 
   return (
-    <Transition
-      enter={{ opacity: 1, height: 'auto' }}
-      from={{ opacity: 0, height: 0 }}
-      initial={{ opacity: 1, height: 'auto' }}
-      items={currentStep === PAY_FORM_STEPS.summary}
-      leave={{ opacity: 0, height: 0 }}
-      native
-    >
-      {show =>
-        show &&
-        /* eslint-disable  react/display-name */
-        (styles => <animated.div style={styles}>{renderPaySummaryComponent()}</animated.div>)
-      }
-    </Transition>
+    <PaySummaryLightning
+      amount={amountInSats}
+      maxFee={maxFee}
+      minFee={minFee}
+      mt={-3}
+      payReq={payReq}
+    />
   )
 }
 
@@ -80,9 +61,7 @@ PaySummary.displayName = 'PaySummary'
 
 PaySummary.propTypes = {
   amountInSats: PropTypes.number.isRequired,
-  currentStep: PropTypes.string.isRequired,
   formApi: PropTypes.object.isRequired,
-  isLn: PropTypes.bool,
   isOnchain: PropTypes.bool,
   lndTargetConfirmations: PropTypes.shape({
     fast: PropTypes.number.isRequired,
@@ -102,4 +81,35 @@ PaySummary.defaultProps = {
   routes: [],
 }
 
-export default PaySummary
+const PaySummaryWithTransition = props => {
+  const { currentStep } = props
+
+  return (
+    <Transition
+      enter={{ opacity: 1, height: 'auto' }}
+      from={{ opacity: 0, height: 0 }}
+      initial={{ opacity: 1, height: 'auto' }}
+      items={currentStep === PAY_FORM_STEPS.summary}
+      leave={{ opacity: 0, height: 0 }}
+      native
+    >
+      {show =>
+        show &&
+        /* eslint-disable  react/display-name */
+        (styles => (
+          <animated.div style={styles}>
+            <PaySummary {...props} />
+          </animated.div>
+        ))
+      }
+    </Transition>
+  )
+}
+
+PaySummaryWithTransition.displayName = 'PaySummaryWithTransition'
+PaySummaryWithTransition.propTypes = {
+  ...PaySummary.propTypes,
+  currentStep: PropTypes.string.isRequired,
+}
+
+export default PaySummaryWithTransition

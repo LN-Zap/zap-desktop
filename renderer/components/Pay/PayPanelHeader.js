@@ -4,9 +4,16 @@ import { FormattedMessage } from 'react-intl'
 import { Bar } from 'components/UI'
 import PayHeader from './PayHeader'
 import messages from './messages'
+import { PAY_HEADER_TYPES } from './constants'
 
 const PayPanelHeader = props => {
   const { chainName, cryptoUnitName, isLn, isOnchain } = props
+  let headerType = null
+  if (isLn) {
+    headerType = PAY_HEADER_TYPES.offchain
+  } else if (isOnchain) {
+    headerType = PAY_HEADER_TYPES.onchain
+  }
 
   return (
     <>
@@ -16,7 +23,7 @@ const PayPanelHeader = props => {
             <FormattedMessage {...messages.send} /> {chainName} ({cryptoUnitName})
           </>
         }
-        type={isLn ? 'offchain' : isOnchain ? 'onchain' : null}
+        type={headerType}
       />
       <Bar mt={2} />
     </>

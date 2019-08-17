@@ -23,7 +23,7 @@ const isEnoughFunds = props => {
   return hasEnoughFunds
 }
 
-const nextButtonText = (formState, props) => {
+const getNextButtonText = (formState, props) => {
   const { currentStep } = props
   // Determine what the text should be for the next button.
   let nextButtonText = <FormattedMessage {...messages.next} />
@@ -85,7 +85,7 @@ const PayPanelFooter = props => {
           (currentStep === PAY_FORM_STEPS.summary && !hasEnoughFunds)
         }
         isProcessing={isProcessing}
-        nextButtonText={nextButtonText(formState, props)}
+        nextButtonText={getNextButtonText(formState, props)}
         previousStep={previousStep}
       />
 

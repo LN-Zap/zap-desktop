@@ -5,7 +5,6 @@ import PayAddressField from './PayAddressField'
 import PayAmountFields from './PayAmountFields'
 import PayHelpText from './PayHelpText'
 import PaySummary from './PaySummary'
-import { PAY_FORM_STEPS } from './constants'
 
 const PayPanelBody = props => {
   const {
@@ -67,18 +66,15 @@ const PayPanelBody = props => {
         queryFees={queryFees}
         walletBalanceConfirmed={walletBalanceConfirmed}
       />
-      {currentStep === PAY_FORM_STEPS.summary && (
-        <PaySummary
-          amountInSats={amountInSats}
-          currentStep={currentStep}
-          formApi={formApi}
-          isLn={isLn}
-          isOnchain={isOnchain}
-          lndTargetConfirmations={lndTargetConfirmations}
-          onchainFees={onchainFees}
-          routes={routes}
-        />
-      )}
+      <PaySummary
+        amountInSats={amountInSats}
+        currentStep={currentStep}
+        formApi={formApi}
+        isOnchain={isOnchain}
+        lndTargetConfirmations={lndTargetConfirmations}
+        onchainFees={onchainFees}
+        routes={routes}
+      />
     </>
   )
 }

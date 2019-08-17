@@ -103,6 +103,18 @@ class PayAmountFields extends React.Component {
     }
   }
 
+  getAmountFieldsDisplayState = () => {
+    const { currentStep } = this.props
+    let amountFieldsDisplayState = 'remove'
+    if (currentStep === PAY_FORM_STEPS.amount) {
+      amountFieldsDisplayState = 'show'
+    } else if (currentStep === PAY_FORM_STEPS.address) {
+      amountFieldsDisplayState = 'hide'
+    }
+
+    return amountFieldsDisplayState
+  }
+
   render() {
     const {
       currentStep,
@@ -114,15 +126,9 @@ class PayAmountFields extends React.Component {
       isQueryingFees,
       lndTargetConfirmations,
     } = this.props
-
     const formState = formApi.getState()
     const { isCoinSweep } = formState.values
-    const amountFieldsDisplayState =
-      currentStep === PAY_FORM_STEPS.amount
-        ? 'show'
-        : currentStep === PAY_FORM_STEPS.address
-        ? 'hide'
-        : 'remove'
+    const amountFieldsDisplayState = this.getAmountFieldsDisplayState()
 
     return (
       <ShowHideAmount context={this} state={amountFieldsDisplayState}>
