@@ -21,6 +21,12 @@ const SearchIcon = styled(Search)`
 // Create an html input element that accepts all style props from styled-system.
 export const SystemInput = createSystemInput('input')
 
+const maybeFocusRef = ref => {
+  if (ref.current && document.activeElement !== ref.current) {
+    ref.current.focus()
+  }
+}
+
 const Input = ({
   description,
   onChange,
@@ -55,10 +61,8 @@ const Input = ({
   const { value, maskedValue, error, asyncError } = fieldState
 
   useLayoutEffect(() => {
-    if (willAutoFocus) {
-      forwardedRef.current.focus()
-    }
-  }, [willAutoFocus, forwardedRef])
+    willAutoFocus && maybeFocusRef(forwardedRef)
+  }, [forwardedRef, willAutoFocus])
 
   const getValue = () => {
     if (typeof value === 'undefined') {

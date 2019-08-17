@@ -13,6 +13,12 @@ import { createSystemInput } from './util'
 // Create an html input element that accepts all style props from styled-system.
 export const SystemTextArea = createSystemInput('textarea')
 
+const maybeFocusRef = ref => {
+  if (ref.current && document.activeElement !== ref.current) {
+    ref.current.focus()
+  }
+}
+
 const TextArea = ({
   description,
   onChange,
@@ -42,10 +48,8 @@ const TextArea = ({
   const { value, maskedValue, error, asyncError } = fieldState
 
   useLayoutEffect(() => {
-    if (willAutoFocus) {
-      forwardedRef.current.focus()
-    }
-  }, [forwardedRef, willAutoFocus])
+    willAutoFocus && maybeFocusRef(forwardedRef)
+  }, [willAutoFocus, forwardedRef])
 
   const getValue = () => {
     if (typeof value === 'undefined') {

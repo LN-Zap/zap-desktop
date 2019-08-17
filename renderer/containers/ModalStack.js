@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { animated, Transition } from 'react-spring/renderprops.cjs'
@@ -21,7 +21,7 @@ const Container = styled(animated.div)`
   ${ModalOverlayStyles}
 `
 
-const ModalContent = ({ type, closeModal }) => {
+const ModalContent = ({ type, closeModal, isAnimating }) => {
   switch (type) {
     case 'SETTINGS':
       return (
@@ -54,7 +54,7 @@ const ModalContent = ({ type, closeModal }) => {
     case 'REQUEST_FORM':
       return (
         <Modal onClose={closeModal} p={4}>
-          <Request mx="auto" width={9 / 16} />
+          <Request isAnimating={isAnimating} mx="auto" width={9 / 16} />
         </Modal>
       )
 
@@ -97,11 +97,12 @@ const ModalContent = ({ type, closeModal }) => {
 
 ModalContent.propTypes = {
   closeModal: PropTypes.func.isRequired,
+  isAnimating: PropTypes.bool,
   type: PropTypes.string.isRequired,
 }
 
 /**
- * ModalStack - Render modqals from the modal stack.
+ * ModalStack - Render modals from the modal stack.
  *
  * @param {{ modals, closeModal }} props Props
  * @returns {Node} Node
@@ -111,6 +112,10 @@ function ModalStack(props) {
   const doCloseModal = () => closeModal()
 
   useOnKeydown('Escape', closeModal)
+  const [isAnimating, setIsAnimating] = useState(false)
+
+  const onStart = () => setIsAnimating(true)
+  const onRest = () => setIsAnimating(false)
 
   return (
     <Transition
@@ -119,13 +124,15 @@ function ModalStack(props) {
       items={modals}
       keys={item => item.id}
       leave={{ opacity: 0, pointerEvents: 'none' }}
+      onRest={onRest}
+      onStart={onStart}
     >
       {modal =>
         modal &&
         /* eslint-disable react/display-name */
         (styles => (
           <Container style={styles}>
-            <ModalContent closeModal={doCloseModal} type={modal.type} />
+            <ModalContent closeModal={doCloseModal} isAnimating={isAnimating} type={modal.type} />
           </Container>
         ))
       }
