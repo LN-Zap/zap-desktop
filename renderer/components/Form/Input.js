@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { compose } from 'redux'
 import PropTypes from 'prop-types'
 import { asField } from 'informed'
@@ -7,6 +7,7 @@ import { Flex } from 'rebass'
 import Search from 'components/Icon/Search'
 import { extractSpaceProps } from 'themes/util'
 import { withInputValidation } from 'hocs'
+import { useAutoFocus } from 'hooks'
 import { Message, Text } from 'components/UI'
 import InputLabel from './InputLabel'
 import { createSystemInput } from './util'
@@ -20,12 +21,6 @@ const SearchIcon = styled(Search)`
 
 // Create an html input element that accepts all style props from styled-system.
 export const SystemInput = createSystemInput('input')
-
-const maybeFocusRef = ref => {
-  if (ref.current && document.activeElement !== ref.current) {
-    ref.current.focus()
-  }
-}
 
 const Input = ({
   description,
@@ -60,9 +55,7 @@ const Input = ({
   const { setValue, setTouched } = fieldApi
   const { value, maskedValue, error, asyncError } = fieldState
 
-  useLayoutEffect(() => {
-    willAutoFocus && maybeFocusRef(forwardedRef)
-  }, [forwardedRef, willAutoFocus])
+  useAutoFocus(forwardedRef, willAutoFocus)
 
   const getValue = () => {
     if (typeof value === 'undefined') {

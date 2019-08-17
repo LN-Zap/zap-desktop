@@ -1,3 +1,4 @@
+export useAutoFocus from './useAutoFocus'
 export useCloseOnUnmount from './useCloseOnUnmount'
 export useComponentSize from './useComponentSize'
 export useOnClickOutside from './useOnClickOutside'
