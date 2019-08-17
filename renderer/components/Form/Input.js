@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { compose } from 'redux'
 import PropTypes from 'prop-types'
 import { asField } from 'informed'
@@ -50,16 +50,15 @@ const Input = ({
   ...rest
 }) => {
   const [hasFocus, setFocus] = useState(false)
-  const inputRef = useRef(forwardedRef)
   const [spaceProps, otherProps] = extractSpaceProps(rest)
   const { setValue, setTouched } = fieldApi
   const { value, maskedValue, error, asyncError } = fieldState
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (willAutoFocus) {
-      inputRef.current.focus()
+      forwardedRef.current.focus()
     }
-  }, [willAutoFocus])
+  }, [willAutoFocus, forwardedRef])
 
   const getValue = () => {
     if (typeof value === 'undefined') {
@@ -84,7 +83,7 @@ const Input = ({
         {type === 'search' && <SearchIcon width={iconSize} />}
         <SystemInput
           {...otherProps}
-          ref={inputRef}
+          ref={forwardedRef}
           disabled={isDisabled}
           fieldState={fieldState}
           maxLength={maxLength}

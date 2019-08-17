@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { asField } from 'informed'
@@ -37,16 +37,15 @@ const TextArea = ({
   ...rest
 }) => {
   const [hasFocus, setFocus] = useState(false)
-  const inputRef = useRef(forwardedRef)
   const [spaceProps, otherProps] = extractSpaceProps(rest)
   const { setValue, setTouched } = fieldApi
   const { value, maskedValue, error, asyncError } = fieldState
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (willAutoFocus) {
-      inputRef.current.focus()
+      forwardedRef.current.focus()
     }
-  }, [willAutoFocus])
+  }, [forwardedRef, willAutoFocus])
 
   const getValue = () => {
     if (typeof value === 'undefined') {
@@ -69,7 +68,7 @@ const TextArea = ({
       )}
       <SystemTextArea
         {...otherProps}
-        ref={inputRef}
+        ref={forwardedRef}
         disabled={isDisabled}
         fieldState={fieldState}
         name={field}
