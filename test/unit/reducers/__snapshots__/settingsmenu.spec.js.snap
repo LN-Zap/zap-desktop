@@ -1,22 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`reducers settingsReducer should correctly closeSettingsMenu 1`] = `
-Object {
-  "activeSubMenu": null,
-  "isSettingsMenuOpen": false,
-}
+exports[`reducers settingsmenuReducer should handle CLOSE_SETTINGS 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
 `;
 
-exports[`reducers settingsReducer should correctly openSettings 1`] = `
-Object {
-  "activeSubMenu": null,
-  "isSettingsMenuOpen": true,
-}
+exports[`reducers settingsmenuReducer should handle OPEN_SETTINGS 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+-   "isSettingsMenuOpen": false,
++   "isSettingsMenuOpen": true,
+  }
 `;
 
-exports[`reducers settingsReducer should handle initial state 1`] = `
+exports[`reducers settingsmenuReducer should handle initial state 1`] = `
 Object {
-  "activeSubMenu": null,
   "isSettingsMenuOpen": false,
 }
 `;

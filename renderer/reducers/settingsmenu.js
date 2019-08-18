@@ -6,7 +6,6 @@ import createReducer from './utils/createReducer'
 
 const initialState = {
   isSettingsMenuOpen: false,
-  activeSubMenu: null,
 }
 
 // ------------------------------------
@@ -51,7 +50,6 @@ const ACTION_HANDLERS = {
   },
   [CLOSE_SETTINGS]: state => {
     state.isSettingsMenuOpen = false
-    state.activeSubMenu = null
   },
 }
 

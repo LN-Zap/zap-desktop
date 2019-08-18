@@ -1,33 +1,24 @@
-import settingsReducer, { OPEN_SETTINGS, CLOSE_SETTINGS } from 'reducers/settingsmenu'
+import snapshotDiff from '../__helpers__/snapshotDiff'
+import reducer, { OPEN_SETTINGS, CLOSE_SETTINGS } from 'reducers/settingsmenu'
 
 describe('reducers', () => {
-  describe('settingsReducer', () => {
+  describe('settingsmenuReducer', () => {
     it('should handle initial state', () => {
-      expect(settingsReducer(undefined, {})).toMatchSnapshot()
+      expect(reducer(undefined, {})).toMatchSnapshot()
     })
 
-    it('should have OPEN_SETTINGS', () => {
-      expect(OPEN_SETTINGS).toEqual('OPEN_SETTINGS')
+    it('should handle OPEN_SETTINGS', () => {
+      const action = {
+        type: OPEN_SETTINGS,
+      }
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
-    it('should have CLOSE_SETTINGS', () => {
-      expect(CLOSE_SETTINGS).toEqual('CLOSE_SETTINGS')
-    })
-
-    it('should correctly openSettings', () => {
-      expect(
-        settingsReducer(undefined, { type: OPEN_SETTINGS, settingsOpen: true })
-      ).toMatchSnapshot()
-    })
-
-    it('should correctly closeSettingsMenu', () => {
-      expect(
-        settingsReducer(undefined, {
-          type: CLOSE_SETTINGS,
-          settingsOpen: false,
-          activeSubMenu: null,
-        })
-      ).toMatchSnapshot()
+    it('should handle CLOSE_SETTINGS', () => {
+      const action = {
+        type: CLOSE_SETTINGS,
+      }
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
   })
 })
