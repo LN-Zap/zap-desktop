@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers notificationReducer should handle ENQUEUE_NOTIFICATION 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+-   "notifications": Array [],
++   "notifications": Array [
++     Object {
++       "id": 123,
++       "message": "some message",
++     },
++   ],
+  }
+`;
+
+exports[`reducers notificationReducer should handle REMOVE_NOTIFICATION 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
+`;
+
+exports[`reducers notificationReducer should handle UPDATE_NOTIFICATION 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
+`;
+
+exports[`reducers notificationReducer should handle initial state 1`] = `
+Object {
+  "notifications": Array [],
+}
+`;
