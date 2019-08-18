@@ -341,6 +341,11 @@ app.on('ready', async () => {
    * In development mode or when DEBUG_PROD is set, enable debugging tools.
    */
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD) {
+    if (process.env.REINSTALL_DEVTOOLS) {
+      BrowserWindow.removeDevToolsExtension(REACT_DEVELOPER_TOOLS)
+      BrowserWindow.removeDevToolsExtension(REDUX_DEVTOOLS)
+    }
+
     installExtension(REACT_DEVELOPER_TOOLS)
       .then(name => mainLog.debug(`Added Extension: ${name}`))
       .catch(err => mainLog.warn(`An error occurred when installing REACT_DEVELOPER_TOOLS: ${err}`))
