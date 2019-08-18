@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers networkReducer should handle GET_DESCRIBE_NETWORK 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+-   "networkLoading": false,
++   "networkLoading": true,
+    "nodes": Array [],
+  }
+`;
+
+exports[`reducers networkReducer should handle RECEIVE_DESCRIBE_NETWORK 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "networkLoading": false,
+-   "nodes": Array [],
++   "nodes": Array [
++     Object {
++       "some": "data",
++     },
++   ],
+  }
+`;
+
+exports[`reducers networkReducer should handle UPDATE_NODE_DATA 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "networkLoading": false,
+-   "nodes": Array [],
++   "nodes": Array [
++     Object {
++       "some": "data",
++     },
++   ],
+  }
+`;
+
+exports[`reducers networkReducer should handle initial state 1`] = `
+Object {
+  "networkLoading": false,
+  "nodes": Array [],
+}
+`;
