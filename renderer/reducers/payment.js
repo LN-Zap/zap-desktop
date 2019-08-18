@@ -12,13 +12,13 @@ import { fetchChannels } from './channels'
 import { networkSelectors } from './network'
 import { showError } from './notification'
 import messages from './messages'
+
 // ------------------------------------
 // Initial State
 // ------------------------------------
 
 const initialState = {
   paymentLoading: false,
-  payment: null,
   payments: [],
   paymentsSending: [],
 }
@@ -101,19 +101,6 @@ const getLastSendingEntry = (state, paymentRequest) =>
 // ------------------------------------
 // Actions
 // ------------------------------------
-
-/**
- * setPayment - Set the current in progress payment.
- *
- * @param  {object} payment Payment
- * @returns {object} Action
- */
-export function setPayment(payment) {
-  return {
-    type: SET_PAYMENT,
-    payment,
-  }
-}
 
 /**
  * getPayments - Initiate fetching all payments.
@@ -329,9 +316,6 @@ const ACTION_HANDLERS = {
     state.paymentsSending = state.paymentsSending.filter(
       item => !payments.find(p => p.payment_hash === item.payment_hash)
     )
-  },
-  [SET_PAYMENT]: (state, { payment }) => {
-    state.payment = payment
   },
   [SEND_PAYMENT]: (state, { payment }) => {
     state.paymentsSending.push(payment)
