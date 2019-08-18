@@ -9,7 +9,9 @@ import createReducer from './utils/createReducer'
 // ------------------------------------
 
 const initialState = {
+  isDeleteDialogOpen: false,
   isWalletsLoaded: false,
+  deleteWalletError: null,
   wallets: [],
 }
 
@@ -168,7 +170,7 @@ export const deleteWallet = () => async (dispatch, getState) => {
     }
   } catch (error) {
     dispatch(showError(error.message))
-    dispatch({ type: DELETE_WALLET_FAILURE, error })
+    dispatch({ type: DELETE_WALLET_FAILURE, error: error.message })
   }
 }
 
@@ -224,6 +226,9 @@ const ACTION_HANDLERS = {
   },
   [CLOSE_DELETE_WALLET_DIALOG]: state => {
     state.isDeleteDialogOpen = false
+  },
+  [DELETE_WALLET_FAILURE]: (state, { error }) => {
+    state.deleteWalletError = error
   },
 }
 
