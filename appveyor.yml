@@ -5,7 +5,7 @@ platform:
 
 environment:
   DEBUG: electron-builder
-  nodejs_version: STABLE
+  nodejs_version: '12'
 
 init:
   - ps: Install-Product node $env:nodejs_version x64
