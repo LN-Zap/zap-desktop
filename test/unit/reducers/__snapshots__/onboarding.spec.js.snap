@@ -1,0 +1,519 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers onboardingReducer should handle CLOSE_SKIP_BACKUP_DIALOG 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
+`;
+
+exports[`reducers onboardingReducer should handle OPEN_SKIP_BACKUP_DIALOG 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "alias": "",
+    "autopilot": false,
+    "chain": "bitcoin",
+    "connectionCert": "",
+    "connectionHost": "",
+    "connectionMacaroon": "",
+    "connectionString": "",
+    "connectionType": "create",
+-   "isSkipBackupDialogOpen": false,
++   "isSkipBackupDialogOpen": true,
+    "lndConnect": null,
+    "name": "",
+    "network": "mainnet",
+    "passphrase": "",
+    "password": "",
+    "seed": Array [],
+    "validatingCert": false,
+    "validatingHost": false,
+    "validatingMacaroon": false,
+  }
+`;
+
+exports[`reducers onboardingReducer should handle RESET_ONBOARDING 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
+`;
+
+exports[`reducers onboardingReducer should handle SET_ALIAS 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+-   "alias": "",
++   "alias": "some alias",
+    "autopilot": false,
+    "chain": "bitcoin",
+    "connectionCert": "",
+    "connectionHost": "",
+    "connectionMacaroon": "",
+    "connectionString": "",
+    "connectionType": "create",
+    "isSkipBackupDialogOpen": false,
+    "lndConnect": null,
+    "name": "",
+    "network": "mainnet",
+    "passphrase": "",
+    "password": "",
+    "seed": Array [],
+    "validatingCert": false,
+    "validatingHost": false,
+    "validatingMacaroon": false,
+  }
+`;
+
+exports[`reducers onboardingReducer should handle SET_AUTOPILOT 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "alias": "",
+-   "autopilot": false,
++   "autopilot": true,
+    "chain": "bitcoin",
+    "connectionCert": "",
+    "connectionHost": "",
+    "connectionMacaroon": "",
+    "connectionString": "",
+    "connectionType": "create",
+    "isSkipBackupDialogOpen": false,
+    "lndConnect": null,
+    "name": "",
+    "network": "mainnet",
+    "passphrase": "",
+    "password": "",
+    "seed": Array [],
+    "validatingCert": false,
+    "validatingHost": false,
+    "validatingMacaroon": false,
+  }
+`;
+
+exports[`reducers onboardingReducer should handle SET_CHAIN 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
+`;
+
+exports[`reducers onboardingReducer should handle SET_CONNECTION_CERT 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "alias": "",
+    "autopilot": false,
+    "chain": "bitcoin",
+-   "connectionCert": "",
++   "connectionCert": "/path/to/cert",
+    "connectionHost": "",
+    "connectionMacaroon": "",
+    "connectionString": "",
+    "connectionType": "create",
+    "isSkipBackupDialogOpen": false,
+    "lndConnect": null,
+    "name": "",
+    "network": "mainnet",
+    "passphrase": "",
+    "password": "",
+    "seed": Array [],
+    "validatingCert": false,
+    "validatingHost": false,
+    "validatingMacaroon": false,
+  }
+`;
+
+exports[`reducers onboardingReducer should handle SET_CONNECTION_HOST 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "alias": "",
+    "autopilot": false,
+    "chain": "bitcoin",
+    "connectionCert": "",
+-   "connectionHost": "",
++   "connectionHost": "localhost",
+    "connectionMacaroon": "",
+    "connectionString": "",
+    "connectionType": "create",
+    "isSkipBackupDialogOpen": false,
+    "lndConnect": null,
+    "name": "",
+    "network": "mainnet",
+    "passphrase": "",
+    "password": "",
+    "seed": Array [],
+    "validatingCert": false,
+    "validatingHost": false,
+    "validatingMacaroon": false,
+  }
+`;
+
+exports[`reducers onboardingReducer should handle SET_CONNECTION_MACAROON 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "alias": "",
+    "autopilot": false,
+    "chain": "bitcoin",
+    "connectionCert": "",
+    "connectionHost": "",
+-   "connectionMacaroon": "",
++   "connectionMacaroon": "/path/to/macaroon",
+    "connectionString": "",
+    "connectionType": "create",
+    "isSkipBackupDialogOpen": false,
+    "lndConnect": null,
+    "name": "",
+    "network": "mainnet",
+    "passphrase": "",
+    "password": "",
+    "seed": Array [],
+    "validatingCert": false,
+    "validatingHost": false,
+    "validatingMacaroon": false,
+  }
+`;
+
+exports[`reducers onboardingReducer should handle SET_CONNECTION_STRING 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "alias": "",
+    "autopilot": false,
+    "chain": "bitcoin",
+    "connectionCert": "",
+    "connectionHost": "",
+    "connectionMacaroon": "",
+-   "connectionString": "",
++   "connectionString": undefined,
+    "connectionType": "create",
+    "isSkipBackupDialogOpen": false,
+    "lndConnect": null,
+    "name": "",
+    "network": "mainnet",
+    "passphrase": "",
+    "password": "",
+    "seed": Array [],
+    "validatingCert": false,
+    "validatingHost": false,
+    "validatingMacaroon": false,
+  }
+`;
+
+exports[`reducers onboardingReducer should handle SET_CONNECTION_TYPE 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "alias": "",
+    "autopilot": false,
+    "chain": "bitcoin",
+    "connectionCert": "",
+    "connectionHost": "",
+    "connectionMacaroon": "",
+    "connectionString": "",
+-   "connectionType": "create",
++   "connectionType": "custom",
+    "isSkipBackupDialogOpen": false,
+    "lndConnect": null,
+    "name": "",
+    "network": "mainnet",
+    "passphrase": "",
+    "password": "",
+    "seed": Array [],
+    "validatingCert": false,
+    "validatingHost": false,
+    "validatingMacaroon": false,
+  }
+`;
+
+exports[`reducers onboardingReducer should handle SET_LNDCONNECT 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "alias": "",
+    "autopilot": false,
+    "chain": "bitcoin",
+    "connectionCert": "",
+    "connectionHost": "",
+    "connectionMacaroon": "",
+    "connectionString": "",
+    "connectionType": "create",
+    "isSkipBackupDialogOpen": false,
+-   "lndConnect": null,
++   "lndConnect": "lndconnect://localhost:10009?cert=/path/to/cert&macaroon=/path/to/macaroon",
+    "name": "",
+    "network": "mainnet",
+    "passphrase": "",
+    "password": "",
+    "seed": Array [],
+    "validatingCert": false,
+    "validatingHost": false,
+    "validatingMacaroon": false,
+  }
+`;
+
+exports[`reducers onboardingReducer should handle SET_NAME 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "alias": "",
+    "autopilot": false,
+    "chain": "bitcoin",
+    "connectionCert": "",
+    "connectionHost": "",
+    "connectionMacaroon": "",
+    "connectionString": "",
+    "connectionType": "create",
+    "isSkipBackupDialogOpen": false,
+    "lndConnect": null,
+-   "name": "",
++   "name": "some name",
+    "network": "mainnet",
+    "passphrase": "",
+    "password": "",
+    "seed": Array [],
+    "validatingCert": false,
+    "validatingHost": false,
+    "validatingMacaroon": false,
+  }
+`;
+
+exports[`reducers onboardingReducer should handle SET_NETWORK 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "alias": "",
+    "autopilot": false,
+    "chain": "bitcoin",
+    "connectionCert": "",
+    "connectionHost": "",
+    "connectionMacaroon": "",
+    "connectionString": "",
+    "connectionType": "create",
+    "isSkipBackupDialogOpen": false,
+    "lndConnect": null,
+    "name": "",
+-   "network": "mainnet",
++   "network": "testnet",
+    "passphrase": "",
+    "password": "",
+    "seed": Array [],
+    "validatingCert": false,
+    "validatingHost": false,
+    "validatingMacaroon": false,
+  }
+`;
+
+exports[`reducers onboardingReducer should handle SET_PASSPHRASE 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "alias": "",
+    "autopilot": false,
+    "chain": "bitcoin",
+    "connectionCert": "",
+    "connectionHost": "",
+    "connectionMacaroon": "",
+    "connectionString": "",
+    "connectionType": "create",
+    "isSkipBackupDialogOpen": false,
+    "lndConnect": null,
+    "name": "",
+    "network": "mainnet",
+-   "passphrase": "",
++   "passphrase": "some passphrase",
+    "password": "",
+    "seed": Array [],
+    "validatingCert": false,
+    "validatingHost": false,
+    "validatingMacaroon": false,
+  }
+`;
+
+exports[`reducers onboardingReducer should handle SET_PASSWORD 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "alias": "",
+    "autopilot": false,
+    "chain": "bitcoin",
+    "connectionCert": "",
+    "connectionHost": "",
+    "connectionMacaroon": "",
+    "connectionString": "",
+    "connectionType": "create",
+    "isSkipBackupDialogOpen": false,
+    "lndConnect": null,
+    "name": "",
+    "network": "mainnet",
+    "passphrase": "",
+-   "password": "",
++   "password": "some password",
+    "seed": Array [],
+    "validatingCert": false,
+    "validatingHost": false,
+    "validatingMacaroon": false,
+  }
+`;
+
+exports[`reducers onboardingReducer should handle SET_SEED 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "alias": "",
+    "autopilot": false,
+    "chain": "bitcoin",
+    "connectionCert": "",
+    "connectionHost": "",
+    "connectionMacaroon": "",
+    "connectionString": "",
+    "connectionType": "create",
+    "isSkipBackupDialogOpen": false,
+    "lndConnect": null,
+    "name": "",
+    "network": "mainnet",
+    "passphrase": "",
+    "password": "",
+-   "seed": Array [],
++   "seed": Array [
++     "some",
++     "seed",
++     "words",
++   ],
+    "validatingCert": false,
+    "validatingHost": false,
+    "validatingMacaroon": false,
+  }
+`;
+
+exports[`reducers onboardingReducer should handle VALIDATING_CERT 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "alias": "",
+    "autopilot": false,
+    "chain": "bitcoin",
+    "connectionCert": "",
+    "connectionHost": "",
+    "connectionMacaroon": "",
+    "connectionString": "",
+    "connectionType": "create",
+    "isSkipBackupDialogOpen": false,
+    "lndConnect": null,
+    "name": "",
+    "network": "mainnet",
+    "passphrase": "",
+    "password": "",
+    "seed": Array [],
+-   "validatingCert": false,
++   "validatingCert": true,
+    "validatingHost": false,
+    "validatingMacaroon": false,
+  }
+`;
+
+exports[`reducers onboardingReducer should handle VALIDATING_HOST 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "alias": "",
+    "autopilot": false,
+    "chain": "bitcoin",
+    "connectionCert": "",
+    "connectionHost": "",
+    "connectionMacaroon": "",
+    "connectionString": "",
+    "connectionType": "create",
+    "isSkipBackupDialogOpen": false,
+    "lndConnect": null,
+    "name": "",
+    "network": "mainnet",
+    "passphrase": "",
+    "password": "",
+    "seed": Array [],
+    "validatingCert": false,
+-   "validatingHost": false,
++   "validatingHost": true,
+    "validatingMacaroon": false,
+  }
+`;
+
+exports[`reducers onboardingReducer should handle VALIDATING_MACAROON 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "alias": "",
+    "autopilot": false,
+    "chain": "bitcoin",
+    "connectionCert": "",
+    "connectionHost": "",
+    "connectionMacaroon": "",
+    "connectionString": "",
+    "connectionType": "create",
+    "isSkipBackupDialogOpen": false,
+    "lndConnect": null,
+    "name": "",
+    "network": "mainnet",
+    "passphrase": "",
+    "password": "",
+    "seed": Array [],
+    "validatingCert": false,
+    "validatingHost": false,
+-   "validatingMacaroon": false,
++   "validatingMacaroon": true,
+  }
+`;
+
+exports[`reducers onboardingReducer should handle initial state 1`] = `
+Object {
+  "alias": "",
+  "autopilot": false,
+  "chain": "bitcoin",
+  "connectionCert": "",
+  "connectionHost": "",
+  "connectionMacaroon": "",
+  "connectionString": "",
+  "connectionType": "create",
+  "isSkipBackupDialogOpen": false,
+  "lndConnect": null,
+  "name": "",
+  "network": "mainnet",
+  "passphrase": "",
+  "password": "",
+  "seed": Array [],
+  "validatingCert": false,
+  "validatingHost": false,
+  "validatingMacaroon": false,
+}
+`;
