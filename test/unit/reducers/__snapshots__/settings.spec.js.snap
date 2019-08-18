@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers settingsReducer should handle INIT_SETTINGS 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
+`;
+
+exports[`reducers settingsReducer should handle INIT_SETTINGS_FAILURE 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "config": Object {},
+-   "initSettingsError": null,
++   "initSettingsError": "some error",
+    "isSettingsLoaded": false,
+  }
+`;
+
+exports[`reducers settingsReducer should handle INIT_SETTINGS_SUCCESS 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "config": Object {},
+    "initSettingsError": null,
+-   "isSettingsLoaded": false,
++   "isSettingsLoaded": true,
+  }
+`;
+
+exports[`reducers settingsReducer should handle SET_SETTING 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "config": Object {},
+    "initSettingsError": null,
+    "isSettingsLoaded": false,
++   "some": "setting",
+  }
+`;
+
+exports[`reducers settingsReducer should handle initial state 1`] = `
+Object {
+  "config": Object {},
+  "initSettingsError": null,
+  "isSettingsLoaded": false,
+}
+`;
