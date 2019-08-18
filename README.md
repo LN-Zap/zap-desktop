@@ -8,11 +8,9 @@
 
 > Lightning wallet focused on user experience and ease of use ⚡️
 
+![GitHub All Releases](https://img.shields.io/github/downloads/LN-Zap/zap-desktop/total) [![Crowdin](https://d322cqt584bo4o.cloudfront.net/zap-desktop/localized.svg)](https://crowdin.com/project/zap-desktop) [![GitHub license](https://img.shields.io/github/license/LN-Zap/zap-desktop.svg?style=flat-green)](LICENSE)
 [![dependencies Status](https://david-dm.org/LN-Zap/zap-desktop/status.svg)](https://david-dm.org/LN-Zap/zap-desktop)
-[![Coverage Status](https://coveralls.io/repos/github/LN-Zap/zap-desktop/badge.svg?branch=master)](https://coveralls.io/github/LN-Zap/zap-desktop?branch=master)
-[![Build Status](https://img.shields.io/travis/LN-Zap/zap-desktop/master.svg?style=flat-green&label=mac%20/%20linux&logo=travis)](https://travis-ci.org/LN-Zap/zap-desktop)
-[![Build status](https://img.shields.io/appveyor/ci/LN-Zap/zap-desktop/master.svg?style=flat-green&label=windows&logo=appveyor)](https://ci.appveyor.com/project/LN-Zap/zap-desktop/branch/master)
-[![GitHub license](https://img.shields.io/github/license/LN-Zap/zap-desktop.svg?style=flat-green)](LICENSE)
+[![Build Status](https://img.shields.io/travis/LN-Zap/zap-desktop/master.svg?style=flat-green&label=mac%20/%20linux&logo=travis)](https://travis-ci.org/LN-Zap/zap-desktop) [![Build status](https://img.shields.io/appveyor/ci/LN-Zap/zap-desktop/master.svg?style=flat-green&label=windows&logo=appveyor)](https://ci.appveyor.com/project/LN-Zap/zap-desktop/branch/master) [![Coverage Status](https://coveralls.io/repos/github/LN-Zap/zap-desktop/badge.svg?branch=master)](https://coveralls.io/github/LN-Zap/zap-desktop?branch=master) [![GitHub Release](https://badgen.net/github/release/LN-Zap/zap-desktop/)](https://github.com/LN-Zap/zap-desktop/releases/latest) [![Keybase Verify](https://badgen.net/keybase/pgp/ln_zap)](https://keybase.io/ln_zap) [![Twitter Follow](https://img.shields.io/twitter/follow/ln_zap?style=social)](https://twitter.com/ln_zap)
 
 Zap is a free Lightning Network wallet focused on user experience and ease of use, with the overall goal of helping the cryptocurrency community scale Bitcoin.
 
@@ -73,6 +71,8 @@ If you would like to install from source, run a full bitcoin node, connect to a 
 - [Contributing](docs/CONTRIBUTING.md)
 - [Debugging](docs/DEBUGGING.md)
 - [Troubleshooting](docs/TROUBLESHOOTING.md)
+- [Releasing](docs/RELEASING.md)
+- [Signatures](docs/SIGNATURES.md)
 
 ## Get Help
 
