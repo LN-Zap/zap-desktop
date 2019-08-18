@@ -1,0 +1,181 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers payReducer should handle QUERY_FEES 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+-   "isQueryingFees": false,
++   "isQueryingFees": true,
+    "isQueryingRoutes": false,
+-   "onchainFees": Object {
+-     "fast": null,
+-     "medium": null,
+-     "slow": null,
+-   },
++   "onchainFees": Object {},
+    "pubKey": null,
+    "queryFeesError": null,
+    "queryRoutesError": null,
+    "redirectPayReq": null,
+    "routes": Array [],
+  }
+`;
+
+exports[`reducers payReducer should handle QUERY_FEES_FAILURE 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "isQueryingFees": false,
+    "isQueryingRoutes": false,
+-   "onchainFees": Object {
+-     "fast": null,
+-     "medium": null,
+-     "slow": null,
+-   },
++   "onchainFees": Object {},
+    "pubKey": null,
+-   "queryFeesError": null,
++   "queryFeesError": "some error",
+    "queryRoutesError": null,
+    "redirectPayReq": null,
+    "routes": Array [],
+  }
+`;
+
+exports[`reducers payReducer should handle QUERY_FEES_SUCCESS 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "isQueryingFees": false,
+    "isQueryingRoutes": false,
+    "onchainFees": Object {
+-     "fast": null,
+-     "medium": null,
+-     "slow": null,
++     "fast": 100,
++     "medium": 50,
++     "slow": 5,
+    },
+    "pubKey": null,
+    "queryFeesError": null,
+    "queryRoutesError": null,
+    "redirectPayReq": null,
+    "routes": Array [],
+  }
+`;
+
+exports[`reducers payReducer should handle QUERY_ROUTES 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "isQueryingFees": false,
+-   "isQueryingRoutes": false,
++   "isQueryingRoutes": true,
+    "onchainFees": Object {
+      "fast": null,
+      "medium": null,
+      "slow": null,
+    },
+-   "pubKey": null,
++   "pubKey": "somepubkey",
+    "queryFeesError": null,
+    "queryRoutesError": null,
+    "redirectPayReq": null,
+    "routes": Array [],
+  }
+`;
+
+exports[`reducers payReducer should handle QUERY_ROUTES_FAILURE 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "isQueryingFees": false,
+    "isQueryingRoutes": false,
+    "onchainFees": Object {
+      "fast": null,
+      "medium": null,
+      "slow": null,
+    },
+    "pubKey": null,
+    "queryFeesError": null,
+-   "queryRoutesError": null,
++   "queryRoutesError": "some error",
+    "redirectPayReq": null,
+    "routes": Array [],
+  }
+`;
+
+exports[`reducers payReducer should handle QUERY_ROUTES_SUCCESS 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "isQueryingFees": false,
+    "isQueryingRoutes": false,
+    "onchainFees": Object {
+      "fast": null,
+      "medium": null,
+      "slow": null,
+    },
+    "pubKey": null,
+    "queryFeesError": null,
+    "queryRoutesError": null,
+    "redirectPayReq": null,
+-   "routes": Array [],
++   "routes": Array [
++     Object {
++       "some": "data",
++     },
++   ],
+  }
+`;
+
+exports[`reducers payReducer should handle SET_REDIRECT_PAY_REQ 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "isQueryingFees": false,
+    "isQueryingRoutes": false,
+    "onchainFees": Object {
+      "fast": null,
+      "medium": null,
+      "slow": null,
+    },
+    "pubKey": null,
+    "queryFeesError": null,
+    "queryRoutesError": null,
+-   "redirectPayReq": null,
++   "redirectPayReq": "lightning:abc123",
+    "routes": Array [],
+  }
+`;
+
+exports[`reducers payReducer should handle initial state 1`] = `
+Object {
+  "isQueryingFees": false,
+  "isQueryingRoutes": false,
+  "onchainFees": Object {
+    "fast": null,
+    "medium": null,
+    "slow": null,
+  },
+  "pubKey": null,
+  "queryFeesError": null,
+  "queryRoutesError": null,
+  "redirectPayReq": null,
+  "routes": Array [],
+}
+`;
