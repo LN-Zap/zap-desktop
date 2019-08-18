@@ -6,7 +6,7 @@
  * When running `npm run build` or `npm run build-main`, this file is compiled to
  * `/dist/main.js` using webpack. This gives us some performance wins.
  */
-import { app, BrowserWindow, session } from 'electron'
+import { app, BrowserWindow } from 'electron'
 import isDev from 'electron-is-dev'
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
@@ -341,6 +341,11 @@ app.on('ready', async () => {
    * In development mode or when DEBUG_PROD is set, enable debugging tools.
    */
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD) {
+    if (process.env.REINSTALL_DEVTOOLS) {
+      BrowserWindow.removeDevToolsExtension(REACT_DEVELOPER_TOOLS)
+      BrowserWindow.removeDevToolsExtension(REDUX_DEVTOOLS)
+    }
+
     installExtension(REACT_DEVELOPER_TOOLS)
       .then(name => mainLog.debug(`Added Extension: ${name}`))
       .catch(err => mainLog.warn(`An error occurred when installing REACT_DEVELOPER_TOOLS: ${err}`))
@@ -354,21 +359,6 @@ app.on('ready', async () => {
       mainWindow.openDevTools()
     })
   }
-
-  // HACK: patch webrequest to fix devtools incompatibility with electron 2.x.
-  // See https://github.com/electron/electron/issues/13008#issuecomment-400261941
-  session.defaultSession.webRequest.onBeforeRequest({}, (details, callback) => {
-    if (details.url.indexOf('7accc8730b0f99b5e7c0702ea89d1fa7c17bfe33') === -1) {
-      callback({ cancel: false })
-    } else {
-      callback({
-        redirectURL: details.url.replace(
-          '7accc8730b0f99b5e7c0702ea89d1fa7c17bfe33',
-          '57c9d07b416b5a2ea23d28247300e4af36329bdc'
-        ),
-      })
-    }
-  })
 })
 
 // ------------------------------------

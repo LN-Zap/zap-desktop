@@ -243,7 +243,7 @@
     "cross-env": "5.2.0",
     "cross-spawn": "6.0.5",
     "csp-html-webpack-plugin": "3.0.3",
-    "electron": "5.0.9",
+    "electron": "6.0.2",
     "electron-builder": "21.2.0",
     "electron-devtools-installer": "2.2.4",
     "electron-updater": "4.1.2",
@@ -363,9 +363,6 @@
     "untildify": "4.0.0",
     "validator": "11.1.0",
     "yup": "0.27.0"
-  },
-  "resolutions": {
-    "lodash": "4.17.15"
   },
   "main": "./dist/main.js"
 }
