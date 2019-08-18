@@ -10,7 +10,7 @@ os:
   - osx
 
 language: node_js
-node_js: stable
+node_js: '12'
 
 cache:
   apt: true
