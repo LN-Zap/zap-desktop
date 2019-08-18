@@ -364,8 +364,5 @@
     "validator": "11.1.0",
     "yup": "0.27.0"
   },
-  "resolutions": {
-    "lodash": "4.17.15"
-  },
   "main": "./dist/main.js"
 }
