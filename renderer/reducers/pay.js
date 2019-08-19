@@ -147,7 +147,7 @@ const ACTION_HANDLERS = {
   [QUERY_ROUTES_SUCCESS]: (state, { routes }) => {
     state.isQueryingRoutes = false
     state.queryRoutesError = null
-    state.pubKey.routes = routes
+    state.routes = routes
   },
   [QUERY_ROUTES_FAILURE]: (state, { error }) => {
     state.isQueryingRoutes = false

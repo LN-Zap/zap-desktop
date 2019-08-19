@@ -30,7 +30,7 @@ const initialState = {
 // ------------------------------------
 
 export const SET_CONNECTION_TYPE = 'SET_CONNECTION_TYPE'
-export const SET_CONNECTION_URI = 'SET_CONNECTION_URI'
+export const SET_CONNECTION_STRING = 'SET_CONNECTION_STRING'
 export const SET_CONNECTION_HOST = 'SET_CONNECTION_HOST'
 export const SET_CONNECTION_CERT = 'SET_CONNECTION_CERT'
 export const SET_CONNECTION_MACAROON = 'SET_CONNECTION_MACAROON'
@@ -100,7 +100,7 @@ export const hideSkipBackupDialog = () => ({
  */
 export function setConnectionString(connectionString) {
   return {
-    type: SET_CONNECTION_URI,
+    type: SET_CONNECTION_STRING,
     connectionString,
   }
 }
@@ -342,7 +342,7 @@ const ACTION_HANDLERS = {
   [SET_CONNECTION_TYPE]: (state, { connectionType }) => {
     state.connectionType = connectionType
   },
-  [SET_CONNECTION_URI]: (state, { connectionString }) => {
+  [SET_CONNECTION_STRING]: (state, { connectionString }) => {
     state.connectionString = connectionString
   },
   [SET_CONNECTION_HOST]: (state, { connectionHost }) => {
@@ -371,7 +371,6 @@ const ACTION_HANDLERS = {
   },
   [SET_SEED]: (state, { seed }) => {
     state.seed = seed
-    state.isFetchingSeed = false
   },
   [SET_LNDCONNECT]: (state, { lndConnect }) => {
     state.lndConnect = lndConnect

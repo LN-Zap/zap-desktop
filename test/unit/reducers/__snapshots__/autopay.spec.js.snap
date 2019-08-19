@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers autopayReducer should handle DISABLE_AUTOPAY 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
+`;
+
+exports[`reducers autopayReducer should handle ENABLE_AUTOPAY 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "isCreateModalOpen": false,
+-   "list": Object {},
++   "list": Object {
++     "123": Object {
++       "limit": "456",
++     },
++   },
+    "merchants": Array [],
+    "searchQuery": null,
+  }
+`;
+
+exports[`reducers autopayReducer should handle RESET_EDIT_MODE 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
+`;
+
+exports[`reducers autopayReducer should handle SET_AUTOPAY_LIST 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "isCreateModalOpen": false,
+-   "list": Object {},
++   "list": Object {
++     "merchant-1": Object {
++       "id": "merchant-1",
++       "limit": "999",
++     },
++     "merchant-2": Object {
++       "id": "merchant-2",
++       "limit": "999",
++     },
++   },
+    "merchants": Array [],
+    "searchQuery": null,
+  }
+`;
+
+exports[`reducers autopayReducer should handle SET_EDIT_MODE 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "isCreateModalOpen": false,
++   "isEditMode": true,
+    "list": Object {},
+    "merchants": Array [],
+    "searchQuery": null,
+  }
+`;
+
+exports[`reducers autopayReducer should handle SET_SELECTED_MERCHANT 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "isCreateModalOpen": false,
+    "list": Object {},
+    "merchants": Array [],
+    "searchQuery": null,
++   "selectedMerchantId": "123",
+  }
+`;
+
+exports[`reducers autopayReducer should handle UPDATE_AUTOPAY_SEARCH_QUERY 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "isCreateModalOpen": false,
+    "list": Object {},
+    "merchants": Array [],
+-   "searchQuery": null,
++   "searchQuery": "some text",
+  }
+`;
+
+exports[`reducers autopayReducer should handle initial state 1`] = `
+Object {
+  "isCreateModalOpen": false,
+  "list": Object {},
+  "merchants": Array [],
+  "searchQuery": null,
+}
+`;

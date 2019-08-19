@@ -118,7 +118,6 @@ const SettingsMenu = ({
 SettingsMenu.displayName = 'SettingsMenu'
 
 SettingsMenu.propTypes = {
-  activeSubMenu: PropTypes.string,
   activeWalletSettings: PropTypes.object,
   closeSettingsMenu: PropTypes.func.isRequired,
   fiatProps: PropTypes.object.isRequired,

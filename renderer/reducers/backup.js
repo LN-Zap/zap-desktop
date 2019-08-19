@@ -14,6 +14,7 @@ import messages from './messages'
 
 const initialState = {
   provider: null,
+  localPath: null,
   isRestoreMode: false,
 }
 
@@ -21,9 +22,9 @@ const initialState = {
 // Constants
 // ------------------------------------
 
-const SET_PROVIDER = 'SET_PROVIDER'
-const SET_LOCAL_PATH = 'SET_LOCAL_PATH'
-const SET_RESTORE_MODE = 'SET_RESTORE_MODE'
+export const SET_PROVIDER = 'SET_PROVIDER'
+export const SET_LOCAL_PATH = 'SET_LOCAL_PATH'
+export const SET_RESTORE_MODE = 'SET_RESTORE_MODE'
 
 const RESTORE_STATE_STARTED = 'started'
 const RESTORE_STATE_COMPLETE = 'complete'
@@ -191,7 +192,7 @@ export const setBackupPathLocal = localPath => {
 export const setRestoreMode = value => {
   return {
     type: SET_RESTORE_MODE,
-    value: isSCBRestoreEnabled() && value,
+    isRestoreMode: isSCBRestoreEnabled() && value,
   }
 }
 
@@ -419,8 +420,8 @@ const ACTION_HANDLERS = {
   [SET_LOCAL_PATH]: (state, { localPath }) => {
     state.localPath = localPath
   },
-  [SET_RESTORE_MODE]: (state, { value }) => {
-    state.isRestoreMode = value
+  [SET_RESTORE_MODE]: (state, { isRestoreMode }) => {
+    state.isRestoreMode = isRestoreMode
   },
 }
 

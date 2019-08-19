@@ -1,25 +1,27 @@
-import tickerReducer, { GET_TICKERS, RECIEVE_TICKERS } from 'reducers/ticker'
+import snapshotDiff from '../__helpers__/snapshotDiff'
+import reducer, { GET_TICKERS, RECIEVE_TICKERS } from 'reducers/ticker'
 
 describe('reducers', () => {
   describe('tickerReducer', () => {
     it('should handle initial state', () => {
-      expect(tickerReducer(undefined, {})).toMatchSnapshot()
+      expect(reducer(undefined, {})).toMatchSnapshot()
     })
 
-    it('should have GET_TICKER', () => {
-      expect(GET_TICKERS).toEqual('GET_TICKERS')
+    it('should handle GET_TICKERS', () => {
+      const action = {
+        type: GET_TICKERS,
+      }
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
-    it('should have RECIEVE_TICKER', () => {
-      expect(RECIEVE_TICKERS).toEqual('RECIEVE_TICKERS')
-    })
-
-    it('should correctly getTicker', () => {
-      expect(tickerReducer(undefined, { type: GET_TICKERS })).toMatchSnapshot()
-    })
-
-    it('should correctly receiveTicker', () => {
-      expect(tickerReducer(undefined, { type: RECIEVE_TICKERS, ticker: 'foo' })).toMatchSnapshot()
+    it('should handle RECIEVE_TICKERS', () => {
+      const action = {
+        type: RECIEVE_TICKERS,
+        rates: {
+          some: 'data',
+        },
+      }
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
   })
 })

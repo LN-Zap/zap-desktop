@@ -1,4 +1,5 @@
 import 'jest-styled-components'
+import snapshotDiff from 'snapshot-diff'
 import { configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
@@ -15,3 +16,6 @@ jest.mock('workers', () => ({
 }))
 
 jest.mock('dns')
+
+// Configure snapshotDiff with custom serializer.
+expect.addSnapshotSerializer(snapshotDiff.getSnapshotDiffSerializer())

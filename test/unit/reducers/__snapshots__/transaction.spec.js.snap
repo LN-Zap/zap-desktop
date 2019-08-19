@@ -1,65 +1,82 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`reducers transactionReducer should correctly addTransaction 1`] = `
-Object {
-  "transactionLoading": false,
-  "transactions": Array [
-    undefined,
-  ],
-  "transactionsSending": Array [],
-}
+exports[`reducers transactionReducer should handle ADD_TRANSACTION 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "transactionLoading": false,
+-   "transactions": Array [],
++   "transactions": Array [
++     Object {
++       "some": "data",
++     },
++   ],
+    "transactionsSending": Array [],
+  }
 `;
 
-exports[`reducers transactionReducer should correctly getTransactions 1`] = `
-Object {
-  "transactionLoading": true,
-  "transactions": Array [],
-  "transactionsSending": Array [],
-}
+exports[`reducers transactionReducer should handle GET_TRANSACTIONS 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+-   "transactionLoading": false,
++   "transactionLoading": true,
+    "transactions": Array [],
+    "transactionsSending": Array [],
+  }
 `;
 
-exports[`reducers transactionReducer should correctly receiveTransactions 1`] = `
-Object {
-  "transactionLoading": false,
-  "transactions": undefined,
-  "transactionsSending": Array [],
-}
+exports[`reducers transactionReducer should handle RECEIVE_TRANSACTIONS 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "transactionLoading": false,
+-   "transactions": Array [],
++   "transactions": Array [
++     Object {
++       "some": "transaction",
++     },
++   ],
+    "transactionsSending": Array [],
+  }
 `;
 
-exports[`reducers transactionReducer should correctly sendTransaction 1`] = `
-Object {
-  "transactionLoading": false,
-  "transactions": Array [],
-  "transactionsSending": Array [
-    undefined,
-  ],
-}
+exports[`reducers transactionReducer should handle SEND_TRANSACTION 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "transactionLoading": false,
+    "transactions": Array [],
+-   "transactionsSending": Array [],
++   "transactionsSending": Array [
++     Object {
++       "some": "data",
++     },
++   ],
+  }
 `;
 
-exports[`reducers transactionReducer should correctly sendTransactions 1`] = `
-Object {
-  "transactionLoading": false,
-  "transactions": Array [],
-  "transactionsSending": Array [
-    undefined,
-  ],
-}
+exports[`reducers transactionReducer should handle TRANSACTION_COMPLETE 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
 `;
 
-exports[`reducers transactionReducer should correctly transactionFailed 1`] = `
-Object {
-  "transactionLoading": false,
-  "transactions": Array [],
-  "transactionsSending": Array [],
-}
+exports[`reducers transactionReducer should handle TRANSACTION_FAILED 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
 `;
 
-exports[`reducers transactionReducer should correctly transactionSuccessful 1`] = `
-Object {
-  "transactionLoading": false,
-  "transactions": Array [],
-  "transactionsSending": Array [],
-}
+exports[`reducers transactionReducer should handle TRANSACTION_SUCCESSFUL 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
 `;
 
 exports[`reducers transactionReducer should handle initial state 1`] = `

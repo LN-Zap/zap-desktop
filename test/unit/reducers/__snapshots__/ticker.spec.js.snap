@@ -1,129 +1,141 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`reducers tickerReducer should correctly getTicker 1`] = `
-Object {
-  "cryptoUnits": Object {
-    "bitcoin": Array [
-      Object {
-        "key": "btc",
-        "value": "BTC",
-      },
-      Object {
-        "key": "bits",
-        "value": "bits",
-      },
-      Object {
-        "key": "sats",
-        "value": "satoshis",
-      },
+exports[`reducers tickerReducer should handle GET_TICKERS 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "cryptoUnits": Object {
+      "bitcoin": Array [
+        Object {
+          "key": "btc",
+          "value": "BTC",
+        },
+        Object {
+          "key": "bits",
+          "value": "bits",
+        },
+        Object {
+          "key": "sats",
+          "value": "satoshis",
+        },
+      ],
+      "litecoin": Array [
+        Object {
+          "key": "ltc",
+          "value": "LTC",
+        },
+        Object {
+          "key": "phots",
+          "value": "photons",
+        },
+        Object {
+          "key": "lits",
+          "value": "litoshis",
+        },
+      ],
+    },
+    "fiatTicker": "USD",
+    "fiatTickers": Array [
+      "USD",
+      "EUR",
+      "JPY",
+      "GBP",
+      "CAD",
+      "KRW",
+      "AUD",
+      "BRL",
+      "CHF",
+      "CLP",
+      "CNY",
+      "DKK",
+      "HKD",
+      "INR",
+      "ISK",
+      "NZD",
+      "PLN",
+      "RUB",
+      "SEK",
+      "SGD",
+      "THB",
+      "TWB",
+      "UAH",
     ],
-    "litecoin": Array [
-      Object {
-        "key": "ltc",
-        "value": "LTC",
-      },
-      Object {
-        "key": "phots",
-        "value": "photons",
-      },
-      Object {
-        "key": "lits",
-        "value": "litoshis",
-      },
-    ],
-  },
-  "fiatTicker": "USD",
-  "fiatTickers": Array [
-    "USD",
-    "EUR",
-    "JPY",
-    "GBP",
-    "CAD",
-    "KRW",
-    "AUD",
-    "BRL",
-    "CHF",
-    "CLP",
-    "CNY",
-    "DKK",
-    "HKD",
-    "INR",
-    "ISK",
-    "NZD",
-    "PLN",
-    "RUB",
-    "SEK",
-    "SGD",
-    "THB",
-    "TWB",
-    "UAH",
-  ],
-  "rates": null,
-  "tickerLoading": true,
-}
+    "rates": null,
+-   "tickerLoading": false,
++   "tickerLoading": true,
+  }
 `;
 
-exports[`reducers tickerReducer should correctly receiveTicker 1`] = `
-Object {
-  "cryptoUnits": Object {
-    "bitcoin": Array [
-      Object {
-        "key": "btc",
-        "value": "BTC",
-      },
-      Object {
-        "key": "bits",
-        "value": "bits",
-      },
-      Object {
-        "key": "sats",
-        "value": "satoshis",
-      },
+exports[`reducers tickerReducer should handle RECIEVE_TICKERS 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "cryptoUnits": Object {
+      "bitcoin": Array [
+        Object {
+          "key": "btc",
+          "value": "BTC",
+        },
+        Object {
+          "key": "bits",
+          "value": "bits",
+        },
+        Object {
+          "key": "sats",
+          "value": "satoshis",
+        },
+      ],
+      "litecoin": Array [
+        Object {
+          "key": "ltc",
+          "value": "LTC",
+        },
+        Object {
+          "key": "phots",
+          "value": "photons",
+        },
+        Object {
+          "key": "lits",
+          "value": "litoshis",
+        },
+      ],
+    },
+    "fiatTicker": "USD",
+    "fiatTickers": Array [
+      "USD",
+      "EUR",
+      "JPY",
+      "GBP",
+      "CAD",
+      "KRW",
+      "AUD",
+      "BRL",
+      "CHF",
+      "CLP",
+      "CNY",
+      "DKK",
+      "HKD",
+      "INR",
+      "ISK",
+      "NZD",
+      "PLN",
+      "RUB",
+      "SEK",
+      "SGD",
+      "THB",
+      "TWB",
+      "UAH",
     ],
-    "litecoin": Array [
-      Object {
-        "key": "ltc",
-        "value": "LTC",
-      },
-      Object {
-        "key": "phots",
-        "value": "photons",
-      },
-      Object {
-        "key": "lits",
-        "value": "litoshis",
-      },
-    ],
-  },
-  "fiatTicker": "USD",
-  "fiatTickers": Array [
-    "USD",
-    "EUR",
-    "JPY",
-    "GBP",
-    "CAD",
-    "KRW",
-    "AUD",
-    "BRL",
-    "CHF",
-    "CLP",
-    "CNY",
-    "DKK",
-    "HKD",
-    "INR",
-    "ISK",
-    "NZD",
-    "PLN",
-    "RUB",
-    "SEK",
-    "SGD",
-    "THB",
-    "TWB",
-    "UAH",
-  ],
-  "rates": undefined,
-  "tickerLoading": false,
-}
+-   "rates": null,
++   "rates": Object {
++     "some": "data",
++   },
+    "tickerLoading": false,
+  }
 `;
 
 exports[`reducers tickerReducer should handle initial state 1`] = `

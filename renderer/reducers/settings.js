@@ -26,7 +26,6 @@ export const INIT_SETTINGS_SUCCESS = 'INIT_SETTINGS_SUCCESS'
 export const INIT_SETTINGS_FAILURE = 'INIT_SETTINGS_FAILURE'
 
 export const SET_SETTING = 'SET_SETTING'
-export const UPDATE_CONFIG = 'UPDATE_CONFIG'
 
 // ------------------------------------
 // Actions
@@ -48,7 +47,7 @@ export const initSettings = () => async dispatch => {
     }, {})
     dispatch({ type: INIT_SETTINGS_SUCCESS, settings })
   } catch (e) {
-    dispatch({ type: INIT_SETTINGS_FAILURE, initSettingsError: e })
+    dispatch({ type: INIT_SETTINGS_FAILURE, error: e.message })
     dispatch(
       showError(getIntl().formatMessage(messages.settings_init_error, { error: e.message }), {
         timeout: 0,
@@ -106,8 +105,8 @@ const ACTION_HANDLERS = {
     ...settings,
     isSettingsLoaded: true,
   }),
-  [INIT_SETTINGS_FAILURE]: (state, { initSettingsError }) => {
-    state.initSettingsError = initSettingsError
+  [INIT_SETTINGS_FAILURE]: (state, { error }) => {
+    state.initSettingsError = error
   },
   [SET_SETTING]: (state, { key, value }) => {
     state[key] = value

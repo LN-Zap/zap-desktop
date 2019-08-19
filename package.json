@@ -285,6 +285,7 @@
     "react-test-renderer": "16.9.0",
     "redux-logger": "3.0.6",
     "rimraf": "3.0.0",
+    "snapshot-diff": "0.5.2",
     "storybook-addon-intl": "2.4.1",
     "storybook-react-router": "1.0.5",
     "storybook-styled-components": "1.1.4",
