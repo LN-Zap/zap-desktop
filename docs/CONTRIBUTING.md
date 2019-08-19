@@ -122,3 +122,11 @@ Before making a new release, the version number should be incremented in the fol
 If the release is a major or minor number increment (eg, `0.3.x` -> `0.4.x`), you should also update `STABLE_VERSION` in the main app config file to reference the correct new stable version (this is used to determine the app's database namespace):
 
 - `config/default.js`: The app config file.
+
+### Adding translations
+
+Zap uses react-intl to support localization. Translation strings are stored in `./messages.js` files next to components that use them. After adding new or changing existing translations run `yarn extract-messages` to update localization files. There is also Zap crowdin project available at `https://crowdin.com/project/zap-desktop/` which makes it possible to easily translate existing strings without having github account or doing commits manually.
+
+### Adding SVG icons
+
+To add a new icon put an svg file to `icons/` and run `yarn generate-icon icons/your-icon.svg`. On completion React icon component will be available under `renderer/components/Icon/YourIcon.js` file
