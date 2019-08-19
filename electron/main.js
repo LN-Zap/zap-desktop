@@ -24,6 +24,7 @@ import themes from '@zap/renderer/themes'
 import ZapMenuBuilder from './menuBuilder'
 import ZapController from './controller'
 import createBackupService from './walletBackup/service'
+import createPDFGeneratorService from './pdfGenerator/service'
 import ZapUpdater from './updater'
 import ZapMigrator from './migrator'
 import fetchSettings from './utils/fetchSettings'
@@ -223,6 +224,9 @@ app.on('ready', async () => {
 
   // Initialize backup system
   createBackupService(mainWindow)
+
+  // Initialize pdf generator service
+  createPDFGeneratorService(mainWindow)
 
   /**
    * Add application event listener:

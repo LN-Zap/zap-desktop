@@ -1,12 +1,16 @@
 import { createSelector } from 'reselect'
+import { send } from 'redux-electron-ipc'
+import { getIntl } from '@zap/i18n'
 import { openModal, closeModal } from './modal'
 import { fetchDescribeNetwork } from './network'
 import { fetchTransactions, transactionsSelectors } from './transaction'
 import { fetchPayments, paymentSelectors } from './payment'
 import { fetchInvoices, invoiceSelectors } from './invoice'
 import { fetchBalance } from './balance'
+import { showError, showNotification } from './notification'
 import { fetchChannels } from './channels'
 import createReducer from './utils/createReducer'
+import messages from './messages'
 
 // ------------------------------------
 // Initial State
@@ -91,6 +95,42 @@ function returnTimestamp(activity) {
     case 'payment':
       return activity.creation_date
   }
+}
+
+/**
+ * saveInvoice - Initiates saving of invoice pdf.
+ *
+ * @param {string} defaultFilename invoice title
+ * @param {string} title invoice title
+ * @param {string} subtitle invoice subtitle
+ * @param {Array<Array>} invoiceData invoice rows
+ * @returns {Function} Thunk
+ */
+export const saveInvoice = ({
+  defaultFilename,
+  title,
+  subtitle,
+  invoiceData,
+}) => async dispatch => {
+  dispatch(send('saveInvoice', { defaultFilename, title, subtitle, invoiceData }))
+}
+
+/**
+ * saveInvoiceFailure - Invoice save failed event.
+ *
+ * @returns {Function} Thunk
+ */
+export const saveInvoiceFailure = () => dispatch => {
+  dispatch(showError(getIntl().formatMessage(messages.activity_invoice_download_error)))
+}
+
+/**
+ * saveInvoiceSuccess - Invoice save success event.
+ *
+ * @returns {Function} Thunk
+ */
+export const saveInvoiceSuccess = () => dispatch => {
+  dispatch(showNotification(getIntl().formatMessage(messages.activity_invoice_download_success)))
 }
 
 /**

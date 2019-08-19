@@ -16,4 +16,8 @@ export default defineMessages({
   tx_hash: 'Transaction ID',
   block_id: 'Block ID',
   unconfirmed: 'Unconfirmed',
+  receipt: 'Payment receipt',
+  receipt_subtitle: 'On-chain',
+  download_pdf: 'Download',
+  outgoing_payment_notification: 'Outgoing payment notification',
 })
