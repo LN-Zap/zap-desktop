@@ -2,9 +2,6 @@
 
 exports[`component.CreateWalletButton should render correctly 1`] = `
 <Button
-  isActive={false}
-  isDisabled={false}
-  isProcessing={false}
   justify="center"
   onClick={[Function]}
   size="small"

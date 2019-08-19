@@ -4,6 +4,7 @@ exports[`component.UI.BackgroundPrimary should render correctly 1`] = `
 .c0 {
   box-sizing: border-box;
   margin: 0;
+  min-width: 0;
   background-color: primaryColor;
   color: primaryText;
   -webkit-flex-direction: column;

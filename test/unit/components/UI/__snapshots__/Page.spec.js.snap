@@ -4,21 +4,24 @@ exports[`component.UI.Page should render correctly 1`] = `
 .c0 {
   box-sizing: border-box;
   margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  position: relative;
+  box-shadow: l;
   background-color: primaryColor;
   color: primaryText;
+  height: 100%;
+  min-height: 425px;
+  min-width: 900px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  position: relative;
-  height: 100%;
-  overflow: hidden;
-  min-width: 900px;
-  min-height: 425px;
 }
 
 <article
   className="c0"
   color="primaryText"
+  height="100%"
 />
 `;

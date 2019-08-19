@@ -2,12 +2,13 @@
 
 exports[`component.UI.Bar should render correctly 1`] = `
 .c0 {
-  height: 1px;
+  box-sizing: border-box;
   margin: 0;
-  padding: 0;
-  border: 0;
-  background-color: #ffffff;
+  min-width: 0;
   opacity: 0.6;
+  background-color: #ffffff;
+  border: 0;
+  height: 1px;
 }
 
 <hr
