@@ -10,7 +10,6 @@ const ActivitySearch = ({ searchText, placeholder, updateSearchText, ...rest }) 
   return (
     <Form {...rest}>
       <Input
-        border={0}
         field="activity-search"
         highlightOnValid={false}
         id="activity-search"
@@ -18,6 +17,9 @@ const ActivitySearch = ({ searchText, placeholder, updateSearchText, ...rest }) 
         mr={2}
         onValueChange={setValue}
         placeholder={placeholder}
+        sx={{
+          borderWidth: 0,
+        }}
         type="search"
         variant="thin"
       />

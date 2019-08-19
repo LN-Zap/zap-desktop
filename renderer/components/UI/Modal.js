@@ -24,11 +24,6 @@ const ModalHeader = styled(Flex)`
   pointer-events: none;
 `
 
-const ModalContentWrapper = styled(Box)`
-  height: 100%;
-  width: 100%;
-`
-
 const ModalCloseWrapper = styled(Box)`
   pointer-events: auto;
   display: inline-block;
@@ -59,7 +54,7 @@ const Modal = props => {
   const { children, onClose, hasClose, hasLogo, ...rest } = props
 
   return (
-    <ModalContentWrapper bg="primaryColor" color="primaryText">
+    <Box bg="primaryColor" color="primaryText" height="100%" width={1}>
       {(hasClose || hasLogo) && (
         <ModalHeader justifyContent={hasLogo ? 'space-between' : 'flex-end'} pt={3} px={3}>
           {hasLogo && <ModalLogo />}
@@ -67,7 +62,7 @@ const Modal = props => {
         </ModalHeader>
       )}
       <Page {...rest}>{children}</Page>
-    </ModalContentWrapper>
+    </Box>
   )
 }
 

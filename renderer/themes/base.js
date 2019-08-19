@@ -7,6 +7,13 @@ export const shadows = {
   l: '0 20px 70px 0 rgba(0, 0, 0, 0.6)',
 }
 
+export const radii = {
+  s: '5px',
+  m: '8px',
+  l: '14px',
+  xl: '40px',
+}
+
 export const palette = {
   white: '#ffffff',
   black: '#000000',
@@ -42,17 +49,20 @@ export const fontSizes = {
 }
 
 export const fontWeights = {
+  heading: 300,
   light: 300,
   normal: 400,
 }
 
 export const lineHeights = {
   normal: 1.4,
+  heading: 1.4,
 }
 
 export const fonts = {
   0: 'Roboto, system-ui, sans-serif',
   sans: 'Roboto, system-ui, sans-serif',
+  heading: 'Roboto, system-ui, sans-serif',
 }
 
 export const letterSpacings = {
@@ -60,31 +70,8 @@ export const letterSpacings = {
   caps: '0.025em',
 }
 
-const statuses = {
-  online: {
-    color: palette.superGreen,
-  },
-  pending: {
-    color: palette.lightningOrange,
-  },
-  closing: {
-    color: palette.superRed,
-  },
-  offline: {
-    color: palette.gray,
-  },
-}
-
-const bars = {
-  normal: {
-    opacity: 0.6,
-  },
-  light: {
-    opacity: 0.3,
-  },
-}
-
 export default {
+  radii,
   space,
   fontSizes,
   fontWeights,
@@ -93,6 +80,4 @@ export default {
   lineHeights,
   palette,
   shadows,
-  statuses,
-  bars,
 }

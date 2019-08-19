@@ -68,9 +68,7 @@ class PayAddressField extends React.Component {
             <React.Fragment>
               <LightningInvoiceInput
                 chain={chain}
-                css={`
-                  resize: vertical;
-                `}
+                css="resize: vertical;"
                 field="payReq"
                 forwardedRef={this.payReqInput}
                 initialValue={redirectPayReq && redirectPayReq.address}

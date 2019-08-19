@@ -1,14 +1,15 @@
 import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { space, layout, compose } from 'styled-system'
+import { space, layout, color, compose } from 'styled-system'
 import { Form as InformedForm } from 'informed'
 
 // Create an html input element that accepts all style props from styled-system.
 const FormInner = styled(InformedForm)(
   compose(
     space,
-    layout
+    layout,
+    color
   )
 )
 

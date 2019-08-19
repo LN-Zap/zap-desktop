@@ -1,77 +1,83 @@
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
-import { Card, Flex, Text } from 'rebass/styled-components'
+import { Box, Flex, Text } from 'rebass/styled-components'
 import X from 'components/Icon/X'
 import Success from 'components/Icon/Success'
 import Warning from 'components/Icon/Warning'
 import Error from 'components/Icon/Error'
 import Spinner from './Spinner'
 
-/**
- * @name Notification
- * @example
- * <Notification variant="success">Success message</Success/>
- */
-class Notification extends React.Component {
-  static displayName = 'Notification'
-
-  static defaultProps = {
-    isProcessing: false,
-    variant: 'success',
+const Icon = ({ type }) => {
+  switch (type) {
+    case 'success':
+      return <Success />
+    case 'warning':
+      return <Warning />
+    case 'error':
+      return <Error />
+    default:
+      return null
   }
+}
 
-  static propTypes = {
-    children: PropTypes.node,
-    isProcessing: PropTypes.bool,
-    variant: PropTypes.string,
-  }
+Icon.propTypes = {
+  type: PropTypes.string.isRequired,
+}
 
-  state = { hover: false }
+const Notification = ({ children, variant, isProcessing, sx, ...rest }) => {
+  const [isHover, setHover] = useState(false)
+  const hoverOn = useCallback(() => {
+    setHover(true)
+  }, [])
+  const hoverOff = useCallback(() => {
+    setHover(false)
+  }, [])
 
-  hoverOn = () => {
-    this.setState({ hover: true })
-  }
+  return (
+    <Box
+      onMouseEnter={hoverOn}
+      onMouseLeave={hoverOff}
+      {...rest}
+      sx={{
+        borderRadius: 's',
+        boxShadow: 's',
+        cursor: 'pointer',
+        px: 3,
+        py: 3,
+        ...sx,
+      }}
+      variant={`notification.${variant}`}
+    >
+      <Flex justifyContent="space-between">
+        <Flex alignItems="center">
+          <Text fontSize="xl">
+            {isProcessing && <Spinner height="0.9em" width="0.9em" />}
 
-  hoverOff = () => {
-    this.setState({ hover: false })
-  }
-
-  render() {
-    const { children, isProcessing, variant, ...rest } = this.props
-    const { hover } = this.state
-    return (
-      <Card
-        borderRadius="5px"
-        boxShadow="s"
-        css={`
-          cursor: pointer;
-        `}
-        px={3}
-        py={3}
-        {...this.props}
-        onMouseEnter={this.hoverOn}
-        onMouseLeave={this.hoverOff}
-        {...rest}
-      >
-        <Flex justifyContent="space-between">
-          <Flex alignItems="center">
-            <Text fontSize="xl">
-              {isProcessing && <Spinner mr="0.5em" size="2em" />}
-              {!isProcessing && variant === 'success' && <Success />}
-              {!isProcessing && variant === 'warning' && <Warning />}
-              {!isProcessing && variant === 'error' && <Error />}
-            </Text>
-            <Text fontWeight="normal" ml={2}>
-              {children}
-            </Text>
-          </Flex>
-          <Text fontSize="xs" mt={1}>
-            <X strokeWidth={hover ? 5 : 4} />
+            {!isProcessing && variant === 'success' && <Success />}
+            {!isProcessing && variant === 'warning' && <Warning />}
+            {!isProcessing && variant === 'error' && <Error />}
+          </Text>
+          <Text fontWeight="normal" ml={2}>
+            {children}
           </Text>
         </Flex>
-      </Card>
-    )
-  }
+        <Text fontSize="xs" mt={1}>
+          <X strokeWidth={isHover ? 5 : 4} />
+        </Text>
+      </Flex>
+    </Box>
+  )
+}
+
+Notification.defaultProps = {
+  variant: 'success',
+}
+
+Notification.propTypes = {
+  children: PropTypes.node,
+  isProcessing: PropTypes.bool,
+  sx: PropTypes.object,
+  variant: PropTypes.string,
 }
 
 export default Notification

@@ -22,14 +22,7 @@ const messageMapper = key => {
 const ChannelSort = ({ changeSort, sort, sorters, ...rest }) => {
   return (
     <Flex alignItems="baseline" {...rest}>
-      <Label
-        css={`
-          white-space: nowrap;
-        `}
-        fontWeight="light"
-        htmlFor="channel-sort"
-        mr={2}
-      >
+      <Label css="white-space: nowrap;" fontWeight="light" htmlFor="channel-sort" mr={2}>
         <FormattedMessage {...messages.channel_sort_label} />
       </Label>
       <Dropdown

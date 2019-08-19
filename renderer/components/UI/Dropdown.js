@@ -175,13 +175,7 @@ const Dropdown = injectIntl(
             type="button"
           >
             <Flex alignItems="center">
-              <Text
-                css={`
-                  white-space: nowrap;
-                `}
-                mr={1}
-                textAlign="left"
-              >
+              <Text css="white-space: nowrap;" mr={1} textAlign="left">
                 {selectedItem ? selectedItem[valueField] : activeKey}{' '}
               </Text>
               <Flex color="gray">

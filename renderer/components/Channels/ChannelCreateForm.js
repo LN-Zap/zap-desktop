@@ -259,11 +259,9 @@ class ChannelCreateForm extends React.Component {
         <Bar my={3} variant="light" />
 
         <CurrencyFieldGroup
-          css={`
-            height: 88px;
-          `}
           formApi={this.formApi}
           forwardedRef={this.amountInput}
+          height={88}
           isRequired
           validate={this.validateAmount}
           validateOnBlur={formState.submits > 0}
@@ -345,40 +343,22 @@ class ChannelCreateForm extends React.Component {
     const { step, isSubmitComplete } = this.state
 
     return (
-      <Form
-        css={`
-          height: 100%;
-        `}
-        {...rest}
-        getApi={this.setFormApi}
-        onSubmit={this.handleSubmit}
-      >
+      <Form height="100%" {...rest} getApi={this.setFormApi} onSubmit={this.handleSubmit}>
         {({ formState }) => {
           const { amountCrypto } = formState.values
 
           return (
             <Panel>
-              <Panel.Body
-                css={`
-                  position: relative;
-                `}
-              >
+              <Panel.Body sx={{ position: 'relative' }}>
                 <ShowHide context={this} state={step === 'form' ? 'show' : 'hide'}>
                   {styles => (
-                    <Box
-                      css={`
-                        position: absolute;
-                      `}
-                      style={styles}
-                    >
-                      {this.renderFormFields()}
-                    </Box>
+                    <Box sx={{ ...styles, position: 'absolute' }}>{this.renderFormFields()}</Box>
                   )}
                 </ShowHide>
 
                 <ShowHide context={this} state={step === 'summary' ? 'show' : 'hide'}>
                   {styles => (
-                    <Box style={styles}>{step === 'summary' && this.renderFormSummary()}</Box>
+                    <Box sx={styles}>{step === 'summary' && this.renderFormSummary()}</Box>
                   )}
                 </ShowHide>
               </Panel.Body>

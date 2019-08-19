@@ -27,12 +27,7 @@ const Autopay = props => (
         <Panel.Header mx={4}>
           <AutopayHeader />
         </Panel.Header>
-        <Panel.Body
-          css={`
-            overflow-y: overlay;
-            overflow-x: hidden;
-          `}
-        >
+        <Panel.Body sx={{ overflowY: 'overlay', overflowX: 'hidden' }}>
           <AutopayList />
           <Heading.h1 mt={4} mx={4}>
             <FormattedMessage {...messages.merchant_list_title} />

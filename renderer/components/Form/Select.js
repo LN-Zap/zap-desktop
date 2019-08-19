@@ -49,7 +49,7 @@ const getIconStyles = props => `
   margin-left: -${props.width + 16}px;
   width: ${props.width}px;
   pointer-events: none;
-  color: ${props.color || props.theme.colors.gray};
+  color: ${themeGet('colors.gray')(props)};
 `
 
 const ArrowIconClosed = styled(AngleDown)`

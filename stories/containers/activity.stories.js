@@ -61,10 +61,25 @@ storiesOf('Containers.Activity', module)
   })
   .add('PaymentModal', () => {
     const payment = {
-      value: 15000,
-      creation_date: Math.round(new Date().getTime() / 1000),
-      payment_preimage: '46914421ed5eafea1ec40726338bc5059e80e128660b9c7c8a5817e59429af30',
+      /* eslint-disable max-len */
+      path: ['027455aef8453d92f4706b560b61527cc217ddf14da41770e8ed6607190a1851b8'],
+      payment_hash: '31b4220da61c55bd350cb6d2c1a80af8fa0db53e93da56b0517788e343d85a48',
+      value: 150,
+      creation_date: 1564242488,
+      fee: 0,
+      payment_preimage: '1430c6f29ebe6d6e9ab17c45b87851f815fafb6f4d2f5e3047ed5d97872867aa',
+      value_sat: 150,
+      value_msat: 150000,
+      payment_request:
+        'lntb1500n1pwncu3npp5xx6zyrdxr32m6dgvkmfvr2q2lraqmdf7j0d9dvz3w7ywxs7ctfyqdqa2fjkzep6yp6x2um5ypc82unsdaek2cqzpgxqr23sgdyj3pdv2v8qqx9zhgcg7e6g3j5pxqpuzcawxvaayjsvakjuqnghn9pepax34djtnu9u3ham9qzdsal0vh0fpju9m9mpdx40sf9hqzcpzad5wg',
+      status: 'SUCCEEDED',
+      fee_sat: 0,
+      fee_msat: 0,
+      type: 'payment',
+      dest_node_pubkey: '027455aef8453d92f4706b560b61527cc217ddf14da41770e8ed6607190a1851b8',
+      dest_node_alias: 'testnet.yalls.org',
     }
+
     return (
       <Modal p={4}>
         <PaymentModal item={payment} mx="auto" width={9 / 16} />

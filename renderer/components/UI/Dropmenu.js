@@ -275,14 +275,7 @@ const DropmenuList = React.forwardRef((props, forwardRef) => {
     ref.current.scrollTop -= SCROLL_STEP
   }
   return (
-    <Card
-      css={`
-        position: relative;
-      `}
-      onMouseDown={preventDefault}
-      p={0}
-      width={width}
-    >
+    <Card css="position: relative;" onMouseDown={preventDefault} p={0} width={width}>
       <DropmenuListUpScroller
         direction="up"
         hasTopScroll={hasTopScroll}
@@ -357,17 +350,13 @@ DropmenuSubmenu.defaultProps = {
 const DropmenuMenu = ({ menuRef, ...rest }) => {
   const { justify } = useContext(MenuContext)
   return (
-    <Box
-      css={`
-        position: relative;
-      `}
-    >
+    <Box sx={{ position: 'relative' }}>
       <Flex
-        css={`
-          position: absolute;
-          z-index: 1;
-          right: ${justify === 'right' ? 0 : null};
-        `}
+        sx={{
+          position: 'absolute',
+          zIndex: 1,
+          right: justify === 'right' ? 0 : null,
+        }}
       >
         <DropmenuContent {...rest} menuRef={menuRef} />
       </Flex>

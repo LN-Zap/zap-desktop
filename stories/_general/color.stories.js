@@ -11,14 +11,13 @@ const Swatch = ({ name, color }) => (
   <Element>
     <Flex mb={2}>
       <Card
-        borderRadius={8}
-        boxShadow="s"
-        css={`
-          background: ${color};
-          height: 50px;
-        `}
+        bg={color}
         mr={21}
-        width={50}
+        size={50}
+        sx={{
+          boxShadow: 's',
+          borderRadius: 'm',
+        }}
       />
       <Box>
         <Text fontWeight="normal">{name}</Text>

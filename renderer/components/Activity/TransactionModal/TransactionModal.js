@@ -85,18 +85,6 @@ class TransactionModal extends React.PureComponent {
     return (
       <Panel {...rest}>
         <Panel.Header>
-          <Button
-            css={`
-              position: absolute;
-              bottom: 5px;
-              right: 25px;
-            `}
-            icon={Download}
-            onClick={this.saveInvoice}
-            variant="secondary"
-          >
-            <FormattedMessage {...messages.download_pdf} />
-          </Button>
           <Header
             logo={<Onchain height="45px" width="45px" />}
             subtitle={<FormattedMessage {...messages.subtitle} />}
@@ -271,6 +259,20 @@ class TransactionModal extends React.PureComponent {
             }
           />
         </Panel.Body>
+        <Panel.Footer>
+          <Button
+            icon={Download}
+            onClick={this.saveInvoice}
+            sx={{
+              position: 'absolute',
+              bottom: 3,
+              right: 4,
+            }}
+            variant="secondary"
+          >
+            <FormattedMessage {...messages.download_pdf} />
+          </Button>
+        </Panel.Footer>
       </Panel>
     )
   }

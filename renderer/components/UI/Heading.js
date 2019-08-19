@@ -1,31 +1,20 @@
 import React from 'react'
 import { Heading as BaseHeading } from 'rebass/styled-components'
-import styled from 'styled-components'
-import { opacity } from 'styled-system'
 
-const StyledHeading = styled(BaseHeading)(opacity)
+const Heading = React.forwardRef((props, ref) => {
+  return (
+    <BaseHeading
+      ref={ref}
+      color="primaryText"
+      fontSize="xl"
+      fontWeight="light"
+      lineHeight="normal"
+      {...props}
+    />
+  )
+})
 
-/**
- * @name Heading
- * @example
- * <Heading />
- */
-class Heading extends React.PureComponent {
-  static displayName = 'Heading'
-
-  render() {
-    return (
-      <StyledHeading
-        as="h2"
-        color="primaryText"
-        fontSize="xl"
-        fontWeight="light"
-        lineHeight="normal"
-        {...this.props}
-      />
-    )
-  }
-}
+Heading.displayName = 'Heading'
 
 Heading.h1 = props => <Heading fontSize="xxl" lineHeight="1.1" {...props} as="h1" />
 Heading.h2 = props => <Heading fontSize="xl" lineHeight="1.2" {...props} as="h2" />

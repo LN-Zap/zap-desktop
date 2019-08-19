@@ -58,14 +58,16 @@ const ChannelsActions = ({
 }) => (
   <Box {...rest}>
     <Card px={3} py={2} width={1}>
-      <Flex alignItems="center" as="section" justifyContent="space-between">
-        <ChannelSearch
-          placeholder={intl.formatMessage({ ...messages.search_placeholder })}
-          searchQuery={searchQuery}
-          updateChannelSearchQuery={updateChannelSearchQuery}
-          width={1}
-        />
-        <Flex alignItems="center" as="section" justifyContent="flex-end">
+      <Flex alignItems="center" as="section" justifyContent="space-between" width={1}>
+        <Box sx={{ flex: 1 }}>
+          <ChannelSearch
+            placeholder={intl.formatMessage({ ...messages.search_placeholder })}
+            searchQuery={searchQuery}
+            updateChannelSearchQuery={updateChannelSearchQuery}
+            width={1}
+          />
+        </Box>
+        <Flex alignItems="center" justifyContent="flex-end">
           <ChannelFilter changeFilter={changeFilter} filter={filter} filters={filters} mx={3} />
           <ChannelSort changeSort={changeSort} mx={3} sort={sort} sorters={sorters} />
           <ChannelSortDirectionButton isAsc={sortOrder === 'asc'} onClick={switchSortOrder} />

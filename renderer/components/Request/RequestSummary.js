@@ -92,9 +92,7 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
             <FormattedMessage {...messages.payment_request} />
             <Text
               className="hint--bottom-left"
-              css={`
-                word-wrap: break-word;
-              `}
+              css="word-wrap: break-word;"
               data-hint={payReq}
               fontSize="xs"
               fontWeight="light"
@@ -122,10 +120,7 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
           invoice.settled ? (
             <Text
               color={getStatusColor()}
-              css={`
-                word-break: break-all;
-                text-transform: capitalize;
-              `}
+              css="word-break: break-all; text-transform: capitalize;"
               fontWeight="normal"
               textAlign="right"
             >

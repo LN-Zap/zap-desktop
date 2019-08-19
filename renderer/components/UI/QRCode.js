@@ -27,6 +27,7 @@ const CornerCard = styled(Card)`
   width: ${props => props.size * 1.2}px;
   height: ${props => props.size * 1.2}px;
   border: ${({ border }) => border}px solid ${({ theme, borderColor }) => theme.colors[borderColor]};
+  border-radius: 10%;
 `
 const TopLeft = styled(CornerCard)`
   position: absolute;
@@ -135,20 +136,10 @@ class ZapQRCode extends React.PureComponent {
     return (
       <Container size={size} {...rest}>
         <CropWrapper size={size}>
-          <TopLeft border={border} borderColor="lightningOrange" borderRadius="10%" size={size} />
-          <TopRight border={border} borderColor="lightningOrange" borderRadius="10%" size={size} />
-          <BottomLeft
-            border={border}
-            borderColor="lightningOrange"
-            borderRadius="10%"
-            size={size}
-          />
-          <BottomRight
-            border={border}
-            borderColor="lightningOrange"
-            borderRadius="10%"
-            size={size}
-          />
+          <TopLeft border={border} borderColor="lightningOrange" size={size} />
+          <TopRight border={border} borderColor="lightningOrange" size={size} />
+          <BottomLeft border={border} borderColor="lightningOrange" size={size} />
+          <BottomRight border={border} borderColor="lightningOrange" size={size} />
         </CropWrapper>
         <CodeWrapper isObfuscated={isObfuscated}>
           <Code

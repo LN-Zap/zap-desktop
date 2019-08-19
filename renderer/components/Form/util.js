@@ -66,75 +66,84 @@ export const mapFocusBorderColor = props => {
 }
 
 const systemProps = {
-  border: 1,
-  borderColor: 'gray',
-  borderRadius: 5,
+  borderWidth: 1,
+  borderRadius: 's',
   bg: 'transparent',
   color: 'primaryText',
   fontFamily: 'sans',
   fontSize: 'm',
   fontWeight: 'light',
-  p: 3,
-  width: 1,
+  p: 2,
+  outline: 'none',
 }
 
-const StyledInput = props => (
-  <Input
-    css={`
-      opacity: ${props => (props.isDisabled || props.isReadOnly ? '0.6' : 'inherit')};
-      outline: none;
-      border-color: ${mapDefaultBorderColor};
-      &:not([readOnly]):not([disabled]):focus {
-        border-color: ${mapFocusBorderColor};
-      }
-      ::-webkit-search-decoration:hover,
-      ::-webkit-search-cancel-button:hover {
-        cursor: pointer;
-      }
-    `}
-    sx={{
-      p: 2,
-      outline: 'none',
-      cursor: 'pointer',
-    }}
-    {...systemProps}
-    {...props}
-  />
-)
+const StyledInput = React.forwardRef(({ sx, ...rest }, ref) => {
+  const { isDisabled, isReadOnly } = rest
+
+  return (
+    <Input
+      ref={ref}
+      opacity={isDisabled || isReadOnly ? '0.6' : 'inherit'}
+      sx={{
+        ...systemProps,
+        borderColor: mapDefaultBorderColor(rest),
+        '&:not([readOnly]):not([disabled]):focus': {
+          borderColor: mapFocusBorderColor(rest),
+        },
+        '::-webkit-search-decoration:hover, ::-webkit-search-cancel-button:hover': {
+          cursor: 'pointer',
+        },
+        ...sx,
+      }}
+      width={1}
+      {...rest}
+    />
+  )
+})
 
 StyledInput.propTypes = {
   isDisabled: PropTypes.bool,
   isReadOnly: PropTypes.bool,
+  sx: PropTypes.object,
 }
 
-const StyledTextArea = props => (
-  <Textarea
-    css={`
-      opacity: ${props => (props.isDisabled || props.isReadOnly ? '0.6' : 'inherit')};
-      outline: none;
-      border-color: ${mapDefaultBorderColor};
-      &:not([readOnly]):not([disabled]):focus {
-        border-color: ${mapFocusBorderColor};
-      }
-      ::-webkit-search-decoration:hover,
-      ::-webkit-search-cancel-button:hover {
-        cursor: pointer;
-      }
-      rows: 5;
-    `}
-    sx={{
-      p: 2,
-      outline: 'none',
-      cursor: 'pointer',
-    }}
-    {...systemProps}
-    {...props}
-  />
-)
+StyledInput.defaultProps = {
+  sx: {},
+}
+
+StyledInput.displayName = 'StyledInput'
+
+const StyledTextArea = React.forwardRef(({ sx, ...rest }, ref) => {
+  const { isDisabled, isReadOnly } = rest
+  return (
+    <Textarea
+      ref={ref}
+      opacity={isDisabled || isReadOnly ? '0.6' : 'inherit'}
+      rows={5}
+      sx={{
+        ...systemProps,
+        borderColor: mapDefaultBorderColor(rest),
+        '&:not([readOnly]):not([disabled]):focus': {
+          borderColor: mapFocusBorderColor(rest),
+        },
+        ...sx,
+      }}
+      width={1}
+      {...rest}
+    />
+  )
+})
 
 StyledTextArea.propTypes = {
   isDisabled: PropTypes.bool,
   isReadOnly: PropTypes.bool,
+  sx: PropTypes.object,
 }
+
+StyledTextArea.defaultProps = {
+  sx: {},
+}
+
+StyledTextArea.displayName = 'StyledTextArea'
 
 export { StyledTextArea, StyledInput }

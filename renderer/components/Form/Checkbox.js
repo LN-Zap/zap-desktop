@@ -72,7 +72,14 @@ const Checkmark = ({ isChecked, isDisabled }) => {
   if (isDisabled) {
     return <DisabledCheck />
   }
-  return isChecked && <Check height={13} width={13} />
+  if (isChecked) {
+    return <Check height="13px" width="13px" />
+  }
+  return null
+}
+Checkmark.propTypes = {
+  isChecked: PropTypes.bool,
+  isDisabled: PropTypes.bool,
 }
 
 const DisabledCheck = styled.div`
@@ -87,11 +94,13 @@ const Checkbox = ({ label, description, isChecked, isDisabled, onChange, ...rest
     <HiddenCheckbox checked={isChecked} onChange={() => {}} />
     <CheckboxOutline
       alignItems="center"
-      borderRadius={6}
       color={isDisabled ? 'gray' : 'primaryColor'}
       isChecked={isChecked}
       isDisabled={isDisabled}
       justifyContent="center"
+      sx={{
+        borderRadius: 's',
+      }}
       width={18}
     >
       <Checkmark isChecked={isChecked} isDisabled={isDisabled} />

@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { tint } from 'polished'
 
 const EmptyBar = ({ children, height, ...rest }) => (
-  <BaseCard borderRadius={100} color="primaryText" height={height} {...rest}>
+  <BaseCard color="primaryText" height={height} sx={{ borderRadius: 100 }} {...rest}>
     {children}
   </BaseCard>
 )

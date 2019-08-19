@@ -95,11 +95,7 @@ const SettingsPage = ({ currentConfig, ...rest }) => {
           <Panel.Header mb={40} px={4}>
             <ZapLogo height={28} width={28} />
           </Panel.Header>
-          <Panel.Body
-            css={`
-              overflow-y: overlay;
-            `}
-          >
+          <Panel.Body sx={{ overflowY: 'overlay' }}>
             <SettingsMenu group={group} setGroup={setGroup} />
           </Panel.Body>
         </Panel>

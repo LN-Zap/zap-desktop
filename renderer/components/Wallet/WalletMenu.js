@@ -43,11 +43,11 @@ const WalletMenu = ({ openModal }) => {
       <ChannelsMenu />
       {isAutopayEnabled() && <AutopayMenuItem openModal={openModal} />}
       <SettingsMenu
-        css={`
-          position: relative;
-          z-index: 40;
-        `}
         ml={4}
+        sx={{
+          zIndex: 40,
+          position: 'relative',
+        }}
       />
     </Flex>
   )

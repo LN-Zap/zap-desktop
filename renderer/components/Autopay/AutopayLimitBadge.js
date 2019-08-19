@@ -17,21 +17,15 @@ const AutopayLimitBadge = ({ limit, limitCurrency, ...rest }) => {
   return (
     <Gradient
       bg="lightningOrange"
-      borderRadius="14px"
-      boxShadow={`0 0 24px 0 ${themeGet('colors.lightningOrange')(rest)}`}
-      css={`
-        height: 27px;
-      `}
+      height={27}
       px={2}
+      sx={{
+        boxShadow: `0 0 24px 0 ${themeGet('colors.lightningOrange')(rest)}`,
+        borderRadius: 'l',
+      }}
       {...rest}
     >
-      <Flex
-        alignItems="center"
-        css={`
-          height: 100%;
-        `}
-        justifyContent="center"
-      >
+      <Flex alignItems="center" height="100%" justifyContent="center">
         <Box color="white">
           {limit} {limitCurrency}
         </Box>

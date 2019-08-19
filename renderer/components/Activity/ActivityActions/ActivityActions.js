@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
-import { Flex } from 'rebass/styled-components'
+import { Box, Flex } from 'rebass/styled-components'
 import { intlShape } from '@zap/i18n'
 import { Card } from 'components/UI'
 import ActivityFilter from './ActivityFilter'
@@ -21,12 +21,14 @@ const ActivityActions = ({
 }) => (
   <Card px={3} py={2} width={1} {...rest}>
     <Flex alignItems="center" as="section" justifyContent="space-between">
-      <ActivitySearch
-        placeholder={intl.formatMessage({ ...messages.search_placeholder })}
-        searchText={searchText}
-        updateSearchText={updateSearchText}
-        width={1}
-      />
+      <Box sx={{ flex: 1 }}>
+        <ActivitySearch
+          placeholder={intl.formatMessage({ ...messages.search_placeholder })}
+          searchText={searchText}
+          updateSearchText={updateSearchText}
+          width={1}
+        />
+      </Box>
       <Flex alignItems="center" as="section" justifyContent="flex-end">
         <ActivityFilter changeFilter={changeFilter} filter={filter} filters={filters} mx={3} />
 

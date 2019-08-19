@@ -42,9 +42,7 @@ const ProfilePaneNodeInfo = ({ intl, signMessage, showNotification, ...rest }) =
           </Text>
           <Bar mb={4} mt={2} />
           <TextArea
-            css={`
-              word-break: break-all;
-            `}
+            css="word-break: break-all;"
             description={intl.formatMessage({ ...messages.sign_message_desc })}
             field="message"
             isRequired

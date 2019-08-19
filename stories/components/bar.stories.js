@@ -9,7 +9,10 @@ storiesOf('Components', module).addWithChapters('Bar', {
     {
       sections: [
         {
-          sectionFn: () => <Bar />,
+          sectionFn: () => <Bar variant="normal" />,
+        },
+        {
+          sectionFn: () => <Bar variant="light" />,
         },
       ],
     },

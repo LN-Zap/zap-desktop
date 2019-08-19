@@ -4,9 +4,9 @@ import config from 'config'
 import styled from 'styled-components'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Spring, animated, Transition } from 'react-spring/renderprops.cjs'
-import { Flex } from 'rebass/styled-components'
+import { Box, Flex } from 'rebass/styled-components'
 import { intlShape } from '@zap/i18n'
-import { Bar, Heading, Button, Panel } from 'components/UI'
+import { Bar, Heading, Button } from 'components/UI'
 import { Form } from 'components/Form'
 import AutopayCreateSuccess from './AutopayCreateSuccess'
 import AutopayCreateSettings from './AutopayCreateSettings'
@@ -111,21 +111,15 @@ const AutopayCreateForm = props => {
         )
         /* eslint-disable */
         return (
-          <Panel px={5}>
-            <Panel.Header>
-              <Heading.h1 textAlign="center">
-                <FormattedMessage
-                  values={{ merchantNickname }}
-                  {...(isActive ? messages.header_success : messages.header_add)}
-                />
-              </Heading.h1>
-              <Bar my={2} />
-            </Panel.Header>
-            <Panel.Body
-              css={`
-                height: ${isEditMode ? '250px' : '195px'};
-              `}
-            >
+          <Box px={5}>
+            <Heading.h1 textAlign="center">
+              <FormattedMessage
+                values={{ merchantNickname }}
+                {...(isActive ? messages.header_success : messages.header_add)}
+              />
+            </Heading.h1>
+            <Bar my={2} />
+            <Box height={isEditMode ? 250 : 195}>
               <Spring
                 native
                 to={{
@@ -148,19 +142,17 @@ const AutopayCreateForm = props => {
                   </animated.div>
                 )}
               </Spring>
-            </Panel.Body>
-            <Panel.Footer mt={3}>
-              <Flex justifyContent="center">
-                <Button
-                  onClick={() => isNewItemAdded && onClose()}
-                  type={isNewItemAdded ? 'button' : 'submit'}
-                  variant="primary"
-                >
-                  <FormattedMessage {...getButtonText(isActive, isEditMode)} />
-                </Button>
-              </Flex>
-            </Panel.Footer>
-          </Panel>
+            </Box>
+            <Flex justifyContent="center" mt={3}>
+              <Button
+                onClick={() => isNewItemAdded && onClose()}
+                type={isNewItemAdded ? 'button' : 'submit'}
+                variant="primary"
+              >
+                <FormattedMessage {...getButtonText(isActive, isEditMode)} />
+              </Button>
+            </Flex>
+          </Box>
         )
       }}
     </Form>

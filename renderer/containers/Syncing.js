@@ -46,7 +46,7 @@ const SyncingModal = ({ onClose, ...rest }) => {
   return (
     <AppErrorBoundary onCloseDialog={onClose}>
       <ModalOverlay>
-        <Modal hasClose onClose={onClose} {...rest} p={4}>
+        <Modal hasClose onClose={onClose} p={4} {...rest}>
           <SyncingContainer />
         </Modal>
       </ModalOverlay>

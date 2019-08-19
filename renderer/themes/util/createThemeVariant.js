@@ -7,27 +7,27 @@ const createThemeVariant = (name, overrides = {}) => {
 
   const buttons = {
     normal: {
-      backgroundColor: colors.tertiaryColor,
-      color: colors.lightningOrange,
+      bg: 'tertiaryColor',
+      color: 'lightningOrange',
       '&:hover:enabled': {
-        backgroundColor: colors.highlight,
+        bg: 'highlight',
       },
       '&:focus': {
-        backgroundColor: colors.highlight,
+        bg: 'highlight',
       },
     },
     primary: {
       backgroundImage: `linear-gradient(to left,
         ${colors.lightningOrange}, ${tint(0.2, colors.lightningOrange)})`,
-      color: colors.white,
+      color: 'white',
     },
     secondary: {
       opacity: 0.6,
       '&.active': {
         opacity: 1,
       },
-      backgroundColor: 'inherit',
-      color: colors.primaryText,
+      bg: 'inherit',
+      color: 'primaryText',
       '&:hover:enabled': {
         opacity: 1,
       },
@@ -36,52 +36,78 @@ const createThemeVariant = (name, overrides = {}) => {
       },
     },
     menu: {
-      color: colors.primaryText,
-      backgroundColor: colors.primaryColor,
+      color: 'primaryText',
+      bg: 'primaryColor',
       '&.active': {
-        color: colors.lightningOrange,
-        backgroundColor: colors.highlight,
+        color: 'lightningOrange',
+        bg: 'highlight',
       },
       '&:hover:enabled': {
-        backgroundColor: colors.highlight,
+        bg: 'highlight',
       },
       '&:focus': {
-        backgroundColor: colors.highlight,
+        bg: 'highlight',
       },
     },
     danger: {
-      backgroundColor: colors.superRed,
-      color: colors.white,
+      bg: 'superRed',
+      color: 'white',
     },
   }
 
-  const cards = {
-    success: {
-      backgroundColor: colors.mutedGreen,
-      color: colors.superGreen,
+  const variants = {
+    message: {
+      success: {
+        color: 'superGreen',
+      },
+      warning: {
+        color: 'lightningOrange',
+      },
+      error: {
+        color: 'superRed',
+      },
+      processing: {
+        color: 'ightningOrange',
+      },
     },
-    warning: {
-      backgroundColor: colors.mutedOrange,
-      color: colors.lightningOrange,
-    },
-    error: {
-      backgroundColor: colors.mutedRed,
-      color: colors.superRed,
-    },
-  }
 
-  const messages = {
-    success: {
-      color: colors.superGreen,
+    notification: {
+      success: {
+        bg: 'mutedGreen',
+        color: 'superGreen',
+      },
+      warning: {
+        bg: 'mutedOrange',
+        color: 'lightningOrange',
+      },
+      error: {
+        bg: 'mutedRed',
+        color: 'superRed',
+      },
     },
-    warning: {
-      color: colors.lightningOrange,
+
+    bar: {
+      normal: {
+        opacity: 0.6,
+      },
+      light: {
+        opacity: 0.3,
+      },
     },
-    error: {
-      color: colors.superRed,
-    },
-    processing: {
-      color: colors.lightningOrange,
+
+    statuses: {
+      online: {
+        color: 'superGreen',
+      },
+      pending: {
+        color: 'lightningOrange',
+      },
+      closing: {
+        color: 'superRed',
+      },
+      offline: {
+        color: 'gray',
+      },
     },
   }
 
@@ -90,8 +116,7 @@ const createThemeVariant = (name, overrides = {}) => {
     ...base,
     colors,
     buttons,
-    cards,
-    messages,
+    variants,
   }
 
   return merge({}, theme, rest)

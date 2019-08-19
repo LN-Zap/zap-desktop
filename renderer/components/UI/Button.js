@@ -34,6 +34,7 @@ const Button = React.forwardRef((props, ref) => {
     size,
     variant,
     className,
+    sx,
     icon: Icon,
     ...rest
   } = props
@@ -64,13 +65,16 @@ const Button = React.forwardRef((props, ref) => {
   return (
     <Wrapper
       ref={ref}
-      borderRadius={borderRadius}
       className={wrapperClasses}
       disabled={isDisabled}
       px={size['x']}
       py={size['y']}
-      variant={variant}
       {...rest}
+      sx={{
+        borderRadius,
+        ...sx,
+      }}
+      variant={variant}
     >
       {isProcessing || Icon ? (
         <Flex alignItems="center">
@@ -100,13 +104,11 @@ Button.propTypes = {
   isProcessing: PropTypes.bool,
   justify: PropTypes.oneOf(['left', 'right', 'center']),
   size: PropTypes.oneOf(['small', 'medium']),
+  sx: PropTypes.object,
   variant: PropTypes.string,
 }
 
 Button.defaultProps = {
-  isProcessing: false,
-  isActive: false,
-  isDisabled: false,
   size: 'medium',
   justify: 'center',
   variant: 'normal',

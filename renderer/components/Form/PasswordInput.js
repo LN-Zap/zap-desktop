@@ -30,13 +30,7 @@ const PasswordInput = props => {
   }
 
   return (
-    <Input
-      css={`
-        position: relative;
-      `}
-      type={isPasswordVisible ? 'text' : 'password'}
-      {...props}
-    >
+    <Input css="position: relative;" type={isPasswordVisible ? 'text' : 'password'} {...props}>
       {isPasswordVisible ? (
         <StyledEyeOffIcon onClick={toggleIsPasswordVisible} />
       ) : (

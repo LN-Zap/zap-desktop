@@ -36,7 +36,7 @@ const AutopayCreateSuccess = ({ merchantLogo }) => {
       src={merchantLogo}
     >
       <Box color="superGreen" mb={3}>
-        <AutopayCheck height={128} width={128} />
+        <AutopayCheck height="128px" width="128px" />
       </Box>
       <Text color="gray">
         <FormattedMessage {...messages.success_text} />

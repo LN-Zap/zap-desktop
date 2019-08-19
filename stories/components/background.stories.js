@@ -5,12 +5,7 @@ import { BackgroundPrimary, BackgroundTertiary, BackgroundSecondary, Page } from
 import { Content } from '../helpers'
 
 const Wrapper = ({ children }) => (
-  <Page
-    css={`
-      height: 50px;
-      min-height: 200px;
-    `}
-  >
+  <Page height="50px" minHeight="200px">
     {children}
   </Page>
 )
@@ -27,12 +22,7 @@ storiesOf('Components', module).addWithChapters('Background', {
             decorator: story => <Wrapper>{story()}</Wrapper>,
           },
           sectionFn: () => (
-            <BackgroundPrimary
-              css={`
-                height: 100%;
-              `}
-              width={1}
-            >
+            <BackgroundPrimary height="100%" width={1}>
               <Content>BackgroundPrimary</Content>
             </BackgroundPrimary>
           ),
@@ -42,12 +32,7 @@ storiesOf('Components', module).addWithChapters('Background', {
             decorator: story => <Wrapper>{story()}</Wrapper>,
           },
           sectionFn: () => (
-            <BackgroundSecondary
-              css={`
-                height: 100%;
-              `}
-              width={1}
-            >
+            <BackgroundSecondary height="100%" width={1}>
               <Content>BackgroundSecondary</Content>
             </BackgroundSecondary>
           ),
@@ -57,12 +42,7 @@ storiesOf('Components', module).addWithChapters('Background', {
             decorator: story => <Wrapper>{story()}</Wrapper>,
           },
           sectionFn: () => (
-            <BackgroundTertiary
-              css={`
-                height: 100%;
-              `}
-              width={1}
-            >
+            <BackgroundTertiary height="100%" width={1}>
               <Content>BackgroundTertiary</Content>
             </BackgroundTertiary>
           ),

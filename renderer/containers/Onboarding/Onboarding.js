@@ -166,13 +166,7 @@ const Onboarding = props => {
   return (
     <Wizard steps={steps}>
       <Panel width={1}>
-        <Panel.Body
-          css={`
-            position: relative;
-          `}
-          mx="auto"
-          width={9 / 16}
-        >
+        <Panel.Body mx="auto" sx={{ position: 'relative' }} width={9 / 16}>
           <Wizard.Steps />
         </Panel.Body>
 

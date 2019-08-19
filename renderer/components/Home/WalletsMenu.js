@@ -9,15 +9,7 @@ import { WalletName } from 'components/Util'
 import messages from './messages'
 
 const WalletGroupHeader = props => (
-  <Text
-    css={`
-      text-transform: uppercase;
-    `}
-    fontWeight="normal"
-    mb={2}
-    px={3}
-    {...props}
-  />
+  <Text css="text-transform: uppercase;" fontWeight="normal" mb={2} px={3} {...props} />
 )
 
 const WalletGroup = withRouter(

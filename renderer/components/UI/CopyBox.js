@@ -6,7 +6,7 @@ import CopyButton from './CopyButton'
 
 const CopyBox = ({ value, hint, onCopy, ...rest }) => {
   return (
-    <Card bg="tertiaryColor" borderRadius={5} p={0} {...rest}>
+    <Card bg="tertiaryColor" p={0} sx={{ borderRadius: 's' }} {...rest}>
       <Flex justifyContent="space-between">
         <ClippedText fontSize="s" p={3} textAlign="center" width={1}>
           {value}

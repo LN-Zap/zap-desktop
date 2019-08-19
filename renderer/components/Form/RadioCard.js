@@ -39,13 +39,7 @@ const RadioCard = ({ fieldApi, icons, value, label, isDisabled, description, ...
       onClick={() => !isDisabled && fieldApi.setValue(value)}
     >
       <Card mb={3}>
-        <Flex
-          alignItems="center"
-          css={`
-            height: 100%;
-          `}
-          justifyContent="center"
-        >
+        <Flex alignItems="center" height="100%" justifyContent="center">
           <Box color={isSelected ? 'lightningOrange' : 'gray'}>
             <Icon height={iconHeight} width={iconWidth} />
           </Box>
