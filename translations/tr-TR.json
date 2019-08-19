@@ -591,10 +591,13 @@
   "reducers.messages.activity_invoice_download_error": "Bir hata oluştu",
   "reducers.messages.activity_invoice_download_success": "İndirme tamamlandı",
   "reducers.messages.address_new_address_error": "",
+  "reducers.messages.app_init_db_error": "",
   "reducers.messages.backup_import_error": "",
   "reducers.messages.backup_import_success": "",
   "reducers.messages.backup_not_found_error": "",
   "reducers.messages.channels_open_warning": "",
+  "reducers.messages.invoice_receive_body": "",
+  "reducers.messages.invoice_receive_title": "",
   "reducers.messages.payment_send_error": "",
   "reducers.messages.settings_init_error": ""
 }

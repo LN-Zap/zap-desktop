@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import { showSystemNotification } from '@zap/utils/notifications'
 import { convert } from '@zap/utils/btc'
+import { getIntl } from '@zap/i18n'
 import { grpc } from 'workers'
 import { fetchBalance } from './balance'
 import { fetchChannels } from './channels'
@@ -8,6 +9,7 @@ import { showError } from './notification'
 import { walletSelectors } from './wallet'
 import { settingsSelectors } from './settings'
 import createReducer from './utils/createReducer'
+import messages from './messages'
 
 // ------------------------------------
 // Initial State
@@ -212,9 +214,10 @@ export const receiveInvoiceData = invoice => dispatch => {
   dispatch(fetchChannels())
 
   if (invoice.settled) {
+    const intl = getIntl()
     // HTML 5 desktop notification for the invoice update
-    const notifTitle = "You've been Zapped"
-    const notifBody = 'Congrats, someone just paid an invoice of yours'
+    const notifTitle = intl.formatMessage(messages.invoice_receive_title)
+    const notifBody = intl.formatMessage(messages.invoice_receive_body)
 
     showSystemNotification(notifTitle, notifBody)
   }
