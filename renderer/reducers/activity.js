@@ -100,10 +100,11 @@ function returnTimestamp(activity) {
 /**
  * saveInvoice - Initiates saving of invoice pdf.
  *
- * @param {string} defaultFilename invoice title
- * @param {string} title invoice title
- * @param {string} subtitle invoice subtitle
- * @param {Array<Array>} invoiceData invoice rows
+ * @param {string} options invoice options
+ * @param {string} options.defaultFilename invoice title
+ * @param {string} options.title invoice title
+ * @param {string} options.subtitle invoice subtitle
+ * @param {Array<Array>} options.invoiceData invoice rows
  * @returns {Function} Thunk
  */
 export const saveInvoice = ({
