@@ -36,6 +36,9 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
   const descriptionTag = tags.find(tag => tag.tagName === 'description') || {}
   const memo = descriptionTag.data
 
+  const fallbackTag = tags.find(tag => tag.tagName === 'fallback_address')
+  const fallback = fallbackTag && fallbackTag.data.address
+
   const getStatusColor = () => {
     if (invoice.settled) {
       return 'superGreen'
@@ -71,6 +74,13 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
         <>
           <Bar variant="light" />
           <DataRow left={<FormattedMessage {...messages.memo} />} right={memo} />
+        </>
+      )}
+
+      {fallback && (
+        <>
+          <Bar variant="light" />
+          <DataRow left={<FormattedMessage {...messages.fallback_address} />} right={fallback} />
         </>
       )}
 

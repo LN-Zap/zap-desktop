@@ -32,6 +32,8 @@ export default defineMessages({
   address_option_np2wkh: 'Segwit',
   blockExplorer_label: 'Block explorer',
   blockExplorer_description: 'Your preferred block explorer.',
+  fallbackAddress_label: 'Enable on-chain address fallback',
+  fallbackAddress_description: 'Add on-chain fallback address to LN invoices.',
   invoices_expire_label: 'Invoice expiry',
   invoices_expire_description: 'Amount of time before invoices expire.',
   lndTargetConfirmations_slow_label: 'Target confirmations (slow)',

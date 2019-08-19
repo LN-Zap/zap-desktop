@@ -164,13 +164,15 @@ export const receiveInvoices = ({ invoices }) => dispatch => {
 /**
  * createInvoice - Create an invoice.
  *
- * @param {number} amount Amount
- * @param {string} cryptoUnit Crypto unit (sats, bits, btc)
- * @param {string} memo Memo
- * @param {boolean} isPrivate Set to true to include routing hints
+ * @param {object} options request options
+ * @param {number} options.amount Amount
+ * @param {string} options.cryptoUnit Crypto unit (sats, bits, btc)
+ * @param {string} options.memo Memo
+ * @param {boolean} options.isPrivate Set to true to include routing hints
+ * @param {string} options.fallbackAddress on-chain address fallback
  * @returns {Function} Thunk
  */
-export const createInvoice = (amount, cryptoUnit, memo, isPrivate) => async (
+export const createInvoice = ({ amount, cryptoUnit, memo, isPrivate, fallbackAddress }) => async (
   dispatch,
   getState
 ) => {
@@ -194,6 +196,7 @@ export const createInvoice = (amount, cryptoUnit, memo, isPrivate) => async (
       memo,
       private: isPrivate || activeWalletSettings.type === 'local',
       expiry: currentConfig.invoices.expire,
+      fallback_addr: fallbackAddress,
     })
     dispatch(createInvoiceSuccess(invoice))
   } catch (error) {

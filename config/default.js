@@ -103,6 +103,7 @@ module.exports = {
     expire: 3600,
     baseRetryDelay: 1000,
     retryCount: 3, // Number of retries for pay invoice failure
+    useAddressFallback: false,
   },
 
   autopay: {

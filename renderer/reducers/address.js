@@ -77,7 +77,7 @@ export const initAddresses = () => async (dispatch, getState) => {
 }
 
 /**
- * newAddress - Generate a new address.
+ * newAddress - Generate a new address and sets it as wallet current.
  *
  * @param {('p2wkh'|'np2wkh')} addressType Address type
  * @returns {Function} Thunk
@@ -85,11 +85,27 @@ export const initAddresses = () => async (dispatch, getState) => {
 export const newAddress = addressType => async dispatch => {
   dispatch({ type: NEW_ADDRESS, addressType })
   try {
-    const data = await grpc.services.Lightning.newAddress({ type: ADDRESS_TYPES[addressType] })
+    const data = await createNewAddress(addressType)
     await dispatch(newAddressSuccess(addressType, data.address))
   } catch (error) {
     dispatch(newAddressFailure(addressType, error.message))
   }
+}
+
+/**
+ * createNewAddress - Creates a new address.
+ *
+ * @param {('p2wkh'|'np2wkh'|null)} addressType Address type. If not specified uses current saved config setting.
+ * @returns {Promise<string>} Generated address
+ */
+export const createNewAddress = addressType => async (dispatch, getState) => {
+  const getConfigAddressType = () => {
+    const settings = settingsSelectors.currentConfig(getState())
+    return settings && settings.address
+  }
+  const type = addressType || getConfigAddressType()
+  const data = await grpc.services.Lightning.newAddress({ type: ADDRESS_TYPES[type] })
+  return data.address
 }
 
 /**

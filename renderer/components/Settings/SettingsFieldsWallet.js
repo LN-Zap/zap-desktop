@@ -4,11 +4,11 @@ import { injectIntl } from 'react-intl'
 import map from 'lodash/map'
 import get from 'lodash/get'
 import { Bar, DataRow } from 'components/UI'
-import { Select } from 'components/Form'
+import { Select, Toggle } from 'components/Form'
 import { getSupportedProviders } from '@zap/utils/rateProvider'
+import { intlShape } from '@zap/i18n'
 import { FieldLabel, PositiveIntegerField } from './SettingsFieldHelpers'
 import messages from './messages'
-import { intlShape } from '@zap/i18n'
 
 const addressItems = [{ key: 'p2wkh' }, { key: 'np2wkh' }]
 const addressMessageMapper = key => {
@@ -95,7 +95,17 @@ const SettingsFieldsWallet = ({ currentConfig, intl }) => {
           />
         }
       />
+      <Bar variant="light" />
 
+      <DataRow
+        left={<FieldLabel itemKey="fallbackAddress" />}
+        right={
+          <Toggle
+            field="invoices.useAddressFallback"
+            initialValue={currentConfig.invoices.useAddressFallback}
+          />
+        }
+      />
       <Bar variant="light" />
 
       {renderNumberDataRow('lndTargetConfirmations.fast')}
