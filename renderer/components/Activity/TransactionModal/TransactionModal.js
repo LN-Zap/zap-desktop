@@ -16,7 +16,7 @@ import { CopyButton, CryptoSelector, CryptoValue, FiatSelector, FiatValue } from
 import { Truncate } from 'components/Util'
 import Onchain from 'components/Icon/Onchain'
 import Padlock from 'components/Icon/Padlock'
-import ArrowDown from 'components/Icon/ArrowDown'
+import Download from 'components/Icon/Download'
 import messages from './messages'
 
 class TransactionModal extends React.PureComponent {
@@ -91,7 +91,7 @@ class TransactionModal extends React.PureComponent {
               bottom: 5px;
               right: 25px;
             `}
-            icon={ArrowDown}
+            icon={Download}
             onClick={this.saveInvoice}
             variant="secondary"
           >
