@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Button as BaseButton, Flex, Text } from 'rebass'
+import { Button as BaseButton, Flex, Text } from 'rebass/styled-components'
 import Spinner from './Spinner'
 
 const Wrapper = styled(BaseButton)`

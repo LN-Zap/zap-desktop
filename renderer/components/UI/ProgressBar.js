@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card as BaseCard } from 'rebass'
+import { Card as BaseCard } from 'rebass/styled-components'
 import styled from 'styled-components'
 import { tint } from 'polished'
 

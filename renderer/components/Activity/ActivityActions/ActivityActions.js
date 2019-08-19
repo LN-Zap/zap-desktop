@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 import { intlShape } from '@zap/i18n'
 import { Card } from 'components/UI'
 import ActivityFilter from './ActivityFilter'

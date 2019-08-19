@@ -37,7 +37,7 @@ const unwrapIconList = icons => {
 const createIconStory = (iconBasePath, icons) => {
   return `import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 ${unwrapIconImports(iconBasePath, icons)}
 const iconSizes = [16, 32, 64, 128]
 ${unwrapIconList(icons)}

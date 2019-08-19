@@ -362,14 +362,7 @@ class Pay extends React.Component {
     } = this.props
 
     return (
-      <Form
-        css={`
-          height: 100%;
-        `}
-        {...rest}
-        getApi={this.setFormApi}
-        onSubmit={this.onSubmit}
-      >
+      <Form height="100%" width={1} {...rest} getApi={this.setFormApi} onSubmit={this.onSubmit}>
         {({ formState }) => (
           <Panel>
             <Panel.Header>

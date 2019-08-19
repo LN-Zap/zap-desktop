@@ -1,5 +1,5 @@
 import styled, { withTheme } from 'styled-components'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 
 const Overlay = styled(Flex)`
   position: ${props => (props.position ? props.position : 'absolute')};

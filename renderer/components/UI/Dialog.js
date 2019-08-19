@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, Flex } from 'rebass'
+import { Card, Flex } from 'rebass/styled-components'
 import { useCloseOnUnmount, useOnKeydown } from 'hooks'
 import Button from './Button'
 import Heading from './Heading'

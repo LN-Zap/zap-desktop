@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Card, Flex } from 'rebass'
+import { Box, Card, Flex } from 'rebass/styled-components'
 import ClippedText from './ClippedText'
 import CopyButton from './CopyButton'
 

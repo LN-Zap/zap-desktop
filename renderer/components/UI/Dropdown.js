@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import styled, { withTheme } from 'styled-components'
 import { themeGet } from '@styled-system/theme-get'
 import { opacity, fontWeight } from 'styled-system'

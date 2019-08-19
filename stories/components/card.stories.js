@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 import { Card, Text, Button, Heading } from 'components/UI'
 
 storiesOf('Components', module).addWithChapters('Card', {

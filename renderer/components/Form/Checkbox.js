@@ -1,7 +1,7 @@
 import React from 'react'
 import { asField } from 'informed'
 import PropTypes from 'prop-types'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 import styled from 'styled-components'
 import Check from 'components/Icon/Check'
 import { Text } from 'components/UI'

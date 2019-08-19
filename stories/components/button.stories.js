@@ -1,7 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import { Flex, Box } from 'rebass'
+import { Flex, Box } from 'rebass/styled-components'
 import { Button } from 'components/UI'
 import ArrowLeft from 'components/Icon/ArrowLeft'
 import ArrowRight from 'components/Icon/ArrowRight'

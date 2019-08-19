@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, Flex, Text } from 'rebass'
+import { Card, Flex, Text } from 'rebass/styled-components'
 import X from 'components/Icon/X'
 import Success from 'components/Icon/Success'
 import Warning from 'components/Icon/Warning'

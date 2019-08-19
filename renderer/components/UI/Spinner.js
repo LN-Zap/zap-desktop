@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled, { keyframes } from 'styled-components'
-import { Box } from 'rebass'
+import { Box } from 'rebass/styled-components'
 import Spinner from 'components/Icon/Spinner'
 
 const rotate360 = keyframes`

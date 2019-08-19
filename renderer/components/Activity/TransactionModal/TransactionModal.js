@@ -8,7 +8,7 @@ import {
   FormattedNumber,
   injectIntl,
 } from 'react-intl'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 import { intlShape } from '@zap/i18n'
 import blockExplorer from '@zap/utils/blockExplorer'
 import { Bar, DataRow, Header, Link, Panel, Span, Text, Button } from 'components/UI'

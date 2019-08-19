@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import AngleRight from 'components/Icon/AngleRight'
 import AngleDown from 'components/Icon/AngleDown'
 import Text from './Text'

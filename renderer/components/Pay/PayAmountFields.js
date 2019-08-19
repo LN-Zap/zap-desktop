@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage } from 'react-intl'
 import debounce from 'lodash/debounce'
 import { Keyframes } from 'react-spring/renderprops.cjs'

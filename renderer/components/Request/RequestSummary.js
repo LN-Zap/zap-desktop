@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage, FormattedTime, injectIntl } from 'react-intl'
 import copy from 'copy-to-clipboard'
 import { decodePayReq } from '@zap/utils/crypto'

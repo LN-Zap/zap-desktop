@@ -1,7 +1,7 @@
 import React, { createRef } from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import { Box } from 'rebass'
+import { Box } from 'rebass/styled-components'
 import { Button, MainContent, Page } from 'components/UI'
 import {
   Checkbox,

@@ -1,6 +1,6 @@
 import React, { useRef, useState, useContext } from 'react'
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import styled, { withTheme } from 'styled-components'
 import { themeGet } from '@styled-system/theme-get'
 import { useOnClickOutside, useOnKeydown, useScroll, useComponentSize } from 'hooks'

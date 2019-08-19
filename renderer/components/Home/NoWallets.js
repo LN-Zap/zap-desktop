@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 import { Heading } from 'components/UI'
 import CreateWalletButton from './CreateWalletButton'
 import messages from './messages'

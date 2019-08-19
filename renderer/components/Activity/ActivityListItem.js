@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import PropTypes from 'prop-types'
 import Invoice from 'containers/Activity/Invoice'
 import Payment from 'containers/Activity/Payment'

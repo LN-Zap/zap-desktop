@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box } from 'rebass'
+import { Box } from 'rebass/styled-components'
 import { Keyframes } from 'react-spring/renderprops.cjs'
 import { intlShape } from '@zap/i18n'
 import { LightningInvoiceInput } from 'components/Form'
@@ -70,7 +70,6 @@ class PayAddressField extends React.Component {
                 chain={chain}
                 css={`
                   resize: vertical;
-                  min-height: 48px;
                 `}
                 field="payReq"
                 forwardedRef={this.payReqInput}
@@ -78,6 +77,7 @@ class PayAddressField extends React.Component {
                 isReadOnly={currentStep !== PAY_FORM_STEPS.address}
                 isRequired
                 label={this.getPaymentRequestLabel()}
+                minHeight={48}
                 name="payReq"
                 network={network}
                 onValueChange={handlePayReqChange}

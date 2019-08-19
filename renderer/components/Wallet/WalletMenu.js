@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import SettingsMenu from 'containers/Settings/SettingsMenu'

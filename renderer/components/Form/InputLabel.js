@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 import { Span, Tooltip } from 'components/UI'
 import Label from './Label'
 

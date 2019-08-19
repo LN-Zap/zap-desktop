@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Flex } from 'rebass'
+import { Card, Flex } from 'rebass/styled-components'
 import { themeGet } from '@styled-system/theme-get'
 import styled, { withTheme } from 'styled-components'
 import { tint } from 'polished'

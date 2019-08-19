@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { themeGet } from '@styled-system/theme-get'
-import { Flex, Box } from 'rebass'
+import { Flex, Box } from 'rebass/styled-components'
 import X from 'components/Icon/X'
 
 const CloseButtonWrapper = styled(Box)`

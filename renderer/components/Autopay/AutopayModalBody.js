@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex, Box } from 'rebass'
+import { Flex, Box } from 'rebass/styled-components'
 import { Card, CloseButton } from 'components/UI'
 import Autopay from 'components/Icon/Autopay'
 

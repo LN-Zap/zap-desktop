@@ -1,5 +1,5 @@
 import React from 'react'
-import { Heading as BaseHeading } from 'rebass'
+import { Heading as BaseHeading } from 'rebass/styled-components'
 import styled from 'styled-components'
 import { opacity } from 'styled-system'
 

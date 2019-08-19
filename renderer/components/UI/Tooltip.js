@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
-import { Box, Card } from 'rebass'
+import { Box, Card } from 'rebass/styled-components'
 import Text from './Text'
 
 const StyledTooltipIconBox = styled(Box)`

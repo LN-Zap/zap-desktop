@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Radio as InformedRadio } from 'informed'
 import styled from 'styled-components'
-import { Box } from 'rebass'
+import { Box } from 'rebass/styled-components'
 import { Text } from 'components/UI'
 import Label from './Label'
 

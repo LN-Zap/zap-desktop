@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled, { withTheme } from 'styled-components'
-import { Box, Card } from 'rebass'
+import { Box, Card } from 'rebass/styled-components'
 import QRCode from 'qrcode.react'
 
 const QRCODE_SIZE_SMALL = 'small'

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Text as BaseText } from 'rebass'
+import { Text as BaseText } from 'rebass/styled-components'
 import styled from 'styled-components'
 import { opacity } from 'styled-system'
 

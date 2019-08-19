@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import { themeGet } from '@styled-system/theme-get'
 import styled from 'styled-components'
 import { intlShape } from '@zap/i18n'

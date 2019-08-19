@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 import { asField } from 'informed'
 import PropTypes from 'prop-types'
 import { BasicRange, BasicInput } from 'components/Form'

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import CloseButton from 'components/UI/CloseButton'
 import ZapLogo from 'components/Icon/ZapLogo'
 import Page from './Page'

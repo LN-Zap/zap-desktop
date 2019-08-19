@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box } from 'rebass'
+import { Box } from 'rebass/styled-components'
 import styled from 'styled-components'
 import { Grid, AutoSizer } from 'react-virtualized'
 import { space as baseSpace } from 'themes/base'

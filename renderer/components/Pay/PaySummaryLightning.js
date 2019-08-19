@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage } from 'react-intl'
 import { convert } from '@zap/utils/btc'
 import { decodePayReq, getNodeAlias } from '@zap/utils/crypto'

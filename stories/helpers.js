@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import lightningPayReq from 'bolt11'
 import { Bar, Heading, Page } from '@zap/renderer/components/UI'
 
