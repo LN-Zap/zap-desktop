@@ -1,6 +1,6 @@
 import React from 'react'
 import { Flex } from 'rebass'
-import { themeGet } from 'styled-system'
+import { themeGet } from '@styled-system/theme-get'
 
 const Page = props => (
   <Flex

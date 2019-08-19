@@ -1,7 +1,7 @@
 import { createGlobalStyle } from 'styled-components'
 import reset from 'styled-reset'
 import { rgba } from 'polished'
-import { themeGet } from 'styled-system'
+import { themeGet } from '@styled-system/theme-get'
 
 /* eslint-disable max-len */
 const GlobalStyle = createGlobalStyle`

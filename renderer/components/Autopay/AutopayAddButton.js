@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card, Flex } from 'rebass'
-import { themeGet } from 'styled-system'
+import { themeGet } from '@styled-system/theme-get'
 import styled, { withTheme } from 'styled-components'
 import { tint } from 'polished'
 import { Text } from 'components/UI'

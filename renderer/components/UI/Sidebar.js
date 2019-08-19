@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { themeGet } from 'styled-system'
+import { themeGet } from '@styled-system/theme-get'
 import { Flex } from 'rebass'
 
 const SidebarBox = styled(Flex)`

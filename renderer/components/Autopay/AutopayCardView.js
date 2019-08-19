@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { themeGet } from 'styled-system'
+import { themeGet } from '@styled-system/theme-get'
 import { Box, Flex } from 'rebass'
 import { Card, Heading } from 'components/UI'
 import AutopayAddButton from './AutopayAddButton'
