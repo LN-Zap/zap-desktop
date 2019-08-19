@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import styled, { withTheme } from 'styled-components'
 import { themeGet } from '@styled-system/theme-get'
-import { px } from 'styled-system'
 import { useOnClickOutside, useOnKeydown, useScroll, useComponentSize } from 'hooks'
 import AngleRight from 'components/Icon/AngleRight'
 import AngleUp from 'components/Icon/AngleUp'
@@ -332,8 +331,8 @@ const DropmenuSubmenuWrapper = styled(Box)`
   z-index: 10;
   height: 0;
   width: 0;
-  top: ${props => px(props.top)};
-  left: ${props => px(props.left)};
+  top: ${props => props.top}px;
+  left: ${props => props.left}px;
 `
 
 const DropmenuSubmenu = props => {

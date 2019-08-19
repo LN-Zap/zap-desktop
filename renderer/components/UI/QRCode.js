@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled, { withTheme } from 'styled-components'
-import { px } from 'styled-system'
 import { Box, Card } from 'rebass'
 import QRCode from 'qrcode.react'
 
@@ -27,8 +26,7 @@ const CornerCard = styled(Card)`
   display: inline-block;
   width: ${props => props.size * 1.2}px;
   height: ${props => props.size * 1.2}px;
-  border: ${({ border }) => px(border)} solid
-    ${({ theme, borderColor }) => theme.colors[borderColor]};
+  border: ${({ border }) => border}px solid ${({ theme, borderColor }) => theme.colors[borderColor]};
 `
 const TopLeft = styled(CornerCard)`
   position: absolute;
