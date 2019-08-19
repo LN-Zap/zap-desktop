@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { asField } from 'informed'
@@ -6,6 +6,7 @@ import { withTheme } from 'styled-components'
 import { Flex } from 'rebass'
 import { extractSpaceProps } from 'themes/util'
 import { withInputValidation } from 'hocs'
+import { useAutoFocus } from 'hooks'
 import { Message, Text } from 'components/UI'
 import InputLabel from './InputLabel'
 import { createSystemInput } from './util'
@@ -37,16 +38,11 @@ const TextArea = ({
   ...rest
 }) => {
   const [hasFocus, setFocus] = useState(false)
-  const inputRef = useRef(forwardedRef)
   const [spaceProps, otherProps] = extractSpaceProps(rest)
   const { setValue, setTouched } = fieldApi
   const { value, maskedValue, error, asyncError } = fieldState
 
-  useEffect(() => {
-    if (willAutoFocus) {
-      inputRef.current.focus()
-    }
-  }, [willAutoFocus])
+  useAutoFocus(forwardedRef, willAutoFocus)
 
   const getValue = () => {
     if (typeof value === 'undefined') {
@@ -69,7 +65,7 @@ const TextArea = ({
       )}
       <SystemTextArea
         {...otherProps}
-        ref={inputRef}
+        ref={forwardedRef}
         disabled={isDisabled}
         fieldState={fieldState}
         name={field}
