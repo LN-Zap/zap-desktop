@@ -10,7 +10,7 @@ import { withInputValidation } from 'hocs'
 import { useAutoFocus } from 'hooks'
 import { Message, Text } from 'components/UI'
 import InputLabel from './InputLabel'
-import { createSystemInput } from './util'
+import { StyledInput } from './util'
 
 const SearchIcon = styled(Search)`
   margin-right: -${props => props.width}px;
@@ -18,9 +18,6 @@ const SearchIcon = styled(Search)`
   height: 15px;
   color: ${props => props.color || props.theme.colors.gray};
 `
-
-// Create an html input element that accepts all style props from styled-system.
-export const SystemInput = createSystemInput('input')
 
 const Input = ({
   description,
@@ -78,7 +75,7 @@ const Input = ({
       )}
       <Flex alignItems="center">
         {type === 'search' && <SearchIcon width={iconSize} />}
-        <SystemInput
+        <StyledInput
           {...otherProps}
           ref={forwardedRef}
           disabled={isDisabled}

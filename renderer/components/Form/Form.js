@@ -1,15 +1,15 @@
 import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
-import system from '@rebass/components'
-import { styles } from 'styled-system'
+import styled from 'styled-components'
+import { space, layout, compose } from 'styled-system'
 import { Form as InformedForm } from 'informed'
 
 // Create an html input element that accepts all style props from styled-system.
-const FormInner = system(
-  {
-    extend: InformedForm,
-  },
-  ...Object.keys(styles)
+const FormInner = styled(InformedForm)(
+  compose(
+    space,
+    layout
+  )
 )
 
 const Form = ({ asyncValidators, onSubmit, onSubmitFailure, getApi, ...rest }) => {

@@ -1,16 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Card as BaseCard } from 'rebass'
-import system from '@rebass/components'
 import styled from 'styled-components'
 import { tint } from 'polished'
 
-const SystemCard = system({ extend: BaseCard }, 'height')
-
 const EmptyBar = ({ children, height, ...rest }) => (
-  <SystemCard borderRadius={100} color="primaryText" height={height} {...rest}>
+  <BaseCard borderRadius={100} color="primaryText" height={height} {...rest}>
     {children}
-  </SystemCard>
+  </BaseCard>
 )
 
 EmptyBar.propTypes = {

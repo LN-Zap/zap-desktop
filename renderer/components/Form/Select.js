@@ -7,7 +7,6 @@ import styled, { withTheme } from 'styled-components'
 import { themeGet } from '@styled-system/theme-get'
 import Downshift from 'downshift'
 import { Box, Flex } from 'rebass'
-import system from '@rebass/components'
 import { useIntl } from 'hooks'
 import Check from 'components/Icon/Check'
 import AngleUp from 'components/Icon/AngleUp'
@@ -34,20 +33,17 @@ const SelectOptionList = styled.ul`
   box-shadow: ${themeGet('shadows.s')};
 `
 
-const SelectOptionItem = styled(
-  system(
-    {
-      extend: Box,
-      as: 'li',
+const SelectOptionItem = props => (
+  <Box
+    {...props}
+    as="li"
+    sx={{
       p: 2,
-    },
-    'space',
-    'color'
-  )
-)`
-  outline: none;
-  cursor: pointer;
-`
+      outline: 'none',
+      cursor: 'pointer',
+    }}
+  />
+)
 
 const getIconStyles = props => `
   margin-left: -${props.width + 16}px;
