@@ -2,6 +2,7 @@ import { send } from 'redux-electron-ipc'
 import { createSelector } from 'reselect'
 import delay from '@zap/utils/delay'
 import { initDb } from '@zap/renderer/store/db'
+import { getIntl } from '@zap/i18n'
 import { showError } from 'reducers/notification'
 import { tickerSelectors } from './ticker'
 import { setIsWalletOpen, walletSelectors } from './wallet'
@@ -9,6 +10,7 @@ import { setTheme, themeSelectors } from './theme'
 import { stopLnd } from './lnd'
 import { openModal } from './modal'
 import createReducer from './utils/createReducer'
+import messages from './messages'
 
 // ------------------------------------
 // Initial State
@@ -107,7 +109,11 @@ export const initDatabase = () => async dispatch => {
     dispatch({ type: INIT_DATABASE_SUCCESS })
   } catch (e) {
     dispatch({ type: INIT_DATABASE_FAILURE, error: e.message })
-    dispatch(showError(`Unable to initialise database: ${e.message}`, { timeout: 0 }))
+    dispatch(
+      showError(getIntl().formatMessage(messages.app_init_db_error, { error: e.message }), {
+        timeout: 0,
+      })
+    )
   }
 }
 
