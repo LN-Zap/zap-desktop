@@ -1,181 +1,416 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`reducers neutrinoReducer should handle NEUTRINO_CRASHED 1`] = `
-Object {
-  "blockHeight": 0,
-  "grpcActiveInterface": null,
-  "isNeutrinoCrashed": true,
-  "isNeutrinoRunning": false,
-  "isStartingNeutrino": false,
-  "isStoppingNeutrino": false,
-  "neutrinoBlockHeight": 0,
-  "neutrinoCfilterHeight": 0,
-  "neutrinoCrashCode": 1,
-  "neutrinoCrashLastError": "Some error",
-  "neutrinoCrashSignal": "SIGTERM",
-  "neutrinoFirstBlockHeight": 0,
-  "neutrinoFirstCfilterHeight": 0,
-  "neutrinoFirstRecoveryHeight": 0,
-  "neutrinoRecoveryHeight": 0,
-  "startNeutrinoError": null,
-  "stopNeutrinoError": null,
-  "syncStatus": "pending",
-}
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "blockHeight": 0,
+    "grpcActiveInterface": null,
+-   "isNeutrinoCrashed": false,
++   "isNeutrinoCrashed": true,
+    "isNeutrinoRunning": false,
+    "isStartingNeutrino": false,
+    "isStoppingNeutrino": false,
+    "neutrinoBlockHeight": 0,
+    "neutrinoCfilterHeight": 0,
+-   "neutrinoCrashCode": null,
+-   "neutrinoCrashLastError": null,
+-   "neutrinoCrashSignal": null,
++   "neutrinoCrashCode": 1,
++   "neutrinoCrashLastError": "Some error",
++   "neutrinoCrashSignal": "SIGTERM",
+    "neutrinoFirstBlockHeight": 0,
+    "neutrinoFirstCfilterHeight": 0,
+    "neutrinoFirstRecoveryHeight": 0,
+    "neutrinoRecoveryHeight": 0,
+    "startNeutrinoError": null,
+    "stopNeutrinoError": null,
+    "syncStatus": "pending",
+  }
 `;
 
 exports[`reducers neutrinoReducer should handle NEUTRINO_RESET 1`] = `
-Object {
-  "blockHeight": 0,
-  "grpcActiveInterface": null,
-  "isNeutrinoCrashed": false,
-  "isNeutrinoRunning": false,
-  "isStartingNeutrino": false,
-  "isStoppingNeutrino": false,
-  "neutrinoBlockHeight": 0,
-  "neutrinoCfilterHeight": 0,
-  "neutrinoCrashCode": null,
-  "neutrinoCrashLastError": null,
-  "neutrinoCrashSignal": null,
-  "neutrinoFirstBlockHeight": 0,
-  "neutrinoFirstCfilterHeight": 0,
-  "neutrinoFirstRecoveryHeight": 0,
-  "neutrinoRecoveryHeight": 0,
-  "startNeutrinoError": null,
-  "stopNeutrinoError": null,
-  "syncStatus": "pending",
-}
+Snapshot Diff:
+Compared values have no visual difference.
 `;
 
 exports[`reducers neutrinoReducer should handle RECEIVE_CURRENT_BLOCK_HEIGHT 1`] = `
-Object {
-  "blockHeight": 12345,
-}
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+-   "blockHeight": 0,
++   "blockHeight": 12345,
+    "grpcActiveInterface": null,
+    "isNeutrinoCrashed": false,
+    "isNeutrinoRunning": false,
+    "isStartingNeutrino": false,
+    "isStoppingNeutrino": false,
+    "neutrinoBlockHeight": 0,
+    "neutrinoCfilterHeight": 0,
+    "neutrinoCrashCode": null,
+    "neutrinoCrashLastError": null,
+    "neutrinoCrashSignal": null,
+    "neutrinoFirstBlockHeight": 0,
+    "neutrinoFirstCfilterHeight": 0,
+    "neutrinoFirstRecoveryHeight": 0,
+    "neutrinoRecoveryHeight": 0,
+    "startNeutrinoError": null,
+    "stopNeutrinoError": null,
+    "syncStatus": "pending",
+  }
 `;
 
 exports[`reducers neutrinoReducer should handle RECEIVE_LND_BLOCK_HEIGHT 1`] = `
-Object {
-  "neutrinoBlockHeight": 12345,
-  "neutrinoFirstBlockHeight": 12345,
-}
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "blockHeight": 0,
+    "grpcActiveInterface": null,
+    "isNeutrinoCrashed": false,
+    "isNeutrinoRunning": false,
+    "isStartingNeutrino": false,
+    "isStoppingNeutrino": false,
+-   "neutrinoBlockHeight": 0,
++   "neutrinoBlockHeight": 12345,
+    "neutrinoCfilterHeight": 0,
+    "neutrinoCrashCode": null,
+    "neutrinoCrashLastError": null,
+    "neutrinoCrashSignal": null,
+-   "neutrinoFirstBlockHeight": 0,
++   "neutrinoFirstBlockHeight": 12345,
+    "neutrinoFirstCfilterHeight": 0,
+    "neutrinoFirstRecoveryHeight": 0,
+    "neutrinoRecoveryHeight": 0,
+    "startNeutrinoError": null,
+    "stopNeutrinoError": null,
+    "syncStatus": "pending",
+  }
 `;
 
 exports[`reducers neutrinoReducer should handle RECEIVE_LND_CFILTER_HEIGHT 1`] = `
-Object {
-  "neutrinoCfilterHeight": 12345,
-  "neutrinoFirstCfilterHeight": 12345,
-}
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "blockHeight": 0,
+    "grpcActiveInterface": null,
+    "isNeutrinoCrashed": false,
+    "isNeutrinoRunning": false,
+    "isStartingNeutrino": false,
+    "isStoppingNeutrino": false,
+    "neutrinoBlockHeight": 0,
+-   "neutrinoCfilterHeight": 0,
++   "neutrinoCfilterHeight": 12345,
+    "neutrinoCrashCode": null,
+    "neutrinoCrashLastError": null,
+    "neutrinoCrashSignal": null,
+    "neutrinoFirstBlockHeight": 0,
+-   "neutrinoFirstCfilterHeight": 0,
++   "neutrinoFirstCfilterHeight": 12345,
+    "neutrinoFirstRecoveryHeight": 0,
+    "neutrinoRecoveryHeight": 0,
+    "startNeutrinoError": null,
+    "stopNeutrinoError": null,
+    "syncStatus": "pending",
+  }
 `;
 
 exports[`reducers neutrinoReducer should handle RECEIVE_LND_RECOVERY_HEIGHT 1`] = `
-Object {
-  "neutrinoFirstRecoveryHeight": 12345,
-  "neutrinoRecoveryHeight": 12345,
-}
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "blockHeight": 0,
+    "grpcActiveInterface": null,
+    "isNeutrinoCrashed": false,
+    "isNeutrinoRunning": false,
+    "isStartingNeutrino": false,
+    "isStoppingNeutrino": false,
+    "neutrinoBlockHeight": 0,
+    "neutrinoCfilterHeight": 0,
+    "neutrinoCrashCode": null,
+    "neutrinoCrashLastError": null,
+    "neutrinoCrashSignal": null,
+    "neutrinoFirstBlockHeight": 0,
+    "neutrinoFirstCfilterHeight": 0,
+-   "neutrinoFirstRecoveryHeight": 0,
+-   "neutrinoRecoveryHeight": 0,
++   "neutrinoFirstRecoveryHeight": 12345,
++   "neutrinoRecoveryHeight": 12345,
+    "startNeutrinoError": null,
+    "stopNeutrinoError": null,
+    "syncStatus": "pending",
+  }
 `;
 
 exports[`reducers neutrinoReducer should handle SET_GRPC_ACTIVE_INTERFACE 1`] = `
-Object {
-  "grpcActiveInterface": "lightning",
-}
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "blockHeight": 0,
+-   "grpcActiveInterface": null,
++   "grpcActiveInterface": "lightning",
+    "isNeutrinoCrashed": false,
+    "isNeutrinoRunning": false,
+    "isStartingNeutrino": false,
+    "isStoppingNeutrino": false,
+    "neutrinoBlockHeight": 0,
+    "neutrinoCfilterHeight": 0,
+    "neutrinoCrashCode": null,
+    "neutrinoCrashLastError": null,
+    "neutrinoCrashSignal": null,
+    "neutrinoFirstBlockHeight": 0,
+    "neutrinoFirstCfilterHeight": 0,
+    "neutrinoFirstRecoveryHeight": 0,
+    "neutrinoRecoveryHeight": 0,
+    "startNeutrinoError": null,
+    "stopNeutrinoError": null,
+    "syncStatus": "pending",
+  }
 `;
 
 exports[`reducers neutrinoReducer should handle SET_SYNC_STATUS_COMPLETE 1`] = `
-Object {
-  "syncStatus": "complete",
-}
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "blockHeight": 0,
+    "grpcActiveInterface": null,
+    "isNeutrinoCrashed": false,
+    "isNeutrinoRunning": false,
+    "isStartingNeutrino": false,
+    "isStoppingNeutrino": false,
+    "neutrinoBlockHeight": 0,
+    "neutrinoCfilterHeight": 0,
+    "neutrinoCrashCode": null,
+    "neutrinoCrashLastError": null,
+    "neutrinoCrashSignal": null,
+    "neutrinoFirstBlockHeight": 0,
+    "neutrinoFirstCfilterHeight": 0,
+    "neutrinoFirstRecoveryHeight": 0,
+    "neutrinoRecoveryHeight": 0,
+    "startNeutrinoError": null,
+    "stopNeutrinoError": null,
+-   "syncStatus": "pending",
++   "syncStatus": "complete",
+  }
 `;
 
 exports[`reducers neutrinoReducer should handle SET_SYNC_STATUS_IN_PROGRESS 1`] = `
-Object {
-  "syncStatus": "in-progress",
-}
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "blockHeight": 0,
+    "grpcActiveInterface": null,
+    "isNeutrinoCrashed": false,
+    "isNeutrinoRunning": false,
+    "isStartingNeutrino": false,
+    "isStoppingNeutrino": false,
+    "neutrinoBlockHeight": 0,
+    "neutrinoCfilterHeight": 0,
+    "neutrinoCrashCode": null,
+    "neutrinoCrashLastError": null,
+    "neutrinoCrashSignal": null,
+    "neutrinoFirstBlockHeight": 0,
+    "neutrinoFirstCfilterHeight": 0,
+    "neutrinoFirstRecoveryHeight": 0,
+    "neutrinoRecoveryHeight": 0,
+    "startNeutrinoError": null,
+    "stopNeutrinoError": null,
+-   "syncStatus": "pending",
++   "syncStatus": "in-progress",
+  }
 `;
 
 exports[`reducers neutrinoReducer should handle SET_SYNC_STATUS_PENDING 1`] = `
-Object {
-  "syncStatus": "pending",
-}
+Snapshot Diff:
+Compared values have no visual difference.
 `;
 
 exports[`reducers neutrinoReducer should handle SET_SYNC_STATUS_WAITING 1`] = `
-Object {
-  "syncStatus": "waiting",
-}
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "blockHeight": 0,
+    "grpcActiveInterface": null,
+    "isNeutrinoCrashed": false,
+    "isNeutrinoRunning": false,
+    "isStartingNeutrino": false,
+    "isStoppingNeutrino": false,
+    "neutrinoBlockHeight": 0,
+    "neutrinoCfilterHeight": 0,
+    "neutrinoCrashCode": null,
+    "neutrinoCrashLastError": null,
+    "neutrinoCrashSignal": null,
+    "neutrinoFirstBlockHeight": 0,
+    "neutrinoFirstCfilterHeight": 0,
+    "neutrinoFirstRecoveryHeight": 0,
+    "neutrinoRecoveryHeight": 0,
+    "startNeutrinoError": null,
+    "stopNeutrinoError": null,
+-   "syncStatus": "pending",
++   "syncStatus": "waiting",
+  }
 `;
 
 exports[`reducers neutrinoReducer should handle START_NEUTRINO 1`] = `
-Object {
-  "isStartingNeutrino": true,
-  "startNeutrinoError": null,
-}
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "blockHeight": 0,
+    "grpcActiveInterface": null,
+    "isNeutrinoCrashed": false,
+    "isNeutrinoRunning": false,
+-   "isStartingNeutrino": false,
++   "isStartingNeutrino": true,
+    "isStoppingNeutrino": false,
+    "neutrinoBlockHeight": 0,
+    "neutrinoCfilterHeight": 0,
+    "neutrinoCrashCode": null,
+    "neutrinoCrashLastError": null,
+    "neutrinoCrashSignal": null,
+    "neutrinoFirstBlockHeight": 0,
+    "neutrinoFirstCfilterHeight": 0,
+    "neutrinoFirstRecoveryHeight": 0,
+    "neutrinoRecoveryHeight": 0,
+    "startNeutrinoError": null,
+    "stopNeutrinoError": null,
+    "syncStatus": "pending",
+  }
 `;
 
 exports[`reducers neutrinoReducer should handle START_NEUTRINO_FAILURE 1`] = `
-Object {
-  "isStartingNeutrino": false,
-  "startNeutrinoError": "Some error",
-}
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "blockHeight": 0,
+    "grpcActiveInterface": null,
+    "isNeutrinoCrashed": false,
+    "isNeutrinoRunning": false,
+    "isStartingNeutrino": false,
+    "isStoppingNeutrino": false,
+    "neutrinoBlockHeight": 0,
+    "neutrinoCfilterHeight": 0,
+    "neutrinoCrashCode": null,
+    "neutrinoCrashLastError": null,
+    "neutrinoCrashSignal": null,
+    "neutrinoFirstBlockHeight": 0,
+    "neutrinoFirstCfilterHeight": 0,
+    "neutrinoFirstRecoveryHeight": 0,
+    "neutrinoRecoveryHeight": 0,
+-   "startNeutrinoError": null,
++   "startNeutrinoError": "Some error",
+    "stopNeutrinoError": null,
+    "syncStatus": "pending",
+  }
 `;
 
 exports[`reducers neutrinoReducer should handle START_NEUTRINO_SUCCESS 1`] = `
-Object {
-  "isNeutrinoRunning": true,
-  "isStartingNeutrino": false,
-  "startNeutrinoError": null,
-}
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "blockHeight": 0,
+    "grpcActiveInterface": null,
+    "isNeutrinoCrashed": false,
+-   "isNeutrinoRunning": false,
++   "isNeutrinoRunning": true,
+    "isStartingNeutrino": false,
+    "isStoppingNeutrino": false,
+    "neutrinoBlockHeight": 0,
+    "neutrinoCfilterHeight": 0,
+    "neutrinoCrashCode": null,
+    "neutrinoCrashLastError": null,
+    "neutrinoCrashSignal": null,
+    "neutrinoFirstBlockHeight": 0,
+    "neutrinoFirstCfilterHeight": 0,
+    "neutrinoFirstRecoveryHeight": 0,
+    "neutrinoRecoveryHeight": 0,
+    "startNeutrinoError": null,
+    "stopNeutrinoError": null,
+    "syncStatus": "pending",
+  }
 `;
 
 exports[`reducers neutrinoReducer should handle STOP_NEUTRINO 1`] = `
-Object {
-  "isStoppingNeutrino": true,
-  "stopNeutrinoError": null,
-}
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "blockHeight": 0,
+    "grpcActiveInterface": null,
+    "isNeutrinoCrashed": false,
+    "isNeutrinoRunning": false,
+    "isStartingNeutrino": false,
+-   "isStoppingNeutrino": false,
++   "isStoppingNeutrino": true,
+    "neutrinoBlockHeight": 0,
+    "neutrinoCfilterHeight": 0,
+    "neutrinoCrashCode": null,
+    "neutrinoCrashLastError": null,
+    "neutrinoCrashSignal": null,
+    "neutrinoFirstBlockHeight": 0,
+    "neutrinoFirstCfilterHeight": 0,
+    "neutrinoFirstRecoveryHeight": 0,
+    "neutrinoRecoveryHeight": 0,
+    "startNeutrinoError": null,
+    "stopNeutrinoError": null,
+    "syncStatus": "pending",
+  }
 `;
 
 exports[`reducers neutrinoReducer should handle STOP_NEUTRINO_FAILURE 1`] = `
-Object {
-  "blockHeight": 0,
-  "grpcActiveInterface": null,
-  "isNeutrinoCrashed": false,
-  "isNeutrinoRunning": false,
-  "isStartingNeutrino": false,
-  "isStoppingNeutrino": false,
-  "neutrinoBlockHeight": 0,
-  "neutrinoCfilterHeight": 0,
-  "neutrinoCrashCode": null,
-  "neutrinoCrashLastError": null,
-  "neutrinoCrashSignal": null,
-  "neutrinoFirstBlockHeight": 0,
-  "neutrinoFirstCfilterHeight": 0,
-  "neutrinoFirstRecoveryHeight": 0,
-  "neutrinoRecoveryHeight": 0,
-  "startNeutrinoError": null,
-  "stopNeutrinoError": undefined,
-  "syncStatus": "pending",
-}
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "blockHeight": 0,
+    "grpcActiveInterface": null,
+    "isNeutrinoCrashed": false,
+    "isNeutrinoRunning": false,
+    "isStartingNeutrino": false,
+    "isStoppingNeutrino": false,
+    "neutrinoBlockHeight": 0,
+    "neutrinoCfilterHeight": 0,
+    "neutrinoCrashCode": null,
+    "neutrinoCrashLastError": null,
+    "neutrinoCrashSignal": null,
+    "neutrinoFirstBlockHeight": 0,
+    "neutrinoFirstCfilterHeight": 0,
+    "neutrinoFirstRecoveryHeight": 0,
+    "neutrinoRecoveryHeight": 0,
+    "startNeutrinoError": null,
+-   "stopNeutrinoError": null,
++   "stopNeutrinoError": "some error",
+    "syncStatus": "pending",
+  }
 `;
 
 exports[`reducers neutrinoReducer should handle STOP_NEUTRINO_SUCCESS 1`] = `
-Object {
-  "blockHeight": 0,
-  "grpcActiveInterface": null,
-  "isNeutrinoCrashed": false,
-  "isNeutrinoRunning": false,
-  "isStartingNeutrino": false,
-  "isStoppingNeutrino": false,
-  "neutrinoBlockHeight": 0,
-  "neutrinoCfilterHeight": 0,
-  "neutrinoCrashCode": null,
-  "neutrinoCrashLastError": null,
-  "neutrinoCrashSignal": null,
-  "neutrinoFirstBlockHeight": 0,
-  "neutrinoFirstCfilterHeight": 0,
-  "neutrinoFirstRecoveryHeight": 0,
-  "neutrinoRecoveryHeight": 0,
-  "startNeutrinoError": null,
-  "stopNeutrinoError": null,
-  "syncStatus": "pending",
-}
+Snapshot Diff:
+Compared values have no visual difference.
 `;
 
 exports[`reducers neutrinoReducer should handle initial state 1`] = `

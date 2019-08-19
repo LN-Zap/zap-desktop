@@ -30,6 +30,7 @@ const initialState = {
   isLightningGrpcActive: false,
   unlockWalletError: null,
   startLndError: null,
+  stopLndError: null,
   fetchSeedError: null,
   lndConfig: {},
 }

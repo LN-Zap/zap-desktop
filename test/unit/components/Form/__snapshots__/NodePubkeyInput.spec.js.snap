@@ -68,6 +68,7 @@ exports[`component.UI.NodePubkeyInput should render correctly 1`] = `
         fontFamily="sans"
         fontSize="m"
         fontWeight="light"
+        name="name"
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}

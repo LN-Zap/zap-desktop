@@ -1,89 +1,109 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`reducers addressReducer should handle CLOSE_WALLET_MODAL 1`] = `
-Object {
-  "addresses": Object {
-    "np2wkh": null,
-    "p2wkh": null,
-  },
-  "addressesLoading": Object {
-    "np2wkh": false,
-    "p2wkh": false,
-  },
-  "walletModal": false,
-}
+exports[`reducers addressReducer should handle FETCH_ADDRESSES 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "addresses": Object {
+      "np2wkh": null,
+      "p2wkh": null,
+    },
+    "addressesLoading": Object {
+      "np2wkh": false,
+      "p2wkh": false,
+    },
+    "fetchAddressError": null,
+-   "isAddressLoading": false,
++   "isAddressLoading": true,
+  }
 `;
 
-exports[`reducers addressReducer should handle FETCH_ADDRESSES 1`] = `Object {}`;
+exports[`reducers addressReducer should handle FETCH_ADDRESSES_FAILURE 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "addresses": Object {
+      "np2wkh": null,
+      "p2wkh": null,
+    },
+    "addressesLoading": Object {
+      "np2wkh": false,
+      "p2wkh": false,
+    },
+-   "fetchAddressError": null,
++   "fetchAddressError": "some error",
+    "isAddressLoading": false,
+  }
+`;
 
 exports[`reducers addressReducer should handle FETCH_ADDRESSES_SUCCESS 1`] = `
-Object {
-  "addresses": Object {
-    "np2wkh": "375WLnZzkEwKddQW22SGyhCfXNFz32Gvfc",
-    "p2wkh": "bc1q7l2z25nle43ngzzr86p2fwr2xlvtdkzm74e3tz",
-  },
-  "addressesLoading": Object {
-    "np2wkh": false,
-    "p2wkh": false,
-  },
-  "walletModal": false,
-}
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "addresses": Object {
+-     "np2wkh": null,
+-     "p2wkh": null,
++     "np2wkh": "375WLnZzkEwKddQW22SGyhCfXNFz32Gvfc",
++     "p2wkh": "bc1q7l2z25nle43ngzzr86p2fwr2xlvtdkzm74e3tz",
+    },
+    "addressesLoading": Object {
+      "np2wkh": false,
+      "p2wkh": false,
+    },
+    "fetchAddressError": null,
+    "isAddressLoading": false,
+  }
 `;
 
 exports[`reducers addressReducer should handle NEW_ADDRESS 1`] = `
-Object {
-  "addresses": Object {
-    "np2wkh": null,
-    "p2wkh": null,
-  },
-  "addressesLoading": Object {
-    "np2wkh": false,
-    "p2wkh": true,
-  },
-  "walletModal": false,
-}
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "addresses": Object {
+      "np2wkh": null,
+      "p2wkh": null,
+    },
+    "addressesLoading": Object {
+      "np2wkh": false,
+-     "p2wkh": false,
++     "p2wkh": true,
+    },
+    "fetchAddressError": null,
+    "isAddressLoading": false,
+  }
 `;
 
 exports[`reducers addressReducer should handle NEW_ADDRESS_FAILURE 1`] = `
-Object {
-  "addresses": Object {
-    "np2wkh": null,
-    "p2wkh": null,
-  },
-  "addressesLoading": Object {
-    "np2wkh": false,
-    "p2wkh": false,
-  },
-  "walletModal": false,
-}
+Snapshot Diff:
+Compared values have no visual difference.
 `;
 
 exports[`reducers addressReducer should handle NEW_ADDRESS_SUCCESS 1`] = `
-Object {
-  "addresses": Object {
-    "np2wkh": "375WLnZzkEwKddQW22SGyhCfXNFz32Gvfc",
-    "p2wkh": null,
-  },
-  "addressesLoading": Object {
-    "np2wkh": false,
-    "p2wkh": false,
-  },
-  "walletModal": false,
-}
-`;
+Snapshot Diff:
+- First value
++ Second value
 
-exports[`reducers addressReducer should handle OPEN_WALLET_MODAL 1`] = `
-Object {
-  "addresses": Object {
-    "np2wkh": null,
-    "p2wkh": null,
-  },
-  "addressesLoading": Object {
-    "np2wkh": false,
-    "p2wkh": false,
-  },
-  "walletModal": true,
-}
+  Object {
+    "addresses": Object {
+-     "np2wkh": null,
++     "np2wkh": "375WLnZzkEwKddQW22SGyhCfXNFz32Gvfc",
+      "p2wkh": null,
+    },
+    "addressesLoading": Object {
+      "np2wkh": false,
+      "p2wkh": false,
+    },
+    "fetchAddressError": null,
+    "isAddressLoading": false,
+  }
 `;
 
 exports[`reducers addressReducer should handle initial state 1`] = `
@@ -96,6 +116,7 @@ Object {
     "np2wkh": false,
     "p2wkh": false,
   },
-  "walletModal": false,
+  "fetchAddressError": null,
+  "isAddressLoading": false,
 }
 `;

@@ -1,159 +1,1367 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`reducers channelsReducer should correctly getChannels 1`] = `
-Object {
-  "channels": Array [],
-  "channelsLoading": true,
-  "closedChannels": Array [],
-  "closingChannel": false,
-  "closingChannelIds": Array [],
-  "filter": "ALL_CHANNELS",
-  "filters": Array [
-    Object {
-      "key": "ALL_CHANNELS",
-      "value": "All",
+exports[`reducers channelsReducer should handle ADD_CLOSING_CHAN_ID 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "channels": Array [],
+    "channelsLoading": false,
+    "closedChannels": Array [],
+    "closingChannel": false,
+-   "closingChannelIds": Array [],
++   "closingChannelIds": Array [
++     "123",
++   ],
+    "filter": "ALL_CHANNELS",
+    "filters": Array [
+      Object {
+        "key": "ALL_CHANNELS",
+        "value": "All",
+      },
+      Object {
+        "key": "ACTIVE_CHANNELS",
+        "value": "Online",
+      },
+      Object {
+        "key": "NON_ACTIVE_CHANNELS",
+        "value": "Offline",
+      },
+      Object {
+        "key": "OPEN_PENDING_CHANNELS",
+        "value": "Pending",
+      },
+      Object {
+        "key": "CLOSING_PENDING_CHANNELS",
+        "value": "Closing",
+      },
+    ],
+    "loadingChannels": Array [],
+    "pendingChannels": Object {
+      "pending_closing_channels": Array [],
+      "pending_force_closing_channels": Array [],
+      "pending_open_channels": Array [],
+      "total_limbo_balance": null,
+      "waiting_close_channels": Array [],
     },
-    Object {
-      "key": "ACTIVE_CHANNELS",
-      "value": "Online",
+    "searchQuery": null,
+    "selectedChannelId": null,
+    "sort": "OPEN_DATE",
+    "sortOrder": "asc",
+    "sorters": Array [
+      Object {
+        "key": "OPEN_DATE",
+        "value": "Open date",
+      },
+      Object {
+        "key": "REMOTE_BALANCE",
+        "value": "Remote balance",
+      },
+      Object {
+        "key": "LOCAL_BALANCE",
+        "value": "Local balance",
+      },
+      Object {
+        "key": "ACTIVITY",
+        "value": "Activity",
+      },
+      Object {
+        "key": "NAME",
+        "value": "Name",
+      },
+      Object {
+        "key": "CAPACITY",
+        "value": "Capacity",
+      },
+    ],
+    "suggestedNodes": Object {
+      "mainnet": Array [],
+      "testnet": Array [],
     },
-    Object {
-      "key": "NON_ACTIVE_CHANNELS",
-      "value": "Offline",
-    },
-    Object {
-      "key": "OPEN_PENDING_CHANNELS",
-      "value": "Pending",
-    },
-    Object {
-      "key": "CLOSING_PENDING_CHANNELS",
-      "value": "Closing",
-    },
-  ],
-  "loadingChannels": Array [],
-  "pendingChannels": Object {
-    "pending_closing_channels": Array [],
-    "pending_force_closing_channels": Array [],
-    "pending_open_channels": Array [],
-    "total_limbo_balance": null,
-    "waiting_close_channels": Array [],
-  },
-  "searchQuery": null,
-  "selectedChannelId": null,
-  "sort": "OPEN_DATE",
-  "sortOrder": "asc",
-  "sorters": Array [
-    Object {
-      "key": "OPEN_DATE",
-      "value": "Open date",
-    },
-    Object {
-      "key": "REMOTE_BALANCE",
-      "value": "Remote balance",
-    },
-    Object {
-      "key": "LOCAL_BALANCE",
-      "value": "Local balance",
-    },
-    Object {
-      "key": "ACTIVITY",
-      "value": "Activity",
-    },
-    Object {
-      "key": "NAME",
-      "value": "Name",
-    },
-    Object {
-      "key": "CAPACITY",
-      "value": "Capacity",
-    },
-  ],
-  "suggestedNodes": Object {
-    "mainnet": Array [],
-    "testnet": Array [],
-  },
-  "suggestedNodesError": null,
-  "suggestedNodesLoading": false,
-  "viewMode": "card",
-}
+    "suggestedNodesError": null,
+    "suggestedNodesLoading": false,
+    "viewMode": "card",
+  }
 `;
 
-exports[`reducers channelsReducer should correctly receiveChannel 1`] = `
-Object {
-  "channels": Array [
-    1,
-    2,
-  ],
-  "channelsLoading": false,
-  "closedChannels": undefined,
-  "closingChannel": false,
-  "closingChannelIds": Array [],
-  "filter": "ALL_CHANNELS",
-  "filters": Array [
-    Object {
-      "key": "ALL_CHANNELS",
-      "value": "All",
+exports[`reducers channelsReducer should handle ADD_LOADING_PUBKEY 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "channels": Array [],
+    "channelsLoading": false,
+    "closedChannels": Array [],
+    "closingChannel": false,
+    "closingChannelIds": Array [],
+    "filter": "ALL_CHANNELS",
+    "filters": Array [
+      Object {
+        "key": "ALL_CHANNELS",
+        "value": "All",
+      },
+      Object {
+        "key": "ACTIVE_CHANNELS",
+        "value": "Online",
+      },
+      Object {
+        "key": "NON_ACTIVE_CHANNELS",
+        "value": "Offline",
+      },
+      Object {
+        "key": "OPEN_PENDING_CHANNELS",
+        "value": "Pending",
+      },
+      Object {
+        "key": "CLOSING_PENDING_CHANNELS",
+        "value": "Closing",
+      },
+    ],
+-   "loadingChannels": Array [],
++   "loadingChannels": Array [
++     Object {
++       "node_pubkey": "123",
++     },
++   ],
+    "pendingChannels": Object {
+      "pending_closing_channels": Array [],
+      "pending_force_closing_channels": Array [],
+      "pending_open_channels": Array [],
+      "total_limbo_balance": null,
+      "waiting_close_channels": Array [],
     },
-    Object {
-      "key": "ACTIVE_CHANNELS",
-      "value": "Online",
+    "searchQuery": null,
+    "selectedChannelId": null,
+    "sort": "OPEN_DATE",
+    "sortOrder": "asc",
+    "sorters": Array [
+      Object {
+        "key": "OPEN_DATE",
+        "value": "Open date",
+      },
+      Object {
+        "key": "REMOTE_BALANCE",
+        "value": "Remote balance",
+      },
+      Object {
+        "key": "LOCAL_BALANCE",
+        "value": "Local balance",
+      },
+      Object {
+        "key": "ACTIVITY",
+        "value": "Activity",
+      },
+      Object {
+        "key": "NAME",
+        "value": "Name",
+      },
+      Object {
+        "key": "CAPACITY",
+        "value": "Capacity",
+      },
+    ],
+    "suggestedNodes": Object {
+      "mainnet": Array [],
+      "testnet": Array [],
     },
-    Object {
-      "key": "NON_ACTIVE_CHANNELS",
-      "value": "Offline",
+    "suggestedNodesError": null,
+    "suggestedNodesLoading": false,
+    "viewMode": "card",
+  }
+`;
+
+exports[`reducers channelsReducer should handle CHANGE_CHANNEL_FILTER 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "channels": Array [],
+    "channelsLoading": false,
+    "closedChannels": Array [],
+    "closingChannel": false,
+    "closingChannelIds": Array [],
+-   "filter": "ALL_CHANNELS",
++   "filter": "NON_ACTIVE_CHANNELS",
+    "filters": Array [
+      Object {
+        "key": "ALL_CHANNELS",
+        "value": "All",
+      },
+      Object {
+        "key": "ACTIVE_CHANNELS",
+        "value": "Online",
+      },
+      Object {
+        "key": "NON_ACTIVE_CHANNELS",
+        "value": "Offline",
+      },
+      Object {
+        "key": "OPEN_PENDING_CHANNELS",
+        "value": "Pending",
+      },
+      Object {
+        "key": "CLOSING_PENDING_CHANNELS",
+        "value": "Closing",
+      },
+    ],
+    "loadingChannels": Array [],
+    "pendingChannels": Object {
+      "pending_closing_channels": Array [],
+      "pending_force_closing_channels": Array [],
+      "pending_open_channels": Array [],
+      "total_limbo_balance": null,
+      "waiting_close_channels": Array [],
     },
-    Object {
-      "key": "OPEN_PENDING_CHANNELS",
-      "value": "Pending",
+    "searchQuery": null,
+    "selectedChannelId": null,
+    "sort": "OPEN_DATE",
+    "sortOrder": "asc",
+    "sorters": Array [
+      Object {
+        "key": "OPEN_DATE",
+        "value": "Open date",
+      },
+      Object {
+        "key": "REMOTE_BALANCE",
+        "value": "Remote balance",
+      },
+      Object {
+        "key": "LOCAL_BALANCE",
+        "value": "Local balance",
+      },
+      Object {
+        "key": "ACTIVITY",
+        "value": "Activity",
+      },
+      Object {
+        "key": "NAME",
+        "value": "Name",
+      },
+      Object {
+        "key": "CAPACITY",
+        "value": "Capacity",
+      },
+    ],
+    "suggestedNodes": Object {
+      "mainnet": Array [],
+      "testnet": Array [],
     },
-    Object {
-      "key": "CLOSING_PENDING_CHANNELS",
-      "value": "Closing",
+    "suggestedNodesError": null,
+    "suggestedNodesLoading": false,
+    "viewMode": "card",
+  }
+`;
+
+exports[`reducers channelsReducer should handle CHANGE_CHANNEL_SORT 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "channels": Array [],
+    "channelsLoading": false,
+    "closedChannels": Array [],
+    "closingChannel": false,
+    "closingChannelIds": Array [],
+    "filter": "ALL_CHANNELS",
+    "filters": Array [
+      Object {
+        "key": "ALL_CHANNELS",
+        "value": "All",
+      },
+      Object {
+        "key": "ACTIVE_CHANNELS",
+        "value": "Online",
+      },
+      Object {
+        "key": "NON_ACTIVE_CHANNELS",
+        "value": "Offline",
+      },
+      Object {
+        "key": "OPEN_PENDING_CHANNELS",
+        "value": "Pending",
+      },
+      Object {
+        "key": "CLOSING_PENDING_CHANNELS",
+        "value": "Closing",
+      },
+    ],
+    "loadingChannels": Array [],
+    "pendingChannels": Object {
+      "pending_closing_channels": Array [],
+      "pending_force_closing_channels": Array [],
+      "pending_open_channels": Array [],
+      "total_limbo_balance": null,
+      "waiting_close_channels": Array [],
     },
-  ],
-  "loadingChannels": Array [],
-  "pendingChannels": Array [
-    3,
-    4,
-  ],
-  "searchQuery": null,
-  "selectedChannelId": null,
-  "sort": "OPEN_DATE",
-  "sortOrder": "asc",
-  "sorters": Array [
-    Object {
-      "key": "OPEN_DATE",
-      "value": "Open date",
+    "searchQuery": null,
+    "selectedChannelId": null,
+-   "sort": "OPEN_DATE",
++   "sort": "CAPACITY",
+    "sortOrder": "asc",
+    "sorters": Array [
+      Object {
+        "key": "OPEN_DATE",
+        "value": "Open date",
+      },
+      Object {
+        "key": "REMOTE_BALANCE",
+        "value": "Remote balance",
+      },
+      Object {
+        "key": "LOCAL_BALANCE",
+        "value": "Local balance",
+      },
+      Object {
+        "key": "ACTIVITY",
+        "value": "Activity",
+      },
+      Object {
+        "key": "NAME",
+        "value": "Name",
+      },
+      Object {
+        "key": "CAPACITY",
+        "value": "Capacity",
+      },
+    ],
+    "suggestedNodes": Object {
+      "mainnet": Array [],
+      "testnet": Array [],
     },
-    Object {
-      "key": "REMOTE_BALANCE",
-      "value": "Remote balance",
+    "suggestedNodesError": null,
+    "suggestedNodesLoading": false,
+    "viewMode": "card",
+  }
+`;
+
+exports[`reducers channelsReducer should handle CHANGE_CHANNEL_SORT_ORDER 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "channels": Array [],
+    "channelsLoading": false,
+    "closedChannels": Array [],
+    "closingChannel": false,
+    "closingChannelIds": Array [],
+    "filter": "ALL_CHANNELS",
+    "filters": Array [
+      Object {
+        "key": "ALL_CHANNELS",
+        "value": "All",
+      },
+      Object {
+        "key": "ACTIVE_CHANNELS",
+        "value": "Online",
+      },
+      Object {
+        "key": "NON_ACTIVE_CHANNELS",
+        "value": "Offline",
+      },
+      Object {
+        "key": "OPEN_PENDING_CHANNELS",
+        "value": "Pending",
+      },
+      Object {
+        "key": "CLOSING_PENDING_CHANNELS",
+        "value": "Closing",
+      },
+    ],
+    "loadingChannels": Array [],
+    "pendingChannels": Object {
+      "pending_closing_channels": Array [],
+      "pending_force_closing_channels": Array [],
+      "pending_open_channels": Array [],
+      "total_limbo_balance": null,
+      "waiting_close_channels": Array [],
     },
-    Object {
-      "key": "LOCAL_BALANCE",
-      "value": "Local balance",
+    "searchQuery": null,
+    "selectedChannelId": null,
+    "sort": "OPEN_DATE",
+-   "sortOrder": "asc",
++   "sortOrder": "desc",
+    "sorters": Array [
+      Object {
+        "key": "OPEN_DATE",
+        "value": "Open date",
+      },
+      Object {
+        "key": "REMOTE_BALANCE",
+        "value": "Remote balance",
+      },
+      Object {
+        "key": "LOCAL_BALANCE",
+        "value": "Local balance",
+      },
+      Object {
+        "key": "ACTIVITY",
+        "value": "Activity",
+      },
+      Object {
+        "key": "NAME",
+        "value": "Name",
+      },
+      Object {
+        "key": "CAPACITY",
+        "value": "Capacity",
+      },
+    ],
+    "suggestedNodes": Object {
+      "mainnet": Array [],
+      "testnet": Array [],
     },
-    Object {
-      "key": "ACTIVITY",
-      "value": "Activity",
+    "suggestedNodesError": null,
+    "suggestedNodesLoading": false,
+    "viewMode": "card",
+  }
+`;
+
+exports[`reducers channelsReducer should handle CLOSE_CLOSE_CHANNEL_DIALOG 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "channels": Array [],
+    "channelsLoading": false,
+    "closedChannels": Array [],
+    "closingChannel": false,
+    "closingChannelIds": Array [],
+    "filter": "ALL_CHANNELS",
+    "filters": Array [
+      Object {
+        "key": "ALL_CHANNELS",
+        "value": "All",
+      },
+      Object {
+        "key": "ACTIVE_CHANNELS",
+        "value": "Online",
+      },
+      Object {
+        "key": "NON_ACTIVE_CHANNELS",
+        "value": "Offline",
+      },
+      Object {
+        "key": "OPEN_PENDING_CHANNELS",
+        "value": "Pending",
+      },
+      Object {
+        "key": "CLOSING_PENDING_CHANNELS",
+        "value": "Closing",
+      },
+    ],
++   "isCloseDialogOpen": false,
+    "loadingChannels": Array [],
+    "pendingChannels": Object {
+      "pending_closing_channels": Array [],
+      "pending_force_closing_channels": Array [],
+      "pending_open_channels": Array [],
+      "total_limbo_balance": null,
+      "waiting_close_channels": Array [],
     },
-    Object {
-      "key": "NAME",
-      "value": "Name",
+    "searchQuery": null,
+    "selectedChannelId": null,
+    "sort": "OPEN_DATE",
+    "sortOrder": "asc",
+    "sorters": Array [
+      Object {
+        "key": "OPEN_DATE",
+        "value": "Open date",
+      },
+      Object {
+        "key": "REMOTE_BALANCE",
+        "value": "Remote balance",
+      },
+      Object {
+        "key": "LOCAL_BALANCE",
+        "value": "Local balance",
+      },
+      Object {
+        "key": "ACTIVITY",
+        "value": "Activity",
+      },
+      Object {
+        "key": "NAME",
+        "value": "Name",
+      },
+      Object {
+        "key": "CAPACITY",
+        "value": "Capacity",
+      },
+    ],
+    "suggestedNodes": Object {
+      "mainnet": Array [],
+      "testnet": Array [],
     },
-    Object {
-      "key": "CAPACITY",
-      "value": "Capacity",
+    "suggestedNodesError": null,
+    "suggestedNodesLoading": false,
+    "viewMode": "card",
+  }
+`;
+
+exports[`reducers channelsReducer should handle CLOSING_CHANNEL 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "channels": Array [],
+    "channelsLoading": false,
+    "closedChannels": Array [],
+-   "closingChannel": false,
++   "closingChannel": true,
+    "closingChannelIds": Array [],
+    "filter": "ALL_CHANNELS",
+    "filters": Array [
+      Object {
+        "key": "ALL_CHANNELS",
+        "value": "All",
+      },
+      Object {
+        "key": "ACTIVE_CHANNELS",
+        "value": "Online",
+      },
+      Object {
+        "key": "NON_ACTIVE_CHANNELS",
+        "value": "Offline",
+      },
+      Object {
+        "key": "OPEN_PENDING_CHANNELS",
+        "value": "Pending",
+      },
+      Object {
+        "key": "CLOSING_PENDING_CHANNELS",
+        "value": "Closing",
+      },
+    ],
+    "loadingChannels": Array [],
+    "pendingChannels": Object {
+      "pending_closing_channels": Array [],
+      "pending_force_closing_channels": Array [],
+      "pending_open_channels": Array [],
+      "total_limbo_balance": null,
+      "waiting_close_channels": Array [],
     },
-  ],
-  "suggestedNodes": Object {
-    "mainnet": Array [],
-    "testnet": Array [],
-  },
-  "suggestedNodesError": null,
-  "suggestedNodesLoading": false,
-  "viewMode": "card",
-}
+    "searchQuery": null,
+    "selectedChannelId": null,
+    "sort": "OPEN_DATE",
+    "sortOrder": "asc",
+    "sorters": Array [
+      Object {
+        "key": "OPEN_DATE",
+        "value": "Open date",
+      },
+      Object {
+        "key": "REMOTE_BALANCE",
+        "value": "Remote balance",
+      },
+      Object {
+        "key": "LOCAL_BALANCE",
+        "value": "Local balance",
+      },
+      Object {
+        "key": "ACTIVITY",
+        "value": "Activity",
+      },
+      Object {
+        "key": "NAME",
+        "value": "Name",
+      },
+      Object {
+        "key": "CAPACITY",
+        "value": "Capacity",
+      },
+    ],
+    "suggestedNodes": Object {
+      "mainnet": Array [],
+      "testnet": Array [],
+    },
+    "suggestedNodesError": null,
+    "suggestedNodesLoading": false,
+    "viewMode": "card",
+  }
+`;
+
+exports[`reducers channelsReducer should handle GET_CHANNELS 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "channels": Array [],
+-   "channelsLoading": false,
++   "channelsLoading": true,
+    "closedChannels": Array [],
+    "closingChannel": false,
+    "closingChannelIds": Array [],
+    "filter": "ALL_CHANNELS",
+    "filters": Array [
+      Object {
+        "key": "ALL_CHANNELS",
+        "value": "All",
+      },
+      Object {
+        "key": "ACTIVE_CHANNELS",
+        "value": "Online",
+      },
+      Object {
+        "key": "NON_ACTIVE_CHANNELS",
+        "value": "Offline",
+      },
+      Object {
+        "key": "OPEN_PENDING_CHANNELS",
+        "value": "Pending",
+      },
+      Object {
+        "key": "CLOSING_PENDING_CHANNELS",
+        "value": "Closing",
+      },
+    ],
+    "loadingChannels": Array [],
+    "pendingChannels": Object {
+      "pending_closing_channels": Array [],
+      "pending_force_closing_channels": Array [],
+      "pending_open_channels": Array [],
+      "total_limbo_balance": null,
+      "waiting_close_channels": Array [],
+    },
+    "searchQuery": null,
+    "selectedChannelId": null,
+    "sort": "OPEN_DATE",
+    "sortOrder": "asc",
+    "sorters": Array [
+      Object {
+        "key": "OPEN_DATE",
+        "value": "Open date",
+      },
+      Object {
+        "key": "REMOTE_BALANCE",
+        "value": "Remote balance",
+      },
+      Object {
+        "key": "LOCAL_BALANCE",
+        "value": "Local balance",
+      },
+      Object {
+        "key": "ACTIVITY",
+        "value": "Activity",
+      },
+      Object {
+        "key": "NAME",
+        "value": "Name",
+      },
+      Object {
+        "key": "CAPACITY",
+        "value": "Capacity",
+      },
+    ],
+    "suggestedNodes": Object {
+      "mainnet": Array [],
+      "testnet": Array [],
+    },
+    "suggestedNodesError": null,
+    "suggestedNodesLoading": false,
+    "viewMode": "card",
+  }
+`;
+
+exports[`reducers channelsReducer should handle GET_SUGGESTED_NODES 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "channels": Array [],
+    "channelsLoading": false,
+    "closedChannels": Array [],
+    "closingChannel": false,
+    "closingChannelIds": Array [],
+    "filter": "ALL_CHANNELS",
+    "filters": Array [
+      Object {
+        "key": "ALL_CHANNELS",
+        "value": "All",
+      },
+      Object {
+        "key": "ACTIVE_CHANNELS",
+        "value": "Online",
+      },
+      Object {
+        "key": "NON_ACTIVE_CHANNELS",
+        "value": "Offline",
+      },
+      Object {
+        "key": "OPEN_PENDING_CHANNELS",
+        "value": "Pending",
+      },
+      Object {
+        "key": "CLOSING_PENDING_CHANNELS",
+        "value": "Closing",
+      },
+    ],
+    "loadingChannels": Array [],
+    "pendingChannels": Object {
+      "pending_closing_channels": Array [],
+      "pending_force_closing_channels": Array [],
+      "pending_open_channels": Array [],
+      "total_limbo_balance": null,
+      "waiting_close_channels": Array [],
+    },
+    "searchQuery": null,
+    "selectedChannelId": null,
+    "sort": "OPEN_DATE",
+    "sortOrder": "asc",
+    "sorters": Array [
+      Object {
+        "key": "OPEN_DATE",
+        "value": "Open date",
+      },
+      Object {
+        "key": "REMOTE_BALANCE",
+        "value": "Remote balance",
+      },
+      Object {
+        "key": "LOCAL_BALANCE",
+        "value": "Local balance",
+      },
+      Object {
+        "key": "ACTIVITY",
+        "value": "Activity",
+      },
+      Object {
+        "key": "NAME",
+        "value": "Name",
+      },
+      Object {
+        "key": "CAPACITY",
+        "value": "Capacity",
+      },
+    ],
+    "suggestedNodes": Object {
+      "mainnet": Array [],
+      "testnet": Array [],
+    },
+    "suggestedNodesError": null,
+-   "suggestedNodesLoading": false,
++   "suggestedNodesLoading": true,
+    "viewMode": "card",
+  }
+`;
+
+exports[`reducers channelsReducer should handle OPEN_CLOSE_CHANNEL_DIALOG 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "channels": Array [],
+    "channelsLoading": false,
+    "closedChannels": Array [],
+    "closingChannel": false,
+    "closingChannelIds": Array [],
+    "filter": "ALL_CHANNELS",
+    "filters": Array [
+      Object {
+        "key": "ALL_CHANNELS",
+        "value": "All",
+      },
+      Object {
+        "key": "ACTIVE_CHANNELS",
+        "value": "Online",
+      },
+      Object {
+        "key": "NON_ACTIVE_CHANNELS",
+        "value": "Offline",
+      },
+      Object {
+        "key": "OPEN_PENDING_CHANNELS",
+        "value": "Pending",
+      },
+      Object {
+        "key": "CLOSING_PENDING_CHANNELS",
+        "value": "Closing",
+      },
+    ],
++   "isCloseDialogOpen": true,
+    "loadingChannels": Array [],
+    "pendingChannels": Object {
+      "pending_closing_channels": Array [],
+      "pending_force_closing_channels": Array [],
+      "pending_open_channels": Array [],
+      "total_limbo_balance": null,
+      "waiting_close_channels": Array [],
+    },
+    "searchQuery": null,
+    "selectedChannelId": null,
+    "sort": "OPEN_DATE",
+    "sortOrder": "asc",
+    "sorters": Array [
+      Object {
+        "key": "OPEN_DATE",
+        "value": "Open date",
+      },
+      Object {
+        "key": "REMOTE_BALANCE",
+        "value": "Remote balance",
+      },
+      Object {
+        "key": "LOCAL_BALANCE",
+        "value": "Local balance",
+      },
+      Object {
+        "key": "ACTIVITY",
+        "value": "Activity",
+      },
+      Object {
+        "key": "NAME",
+        "value": "Name",
+      },
+      Object {
+        "key": "CAPACITY",
+        "value": "Capacity",
+      },
+    ],
+    "suggestedNodes": Object {
+      "mainnet": Array [],
+      "testnet": Array [],
+    },
+    "suggestedNodesError": null,
+    "suggestedNodesLoading": false,
+    "viewMode": "card",
+  }
+`;
+
+exports[`reducers channelsReducer should handle RECEIVE_CHANNELS 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+-   "channels": Array [],
++   "channels": Array [
++     1,
++     2,
++   ],
+    "channelsLoading": false,
+-   "closedChannels": Array [],
++   "closedChannels": Array [
++     5,
++     6,
++   ],
+    "closingChannel": false,
+    "closingChannelIds": Array [],
+    "filter": "ALL_CHANNELS",
+    "filters": Array [
+      Object {
+        "key": "ALL_CHANNELS",
+        "value": "All",
+      },
+      Object {
+        "key": "ACTIVE_CHANNELS",
+        "value": "Online",
+      },
+      Object {
+        "key": "NON_ACTIVE_CHANNELS",
+        "value": "Offline",
+      },
+      Object {
+        "key": "OPEN_PENDING_CHANNELS",
+        "value": "Pending",
+      },
+      Object {
+        "key": "CLOSING_PENDING_CHANNELS",
+        "value": "Closing",
+      },
+    ],
+    "loadingChannels": Array [],
+    "pendingChannels": Object {
+-     "pending_closing_channels": Array [],
+-     "pending_force_closing_channels": Array [],
+-     "pending_open_channels": Array [],
+-     "total_limbo_balance": null,
+-     "waiting_close_channels": Array [],
++     "pending_closing_channels": Array [
++       1,
++     ],
++     "pending_force_closing_channels": Array [
++       2,
++     ],
++     "pending_open_channels": Array [
++       3,
++     ],
++     "total_limbo_balance": 4,
++     "waiting_close_channels": Array [
++       5,
++     ],
+    },
+    "searchQuery": null,
+    "selectedChannelId": null,
+    "sort": "OPEN_DATE",
+    "sortOrder": "asc",
+    "sorters": Array [
+      Object {
+        "key": "OPEN_DATE",
+        "value": "Open date",
+      },
+      Object {
+        "key": "REMOTE_BALANCE",
+        "value": "Remote balance",
+      },
+      Object {
+        "key": "LOCAL_BALANCE",
+        "value": "Local balance",
+      },
+      Object {
+        "key": "ACTIVITY",
+        "value": "Activity",
+      },
+      Object {
+        "key": "NAME",
+        "value": "Name",
+      },
+      Object {
+        "key": "CAPACITY",
+        "value": "Capacity",
+      },
+    ],
+    "suggestedNodes": Object {
+      "mainnet": Array [],
+      "testnet": Array [],
+    },
+    "suggestedNodesError": null,
+    "suggestedNodesLoading": false,
+    "viewMode": "card",
+  }
+`;
+
+exports[`reducers channelsReducer should handle RECEIVE_SUGGESTED_NODES 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "channels": Array [],
+    "channelsLoading": false,
+    "closedChannels": Array [],
+    "closingChannel": false,
+    "closingChannelIds": Array [],
+    "filter": "ALL_CHANNELS",
+    "filters": Array [
+      Object {
+        "key": "ALL_CHANNELS",
+        "value": "All",
+      },
+      Object {
+        "key": "ACTIVE_CHANNELS",
+        "value": "Online",
+      },
+      Object {
+        "key": "NON_ACTIVE_CHANNELS",
+        "value": "Offline",
+      },
+      Object {
+        "key": "OPEN_PENDING_CHANNELS",
+        "value": "Pending",
+      },
+      Object {
+        "key": "CLOSING_PENDING_CHANNELS",
+        "value": "Closing",
+      },
+    ],
+    "loadingChannels": Array [],
+    "pendingChannels": Object {
+      "pending_closing_channels": Array [],
+      "pending_force_closing_channels": Array [],
+      "pending_open_channels": Array [],
+      "total_limbo_balance": null,
+      "waiting_close_channels": Array [],
+    },
+    "searchQuery": null,
+    "selectedChannelId": null,
+    "sort": "OPEN_DATE",
+    "sortOrder": "asc",
+    "sorters": Array [
+      Object {
+        "key": "OPEN_DATE",
+        "value": "Open date",
+      },
+      Object {
+        "key": "REMOTE_BALANCE",
+        "value": "Remote balance",
+      },
+      Object {
+        "key": "LOCAL_BALANCE",
+        "value": "Local balance",
+      },
+      Object {
+        "key": "ACTIVITY",
+        "value": "Activity",
+      },
+      Object {
+        "key": "NAME",
+        "value": "Name",
+      },
+      Object {
+        "key": "CAPACITY",
+        "value": "Capacity",
+      },
+    ],
+    "suggestedNodes": Object {
+-     "mainnet": Array [],
+-     "testnet": Array [],
++     "some": "data",
+    },
+    "suggestedNodesError": null,
+    "suggestedNodesLoading": false,
+    "viewMode": "card",
+  }
+`;
+
+exports[`reducers channelsReducer should handle RECEIVE_SUGGESTED_NODES_ERROR 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "channels": Array [],
+    "channelsLoading": false,
+    "closedChannels": Array [],
+    "closingChannel": false,
+    "closingChannelIds": Array [],
+    "filter": "ALL_CHANNELS",
+    "filters": Array [
+      Object {
+        "key": "ALL_CHANNELS",
+        "value": "All",
+      },
+      Object {
+        "key": "ACTIVE_CHANNELS",
+        "value": "Online",
+      },
+      Object {
+        "key": "NON_ACTIVE_CHANNELS",
+        "value": "Offline",
+      },
+      Object {
+        "key": "OPEN_PENDING_CHANNELS",
+        "value": "Pending",
+      },
+      Object {
+        "key": "CLOSING_PENDING_CHANNELS",
+        "value": "Closing",
+      },
+    ],
+    "loadingChannels": Array [],
+    "pendingChannels": Object {
+      "pending_closing_channels": Array [],
+      "pending_force_closing_channels": Array [],
+      "pending_open_channels": Array [],
+      "total_limbo_balance": null,
+      "waiting_close_channels": Array [],
+    },
+    "searchQuery": null,
+    "selectedChannelId": null,
+    "sort": "OPEN_DATE",
+    "sortOrder": "asc",
+    "sorters": Array [
+      Object {
+        "key": "OPEN_DATE",
+        "value": "Open date",
+      },
+      Object {
+        "key": "REMOTE_BALANCE",
+        "value": "Remote balance",
+      },
+      Object {
+        "key": "LOCAL_BALANCE",
+        "value": "Local balance",
+      },
+      Object {
+        "key": "ACTIVITY",
+        "value": "Activity",
+      },
+      Object {
+        "key": "NAME",
+        "value": "Name",
+      },
+      Object {
+        "key": "CAPACITY",
+        "value": "Capacity",
+      },
+    ],
+    "suggestedNodes": Object {
+      "mainnet": Array [],
+      "testnet": Array [],
+    },
+-   "suggestedNodesError": null,
++   "suggestedNodesError": "some error",
+    "suggestedNodesLoading": false,
+    "viewMode": "card",
+  }
+`;
+
+exports[`reducers channelsReducer should handle REMOVE_CLOSING_CHAN_ID 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
+`;
+
+exports[`reducers channelsReducer should handle REMOVE_LOADING_PUBKEY 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
+`;
+
+exports[`reducers channelsReducer should handle SET_CHANNEL_VIEW_MODE 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "channels": Array [],
+    "channelsLoading": false,
+    "closedChannels": Array [],
+    "closingChannel": false,
+    "closingChannelIds": Array [],
+    "filter": "ALL_CHANNELS",
+    "filters": Array [
+      Object {
+        "key": "ALL_CHANNELS",
+        "value": "All",
+      },
+      Object {
+        "key": "ACTIVE_CHANNELS",
+        "value": "Online",
+      },
+      Object {
+        "key": "NON_ACTIVE_CHANNELS",
+        "value": "Offline",
+      },
+      Object {
+        "key": "OPEN_PENDING_CHANNELS",
+        "value": "Pending",
+      },
+      Object {
+        "key": "CLOSING_PENDING_CHANNELS",
+        "value": "Closing",
+      },
+    ],
+    "loadingChannels": Array [],
+    "pendingChannels": Object {
+      "pending_closing_channels": Array [],
+      "pending_force_closing_channels": Array [],
+      "pending_open_channels": Array [],
+      "total_limbo_balance": null,
+      "waiting_close_channels": Array [],
+    },
+    "searchQuery": null,
+    "selectedChannelId": null,
+    "sort": "OPEN_DATE",
+    "sortOrder": "asc",
+    "sorters": Array [
+      Object {
+        "key": "OPEN_DATE",
+        "value": "Open date",
+      },
+      Object {
+        "key": "REMOTE_BALANCE",
+        "value": "Remote balance",
+      },
+      Object {
+        "key": "LOCAL_BALANCE",
+        "value": "Local balance",
+      },
+      Object {
+        "key": "ACTIVITY",
+        "value": "Activity",
+      },
+      Object {
+        "key": "NAME",
+        "value": "Name",
+      },
+      Object {
+        "key": "CAPACITY",
+        "value": "Capacity",
+      },
+    ],
+    "suggestedNodes": Object {
+      "mainnet": Array [],
+      "testnet": Array [],
+    },
+    "suggestedNodesError": null,
+    "suggestedNodesLoading": false,
+-   "viewMode": "card",
++   "viewMode": "list",
+  }
+`;
+
+exports[`reducers channelsReducer should handle SET_SELECTED_CHANNEL 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "channels": Array [],
+    "channelsLoading": false,
+    "closedChannels": Array [],
+    "closingChannel": false,
+    "closingChannelIds": Array [],
+    "filter": "ALL_CHANNELS",
+    "filters": Array [
+      Object {
+        "key": "ALL_CHANNELS",
+        "value": "All",
+      },
+      Object {
+        "key": "ACTIVE_CHANNELS",
+        "value": "Online",
+      },
+      Object {
+        "key": "NON_ACTIVE_CHANNELS",
+        "value": "Offline",
+      },
+      Object {
+        "key": "OPEN_PENDING_CHANNELS",
+        "value": "Pending",
+      },
+      Object {
+        "key": "CLOSING_PENDING_CHANNELS",
+        "value": "Closing",
+      },
+    ],
+    "loadingChannels": Array [],
+    "pendingChannels": Object {
+      "pending_closing_channels": Array [],
+      "pending_force_closing_channels": Array [],
+      "pending_open_channels": Array [],
+      "total_limbo_balance": null,
+      "waiting_close_channels": Array [],
+    },
+    "searchQuery": null,
+-   "selectedChannelId": null,
++   "selectedChannelId": "1",
+    "sort": "OPEN_DATE",
+    "sortOrder": "asc",
+    "sorters": Array [
+      Object {
+        "key": "OPEN_DATE",
+        "value": "Open date",
+      },
+      Object {
+        "key": "REMOTE_BALANCE",
+        "value": "Remote balance",
+      },
+      Object {
+        "key": "LOCAL_BALANCE",
+        "value": "Local balance",
+      },
+      Object {
+        "key": "ACTIVITY",
+        "value": "Activity",
+      },
+      Object {
+        "key": "NAME",
+        "value": "Name",
+      },
+      Object {
+        "key": "CAPACITY",
+        "value": "Capacity",
+      },
+    ],
+    "suggestedNodes": Object {
+      "mainnet": Array [],
+      "testnet": Array [],
+    },
+    "suggestedNodesError": null,
+    "suggestedNodesLoading": false,
+    "viewMode": "card",
+  }
+`;
+
+exports[`reducers channelsReducer should handle UPDATE_SEARCH_QUERY 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "channels": Array [],
+    "channelsLoading": false,
+    "closedChannels": Array [],
+    "closingChannel": false,
+    "closingChannelIds": Array [],
+    "filter": "ALL_CHANNELS",
+    "filters": Array [
+      Object {
+        "key": "ALL_CHANNELS",
+        "value": "All",
+      },
+      Object {
+        "key": "ACTIVE_CHANNELS",
+        "value": "Online",
+      },
+      Object {
+        "key": "NON_ACTIVE_CHANNELS",
+        "value": "Offline",
+      },
+      Object {
+        "key": "OPEN_PENDING_CHANNELS",
+        "value": "Pending",
+      },
+      Object {
+        "key": "CLOSING_PENDING_CHANNELS",
+        "value": "Closing",
+      },
+    ],
+    "loadingChannels": Array [],
+    "pendingChannels": Object {
+      "pending_closing_channels": Array [],
+      "pending_force_closing_channels": Array [],
+      "pending_open_channels": Array [],
+      "total_limbo_balance": null,
+      "waiting_close_channels": Array [],
+    },
+-   "searchQuery": null,
++   "searchQuery": "some text",
+    "selectedChannelId": null,
+    "sort": "OPEN_DATE",
+    "sortOrder": "asc",
+    "sorters": Array [
+      Object {
+        "key": "OPEN_DATE",
+        "value": "Open date",
+      },
+      Object {
+        "key": "REMOTE_BALANCE",
+        "value": "Remote balance",
+      },
+      Object {
+        "key": "LOCAL_BALANCE",
+        "value": "Local balance",
+      },
+      Object {
+        "key": "ACTIVITY",
+        "value": "Activity",
+      },
+      Object {
+        "key": "NAME",
+        "value": "Name",
+      },
+      Object {
+        "key": "CAPACITY",
+        "value": "Capacity",
+      },
+    ],
+    "suggestedNodes": Object {
+      "mainnet": Array [],
+      "testnet": Array [],
+    },
+    "suggestedNodesError": null,
+    "suggestedNodesLoading": false,
+    "viewMode": "card",
+  }
 `;
 
 exports[`reducers channelsReducer should handle initial state 1`] = `

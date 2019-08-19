@@ -9,7 +9,6 @@ import { openModal } from 'reducers/modal'
 import SettingsMenu from 'components/Settings/SettingsMenu'
 
 const mapStateToProps = state => ({
-  activeSubMenu: state.settingsmenu.activeSubMenu,
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
   fiatTicker: tickerSelectors.fiatTicker(state),
   fiatTickers: tickerSelectors.fiatTickers(state),
@@ -33,7 +32,6 @@ const mapDispatchToProps = {
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   activeWalletSettings: stateProps.activeWalletSettings,
   isWalletReady: stateProps.isWalletReady,
-  activeSubMenu: stateProps.activeSubMenu,
   isSettingsMenuOpen: stateProps.isSettingsMenuOpen,
   openModal: dispatchProps.openModal,
   openSettingsMenu: dispatchProps.openSettingsMenu,

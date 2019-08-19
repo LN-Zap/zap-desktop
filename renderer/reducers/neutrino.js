@@ -319,7 +319,7 @@ export const stopNeutrino = () => async (dispatch, getState) => {
 
     dispatch({ type: STOP_NEUTRINO_SUCCESS })
   } catch (error) {
-    dispatch({ type: STOP_NEUTRINO_FAILURE, stopNeutrinoError: error })
+    dispatch({ type: STOP_NEUTRINO_FAILURE, stopNeutrinoError: error.message })
   }
 }
 
@@ -434,10 +434,10 @@ const ACTION_HANDLERS = {
     ...state,
     ...initialState,
   }),
-  [STOP_NEUTRINO_FAILURE]: (state, { stopNeutrinoError }) => ({
+  [STOP_NEUTRINO_FAILURE]: (state, { error }) => ({
     ...state,
     ...initialState,
-    stopNeutrinoError,
+    stopNeutrinoError: error,
   }),
 
   [RECEIVE_CURRENT_BLOCK_HEIGHT]: (state, { blockHeight }) => {

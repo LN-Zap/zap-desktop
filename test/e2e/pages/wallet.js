@@ -6,6 +6,10 @@ class Wallet {
   requestButton = ReactSelector('WalletButtons Button').withText('Receive')
   identityButton = ReactSelector('WalletBalance Button')
   payForm = new Modal('PAY_FORM')
+  payFormOnChainBackButton = () =>
+    this.payForm.modal.findReact('PayButtons Button').withText('Back')
+  payFormOnChainNextButton = this.payForm.modal.findReact('PayButtons Button').withText('Next')
+  payFormOnChainAmountInput = this.payForm.modal.findReact('CurrencyFieldGroup CryptoAmountInput')
   rayReqTextArea = this.payForm.modal.findReact('textarea')
   receiveForm = new Modal('RECEIVE_MODAL')
   channelsForm = new Modal('CHANNELS')

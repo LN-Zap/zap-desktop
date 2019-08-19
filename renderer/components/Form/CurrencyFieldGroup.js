@@ -30,10 +30,13 @@ const CurrencyFieldGroup = React.forwardRef(
       validateOnBlur,
       validateOnChange,
       onChange,
+      willAutoFocus,
       ...rest
     },
     ref
   ) => {
+    const inputRef = useRef()
+
     // Whether update of a linked input (crypto<->fiat) is enabled.
     // This ref is used in a process of linked value calculations to prevent circular updates.
     const blockUpdates = useRef(false)
@@ -114,7 +117,7 @@ const CurrencyFieldGroup = React.forwardRef(
               <CryptoAmountInput
                 cryptoUnit={cryptoUnit}
                 field="amountCrypto"
-                forwardedRef={ref}
+                forwardedRef={ref || inputRef}
                 initialValue={initialAmountCrypto}
                 isDisabled={isDisabled}
                 isRequired={isRequired}
@@ -125,6 +128,7 @@ const CurrencyFieldGroup = React.forwardRef(
                 validateOnBlur={validateOnBlur}
                 validateOnChange={validateOnChange}
                 width={150}
+                willAutoFocus={willAutoFocus}
               />
             </Box>
             <Dropdown
@@ -195,6 +199,7 @@ CurrencyFieldGroup.propTypes = {
   validate: PropTypes.func,
   validateOnBlur: PropTypes.bool,
   validateOnChange: PropTypes.bool,
+  willAutoFocus: PropTypes.bool,
 }
 
 CurrencyFieldGroup.defaultProps = {

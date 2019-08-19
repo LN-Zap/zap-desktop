@@ -1,3 +1,4 @@
+import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, {
   START_NEUTRINO,
   START_NEUTRINO_SUCCESS,
@@ -28,14 +29,14 @@ describe('reducers', () => {
       const action = {
         type: START_NEUTRINO,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle START_NEUTRINO_SUCCESS', () => {
       const action = {
         type: START_NEUTRINO_SUCCESS,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle START_NEUTRINO_FAILURE', () => {
@@ -43,28 +44,29 @@ describe('reducers', () => {
         type: START_NEUTRINO_FAILURE,
         startNeutrinoError: 'Some error',
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle STOP_NEUTRINO', () => {
       const action = {
         type: STOP_NEUTRINO,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle STOP_NEUTRINO_SUCCESS', () => {
       const action = {
         type: STOP_NEUTRINO_SUCCESS,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle STOP_NEUTRINO_FAILURE', () => {
       const action = {
         type: STOP_NEUTRINO_FAILURE,
+        error: 'some error',
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle RECEIVE_CURRENT_BLOCK_HEIGHT', () => {
@@ -72,7 +74,7 @@ describe('reducers', () => {
         type: RECEIVE_CURRENT_BLOCK_HEIGHT,
         blockHeight: 12345,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle RECEIVE_LND_BLOCK_HEIGHT', () => {
@@ -80,7 +82,7 @@ describe('reducers', () => {
         type: RECEIVE_LND_BLOCK_HEIGHT,
         data: [{ height: 12345 }],
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle RECEIVE_LND_CFILTER_HEIGHT', () => {
@@ -88,7 +90,7 @@ describe('reducers', () => {
         type: RECEIVE_LND_CFILTER_HEIGHT,
         data: [{ height: 12345 }],
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle RECEIVE_LND_RECOVERY_HEIGHT', () => {
@@ -96,35 +98,35 @@ describe('reducers', () => {
         type: RECEIVE_LND_RECOVERY_HEIGHT,
         data: [{ height: 12345 }],
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle SET_SYNC_STATUS_PENDING', () => {
       const action = {
         type: SET_SYNC_STATUS_PENDING,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle SET_SYNC_STATUS_WAITING', () => {
       const action = {
         type: SET_SYNC_STATUS_WAITING,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle SET_SYNC_STATUS_IN_PROGRESS', () => {
       const action = {
         type: SET_SYNC_STATUS_IN_PROGRESS,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle SET_SYNC_STATUS_COMPLETE', () => {
       const action = {
         type: SET_SYNC_STATUS_COMPLETE,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle SET_GRPC_ACTIVE_INTERFACE', () => {
@@ -132,7 +134,7 @@ describe('reducers', () => {
         type: SET_GRPC_ACTIVE_INTERFACE,
         grpcActiveInterface: 'lightning',
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle NEUTRINO_CRASHED', () => {
@@ -142,14 +144,14 @@ describe('reducers', () => {
         signal: 'SIGTERM',
         lastError: 'Some error',
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle NEUTRINO_RESET', () => {
       const action = {
         type: NEUTRINO_RESET,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
   })
 })

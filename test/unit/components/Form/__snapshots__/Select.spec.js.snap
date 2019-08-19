@@ -107,6 +107,7 @@ exports[`component.UI.Toggle should render correctly 1`] = `
             fontSize="m"
             fontWeight="light"
             id="downshift-0-input"
+            name="name"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}

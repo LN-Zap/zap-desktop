@@ -1,19 +1,44 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`reducers peersReducer should correctly getPeers 1`] = `
-Object {
-  "isPeersLoading": true,
-  "peers": Array [],
-  "peersLoadingError": null,
-}
+exports[`reducers peersReducer should handle FETCH_PEERS 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+-   "isPeersLoading": false,
++   "isPeersLoading": true,
+    "peers": Array [],
+    "peersLoadingError": null,
+  }
 `;
 
-exports[`reducers peersReducer should correctly receivePeers 1`] = `
-Object {
-  "isPeersLoading": false,
-  "peers": "foo",
-  "peersLoadingError": null,
-}
+exports[`reducers peersReducer should handle FETCH_PEERS_FAILURE 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "isPeersLoading": false,
+    "peers": Array [],
+-   "peersLoadingError": null,
++   "peersLoadingError": "some error",
+  }
+`;
+
+exports[`reducers peersReducer should handle FETCH_PEERS_SUCCESS 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "isPeersLoading": false,
+-   "peers": Array [],
++   "peers": Object {
++     "some": "peer",
++   },
+    "peersLoadingError": null,
+  }
 `;
 
 exports[`reducers peersReducer should handle initial state 1`] = `

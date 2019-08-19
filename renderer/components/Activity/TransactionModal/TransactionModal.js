@@ -11,11 +11,12 @@ import {
 import { Flex } from 'rebass'
 import { intlShape } from '@zap/i18n'
 import blockExplorer from '@zap/utils/blockExplorer'
-import { Bar, DataRow, Header, Link, Panel, Span, Text } from 'components/UI'
+import { Bar, DataRow, Header, Link, Panel, Span, Text, Button } from 'components/UI'
 import { CopyButton, CryptoSelector, CryptoValue, FiatSelector, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
 import Onchain from 'components/Icon/Onchain'
 import Padlock from 'components/Icon/Padlock'
+import ArrowDown from 'components/Icon/ArrowDown'
 import messages from './messages'
 
 class TransactionModal extends React.PureComponent {
@@ -26,7 +27,38 @@ class TransactionModal extends React.PureComponent {
       id: PropTypes.string,
       name: PropTypes.string,
     }),
+    saveInvoice: PropTypes.func.isRequired,
     showNotification: PropTypes.func.isRequired,
+  }
+
+  saveInvoice = () => {
+    const { saveInvoice, item, intl } = this.props
+    const destAddress = get(item, 'dest_addresses[0]')
+    const amount = item.amount || item.limboAmount || 0
+    const isIncoming = item.received || item.limboAmount > 0
+    const { tx_hash, time_stamp, num_confirmations } = item
+    saveInvoice({
+      defaultFilename: tx_hash && `zap-tx-${tx_hash.substring(0, 7)}`,
+      title: intl.formatMessage(messages[isIncoming ? 'receipt' : 'outgoing_payment_notification']),
+      subtitle: intl.formatMessage(messages.receipt_subtitle),
+      invoiceData: [
+        num_confirmations
+          ? [
+              intl.formatMessage({ ...messages.date_confirmed }),
+              `${intl.formatDate(time_stamp * 1000)} ${intl.formatTime(time_stamp * 1000)}`,
+            ]
+          : [
+              intl.formatMessage({ ...messages.date_confirmed }),
+              intl.formatMessage({ ...messages.unconfirmed }),
+            ],
+        [intl.formatMessage({ ...messages.address }), destAddress, {}, { fontSize: 10 }],
+        tx_hash && [intl.formatMessage({ ...messages.tx_hash }), tx_hash, {}, { fontSize: 10 }],
+        [
+          intl.formatMessage({ ...messages.amount }),
+          `${intl.formatNumber(Math.abs(amount))} satoshis`,
+        ],
+      ].filter(Boolean),
+    })
   }
 
   showBlock = hash => {
@@ -53,6 +85,18 @@ class TransactionModal extends React.PureComponent {
     return (
       <Panel {...rest}>
         <Panel.Header>
+          <Button
+            css={`
+              position: absolute;
+              bottom: 5px;
+              right: 25px;
+            `}
+            icon={ArrowDown}
+            onClick={this.saveInvoice}
+            variant="secondary"
+          >
+            <FormattedMessage {...messages.download_pdf} />
+          </Button>
           <Header
             logo={<Onchain height="45px" width="45px" />}
             subtitle={<FormattedMessage {...messages.subtitle} />}

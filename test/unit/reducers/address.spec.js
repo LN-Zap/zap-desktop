@@ -1,11 +1,11 @@
+import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, {
   FETCH_ADDRESSES,
   FETCH_ADDRESSES_SUCCESS,
+  FETCH_ADDRESSES_FAILURE,
   NEW_ADDRESS,
   NEW_ADDRESS_SUCCESS,
   NEW_ADDRESS_FAILURE,
-  OPEN_WALLET_MODAL,
-  CLOSE_WALLET_MODAL,
 } from 'reducers/address'
 
 describe('reducers', () => {
@@ -18,7 +18,7 @@ describe('reducers', () => {
       const action = {
         type: FETCH_ADDRESSES,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle FETCH_ADDRESSES_SUCCESS', () => {
@@ -29,7 +29,15 @@ describe('reducers', () => {
           p2wkh: 'bc1q7l2z25nle43ngzzr86p2fwr2xlvtdkzm74e3tz',
         },
       }
-      expect(reducer(undefined, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
+    })
+
+    it('should handle FETCH_ADDRESSES_FAILURE', () => {
+      const action = {
+        type: FETCH_ADDRESSES_FAILURE,
+        error: 'some error',
+      }
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle NEW_ADDRESS', () => {
@@ -37,7 +45,7 @@ describe('reducers', () => {
         type: NEW_ADDRESS,
         addressType: 'p2wkh',
       }
-      expect(reducer(undefined, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle NEW_ADDRESS_SUCCESS', () => {
@@ -46,7 +54,7 @@ describe('reducers', () => {
         addressType: 'np2wkh',
         address: '375WLnZzkEwKddQW22SGyhCfXNFz32Gvfc',
       }
-      expect(reducer(undefined, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle NEW_ADDRESS_FAILURE', () => {
@@ -55,21 +63,7 @@ describe('reducers', () => {
         addressType: 'np2wkh',
         error: 'some error',
       }
-      expect(reducer(undefined, action)).toMatchSnapshot()
-    })
-
-    it('should handle OPEN_WALLET_MODAL', () => {
-      const action = {
-        type: OPEN_WALLET_MODAL,
-      }
-      expect(reducer(undefined, action)).toMatchSnapshot()
-    })
-
-    it('should handle CLOSE_WALLET_MODAL', () => {
-      const action = {
-        type: CLOSE_WALLET_MODAL,
-      }
-      expect(reducer(undefined, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
   })
 })

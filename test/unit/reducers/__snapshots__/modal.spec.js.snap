@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers modalReducer should handle CLOSE_ALL_MODALS 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
+`;
+
+exports[`reducers modalReducer should handle CLOSE_MODAL 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
+`;
+
+exports[`reducers modalReducer should handle OPEN_MODAL 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+-   "modals": Array [],
++   "modals": Array [
++     Object {
++       "id": "123",
++       "some": "data",
++     },
++   ],
+  }
+`;
+
+exports[`reducers modalReducer should handle SET_MODALS 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+-   "modals": Array [],
++   "modals": Array [
++     Object {
++       "id": "modala",
++       "some": "data",
++     },
++     Object {
++       "id": "modalb",
++       "some": "data",
++     },
++   ],
+  }
+`;
+
+exports[`reducers modalReducer should handle initial state 1`] = `
+Object {
+  "modals": Array [],
+}
+`;

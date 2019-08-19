@@ -69,9 +69,11 @@ exports[`component.UI.Input should render correctly 1`] = `
         fontFamily="sans"
         fontSize="m"
         fontWeight="light"
+        name="name"
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
+        required={false}
         value=""
         width={1}
       />

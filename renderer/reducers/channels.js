@@ -81,17 +81,13 @@ export const UPDATE_SEARCH_QUERY = 'UPDATE_SEARCH_QUERY'
 export const GET_CHANNELS = 'GET_CHANNELS'
 export const RECEIVE_CHANNELS = 'RECEIVE_CHANNELS'
 
-export const OPENING_SUCCESSFUL = 'OPENING_SUCCESSFUL'
-
 export const CLOSING_CHANNEL = 'CLOSING_CHANNEL'
-export const CLOSING_SUCCESSFUL = 'CLOSING_SUCCESSFUL'
-export const CLOSING_FAILURE = 'CLOSING_FAILURE'
 
 export const ADD_LOADING_PUBKEY = 'ADD_LOADING_PUBKEY'
 export const REMOVE_LOADING_PUBKEY = 'REMOVE_LOADING_PUBKEY'
 
-export const ADD_ClOSING_CHAN_ID = 'ADD_ClOSING_CHAN_ID'
-export const REMOVE_ClOSING_CHAN_ID = 'REMOVE_ClOSING_CHAN_ID'
+export const ADD_CLOSING_CHAN_ID = 'ADD_CLOSING_CHAN_ID'
+export const REMOVE_CLOSING_CHAN_ID = 'REMOVE_CLOSING_CHAN_ID'
 
 export const GET_SUGGESTED_NODES = 'GET_SUGGESTED_NODES'
 export const RECEIVE_SUGGESTED_NODES_ERROR = 'RECEIVE_SUGGESTED_NODES_ERROR'
@@ -396,7 +392,7 @@ export function removeLoadingChannel(pubkey) {
  */
 export function addClosingChanId(chanId) {
   return {
-    type: ADD_ClOSING_CHAN_ID,
+    type: ADD_CLOSING_CHAN_ID,
     chanId,
   }
 }
@@ -409,7 +405,7 @@ export function addClosingChanId(chanId) {
  */
 export function removeClosingChanId(chanId) {
   return {
-    type: REMOVE_ClOSING_CHAN_ID,
+    type: REMOVE_CLOSING_CHAN_ID,
     chanId,
   }
 }
@@ -785,10 +781,10 @@ const ACTION_HANDLERS = {
     state.loadingChannels = state.loadingChannels.filter(data => data.node_pubkey !== pubkey)
   },
 
-  [ADD_ClOSING_CHAN_ID]: (state, { chanId }) => {
+  [ADD_CLOSING_CHAN_ID]: (state, { chanId }) => {
     state.closingChannelIds.unshift(chanId)
   },
-  [REMOVE_ClOSING_CHAN_ID]: (state, { chanId }) => {
+  [REMOVE_CLOSING_CHAN_ID]: (state, { chanId }) => {
     state.closingChannelIds = state.closingChannelIds.filter(
       closingChanId => closingChanId !== chanId
     )

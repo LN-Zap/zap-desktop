@@ -1,3 +1,4 @@
+import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, {
   START_LND,
   START_LND_SUCCESS,
@@ -26,7 +27,7 @@ import reducer, {
 } from 'reducers/lnd'
 
 describe('reducers', () => {
-  describe('neutrinoReducer', () => {
+  describe('lndReducer', () => {
     it('should handle initial state', () => {
       expect(reducer(undefined, {})).toMatchSnapshot()
     })
@@ -40,14 +41,14 @@ describe('reducers', () => {
           network: 'testnet',
         },
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle START_LND_SUCCESS', () => {
       const action = {
         type: START_LND_SUCCESS,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle START_LND_FAILURE', () => {
@@ -59,70 +60,71 @@ describe('reducers', () => {
           macaroon: 'a macaroon error',
         },
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle CLEAR_START_LND_ERROR', () => {
       const action = {
         type: CLEAR_START_LND_ERROR,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle STOP_LND', () => {
       const action = {
         type: STOP_LND,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle STOP_LND_SUCCESS', () => {
       const action = {
         type: STOP_LND_SUCCESS,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle CREATE_WALLET', () => {
       const action = {
         type: CREATE_WALLET,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle CREATE_WALLET_SUCCESS', () => {
       const action = {
         type: CREATE_WALLET_SUCCESS,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle CREATE_WALLET_FAILURE', () => {
       const action = {
         type: CREATE_WALLET_FAILURE,
+        error: 'some error',
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle CLEAR_CREATE_WALLET_ERROR', () => {
       const action = {
         type: CLEAR_CREATE_WALLET_ERROR,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle UNLOCK_WALLET', () => {
       const action = {
         type: UNLOCK_WALLET,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle UNLOCK_WALLET_SUCCESS', () => {
       const action = {
         type: UNLOCK_WALLET_SUCCESS,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle UNLOCK_WALLET_FAILURE', () => {
@@ -130,21 +132,21 @@ describe('reducers', () => {
         type: UNLOCK_WALLET_FAILURE,
         unlockWalletError: 'some error',
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle FETCH_SEED', () => {
       const action = {
         type: FETCH_SEED,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle FETCH_SEED_SUCCESS', () => {
       const action = {
         type: FETCH_SEED_SUCCESS,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle FETCH_SEED_FAILURE', () => {
@@ -152,63 +154,63 @@ describe('reducers', () => {
         type: FETCH_SEED_FAILURE,
         error: 'some error',
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle CONNECT_GRPC', () => {
       const action = {
         type: CONNECT_GRPC,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle CONNECT_GRPC_SUCCESS', () => {
       const action = {
         type: CONNECT_GRPC_SUCCESS,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle CONNECT_GRPC_FAILURE', () => {
       const action = {
         type: CONNECT_GRPC_FAILURE,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle LND_WALLET_UNLOCKER_GRPC_ACTIVE', () => {
       const action = {
         type: LND_WALLET_UNLOCKER_GRPC_ACTIVE,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle LND_LIGHTNING_GRPC_ACTIVE', () => {
       const action = {
         type: LND_LIGHTNING_GRPC_ACTIVE,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle DISCONNECT_GRPC', () => {
       const action = {
         type: DISCONNECT_GRPC,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle DISCONNECT_GRPC_SUCCESS', () => {
       const action = {
         type: DISCONNECT_GRPC_SUCCESS,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle DISCONNECT_GRPC_FAILURE', () => {
       const action = {
         type: DISCONNECT_GRPC_FAILURE,
       }
-      expect(reducer({}, action)).toMatchSnapshot()
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
   })
 })

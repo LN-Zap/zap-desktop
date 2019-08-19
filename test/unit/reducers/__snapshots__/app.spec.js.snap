@@ -1,0 +1,137 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers appReducer should handle INIT_APP 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "initDatabaseError": null,
+    "isDatabaseReady": false,
+    "isLoading": true,
+    "isLoggingOut": false,
+    "isMounted": false,
+-   "isRunning": false,
++   "isRunning": true,
+    "isSettingsLoaded": false,
+    "isTerminating": false,
+  }
+`;
+
+exports[`reducers appReducer should handle INIT_DATABASE 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
+`;
+
+exports[`reducers appReducer should handle INIT_DATABASE_FAILURE 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+-   "initDatabaseError": null,
++   "initDatabaseError": "some error",
+    "isDatabaseReady": false,
+    "isLoading": true,
+    "isLoggingOut": false,
+    "isMounted": false,
+    "isRunning": false,
+    "isSettingsLoaded": false,
+    "isTerminating": false,
+  }
+`;
+
+exports[`reducers appReducer should handle INIT_DATABASE_SUCCESS 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "initDatabaseError": null,
+-   "isDatabaseReady": false,
++   "isDatabaseReady": true,
+    "isLoading": true,
+    "isLoggingOut": false,
+    "isMounted": false,
+    "isRunning": false,
+    "isSettingsLoaded": false,
+    "isTerminating": false,
+  }
+`;
+
+exports[`reducers appReducer should handle RESET_APP 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
+`;
+
+exports[`reducers appReducer should handle SET_LOADING 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "initDatabaseError": null,
+    "isDatabaseReady": false,
+-   "isLoading": true,
++   "isLoading": false,
+    "isLoggingOut": false,
+    "isMounted": false,
+    "isRunning": false,
+    "isSettingsLoaded": false,
+    "isTerminating": false,
+  }
+`;
+
+exports[`reducers appReducer should handle SET_MOUNTED 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "initDatabaseError": null,
+    "isDatabaseReady": false,
+    "isLoading": true,
+    "isLoggingOut": false,
+-   "isMounted": false,
++   "isMounted": true,
+    "isRunning": false,
+    "isSettingsLoaded": false,
+    "isTerminating": false,
+  }
+`;
+
+exports[`reducers appReducer should handle TERMINATE_APP 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "initDatabaseError": null,
+    "isDatabaseReady": false,
+    "isLoading": true,
+    "isLoggingOut": false,
+    "isMounted": false,
+    "isRunning": false,
+    "isSettingsLoaded": false,
+-   "isTerminating": false,
++   "isTerminating": true,
+  }
+`;
+
+exports[`reducers appReducer should handle TERMINATE_APP_SUCCESS 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
+`;
+
+exports[`reducers appReducer should handle initial state 1`] = `
+Object {
+  "initDatabaseError": null,
+  "isDatabaseReady": false,
+  "isLoading": true,
+  "isLoggingOut": false,
+  "isMounted": false,
+  "isRunning": false,
+  "isSettingsLoaded": false,
+  "isTerminating": false,
+}
+`;

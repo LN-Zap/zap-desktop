@@ -28,6 +28,7 @@ class Request extends React.Component {
     fetchTickers: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     invoice: PropTypes.object,
+    isAnimating: PropTypes.bool,
     isProcessing: PropTypes.bool,
     payReq: PropTypes.string,
     showError: PropTypes.func.isRequired,
@@ -41,12 +42,6 @@ class Request extends React.Component {
   }
 
   amountInput = React.createRef()
-
-  componentDidMount() {
-    const { fetchTickers } = this.props
-    fetchTickers()
-    this.focusAmountInput()
-  }
 
   componentDidUpdate(prevProps) {
     const { payReq } = this.props
@@ -129,15 +124,6 @@ class Request extends React.Component {
     this.formApi = formApi
   }
 
-  /**
-   * focusAmountInput - Focus the amount input.
-   */
-  focusAmountInput = () => {
-    if (this.amountInput.current) {
-      this.amountInput.current.focus()
-    }
-  }
-
   renderHelpText = () => {
     const { chainName, cryptoUnitName } = this.props
     return (
@@ -151,12 +137,14 @@ class Request extends React.Component {
   }
 
   renderAmountFields = () => {
+    const { isAnimating } = this.props
     return (
       <CurrencyFieldGroup
         formApi={this.formApi}
         forwardedRef={this.amountInput}
         isRequired
         mb={3}
+        willAutoFocus={!isAnimating}
       />
     )
   }
@@ -212,6 +200,7 @@ class Request extends React.Component {
       fetchTickers,
       intl,
       isProcessing,
+      isAnimating,
       invoice,
       payReq,
       showNotification,
@@ -221,6 +210,7 @@ class Request extends React.Component {
       ...rest
     } = this.props
     const { currentStep } = this.state
+
     return (
       <Form
         css={`

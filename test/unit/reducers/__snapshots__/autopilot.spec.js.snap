@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers autopilotReducer should handle UPDATE_AUTOPILOT_NODE_SCORES 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "fetchNodeScoresError": null,
+-   "isFetchingNodeScores": false,
++   "isFetchingNodeScores": true,
+    "scores": Object {},
+  }
+`;
+
+exports[`reducers autopilotReducer should handle UPDATE_AUTOPILOT_NODE_SCORES_FAILURE 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+-   "fetchNodeScoresError": null,
++   "fetchNodeScoresError": "some error",
+    "isFetchingNodeScores": false,
+    "scores": Object {},
+  }
+`;
+
+exports[`reducers autopilotReducer should handle UPDATE_AUTOPILOT_NODE_SCORES_SUCCESS 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "fetchNodeScoresError": null,
+    "isFetchingNodeScores": false,
+-   "scores": Object {},
++   "scores": Object {
++     "some": "data",
++   },
+  }
+`;
+
+exports[`reducers autopilotReducer should handle initial state 1`] = `
+Object {
+  "fetchNodeScoresError": null,
+  "isFetchingNodeScores": false,
+  "scores": Object {},
+}
+`;

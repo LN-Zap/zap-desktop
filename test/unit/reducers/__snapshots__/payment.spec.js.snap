@@ -1,47 +1,72 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`reducers paymentReducer should correctly getPayments 1`] = `
-Object {
-  "payment": null,
-  "paymentLoading": true,
-  "payments": Array [],
-  "paymentsSending": Array [],
-}
+exports[`reducers paymentReducer should handle DECREASE_PAYMENT_RETRIES 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
 `;
 
-exports[`reducers paymentReducer should correctly paymentSuccessful 1`] = `
-Object {
-  "payment": null,
-  "paymentLoading": false,
-  "payments": Array [],
-  "paymentsSending": Array [],
-}
+exports[`reducers paymentReducer should handle GET_PAYMENTS 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+-   "paymentLoading": false,
++   "paymentLoading": true,
+    "payments": Array [],
+    "paymentsSending": Array [],
+  }
 `;
 
-exports[`reducers paymentReducer should correctly receivePayments 1`] = `
-Object {
-  "payment": null,
-  "paymentLoading": false,
-  "payments": Array [
-    1,
-    2,
-  ],
-  "paymentsSending": Array [],
-}
+exports[`reducers paymentReducer should handle PAYMENT_FAILED 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
 `;
 
-exports[`reducers paymentReducer should correctly sendPayment 1`] = `
-Object {
-  "payment": "foo",
-  "paymentLoading": false,
-  "payments": Array [],
-  "paymentsSending": Array [],
-}
+exports[`reducers paymentReducer should handle PAYMENT_SUCCESSFUL 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
+`;
+
+exports[`reducers paymentReducer should handle RECEIVE_PAYMENTS 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "paymentLoading": false,
+-   "payments": Array [],
++   "payments": Array [
++     Object {
++       "some": "data",
++     },
++     Object {
++       "some": "data",
++     },
++   ],
+    "paymentsSending": Array [],
+  }
+`;
+
+exports[`reducers paymentReducer should handle SEND_PAYMENT 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "paymentLoading": false,
+    "payments": Array [],
+-   "paymentsSending": Array [],
++   "paymentsSending": Array [
++     Object {
++       "some": "data",
++     },
++   ],
+  }
 `;
 
 exports[`reducers paymentReducer should handle initial state 1`] = `
 Object {
-  "payment": null,
   "paymentLoading": false,
   "payments": Array [],
   "paymentsSending": Array [],

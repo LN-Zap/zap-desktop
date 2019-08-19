@@ -13,7 +13,7 @@ const mapStateToProps = state => ({
   chainName: infoSelectors.chainName(state),
   cryptoUnit: tickerSelectors.cryptoUnit(state),
   cryptoUnitName: tickerSelectors.cryptoUnitName(state),
-  isProcessing: state.invoice.invoiceLoading,
+  isProcessing: state.invoice.isInvoicesLoading,
   payReq: state.invoice.invoice,
   invoice: invoiceSelectors.invoice(state),
   willUseFallback: settingsSelectors.currentConfig(state).invoices.useAddressFallback,

@@ -106,7 +106,7 @@ export const initDatabase = () => async dispatch => {
     await initDb()
     dispatch({ type: INIT_DATABASE_SUCCESS })
   } catch (e) {
-    dispatch({ type: INIT_DATABASE_FAILURE, initDatabaseError: e })
+    dispatch({ type: INIT_DATABASE_FAILURE, error: e.message })
     dispatch(showError(`Unable to initialise database: ${e.message}`, { timeout: 0 }))
   }
 }
@@ -171,8 +171,8 @@ const ACTION_HANDLERS = {
   [INIT_DATABASE_SUCCESS]: state => {
     state.isDatabaseReady = true
   },
-  [INIT_DATABASE_FAILURE]: (state, { initDatabaseError }) => {
-    state.initDatabaseError = initDatabaseError
+  [INIT_DATABASE_FAILURE]: (state, { error }) => {
+    state.initDatabaseError = error
   },
   [SET_LOADING]: (state, { isLoading }) => {
     state.isLoading = isLoading

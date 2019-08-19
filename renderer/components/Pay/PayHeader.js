@@ -6,14 +6,15 @@ import Lightning from 'components/Icon/Lightning'
 import Onchain from 'components/Icon/Onchain'
 import Send from 'components/Icon/Send'
 import messages from './messages'
+import { PAY_HEADER_TYPES } from './constants'
 
 /**
- * Header for opayment form.
+ * Header for payment form.
  */
 class PayHeader extends React.PureComponent {
   static propTypes = {
     title: PropTypes.node.isRequired,
-    type: PropTypes.oneOf(['onchain', 'offchain']),
+    type: PropTypes.oneOf(Object.values(PAY_HEADER_TYPES)),
   }
 
   render() {
@@ -21,11 +22,11 @@ class PayHeader extends React.PureComponent {
     let logo, subtitle
 
     switch (type) {
-      case 'onchain':
+      case PAY_HEADER_TYPES.onchain:
         logo = <Onchain height="45px" width="45px" />
         subtitle = <FormattedMessage {...messages.subtitle_onchain} />
         break
-      case 'offchain':
+      case PAY_HEADER_TYPES.offchain:
         logo = <Lightning height="45px" width="45px" />
         subtitle = <FormattedMessage {...messages.subtitle_offchain} />
         break
