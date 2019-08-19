@@ -1,6 +1,7 @@
 import camelCase from 'lodash/camelCase'
 import { execSync } from 'child_process'
 import path from 'path'
+import updateStorybook from './genIconsStory'
 
 const OUTPUT_DIR = 'renderer/components/Icon'
 const TMP_DIR = 'icon_gen_temp'
@@ -29,6 +30,7 @@ try {
    `,
     { stdio: [0, 1, 2] }
   )
+  updateStorybook('renderer/components/Icon/', 'components/Icon/', 'stories/icons/icon.stories.js')
 } finally {
   execSync(`rm -rf ${TMP_DIR}`, { stdio: [0, 1, 2] })
 }
