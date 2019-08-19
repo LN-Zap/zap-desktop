@@ -1,0 +1,253 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.Pay.PayAddressField current step is "address" should render correctly 1`] = `
+<styled.div
+  className="element-show"
+>
+  <Component
+    context={
+      PayAddressField {
+        "context": Object {},
+        "focusPayReqInput": [Function],
+        "getPaymentRequestLabel": [Function],
+        "payReqInput": Object {
+          "current": null,
+        },
+        "props": Object {
+          "chain": "Bitcoin",
+          "currentStep": "address",
+          "handlePayReqChange": [Function],
+          "intl": Object {},
+          "isLn": null,
+          "network": "testnet",
+          "redirectPayReq": Object {},
+        },
+        "refs": Object {},
+        "setState": [Function],
+        "state": null,
+        "updater": Updater {
+          "_callbacks": Array [],
+          "_renderer": ReactShallowRenderer {
+            "_context": Object {},
+            "_didScheduleRenderPhaseUpdate": false,
+            "_dispatcher": Object {
+              "readContext": [Function],
+              "useCallback": [Function],
+              "useContext": [Function],
+              "useDebugValue": [Function],
+              "useEffect": [Function],
+              "useImperativeHandle": [Function],
+              "useLayoutEffect": [Function],
+              "useMemo": [Function],
+              "useReducer": [Function],
+              "useRef": [Function],
+              "useResponder": [Function],
+              "useState": [Function],
+            },
+            "_element": <PayAddressField
+              chain="Bitcoin"
+              currentStep="address"
+              handlePayReqChange={[Function]}
+              intl={Object {}}
+              isLn={null}
+              network="testnet"
+              redirectPayReq={Object {}}
+            />,
+            "_firstWorkInProgressHook": null,
+            "_forcedUpdate": false,
+            "_instance": [Circular],
+            "_isReRender": false,
+            "_newState": null,
+            "_numberOfReRenders": 0,
+            "_renderPhaseUpdates": null,
+            "_rendered": <ForwardRef(styled.div)
+              className="element-show"
+            >
+              <Unknown
+                context={[Circular]}
+                state="big"
+              >
+                [Function]
+              </Unknown>
+            </ForwardRef(styled.div)>,
+            "_rendering": false,
+            "_updater": [Circular],
+            "_workInProgressHook": null,
+          },
+        },
+      }
+    }
+    state="big"
+  >
+    <Component />
+  </Component>
+</styled.div>
+`;
+
+exports[`component.Pay.PayAddressField current step is "summary" and it is an LN transaction should render correctly 1`] = `
+<styled.div
+  className="element-hide"
+>
+  <Component
+    context={
+      PayAddressField {
+        "context": Object {},
+        "focusPayReqInput": [Function],
+        "getPaymentRequestLabel": [Function],
+        "payReqInput": Object {
+          "current": null,
+        },
+        "props": Object {
+          "chain": "Bitcoin",
+          "currentStep": "summary",
+          "handlePayReqChange": [Function],
+          "intl": Object {},
+          "isLn": true,
+          "network": "testnet",
+          "redirectPayReq": Object {},
+        },
+        "refs": Object {},
+        "setState": [Function],
+        "state": null,
+        "updater": Updater {
+          "_callbacks": Array [],
+          "_renderer": ReactShallowRenderer {
+            "_context": Object {},
+            "_didScheduleRenderPhaseUpdate": false,
+            "_dispatcher": Object {
+              "readContext": [Function],
+              "useCallback": [Function],
+              "useContext": [Function],
+              "useDebugValue": [Function],
+              "useEffect": [Function],
+              "useImperativeHandle": [Function],
+              "useLayoutEffect": [Function],
+              "useMemo": [Function],
+              "useReducer": [Function],
+              "useRef": [Function],
+              "useResponder": [Function],
+              "useState": [Function],
+            },
+            "_element": <PayAddressField
+              chain="Bitcoin"
+              currentStep="summary"
+              handlePayReqChange={[Function]}
+              intl={Object {}}
+              isLn={true}
+              network="testnet"
+              redirectPayReq={Object {}}
+            />,
+            "_firstWorkInProgressHook": null,
+            "_forcedUpdate": false,
+            "_instance": [Circular],
+            "_isReRender": false,
+            "_newState": null,
+            "_numberOfReRenders": 0,
+            "_renderPhaseUpdates": null,
+            "_rendered": <ForwardRef(styled.div)
+              className="element-hide"
+            >
+              <Unknown
+                context={[Circular]}
+                state="big"
+              >
+                [Function]
+              </Unknown>
+            </ForwardRef(styled.div)>,
+            "_rendering": false,
+            "_updater": [Circular],
+            "_workInProgressHook": null,
+          },
+        },
+      }
+    }
+    state="big"
+  >
+    <Component />
+  </Component>
+</styled.div>
+`;
+
+exports[`component.Pay.PayAddressField current step is "summary" and it is an on-chain transaction should render correctly 1`] = `
+<styled.div
+  className="element-hide"
+>
+  <Component
+    context={
+      PayAddressField {
+        "context": Object {},
+        "focusPayReqInput": [Function],
+        "getPaymentRequestLabel": [Function],
+        "payReqInput": Object {
+          "current": null,
+        },
+        "props": Object {
+          "chain": "Bitcoin",
+          "currentStep": "summary",
+          "handlePayReqChange": [Function],
+          "intl": Object {},
+          "isLn": false,
+          "network": "testnet",
+          "redirectPayReq": Object {},
+        },
+        "refs": Object {},
+        "setState": [Function],
+        "state": null,
+        "updater": Updater {
+          "_callbacks": Array [],
+          "_renderer": ReactShallowRenderer {
+            "_context": Object {},
+            "_didScheduleRenderPhaseUpdate": false,
+            "_dispatcher": Object {
+              "readContext": [Function],
+              "useCallback": [Function],
+              "useContext": [Function],
+              "useDebugValue": [Function],
+              "useEffect": [Function],
+              "useImperativeHandle": [Function],
+              "useLayoutEffect": [Function],
+              "useMemo": [Function],
+              "useReducer": [Function],
+              "useRef": [Function],
+              "useResponder": [Function],
+              "useState": [Function],
+            },
+            "_element": <PayAddressField
+              chain="Bitcoin"
+              currentStep="summary"
+              handlePayReqChange={[Function]}
+              intl={Object {}}
+              isLn={false}
+              network="testnet"
+              redirectPayReq={Object {}}
+            />,
+            "_firstWorkInProgressHook": null,
+            "_forcedUpdate": false,
+            "_instance": [Circular],
+            "_isReRender": false,
+            "_newState": null,
+            "_numberOfReRenders": 0,
+            "_renderPhaseUpdates": null,
+            "_rendered": <ForwardRef(styled.div)
+              className="element-hide"
+            >
+              <Unknown
+                context={[Circular]}
+                state="small"
+              >
+                [Function]
+              </Unknown>
+            </ForwardRef(styled.div)>,
+            "_rendering": false,
+            "_updater": [Circular],
+            "_workInProgressHook": null,
+          },
+        },
+      }
+    }
+    state="small"
+  >
+    <Component />
+  </Component>
+</styled.div>
+`;

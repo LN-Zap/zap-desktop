@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.Pay.PaySummary current step is "amount" should render correctly 1`] = `
+<Transition
+  enter={
+    Object {
+      "height": "auto",
+      "opacity": 1,
+    }
+  }
+  from={
+    Object {
+      "height": 0,
+      "opacity": 0,
+    }
+  }
+  initial={
+    Object {
+      "height": "auto",
+      "opacity": 1,
+    }
+  }
+  items={false}
+  keys={[Function]}
+  leave={
+    Object {
+      "height": 0,
+      "opacity": 0,
+    }
+  }
+  native={true}
+  reset={false}
+  unique={false}
+>
+  <Component />
+</Transition>
+`;
+
+exports[`component.Pay.PaySummary current step is "summary" should render correctly 1`] = `
+<Transition
+  enter={
+    Object {
+      "height": "auto",
+      "opacity": 1,
+    }
+  }
+  from={
+    Object {
+      "height": 0,
+      "opacity": 0,
+    }
+  }
+  initial={
+    Object {
+      "height": "auto",
+      "opacity": 1,
+    }
+  }
+  items={true}
+  keys={[Function]}
+  leave={
+    Object {
+      "height": 0,
+      "opacity": 0,
+    }
+  }
+  native={true}
+  reset={false}
+  unique={false}
+>
+  <Component />
+</Transition>
+`;

@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.Pay.PayHelpText initial payment request state should render correctly 1`] = `""`;
+
+exports[`component.Pay.PayHelpText no payment request and current step is "address" should render correctly 1`] = `
+<Transition
+  enter={
+    Object {
+      "height": 80,
+      "opacity": 1,
+    }
+  }
+  from={
+    Object {
+      "height": 0,
+      "opacity": 0,
+    }
+  }
+  initial={
+    Object {
+      "height": 80,
+      "opacity": 1,
+    }
+  }
+  items={true}
+  keys={[Function]}
+  leave={
+    Object {
+      "height": 0,
+      "opacity": 0,
+    }
+  }
+  native={true}
+  reset={false}
+  unique={false}
+>
+  <Component />
+</Transition>
+`;
+
+exports[`component.Pay.PayHelpText no payment request and current step is "summary" should render correctly 1`] = `
+<Transition
+  enter={
+    Object {
+      "height": 80,
+      "opacity": 1,
+    }
+  }
+  from={
+    Object {
+      "height": 0,
+      "opacity": 0,
+    }
+  }
+  initial={
+    Object {
+      "height": 80,
+      "opacity": 1,
+    }
+  }
+  items={false}
+  keys={[Function]}
+  leave={
+    Object {
+      "height": 0,
+      "opacity": 0,
+    }
+  }
+  native={true}
+  reset={false}
+  unique={false}
+>
+  <Component />
+</Transition>
+`;

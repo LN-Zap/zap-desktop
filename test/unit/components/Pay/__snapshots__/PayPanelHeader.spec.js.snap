@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.Pay.PayPanelHeader is an LN transaction should render correctly 1`] = `
+<Fragment>
+  <PayHeader
+    title={
+      <React.Fragment>
+        <FormattedMessage
+          defaultMessage="Send"
+          id="components.Pay.send"
+          values={Object {}}
+        />
+         
+        Bitcoin
+         (
+        satoshis
+        )
+      </React.Fragment>
+    }
+    type="offchain"
+  />
+  <Bar
+    mt={2}
+    variant="normal"
+  />
+</Fragment>
+`;
+
+exports[`component.Pay.PayPanelHeader is an on-chain transaction should render correctly 1`] = `
+<Fragment>
+  <PayHeader
+    title={
+      <React.Fragment>
+        <FormattedMessage
+          defaultMessage="Send"
+          id="components.Pay.send"
+          values={Object {}}
+        />
+         
+        Bitcoin
+         (
+        satoshis
+        )
+      </React.Fragment>
+    }
+    type="onchain"
+  />
+  <Bar
+    mt={2}
+    variant="normal"
+  />
+</Fragment>
+`;
