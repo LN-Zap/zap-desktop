@@ -29,6 +29,7 @@ import ConnectOnboarding from 'components/Icon/ConnectOnboarding'
 import Contacts from 'components/Icon/Contacts'
 import Copy from 'components/Icon/Copy'
 import Delete from 'components/Icon/Delete'
+import Download from 'components/Icon/Download'
 import Dropbox from 'components/Icon/Dropbox'
 import Error from 'components/Icon/Error'
 import ExternalLink from 'components/Icon/ExternalLink'
@@ -39,7 +40,6 @@ import Globe from 'components/Icon/Globe'
 import GoogleDrive from 'components/Icon/GoogleDrive'
 import Help from 'components/Icon/Help'
 import Help2 from 'components/Icon/Help2'
-import IconDownload from 'components/Icon/IconDownload'
 import IconPlus from 'components/Icon/IconPlus'
 import ImportOnboarding from 'components/Icon/ImportOnboarding'
 import LayoutCards from 'components/Icon/LayoutCards'
@@ -107,6 +107,7 @@ const zapIconsList = {
   Contacts,
   Copy,
   Delete,
+  Download,
   Dropbox,
   Error,
   ExternalLink,
@@ -117,7 +118,6 @@ const zapIconsList = {
   GoogleDrive,
   Help,
   Help2,
-  IconDownload,
   IconPlus,
   ImportOnboarding,
   LayoutCards,
