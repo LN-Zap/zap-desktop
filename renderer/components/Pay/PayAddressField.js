@@ -29,10 +29,6 @@ class PayAddressField extends React.Component {
     redirectPayReq: PropTypes.object,
   }
 
-  static defaultProps = {
-    redirectPayReq: null,
-  }
-
   payReqInput = React.createRef()
 
   /**

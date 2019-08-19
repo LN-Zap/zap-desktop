@@ -37,7 +37,6 @@ class PaySummaryOnChain extends React.Component {
   }
 
   static defaultProps = {
-    isQueryingFees: false,
     onchainFees: {},
   }
 

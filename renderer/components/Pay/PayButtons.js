@@ -20,10 +20,8 @@ class PayButtons extends React.PureComponent {
   }
 
   static defaultProps = {
-    isDisabled: false,
     nextButtonText: <FormattedMessage {...messages.next} />,
     previousStep: () => ({}),
-    isProcessing: false,
     hasBackButton: true,
     hasSubmitButton: true,
   }

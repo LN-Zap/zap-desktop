@@ -114,9 +114,6 @@ PayPanelBody.propTypes = {
 }
 
 PayPanelBody.defaultProps = {
-  initialAmountCrypto: null,
-  initialAmountFiat: null,
-  redirectPayReq: null,
   routes: [],
 }
 

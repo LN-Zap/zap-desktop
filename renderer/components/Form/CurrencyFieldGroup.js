@@ -203,9 +203,6 @@ CurrencyFieldGroup.propTypes = {
 }
 
 CurrencyFieldGroup.defaultProps = {
-  isDisabled: false,
-  initialAmountCrypto: null,
-  initialAmountFiat: null,
   validateOnBlur: true,
   validateOnChange: true,
 }

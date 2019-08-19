@@ -107,10 +107,6 @@ StyledInput.propTypes = {
   sx: PropTypes.object,
 }
 
-StyledInput.defaultProps = {
-  sx: {},
-}
-
 StyledInput.displayName = 'StyledInput'
 
 const StyledTextArea = React.forwardRef(({ sx, ...rest }, ref) => {
@@ -138,10 +134,6 @@ StyledTextArea.propTypes = {
   isDisabled: PropTypes.bool,
   isReadOnly: PropTypes.bool,
   sx: PropTypes.object,
-}
-
-StyledTextArea.defaultProps = {
-  sx: {},
 }
 
 StyledTextArea.displayName = 'StyledTextArea'

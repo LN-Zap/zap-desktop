@@ -37,7 +37,6 @@ class SeedView extends React.Component {
     wizardApi: {},
     wizardState: {},
     seed: [],
-    isFetchingSeed: false,
   }
 
   componentDidMount() {

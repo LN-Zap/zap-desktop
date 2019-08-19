@@ -36,11 +36,6 @@ class Request extends React.Component {
     willUseFallback: PropTypes.bool,
   }
 
-  static defaultProps = {
-    isProcessing: false,
-    payReq: null,
-  }
-
   amountInput = React.createRef()
 
   componentDidUpdate(prevProps) {

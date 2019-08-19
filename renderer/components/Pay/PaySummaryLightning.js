@@ -29,9 +29,6 @@ class PaySummaryLightning extends React.Component {
   }
 
   static defaultProps = {
-    isQueryingRoutes: false,
-    minFee: null,
-    maxFee: null,
     nodes: [],
   }
 
@@ -59,6 +56,8 @@ class PaySummaryLightning extends React.Component {
     const memo = descriptionTag.data
     const amountInSatoshis = satoshis || convert('msats', 'sats', millisatoshis) || amount
     const nodeAlias = getNodeAlias(payeeNodeKey, nodes)
+    const hasMinFee = minFee || minFee === 0
+    const hasMaxFee = maxFee || maxFee === 0
 
     // Select an appropriate fee message...
     // Default to unknown.
@@ -69,11 +68,11 @@ class PaySummaryLightning extends React.Component {
       feeMessage = messages.fee_less_than_1
     }
     // Otherwise, if we have both a min and max fee that are different, present the fee range.
-    else if (minFee !== null && maxFee !== null && minFee !== maxFee) {
+    else if (hasMinFee && hasMaxFee && minFee !== maxFee) {
       feeMessage = messages.fee_range
     }
     // Finally, if we at least have a max fee then present it as upto that amount.
-    else if (maxFee) {
+    else if (hasMaxFee) {
       feeMessage = messages.fee_upto
     }
 

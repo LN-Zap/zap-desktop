@@ -37,9 +37,4 @@ PayPanelHeader.propTypes = {
   isOnchain: PropTypes.bool,
 }
 
-PayPanelHeader.defaultProps = {
-  isLn: null,
-  isOnchain: null,
-}
-
 export default PayPanelHeader

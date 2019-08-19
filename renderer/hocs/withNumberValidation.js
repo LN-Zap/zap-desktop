@@ -74,11 +74,6 @@ const withNumberValidation = Component => {
     validate: PropTypes.func,
   }
 
-  WrappedComponent.defaultProps = {
-    isDisabled: false,
-    isRequired: false,
-  }
-
   WrappedComponent.displayName = `WithNumberValidation(${getDisplayName(Component)})`
 
   return WrappedComponent

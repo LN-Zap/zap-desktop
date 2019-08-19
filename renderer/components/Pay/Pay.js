@@ -51,10 +51,6 @@ class Pay extends React.Component {
   }
 
   static defaultProps = {
-    redirectPayReq: null,
-    initialAmountCrypto: null,
-    initialAmountFiat: null,
-    isProcessing: false,
     mx: 'auto',
     onchainFees: {},
     routes: [],

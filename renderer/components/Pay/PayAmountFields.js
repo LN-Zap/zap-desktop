@@ -52,8 +52,6 @@ class PayAmountFields extends React.Component {
   }
 
   static defaultProps = {
-    initialAmountCrypto: null,
-    initialAmountFiat: null,
     onchainFees: {},
   }
 

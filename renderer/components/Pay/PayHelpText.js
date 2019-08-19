@@ -51,9 +51,4 @@ PayHelpText.propTypes = {
   redirectPayReq: PropTypes.object,
 }
 
-PayHelpText.defaultProps = {
-  redirectPayReq: null,
-  previousStep: null,
-}
-
 export default PayHelpText

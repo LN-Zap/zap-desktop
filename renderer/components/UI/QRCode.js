@@ -106,7 +106,6 @@ class ZapQRCode extends React.PureComponent {
     color: 'black',
     bg: 'white',
     border: 1,
-    isObfuscated: false,
   }
 
   render() {
