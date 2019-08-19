@@ -591,10 +591,13 @@
   "reducers.messages.activity_invoice_download_error": "",
   "reducers.messages.activity_invoice_download_success": "",
   "reducers.messages.address_new_address_error": "",
+  "reducers.messages.app_init_db_error": "",
   "reducers.messages.backup_import_error": "",
   "reducers.messages.backup_import_success": "Wallet-Backup erfolgreich importiert",
   "reducers.messages.backup_not_found_error": "Backup-Datei konnte nicht gefunden werden",
   "reducers.messages.channels_open_warning": "Kanalnöffnung gestartet",
+  "reducers.messages.invoice_receive_body": "",
+  "reducers.messages.invoice_receive_title": "",
   "reducers.messages.payment_send_error": "Zahlung konnte nicht gesendet werden: Ungültige Rechnung (kein Zahlungshash)",
   "reducers.messages.settings_init_error": "Einstellungen können nicht geladen werden: {error}"
 }
