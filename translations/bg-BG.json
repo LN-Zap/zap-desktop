@@ -584,6 +584,8 @@
   "components.Wallet.pay": "Плати",
   "components.Wallet.request": "Заяви",
   "containers.UI.copied_to_clipbpard": "",
+  "reducers.messages.activity_invoice_download_error": "",
+  "reducers.messages.activity_invoice_download_success": "",
   "reducers.messages.address_new_address_error": "",
   "reducers.messages.backup_import_error": "",
   "reducers.messages.backup_import_success": "",

@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
 import { send } from 'redux-electron-ipc'
+import { getIntl } from '@zap/i18n'
 import { openModal, closeModal } from './modal'
 import { fetchDescribeNetwork } from './network'
 import { fetchTransactions, transactionsSelectors } from './transaction'
@@ -9,6 +10,7 @@ import { fetchBalance } from './balance'
 import { showError, showNotification } from './notification'
 import { fetchChannels } from './channels'
 import createReducer from './utils/createReducer'
+import messages from './messages'
 
 // ------------------------------------
 // Initial State
@@ -119,8 +121,7 @@ export const saveInvoice = ({
  * @returns {Function} Thunk
  */
 export const saveInvoiceFailure = () => dispatch => {
-  // TODO add intl support
-  dispatch(showError('An error has occurred when saving invoice'))
+  dispatch(showError(getIntl().formatMessage(messages.activity_invoice_download_error)))
 }
 
 /**
@@ -129,8 +130,7 @@ export const saveInvoiceFailure = () => dispatch => {
  * @returns {Function} Thunk
  */
 export const saveInvoiceSuccess = () => dispatch => {
-  // TODO add intl support
-  dispatch(showNotification('Invoice has been saved successfully'))
+  dispatch(showNotification(getIntl().formatMessage(messages.activity_invoice_download_success)))
 }
 
 /**

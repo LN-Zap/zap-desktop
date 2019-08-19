@@ -584,6 +584,8 @@
   "components.Wallet.pay": "Pay",
   "components.Wallet.request": "Receive",
   "containers.UI.copied_to_clipbpard": "{name} has been copied to your clipboard",
+  "reducers.messages.activity_invoice_download_error": "An error has occurred",
+  "reducers.messages.activity_invoice_download_success": "Download Complete",
   "reducers.messages.address_new_address_error": "Unable to get {addressType} address: {error}",
   "reducers.messages.backup_import_error": "Backup import has failed: {error}",
   "reducers.messages.backup_import_success": "Wallet backup imported successfully",
