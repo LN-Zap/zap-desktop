@@ -15,7 +15,7 @@ storiesOf('Components', module).addWithChapters('Card', {
               <Heading.h1 mb={2}>This is a Card</Heading.h1>
               <Text mb={2}>
                 A card is just a basic Box with some style applied. It has rounded corners, a
-                drop-shadow, and displays with the primary background colour.
+                drop-shadow, and displays with the primary background color.
               </Text>
               <Text mb={2}>
                 It is a wrapper around @rebass Card and all of the default styles can be overridden

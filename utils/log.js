@@ -1,7 +1,7 @@
 import config from 'config'
 import debugLogger from 'debug-logger'
 
-// Enable colours for object inspection.
+// Enable colors for object inspection.
 debugLogger.inspectOptions = {
   colors: true,
 }

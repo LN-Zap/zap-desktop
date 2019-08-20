@@ -41,7 +41,7 @@ const Palette = withTheme(({ theme, ...rest }) => (
 
 storiesOf('General', module).addWithChapters('Color palette', {
   subtitle: 'Colors that we use throughout the app.',
-  info: `This page shows our two primary colour palettes. These are used as "themes" that users can switch between
+  info: `This page shows our two primary color palettes. These are used as "themes" that users can switch between
   within the app.`,
   chapters: [
     {
