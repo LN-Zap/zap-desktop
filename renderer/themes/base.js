@@ -1,19 +1,17 @@
-export const space = [0, 4, 8, 16, 32, 45, 72, 108]
+/**
+ * @file Defines core theme elements shared across all themes.
+ * These items can be overriden on a per theme basis.
+ */
 
-export const shadows = {
-  xs: '0 2px 3px 0 rgba(0, 0, 0, 0.3)',
-  s: '0 2px 4px 0 rgba(0, 0, 0, 0.4)',
-  m: '0 2px 24px 0 rgba(0, 0, 0, 0.5)',
-  l: '0 20px 70px 0 rgba(0, 0, 0, 0.6)',
-}
-
-export const radii = {
-  s: '5px',
-  m: '8px',
-  l: '14px',
-  xl: '40px',
-}
-
+/**
+ * Colour palette
+ *
+ * The color palette defines all colors users across all themes and is not used directly in any of the themes.
+ * When creating a theme you should references colors from the color palette directy.
+ * New colors should be added here.
+ *
+ * @type {object}
+ */
 export const palette = {
   white: '#ffffff',
   black: '#000000',
@@ -35,6 +33,22 @@ export const palette = {
   lightGreen: '#eefff4',
   lightOrange: '#fff3e1',
   lightRed: '#ffeded',
+}
+
+export const space = [0, 4, 8, 16, 32, 45, 72, 108]
+
+export const shadows = {
+  xs: '0 2px 3px 0 rgba(0, 0, 0, 0.3)',
+  s: '0 2px 4px 0 rgba(0, 0, 0, 0.4)',
+  m: '0 2px 24px 0 rgba(0, 0, 0, 0.5)',
+  l: '0 20px 70px 0 rgba(0, 0, 0, 0.6)',
+}
+
+export const radii = {
+  s: '5px',
+  m: '8px',
+  l: '14px',
+  xl: '40px',
 }
 
 export const fontSizes = {
@@ -70,6 +84,115 @@ export const letterSpacings = {
   caps: '0.025em',
 }
 
+const buttons = {
+  normal: {
+    bg: 'tertiaryColor',
+    color: 'lightningOrange',
+    '&:hover:enabled': {
+      bg: 'highlight',
+    },
+    '&:focus': {
+      bg: 'highlight',
+    },
+  },
+
+  primary: {
+    bg: 'lightningOrange',
+    color: 'white',
+  },
+
+  secondary: {
+    bg: 'inherit',
+    color: 'primaryText',
+    '&:hover:enabled': {
+      opacity: 1,
+    },
+    opacity: 0.6,
+    '&.active': {
+      opacity: 1,
+    },
+    '&:focus': {
+      opacity: 1,
+    },
+  },
+
+  menu: {
+    bg: 'primaryColor',
+    color: 'primaryText',
+    '&.active': {
+      color: 'lightningOrange',
+      bg: 'highlight',
+    },
+    '&:hover:enabled': {
+      bg: 'highlight',
+    },
+    '&:focus': {
+      bg: 'highlight',
+    },
+  },
+
+  danger: {
+    bg: 'superRed',
+    color: 'white',
+  },
+}
+
+const variants = {
+  message: {
+    success: {
+      color: 'superGreen',
+    },
+    warning: {
+      color: 'lightningOrange',
+    },
+    error: {
+      color: 'superRed',
+    },
+    processing: {
+      color: 'ightningOrange',
+    },
+  },
+
+  notification: {
+    success: {
+      bg: 'mutedGreen',
+      color: 'superGreen',
+    },
+    warning: {
+      bg: 'mutedOrange',
+      color: 'lightningOrange',
+    },
+    error: {
+      bg: 'mutedRed',
+      color: 'superRed',
+    },
+  },
+
+  bar: {
+    normal: {
+      opacity: 0.6,
+    },
+    light: {
+      opacity: 0.3,
+    },
+  },
+
+  statuses: {
+    online: {
+      color: 'superGreen',
+    },
+    pending: {
+      color: 'lightningOrange',
+    },
+    closing: {
+      color: 'superRed',
+    },
+    offline: {
+      color: 'gray',
+    },
+  },
+}
+
 export default {
   radii,
   space,
@@ -80,4 +203,6 @@ export default {
   lineHeights,
   palette,
   shadows,
+  buttons,
+  variants,
 }
