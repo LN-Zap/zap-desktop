@@ -19,7 +19,7 @@
   dependencies:
     "@babel/highlight" "^7.0.0"
 
-"@babel/core@7.5.5", "@babel/core@>=7.2.2", "@babel/core@^7.0.0", "@babel/core@^7.1.0", "@babel/core@^7.4.5":
+"@babel/core@7.5.5", "@babel/core@>=7.2.2", "@babel/core@^7.0.0", "@babel/core@^7.1.0", "@babel/core@^7.4.5", "@babel/core@^7.5.5":
   version "7.5.5"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.5.5.tgz#17b2686ef0d6bc58f963dddd68ab669755582c30"
   integrity sha512-i4qoSr2KTtce0DmkuuQBV4AuQgGPUcPXMr9L5MyYAtk06z068lQ10a4O009fe5OB/DfNV+h+qqT7ddNV8UnRjg==
@@ -3538,6 +3538,17 @@ babel-plugin-react-intl-auto@2.0.0:
     "@babel/types" "^7.5.5"
     murmurhash3js "^3.0.1"
 
+babel-plugin-react-intl@3.5.1, babel-plugin-react-intl@^3.0.1:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-react-intl/-/babel-plugin-react-intl-3.5.1.tgz#57d22cae27238b4020403b13de9e763267937648"
+  integrity sha512-1jlEJCSmLaJM4tjIKpu64UZ833COCHmwR77bFJDOye+zlwf80uR1b8p41l4tClx1QsrfI+qV6w/5AiPYQgaMUQ==
+  dependencies:
+    "@babel/core" "^7.4.5"
+    "@babel/helper-plugin-utils" "^7.0.0"
+    "@types/babel__core" "^7.1.2"
+    fs-extra "^8.0.1"
+    intl-messageformat-parser "^1.8.1"
+
 babel-plugin-react-intl@4.1.12:
   version "4.1.12"
   resolved "https://registry.yarnpkg.com/babel-plugin-react-intl/-/babel-plugin-react-intl-4.1.12.tgz#d45d06e247c6428dc453f3927dcf2c6455c8a2d1"
@@ -3548,17 +3559,6 @@ babel-plugin-react-intl@4.1.12:
     "@types/babel__core" "^7.1.2"
     fs-extra "^8.0.1"
     intl-messageformat-parser "^3.0.7"
-
-babel-plugin-react-intl@^3.0.1:
-  version "3.5.1"
-  resolved "https://registry.yarnpkg.com/babel-plugin-react-intl/-/babel-plugin-react-intl-3.5.1.tgz#57d22cae27238b4020403b13de9e763267937648"
-  integrity sha512-1jlEJCSmLaJM4tjIKpu64UZ833COCHmwR77bFJDOye+zlwf80uR1b8p41l4tClx1QsrfI+qV6w/5AiPYQgaMUQ==
-  dependencies:
-    "@babel/core" "^7.4.5"
-    "@babel/helper-plugin-utils" "^7.0.0"
-    "@types/babel__core" "^7.1.2"
-    fs-extra "^8.0.1"
-    intl-messageformat-parser "^1.8.1"
 
 babel-plugin-styled-components@1.10.6, "babel-plugin-styled-components@>= 1":
   version "1.10.6"
@@ -7573,18 +7573,25 @@ extglob@^2.0.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
-extract-react-intl-messages@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/extract-react-intl-messages/-/extract-react-intl-messages-1.0.2.tgz#d2496d91127d1409bb6425f742c52312aa2f6063"
-  integrity sha512-RgZEhBy+NoRgP7zbXZIvx4iT51/Yhg0/L9VzANnyfGz1nsxfGPrLQ7VA7t5MVjelPnkE+k7WLDvQ1XDkjOYMXA==
+extract-react-intl-messages@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/extract-react-intl-messages/-/extract-react-intl-messages-1.1.0.tgz#5e0971fe5d5c3778ca31783b0e3c167f0bb6095e"
+  integrity sha512-mi3PzH3DAlkYJYgtz3yOPOghDab9SAKWG98OY7P2W0pmITWSN8g8AbEc3O9RoDWL6QeookSTcLnkqr+j2FIDzg==
   dependencies:
+    "@babel/core" "^7.5.5"
+    babel-plugin-react-intl "3.5.1"
     extract-react-intl "^0.9.0"
     flat "^4.1.0"
+    glob "^7.1.4"
     js-yaml "^3.13.1"
     load-json-file "^6.2.0"
+    lodash.merge "^4.6.2"
+    lodash.mergewith "^4.6.2"
     lodash.pick "^4.4.0"
     meow "^5.0.0"
     mkdirp "^0.5.1"
+    pify "^4.0.1"
+    read-babelrc-up "^0.4.0"
     sort-keys "^3.0.0"
     write-json-file "^4.1.1"
 
@@ -10840,12 +10847,12 @@ lodash.memoize@4.1.2, lodash.memoize@^4.1.2:
   resolved "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
   integrity sha1-vMbEmkKihA7Zl/Mj6tpezRguC/4=
 
-lodash.merge@^4.6.1:
+lodash.merge@^4.6.1, lodash.merge@^4.6.2:
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
 
-lodash.mergewith@^4.6.1:
+lodash.mergewith@^4.6.1, lodash.mergewith@^4.6.2:
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/lodash.mergewith/-/lodash.mergewith-4.6.2.tgz#617121f89ac55f59047c7aec1ccd6654c6590f55"
   integrity sha512-GK3g5RPZWTRSeLSpgP8Xhra+pnjBC56q9FZYe1d5RN3TJ35dbkGy3YqBSMbyCrlbi+CM9Z3Jk5yTL7RCsqboyQ==
@@ -13772,6 +13779,14 @@ read-babelrc-up@^0.3.1:
   integrity sha512-DAFetxQZKpiIAmjpnbxTAJ5lohBaKhRTfcfexApDmkVBGgg8ScbXCFhzZ3KYlagTNK0Bja0xPvQwcGLer6ukxg==
   dependencies:
     find-up "^3.0.0"
+    json5 "^2.1.0"
+
+read-babelrc-up@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/read-babelrc-up/-/read-babelrc-up-0.4.0.tgz#9810afd08abefb9f03eaf3f6396e77a75489e099"
+  integrity sha512-gWVXJPjXExtjVFgmyZ/Fv1B00ULe1SZLlyIcCnWOWcJIHCH88d4rrfJzBzKTIkwrqoBmvgCsTl1KDRNS1nOh6A==
+  dependencies:
+    find-up "^4.0.0"
     json5 "^2.1.0"
 
 read-config-file@5.0.0:
