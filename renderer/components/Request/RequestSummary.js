@@ -43,7 +43,7 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
     if (invoice.settled) {
       return 'superGreen'
     }
-    return isExpired ? 'superRed' : 'lightningOrange'
+    return isExpired ? 'superRed' : 'primaryAccent'
   }
 
   return (

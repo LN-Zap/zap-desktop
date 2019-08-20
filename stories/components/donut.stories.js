@@ -20,7 +20,7 @@ storiesOf('Components', module).addWithChapters('Donut', {
                 {
                   key: 'lightning',
                   amount: 0.5,
-                  color: 'lightningOrange',
+                  color: 'primaryAccent',
                   withGlow: true,
                   withTint: true,
                 },
@@ -38,7 +38,7 @@ storiesOf('Components', module).addWithChapters('Donut', {
                 {
                   key: 'lightning',
                   amount: 0.25,
-                  color: 'lightningOrange',
+                  color: 'primaryAccent',
                   withGlow: true,
                   withTint: true,
                 },

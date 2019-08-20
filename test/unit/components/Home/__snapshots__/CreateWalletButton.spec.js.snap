@@ -11,7 +11,7 @@ exports[`component.CreateWalletButton should render correctly 1`] = `
     alignItem="center"
   >
     <Text
-      color="lightningOrange"
+      color="primaryAccent"
     >
       <SvgPlusCircle
         height="22px"

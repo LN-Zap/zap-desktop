@@ -6,7 +6,7 @@ import Text from 'components/UI/Text'
 import PlusCircle from 'components/Icon/PlusCircle'
 
 const Icon = props => <PlusCircle height="22px" width="22px" {...props} />
-const IconWrapper = props => <Text color="lightningOrange" {...props} />
+const IconWrapper = props => <Text color="primaryAccent" {...props} />
 const ContentWrapper = props => <Text fontWeight="light" lineHeight="22px" {...props} />
 
 const ButtonCreate = ({ children, justify, ...rest }) => (

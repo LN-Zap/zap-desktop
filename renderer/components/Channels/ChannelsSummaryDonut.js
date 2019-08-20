@@ -15,7 +15,7 @@ const ChannelsSummaryDonut = ({ sendCapacity, receiveCapacity, ...rest }) => {
           {
             key: 'send',
             amount: sendCapacityPercent || 0,
-            color: 'lightningOrange',
+            color: 'primaryAccent',
             withGlow: true,
             withTint: true,
           },

@@ -35,12 +35,12 @@ const Wrapper = styled(Box)`
 
   /* On mouse-over, add an orange border color */
   .container:hover input ~ .selection {
-    border: 1px solid ${props => props.theme.colors.lightningOrange};
+    border: 1px solid ${props => props.theme.colors.primaryAccent};
   }
 
   /* When the radio button is checked, make the border orange */
   .container input:checked ~ .selection {
-    border: 1px solid ${props => props.theme.colors.lightningOrange};
+    border: 1px solid ${props => props.theme.colors.primaryAccent};
   }
 
   /* Create the indicator (the dot/circle - hidden when not checked) */
@@ -62,7 +62,7 @@ const Wrapper = styled(Box)`
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: ${props => props.theme.colors.lightningOrange};
+    background: ${props => props.theme.colors.primaryAccent};
   }
 `
 const Radio = ({

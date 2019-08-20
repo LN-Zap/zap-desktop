@@ -5,7 +5,7 @@ import Button from 'components/UI/Button'
 
 const StyledButton = styled(Button)`
   &:hover {
-    color: ${props => props.theme.colors.lightningOrange};
+    color: ${props => props.theme.colors.primaryAccent};
   }
 `
 

@@ -22,7 +22,7 @@ const ChannelsCapacityDonut = ({
           {
             key: 'lightning',
             amount: lightningBalancePercent || 0,
-            color: 'lightningOrange',
+            color: 'primaryAccent',
             withGlow: true,
             withTint: true,
           },

@@ -17,7 +17,7 @@ import messages from './messages'
 
 const ResetSearchText = styled(Text)`
   &:hover {
-    color: ${themeGet('colors.lightningOrange')};
+    color: ${themeGet('colors.primaryAccent')};
   }
   cursor: pointer;
 `

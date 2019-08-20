@@ -32,7 +32,7 @@ const DialogWrapper = ({ intl, isOpen, isRestoreMode, onSkip, onCancel }) => {
 
   const header = (
     <Flex alignItems="center" flexDirection="column" mb={4}>
-      <Box color="lightningOrange" mb={2}>
+      <Box color="primaryAccent" mb={2}>
         <Warning height={72} width={72} />
       </Box>
       <Heading.h1>

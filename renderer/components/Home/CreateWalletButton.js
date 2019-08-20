@@ -9,7 +9,7 @@ import messages from './messages'
 const CreateWalletButton = ({ history, ...rest }) => (
   <Button onClick={() => history.push('/onboarding')} size="small" variant="secondary" {...rest}>
     <Flex alignItem="center">
-      <Text color="lightningOrange">
+      <Text color="primaryAccent">
         <PlusCircle height="22px" width="22px" />
       </Text>
       <Text lineHeight="22px" ml={2}>

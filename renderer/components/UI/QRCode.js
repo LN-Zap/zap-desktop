@@ -135,10 +135,10 @@ class ZapQRCode extends React.PureComponent {
     return (
       <Container size={size} {...rest}>
         <CropWrapper size={size}>
-          <TopLeft border={border} borderColor="lightningOrange" size={size} />
-          <TopRight border={border} borderColor="lightningOrange" size={size} />
-          <BottomLeft border={border} borderColor="lightningOrange" size={size} />
-          <BottomRight border={border} borderColor="lightningOrange" size={size} />
+          <TopLeft border={border} borderColor="primaryAccent" size={size} />
+          <TopRight border={border} borderColor="primaryAccent" size={size} />
+          <BottomLeft border={border} borderColor="primaryAccent" size={size} />
+          <BottomRight border={border} borderColor="primaryAccent" size={size} />
         </CropWrapper>
         <CodeWrapper isObfuscated={isObfuscated}>
           <Code

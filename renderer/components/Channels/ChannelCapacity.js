@@ -41,7 +41,7 @@ const ChannelCapacity = ({ localBalance, remoteBalance, opacity, ...rest }) => {
         <Box width="calc(50% - 15px)">
           <ProgressBar progress={localBalancePercent} />
         </Box>
-        <Text color="lightningOrange" textAlign="center" width={30}>
+        <Text color="primaryAccent" textAlign="center" width={30}>
           <ZapSolid fill="currentColor" height="20px" />
         </Text>
         <Box width="calc(50% - 15px)">

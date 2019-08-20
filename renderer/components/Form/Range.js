@@ -81,7 +81,7 @@ const Range = ({ fieldState, fieldApi, ...props }) => {
     thumbBackground: 'primaryText',
     shadowSize: '-2px',
     fitThumbInSlider: '-2px',
-    backgroundFilledSlider: 'lightningOrange',
+    backgroundFilledSlider: 'primaryAccent',
   }
 
   return (

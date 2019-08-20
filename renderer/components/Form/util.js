@@ -54,15 +54,15 @@ export const mapFocusBorderColor = props => {
   const {
     fieldState,
     theme: {
-      colors: { lightningOrange, superGreen },
+      colors: { primaryAccent, superGreen },
     },
   } = props
 
   if (!props.highlightOnValid) {
-    return lightningOrange
+    return primaryAccent
   }
 
-  return fieldState.touched && isFieldValid(fieldState) ? superGreen : lightningOrange
+  return fieldState.touched && isFieldValid(fieldState) ? superGreen : primaryAccent
 }
 
 const systemProps = {

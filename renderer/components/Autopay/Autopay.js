@@ -15,7 +15,7 @@ const customiseTheme = theme => {
   return createThemeVariant('autopay', {
     colors: {
       ...theme.colors,
-      lightningOrange: palette.superBlue,
+      primaryAccent: palette.superBlue,
     },
   })
 }

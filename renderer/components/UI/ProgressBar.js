@@ -48,7 +48,7 @@ ProgressBar.defaultProps = {
   progress: 0,
   height: 10,
   bg: 'tertiaryColor',
-  color: 'lightningOrange',
+  color: 'primaryAccent',
   justify: 'left',
 }
 

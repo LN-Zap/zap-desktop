@@ -44,8 +44,8 @@ const FullPageGradient = styled(Box)`
   height: 100%;
   background: linear-gradient(
     -45deg,
-    ${props => props.theme.colors.lightningOrange},
-    ${props => props.theme.colors.lightningOrange},
+    ${props => props.theme.colors.primaryAccent},
+    ${props => props.theme.colors.primaryAccent},
     ${props => props.theme.colors.secondaryColor},
     ${props => props.theme.colors.primaryColor}
   );

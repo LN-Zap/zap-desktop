@@ -16,11 +16,11 @@ const Gradient = styled(Card)`
 const AutopayLimitBadge = ({ limit, limitCurrency, ...rest }) => {
   return (
     <Gradient
-      bg="lightningOrange"
+      bg="primaryAccent"
       height={27}
       px={2}
       sx={{
-        boxShadow: `0 0 24px 0 ${themeGet('colors.lightningOrange')(rest)}`,
+        boxShadow: `0 0 24px 0 ${themeGet('colors.primaryAccent')(rest)}`,
         borderRadius: 'l',
       }}
       {...rest}

@@ -40,7 +40,7 @@ const RadioCard = ({ fieldApi, icons, value, label, isDisabled, description, ...
     >
       <Card mb={3}>
         <Flex alignItems="center" height="100%" justifyContent="center">
-          <Box color={isSelected ? 'lightningOrange' : 'gray'}>
+          <Box color={isSelected ? 'primaryAccent' : 'gray'}>
             <Icon height={iconHeight} width={iconWidth} />
           </Box>
         </Flex>

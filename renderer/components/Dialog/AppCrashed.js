@@ -10,7 +10,7 @@ import messages from './messages'
 
 const ShowDetails = styled(Span)`
   &:hover {
-    color: ${themeGet('colors.lightningOrange')};
+    color: ${themeGet('colors.primaryAccent')};
   }
   cursor: pointer;
 `
@@ -24,7 +24,7 @@ const DialogAppCrashed = ({ onClose, onSubmit, error, isOpen }) => {
 
   const header = (
     <Flex alignItems="center" flexDirection="column" mb={4}>
-      <Box color="lightningOrange" mb={2}>
+      <Box color="primaryAccent" mb={2}>
         <Delete height={72} width={72} />
       </Box>
       <Heading.h1>

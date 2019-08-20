@@ -16,10 +16,10 @@ const Gradient = styled(Card)`
 const AutopayAddButton = props => {
   return (
     <Gradient
-      bg="lightningOrange"
+      bg="primaryAccent"
       size={35}
       sx={{
-        boxShadow: `0 0 24px 0 ${themeGet('colors.lightningOrange')(props)}`,
+        boxShadow: `0 0 24px 0 ${themeGet('colors.primaryAccent')(props)}`,
         borderRadius: '50%',
       }}
       {...props}

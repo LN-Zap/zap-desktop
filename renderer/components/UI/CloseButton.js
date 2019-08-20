@@ -11,7 +11,7 @@ const CloseButtonWrapper = styled(Box)`
   color: ${themeGet('colors.primaryText')};
   opacity: 0.6;
   &:hover {
-    color: ${themeGet('colors.lightningOrange')};
+    color: ${themeGet('colors.primaryAccent')};
   }
 `
 

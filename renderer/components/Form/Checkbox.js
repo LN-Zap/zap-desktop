@@ -11,10 +11,10 @@ const mapOutlineBorderColor = props => {
     isDisabled,
     isChecked,
     theme: {
-      colors: { gray, lightningOrange },
+      colors: { gray, primaryAccent },
     },
   } = props
-  return !isChecked || isDisabled ? gray : lightningOrange
+  return !isChecked || isDisabled ? gray : primaryAccent
 }
 
 const mapOutlineBackgroundColor = props => {
@@ -22,10 +22,10 @@ const mapOutlineBackgroundColor = props => {
     isDisabled,
     isChecked,
     theme: {
-      colors: { lightningOrange },
+      colors: { primaryAccent },
     },
   } = props
-  return !isChecked || isDisabled ? 'transparent' : lightningOrange
+  return !isChecked || isDisabled ? 'transparent' : primaryAccent
 }
 
 const CheckboxOutline = styled(Flex)`
@@ -39,10 +39,10 @@ const mapContainerBorderColor = props => {
   const {
     isDisabled,
     theme: {
-      colors: { gray, lightningOrange },
+      colors: { gray, primaryAccent },
     },
   } = props
-  return isDisabled ? gray : lightningOrange
+  return isDisabled ? gray : primaryAccent
 }
 
 const Container = styled(Flex)`

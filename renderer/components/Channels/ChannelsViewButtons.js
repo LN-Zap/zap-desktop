@@ -10,9 +10,9 @@ import { CHANNEL_LIST_VIEW_MODE_SUMMARY, CHANNEL_LIST_VIEW_MODE_CARD } from './c
 import messages from './messages'
 
 const StyledButton = styled(Button)`
-  color: ${props => (props.active ? props.theme.colors.lightningOrange : null)};
+  color: ${props => (props.active ? props.theme.colors.primaryAccent : null)};
   &:hover {
-    color: ${props => props.theme.colors.lightningOrange};
+    color: ${props => props.theme.colors.primaryAccent};
   }
 `
 

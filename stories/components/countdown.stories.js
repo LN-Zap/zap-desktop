@@ -17,7 +17,7 @@ storiesOf('Components', module).addWithChapters('Countdown', {
         {
           title: 'Custom colors',
           sectionFn: () => (
-            <Countdown colorActive="lightningOrange" colorExpired="yellow" offset={5} />
+            <Countdown colorActive="primaryAccent" colorExpired="yellow" offset={5} />
           ),
         },
       ],

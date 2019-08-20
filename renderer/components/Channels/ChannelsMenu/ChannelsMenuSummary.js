@@ -36,7 +36,7 @@ const ChannelsMenuSummary = ({
           {cryptoUnitName}
         </>
       }
-      color="lightningOrange"
+      color="primaryAccent"
       title={<FormattedMessage {...messages.summary_row_lightning_title} />}
     />
     {pendingBalance > 0 && (

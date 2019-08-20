@@ -87,7 +87,7 @@ export const letterSpacings = {
 const buttons = {
   normal: {
     bg: 'tertiaryColor',
-    color: 'lightningOrange',
+    color: 'primaryAccent',
     '&:hover:enabled': {
       bg: 'highlight',
     },
@@ -97,7 +97,7 @@ const buttons = {
   },
 
   primary: {
-    bg: 'lightningOrange',
+    bg: 'primaryAccent',
     color: 'white',
   },
 
@@ -120,7 +120,7 @@ const buttons = {
     bg: 'primaryColor',
     color: 'primaryText',
     '&.active': {
-      color: 'lightningOrange',
+      color: 'primaryAccent',
       bg: 'highlight',
     },
     '&:hover:enabled': {
@@ -143,7 +143,7 @@ const variants = {
       color: 'superGreen',
     },
     warning: {
-      color: 'lightningOrange',
+      color: 'primaryAccent',
     },
     error: {
       color: 'superRed',
@@ -160,7 +160,7 @@ const variants = {
     },
     warning: {
       bg: 'mutedOrange',
-      color: 'lightningOrange',
+      color: 'primaryAccent',
     },
     error: {
       bg: 'mutedRed',
@@ -182,7 +182,7 @@ const variants = {
       color: 'superGreen',
     },
     pending: {
-      color: 'lightningOrange',
+      color: 'primaryAccent',
     },
     closing: {
       color: 'superRed',

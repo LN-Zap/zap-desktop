@@ -95,7 +95,7 @@ class PaySummaryLightning extends React.Component {
               </Text>
             </Box>
             <Box width={1 / 11}>
-              <Text color="lightningOrange" textAlign="center">
+              <Text color="primaryAccent" textAlign="center">
                 <BigArrowRight height="28px" width="40px" />
               </Text>
             </Box>
@@ -118,7 +118,7 @@ class PaySummaryLightning extends React.Component {
                   <FormattedMessage {...messages.searching_routes} />
                   &hellip;
                 </Text>
-                <Spinner color="lightningOrange" />
+                <Spinner color="primaryAccent" />
               </Flex>
             ) : (
               feeMessage && <FormattedMessage {...feeMessage} values={{ minFee, maxFee }} />

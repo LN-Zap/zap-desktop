@@ -73,7 +73,7 @@ const TransactionFeeInput = ({
               <FormattedMessage {...messages.calculating} />
               &hellip;
             </Text>
-            <Spinner color="lightningOrange" />
+            <Spinner color="primaryAccent" />
           </Flex>
         )}
 

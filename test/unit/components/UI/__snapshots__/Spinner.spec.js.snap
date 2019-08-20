@@ -5,7 +5,7 @@ exports[`component.UI.Spinner should render correctly 1`] = `
   box-sizing: border-box;
   margin: 0;
   min-width: 0;
-  color: lightningOrange;
+  color: primaryAccent;
 }
 
 .c1 {
@@ -15,7 +15,7 @@ exports[`component.UI.Spinner should render correctly 1`] = `
 
 <div
   className="c0"
-  color="lightningOrange"
+  color="primaryAccent"
 >
   <svg
     className="c1"

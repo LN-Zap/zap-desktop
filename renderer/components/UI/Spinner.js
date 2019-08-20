@@ -23,7 +23,7 @@ const WrappedSpinner = ({ element, width, height, ...rest }) => {
   const Icon = element ? element : Spinner
   const Element = renderSpinner(Icon)
   return (
-    <Box color="lightningOrange" {...rest}>
+    <Box color="primaryAccent" {...rest}>
       <Element height={height} width={width} />
     </Box>
   )

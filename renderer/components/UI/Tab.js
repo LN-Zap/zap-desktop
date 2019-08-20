@@ -29,7 +29,7 @@ class Tab extends React.PureComponent {
           <Text fontWeight="normal">{itemValue}</Text>
         </Button>
         {isActive && (
-          <Bar bg="lightningOrange" style={{ maxWidth: '50px', width: '100%', height: '2px' }} />
+          <Bar bg="primaryAccent" style={{ maxWidth: '50px', width: '100%', height: '2px' }} />
         )}
       </Flex>
     )

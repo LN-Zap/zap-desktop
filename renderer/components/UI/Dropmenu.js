@@ -21,7 +21,7 @@ import { DropdownButton } from './Dropdown'
  */
 function getColor(props) {
   return props.isHovered
-    ? themeGet('colors.lightningOrange')(props)
+    ? themeGet('colors.primaryAccent')(props)
     : themeGet('colors.primaryText')(props)
 }
 
@@ -32,9 +32,7 @@ function getColor(props) {
  * @returns {string} Color
  */
 function getMutedColor(props) {
-  return props.isHovered
-    ? themeGet('colors.lightningOrange')(props)
-    : themeGet('colors.gray')(props)
+  return props.isHovered ? themeGet('colors.primaryAccent')(props) : themeGet('colors.gray')(props)
 }
 
 const MenuContext = React.createContext({})
@@ -191,7 +189,7 @@ const DropmenuListScrollerBase = styled(Flex)`
 const DropmenuListScroller = props => (
   <DropmenuListScrollerBase
     bg="primaryColor"
-    color="lightningOrange"
+    color="primaryAccent"
     justifyContent="center"
     p={2}
     width={1}
