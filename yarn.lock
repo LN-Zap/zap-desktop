@@ -6515,10 +6515,10 @@ drbg.js@^1.0.1:
     create-hash "^1.1.2"
     create-hmac "^1.1.4"
 
-dropbox@4.0.28:
-  version "4.0.28"
-  resolved "https://registry.yarnpkg.com/dropbox/-/dropbox-4.0.28.tgz#9c40c2ad11f196a8f4b465e9785eaa044d2e19b7"
-  integrity sha512-IRBxeJxkcRz9dyucX1g89SOkFPyR6CBvrDBz/POy4GwoVfFFj3yoBg8H3xqgJhaUEYzkDfZmQD+vRU+KtITqQA==
+dropbox@4.0.30:
+  version "4.0.30"
+  resolved "https://registry.yarnpkg.com/dropbox/-/dropbox-4.0.30.tgz#747247b5088e26ab143db39afed8c66f0887d670"
+  integrity sha512-qmSeT8rhjARDHj3vxOTKQjc6IQ46AlRwJS8dqE26R323fikkjC4EXzocV12PsO7DOrjaqbOH3FjEdEEnrFraJw==
   dependencies:
     buffer "^5.0.8"
     moment "^2.19.3"
