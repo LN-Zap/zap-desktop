@@ -324,7 +324,7 @@
     "dropbox": "4.0.30",
     "electron-is-dev": "1.1.0",
     "get-port": "5.0.0",
-    "googleapis": "40.0.0",
+    "googleapis": "42.0.0",
     "history": "4.9.0",
     "immer": "3.2.0",
     "informed": "2.11.8",
