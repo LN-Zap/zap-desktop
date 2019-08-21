@@ -61,8 +61,6 @@ const TextArea = ({
         </InputLabel>
       )}
       <StyledTextArea
-        {...otherProps}
-        ref={forwardedRef}
         disabled={isDisabled}
         fieldState={fieldState}
         name={field}
@@ -93,6 +91,8 @@ const TextArea = ({
         required={isRequired}
         theme={theme}
         value={getValue()}
+        {...otherProps}
+        ref={forwardedRef}
       />
       {description && (
         <Text color="gray" fontSize="s" mt={1}>
