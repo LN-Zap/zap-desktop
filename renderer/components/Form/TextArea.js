@@ -64,7 +64,6 @@ const TextArea = ({
         </InputLabel>
       )}
       <SystemTextArea
-        {...otherProps}
         ref={forwardedRef}
         disabled={isDisabled}
         fieldState={fieldState}
@@ -96,6 +95,7 @@ const TextArea = ({
         required={isRequired}
         theme={theme}
         value={getValue()}
+        {...otherProps}
       />
       {description && (
         <Text color="gray" fontSize="s" mt={1}>
