@@ -30,7 +30,10 @@ try {
    `,
     { stdio: [0, 1, 2] }
   )
-  updateStorybook('renderer/components/Icon/', 'components/Icon/', 'stories/icons/icon.stories.js')
+  updateStorybook('renderer/components/Icon/', 'components/Icon/', {
+    allIconsOutput: 'stories/AllIcons/AllIcons.stories.js',
+    iconListOutputFile: 'stories/icons/icon.stories.js',
+  })
 } finally {
   execSync(`rm -rf ${TMP_DIR}`, { stdio: [0, 1, 2] })
 }
