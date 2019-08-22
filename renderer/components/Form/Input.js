@@ -77,8 +77,6 @@ const Input = ({
       <Flex alignItems="center">
         {type === 'search' && <SearchIcon width={iconSize} />}
         <StyledInput
-          {...otherProps}
-          ref={forwardedRef}
           disabled={isDisabled}
           fieldState={fieldState}
           maxLength={maxLength}
@@ -113,6 +111,8 @@ const Input = ({
           theme={theme}
           type={type}
           value={getValue()}
+          {...otherProps}
+          ref={forwardedRef}
         />
         {children}
       </Flex>
