@@ -139,6 +139,12 @@ module.exports = {
     medium: 6,
     slow: 60,
   },
+  // number of confirmations for the onchain receiving transaction in the context of
+  // transaction finality
+  onchainFinality: {
+    pending: 0,
+    confirmed: 1,
+  },
 
   lnurl: {
     requirePrompt: true,
