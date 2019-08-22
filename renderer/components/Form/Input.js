@@ -3,6 +3,7 @@ import { compose } from 'redux'
 import PropTypes from 'prop-types'
 import { asField } from 'informed'
 import styled, { withTheme } from 'styled-components'
+import { themeGet } from '@styled-system/theme-get'
 import { Flex } from 'rebass/styled-components'
 import Search from 'components/Icon/Search'
 import { extractSpaceProps } from 'themes/util'
@@ -16,7 +17,7 @@ const SearchIcon = styled(Search)`
   margin-right: -${props => props.width}px;
   width: ${props => props.width}px;
   height: 15px;
-  color: ${props => props.color || props.theme.colors.gray};
+  color: ${themeGet('colors.gray')};
 `
 
 const Input = ({

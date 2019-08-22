@@ -29,7 +29,7 @@ const Wrapper = styled.div`
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: ${props => props.theme.colors.gray};
+    background-color: ${themeGet('colors.gray')};
     transition: 0.4s;
     border-radius: 34px;
   }
@@ -48,7 +48,7 @@ const Wrapper = styled.div`
   }
 
   input:checked + .slider {
-    background-color: ${props => props.theme.colors.superGreen};
+    background-color: ${themeGet('colors.superGreen')};
   }
 
   input:checked + .slider:before {

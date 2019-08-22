@@ -8,8 +8,8 @@ import { Text } from 'components/UI'
 const Gradient = styled(Card)`
   background: linear-gradient(
     to bottom,
-    ${props => tint(0.2, props.theme.colors[props.bg])},
-    ${props => props.theme.colors[props.bg]}
+    ${props => tint(0.2, themeGet('colors.primaryAccent')(props))},
+    ${themeGet('colors.primaryAccent')}
   );
 `
 

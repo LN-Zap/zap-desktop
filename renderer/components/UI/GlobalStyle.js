@@ -1,7 +1,7 @@
 import { createGlobalStyle } from 'styled-components'
+import { themeGet } from '@styled-system/theme-get'
 import reset from 'styled-reset'
 import { rgba } from 'polished'
-import { themeGet } from '@styled-system/theme-get'
 
 /* eslint-disable max-len */
 const GlobalStyle = createGlobalStyle`
@@ -109,9 +109,9 @@ const GlobalStyle = createGlobalStyle`
 
   [data-hint]::after {
     content: attr(data-hint);
-    background: ${props => props.theme.colors.secondaryColor};
-    color: ${props => props.theme.colors.primaryText};
-    border: 1px solid ${props => props.theme.colors.gray};
+    background: ${themeGet('colors.secondaryColor')};
+    color: ${themeGet('colors.primaryText')};
+    border: 1px solid ${themeGet('colors.gray')};
     border-radius: 3px;
     max-width: 260px;
     line-height: 1.4;

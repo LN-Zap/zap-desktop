@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { themeGet } from '@styled-system/theme-get'
 import delay from '@zap/utils/delay'
 import Button from './Button'
 import Spinner from './Spinner'
 
 const StyledButton = styled(Button)`
-  color: ${props => (props.active ? props.theme.colors.primaryAccent : null)};
+  color: ${props => (props.active ? themeGet('colors.primaryAccent') : null)};
   &:hover {
-    color: ${props => props.theme.colors.primaryAccent};
+    color: ${themeGet('colors.primaryAccent')};
   }
 `
 StyledButton.propTypes = {

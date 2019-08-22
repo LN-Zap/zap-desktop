@@ -2,8 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { animated, Transition } from 'react-spring/renderprops.cjs'
 import { FormattedMessage } from 'react-intl'
-import { Box, Flex } from 'rebass/styled-components'
 import styled, { keyframes, withTheme } from 'styled-components'
+import { themeGet } from '@styled-system/theme-get'
+import { Box, Flex } from 'rebass/styled-components'
 import CloseButton from 'components/UI/CloseButton'
 import Heading from 'components/UI/Heading'
 import CloudLightning from 'components/Icon/CloudLightning'
@@ -44,10 +45,10 @@ const FullPageGradient = styled(Box)`
   height: 100%;
   background: linear-gradient(
     -45deg,
-    ${props => props.theme.colors.primaryAccent},
-    ${props => props.theme.colors.primaryAccent},
-    ${props => props.theme.colors.secondaryColor},
-    ${props => props.theme.colors.primaryColor}
+    ${themeGet('colors.primaryAccent')},
+    ${themeGet('colors.primaryAccent')},
+    ${themeGet('colors.secondaryColor')},
+    ${themeGet('colors.primaryColor')}
   );
   background-size: 400% 400%;
   animation: ${gradientMotion} 10s ease infinite;

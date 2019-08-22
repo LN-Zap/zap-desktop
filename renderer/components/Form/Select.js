@@ -28,7 +28,7 @@ const SelectOptionList = styled.ul`
   overflow-x: hidden;
   outline: 0;
   transition: opacity 0.1s ease;
-  background-color: ${props => props.theme.colors.secondaryColor};
+  background-color: ${themeGet('colors.secondaryColor')};
   border-radius: 5px;
   box-shadow: ${themeGet('shadows.s')};
 `
@@ -64,7 +64,7 @@ const StyledInput = styled(BasicInput)`
   input {
     cursor: pointer;
     color: transparent;
-    text-shadow: 0 0 0 ${props => props.color || props.theme.colors.primaryText};
+    text-shadow: 0 0 0 ${props => themeGet('colors.primaryText')(props)};
   }
 `
 

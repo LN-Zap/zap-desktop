@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card as BaseCard } from 'rebass/styled-components'
 import styled from 'styled-components'
+import { themeGet } from '@styled-system/theme-get'
+import { Card as BaseCard } from 'rebass/styled-components'
 import { tint } from 'polished'
 
 const EmptyBar = ({ children, height, ...rest }) => (
@@ -18,8 +19,8 @@ EmptyBar.propTypes = {
 const FilledBar = styled(EmptyBar)`
   background: linear-gradient(
     to ${props => (props.justify === 'right' ? 'right' : 'left')},
-    ${props => tint(0.3, props.theme.colors[props.bg])},
-    ${props => props.theme.colors[props.bg]}
+    ${props => tint(0.3, themeGet(`colors.${props.bg}`)(props))},
+    ${props => themeGet(`colors.${props.bg}`)(props)}
   );
   margin-left: ${props => (props.justify === 'right' ? 'auto' : 'none')};
   transition: all 0.25s;
