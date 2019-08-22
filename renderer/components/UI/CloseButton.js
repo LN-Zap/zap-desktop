@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { themeGet } from 'styled-system'
-import { Flex, Box } from 'rebass'
+import { themeGet } from '@styled-system/theme-get'
+import { Flex, Box } from 'rebass/styled-components'
 import X from 'components/Icon/X'
 
 const CloseButtonWrapper = styled(Box)`
@@ -11,7 +11,7 @@ const CloseButtonWrapper = styled(Box)`
   color: ${themeGet('colors.primaryText')};
   opacity: 0.6;
   &:hover {
-    color: ${themeGet('colors.lightningOrange')};
+    color: ${themeGet('colors.primaryAccent')};
   }
 `
 

@@ -1,9 +1,46 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.Notification should render correctly 1`] = `
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  border-radius: s;
+  box-shadow: s;
+  cursor: pointer;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.c3 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  font-size: xl;
+}
+
+.c4 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  font-weight: normal;
+  margin-left: 8px;
+}
+
+.c5 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  font-size: xs;
+  margin-top: 4px;
+}
+
 .c1 {
   box-sizing: border-box;
   margin: 0;
+  min-width: 0;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
@@ -17,6 +54,7 @@ exports[`component.UI.Notification should render correctly 1`] = `
 .c2 {
   box-sizing: border-box;
   margin: 0;
+  min-width: 0;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -25,38 +63,6 @@ exports[`component.UI.Notification should render correctly 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-}
-
-.c3 {
-  box-sizing: border-box;
-  margin: 0;
-  font-size: xl;
-}
-
-.c4 {
-  box-sizing: border-box;
-  margin: 0;
-  font-weight: normal;
-  margin-left: 8px;
-}
-
-.c5 {
-  box-sizing: border-box;
-  margin: 0;
-  font-size: xs;
-  margin-top: 4px;
-}
-
-.c0 {
-  box-sizing: border-box;
-  margin: 0;
-  padding-left: 16px;
-  padding-right: 16px;
-  padding-top: 16px;
-  padding-bottom: 16px;
-  border-radius: 5px;
-  box-shadow: s;
-  cursor: pointer;
 }
 
 <div

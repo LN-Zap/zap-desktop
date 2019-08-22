@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
-import { Box, Card } from 'rebass'
+import { Box, Card } from 'rebass/styled-components'
 import Text from './Text'
 
 const StyledTooltipIconBox = styled(Box)`
@@ -52,12 +52,7 @@ class Tooltip extends React.Component {
     const { hover } = this.state
 
     return (
-      <Box
-        style={{
-          position: 'relative',
-        }}
-        {...rest}
-      >
+      <Box sx={{ position: 'relative' }} {...rest}>
         <StyledTooltipIconBox
           bg="primaryText"
           ml={1}
@@ -71,11 +66,15 @@ class Tooltip extends React.Component {
         {hover && (
           <StyledTooltipWrapper
             bg="secondaryColor"
-            border="1px solid gray"
-            borderRadius={5}
-            boxShadow="s"
             p={2}
             pl={3}
+            sx={{
+              borderRadius: 's',
+              boxShadow: 's',
+              borderWidth: 1,
+              borderStyle: 'solid',
+              borderColor: 'gray',
+            }}
           >
             <Text fontWeight="light" ml={2}>
               {children}

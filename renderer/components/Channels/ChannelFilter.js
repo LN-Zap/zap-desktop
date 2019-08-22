@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 import { Dropdown } from 'components/UI'
 import { Label } from 'components/Form'
 import messages from './messages'
@@ -20,14 +20,7 @@ const messageMapper = key => {
 
 const ChannelFilter = ({ changeFilter, filter, filters, ...rest }) => (
   <Flex alignItems="baseline" {...rest}>
-    <Label
-      css={`
-        white-space: nowrap;
-      `}
-      fontWeight="light"
-      htmlFor="channel-filter"
-      mr={2}
-    >
+    <Label css="white-space: nowrap;" fontWeight="light" htmlFor="channel-filter" mr={2}>
       <FormattedMessage {...messages.channel_filter_label} />
     </Label>
     <Dropdown

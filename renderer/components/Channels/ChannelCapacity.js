@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { opacity } from 'styled-system'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Card, Box, Flex as BaseFlex } from 'rebass'
+import { Card, Box, Flex as BaseFlex } from 'rebass/styled-components'
 import { Heading, ProgressBar, Text as BaseText } from 'components/UI'
 import { CryptoSelector, CryptoValue } from 'containers/UI'
 import ZapSolid from 'components/Icon/ZapSolid'
@@ -41,7 +41,7 @@ const ChannelCapacity = ({ localBalance, remoteBalance, opacity, ...rest }) => {
         <Box width="calc(50% - 15px)">
           <ProgressBar progress={localBalancePercent} />
         </Box>
-        <Text color="lightningOrange" textAlign="center" width={30}>
+        <Text color="primaryAccent" textAlign="center" width={30}>
           <ZapSolid fill="currentColor" height="20px" />
         </Text>
         <Box width="calc(50% - 15px)">

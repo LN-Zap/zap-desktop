@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 import { Card } from 'components/UI'
 import WalletBalance from './WalletBalance'
 import WalletButtons from './WalletButtons'

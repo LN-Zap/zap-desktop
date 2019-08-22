@@ -1,9 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.NoWallets should render correctly (no selected wallet) 1`] = `
-<NoWallets___StyledFlex
+<Styled(styled.div)
   alignItems="center"
   flexDirection="column"
+  height="100%"
   justifyContent="center"
 >
   <Heading4>
@@ -40,13 +41,14 @@ exports[`component.NoWallets should render correctly (no selected wallet) 1`] = 
     mt={3}
     p={3}
   />
-</NoWallets___StyledFlex>
+</Styled(styled.div)>
 `;
 
 exports[`component.NoWallets should render correctly (no wallets) 1`] = `
-<NoWallets___StyledFlex
+<Styled(styled.div)
   alignItems="center"
   flexDirection="column"
+  height="100%"
   justifyContent="center"
 >
   <Heading4>
@@ -83,5 +85,5 @@ exports[`component.NoWallets should render correctly (no wallets) 1`] = `
     mt={3}
     p={3}
   />
-</NoWallets___StyledFlex>
+</Styled(styled.div)>
 `;

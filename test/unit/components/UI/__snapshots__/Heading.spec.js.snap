@@ -4,6 +4,11 @@ exports[`component.UI.Heading should render correctly 1`] = `
 .c0 {
   box-sizing: border-box;
   margin: 0;
+  min-width: 0;
+  font-size: 24px;
+  font-family: heading;
+  font-weight: heading;
+  line-height: heading;
   color: primaryText;
   font-size: xl;
   font-weight: light;

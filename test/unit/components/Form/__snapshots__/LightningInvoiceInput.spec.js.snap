@@ -1,9 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.LightningInvoiceInput should render correctly 1`] = `
+.c1 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  color: #959595;
+  font-size: 11px;
+  line-height: 1.4;
+  margin-top: 4px;
+}
+
 .c0 {
   box-sizing: border-box;
   margin: 0;
+  min-width: 0;
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
@@ -11,40 +22,6 @@ exports[`component.UI.LightningInvoiceInput should render correctly 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-}
-
-.c2 {
-  box-sizing: border-box;
-  margin: 0;
-  color: #959595;
-  font-size: 11px;
-  line-height: 1.4;
-  margin-top: 4px;
-}
-
-.c1 {
-  padding: 16px;
-  color: #ffffff;
-  background-color: transparent;
-  border: 1px solid;
-  border-color: #959595;
-  border-radius: 5px;
-  font-family: Roboto,system-ui,sans-serif;
-  font-size: 13px;
-  font-weight: 300;
-  width: 100%;
-  opacity: inherit;
-  outline: none;
-  border-color: #959595;
-}
-
-.c1:not([readOnly]):not([disabled]):focus {
-  border-color: #fd9800;
-}
-
-.c1::-webkit-search-decoration:hover,
-.c1::-webkit-search-cancel-button:hover {
-  cursor: pointer;
 }
 
 <form
@@ -56,23 +33,17 @@ exports[`component.UI.LightningInvoiceInput should render correctly 1`] = `
     className="c0"
   >
     <textarea
-      className="c1"
-      color="primaryText"
-      fontFamily="sans"
-      fontSize="m"
-      fontWeight="light"
+      className="css-8hykkb"
       name="name"
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
-      required={false}
       rows={5}
       spellCheck="false"
       value=""
-      width={1}
     />
     <div
-      className="c2"
+      className="c1"
       color="gray"
       fontSize="s"
     >

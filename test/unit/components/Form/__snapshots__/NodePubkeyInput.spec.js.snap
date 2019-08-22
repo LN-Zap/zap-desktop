@@ -4,6 +4,7 @@ exports[`component.UI.NodePubkeyInput should render correctly 1`] = `
 .c0 {
   box-sizing: border-box;
   margin: 0;
+  min-width: 0;
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
@@ -16,6 +17,7 @@ exports[`component.UI.NodePubkeyInput should render correctly 1`] = `
 .c1 {
   box-sizing: border-box;
   margin: 0;
+  min-width: 0;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -24,31 +26,6 @@ exports[`component.UI.NodePubkeyInput should render correctly 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-}
-
-.c2 {
-  padding: 16px;
-  color: #ffffff;
-  background-color: transparent;
-  border: 1px solid;
-  border-color: #959595;
-  border-radius: 5px;
-  font-family: Roboto,system-ui,sans-serif;
-  font-size: 13px;
-  font-weight: 300;
-  width: 100%;
-  opacity: inherit;
-  outline: none;
-  border-color: #959595;
-}
-
-.c2:not([readOnly]):not([disabled]):focus {
-  border-color: #fd9800;
-}
-
-.c2::-webkit-search-decoration:hover,
-.c2::-webkit-search-cancel-button:hover {
-  cursor: pointer;
 }
 
 <form
@@ -63,11 +40,7 @@ exports[`component.UI.NodePubkeyInput should render correctly 1`] = `
       className="c1"
     >
       <input
-        className="c2"
-        color="primaryText"
-        fontFamily="sans"
-        fontSize="m"
-        fontWeight="light"
+        className="css-19p7jgh"
         name="name"
         onBlur={[Function]}
         onChange={[Function]}
@@ -75,7 +48,6 @@ exports[`component.UI.NodePubkeyInput should render correctly 1`] = `
         placeholder="pubkey@host:port"
         type="text"
         value=""
-        width={1}
       />
     </div>
   </div>

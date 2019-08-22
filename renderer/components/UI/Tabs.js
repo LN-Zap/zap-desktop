@@ -1,40 +1,40 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 import Tab from './Tab'
 
-class Tabs extends React.PureComponent {
-  static propTypes = {
-    activeKey: PropTypes.string,
-    items: PropTypes.array.isRequired,
-    onClick: PropTypes.func,
-  }
+const Tabs = ({ items, activeKey, onClick, ...rest }) => {
+  const handleClick = useCallback(
+    key => {
+      if (onClick) {
+        onClick(key)
+      }
+    },
+    [onClick]
+  )
 
-  handleClick = key => {
-    const { onClick } = this.props
-
-    if (onClick) {
-      return onClick(key)
-    }
-  }
-
-  render() {
-    const { items, activeKey, onClick, ...rest } = this.props
-
-    return (
-      <Flex alignItems="center" {...rest}>
-        {items.map(item => (
+  return (
+    <Flex alignItems="center" {...rest}>
+      {items.map(item => {
+        const { key, name } = item
+        return (
           <Tab
-            key={item.key}
-            isActive={item.key === activeKey}
-            itemKey={item.key}
-            itemValue={item.name}
-            onClick={this.handleClick}
+            key={key}
+            isActive={key === activeKey}
+            itemKey={key}
+            itemValue={name}
+            onClick={handleClick}
           />
-        ))}
-      </Flex>
-    )
-  }
+        )
+      })}
+    </Flex>
+  )
+}
+
+Tabs.propTypes = {
+  activeKey: PropTypes.string,
+  items: PropTypes.array.isRequired,
+  onClick: PropTypes.func,
 }
 
 export default Tabs

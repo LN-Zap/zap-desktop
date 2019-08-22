@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Donut, Heading } from 'components/UI'
 import messages from './messages'
@@ -28,7 +28,7 @@ const ChannelsMenuHeader = ({
             {
               key: 'lightning',
               amount: lightningBalancePercent || 0,
-              color: 'lightningOrange',
+              color: 'primaryAccent',
               withGlow: true,
               withTint: true,
             },

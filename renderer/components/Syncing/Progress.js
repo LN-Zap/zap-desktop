@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 import { injectIntl } from 'react-intl'
 import { useTimeout } from 'hooks'
 import { Heading, ProgressBar, Text } from 'components/UI'

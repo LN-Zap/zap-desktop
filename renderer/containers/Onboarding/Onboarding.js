@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
-import { Flex, Box } from 'rebass'
+import { Flex, Box } from 'rebass/styled-components'
 import styled from 'styled-components'
 import { usePrevious, useOnKeydown } from 'hooks'
 import { Panel, Wizard, Modal, ModalOverlayStyles } from 'components/UI'
@@ -166,13 +166,7 @@ const Onboarding = props => {
   return (
     <Wizard steps={steps}>
       <Panel width={1}>
-        <Panel.Body
-          css={`
-            position: relative;
-          `}
-          mx="auto"
-          width={9 / 16}
-        >
+        <Panel.Body mx="auto" sx={{ position: 'relative' }} width={9 / 16}>
           <Wizard.Steps />
         </Panel.Body>
 

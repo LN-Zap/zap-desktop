@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import { animated, Transition } from 'react-spring/renderprops'
 import Radio from './Radio'
 import { Text, Heading, Card as BaseCard } from 'components/UI'
@@ -39,14 +39,8 @@ const RadioCard = ({ fieldApi, icons, value, label, isDisabled, description, ...
       onClick={() => !isDisabled && fieldApi.setValue(value)}
     >
       <Card mb={3}>
-        <Flex
-          alignItems="center"
-          css={`
-            height: 100%;
-          `}
-          justifyContent="center"
-        >
-          <Box color={isSelected ? 'lightningOrange' : 'gray'}>
+        <Flex alignItems="center" height="100%" justifyContent="center">
+          <Box color={isSelected ? 'primaryAccent' : 'gray'}>
             <Icon height={iconHeight} width={iconWidth} />
           </Box>
         </Flex>

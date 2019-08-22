@@ -1,9 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.Checkbox should render correctly 1`] = `
+.c5 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  color: #ffffff;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.c6 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  color: #959595;
+  font-size: 13px;
+  line-height: 1.4;
+  margin-top: 8px;
+}
+
 .c4 {
   box-sizing: border-box;
   margin: 0;
+  min-width: 0;
   -webkit-align-items: flex-start;
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
@@ -18,26 +38,11 @@ exports[`component.UI.Checkbox should render correctly 1`] = `
   display: flex;
 }
 
-.c5 {
-  box-sizing: border-box;
-  margin: 0;
-  color: #ffffff;
-  font-size: 13px;
-  line-height: 1.4;
-}
-
-.c6 {
-  box-sizing: border-box;
-  margin: 0;
-  color: #959595;
-  font-size: 13px;
-  line-height: 1.4;
-  margin-top: 8px;
-}
-
 .c3 {
   box-sizing: border-box;
   margin: 0;
+  min-width: 0;
+  border-radius: 5px;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -61,6 +66,7 @@ exports[`component.UI.Checkbox should render correctly 1`] = `
 .c0 {
   box-sizing: border-box;
   margin: 0;
+  min-width: 0;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -101,7 +107,6 @@ exports[`component.UI.Checkbox should render correctly 1`] = `
     onClick={[Function]}
   >
     <input
-      checked={false}
       className="c1"
       onChange={[Function]}
       type="checkbox"
@@ -128,7 +133,6 @@ exports[`component.UI.Checkbox should render correctly 1`] = `
     onClick={[Function]}
   >
     <input
-      checked={false}
       className="c1"
       onChange={[Function]}
       type="checkbox"

@@ -3,16 +3,13 @@ import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { asField } from 'informed'
 import { withTheme } from 'styled-components'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 import { extractSpaceProps } from 'themes/util'
 import { withInputValidation } from 'hocs'
 import { useAutoFocus } from 'hooks'
 import { Message, Text } from 'components/UI'
 import InputLabel from './InputLabel'
-import { createSystemInput } from './util'
-
-// Create an html input element that accepts all style props from styled-system.
-export const SystemTextArea = createSystemInput('textarea')
+import { StyledTextArea } from './util'
 
 const TextArea = ({
   description,
@@ -63,7 +60,7 @@ const TextArea = ({
           {label}
         </InputLabel>
       )}
-      <SystemTextArea
+      <StyledTextArea
         {...otherProps}
         ref={forwardedRef}
         disabled={isDisabled}

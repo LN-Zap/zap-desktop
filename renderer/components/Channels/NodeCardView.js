@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
+import { themeGet } from '@styled-system/theme-get'
 import { Card, Heading } from 'components/UI'
 
 const CardWithBg = styled(Card)`
@@ -21,8 +22,8 @@ const GradientOverlay = styled(Card)`
   position: absolute;
   background-image: linear-gradient(
     146deg,
-    ${props => props.theme.colors.tertiaryColor},
-    ${props => props.theme.colors.primaryColor}
+    ${themeGet('colors.tertiaryColor')},
+    ${themeGet('colors.primaryColor')}
   );
   opacity: 0.5;
   width: 100%;

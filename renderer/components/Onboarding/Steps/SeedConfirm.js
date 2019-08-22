@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 import { intlShape } from '@zap/i18n'
 import { Bar, Header, Span } from 'components/UI'
 import { Form, Input, Label } from 'components/Form'

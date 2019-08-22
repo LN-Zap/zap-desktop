@@ -1,5 +1,6 @@
-import styled from 'styled-components'
-import system from '@rebass/components'
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Input, Textarea } from '@rebass/forms'
 
 /**
  * isFieldValid - Check wether a field is valid or not.
@@ -53,68 +54,88 @@ export const mapFocusBorderColor = props => {
   const {
     fieldState,
     theme: {
-      colors: { lightningOrange, superGreen },
+      colors: { primaryAccent, superGreen },
     },
   } = props
 
   if (!props.highlightOnValid) {
-    return lightningOrange
+    return primaryAccent
   }
 
-  return fieldState.touched && isFieldValid(fieldState) ? superGreen : lightningOrange
+  return fieldState.touched && isFieldValid(fieldState) ? superGreen : primaryAccent
 }
 
-/**
- * createSystemInput - Create a styled system input/textarea that accepts all style props from styled-system.
- *
- * @param  {'input'|'textarea'} type Type
- * @returns {object} Component
- */
-export const createSystemInput = (type = 'input') => {
-  const systemProps = {
-    border: 1,
-    borderColor: 'gray',
-    borderRadius: 5,
-    bg: 'transparent',
-    color: 'primaryText',
-    fontFamily: 'sans',
-    fontSize: 'm',
-    fontWeight: 'light',
-    p: 3,
-    width: 1,
-  }
-  if (type === 'textarea') {
-    const textareaProps = {
-      rows: 5,
-    }
-    Object.assign(systemProps, textareaProps)
-  }
-  return styled(
-    system(
-      {
-        as: type,
+const systemProps = {
+  borderWidth: 1,
+  borderRadius: 's',
+  bg: 'transparent',
+  color: 'primaryText',
+  fontFamily: 'sans',
+  fontSize: 'm',
+  fontWeight: 'light',
+  p: 2,
+  outline: 'none',
+}
+
+const StyledInput = React.forwardRef(({ sx, ...rest }, ref) => {
+  const { isDisabled, isReadOnly } = rest
+
+  return (
+    <Input
+      ref={ref}
+      opacity={isDisabled || isReadOnly ? '0.6' : 'inherit'}
+      sx={{
         ...systemProps,
-      },
-      'space',
-      'color',
-      'borders',
-      'borderColor',
-      'borderRadius',
-      'fontFamily',
-      'fontSize',
-      'fontWeight',
-      'width'
-    )
-  )`
-    opacity: ${props => (props.isDisabled || props.isReadOnly ? '0.6' : 'inherit')};
-    outline: none;
-    border-color: ${mapDefaultBorderColor};
-    &:not([readOnly]):not([disabled]):focus {
-      border-color: ${mapFocusBorderColor};
-    }
-    ::-webkit-search-decoration:hover,
-    ::-webkit-search-cancel-button:hover {
-      cursor: pointer;
-    }
-  `
+        borderColor: mapDefaultBorderColor(rest),
+        '&:not([readOnly]):not([disabled]):focus': {
+          borderColor: mapFocusBorderColor(rest),
+        },
+        '::-webkit-search-decoration:hover, ::-webkit-search-cancel-button:hover': {
+          cursor: 'pointer',
+        },
+        ...sx,
+      }}
+      width={1}
+      {...rest}
+    />
+  )
+})
+
+StyledInput.propTypes = {
+  isDisabled: PropTypes.bool,
+  isReadOnly: PropTypes.bool,
+  sx: PropTypes.object,
 }
+
+StyledInput.displayName = 'StyledInput'
+
+const StyledTextArea = React.forwardRef(({ sx, ...rest }, ref) => {
+  const { isDisabled, isReadOnly } = rest
+  return (
+    <Textarea
+      ref={ref}
+      opacity={isDisabled || isReadOnly ? '0.6' : 'inherit'}
+      rows={5}
+      sx={{
+        ...systemProps,
+        borderColor: mapDefaultBorderColor(rest),
+        '&:not([readOnly]):not([disabled]):focus': {
+          borderColor: mapFocusBorderColor(rest),
+        },
+        ...sx,
+      }}
+      width={1}
+      {...rest}
+    />
+  )
+})
+
+StyledTextArea.propTypes = {
+  isDisabled: PropTypes.bool,
+  isReadOnly: PropTypes.bool,
+  sx: PropTypes.object,
+}
+
+StyledTextArea.displayName = 'StyledTextArea'
+
+export { StyledTextArea, StyledInput }

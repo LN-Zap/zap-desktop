@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 import { Card } from 'components/UI'
 import ChannelsCapacity from './ChannelsCapacity'
 import ChannelsSummaryDonut from './ChannelsSummaryDonut'

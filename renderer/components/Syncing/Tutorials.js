@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Button, Text } from 'components/UI'
 import messages from './messages'

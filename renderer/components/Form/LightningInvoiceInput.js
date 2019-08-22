@@ -18,10 +18,6 @@ class LightningInvoiceInput extends React.Component {
     network: PropTypes.oneOf(['mainnet', 'testnet', 'regtest']),
   }
 
-  static defaultProps = {
-    isRequired: false,
-  }
-
   validate = value => {
     const { intl } = this.props
     const { network, chain, isRequired } = this.props

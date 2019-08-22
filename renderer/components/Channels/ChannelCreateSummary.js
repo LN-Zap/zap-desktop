@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage } from 'react-intl'
 import BigArrowRight from 'components/Icon/BigArrowRight'
 import { Bar, DataRow, Text } from 'components/UI'
@@ -54,7 +54,7 @@ class ChannelCreateSummary extends React.Component {
                 <FiatValue style="currency" value={amount} />
               </Text>
             </Box>
-            <Flex color="lightningOrange" justifyContent="center" width={1 / 11}>
+            <Flex color="primaryAccent" justifyContent="center" width={1 / 11}>
               <BigArrowRight height="28px" width="40px" />
             </Flex>
             <Flex

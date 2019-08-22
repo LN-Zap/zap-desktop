@@ -33,7 +33,7 @@ const ProfilePage = ({ activeWalletSettings }) => {
           <Panel.Header mb={40} px={4}>
             <ZapLogo height={28} width={28} />
           </Panel.Header>
-          <Panel.Body css={{ 'overflow-y': 'overlay' }}>
+          <Panel.Body sx={{ overflowY: 'overlay' }}>
             <ProfileMenu group={group} isLocalWallet={isLocalWallet} p={2} setGroup={setGroup} />
           </Panel.Body>
         </Panel>

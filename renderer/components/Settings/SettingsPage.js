@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { useFormState, useFormApi } from 'informed'
 import styled from 'styled-components'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import merge from 'lodash/merge'
 import difference from '@zap/utils/difference'
 import { ActionBar, Button, Heading, MainContent, Menu, Panel, Sidebar } from 'components/UI'
@@ -95,11 +95,7 @@ const SettingsPage = ({ currentConfig, ...rest }) => {
           <Panel.Header mb={40} px={4}>
             <ZapLogo height={28} width={28} />
           </Panel.Header>
-          <Panel.Body
-            css={`
-              overflow-y: overlay;
-            `}
-          >
+          <Panel.Body sx={{ overflowY: 'overlay' }}>
             <SettingsMenu group={group} setGroup={setGroup} />
           </Panel.Body>
         </Panel>

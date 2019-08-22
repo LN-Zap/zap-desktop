@@ -1,12 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.Pay.PayPanelFooter current step is "address" should render correctly 1`] = `
-<styled.div>
+<Styled(div)>
   <PayButtons
     hasBackButton={false}
     hasSubmitButton={true}
     isDisabled={false}
-    isProcessing={false}
     nextButtonText={
       <FormattedMessage
         defaultMessage="Next"
@@ -60,16 +59,15 @@ exports[`component.Pay.PayPanelFooter current step is "address" should render co
       values={Object {}}
     />
   </Text>
-</styled.div>
+</Styled(div)>
 `;
 
 exports[`component.Pay.PayPanelFooter current step is "summary" should render correctly 1`] = `
-<styled.div>
+<Styled(div)>
   <PayButtons
     hasBackButton={true}
     hasSubmitButton={true}
     isDisabled={false}
-    isProcessing={false}
     nextButtonText={
       <React.Fragment>
         <FormattedMessage
@@ -131,5 +129,5 @@ exports[`component.Pay.PayPanelFooter current step is "summary" should render co
       values={Object {}}
     />
   </Text>
-</styled.div>
+</Styled(div)>
 `;

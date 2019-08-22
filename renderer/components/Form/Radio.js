@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Radio as InformedRadio } from 'informed'
 import styled from 'styled-components'
-import { Box } from 'rebass'
+import { Box } from 'rebass/styled-components'
+import { themeGet } from '@styled-system/theme-get'
 import { Text } from 'components/UI'
 import Label from './Label'
 
@@ -29,18 +30,18 @@ const Wrapper = styled(Box)`
     left: 0;
     height: 16px;
     width: 16px;
-    border: 1px solid ${props => props.theme.colors.gray};
+    border: 1px solid ${themeGet('colors.gray')};
     border-radius: 50%;
   }
 
   /* On mouse-over, add an orange border color */
   .container:hover input ~ .selection {
-    border: 1px solid ${props => props.theme.colors.lightningOrange};
+    border: 1px solid ${themeGet('colors.primaryAccent')};
   }
 
   /* When the radio button is checked, make the border orange */
   .container input:checked ~ .selection {
-    border: 1px solid ${props => props.theme.colors.lightningOrange};
+    border: 1px solid ${themeGet('colors.primaryAccent')};
   }
 
   /* Create the indicator (the dot/circle - hidden when not checked) */
@@ -62,7 +63,7 @@ const Wrapper = styled(Box)`
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: ${props => props.theme.colors.lightningOrange};
+    background: ${themeGet('colors.primaryAccent')};
   }
 `
 const Radio = ({

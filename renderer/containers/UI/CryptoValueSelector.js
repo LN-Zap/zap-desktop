@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex, Text } from 'rebass'
+import { Flex, Text } from 'rebass/styled-components'
 import CryptoValue from './CryptoValue'
 import CryptoSelector from './CryptoSelector'
 

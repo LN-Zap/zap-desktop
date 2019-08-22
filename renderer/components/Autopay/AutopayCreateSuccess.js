@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Text } from 'components/UI'
 import AutopayCheck from 'components/Icon/AutopayCheck'
@@ -36,7 +36,7 @@ const AutopayCreateSuccess = ({ merchantLogo }) => {
       src={merchantLogo}
     >
       <Box color="superGreen" mb={3}>
-        <AutopayCheck height={128} width={128} />
+        <AutopayCheck height="128px" width="128px" />
       </Box>
       <Text color="gray">
         <FormattedMessage {...messages.success_text} />

@@ -6,7 +6,7 @@ exports[`component.UI.ProgressBar should render correctly (50%) 1`] = `
   height={10}
 >
   <ProgressBar__FilledBar
-    bg="lightningOrange"
+    bg="primaryAccent"
     height={10}
     justify="left"
     width={0.5}
@@ -20,7 +20,7 @@ exports[`component.UI.ProgressBar should render correctly (100%) 1`] = `
   height={10}
 >
   <ProgressBar__FilledBar
-    bg="lightningOrange"
+    bg="primaryAccent"
     height={10}
     justify="left"
     width={1}
@@ -55,7 +55,7 @@ exports[`component.UI.ProgressBar should render correctly (right justify) 1`] = 
   height={10}
 >
   <ProgressBar__FilledBar
-    bg="lightningOrange"
+    bg="primaryAccent"
     height={10}
     justify="right"
     width={0.5}

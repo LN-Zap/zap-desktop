@@ -1,14 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.Card should render correctly 1`] = `
-<Card__StyledCard
+<ForwardRef
   as="section"
   bg="primaryColor"
-  borderRadius={5}
-  boxShadow="m"
   color="primaryText"
   p={3}
+  sx={
+    Object {
+      "borderRadius": "s",
+      "boxShadow": "m",
+    }
+  }
 >
   content
-</Card__StyledCard>
+</ForwardRef>
 `;

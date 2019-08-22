@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import { intlShape } from '@zap/i18n'
 import { Message, Text } from 'components/UI'
 import { CryptoValue, FiatValue } from 'containers/UI'
@@ -70,7 +70,7 @@ const Transaction = ({ transaction, showActivityModal, cryptoUnitName, intl }) =
         data-hint={intl.formatMessage({ ...messages.amount })}
         width={1 / 4}
       >
-        <Box css={transaction.status == 'failed' ? { opacity: 0.2 } : null}>
+        <Box opactiy={transaction.status == 'failed' ? 0.2 : null}>
           <Text color={isIncoming ? 'superGreen' : null} mb={1} textAlign="right">
             {isIncoming ? `+ ` : `- `}
             <CryptoValue value={amount} />

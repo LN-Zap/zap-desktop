@@ -1,36 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.Radio should render correctly 1`] = `
-.c2 {
+.c1 {
   box-sizing: border-box;
   margin: 0;
+  min-width: 0;
   color: #ffffff;
   font-size: 13px;
   line-height: 1.4;
 }
 
-.c3 {
+.c2 {
   box-sizing: border-box;
   margin: 0;
+  min-width: 0;
   color: #959595;
   font-size: 13px;
   line-height: 1.4;
   margin-top: 8px;
 }
 
-.c1 {
-  margin-bottom: 16px;
-  padding-left: 30px;
-  font-size: 13px;
-  color: #ffffff;
-  color: #ffffff;
-  font-weight: 300;
-  display: block;
-}
-
 .c0 {
   box-sizing: border-box;
   margin: 0;
+  min-width: 0;
 }
 
 .c0 .container {
@@ -97,15 +90,11 @@ exports[`component.UI.Radio should render correctly 1`] = `
     className="c0"
   >
     <label
-      className="container c1"
-      color="primaryText"
-      display="block"
-      fontSize="m"
-      fontWeight="light"
+      className="container css-40xzvu"
       htmlFor="item1"
     >
       <div
-        className="c2"
+        className="c1"
         color="primaryText"
         fontSize="m"
       >
@@ -123,7 +112,7 @@ exports[`component.UI.Radio should render correctly 1`] = `
         className="selection"
       />
       <div
-        className="c3"
+        className="c2"
         color="gray"
         fontSize="m"
       >
@@ -135,15 +124,11 @@ exports[`component.UI.Radio should render correctly 1`] = `
     className="c0"
   >
     <label
-      className="container c1"
-      color="primaryText"
-      display="block"
-      fontSize="m"
-      fontWeight="light"
+      className="container css-40xzvu"
       htmlFor="item2"
     >
       <div
-        className="c2"
+        className="c1"
         color="primaryText"
         fontSize="m"
       >
@@ -161,7 +146,7 @@ exports[`component.UI.Radio should render correctly 1`] = `
         className="selection"
       />
       <div
-        className="c3"
+        className="c2"
         color="gray"
         fontSize="m"
       >
@@ -173,15 +158,11 @@ exports[`component.UI.Radio should render correctly 1`] = `
     className="c0"
   >
     <label
-      className="container c1"
-      color="primaryText"
-      display="block"
-      fontSize="m"
-      fontWeight="light"
+      className="container css-40xzvu"
       htmlFor="item3"
     >
       <div
-        className="c2"
+        className="c1"
         color="primaryText"
         fontSize="m"
       >
@@ -199,7 +180,7 @@ exports[`component.UI.Radio should render correctly 1`] = `
         className="selection"
       />
       <div
-        className="c3"
+        className="c2"
         color="gray"
         fontSize="m"
       >

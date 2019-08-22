@@ -34,7 +34,6 @@ storiesOf('Containers.Syncing', module)
           neutrinoBlockHeight={neutrinoSelectors.neutrinoBlockHeight(state)}
           neutrinoCfilterHeight={neutrinoSelectors.neutrinoCfilterHeight(state)}
           neutrinoRecoveryHeight={neutrinoSelectors.neutrinoRecoveryHeight(state)}
-          p={4}
           recoveryPercentage={recoveryPercentage}
           setIsWalletOpen={setIsWalletOpen}
           showNotification={showNotification}

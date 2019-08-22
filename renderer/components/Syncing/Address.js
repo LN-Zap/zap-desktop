@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import copy from 'copy-to-clipboard'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Button, QRCode, Spinner, Text } from 'components/UI'
 import messages from './messages'

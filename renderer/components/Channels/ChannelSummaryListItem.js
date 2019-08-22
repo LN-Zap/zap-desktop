@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import isEqual from 'lodash/isEqual'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import { Card, Heading, Text } from 'components/UI'
 import { withEllipsis } from 'hocs'
 import ChannelCapacity from './ChannelCapacity'

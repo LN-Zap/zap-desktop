@@ -3,24 +3,22 @@ import { compose } from 'redux'
 import PropTypes from 'prop-types'
 import { asField } from 'informed'
 import styled, { withTheme } from 'styled-components'
-import { Flex } from 'rebass'
+import { themeGet } from '@styled-system/theme-get'
+import { Flex } from 'rebass/styled-components'
 import Search from 'components/Icon/Search'
 import { extractSpaceProps } from 'themes/util'
 import { withInputValidation } from 'hocs'
 import { useAutoFocus } from 'hooks'
 import { Message, Text } from 'components/UI'
 import InputLabel from './InputLabel'
-import { createSystemInput } from './util'
+import { StyledInput } from './util'
 
 const SearchIcon = styled(Search)`
   margin-right: -${props => props.width}px;
   width: ${props => props.width}px;
   height: 15px;
-  color: ${props => props.color || props.theme.colors.gray};
+  color: ${themeGet('colors.gray')};
 `
-
-// Create an html input element that accepts all style props from styled-system.
-export const SystemInput = createSystemInput('input')
 
 const Input = ({
   description,
@@ -78,7 +76,7 @@ const Input = ({
       )}
       <Flex alignItems="center">
         {type === 'search' && <SearchIcon width={iconSize} />}
-        <SystemInput
+        <StyledInput
           {...otherProps}
           ref={forwardedRef}
           disabled={isDisabled}

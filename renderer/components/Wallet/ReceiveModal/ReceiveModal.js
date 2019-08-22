@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import { CopyBox, Bar, Header, QRCode } from 'components/UI'
 import { WalletName } from 'components/Util'
 import messages from './messages'

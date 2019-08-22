@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 import { storiesOf } from '@storybook/react'
 import { Dialog, Text, Heading, Countdown, Button, Page } from 'components/UI'
 import Globe from 'components/Icon/Globe'

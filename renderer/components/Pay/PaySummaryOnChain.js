@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage } from 'react-intl'
 import BigArrowRight from 'components/Icon/BigArrowRight'
 import { Bar, DataRow, Spinner, Text } from 'components/UI'
@@ -37,7 +37,6 @@ class PaySummaryOnChain extends React.Component {
   }
 
   static defaultProps = {
-    isQueryingFees: false,
     onchainFees: {},
   }
 
@@ -71,7 +70,7 @@ class PaySummaryOnChain extends React.Component {
               </Text>
             </Box>
             <Box width={1 / 11}>
-              <Text color="lightningOrange" textAlign="center">
+              <Text color="primaryAccent" textAlign="center">
                 <BigArrowRight height="28px" width="40px" />
               </Text>
             </Box>
@@ -103,7 +102,7 @@ class PaySummaryOnChain extends React.Component {
                   <FormattedMessage {...messages.calculating} />
                   &hellip;
                 </Text>
-                <Spinner color="lightningOrange" />
+                <Spinner color="primaryAccent" />
               </Flex>
             ) : fee ? (
               <>

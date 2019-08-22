@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { Box } from 'rebass'
+import { Box } from 'rebass/styled-components'
 import { Bar, DataRow, Button, CopyBox, Message, QRCode, Text } from 'components/UI'
 import messages from './messages'
 import { intlShape } from '@zap/i18n'

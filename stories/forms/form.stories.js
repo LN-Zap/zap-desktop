@@ -1,7 +1,7 @@
 import React, { createRef } from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import { Box } from 'rebass'
+import { Box } from 'rebass/styled-components'
 import { Button, MainContent, Page } from 'components/UI'
 import {
   Checkbox,
@@ -15,6 +15,7 @@ import {
   LndConnectionStringInput,
   NodePubkeyInput,
   IntegerInput,
+  PasswordInput,
   Radio,
   RadioGroup,
   Range,
@@ -44,6 +45,14 @@ storiesOf('Forms', module)
       </Form>
       <Form mb={4}>
         <Input field="fieldName" id="field-name" label="Field with Label" />
+      </Form>
+      <Form mb={4}>
+        <Input
+          field="fieldName"
+          id="field-name"
+          label="Field with Label and tooltip"
+          tooltip="Some help text"
+        />
       </Form>
       <Form mb={4}>
         <Input
@@ -104,6 +113,13 @@ storiesOf('Forms', module)
           label="Number field with min value (required)"
           min={0}
         />
+      </Form>
+    </>
+  ))
+  .add('PasswordInput', () => (
+    <>
+      <Form mb={4}>
+        <PasswordInput field="fieldName" id="field-name" label="Password field" willAutoFocus />
       </Form>
     </>
   ))
@@ -310,7 +326,7 @@ storiesOf('Forms', module)
   .add('Checkbox', () => (
     <Form>
       <Label htmlFor="checkbox">Unchecked</Label>
-      <Checkbox description="Lightning is a layer 2 scaling solution" field="checkbox" />
+      <Checkbox field="checkbox" label="Lightning is a layer 2 scaling solution" />
       <Label htmlFor="checkbox2" mt={4}>
         Checked
       </Label>

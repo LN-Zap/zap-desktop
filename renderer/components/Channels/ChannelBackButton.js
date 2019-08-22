@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import { Button } from 'components/UI'
 import ArrowLeft from 'components/Icon/ArrowLeft'
 import messages from './messages'

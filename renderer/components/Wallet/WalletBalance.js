@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import { CryptoSelector, CryptoValue, FiatValue } from 'containers/UI'
 import { Button, Text } from 'components/UI'
 import Qrcode from 'components/Icon/Qrcode'

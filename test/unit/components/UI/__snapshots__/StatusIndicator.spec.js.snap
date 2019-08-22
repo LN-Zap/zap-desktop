@@ -1,45 +1,45 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.StatusIndicator closing should render correctly 1`] = `
-<StatusIndicator__StyledStatusIndicator
-  variant="closing"
+<styled.div
+  variant="statuses.closing"
 >
   <SvgCircle
     height="0.7em"
     width="0.7em"
   />
-</StatusIndicator__StyledStatusIndicator>
+</styled.div>
 `;
 
 exports[`component.UI.StatusIndicator offline should render correctly 1`] = `
-<StatusIndicator__StyledStatusIndicator
-  variant="offline"
+<styled.div
+  variant="statuses.offline"
 >
   <SvgCircle
     height="0.7em"
     width="0.7em"
   />
-</StatusIndicator__StyledStatusIndicator>
+</styled.div>
 `;
 
 exports[`component.UI.StatusIndicator online should render correctly 1`] = `
-<StatusIndicator__StyledStatusIndicator
-  variant="online"
+<styled.div
+  variant="statuses.online"
 >
   <SvgCircle
     height="0.7em"
     width="0.7em"
   />
-</StatusIndicator__StyledStatusIndicator>
+</styled.div>
 `;
 
 exports[`component.UI.StatusIndicator pending should render correctly 1`] = `
-<StatusIndicator__StyledStatusIndicator
-  variant="pending"
+<styled.div
+  variant="statuses.pending"
 >
   <SvgCircle
     height="0.7em"
     width="0.7em"
   />
-</StatusIndicator__StyledStatusIndicator>
+</styled.div>
 `;

@@ -1,22 +1,29 @@
 import React from 'react'
-import { Flex } from 'rebass'
-import { themeGet } from 'styled-system'
+import PropTypes from 'prop-types'
+import { Flex } from 'rebass/styled-components'
 
-const Page = props => (
-  <Flex
-    as="article"
-    bg="primaryColor"
-    color="primaryText"
-    css={`
-      position: relative;
-      height: 100%;
-      overflow: hidden;
-      min-width: 900px;
-      min-height: 425px;
-      box-shadow: ${themeGet('shadows.l')};
-    `}
-    {...props}
-  />
-)
+const Page = ({ sx, ...rest }) => {
+  return (
+    <Flex
+      as="article"
+      bg="primaryColor"
+      color="primaryText"
+      height="100%"
+      minHeight="425px"
+      minWidth="900px"
+      {...rest}
+      sx={{
+        overflow: 'hidden',
+        position: 'relative',
+        boxShadow: 'l',
+        ...sx,
+      }}
+    />
+  )
+}
+
+Page.propTypes = {
+  sx: PropTypes.object,
+}
 
 export default Page

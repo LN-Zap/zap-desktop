@@ -162,7 +162,7 @@ app.on('ready', async () => {
   mainLog.timeEnd('Time until app is ready')
 
   // Get the users preference so that we can:
-  //  - set the background colour of the window to avoid unwanted flicker.
+  //  - set the background color of the window to avoid unwanted flicker.
   //  - Initialise the Language menu with the users locale selected by default.
   //  - Enable autoupdates based on user preferences.
   let autoupdate = {}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { themeGet } from 'styled-system'
+import { themeGet } from '@styled-system/theme-get'
 import Input from './Input'
 import Eye from 'components/Icon/Eye'
 import EyeOff from 'components/Icon/EyeOff'
@@ -30,13 +30,7 @@ const PasswordInput = props => {
   }
 
   return (
-    <Input
-      css={`
-        position: relative;
-      `}
-      type={isPasswordVisible ? 'text' : 'password'}
-      {...props}
-    >
+    <Input css="position: relative;" type={isPasswordVisible ? 'text' : 'password'} {...props}>
       {isPasswordVisible ? (
         <StyledEyeOffIcon onClick={toggleIsPasswordVisible} />
       ) : (

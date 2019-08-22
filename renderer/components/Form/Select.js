@@ -4,10 +4,9 @@ import { asField } from 'informed'
 import { compose } from 'redux'
 import { injectIntl } from 'react-intl'
 import styled, { withTheme } from 'styled-components'
-import { themeGet } from 'styled-system'
+import { themeGet } from '@styled-system/theme-get'
 import Downshift from 'downshift'
-import { Box, Flex } from 'rebass'
-import system from '@rebass/components'
+import { Box, Flex } from 'rebass/styled-components'
 import { useIntl } from 'hooks'
 import Check from 'components/Icon/Check'
 import AngleUp from 'components/Icon/AngleUp'
@@ -29,31 +28,28 @@ const SelectOptionList = styled.ul`
   overflow-x: hidden;
   outline: 0;
   transition: opacity 0.1s ease;
-  background-color: ${props => props.theme.colors.secondaryColor};
+  background-color: ${themeGet('colors.secondaryColor')};
   border-radius: 5px;
   box-shadow: ${themeGet('shadows.s')};
 `
 
-const SelectOptionItem = styled(
-  system(
-    {
-      extend: Box,
-      as: 'li',
+const SelectOptionItem = props => (
+  <Box
+    {...props}
+    as="li"
+    sx={{
       p: 2,
-    },
-    'space',
-    'color'
-  )
-)`
-  outline: none;
-  cursor: pointer;
-`
+      outline: 'none',
+      cursor: 'pointer',
+    }}
+  />
+)
 
 const getIconStyles = props => `
   margin-left: -${props.width + 16}px;
   width: ${props.width}px;
   pointer-events: none;
-  color: ${props.color || props.theme.colors.gray};
+  color: ${themeGet('colors.gray')(props)};
 `
 
 const ArrowIconClosed = styled(AngleDown)`
@@ -68,7 +64,7 @@ const StyledInput = styled(BasicInput)`
   input {
     cursor: pointer;
     color: transparent;
-    text-shadow: 0 0 0 ${props => props.color || props.theme.colors.primaryText};
+    text-shadow: 0 0 0 ${props => themeGet('colors.primaryText')(props)};
   }
 `
 

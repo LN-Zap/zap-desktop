@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
 import styled from 'styled-components'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
+import { themeGet } from '@styled-system/theme-get'
 import { Button } from 'components/UI'
 import LayoutCards from 'components/Icon/LayoutCards'
 import LayoutList from 'components/Icon/LayoutList'
@@ -10,9 +11,9 @@ import { CHANNEL_LIST_VIEW_MODE_SUMMARY, CHANNEL_LIST_VIEW_MODE_CARD } from './c
 import messages from './messages'
 
 const StyledButton = styled(Button)`
-  color: ${props => (props.active ? props.theme.colors.lightningOrange : null)};
+  color: ${props => (props.active ? themeGet('colors.primaryAccent')(props) : null)};
   &:hover {
-    color: ${props => props.theme.colors.lightningOrange};
+    color: ${props => themeGet('colors.primaryAccent')(props)};
   }
 `
 

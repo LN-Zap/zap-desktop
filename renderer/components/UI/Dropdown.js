@@ -1,9 +1,10 @@
 import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import styled, { withTheme } from 'styled-components'
-import { themeGet, opacity, fontWeight } from 'styled-system'
+import { themeGet } from '@styled-system/theme-get'
+import { opacity, fontWeight } from 'styled-system'
 import { useOnClickOutside, useIntl } from 'hooks'
 import AngleLeft from 'components/Icon/AngleLeft'
 import AngleRight from 'components/Icon/AngleRight'
@@ -174,13 +175,7 @@ const Dropdown = injectIntl(
             type="button"
           >
             <Flex alignItems="center">
-              <Text
-                css={`
-                  white-space: nowrap;
-                `}
-                mr={1}
-                textAlign="left"
-              >
+              <Text css="white-space: nowrap;" mr={1} textAlign="left">
                 {selectedItem ? selectedItem[valueField] : activeKey}{' '}
               </Text>
               <Flex color="gray">

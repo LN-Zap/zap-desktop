@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import { intlShape } from '@zap/i18n'
 import { Heading } from 'components/UI'
 import Autopay from 'components/Icon/Autopay'

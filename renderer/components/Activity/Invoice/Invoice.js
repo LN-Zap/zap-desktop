@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import { intlShape } from '@zap/i18n'
 import { Text } from 'components/UI'
 import { CryptoValue, FiatValue } from 'containers/UI'

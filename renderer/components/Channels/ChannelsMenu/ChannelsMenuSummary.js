@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Bar, Text } from 'components/UI'
 import { CryptoValue } from 'containers/UI'
@@ -36,7 +36,7 @@ const ChannelsMenuSummary = ({
           {cryptoUnitName}
         </>
       }
-      color="lightningOrange"
+      color="primaryAccent"
       title={<FormattedMessage {...messages.summary_row_lightning_title} />}
     />
     {pendingBalance > 0 && (
@@ -61,9 +61,7 @@ const ChannelsMenuSummary = ({
         </>
       }
       color="gray"
-      css={`
-        opacity: 0.5;
-      `}
+      opacity={0.5}
       title={<FormattedMessage {...messages.summary_row_onchain_title} />}
     />
   </Box>

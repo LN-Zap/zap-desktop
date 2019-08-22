@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import AngleDown from 'components/Icon/AngleDown'
 import AngleLeft from 'components/Icon/AngleLeft'
 import AngleRight from 'components/Icon/AngleRight'

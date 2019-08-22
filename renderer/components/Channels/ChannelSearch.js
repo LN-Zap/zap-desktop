@@ -21,7 +21,6 @@ const ChannelSearch = ({ searchQuery, placeholder, updateChannelSearchQuery, ...
       }}
     >
       <Input
-        border={0}
         field={fieldId}
         highlightOnValid={false}
         id={fieldId}
@@ -29,6 +28,9 @@ const ChannelSearch = ({ searchQuery, placeholder, updateChannelSearchQuery, ...
         mr={2}
         onValueChange={updateChannelSearchQuery}
         placeholder={placeholder}
+        sx={{
+          borderWidth: 0,
+        }}
         type="search"
         variant="thin"
       />

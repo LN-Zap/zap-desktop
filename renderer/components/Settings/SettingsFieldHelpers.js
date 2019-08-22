@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Box } from 'rebass'
+import { Box } from 'rebass/styled-components'
 import { Text } from 'components/UI'
 import { IntegerInput, Label } from 'components/Form'
 import messages from './messages'

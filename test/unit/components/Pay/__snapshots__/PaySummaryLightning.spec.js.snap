@@ -70,7 +70,7 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
         width={0.09090909090909091}
       >
         <Text
-          color="lightningOrange"
+          color="primaryAccent"
           textAlign="center"
         >
           <SvgBigArrowRight
@@ -112,8 +112,8 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
         id="components.Pay.fee_unknown"
         values={
           Object {
-            "maxFee": null,
-            "minFee": null,
+            "maxFee": undefined,
+            "minFee": undefined,
           }
         }
       />
@@ -138,7 +138,7 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
           mr={2}
         />
         <CryptoValue
-          value={10000}
+          value={NaN}
         />
       </ForwardRef(Styled(styled.div))>
     }
