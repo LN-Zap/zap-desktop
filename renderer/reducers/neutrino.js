@@ -2,9 +2,11 @@ import { send } from 'redux-electron-ipc'
 import { createSelector } from 'reselect'
 import { proxyValue } from 'comlinkjs'
 import { neutrino } from 'workers'
+import { getIntl } from '@zap/i18n'
 import { showSystemNotification } from '@zap/utils/notifications'
 import { setHasSynced } from './info'
 import createReducer from './utils/createReducer'
+import messages from './messages'
 
 // ------------------------------------
 // Initial State
@@ -377,9 +379,7 @@ export const neutrinoRecoveryHeight = height => ({
  * @returns {Function} Thunk
  */
 export const neutrinoSyncStatus = status => async dispatch => {
-  const notifTitle = 'Lightning Node Synced'
-  const notifBody = "Visa who? You're your own payment processor now!"
-
+  const intl = getIntl()
   switch (status) {
     case 'NEUTRINO_CHAIN_SYNC_PENDING':
       dispatch({ type: SET_SYNC_STATUS_PENDING })
@@ -398,9 +398,11 @@ export const neutrinoSyncStatus = status => async dispatch => {
 
       // Persist the fact that the wallet has been synced at least once.
       dispatch(setHasSynced(true))
-
       // HTML 5 desktop notification for sync completion
-      showSystemNotification(notifTitle, notifBody)
+      showSystemNotification(
+        intl.formatMessage(messages.neutrtino_synced_title),
+        intl.formatMessage(messages.neutrtino_synced_body)
+      )
       break
   }
 }
