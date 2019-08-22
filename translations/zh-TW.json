@@ -420,9 +420,11 @@
   "components.Pay.fee_subtraction": "",
   "components.Pay.fee_unknown": "",
   "components.Pay.fee_upto": "",
+  "components.Pay.in_channels": "",
   "components.Pay.memo": "备注",
   "components.Pay.next": "",
   "components.Pay.next_block_confirmation": "",
+  "components.Pay.on_chain": "",
   "components.Pay.request_label_combined": "",
   "components.Pay.request_label_offchain": "",
   "components.Pay.request_label_onchain": "",
@@ -598,6 +600,12 @@
   "reducers.messages.channels_open_warning": "",
   "reducers.messages.invoice_receive_body": "",
   "reducers.messages.invoice_receive_title": "",
+  "reducers.messages.neutrtino_synced_body": "",
+  "reducers.messages.neutrtino_synced_title": "",
   "reducers.messages.payment_send_error": "",
-  "reducers.messages.settings_init_error": ""
+  "reducers.messages.settings_init_error": "",
+  "reducers.messages.transaction_received_body": "",
+  "reducers.messages.transaction_received_title": "",
+  "reducers.messages.transaction_sent_body": "",
+  "reducers.messages.transaction_sent_title": ""
 }
