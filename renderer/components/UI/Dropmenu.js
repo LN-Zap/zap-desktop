@@ -161,7 +161,7 @@ const DropmenuButton = ({ isOpen, children, ...rest }) => {
       onMouseLeave={() => setHovered(false)}
     >
       <MenuButtonText isHovered={isHovered || isOpen}>
-        <Flex alignItems="flex-end">
+        <Flex alignItems="center">
           <Box mr={1}>{children}</Box>
           <MenuButtonTextMuted isHovered={isHovered || isOpen}>
             {isOpen ? <AngleUp width="0.6em" /> : <AngleDown width="0.6em" />}
