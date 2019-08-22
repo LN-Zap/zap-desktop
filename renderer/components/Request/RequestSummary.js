@@ -31,7 +31,7 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
     showNotification(notifBody)
   }
 
-  const { satoshis: invoiceAmount, tags } = decodedInvoice
+  const { satoshis: invoiceAmount, tags, timestampString } = decodedInvoice
   const satoshis = invoice.finalAmount || invoiceAmount || 0
   const descriptionTag = tags.find(tag => tag.tagName === 'description') || {}
   const memo = descriptionTag.data
@@ -56,6 +56,13 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
             <CryptoValue fontSize="xxl" value={satoshis} />
           </Flex>
         }
+      />
+
+      <Bar variant="light" />
+
+      <DataRow
+        left={<FormattedMessage {...messages.created} />}
+        right={<FormattedTime day="2-digit" month="long" value={timestampString} year="numeric" />}
       />
 
       <Bar variant="light" />
