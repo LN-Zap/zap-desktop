@@ -61,7 +61,7 @@ const ProfilePaneNodeInfo = ({ intl, verifyMessage, showNotification, ...rest })
             css="word-break: break-all"
             description={intl.formatMessage({ ...messages.verify_message_desc })}
             field="message"
-            height={90}
+            height={93}
             isRequired
             label={intl.formatMessage({ ...messages.verify_message_label })}
             mb={3}
