@@ -420,9 +420,11 @@
   "components.Pay.fee_subtraction": "Vom Totalen abgezogen",
   "components.Pay.fee_unknown": "unbekannt",
   "components.Pay.fee_upto": "bis zu {maxFee} satoshi",
+  "components.Pay.in_channels": "",
   "components.Pay.memo": "Memo",
   "components.Pay.next": "Weiter",
   "components.Pay.next_block_confirmation": "nächste Blockbestätigung",
+  "components.Pay.on_chain": "",
   "components.Pay.request_label_combined": "Zahlungsanforderung oder Adresse",
   "components.Pay.request_label_offchain": "Zahlungsanfrage",
   "components.Pay.request_label_onchain": "Adresse",
@@ -598,6 +600,12 @@
   "reducers.messages.channels_open_warning": "Kanalnöffnung gestartet",
   "reducers.messages.invoice_receive_body": "",
   "reducers.messages.invoice_receive_title": "",
+  "reducers.messages.neutrtino_synced_body": "",
+  "reducers.messages.neutrtino_synced_title": "",
   "reducers.messages.payment_send_error": "Zahlung konnte nicht gesendet werden: Ungültige Rechnung (kein Zahlungshash)",
-  "reducers.messages.settings_init_error": "Einstellungen können nicht geladen werden: {error}"
+  "reducers.messages.settings_init_error": "Einstellungen können nicht geladen werden: {error}",
+  "reducers.messages.transaction_received_body": "",
+  "reducers.messages.transaction_received_title": "",
+  "reducers.messages.transaction_sent_body": "",
+  "reducers.messages.transaction_sent_title": ""
 }
