@@ -6,11 +6,12 @@ import { Button } from 'components/UI'
 
 const CustomButton = styled(Button)`
   margin-left: -46px;
-  height: 46px;
-  margin-top: 0px;
+  height: 45px;
+  margin-top: 1px;
   padding: 0;
   border-radius: 0 5px 5px 0;
   overflow: hidden;
+  z-index: 1;
 `
 
 const OpenDialogButton = props => (

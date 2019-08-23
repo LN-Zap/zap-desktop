@@ -40,7 +40,7 @@ exports[`component.UI.Input should render correctly 1`] = `
       className="c1"
     >
       <input
-        className="css-19p7jgh"
+        className="css-jii5rg"
         disabled={false}
         name="name"
         onBlur={[Function]}

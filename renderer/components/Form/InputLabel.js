@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Flex } from 'rebass/styled-components'
-import { Span, Tooltip } from 'components/UI'
 import Label from './Label'
+import { Span, Tooltip } from 'components/UI'
 
 const Supertext = styled(Span)`
   vertical-align: top;
@@ -27,7 +27,7 @@ const InputLabel = ({ field, children, isRequired, tooltip, ...rest }) => (
 
 InputLabel.propTypes = {
   children: PropTypes.node,
-  field: PropTypes.string.isRequired,
+  field: PropTypes.string,
   isRequired: PropTypes.bool,
   tooltip: PropTypes.string,
 }

@@ -3,37 +3,38 @@ import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { asField } from 'informed'
 import { withTheme } from 'styled-components'
-import { Flex } from 'rebass/styled-components'
+import { Textarea as BaseTextArea } from '@rebass/forms/styled-components'
 import { extractSpaceProps } from 'themes/util'
 import { withInputValidation } from 'hocs'
 import { useAutoFocus } from 'hooks'
-import { Message, Text } from 'components/UI'
-import InputLabel from './InputLabel'
-import { StyledTextArea } from './util'
+import InputField from './InputField'
+import { mapDefaultBorderColor, mapFocusBorderColor } from './util'
 
-const TextArea = ({
-  description,
-  onChange,
-  onBlur,
-  onFocus,
-  forwardedRef,
-  label,
-  initialValue,
-  isDisabled,
-  isRequired,
-  isReadOnly,
-  theme,
-  field,
-  fieldApi,
-  fieldState,
-  justifyContent,
-  hasMessage,
-  variant,
-  className,
-  tooltip,
-  willAutoFocus,
-  ...rest
-}) => {
+const TextArea = props => {
+  const {
+    className,
+    description,
+    field,
+    fieldApi,
+    fieldState,
+    forwardedRef,
+    hasMessage,
+    initialValue,
+    isDisabled,
+    isRequired,
+    isReadOnly,
+    justifyContent,
+    label,
+    onChange,
+    onBlur,
+    onFocus,
+    sx,
+    theme,
+    tooltip,
+    variant,
+    willAutoFocus,
+    ...rest
+  } = props
   const [hasFocus, setFocus] = useState(false)
   const [spaceProps, otherProps] = extractSpaceProps(rest)
   const { setValue, setTouched } = fieldApi
@@ -47,20 +48,24 @@ const TextArea = ({
     }
     return !maskedValue && maskedValue !== 0 ? '' : maskedValue
   }
+  const fieldError = hasMessage && (error || asyncError)
 
   return (
-    <Flex
-      flexDirection="column"
-      justifyContent={justifyContent}
+    <InputField
       {...spaceProps}
       className={className}
+      description={description}
+      error={fieldError}
+      field={field}
+      hasFocus={hasFocus}
+      isDisabled={isDisabled}
+      isReadOnly={isReadOnly}
+      isRequired={isRequired}
+      justifyContent={justifyContent}
+      label={label}
+      tooltip={tooltip}
     >
-      {label && (
-        <InputLabel field={field} isRequired={isRequired} tooltip={tooltip}>
-          {label}
-        </InputLabel>
-      )}
-      <StyledTextArea
+      <BaseTextArea
         disabled={isDisabled}
         fieldState={fieldState}
         name={field}
@@ -86,25 +91,21 @@ const TextArea = ({
             onFocus(e)
           }
         }}
-        p={variant === 'thin' ? 2 : 3}
         readOnly={isReadOnly}
         required={isRequired}
+        sx={{
+          borderColor: mapDefaultBorderColor(props),
+          '&:not([readOnly]):not([disabled]):focus': {
+            borderColor: mapFocusBorderColor(props),
+          },
+          ...sx,
+        }}
         theme={theme}
         value={getValue()}
         {...otherProps}
         ref={forwardedRef}
       />
-      {description && (
-        <Text color="gray" fontSize="s" mt={1}>
-          {description}
-        </Text>
-      )}
-      {hasMessage && (error || asyncError) && (
-        <Message mt={1} variant={hasFocus ? 'warning' : 'error'}>
-          {error || asyncError}
-        </Message>
-      )}
-    </Flex>
+    </InputField>
   )
 }
 
@@ -126,6 +127,7 @@ TextArea.propTypes = {
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
   onFocus: PropTypes.func,
+  sx: PropTypes.object,
   theme: PropTypes.object.isRequired,
   tooltip: PropTypes.string,
   variant: PropTypes.string,

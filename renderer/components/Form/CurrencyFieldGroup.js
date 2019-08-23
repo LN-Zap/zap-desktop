@@ -135,7 +135,7 @@ const CurrencyFieldGroup = React.forwardRef(
               activeKey={cryptoUnit}
               items={cryptoUnits}
               ml={2}
-              mt={40}
+              mt={38}
               onChange={handleCryptoCurrencyChange}
               valueField="name"
             />
@@ -162,7 +162,7 @@ const CurrencyFieldGroup = React.forwardRef(
               activeKey={fiatCurrency}
               items={fiatCurrencies}
               ml={2}
-              mt={40}
+              mt={38}
               onChange={handleFiatCurrencyChange}
             />
           </Flex>

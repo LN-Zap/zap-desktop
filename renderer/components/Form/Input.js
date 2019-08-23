@@ -2,52 +2,44 @@ import React, { useState } from 'react'
 import { compose } from 'redux'
 import PropTypes from 'prop-types'
 import { asField } from 'informed'
-import styled, { withTheme } from 'styled-components'
-import { themeGet } from '@styled-system/theme-get'
-import { Flex } from 'rebass/styled-components'
-import Search from 'components/Icon/Search'
+import { withTheme } from 'styled-components'
+import { Input as BaseInput } from '@rebass/forms/styled-components'
 import { extractSpaceProps } from 'themes/util'
 import { withInputValidation } from 'hocs'
 import { useAutoFocus } from 'hooks'
-import { Message, Text } from 'components/UI'
-import InputLabel from './InputLabel'
-import { StyledInput } from './util'
+import InputField from './InputField'
+import { mapDefaultBorderColor, mapFocusBorderColor } from './util'
 
-const SearchIcon = styled(Search)`
-  margin-right: -${props => props.width}px;
-  width: ${props => props.width}px;
-  height: 15px;
-  color: ${themeGet('colors.gray')};
-`
-
-const Input = ({
-  description,
-  onChange,
-  onBlur,
-  onFocus,
-  forwardedRef,
-  label,
-  isDisabled,
-  isReadOnly,
-  isRequired,
-  maxLength,
-  minLength,
-  theme,
-  type,
-  field,
-  fieldApi,
-  fieldState,
-  iconSize,
-  justifyContent,
-  hasMessage,
-  variant,
-  className,
-  tooltip,
-  children,
-  initialValue,
-  willAutoFocus,
-  ...rest
-}) => {
+const Input = props => {
+  const {
+    className,
+    description,
+    field,
+    fieldApi,
+    fieldState,
+    forwardedRef,
+    hasMessage,
+    initialValue,
+    isDisabled,
+    isReadOnly,
+    isRequired,
+    justifyContent,
+    label,
+    maxLength,
+    minLength,
+    onChange,
+    onBlur,
+    onFocus,
+    prefix,
+    suffix,
+    sx,
+    theme,
+    tooltip,
+    type,
+    variant,
+    willAutoFocus,
+    ...rest
+  } = props
   const [hasFocus, setFocus] = useState(false)
   const [spaceProps, otherProps] = extractSpaceProps(rest)
   const { setValue, setTouched } = fieldApi
@@ -62,77 +54,77 @@ const Input = ({
     return !maskedValue && maskedValue !== 0 ? '' : maskedValue
   }
 
+  const isHidden = type !== 'hidden'
+  const fieldDescription = isHidden && description
+  const fieldLabel = isHidden && label
+  const fieldError = isHidden && hasMessage && (error || asyncError)
+
   return (
-    <Flex
-      flexDirection="column"
-      justifyContent={justifyContent}
+    <InputField
       {...spaceProps}
       className={className}
+      description={fieldDescription}
+      error={fieldError}
+      field={field}
+      hasFocus={hasFocus}
+      isDisabled={isDisabled}
+      isReadOnly={isReadOnly}
+      isRequired={isRequired}
+      justifyContent={justifyContent}
+      label={fieldLabel}
+      tooltip={tooltip}
     >
-      {label && (
-        <InputLabel field={field} isRequired={isRequired} tooltip={tooltip}>
-          {label}
-        </InputLabel>
-      )}
-      <Flex alignItems="center">
-        {type === 'search' && <SearchIcon width={iconSize} />}
-        <StyledInput
-          disabled={isDisabled}
-          fieldState={fieldState}
-          maxLength={maxLength}
-          minLength={minLength}
-          name={field}
-          onBlur={e => {
-            // set touched to true to enforce validity highlight
-            setTouched(true)
-            // Make the state aware that the element is no longer focused.
-            setFocus(false)
-            if (onBlur) {
-              onBlur(e)
-            }
-          }}
-          onChange={e => {
-            setValue(e.target.value)
-            if (onChange) {
-              onChange(e)
-            }
-          }}
-          onFocus={e => {
-            // Make the state aware that the element is now focused.
-            setFocus(true)
-            if (onFocus) {
-              onFocus(e)
-            }
-          }}
-          p={variant === 'thin' ? 2 : 3}
-          pl={type === 'search' ? 35 : null}
-          readOnly={isReadOnly}
-          required={isRequired}
-          theme={theme}
-          type={type}
-          value={getValue()}
-          {...otherProps}
-          ref={forwardedRef}
-        />
-        {children}
-      </Flex>
-
-      {type !== 'hidden' && description && (
-        <Text color="gray" fontSize="s" mt={1}>
-          {description}
-        </Text>
-      )}
-      {type !== 'hidden' && hasMessage && (error || asyncError) && (
-        <Message mt={1} variant={hasFocus ? 'warning' : 'error'}>
-          {error || asyncError}
-        </Message>
-      )}
-    </Flex>
+      {prefix}
+      <BaseInput
+        disabled={isDisabled}
+        maxLength={maxLength}
+        minLength={minLength}
+        name={field}
+        onBlur={e => {
+          // set touched to true to enforce validity highlight
+          setTouched(true)
+          // Make the state aware that the element is no longer focused.
+          setFocus(false)
+          if (onBlur) {
+            onBlur(e)
+          }
+        }}
+        onChange={e => {
+          setValue(e.target.value)
+          if (onChange) {
+            onChange(e)
+          }
+        }}
+        onFocus={e => {
+          // Make the state aware that the element is now focused.
+          setFocus(true)
+          if (onFocus) {
+            onFocus(e)
+          }
+        }}
+        pl={prefix ? 35 : null}
+        readOnly={isReadOnly}
+        required={isRequired}
+        sx={{
+          borderColor: mapDefaultBorderColor(props),
+          '&:not([readOnly]):not([disabled]):focus': {
+            borderColor: mapFocusBorderColor(props),
+          },
+          ...sx,
+        }}
+        type={type}
+        value={getValue()}
+        {...otherProps}
+        ref={forwardedRef}
+        tx="forms.input"
+        variant={variant}
+      />
+      {suffix}
+    </InputField>
   )
 }
 
 Input.propTypes = {
-  children: PropTypes.node,
   className: PropTypes.string,
   description: PropTypes.node,
   field: PropTypes.string.isRequired,
@@ -141,7 +133,6 @@ Input.propTypes = {
   forwardedRef: PropTypes.object,
   hasMessage: PropTypes.bool,
   highlightOnValid: PropTypes.bool,
-  iconSize: PropTypes.number,
   initialValue: PropTypes.string,
   isDisabled: PropTypes.bool,
   isReadOnly: PropTypes.bool,
@@ -153,6 +144,9 @@ Input.propTypes = {
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
   onFocus: PropTypes.func,
+  prefix: PropTypes.node,
+  suffix: PropTypes.node,
+  sx: PropTypes.object,
   theme: PropTypes.object.isRequired,
   tooltip: PropTypes.string,
   type: PropTypes.string,
@@ -163,8 +157,8 @@ Input.propTypes = {
 Input.defaultProps = {
   hasMessage: true,
   highlightOnValid: true,
-  iconSize: 46,
   initialValue: '',
+  variant: 'normal',
 }
 
 const BasicInput = withTheme(Input)

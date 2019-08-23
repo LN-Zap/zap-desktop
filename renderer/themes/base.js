@@ -72,6 +72,7 @@ export const fontWeights = {
 }
 
 export const lineHeights = {
+  small: 1,
   normal: 1.4,
   heading: 1.4,
 }
@@ -137,6 +138,54 @@ const buttons = {
   danger: {
     bg: 'superRed',
     color: 'white',
+  },
+}
+
+const inputStyles = {
+  borderWidth: 1,
+  borderStyle: 'solid',
+  borderColor: 'gray',
+  borderRadius: 's',
+  bg: 'transparent',
+  color: 'primaryText',
+  fontFamily: 'sans',
+  fontSize: 'm',
+  fontWeight: 'light',
+  width: '100%',
+  outline: 'none',
+  cursor: 'text',
+  position: 'relative',
+  '::-webkit-search-decoration:hover, ::-webkit-search-cancel-button:hover': {
+    cursor: 'pointer',
+  },
+}
+
+const forms = {
+  input: {
+    normal: {
+      ...inputStyles,
+      lineHeight: 'small',
+      px: 3,
+      height: 48,
+    },
+    thin: {
+      ...inputStyles,
+      lineHeight: 'small',
+      px: 2,
+      height: 34,
+    },
+  },
+
+  textarea: {
+    ...inputStyles,
+    p: 3,
+    lineHeight: 'normal',
+  },
+
+  label: {
+    color: 'primaryText',
+    fontWeight: 'normal',
+    width: 'auto',
   },
 }
 
@@ -207,5 +256,6 @@ export default {
   palette,
   shadows,
   buttons,
+  forms,
   variants,
 }

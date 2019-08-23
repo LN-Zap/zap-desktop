@@ -1,9 +1,11 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { compose } from 'redux'
 import { asField } from 'informed'
-import PropTypes from 'prop-types'
+import { Flex } from 'rebass'
 import { withInputValidation, WithOpenDialog } from 'hocs'
+import { extractSpaceProps } from 'themes/util'
 import { BasicInput } from './Input'
 import OpenDialogButton from './OpenDialogButton'
 
@@ -18,10 +20,12 @@ const InnerInput = styled(BasicInput)`
 
 const OpenDialogInput = props => {
   const { mode, ...rest } = props
+  const [spaceProps, otherProps] = extractSpaceProps(rest)
   return (
     <WithOpenDialog
       render={({ openDialog }) => (
-        <InnerInput width={1} {...rest}>
+        <Flex alignItems="center" {...spaceProps}>
+          <InnerInput width={1} {...otherProps} />
           <OpenDialogButton
             onClick={() => {
               const result = openDialog(mode)
@@ -32,7 +36,7 @@ const OpenDialogInput = props => {
               }
             }}
           />
-        </InnerInput>
+        </Flex>
       )}
     />
   )

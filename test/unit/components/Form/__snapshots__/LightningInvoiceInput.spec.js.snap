@@ -33,7 +33,7 @@ exports[`component.UI.LightningInvoiceInput should render correctly 1`] = `
     className="c0"
   >
     <textarea
-      className="css-8hykkb"
+      className="css-1ae7pnv"
       name="name"
       onBlur={[Function]}
       onChange={[Function]}

@@ -40,7 +40,7 @@ exports[`component.UI.NodePubkeyInput should render correctly 1`] = `
       className="c1"
     >
       <input
-        className="css-19p7jgh"
+        className="css-jii5rg"
         name="name"
         onBlur={[Function]}
         onChange={[Function]}
