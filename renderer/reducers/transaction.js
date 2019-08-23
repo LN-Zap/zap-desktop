@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import { showSystemNotification } from '@zap/utils/notifications'
 import { convert } from '@zap/utils/btc'
+import { getIntl } from '@zap/i18n'
 import delay from '@zap/utils/delay'
 import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
 import { grpc } from 'workers'
@@ -9,6 +10,7 @@ import { fetchBalance } from './balance'
 import { fetchChannels, channelsSelectors, getChannelData } from './channels'
 import { settingsSelectors } from './settings'
 import createReducer from './utils/createReducer'
+import messages from './messages'
 
 // ------------------------------------
 // Initial State
@@ -227,18 +229,18 @@ export const receiveTransactionData = transaction => (dispatch, getState) => {
 
     // fetch updated channels
     dispatch(fetchChannels())
-
+    const intl = getIntl()
     // HTML 5 desktop notification for the new transaction
     if (transaction.received) {
       showSystemNotification(
-        'On-chain Transaction Received!',
-        "Lucky you, you just received a new on-chain transaction. I'm jealous."
+        intl.formatMessage(messages.transaction_received_title),
+        intl.formatMessage(messages.transaction_received_body)
       )
       dispatch(newAddress(settingsSelectors.currentConfig(state).address)) // Generate a new address
     } else {
       showSystemNotification(
-        'On-chain Transaction Sent!',
-        "Hate to see 'em go but love to watch 'em leave. Your on-chain transaction successfully sent."
+        intl.formatMessage(messages.transaction_sent_title),
+        intl.formatMessage(messages.transaction_sent_body)
       )
     }
   }

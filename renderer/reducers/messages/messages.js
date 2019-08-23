@@ -16,4 +16,10 @@ export default defineMessages({
   invoice_receive_title: `You've been Zapped`,
   invoice_receive_body: 'Congrats, someone just paid an invoice of yours',
   app_init_db_error: 'Unable to initialize database: {error}',
+  transaction_received_title: 'On-chain Transaction Received!',
+  transaction_received_body: `Lucky you, you just received a new on-chain transaction. I'm jealous.`,
+  transaction_sent_title: 'On-chain Transaction Sent!',
+  transaction_sent_body: `Hate to see 'em go but love to watch 'em leave. Your on-chain transaction successfully sent.`,
+  neutrtino_synced_title: 'Lightning Node Synced',
+  neutrtino_synced_body: "Visa who? You're your own payment processor now!",
 })
