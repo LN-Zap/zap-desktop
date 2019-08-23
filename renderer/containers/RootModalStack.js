@@ -10,7 +10,7 @@ const MODALS = {
   SETTINGS: <SettingsPage />,
 }
 
-const AppModalStack = ({ closeModal, modals, ...rest }) => {
+const RootAppModalStack = ({ closeModal, modals, ...rest }) => {
   const doClose = useCallback(() => closeModal(), [closeModal])
   return (
     // key is used to reset error boundary state when there is no error
@@ -21,7 +21,7 @@ const AppModalStack = ({ closeModal, modals, ...rest }) => {
   )
 }
 
-AppModalStack.propTypes = {
+RootAppModalStack.propTypes = {
   closeModal: PropTypes.func.isRequired,
   modals: PropTypes.array.isRequired,
 }
@@ -36,4 +36,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AppModalStack)
+)(RootAppModalStack)
