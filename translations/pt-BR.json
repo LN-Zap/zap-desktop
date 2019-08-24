@@ -489,6 +489,7 @@
   "components.Request.amount": "Quantia",
   "components.Request.button_text": "Solicitar Pagamento",
   "components.Request.copy_button_text": "",
+  "components.Request.created": "",
   "components.Request.current_value": "",
   "components.Request.description": "",
   "components.Request.expired": "",
