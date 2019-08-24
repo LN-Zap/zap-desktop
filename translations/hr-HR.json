@@ -489,6 +489,7 @@
   "components.Request.amount": "Iznos",
   "components.Request.button_text": "Zahtjev za plaćanjem",
   "components.Request.copy_button_text": "Kopiraj račun",
+  "components.Request.created": "",
   "components.Request.current_value": "Trenutna vrijednost",
   "components.Request.description": "",
   "components.Request.expired": "",

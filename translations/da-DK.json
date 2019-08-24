@@ -489,6 +489,7 @@
   "components.Request.amount": "Beløb",
   "components.Request.button_text": "Anmodning",
   "components.Request.copy_button_text": "Kopier faktura",
+  "components.Request.created": "",
   "components.Request.current_value": "Nuværende værdi",
   "components.Request.description": "Du kan anmode {chain} ({ticker}) gennem Lightning Network. Bare indtast beløbet du vil anmode i feltet herunder. Zap vil generere en QR-kode og en Lightning faktura efter.",
   "components.Request.expired": "",

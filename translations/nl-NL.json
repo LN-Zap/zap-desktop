@@ -489,6 +489,7 @@
   "components.Request.amount": "Bedrag",
   "components.Request.button_text": "Verzoek betaling",
   "components.Request.copy_button_text": "",
+  "components.Request.created": "",
   "components.Request.current_value": "",
   "components.Request.description": "",
   "components.Request.expired": "",

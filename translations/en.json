@@ -489,6 +489,7 @@
   "components.Request.amount": "Amount",
   "components.Request.button_text": "Request",
   "components.Request.copy_button_text": "Copy invoice",
+  "components.Request.created": "Created",
   "components.Request.current_value": "Current value",
   "components.Request.description": "Zap will generate a QR-Code and a lightning invoice so that you can receive {chain} ({ticker}) through the Lightning Network.",
   "components.Request.expired": "Expired",

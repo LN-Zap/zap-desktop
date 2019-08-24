@@ -3,6 +3,7 @@ import { defineMessages } from 'react-intl'
 /* eslint-disable max-len */
 export default defineMessages({
   amount: 'Amount',
+  created: 'Created',
   current_value: 'Current value',
   button_text: 'Request',
   copy_button_text: 'Copy invoice',
