@@ -489,6 +489,7 @@
   "components.Request.amount": "数量",
   "components.Request.button_text": "请求付款",
   "components.Request.copy_button_text": "",
+  "components.Request.created": "",
   "components.Request.current_value": "",
   "components.Request.description": "",
   "components.Request.expired": "",
