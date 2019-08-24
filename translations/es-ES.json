@@ -489,6 +489,7 @@
   "components.Request.amount": "Monto",
   "components.Request.button_text": "Solicitud de Pago",
   "components.Request.copy_button_text": "Copiar factura",
+  "components.Request.created": "",
   "components.Request.current_value": "Monto actual",
   "components.Request.description": "Puede solicitar {chain} ({ticker}) a través de Lightning Network. Simplemente ingrese la cantidad que desea solicitar en el campo a continuación. Despues, Zap generará un código QR y una factura Lightning.",
   "components.Request.expired": "Expirado",
