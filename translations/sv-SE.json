@@ -489,6 +489,7 @@
   "components.Request.amount": "Belopp",
   "components.Request.button_text": "Begär betalning",
   "components.Request.copy_button_text": "",
+  "components.Request.created": "",
   "components.Request.current_value": "",
   "components.Request.description": "",
   "components.Request.expired": "",
