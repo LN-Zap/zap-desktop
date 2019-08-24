@@ -489,6 +489,7 @@
   "components.Request.amount": "Tutar",
   "components.Request.button_text": "Ödeme talebi",
   "components.Request.copy_button_text": "",
+  "components.Request.created": "",
   "components.Request.current_value": "",
   "components.Request.description": "",
   "components.Request.expired": "",
