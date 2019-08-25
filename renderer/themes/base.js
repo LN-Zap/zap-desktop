@@ -28,8 +28,11 @@ export const palette = {
   pineGreen: '#0d331a',
   superRed: '#e63939',
   superBlue: '#005dfc',
+  superOrange: '#fd9800',
   mudBrown: '#330d0d',
   gray: '#959595',
+  darkGray: '#050f19',
+  lightGray: '#e7e7e7',
   lightGreen: '#eefff4',
   lightOrange: '#fff3e1',
   lightRed: '#ffeded',
@@ -143,13 +146,13 @@ const variants = {
       color: 'superGreen',
     },
     warning: {
-      color: 'primaryAccent',
+      color: 'superOrange',
     },
     error: {
       color: 'superRed',
     },
     processing: {
-      color: 'ightningOrange',
+      color: 'superOrange',
     },
   },
 
@@ -160,7 +163,7 @@ const variants = {
     },
     warning: {
       bg: 'mutedOrange',
-      color: 'primaryAccent',
+      color: 'superOrange',
     },
     error: {
       bg: 'mutedRed',
@@ -182,7 +185,7 @@ const variants = {
       color: 'superGreen',
     },
     pending: {
-      color: 'primaryAccent',
+      color: 'superOrange',
     },
     closing: {
       color: 'superRed',
