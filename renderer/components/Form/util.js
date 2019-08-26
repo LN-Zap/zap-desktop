@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Input, Textarea } from '@rebass/forms'
+import { Input, Textarea } from '@rebass/forms/styled-components'
 
 /**
  * isFieldValid - Check wether a field is valid or not.
