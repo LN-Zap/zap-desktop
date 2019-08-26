@@ -1,7 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.Radio should render correctly 1`] = `
-.c1 {
+.c3 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+}
+
+.c4 {
   box-sizing: border-box;
   margin: 0;
   min-width: 0;
@@ -10,14 +16,41 @@ exports[`component.UI.Radio should render correctly 1`] = `
   line-height: 1.4;
 }
 
-.c2 {
+.c5 {
   box-sizing: border-box;
   margin: 0;
   min-width: 0;
   color: #959595;
   font-size: 13px;
   line-height: 1.4;
-  margin-top: 8px;
+  margin-top: 4px;
+}
+
+.c1 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  width: 100%;
+  color: #ffffff;
+  font-weight: 400;
+  width: auto;
+  font-weight: 300;
+  margin-bottom: 16px;
+  padding-left: 30px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c2 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .c0 {
@@ -90,33 +123,42 @@ exports[`component.UI.Radio should render correctly 1`] = `
     className="c0"
   >
     <label
-      className="container css-40xzvu"
+      className="container c1"
+      fontWeight="light"
       htmlFor="item1"
     >
       <div
-        className="c1"
-        color="primaryText"
-        fontSize="m"
-      >
-        Item 1
-      </div>
-      <input
-        checked={false}
-        id="item1"
-        onBlur={[Function]}
-        onChange={[Function]}
-        type="radio"
-        value="item1"
-      />
-      <span
-        className="selection"
-      />
-      <div
         className="c2"
-        color="gray"
-        fontSize="m"
       >
-        Radio buttons
+        <div
+          className="c3"
+        >
+          <div
+            className="c4"
+            color="primaryText"
+            fontSize="m"
+          >
+            Item 1
+          </div>
+          <input
+            checked={false}
+            id="item1"
+            onBlur={[Function]}
+            onChange={[Function]}
+            type="radio"
+            value="item1"
+          />
+          <span
+            className="selection"
+          />
+          <div
+            className="c5"
+            color="gray"
+            fontSize="m"
+          >
+            Radio buttons
+          </div>
+        </div>
       </div>
     </label>
   </div>
@@ -124,33 +166,42 @@ exports[`component.UI.Radio should render correctly 1`] = `
     className="c0"
   >
     <label
-      className="container css-40xzvu"
+      className="container c1"
+      fontWeight="light"
       htmlFor="item2"
     >
       <div
-        className="c1"
-        color="primaryText"
-        fontSize="m"
-      >
-        Item 2
-      </div>
-      <input
-        checked={false}
-        id="item2"
-        onBlur={[Function]}
-        onChange={[Function]}
-        type="radio"
-        value="item2"
-      />
-      <span
-        className="selection"
-      />
-      <div
         className="c2"
-        color="gray"
-        fontSize="m"
       >
-        can have an optional title
+        <div
+          className="c3"
+        >
+          <div
+            className="c4"
+            color="primaryText"
+            fontSize="m"
+          >
+            Item 2
+          </div>
+          <input
+            checked={false}
+            id="item2"
+            onBlur={[Function]}
+            onChange={[Function]}
+            type="radio"
+            value="item2"
+          />
+          <span
+            className="selection"
+          />
+          <div
+            className="c5"
+            color="gray"
+            fontSize="m"
+          >
+            can have an optional title
+          </div>
+        </div>
       </div>
     </label>
   </div>
@@ -158,33 +209,42 @@ exports[`component.UI.Radio should render correctly 1`] = `
     className="c0"
   >
     <label
-      className="container css-40xzvu"
+      className="container c1"
+      fontWeight="light"
       htmlFor="item3"
     >
       <div
-        className="c1"
-        color="primaryText"
-        fontSize="m"
-      >
-        Item 3
-      </div>
-      <input
-        checked={false}
-        id="item3"
-        onBlur={[Function]}
-        onChange={[Function]}
-        type="radio"
-        value="item3"
-      />
-      <span
-        className="selection"
-      />
-      <div
         className="c2"
-        color="gray"
-        fontSize="m"
       >
-        and description
+        <div
+          className="c3"
+        >
+          <div
+            className="c4"
+            color="primaryText"
+            fontSize="m"
+          >
+            Item 3
+          </div>
+          <input
+            checked={false}
+            id="item3"
+            onBlur={[Function]}
+            onChange={[Function]}
+            type="radio"
+            value="item3"
+          />
+          <span
+            className="selection"
+          />
+          <div
+            className="c5"
+            color="gray"
+            fontSize="m"
+          >
+            and description
+          </div>
+        </div>
       </div>
     </label>
   </div>
