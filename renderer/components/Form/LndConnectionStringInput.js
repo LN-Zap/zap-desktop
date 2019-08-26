@@ -51,6 +51,7 @@ class LndConnectionStringInput extends React.Component {
         initialValue={initialValue}
         mask={mask}
         placeholder={intl.formatMessage({ ...messages.lnd_connection_string_placeholder })}
+        rows={5}
         {...rest}
         spellCheck="false"
         validate={this.validate}

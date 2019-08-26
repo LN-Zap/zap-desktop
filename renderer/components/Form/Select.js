@@ -13,7 +13,7 @@ import AngleUp from 'components/Icon/AngleUp'
 import AngleDown from 'components/Icon/AngleDown'
 import { Text } from 'components/UI'
 import { BasicInput } from './Input'
-import InputLabel from './InputLabel'
+import Label from './Label'
 import messages from './messages'
 import { intlShape } from '@zap/i18n'
 
@@ -180,9 +180,9 @@ const Select = props => {
         return (
           <div style={{ position: 'relative' }}>
             {label && (
-              <InputLabel field={field} isRequired={isRequired} tooltip={tooltip}>
+              <Label htmlFor={field} isRequired={isRequired} mb={2} tooltip={tooltip}>
                 {label}
-              </InputLabel>
+              </Label>
             )}
             <Flex alignItems="center">
               <StyledInput

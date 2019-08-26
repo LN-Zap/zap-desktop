@@ -7,7 +7,7 @@ import { Textarea as BaseTextArea } from '@rebass/forms/styled-components'
 import { extractSpaceProps } from 'themes/util'
 import { withInputValidation } from 'hocs'
 import { useAutoFocus } from 'hooks'
-import InputField from './InputField'
+import Field from './Field'
 import { mapDefaultBorderColor, mapFocusBorderColor } from './util'
 
 const TextArea = props => {
@@ -51,7 +51,7 @@ const TextArea = props => {
   const fieldError = hasMessage && (error || asyncError)
 
   return (
-    <InputField
+    <Field
       {...spaceProps}
       className={className}
       description={description}
@@ -105,7 +105,7 @@ const TextArea = props => {
         {...otherProps}
         ref={forwardedRef}
       />
-    </InputField>
+    </Field>
   )
 }
 

@@ -10,7 +10,7 @@ import {
   FiatAmountInput,
   Form,
   Input,
-  InputField,
+  Field,
   Label,
   LightningInvoiceInput,
   LndConnectionStringInput,
@@ -87,9 +87,9 @@ storiesOf('Forms', module)
         />
       </Form>
       <Form mb={4}>
-        <InputField field="fieldName" id="field-name" label="Input field (container)">
+        <Field field="fieldName" id="field-name" label="Input field (container)">
           <Box tx="forms.input" variant="normal" />
-        </InputField>
+        </Field>
       </Form>
       <Form mb={4}>
         <Input field="fieldName" id="field-name" label="Thin variant" variant="thin" />

@@ -7,7 +7,7 @@ import { Input as BaseInput } from '@rebass/forms/styled-components'
 import { extractSpaceProps } from 'themes/util'
 import { withInputValidation } from 'hocs'
 import { useAutoFocus } from 'hooks'
-import InputField from './InputField'
+import Field from './Field'
 import { mapDefaultBorderColor, mapFocusBorderColor } from './util'
 
 const Input = props => {
@@ -60,7 +60,7 @@ const Input = props => {
   const fieldError = isHidden && hasMessage && (error || asyncError)
 
   return (
-    <InputField
+    <Field
       {...spaceProps}
       className={className}
       description={fieldDescription}
@@ -120,7 +120,7 @@ const Input = props => {
         variant={variant}
       />
       {suffix}
-    </InputField>
+    </Field>
   )
 }
 

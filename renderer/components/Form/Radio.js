@@ -95,7 +95,7 @@ const Radio = ({
       />
       <span className="selection" />
       {description && (
-        <Text color="gray" mt={2}>
+        <Text color="gray" mt={1}>
           {description}
         </Text>
       )}

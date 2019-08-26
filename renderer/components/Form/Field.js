@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass'
 import { Message, Text } from 'components/UI'
-import InputLabel from './InputLabel'
+import Label from './Label'
 
 const Field = ({
   children,
@@ -20,9 +20,9 @@ const Field = ({
 }) => (
   <Flex flexDirection="column" justifyContent={justifyContent} {...rest}>
     {label && (
-      <InputLabel field={field} isRequired={isRequired} mb={2} tooltip={tooltip}>
+      <Label htmlFor={field} isRequired={isRequired} mb={2} tooltip={tooltip}>
         {label}
-      </InputLabel>
+      </Label>
     )}
 
     <Flex
