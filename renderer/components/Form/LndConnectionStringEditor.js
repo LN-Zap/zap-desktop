@@ -27,7 +27,6 @@ const LndConnectionStringEditor = ({ formApi, field, hideStringMessage, ...rest 
   return (
     <Box>
       <LndConnectionStringInput
-        rows={10}
         {...rest}
         field={field}
         isReadOnly={isDisabled}

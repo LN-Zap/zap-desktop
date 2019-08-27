@@ -28,8 +28,11 @@ export const palette = {
   pineGreen: '#0d331a',
   superRed: '#e63939',
   superBlue: '#005dfc',
+  superOrange: '#fd9800',
   mudBrown: '#330d0d',
   gray: '#959595',
+  darkGray: '#050f19',
+  lightGray: '#e7e7e7',
   lightGreen: '#eefff4',
   lightOrange: '#fff3e1',
   lightRed: '#ffeded',
@@ -69,6 +72,7 @@ export const fontWeights = {
 }
 
 export const lineHeights = {
+  small: 1,
   normal: 1.4,
   heading: 1.4,
 }
@@ -137,19 +141,67 @@ const buttons = {
   },
 }
 
+const inputStyles = {
+  borderWidth: 1,
+  borderStyle: 'solid',
+  borderColor: 'gray',
+  borderRadius: 's',
+  bg: 'transparent',
+  color: 'primaryText',
+  fontFamily: 'sans',
+  fontSize: 'm',
+  fontWeight: 'light',
+  width: '100%',
+  outline: 'none',
+  cursor: 'text',
+  position: 'relative',
+  '::-webkit-search-decoration:hover, ::-webkit-search-cancel-button:hover': {
+    cursor: 'pointer',
+  },
+}
+
+const forms = {
+  input: {
+    normal: {
+      ...inputStyles,
+      lineHeight: 'small',
+      px: 3,
+      height: 48,
+    },
+    thin: {
+      ...inputStyles,
+      lineHeight: 'small',
+      px: 2,
+      height: 34,
+    },
+  },
+
+  textarea: {
+    ...inputStyles,
+    p: 3,
+    lineHeight: 'normal',
+  },
+
+  label: {
+    color: 'primaryText',
+    fontWeight: 'normal',
+    width: 'auto',
+  },
+}
+
 const variants = {
   message: {
     success: {
       color: 'superGreen',
     },
     warning: {
-      color: 'primaryAccent',
+      color: 'superOrange',
     },
     error: {
       color: 'superRed',
     },
     processing: {
-      color: 'ightningOrange',
+      color: 'superOrange',
     },
   },
 
@@ -160,7 +212,7 @@ const variants = {
     },
     warning: {
       bg: 'mutedOrange',
-      color: 'primaryAccent',
+      color: 'superOrange',
     },
     error: {
       bg: 'mutedRed',
@@ -182,7 +234,7 @@ const variants = {
       color: 'superGreen',
     },
     pending: {
-      color: 'primaryAccent',
+      color: 'superOrange',
     },
     closing: {
       color: 'superRed',
@@ -204,5 +256,6 @@ export default {
   palette,
   shadows,
   buttons,
+  forms,
   variants,
 }

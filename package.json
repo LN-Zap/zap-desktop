@@ -306,7 +306,7 @@
   },
   "dependencies": {
     "@hot-loader/react-dom": "16.9.0",
-    "@rebass/forms": "4.0.3",
+    "@rebass/forms": "4.0.5",
     "@styled-system/theme-get": "5.1.1",
     "axios": "0.19.0",
     "bip21": "2.0.2",

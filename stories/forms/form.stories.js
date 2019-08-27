@@ -10,6 +10,7 @@ import {
   FiatAmountInput,
   Form,
   Input,
+  Field,
   Label,
   LightningInvoiceInput,
   LndConnectionStringInput,
@@ -19,6 +20,7 @@ import {
   Radio,
   RadioGroup,
   Range,
+  SearchInput,
   Select,
   TextArea,
   Toggle,
@@ -73,12 +75,6 @@ storiesOf('Forms', module)
         />
       </Form>
       <Form mb={4}>
-        <Input field="fieldName" id="field-name" label="Search field" type="search" />
-      </Form>
-      <Form mb={4}>
-        <Input field="fieldName" id="field-name" label="Password field" type="password" />
-      </Form>
-      <Form mb={4}>
         <Input field="fieldName" id="field-name" isDisabled label="Disabled field" />
       </Form>
       <Form mb={4}>
@@ -89,6 +85,14 @@ storiesOf('Forms', module)
           isReadOnly
           label="Read only field"
         />
+      </Form>
+      <Form mb={4}>
+        <Field field="fieldName" id="field-name" label="Input field (container)">
+          <Box tx="forms.input" variant="normal" />
+        </Field>
+      </Form>
+      <Form mb={4}>
+        <Input field="fieldName" id="field-name" label="Thin variant" variant="thin" />
       </Form>
     </>
   ))
@@ -120,6 +124,13 @@ storiesOf('Forms', module)
     <>
       <Form mb={4}>
         <PasswordInput field="fieldName" id="field-name" label="Password field" willAutoFocus />
+      </Form>
+    </>
+  ))
+  .add('SearchInput', () => (
+    <>
+      <Form mb={4}>
+        <SearchInput field="fieldName" id="field-name" label="Search field" willAutoFocus />
       </Form>
     </>
   ))

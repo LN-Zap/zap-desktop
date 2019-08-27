@@ -1,8 +1,35 @@
 import React from 'react'
-import { Label as BaseLabel } from '@rebass/forms'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { Box, Flex } from 'rebass/styled-components'
+import { Label as BaseLabel } from '@rebass/forms/styled-components'
+import { Span, Tooltip } from 'components/UI'
 
-const Label = props => (
-  <BaseLabel color="primaryText" fontWeight="normal" mb={1} width="auto" {...props} />
+const Supertext = styled(Span)`
+  vertical-align: top;
+`
+
+const RequiredMark = () => (
+  <Supertext fontSize="s" ml={1}>
+    *
+  </Supertext>
 )
+
+const Label = ({ htmlFor, children, isRequired, tooltip, ...rest }) => (
+  <BaseLabel htmlFor={htmlFor} {...rest}>
+    <Flex>
+      <Box>{children}</Box>
+      {isRequired && <RequiredMark />}
+      {tooltip && <Tooltip ml={1}>{tooltip}</Tooltip>}
+    </Flex>
+  </BaseLabel>
+)
+
+Label.propTypes = {
+  children: PropTypes.node.isRequired,
+  htmlFor: PropTypes.string.isRequired,
+  isRequired: PropTypes.bool,
+  tooltip: PropTypes.string,
+}
 
 export default Label

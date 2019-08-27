@@ -2,14 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { RadioGroup as InformedRadioGroup } from 'informed'
 import { Text } from 'components/UI'
-import InputLabel from './InputLabel'
+import Label from './Label'
 
 const RadioGroup = ({ label, field, description, isRequired, tooltip, children, ...rest }) => (
   <>
     {label && (
-      <InputLabel field={field} isRequired={isRequired} tooltip={tooltip}>
+      <Label htmlFor={field} isRequired={isRequired} tooltip={tooltip}>
         {label}
-      </InputLabel>
+      </Label>
     )}
 
     <InformedRadioGroup field={field} required={isRequired} {...rest}>

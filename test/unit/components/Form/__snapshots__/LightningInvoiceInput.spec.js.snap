@@ -1,6 +1,49 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.LightningInvoiceInput should render correctly 1`] = `
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  display: block;
+  width: 100%;
+  padding: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  font-size: inherit;
+  line-height: inherit;
+  border: 1px solid;
+  border-radius: default;
+  color: inherit;
+  background-color: transparent;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #959595;
+  border-radius: 5px;
+  background-color: transparent;
+  color: #ffffff;
+  font-family: Roboto,system-ui,sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  width: 100%;
+  outline: none;
+  cursor: text;
+  position: relative;
+  padding: 16px;
+  line-height: 1.4;
+  border-color: #959595;
+}
+
+.c0::-webkit-search-decoration:hover,
+.c0::-webkit-search-cancel-button:hover {
+  cursor: pointer;
+}
+
+.c0:not([readOnly]):not([disabled]):focus {
+  border-color: #fd9800;
+}
+
 .c1 {
   box-sizing: border-box;
   margin: 0;
@@ -11,37 +54,28 @@ exports[`component.UI.LightningInvoiceInput should render correctly 1`] = `
   margin-top: 4px;
 }
 
-.c0 {
-  box-sizing: border-box;
-  margin: 0;
-  min-width: 0;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
 <form
   onKeyDown={[Function]}
   onReset={[Function]}
   onSubmit={[Function]}
 >
   <div
-    className="c0"
+    className="css-9tqvmu"
   >
-    <textarea
-      className="css-8hykkb"
-      name="name"
-      onBlur={[Function]}
-      onChange={[Function]}
-      onFocus={[Function]}
-      rows={5}
-      spellCheck="false"
-      value=""
-    />
+    <div
+      className="css-71r5s5"
+    >
+      <textarea
+        className="c0"
+        name="name"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        rows={5}
+        spellCheck="false"
+        value=""
+      />
+    </div>
     <div
       className="c1"
       color="gray"

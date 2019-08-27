@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
-import { Form, Input } from 'components/Form'
+import { Form, SearchInput } from 'components/Form'
 
 const ChannelSearch = ({ searchQuery, placeholder, updateChannelSearchQuery, ...rest }) => {
   const formApi = useRef(null)
@@ -20,7 +20,7 @@ const ChannelSearch = ({ searchQuery, placeholder, updateChannelSearchQuery, ...
         formApi.current = api
       }}
     >
-      <Input
+      <SearchInput
         field={fieldId}
         highlightOnValid={false}
         id={fieldId}
@@ -31,7 +31,6 @@ const ChannelSearch = ({ searchQuery, placeholder, updateChannelSearchQuery, ...
         sx={{
           borderWidth: 0,
         }}
-        type="search"
         variant="thin"
       />
     </Form>
