@@ -1128,18 +1128,22 @@ channelsSelectors.selectedChannel = createSelector(
 channelsSelectors.capacity = createSelector(
   channelsSelectors.allChannelsRaw,
   allChannels => {
+    let maxOneTimeSend = 0
+    let maxOneTimeReceive = 0
     let send = 0
     let receive = 0
     allChannels.forEach(channel => {
       const channelData = getChannelData(channel)
       if (channelData.local_balance) {
         send += channelData.local_balance
+        maxOneTimeSend = Math.max(maxOneTimeSend, channelData.local_balance)
       }
       if (channelData.remote_balance) {
         receive += channelData.remote_balance
+        maxOneTimeReceive = Math.max(maxOneTimeReceive, channelData.remote_balance)
       }
     })
-    return { send, receive }
+    return { send, receive, maxOneTimeReceive, maxOneTimeSend }
   }
 )
 
@@ -1151,6 +1155,15 @@ channelsSelectors.sendCapacity = createSelector(
 channelsSelectors.receiveCapacity = createSelector(
   channelsSelectors.capacity,
   capacity => capacity.receive
+)
+channelsSelectors.maxOneTimeSend = createSelector(
+  channelsSelectors.capacity,
+  capacity => capacity.maxOneTimeSend
+)
+
+channelsSelectors.maxOneTimeReceive = createSelector(
+  channelsSelectors.capacity,
+  capacity => capacity.maxOneTimeReceive
 )
 
 export { channelsSelectors }
