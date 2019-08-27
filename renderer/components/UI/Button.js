@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Button as BaseButton, Flex, Text } from 'rebass/styled-components'
+import { Button as BaseButton, Flex, Box } from 'rebass/styled-components'
 import Spinner from './Spinner'
 
 const Wrapper = styled(BaseButton)`
@@ -47,15 +47,18 @@ const Button = React.forwardRef((props, ref) => {
       x: 5,
       y: 3,
     },
+    large: {
+      x: 5,
+      y: 3,
+    },
   }
-
-  size = sizes[size] || sizes['medium']
+  const dimensions = sizes[size] || sizes['medium']
   if (variant === 'secondary') {
-    size.x = 0
+    dimensions.x = 0
   }
 
   const fontWeight = variant === 'menu' && !isActive ? 'light ' : 'normal'
-
+  const fontSize = size === 'large' ? 'l' : 'm'
   const borderRadius = variant === 'secondary' ? 0 : 5
 
   //support custom styled and styled-components
@@ -67,8 +70,8 @@ const Button = React.forwardRef((props, ref) => {
       ref={ref}
       className={wrapperClasses}
       disabled={isDisabled}
-      px={size['x']}
-      py={size['y']}
+      px={dimensions.x}
+      py={dimensions.y}
       {...rest}
       sx={{
         borderRadius,
@@ -77,17 +80,16 @@ const Button = React.forwardRef((props, ref) => {
       variant={variant}
     >
       {isProcessing || Icon ? (
-        <Flex alignItems="center">
-          {isProcessing && <Spinner />}
-          {!isProcessing && Icon && <Icon />}
-          <Text fontFamily="sans" fontWeight={fontWeight} ml={2}>
+        <Flex alignItems="center" justifyContent="center">
+          {isProcessing ? <Spinner /> : Icon && <Icon />}
+          <Box fontSize={fontSize} fontWeight={fontWeight} ml={2}>
             {children}
-          </Text>
+          </Box>
         </Flex>
       ) : (
-        <Text fontFamily="sans" fontWeight={fontWeight}>
+        <Box fontSize={fontSize} fontWeight={fontWeight}>
           {children}
-        </Text>
+        </Box>
       )}
     </Wrapper>
   )
@@ -103,7 +105,7 @@ Button.propTypes = {
   isDisabled: PropTypes.bool,
   isProcessing: PropTypes.bool,
   justify: PropTypes.oneOf(['left', 'right', 'center']),
-  size: PropTypes.oneOf(['small', 'medium']),
+  size: PropTypes.oneOf(['small', 'medium', 'large']),
   sx: PropTypes.object,
   variant: PropTypes.string,
 }

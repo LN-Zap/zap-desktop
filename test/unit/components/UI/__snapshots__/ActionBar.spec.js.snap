@@ -34,7 +34,7 @@ exports[`component.UI.ActionBar should render correctly 1`] = `
   box-sizing: border-box;
   margin: 0;
   min-width: 0;
-  font-family: sans;
+  font-size: m;
   font-weight: normal;
 }
 
@@ -115,7 +115,7 @@ exports[`component.UI.ActionBar should render correctly 1`] = `
   >
     <div
       className="c3"
-      fontFamily="sans"
+      fontSize="m"
       fontWeight="normal"
     >
       Save
@@ -127,7 +127,7 @@ exports[`component.UI.ActionBar should render correctly 1`] = `
   >
     <div
       className="c3"
-      fontFamily="sans"
+      fontSize="m"
       fontWeight="normal"
     >
       Cancel
