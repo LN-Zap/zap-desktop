@@ -158,6 +158,13 @@ const inputStyles = {
   '::-webkit-search-decoration:hover, ::-webkit-search-cancel-button:hover': {
     cursor: 'pointer',
   },
+  '&:disabled': {
+    bg: `${palette.gray}33`,
+    opacity: 0.6,
+  },
+  '&:read-only': {
+    opacity: 0.6,
+  },
 }
 
 const forms = {

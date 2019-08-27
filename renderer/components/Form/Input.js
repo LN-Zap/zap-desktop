@@ -107,7 +107,7 @@ const Input = props => {
         required={isRequired}
         sx={{
           borderColor: mapDefaultBorderColor(props),
-          '&:not([readOnly]):not([disabled]):focus': {
+          '&:not([read-only]):not([disabled]):focus': {
             borderColor: mapFocusBorderColor(props),
           },
           ...sx,

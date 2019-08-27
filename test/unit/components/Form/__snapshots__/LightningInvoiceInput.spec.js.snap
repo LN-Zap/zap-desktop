@@ -40,7 +40,20 @@ exports[`component.UI.LightningInvoiceInput should render correctly 1`] = `
   cursor: pointer;
 }
 
-.c2:not([readOnly]):not([disabled]):focus {
+.c2:disabled {
+  background-color: #95959533;
+  opacity: 0.6;
+}
+
+.c2:-moz-read-only {
+  opacity: 0.6;
+}
+
+.c2:read-only {
+  opacity: 0.6;
+}
+
+.c2:not([read-only]):not([disabled]):focus {
   border-color: #fd9800;
 }
 
@@ -80,7 +93,6 @@ exports[`component.UI.LightningInvoiceInput should render correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  opacity: inherit;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -97,7 +109,6 @@ exports[`component.UI.LightningInvoiceInput should render correctly 1`] = `
   >
     <div
       className="c1"
-      opacity="inherit"
     >
       <textarea
         className="c2"
