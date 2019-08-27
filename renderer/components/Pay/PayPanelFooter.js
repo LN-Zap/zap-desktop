@@ -120,6 +120,7 @@ PayPanelFooter.propTypes = {
   cryptoUnitName: PropTypes.string.isRequired,
   currentStep: PropTypes.string.isRequired,
   formState: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
   invoice: PropTypes.object,
   isLn: PropTypes.bool,
   isOnchain: PropTypes.bool,
