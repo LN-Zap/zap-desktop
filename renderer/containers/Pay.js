@@ -4,6 +4,7 @@ import { fetchTickers, tickerSelectors } from 'reducers/ticker'
 import { setRedirectPayReq, queryFees, queryRoutes } from 'reducers/pay'
 import { balanceSelectors } from 'reducers/balance'
 import { changeFilter } from 'reducers/activity'
+import { channelsSelectors } from 'reducers/channels'
 import { sendCoins } from 'reducers/transaction'
 import { payInvoice } from 'reducers/payment'
 import { closeModal } from 'reducers/modal'
@@ -22,6 +23,7 @@ const mapStateToProps = state => ({
   redirectPayReq: state.pay.redirectPayReq,
   onchainFees: state.pay.onchainFees,
   routes: state.pay.routes,
+  maxOneTimeSend: channelsSelectors.maxOneTimeSend(state),
   walletBalanceConfirmed: balanceSelectors.walletBalanceConfirmed(state),
 })
 
