@@ -108,12 +108,12 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
     }
     right={
       <FormattedMessage
-        defaultMessage="unknown"
-        id="components.Pay.fee_unknown"
+        defaultMessage="less than 1 satoshi"
+        id="components.Pay.fee_less_than_1"
         values={
           Object {
-            "maxFee": undefined,
-            "minFee": undefined,
+            "maxFee": 0,
+            "minFee": 0,
           }
         }
       />
@@ -138,7 +138,7 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
           mr={2}
         />
         <CryptoValue
-          value={NaN}
+          value={10000}
         />
       </ForwardRef(Styled(styled.div))>
     }
