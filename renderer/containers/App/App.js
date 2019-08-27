@@ -11,6 +11,7 @@ import { setModals, modalSelectors } from 'reducers/modal'
 import { fetchSuggestedNodes } from 'reducers/channels'
 import { initTickers } from 'reducers/ticker'
 import App from 'components/App'
+import ModalStack from './ModalStack'
 import AppErrorBoundary from './ErrorBoundary'
 
 const mapStateToProps = state => ({
@@ -39,6 +40,7 @@ const ConnectedApp = connect(
 const AppWithErrorBoundaries = props => (
   <AppErrorBoundary>
     <ConnectedApp {...props} />
+    <ModalStack />
   </AppErrorBoundary>
 )
 
