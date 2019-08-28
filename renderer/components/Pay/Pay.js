@@ -25,6 +25,7 @@ class Pay extends React.Component {
     initialAmountCrypto: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     initialAmountFiat: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     intl: intlShape.isRequired,
+    isAnimating: PropTypes.bool,
     isProcessing: PropTypes.bool,
     isQueryingFees: PropTypes.bool,
     lndTargetConfirmations: PropTypes.shape({
@@ -344,6 +345,7 @@ class Pay extends React.Component {
       intl,
       isProcessing,
       isQueryingFees,
+      isAnimating,
       lndTargetConfirmations,
       network,
       onchainFees,
