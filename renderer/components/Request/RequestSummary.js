@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage, FormattedTime, injectIntl } from 'react-intl'
 import copy from 'copy-to-clipboard'
 import { decodePayReq } from '@zap/utils/crypto'
@@ -31,7 +31,7 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
     showNotification(notifBody)
   }
 
-  const { satoshis: invoiceAmount, tags } = decodedInvoice
+  const { satoshis: invoiceAmount, tags, timestampString } = decodedInvoice
   const satoshis = invoice.finalAmount || invoiceAmount || 0
   const descriptionTag = tags.find(tag => tag.tagName === 'description') || {}
   const memo = descriptionTag.data
@@ -43,7 +43,7 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
     if (invoice.settled) {
       return 'superGreen'
     }
-    return isExpired ? 'superRed' : 'lightningOrange'
+    return isExpired ? 'superRed' : 'primaryAccent'
   }
 
   return (
@@ -56,6 +56,13 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
             <CryptoValue fontSize="xxl" value={satoshis} />
           </Flex>
         }
+      />
+
+      <Bar variant="light" />
+
+      <DataRow
+        left={<FormattedMessage {...messages.created} />}
+        right={<FormattedTime day="2-digit" month="long" value={timestampString} year="numeric" />}
       />
 
       <Bar variant="light" />
@@ -92,9 +99,7 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
             <FormattedMessage {...messages.payment_request} />
             <Text
               className="hint--bottom-left"
-              css={`
-                word-wrap: break-word;
-              `}
+              css="word-wrap: break-word;"
               data-hint={payReq}
               fontSize="xs"
               fontWeight="light"
@@ -122,10 +127,7 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
           invoice.settled ? (
             <Text
               color={getStatusColor()}
-              css={`
-                word-break: break-all;
-                text-transform: capitalize;
-              `}
+              css="word-break: break-all; text-transform: capitalize;"
               fontWeight="normal"
               textAlign="right"
             >

@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import { Bar, CopyBox, Text, Button, Message } from 'components/UI'
 import { TextArea, Form, Input } from 'components/Form'
 import messages from './messages'
@@ -58,10 +58,7 @@ const ProfilePaneNodeInfo = ({ intl, verifyMessage, showNotification, ...rest })
           <Bar mb={4} mt={2} />
 
           <TextArea
-            css={`
-              word-break: break-all;
-              height: 90px;
-            `}
+            css="word-break: break-all"
             description={intl.formatMessage({ ...messages.verify_message_desc })}
             field="message"
             isRequired

@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 import { useCloseOnUnmount, useOnKeydown } from 'hooks'
 import Button from './Button'
+import Card from './Card'
 import Heading from './Heading'
 import CloseButton from './CloseButton'
 
@@ -28,7 +29,7 @@ const Dialog = ({ header, onClose, buttons, width, children }) => {
   )
 
   return (
-    <Card bg="primaryColor" borderRadius={5} boxShadow="m" width={width}>
+    <Card width={width}>
       <CloseButton onClick={onClose} size="s" />
       <Flex
         alignItems="center"

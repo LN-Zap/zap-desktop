@@ -21,6 +21,8 @@ const extractSpaceProps = props => {
     'm',
     'p',
     'width',
+    'height',
+    'size',
   ]
   const spaceProps = {}
   const otherProps = {}

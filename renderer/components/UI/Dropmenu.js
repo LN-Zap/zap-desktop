@@ -1,8 +1,8 @@
 import React, { useRef, useState, useContext } from 'react'
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import styled, { withTheme } from 'styled-components'
-import { themeGet, px } from 'styled-system'
+import { themeGet } from '@styled-system/theme-get'
 import { useOnClickOutside, useOnKeydown, useScroll, useComponentSize } from 'hooks'
 import AngleRight from 'components/Icon/AngleRight'
 import AngleUp from 'components/Icon/AngleUp'
@@ -21,7 +21,7 @@ import { DropdownButton } from './Dropdown'
  */
 function getColor(props) {
   return props.isHovered
-    ? themeGet('colors.lightningOrange')(props)
+    ? themeGet('colors.primaryAccent')(props)
     : themeGet('colors.primaryText')(props)
 }
 
@@ -32,9 +32,7 @@ function getColor(props) {
  * @returns {string} Color
  */
 function getMutedColor(props) {
-  return props.isHovered
-    ? themeGet('colors.lightningOrange')(props)
-    : themeGet('colors.gray')(props)
+  return props.isHovered ? themeGet('colors.primaryAccent')(props) : themeGet('colors.gray')(props)
 }
 
 const MenuContext = React.createContext({})
@@ -163,7 +161,7 @@ const DropmenuButton = ({ isOpen, children, ...rest }) => {
       onMouseLeave={() => setHovered(false)}
     >
       <MenuButtonText isHovered={isHovered || isOpen}>
-        <Flex alignItems="flex-end">
+        <Flex alignItems="center">
           <Box mr={1}>{children}</Box>
           <MenuButtonTextMuted isHovered={isHovered || isOpen}>
             {isOpen ? <AngleUp width="0.6em" /> : <AngleDown width="0.6em" />}
@@ -191,7 +189,7 @@ const DropmenuListScrollerBase = styled(Flex)`
 const DropmenuListScroller = props => (
   <DropmenuListScrollerBase
     bg="primaryColor"
-    color="lightningOrange"
+    color="primaryAccent"
     justifyContent="center"
     p={2}
     width={1}
@@ -275,14 +273,7 @@ const DropmenuList = React.forwardRef((props, forwardRef) => {
     ref.current.scrollTop -= SCROLL_STEP
   }
   return (
-    <Card
-      css={`
-        position: relative;
-      `}
-      onMouseDown={preventDefault}
-      p={0}
-      width={width}
-    >
+    <Card css="position: relative;" onMouseDown={preventDefault} p={0} width={width}>
       <DropmenuListUpScroller
         direction="up"
         hasTopScroll={hasTopScroll}
@@ -331,8 +322,8 @@ const DropmenuSubmenuWrapper = styled(Box)`
   z-index: 10;
   height: 0;
   width: 0;
-  top: ${props => px(props.top)};
-  left: ${props => px(props.left)};
+  top: ${props => props.top}px;
+  left: ${props => props.left}px;
 `
 
 const DropmenuSubmenu = props => {
@@ -357,17 +348,13 @@ DropmenuSubmenu.defaultProps = {
 const DropmenuMenu = ({ menuRef, ...rest }) => {
   const { justify } = useContext(MenuContext)
   return (
-    <Box
-      css={`
-        position: relative;
-      `}
-    >
+    <Box sx={{ position: 'relative' }}>
       <Flex
-        css={`
-          position: absolute;
-          z-index: 1;
-          right: ${justify === 'right' ? 0 : null};
-        `}
+        sx={{
+          position: 'absolute',
+          zIndex: 1,
+          right: justify === 'right' ? 0 : null,
+        }}
       >
         <DropmenuContent {...rest} menuRef={menuRef} />
       </Flex>

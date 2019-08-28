@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex, Box } from 'rebass'
+import { Flex, Box } from 'rebass/styled-components'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { withFieldState } from 'informed'
 import { intlShape } from '@zap/i18n'
@@ -32,7 +32,7 @@ const DialogWrapper = ({ intl, isOpen, isRestoreMode, onSkip, onCancel }) => {
 
   const header = (
     <Flex alignItems="center" flexDirection="column" mb={4}>
-      <Box color="lightningOrange" mb={2}>
+      <Box color="primaryAccent" mb={2}>
         <Warning height={72} width={72} />
       </Box>
       <Heading.h1>

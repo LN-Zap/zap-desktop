@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import { Bar, MainContent, Panel, Sidebar } from 'components/UI'
 import ZapLogo from 'components/Icon/ZapLogo'
 import CreateWalletButton from './CreateWalletButton'
@@ -11,14 +11,7 @@ import WalletsMenu from './WalletsMenu'
 import WalletUnlocker from './WalletUnlocker'
 
 const NoMatch = ({ history, wallets }) => (
-  <Flex
-    alignItems="center"
-    css={`
-      height: 100%;
-    `}
-    flexDirection="column"
-    justifyContent="center"
-  >
+  <Flex alignItems="center" flexDirection="column" height="100%" justifyContent="center">
     <NoWallets history={history} wallets={wallets} />
   </Flex>
 )
@@ -104,11 +97,7 @@ class Home extends React.Component {
             <Panel.Header mb={40} px={4}>
               <ZapLogo height={28} width={28} />
             </Panel.Header>
-            <Panel.Body
-              css={`
-                overflow-y: overlay;
-              `}
-            >
+            <Panel.Body sx={{ overflowY: 'overlay' }}>
               <WalletsMenu
                 activeWallet={activeWallet}
                 setActiveWallet={setActiveWallet}

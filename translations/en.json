@@ -420,9 +420,11 @@
   "components.Pay.fee_subtraction": "Deducted from total",
   "components.Pay.fee_unknown": "unknown",
   "components.Pay.fee_upto": "up to {maxFee} satoshi",
+  "components.Pay.in_channels": "(in channels)",
   "components.Pay.memo": "Memo",
   "components.Pay.next": "Next",
   "components.Pay.next_block_confirmation": "next block confirmation",
+  "components.Pay.on_chain": "(onchain),",
   "components.Pay.request_label_combined": "Payment Request or Address",
   "components.Pay.request_label_offchain": "Payment Request",
   "components.Pay.request_label_onchain": "Address",
@@ -487,6 +489,7 @@
   "components.Request.amount": "Amount",
   "components.Request.button_text": "Request",
   "components.Request.copy_button_text": "Copy invoice",
+  "components.Request.created": "Created",
   "components.Request.current_value": "Current value",
   "components.Request.description": "Zap will generate a QR-Code and a lightning invoice so that you can receive {chain} ({ticker}) through the Lightning Network.",
   "components.Request.expired": "Expired",
@@ -598,6 +601,12 @@
   "reducers.messages.channels_open_warning": "Channel opening initiated",
   "reducers.messages.invoice_receive_body": "Congrats, someone just paid an invoice of yours",
   "reducers.messages.invoice_receive_title": "You've been Zapped",
+  "reducers.messages.neutrtino_synced_body": "Visa who? You're your own payment processor now!",
+  "reducers.messages.neutrtino_synced_title": "Lightning Node Synced",
   "reducers.messages.payment_send_error": "Unable to send payment: Invalid invoice (no payment hash)",
-  "reducers.messages.settings_init_error": "Unable to load settings: {error}"
+  "reducers.messages.settings_init_error": "Unable to load settings: {error}",
+  "reducers.messages.transaction_received_body": "Lucky you, you just received a new on-chain transaction. I'm jealous.",
+  "reducers.messages.transaction_received_title": "On-chain Transaction Received!",
+  "reducers.messages.transaction_sent_body": "Hate to see 'em go but love to watch 'em leave. Your on-chain transaction successfully sent.",
+  "reducers.messages.transaction_sent_title": "On-chain Transaction Sent!"
 }

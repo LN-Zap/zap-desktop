@@ -1,61 +1,17 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 
-const PanelHeader = ({ children, ...rest }) => (
-  <Box {...rest} as="header">
-    {children}
-  </Box>
-)
-PanelHeader.propTypes = { children: PropTypes.node }
+const PanelHeader = props => <Box as="header" {...props} />
 
-const PanelBody = ({ children, css, ...rest }) => (
-  <Box
-    {...rest}
-    as="section"
-    css={`
-      flex: 1;
-    `}
-  >
-    {children}
-  </Box>
-)
-PanelBody.propTypes = { children: PropTypes.node, css: PropTypes.object }
+const PanelBody = props => <Box as="section" {...props} flex={1} />
 
-const PanelFooter = ({ children, ...rest }) => (
-  <Box {...rest} as="footer" pt="auto">
-    {children}
-  </Box>
-)
-PanelFooter.propTypes = { children: PropTypes.node }
+const PanelFooter = props => <Box as="footer" {...props} pt="auto" />
 
-class Panel extends React.Component {
-  static Header = PanelHeader
-  static Body = PanelBody
-  static Footer = PanelFooter
+const Panel = props => <Flex as="article" height="100%" {...props} flexDirection="column" />
 
-  static propTypes = {
-    children: PropTypes.node,
-    css: PropTypes.object,
-  }
-
-  render() {
-    const { children, ...rest } = this.props
-    return (
-      <Flex
-        {...rest}
-        as="article"
-        css={`
-          height: 100%;
-        `}
-        flexDirection="column"
-        {...rest}
-      >
-        {children}
-      </Flex>
-    )
-  }
-}
+Panel.Header = PanelHeader
+Panel.Body = PanelBody
+Panel.Footer = PanelFooter
 
 export default Panel
 export { PanelHeader, PanelBody, PanelFooter }

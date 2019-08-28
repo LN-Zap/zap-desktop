@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { storiesOf } from '@storybook/react'
 import { ThemeProvider, withTheme } from 'styled-components'
-import { Box, Card, Flex } from 'rebass'
+import { Box, Card, Flex } from 'rebass/styled-components'
 import { BackgroundPrimary, Text } from 'components/UI'
 import { dark, light } from 'themes'
 import { Column, Group, Element } from '../helpers'
@@ -11,14 +11,13 @@ const Swatch = ({ name, color }) => (
   <Element>
     <Flex mb={2}>
       <Card
-        borderRadius={8}
-        boxShadow="s"
-        css={`
-          background: ${color};
-          height: 50px;
-        `}
+        bg={color}
         mr={21}
-        width={50}
+        size={50}
+        sx={{
+          boxShadow: 's',
+          borderRadius: 'm',
+        }}
       />
       <Box>
         <Text fontWeight="normal">{name}</Text>
@@ -42,7 +41,7 @@ const Palette = withTheme(({ theme, ...rest }) => (
 
 storiesOf('General', module).addWithChapters('Color palette', {
   subtitle: 'Colors that we use throughout the app.',
-  info: `This page shows our two primary colour palettes. These are used as "themes" that users can switch between
+  info: `This page shows our two primary color palettes. These are used as "themes" that users can switch between
   within the app.`,
   chapters: [
     {

@@ -128,8 +128,4 @@ PayPanelFooter.propTypes = {
   walletBalanceConfirmed: PropTypes.number.isRequired,
 }
 
-PayPanelFooter.defaultProps = {
-  isProcessing: false,
-}
-
 export default PayPanelFooter

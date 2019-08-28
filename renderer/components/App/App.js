@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 import createScheduler from '@zap/utils/scheduler'
 import Wallet from 'containers/Wallet'
 import Activity from 'containers/Activity'

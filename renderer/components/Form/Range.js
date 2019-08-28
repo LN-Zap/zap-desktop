@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { asField } from 'informed'
 import styled, { withTheme } from 'styled-components'
+import { themeGet } from '@styled-system/theme-get'
 
 /**
  * makelongshadow - Helper method to create the box-shadow for slider-thumb.
@@ -37,7 +38,7 @@ const Input = styled.input`
   }
 
   &::-webkit-slider-runnable-track {
-    background: ${props => props.theme.colors[props.backgroundFilledSlider]};
+    background: ${props => themeGet(`colors.${props.backgroundFilledSlider}`)(props)};
     content: '';
     height: ${props => props.sliderHeight};
     pointer-events: none;
@@ -49,11 +50,11 @@ const Input = styled.input`
     width: ${props => props.thumbWidth};
     height: ${props => props.thumbHeight};
     appearance: none;
-    background: ${props => props.theme.colors[props.thumbBackground]};
+    background: ${props => themeGet(`colors.${props.thumbBackground}`)(props)};
     border-radius: ${props => props.thumbRadius};
     box-shadow: ${props =>
       makelongshadow(
-        props.theme.colors[props.backgroundSlider],
+        themeGet(`colors.${props.backgroundSlider}`)(props),
         props.shadowSize,
         props.sliderWidthNumber
       )};
@@ -81,7 +82,7 @@ const Range = ({ fieldState, fieldApi, ...props }) => {
     thumbBackground: 'primaryText',
     shadowSize: '-2px',
     fitThumbInSlider: '-2px',
-    backgroundFilledSlider: 'lightningOrange',
+    backgroundFilledSlider: 'primaryAccent',
   }
 
   return (

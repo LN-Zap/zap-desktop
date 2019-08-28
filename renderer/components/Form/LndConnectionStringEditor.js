@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import { withFormApi } from 'informed'
 import { Span } from 'components/UI'
 import Padlock from 'components/Icon/Padlock'
@@ -27,7 +27,6 @@ const LndConnectionStringEditor = ({ formApi, field, hideStringMessage, ...rest 
   return (
     <Box>
       <LndConnectionStringInput
-        rows={10}
         {...rest}
         field={field}
         isReadOnly={isDisabled}

@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { themeGet } from '@styled-system/theme-get'
 import Button from 'components/UI/Button'
 
 const StyledButton = styled(Button)`
   &:hover {
-    color: ${props => props.theme.colors.lightningOrange};
+    color: ${themeGet('colors.primaryAccent')};
   }
 `
 

@@ -1,8 +1,8 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { Flex } from 'rebass'
-import { Button, Dropdown, Message, Notification, Tooltip } from 'components/UI'
-import { Form, Input, Label, LightningInvoiceInput, Range, TextArea, Toggle } from 'components/Form'
+import { Flex } from 'rebass/styled-components'
+import { Button, Dropdown, Message, Notification } from 'components/UI'
+import { Form, Input, LightningInvoiceInput, Range, TextArea, Toggle } from 'components/Form'
 import { Column, Group, Element } from '../helpers'
 import { Provider } from '../Provider'
 
@@ -54,25 +54,23 @@ storiesOf('General', module)
                 <Column>
                   <Group title="Input with Label">
                     <Form>
-                      <Label htmlFor="input">Input Label</Label>
-                      <Input field="input" />
+                      <Input field="input" label="Input Label" />
                     </Form>
                   </Group>
 
                   <Group title="Input with Label and Tooltip">
                     <Form>
-                      <Flex>
-                        <Label htmlFor="input">Input Label</Label>
-                        <Tooltip>Input label tooltip content</Tooltip>
-                      </Flex>
-                      <Input field="input" />
+                      <Input
+                        field="input"
+                        label="Input Label"
+                        tooltip="Input label tooltip content"
+                      />
                     </Form>
                   </Group>
 
                   <Group title="TextArea with Label">
                     <Form>
-                      <Label htmlFor="input">Input Label</Label>
-                      <TextArea field="input" />
+                      <TextArea field="input" label="Input Label" />
                     </Form>
                   </Group>
 

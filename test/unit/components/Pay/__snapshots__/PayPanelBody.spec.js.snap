@@ -6,8 +6,6 @@ exports[`component.Pay.PayPanelBody current step is not summary should render co
     chainName="Bitcoin"
     cryptoUnitName="satoshi"
     currentStep="amount"
-    previousStep={null}
-    redirectPayReq={null}
   />
   <PayAddressField
     chain="testnet"
@@ -15,14 +13,11 @@ exports[`component.Pay.PayPanelBody current step is not summary should render co
     handlePayReqChange={[Function]}
     intl={Object {}}
     network=""
-    redirectPayReq={null}
   />
   <PayAmountFields
     cryptoUnit="sats"
     currentStep="amount"
     formApi={Object {}}
-    initialAmountCrypto={null}
-    initialAmountFiat={null}
     intl={Object {}}
     lndTargetConfirmations={
       Object {
@@ -57,8 +52,6 @@ exports[`component.Pay.PayPanelBody current step is summary should render correc
     chainName="Bitcoin"
     cryptoUnitName="satoshi"
     currentStep="summary"
-    previousStep={null}
-    redirectPayReq={null}
   />
   <PayAddressField
     chain="testnet"
@@ -66,14 +59,11 @@ exports[`component.Pay.PayPanelBody current step is summary should render correc
     handlePayReqChange={[Function]}
     intl={Object {}}
     network=""
-    redirectPayReq={null}
   />
   <PayAmountFields
     cryptoUnit="sats"
     currentStep="summary"
     formApi={Object {}}
-    initialAmountCrypto={null}
-    initialAmountFiat={null}
     intl={Object {}}
     lndTargetConfirmations={
       Object {

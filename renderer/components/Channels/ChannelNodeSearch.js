@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import debounce from 'lodash/debounce'
 import styled, { withTheme } from 'styled-components'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import { intlShape } from '@zap/i18n'
 import { Bar, Button, Heading, Text } from 'components/UI'
-import { Form, Input } from 'components/Form'
+import { Form, SearchInput } from 'components/Form'
 import { Truncate } from 'components/Util'
 import { withEllipsis } from 'hocs'
 import messages from './messages'
@@ -110,7 +110,7 @@ class ChannelNodeSearch extends React.PureComponent {
         </Box>
 
         <Form getApi={this.setFormApi}>
-          <Input
+          <SearchInput
             description={intl.formatMessage({ ...messages.node_search_description })}
             field="search"
             id="search"
@@ -118,7 +118,6 @@ class ChannelNodeSearch extends React.PureComponent {
             isRequired
             onValueChange={this.handleSearchUpdated}
             placeholder={intl.formatMessage({ ...messages.node_search_placeholder })}
-            type="search"
           />
         </Form>
 

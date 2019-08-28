@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import AngleRight from 'components/Icon/AngleRight'
 import AngleDown from 'components/Icon/AngleDown'
 import Text from './Text'
@@ -30,13 +30,7 @@ class DataRow extends React.PureComponent {
       <Box py={3} {...rest}>
         <Flex alignItems="center" justifyContent="space-between">
           {body ? (
-            <Flex
-              alignItems="center"
-              css={`
-                cursor: pointer;
-              `}
-              onClick={this.toggleBody}
-            >
+            <Flex alignItems="center" css="cursor: pointer;" flex={1} onClick={this.toggleBody}>
               <Flex alignItems="center" flexDirection="column" mr={2} width={8}>
                 {collapsed ? <AngleRight height="8px" /> : <AngleDown width="8px" />}
               </Flex>
@@ -44,7 +38,9 @@ class DataRow extends React.PureComponent {
               <Text fontWeight="normal">{left}</Text>
             </Flex>
           ) : (
-            <Text fontWeight="normal">{left}</Text>
+            <Text flex={1} fontWeight="normal">
+              {left}
+            </Text>
           )}
 
           <Flex alignItems="flex-end" flexDirection="column">

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { themeGet } from 'styled-system'
+import { themeGet } from '@styled-system/theme-get'
 import { withTheme } from 'styled-components'
 import { tint } from 'polished'
 
@@ -65,7 +65,7 @@ const Donut = withTheme(({ data, text, strokeWidth, ...rest }) => {
                 {/* Use a gaussian blur to create the soft blurriness of the glow */}
                 <feGaussianBlur in="thicken" result="blurred" stdDeviation="1" />
 
-                {/* Change the colour */}
+                {/* Change the color */}
                 <feFlood floodColor={color} result="glowColor" />
 
                 {/* Color in the glows */}

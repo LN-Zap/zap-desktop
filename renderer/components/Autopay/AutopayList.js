@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import { Heading } from 'components/UI'
 import { useScrollDrag } from 'hooks'
 import AutopayCardView from './AutopayCardView'
@@ -26,13 +26,7 @@ const AutopayList = ({ merchants, openAutopayCreateModal, ...rest }) => {
       <Heading.h1 mb={3} ml={4} mt={4}>
         <FormattedMessage {...messages.active_list_title} />
       </Heading.h1>
-      <Flex
-        ref={scroller}
-        css={`
-          overflow-x: hidden;
-        `}
-        width={1}
-      >
+      <Flex ref={scroller} sx={{ overflowX: 'hidden' }} width={1}>
         {merchants.map((item, index) => {
           return (
             <CardContainer key={item.pubkey} p={2} pl={index ? 2 : 4}>

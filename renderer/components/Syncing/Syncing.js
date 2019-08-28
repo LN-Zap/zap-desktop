@@ -23,6 +23,7 @@ const Syncing = ({
   isLightningGrpcActive,
   network,
   showNotification,
+  ...rest
 }) => {
   useEffect(() => {
     setIsWalletOpen(true)
@@ -33,7 +34,7 @@ const Syncing = ({
   }
 
   return (
-    <Panel width={1}>
+    <Panel width={1} {...rest}>
       <Panel.Header mx="auto" width={9 / 16}>
         {hasSynced ? <OldWalletHeader /> : <NewWalletHeader network={network} />}
         <Bar my={3} />
@@ -41,30 +42,18 @@ const Syncing = ({
 
       <Panel.Body mb={3} mx="auto" width={9 / 16}>
         {hasSynced ? (
-          <Tutorials
-            css={`
-              height: 100%;
-            `}
-          />
+          <Tutorials height="100%" />
         ) : (
           <Address
             address={address}
-            css={`
-              height: 100%;
-            `}
+            height="100%"
             isAddressLoading={isAddressLoading}
             showNotification={showNotification}
           />
         )}
       </Panel.Body>
 
-      <Panel.Footer
-        bg="secondaryColor"
-        css={`
-          min-height: 160px;
-        `}
-        p={3}
-      >
+      <Panel.Footer bg="secondaryColor" minHight={160} p={3}>
         <Progress
           blockHeight={blockHeight}
           mx="auto"

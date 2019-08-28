@@ -1,6 +1,3 @@
-import styled from 'styled-components'
-import system from '@rebass/components'
-
 /**
  * isFieldValid - Check wether a field is valid or not.
  *
@@ -53,68 +50,13 @@ export const mapFocusBorderColor = props => {
   const {
     fieldState,
     theme: {
-      colors: { lightningOrange, superGreen },
+      colors: { primaryAccent, superGreen },
     },
   } = props
 
   if (!props.highlightOnValid) {
-    return lightningOrange
+    return primaryAccent
   }
 
-  return fieldState.touched && isFieldValid(fieldState) ? superGreen : lightningOrange
-}
-
-/**
- * createSystemInput - Create a styled system input/textarea that accepts all style props from styled-system.
- *
- * @param  {'input'|'textarea'} type Type
- * @returns {object} Component
- */
-export const createSystemInput = (type = 'input') => {
-  const systemProps = {
-    border: 1,
-    borderColor: 'gray',
-    borderRadius: 5,
-    bg: 'transparent',
-    color: 'primaryText',
-    fontFamily: 'sans',
-    fontSize: 'm',
-    fontWeight: 'light',
-    p: 3,
-    width: 1,
-  }
-  if (type === 'textarea') {
-    const textareaProps = {
-      rows: 5,
-    }
-    Object.assign(systemProps, textareaProps)
-  }
-  return styled(
-    system(
-      {
-        as: type,
-        ...systemProps,
-      },
-      'space',
-      'color',
-      'borders',
-      'borderColor',
-      'borderRadius',
-      'fontFamily',
-      'fontSize',
-      'fontWeight',
-      'width'
-    )
-  )`
-    opacity: ${props => (props.isDisabled || props.isReadOnly ? '0.6' : 'inherit')};
-    outline: none;
-    border-color: ${mapDefaultBorderColor};
-    &:not([readOnly]):not([disabled]):focus {
-      border-color: ${mapFocusBorderColor};
-    }
-    ::-webkit-search-decoration:hover,
-    ::-webkit-search-cancel-button:hover {
-      cursor: pointer;
-    }
-  `
+  return fieldState.touched && isFieldValid(fieldState) ? superGreen : primaryAccent
 }

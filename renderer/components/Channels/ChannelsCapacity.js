@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 import { ProgressBar, Text } from 'components/UI'
 import { CryptoSelector, CryptoValue } from 'containers/UI'
 

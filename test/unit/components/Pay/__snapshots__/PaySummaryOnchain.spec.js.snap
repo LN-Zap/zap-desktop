@@ -72,7 +72,7 @@ exports[`component.Form.PaySummaryOnchain should render correctly 1`] = `
         width={0.09090909090909091}
       >
         <Text
-          color="lightningOrange"
+          color="primaryAccent"
           textAlign="center"
         >
           <SvgBigArrowRight

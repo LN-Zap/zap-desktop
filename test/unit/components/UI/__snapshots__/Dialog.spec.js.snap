@@ -5,9 +5,6 @@ exports[`component.UI.Dialog should render correctly with custom content 1`] = `
   buttons={
     <React.Fragment>
       <ForwardRef
-        isActive={false}
-        isDisabled={false}
-        isProcessing={false}
         justify="center"
         size="medium"
         variant="primary"
@@ -15,9 +12,6 @@ exports[`component.UI.Dialog should render correctly with custom content 1`] = `
         Primary
       </ForwardRef>
       <ForwardRef
-        isActive={false}
-        isDisabled={false}
-        isProcessing={false}
         justify="center"
         size="medium"
         variant="secondary"
@@ -60,10 +54,7 @@ exports[`component.UI.Dialog should render correctly with custom content 1`] = `
 `;
 
 exports[`component.UI.Dialog should render correctly with one button 1`] = `
-<Styled(styled.div)
-  bg="primaryColor"
-  borderRadius={5}
-  boxShadow="m"
+<Card
   width={550}
 >
   <CloseButton
@@ -97,9 +88,6 @@ exports[`component.UI.Dialog should render correctly with one button 1`] = `
       pr={6}
     >
       <Button
-        isActive={false}
-        isDisabled={false}
-        isProcessing={false}
         justify="center"
         key="Ok"
         onClick={[Function]}
@@ -110,14 +98,11 @@ exports[`component.UI.Dialog should render correctly with one button 1`] = `
       </Button>
     </Styled(styled.div)>
   </Styled(styled.div)>
-</Styled(styled.div)>
+</Card>
 `;
 
 exports[`component.UI.Dialog should render correctly with two buttons 1`] = `
-<Styled(styled.div)
-  bg="primaryColor"
-  borderRadius={5}
-  boxShadow="m"
+<Card
   width={550}
 >
   <CloseButton
@@ -151,9 +136,6 @@ exports[`component.UI.Dialog should render correctly with two buttons 1`] = `
       pr={6}
     >
       <Button
-        isActive={false}
-        isDisabled={false}
-        isProcessing={false}
         justify="center"
         key="Delete"
         onClick={[Function]}
@@ -163,9 +145,6 @@ exports[`component.UI.Dialog should render correctly with two buttons 1`] = `
         Delete
       </Button>
       <Button
-        isActive={false}
-        isDisabled={false}
-        isProcessing={false}
         justify="center"
         key="Cancel"
         onClick={[Function]}
@@ -176,5 +155,5 @@ exports[`component.UI.Dialog should render correctly with two buttons 1`] = `
       </Button>
     </Styled(styled.div)>
   </Styled(styled.div)>
-</Styled(styled.div)>
+</Card>
 `;

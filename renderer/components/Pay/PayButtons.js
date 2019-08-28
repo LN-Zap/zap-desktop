@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Box, Flex, Text } from 'rebass'
+import { Box, Flex, Text } from 'rebass/styled-components'
 import ArrowLeft from 'components/Icon/ArrowLeft'
 import { Button } from 'components/UI'
 import messages from './messages'
@@ -20,10 +20,8 @@ class PayButtons extends React.PureComponent {
   }
 
   static defaultProps = {
-    isDisabled: false,
     nextButtonText: <FormattedMessage {...messages.next} />,
     previousStep: () => ({}),
-    isProcessing: false,
     hasBackButton: true,
     hasSubmitButton: true,
   }

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box } from 'rebass'
+import { Box } from 'rebass/styled-components'
 import { Keyframes } from 'react-spring/renderprops.cjs'
 import { intlShape } from '@zap/i18n'
 import { LightningInvoiceInput } from 'components/Form'
@@ -27,10 +27,6 @@ class PayAddressField extends React.Component {
     isLn: PropTypes.bool,
     network: PropTypes.string.isRequired,
     redirectPayReq: PropTypes.object,
-  }
-
-  static defaultProps = {
-    redirectPayReq: null,
   }
 
   payReqInput = React.createRef()
@@ -68,16 +64,14 @@ class PayAddressField extends React.Component {
             <React.Fragment>
               <LightningInvoiceInput
                 chain={chain}
-                css={`
-                  resize: vertical;
-                  min-height: 48px;
-                `}
+                css="resize: vertical;"
                 field="payReq"
                 forwardedRef={this.payReqInput}
                 initialValue={redirectPayReq && redirectPayReq.address}
                 isReadOnly={currentStep !== PAY_FORM_STEPS.address}
                 isRequired
                 label={this.getPaymentRequestLabel()}
+                minHeight={48}
                 name="payReq"
                 network={network}
                 onValueChange={handlePayReqChange}

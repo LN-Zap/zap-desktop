@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 import { Bar, Panel } from 'components/UI'
 import ChannelNodeSearch from 'containers/Channels/ChannelNodeSearch'
 import ChannelCreateForm from 'containers/Channels/ChannelCreateForm'
@@ -33,19 +33,8 @@ class ChannelCreate extends React.Component {
             </Panel.Header>
           </Flex>
 
-          <Panel.Body
-            css={`
-              overflow-y: overlay;
-              overflow-x: hidden;
-            `}
-          >
-            <Flex
-              alignItems="center"
-              css={`
-                height: 100%;
-              `}
-              flexDirection="column"
-            >
+          <Panel.Body sx={{ overflowY: 'overlay', overflowX: 'hidden' }}>
+            <Flex alignItems="center" flexDirection="column" height="100%">
               {isSearchValidNodeAddress ? (
                 <ChannelCreateForm mx="auto" onSubmit={onSubmit} width={9 / 16} />
               ) : (

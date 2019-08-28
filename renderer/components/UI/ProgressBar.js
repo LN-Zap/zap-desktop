@@ -1,16 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card as BaseCard } from 'rebass'
-import system from '@rebass/components'
 import styled from 'styled-components'
+import { themeGet } from '@styled-system/theme-get'
+import { Card as BaseCard } from 'rebass/styled-components'
 import { tint } from 'polished'
 
-const SystemCard = system({ extend: BaseCard }, 'height')
-
 const EmptyBar = ({ children, height, ...rest }) => (
-  <SystemCard borderRadius={100} color="primaryText" height={height} {...rest}>
+  <BaseCard color="primaryText" height={height} sx={{ borderRadius: 100 }} {...rest}>
     {children}
-  </SystemCard>
+  </BaseCard>
 )
 
 EmptyBar.propTypes = {
@@ -21,8 +19,8 @@ EmptyBar.propTypes = {
 const FilledBar = styled(EmptyBar)`
   background: linear-gradient(
     to ${props => (props.justify === 'right' ? 'right' : 'left')},
-    ${props => tint(0.3, props.theme.colors[props.bg])},
-    ${props => props.theme.colors[props.bg]}
+    ${props => tint(0.3, themeGet(`colors.${props.bg}`)(props))},
+    ${props => themeGet(`colors.${props.bg}`)(props)}
   );
   margin-left: ${props => (props.justify === 'right' ? 'auto' : 'none')};
   transition: all 0.25s;
@@ -51,7 +49,7 @@ ProgressBar.defaultProps = {
   progress: 0,
   height: 10,
   bg: 'tertiaryColor',
-  color: 'lightningOrange',
+  color: 'primaryAccent',
   justify: 'left',
 }
 

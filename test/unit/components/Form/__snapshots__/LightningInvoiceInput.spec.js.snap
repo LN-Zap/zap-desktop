@@ -4,47 +4,54 @@ exports[`component.UI.LightningInvoiceInput should render correctly 1`] = `
 .c0 {
   box-sizing: border-box;
   margin: 0;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.c2 {
-  box-sizing: border-box;
-  margin: 0;
-  color: #959595;
-  font-size: 11px;
-  line-height: 1.4;
-  margin-top: 4px;
-}
-
-.c1 {
-  padding: 16px;
-  color: #ffffff;
-  background-color: transparent;
+  min-width: 0;
+  display: block;
+  width: 100%;
+  padding: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  font-size: inherit;
+  line-height: inherit;
   border: 1px solid;
+  border-radius: default;
+  color: inherit;
+  background-color: transparent;
+  border-width: 1px;
+  border-style: solid;
   border-color: #959595;
   border-radius: 5px;
+  background-color: transparent;
+  color: #ffffff;
   font-family: Roboto,system-ui,sans-serif;
   font-size: 13px;
   font-weight: 300;
   width: 100%;
-  opacity: inherit;
   outline: none;
+  cursor: text;
+  position: relative;
+  padding: 16px;
+  line-height: 1.4;
   border-color: #959595;
 }
 
-.c1:not([readOnly]):not([disabled]):focus {
+.c0::-webkit-search-decoration:hover,
+.c0::-webkit-search-cancel-button:hover {
+  cursor: pointer;
+}
+
+.c0:not([readOnly]):not([disabled]):focus {
   border-color: #fd9800;
 }
 
-.c1::-webkit-search-decoration:hover,
-.c1::-webkit-search-cancel-button:hover {
-  cursor: pointer;
+.c1 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  color: #959595;
+  font-size: 11px;
+  line-height: 1.4;
+  margin-top: 4px;
 }
 
 <form
@@ -53,26 +60,24 @@ exports[`component.UI.LightningInvoiceInput should render correctly 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="c0"
+    className="css-9tqvmu"
   >
-    <textarea
-      className="c1"
-      color="primaryText"
-      fontFamily="sans"
-      fontSize="m"
-      fontWeight="light"
-      name="name"
-      onBlur={[Function]}
-      onChange={[Function]}
-      onFocus={[Function]}
-      required={false}
-      rows={5}
-      spellCheck="false"
-      value=""
-      width={1}
-    />
     <div
-      className="c2"
+      className="css-71r5s5"
+    >
+      <textarea
+        className="c0"
+        name="name"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        rows={5}
+        spellCheck="false"
+        value=""
+      />
+    </div>
+    <div
+      className="c1"
       color="gray"
       fontSize="s"
     >

@@ -1,9 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.Dropdown should render correctly 1`] = `
+.c4 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  color: primaryText;
+  font-size: m;
+  line-height: normal;
+  margin-right: 4px;
+  text-align: left;
+}
+
 .c2 {
   box-sizing: border-box;
   margin: 0;
+  min-width: 0;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -17,6 +29,7 @@ exports[`component.Dropdown should render correctly 1`] = `
 .c5 {
   box-sizing: border-box;
   margin: 0;
+  min-width: 0;
   color: gray;
   display: -webkit-box;
   display: -webkit-flex;
@@ -24,19 +37,10 @@ exports[`component.Dropdown should render correctly 1`] = `
   display: flex;
 }
 
-.c4 {
-  box-sizing: border-box;
-  margin: 0;
-  color: primaryText;
-  font-size: m;
-  line-height: normal;
-  margin-right: 4px;
-  text-align: left;
-}
-
 .c0 {
   box-sizing: border-box;
   margin: 0;
+  min-width: 0;
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
@@ -52,6 +56,7 @@ exports[`component.Dropdown should render correctly 1`] = `
 .c1 {
   box-sizing: border-box;
   margin: 0;
+  min-width: 0;
   font-weight: normal;
   margin: 0;
   padding: 0;

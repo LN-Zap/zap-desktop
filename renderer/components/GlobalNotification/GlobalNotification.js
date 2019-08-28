@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { animated, Transition } from 'react-spring/renderprops.cjs'
 import styled from 'styled-components'
-import { Box } from 'rebass'
+import { Box } from 'rebass/styled-components'
 import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
 import { Notification } from 'components/UI'
 

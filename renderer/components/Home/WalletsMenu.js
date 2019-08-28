@@ -2,22 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
-import { Box } from 'rebass'
+import { Box } from 'rebass/styled-components'
 import { intlShape } from '@zap/i18n'
 import { Text, Menu } from 'components/UI'
 import { WalletName } from 'components/Util'
 import messages from './messages'
 
 const WalletGroupHeader = props => (
-  <Text
-    css={`
-      text-transform: uppercase;
-    `}
-    fontWeight="normal"
-    mb={2}
-    px={3}
-    {...props}
-  />
+  <Text css="text-transform: uppercase;" fontWeight="normal" mb={2} px={3} {...props} />
 )
 
 const WalletGroup = withRouter(

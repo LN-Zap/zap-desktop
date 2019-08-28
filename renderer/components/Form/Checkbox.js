@@ -1,7 +1,7 @@
 import React from 'react'
 import { asField } from 'informed'
 import PropTypes from 'prop-types'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 import styled from 'styled-components'
 import Check from 'components/Icon/Check'
 import { Text } from 'components/UI'
@@ -11,10 +11,10 @@ const mapOutlineBorderColor = props => {
     isDisabled,
     isChecked,
     theme: {
-      colors: { gray, lightningOrange },
+      colors: { gray, primaryAccent },
     },
   } = props
-  return !isChecked || isDisabled ? gray : lightningOrange
+  return !isChecked || isDisabled ? gray : primaryAccent
 }
 
 const mapOutlineBackgroundColor = props => {
@@ -22,10 +22,10 @@ const mapOutlineBackgroundColor = props => {
     isDisabled,
     isChecked,
     theme: {
-      colors: { lightningOrange },
+      colors: { primaryAccent },
     },
   } = props
-  return !isChecked || isDisabled ? 'transparent' : lightningOrange
+  return !isChecked || isDisabled ? 'transparent' : primaryAccent
 }
 
 const CheckboxOutline = styled(Flex)`
@@ -39,10 +39,10 @@ const mapContainerBorderColor = props => {
   const {
     isDisabled,
     theme: {
-      colors: { gray, lightningOrange },
+      colors: { gray, primaryAccent },
     },
   } = props
-  return isDisabled ? gray : lightningOrange
+  return isDisabled ? gray : primaryAccent
 }
 
 const Container = styled(Flex)`
@@ -72,7 +72,14 @@ const Checkmark = ({ isChecked, isDisabled }) => {
   if (isDisabled) {
     return <DisabledCheck />
   }
-  return isChecked && <Check height={13} width={13} />
+  if (isChecked) {
+    return <Check height="13px" width="13px" />
+  }
+  return null
+}
+Checkmark.propTypes = {
+  isChecked: PropTypes.bool,
+  isDisabled: PropTypes.bool,
 }
 
 const DisabledCheck = styled.div`
@@ -87,11 +94,13 @@ const Checkbox = ({ label, description, isChecked, isDisabled, onChange, ...rest
     <HiddenCheckbox checked={isChecked} onChange={() => {}} />
     <CheckboxOutline
       alignItems="center"
-      borderRadius={6}
       color={isDisabled ? 'gray' : 'primaryColor'}
       isChecked={isChecked}
       isDisabled={isDisabled}
       justifyContent="center"
+      sx={{
+        borderRadius: 's',
+      }}
       width={18}
     >
       <Checkmark isChecked={isChecked} isDisabled={isDisabled} />
@@ -106,11 +115,6 @@ const Checkbox = ({ label, description, isChecked, isDisabled, onChange, ...rest
     </Flex>
   </Container>
 )
-
-Checkbox.defaultProps = {
-  isChecked: false,
-  isDisabled: false,
-}
 
 Checkbox.propTypes = {
   description: PropTypes.string,

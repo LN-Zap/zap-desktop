@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Flex, Box } from 'rebass'
+import { Flex, Box } from 'rebass/styled-components'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import styled from 'styled-components'
-import { themeGet } from 'styled-system'
+import { themeGet } from '@styled-system/theme-get'
 import Delete from 'components/Icon/Delete'
 import { Dialog, Heading, DialogOverlay, Text, Button, Bar, Span } from 'components/UI'
 import messages from './messages'
 
 const ShowDetails = styled(Span)`
   &:hover {
-    color: ${themeGet('colors.lightningOrange')};
+    color: ${themeGet('colors.primaryAccent')};
   }
   cursor: pointer;
 `
@@ -24,7 +24,7 @@ const DialogAppCrashed = ({ onClose, onSubmit, error, isOpen }) => {
 
   const header = (
     <Flex alignItems="center" flexDirection="column" mb={4}>
-      <Box color="lightningOrange" mb={2}>
+      <Box color="primaryAccent" mb={2}>
         <Delete height={72} width={72} />
       </Box>
       <Heading.h1>

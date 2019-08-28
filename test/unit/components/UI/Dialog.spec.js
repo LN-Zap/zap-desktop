@@ -1,7 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import toJSON from 'enzyme-to-json'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 import { Dialog, Text, Heading, Button } from 'components/UI'
 import Globe from 'components/Icon/Globe'
 

@@ -1,14 +1,61 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.Toggle should render correctly 1`] = `
-.c4 {
+.c2 {
   box-sizing: border-box;
   margin: 0;
+  min-width: 0;
+  display: block;
+  width: 100%;
+  padding: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  font-size: inherit;
+  line-height: inherit;
+  border: 1px solid;
+  border-radius: default;
+  color: inherit;
+  background-color: transparent;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #959595;
+  border-radius: 5px;
+  background-color: transparent;
+  color: #ffffff;
+  font-family: Roboto,system-ui,sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  width: 100%;
+  outline: none;
+  cursor: text;
+  position: relative;
+  line-height: 1;
+  padding-left: 16px;
+  padding-right: 16px;
+  height: 48px;
+  border-color: #959595;
+}
+
+.c2::-webkit-search-decoration:hover,
+.c2::-webkit-search-cancel-button:hover {
+  cursor: pointer;
+}
+
+.c2:not([readOnly]):not([disabled]):focus {
+  border-color: #fd9800;
+}
+
+.c3 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
 }
 
 .c0 {
   box-sizing: border-box;
   margin: 0;
+  min-width: 0;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -19,44 +66,7 @@ exports[`component.UI.Toggle should render correctly 1`] = `
   display: flex;
 }
 
-.c2 {
-  box-sizing: border-box;
-  margin: 0;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.c3 {
-  padding: 16px;
-  color: #ffffff;
-  background-color: transparent;
-  border: 1px solid;
-  border-color: #959595;
-  border-radius: 5px;
-  font-family: Roboto,system-ui,sans-serif;
-  font-size: 13px;
-  font-weight: 300;
-  width: 100%;
-  opacity: inherit;
-  outline: none;
-  border-color: #959595;
-}
-
-.c3:not([readOnly]):not([disabled]):focus {
-  border-color: #fd9800;
-}
-
-.c3::-webkit-search-decoration:hover,
-.c3::-webkit-search-cancel-button:hover {
-  cursor: pointer;
-}
-
-.c5 {
+.c4 {
   margin-left: -24px;
   width: 8px;
   pointer-events: none;
@@ -90,10 +100,10 @@ exports[`component.UI.Toggle should render correctly 1`] = `
       className="c0"
     >
       <div
-        className="c1 c2"
+        className="c1 css-9tqvmu"
       >
         <div
-          className="c0"
+          className="css-71r5s5"
         >
           <input
             aria-activedescendant={null}
@@ -101,11 +111,7 @@ exports[`component.UI.Toggle should render correctly 1`] = `
             aria-controls={null}
             aria-labelledby="downshift-0-label"
             autoComplete="off"
-            className="c3"
-            color="primaryText"
-            fontFamily="sans"
-            fontSize="m"
-            fontWeight="light"
+            className="c2"
             id="downshift-0-input"
             name="name"
             onBlur={[Function]}
@@ -115,15 +121,14 @@ exports[`component.UI.Toggle should render correctly 1`] = `
             onMouseDown={[Function]}
             placeholder="Please select"
             value=""
-            width={1}
           />
         </div>
       </div>
       <div
-        className="c4"
+        className="c3"
       >
         <svg
-          className="c5"
+          className="c4"
           height="1em"
           viewBox="6.295 8.295 12 7.41"
           width={8}

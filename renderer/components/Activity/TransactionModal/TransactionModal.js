@@ -8,7 +8,7 @@ import {
   FormattedNumber,
   injectIntl,
 } from 'react-intl'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 import { intlShape } from '@zap/i18n'
 import blockExplorer from '@zap/utils/blockExplorer'
 import { Bar, DataRow, Header, Link, Panel, Span, Text, Button } from 'components/UI'
@@ -16,7 +16,7 @@ import { CopyButton, CryptoSelector, CryptoValue, FiatSelector, FiatValue } from
 import { Truncate } from 'components/Util'
 import Onchain from 'components/Icon/Onchain'
 import Padlock from 'components/Icon/Padlock'
-import ArrowDown from 'components/Icon/ArrowDown'
+import Download from 'components/Icon/Download'
 import messages from './messages'
 
 class TransactionModal extends React.PureComponent {
@@ -85,18 +85,6 @@ class TransactionModal extends React.PureComponent {
     return (
       <Panel {...rest}>
         <Panel.Header>
-          <Button
-            css={`
-              position: absolute;
-              bottom: 5px;
-              right: 25px;
-            `}
-            icon={ArrowDown}
-            onClick={this.saveInvoice}
-            variant="secondary"
-          >
-            <FormattedMessage {...messages.download_pdf} />
-          </Button>
           <Header
             logo={<Onchain height="45px" width="45px" />}
             subtitle={<FormattedMessage {...messages.subtitle} />}
@@ -271,6 +259,20 @@ class TransactionModal extends React.PureComponent {
             }
           />
         </Panel.Body>
+        <Panel.Footer>
+          <Button
+            icon={Download}
+            onClick={this.saveInvoice}
+            sx={{
+              position: 'absolute',
+              bottom: 3,
+              right: 4,
+            }}
+            variant="secondary"
+          >
+            <FormattedMessage {...messages.download_pdf} />
+          </Button>
+        </Panel.Footer>
       </Panel>
     )
   }

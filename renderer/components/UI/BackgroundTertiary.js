@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box } from 'rebass'
+import { Box } from 'rebass/styled-components'
 
 /**
  * @name BackgroundTertiary

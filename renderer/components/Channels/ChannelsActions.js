@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { Box, Flex } from 'rebass'
-import { themeGet } from 'styled-system'
+import { Box, Flex } from 'rebass/styled-components'
+import { themeGet } from '@styled-system/theme-get'
 import styled from 'styled-components'
 import { intlShape } from '@zap/i18n'
 import { ButtonCreate, Card, Text } from 'components/UI'
@@ -17,7 +17,7 @@ import messages from './messages'
 
 const ResetSearchText = styled(Text)`
   &:hover {
-    color: ${themeGet('colors.lightningOrange')};
+    color: ${themeGet('colors.primaryAccent')};
   }
   cursor: pointer;
 `
@@ -58,14 +58,16 @@ const ChannelsActions = ({
 }) => (
   <Box {...rest}>
     <Card px={3} py={2} width={1}>
-      <Flex alignItems="center" as="section" justifyContent="space-between">
-        <ChannelSearch
-          placeholder={intl.formatMessage({ ...messages.search_placeholder })}
-          searchQuery={searchQuery}
-          updateChannelSearchQuery={updateChannelSearchQuery}
-          width={1}
-        />
-        <Flex alignItems="center" as="section" justifyContent="flex-end">
+      <Flex alignItems="center" as="section" justifyContent="space-between" width={1}>
+        <Box sx={{ flex: 1 }}>
+          <ChannelSearch
+            placeholder={intl.formatMessage({ ...messages.search_placeholder })}
+            searchQuery={searchQuery}
+            updateChannelSearchQuery={updateChannelSearchQuery}
+            width={1}
+          />
+        </Box>
+        <Flex alignItems="center" justifyContent="flex-end">
           <ChannelFilter changeFilter={changeFilter} filter={filter} filters={filters} mx={3} />
           <ChannelSort changeSort={changeSort} mx={3} sort={sort} sorters={sorters} />
           <ChannelSortDirectionButton isAsc={sortOrder === 'asc'} onClick={switchSortOrder} />

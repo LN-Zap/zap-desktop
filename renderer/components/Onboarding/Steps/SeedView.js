@@ -2,7 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 import { Bar, Header, Message, Span, Spinner, Text } from 'components/UI'
 import { Form, Input } from 'components/Form'
 import messages from './messages'
@@ -37,7 +37,6 @@ class SeedView extends React.Component {
     wizardApi: {},
     wizardState: {},
     seed: [],
-    isFetchingSeed: false,
   }
 
   componentDidMount() {

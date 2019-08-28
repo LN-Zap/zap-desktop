@@ -9,6 +9,7 @@ exports[`component.Form.DataRow should render correctly 1`] = `
     justifyContent="space-between"
   >
     <Text
+      flex={1}
       fontWeight="normal"
     >
       left contnet

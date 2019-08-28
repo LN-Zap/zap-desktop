@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import { withFormApi } from 'informed'
 import { Spinner, Text } from 'components/UI'
 import CryptoValue from 'containers/UI/CryptoValue'
@@ -73,7 +73,7 @@ const TransactionFeeInput = ({
               <FormattedMessage {...messages.calculating} />
               &hellip;
             </Text>
-            <Spinner color="lightningOrange" />
+            <Spinner color="primaryAccent" />
           </Flex>
         )}
 

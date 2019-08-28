@@ -1,31 +1,35 @@
 import React from 'react'
-import system from '@rebass/components'
-import { styles } from 'styled-system'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { Box, Flex } from 'rebass/styled-components'
+import { Label as BaseLabel } from '@rebass/forms/styled-components'
+import { Span, Tooltip } from 'components/UI'
 
-// Create an html input element that accepts all style props from styled-system.
-const SystemLabel = system(
-  {
-    as: 'label',
-    display: 'block',
-    color: 'primaryText',
-    fontSize: 'm',
-    fontWeight: 'normal',
-    mb: 1,
-  },
-  ...Object.keys(styles)
+const Supertext = styled(Span)`
+  vertical-align: top;
+`
+
+const RequiredMark = () => (
+  <Supertext fontSize="s" ml={1}>
+    *
+  </Supertext>
 )
 
-/**
- * @name Label
- * @example
- * <Label />
- */
-class Label extends React.PureComponent {
-  static displayName = 'Label'
+const Label = ({ htmlFor, children, isRequired, tooltip, ...rest }) => (
+  <BaseLabel htmlFor={htmlFor} {...rest}>
+    <Flex>
+      <Box>{children}</Box>
+      {isRequired && <RequiredMark />}
+      {tooltip && <Tooltip ml={1}>{tooltip}</Tooltip>}
+    </Flex>
+  </BaseLabel>
+)
 
-  render() {
-    return <SystemLabel {...this.props} />
-  }
+Label.propTypes = {
+  children: PropTypes.node.isRequired,
+  htmlFor: PropTypes.string.isRequired,
+  isRequired: PropTypes.bool,
+  tooltip: PropTypes.string,
 }
 
 export default Label

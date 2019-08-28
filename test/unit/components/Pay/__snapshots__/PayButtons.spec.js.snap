@@ -9,9 +9,6 @@ exports[`component.Form.PayButtons should render correctly with default props 1`
     width={0.2}
   >
     <Button
-      isActive={false}
-      isDisabled={false}
-      isProcessing={false}
       justify="center"
       onClick={[Function]}
       px={0}
@@ -20,10 +17,10 @@ exports[`component.Form.PayButtons should render correctly with default props 1`
       variant="secondary"
     >
       <Styled(styled.div)>
-        <Styled(styled.div)>
+        <ForwardRef>
           <SvgArrowLeft />
-        </Styled(styled.div)>
-        <Styled(styled.div)
+        </ForwardRef>
+        <ForwardRef
           ml={1}
         >
           <FormattedMessage
@@ -31,14 +28,11 @@ exports[`component.Form.PayButtons should render correctly with default props 1`
             id="components.Pay.back"
             values={Object {}}
           />
-        </Styled(styled.div)>
+        </ForwardRef>
       </Styled(styled.div)>
     </Button>
   </styled.div>
   <Button
-    isActive={false}
-    isDisabled={false}
-    isProcessing={false}
     justify="center"
     mx="auto"
     size="medium"

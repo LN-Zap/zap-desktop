@@ -20,12 +20,7 @@ const ChannelDetail = ({
       <Panel.Header mx="auto" width={9 / 16}>
         <ChannelHeader channel={channel} />
       </Panel.Header>
-      <Panel.Body
-        css={`
-          overflow-y: overlay;
-          overflow-x: hidden;
-        `}
-      >
+      <Panel.Body sx={{ overflowY: 'overlay', overflowX: 'hidden' }}>
         <ChannelCapacity
           localBalance={channel.local_balance}
           mx="auto"

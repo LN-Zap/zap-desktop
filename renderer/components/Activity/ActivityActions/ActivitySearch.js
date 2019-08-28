@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useDebounce } from 'hooks'
-import { Form, Input } from 'components/Form'
+import { Form, SearchInput } from 'components/Form'
 
 const ActivitySearch = ({ searchText, placeholder, updateSearchText, ...rest }) => {
   const [value, setValue] = useState()
@@ -9,8 +9,7 @@ const ActivitySearch = ({ searchText, placeholder, updateSearchText, ...rest }) 
 
   return (
     <Form {...rest}>
-      <Input
-        border={0}
+      <SearchInput
         field="activity-search"
         highlightOnValid={false}
         id="activity-search"
@@ -18,7 +17,9 @@ const ActivitySearch = ({ searchText, placeholder, updateSearchText, ...rest }) 
         mr={2}
         onValueChange={setValue}
         placeholder={placeholder}
-        type="search"
+        sx={{
+          borderWidth: 0,
+        }}
         variant="thin"
       />
     </Form>

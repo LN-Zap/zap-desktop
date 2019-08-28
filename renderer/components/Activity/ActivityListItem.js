@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import PropTypes from 'prop-types'
 import Invoice from 'containers/Activity/Invoice'
 import Payment from 'containers/Activity/Payment'
@@ -42,7 +42,7 @@ const ActivityListItem = ({ activity, ...rest }) => {
       <Text color="gray" mr={10} textAlign="center" width={24}>
         <ActivityIcon activity={activity} />
       </Text>
-      <Box css={activity.isSending ? null : { cursor: 'pointer' }} width={1}>
+      <Box sx={activity.isSending ? null : { cursor: 'pointer' }} width={1}>
         <ListItem {...listItemProps} />
       </Box>
     </Flex>

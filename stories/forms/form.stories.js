@@ -1,7 +1,7 @@
 import React, { createRef } from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import { Box } from 'rebass'
+import { Box } from 'rebass/styled-components'
 import { Button, MainContent, Page } from 'components/UI'
 import {
   Checkbox,
@@ -10,14 +10,17 @@ import {
   FiatAmountInput,
   Form,
   Input,
+  Field,
   Label,
   LightningInvoiceInput,
   LndConnectionStringInput,
   NodePubkeyInput,
   IntegerInput,
+  PasswordInput,
   Radio,
   RadioGroup,
   Range,
+  SearchInput,
   Select,
   TextArea,
   Toggle,
@@ -47,6 +50,14 @@ storiesOf('Forms', module)
       </Form>
       <Form mb={4}>
         <Input
+          field="fieldName"
+          id="field-name"
+          label="Field with Label and tooltip"
+          tooltip="Some help text"
+        />
+      </Form>
+      <Form mb={4}>
+        <Input
           description="This field also has a description."
           field="fieldName"
           id="field-name"
@@ -64,12 +75,6 @@ storiesOf('Forms', module)
         />
       </Form>
       <Form mb={4}>
-        <Input field="fieldName" id="field-name" label="Search field" type="search" />
-      </Form>
-      <Form mb={4}>
-        <Input field="fieldName" id="field-name" label="Password field" type="password" />
-      </Form>
-      <Form mb={4}>
         <Input field="fieldName" id="field-name" isDisabled label="Disabled field" />
       </Form>
       <Form mb={4}>
@@ -80,6 +85,14 @@ storiesOf('Forms', module)
           isReadOnly
           label="Read only field"
         />
+      </Form>
+      <Form mb={4}>
+        <Field field="fieldName" id="field-name" label="Input field (container)">
+          <Box tx="forms.input" variant="normal" />
+        </Field>
+      </Form>
+      <Form mb={4}>
+        <Input field="fieldName" id="field-name" label="Thin variant" variant="thin" />
       </Form>
     </>
   ))
@@ -104,6 +117,20 @@ storiesOf('Forms', module)
           label="Number field with min value (required)"
           min={0}
         />
+      </Form>
+    </>
+  ))
+  .add('PasswordInput', () => (
+    <>
+      <Form mb={4}>
+        <PasswordInput field="fieldName" id="field-name" label="Password field" willAutoFocus />
+      </Form>
+    </>
+  ))
+  .add('SearchInput', () => (
+    <>
+      <Form mb={4}>
+        <SearchInput field="fieldName" id="field-name" label="Search field" willAutoFocus />
       </Form>
     </>
   ))
@@ -310,7 +337,7 @@ storiesOf('Forms', module)
   .add('Checkbox', () => (
     <Form>
       <Label htmlFor="checkbox">Unchecked</Label>
-      <Checkbox description="Lightning is a layer 2 scaling solution" field="checkbox" />
+      <Checkbox field="checkbox" label="Lightning is a layer 2 scaling solution" />
       <Label htmlFor="checkbox2" mt={4}>
         Checked
       </Label>

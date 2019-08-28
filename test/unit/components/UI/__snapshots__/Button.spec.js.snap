@@ -4,32 +4,40 @@ exports[`component.UI.Button should render correctly 1`] = `
 .c1 {
   box-sizing: border-box;
   margin: 0;
+  min-width: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-block;
+  text-align: center;
+  line-height: inherit;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: inherit;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  color: white;
+  background-color: primary;
+  border: 0;
+  border-radius: 4px;
+  border-radius: 5px;
+  padding-left: 64px;
+  padding-right: 64px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.c2 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   font-family: sans;
   font-weight: normal;
 }
 
 .c0 {
-  box-sizing: border-box;
-  margin: 0;
-  padding-left: 64px;
-  padding-right: 64px;
-  padding-top: 16px;
-  padding-bottom: 16px;
-  color: white;
-  background-color: blue;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  display: inline-block;
-  font-size: inherit;
-  font-weight: bold;
-  border: 0;
-  border-radius: 4px;
-  text-align: center;
-  line-height: inherit;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  border-radius: 5px;
   -webkit-transition: all 0.25s;
   transition: all 0.25s;
   outline: none;
@@ -48,12 +56,10 @@ exports[`component.UI.Button should render correctly 1`] = `
 }
 
 <button
-  className="c0"
-  color="white"
-  disabled={false}
+  className="c0 c1"
 >
   <div
-    className="c1"
+    className="c2"
     fontFamily="sans"
     fontWeight="normal"
   />

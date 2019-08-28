@@ -47,12 +47,11 @@ class LndConnectionStringInput extends React.Component {
 
     return (
       <TextArea
-        css={`
-          word-break: break-all;
-        `}
+        css="word-break: break-all;"
         initialValue={initialValue}
         mask={mask}
         placeholder={intl.formatMessage({ ...messages.lnd_connection_string_placeholder })}
+        rows={5}
         {...rest}
         spellCheck="false"
         validate={this.validate}

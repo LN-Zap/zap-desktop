@@ -1,18 +1,18 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { themeGet } from 'styled-system'
+import { themeGet } from '@styled-system/theme-get'
 import Input from './Input'
 import Eye from 'components/Icon/Eye'
 import EyeOff from 'components/Icon/EyeOff'
 
 const iconCss = `
   cursor: pointer;
-  height: 32px;
-  padding: 0 8px;
+  height: 16px;
+  width: 16px;
+  padding: 0;
   position: absolute;
-  right: 8px;
+  right: 16px;
   user-select: none;
-  width: 32px;
 `
 const StyledEyeIcon = styled(Eye)`
   ${iconCss}
@@ -29,21 +29,13 @@ const PasswordInput = props => {
     setPasswordVisible(!isPasswordVisible)
   }
 
-  return (
-    <Input
-      css={`
-        position: relative;
-      `}
-      type={isPasswordVisible ? 'text' : 'password'}
-      {...props}
-    >
-      {isPasswordVisible ? (
-        <StyledEyeOffIcon onClick={toggleIsPasswordVisible} />
-      ) : (
-        <StyledEyeIcon onClick={toggleIsPasswordVisible} />
-      )}
-    </Input>
+  const suffix = isPasswordVisible ? (
+    <StyledEyeOffIcon onClick={toggleIsPasswordVisible} />
+  ) : (
+    <StyledEyeIcon onClick={toggleIsPasswordVisible} />
   )
+
+  return <Input suffix={suffix} type={isPasswordVisible ? 'text' : 'password'} {...props} />
 }
 
 export default PasswordInput

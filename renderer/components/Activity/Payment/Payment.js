@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, FormattedTime, injectIntl } from 'react-intl'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import { intlShape } from '@zap/i18n'
 import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
 import { Message, Text } from 'components/UI'
@@ -72,7 +72,7 @@ const Payment = ({ payment, showActivityModal, cryptoUnitName, showErrorDetailsD
         data-hint={intl.formatMessage({ ...messages.amount })}
         width={1 / 4}
       >
-        <Box css={payment.status == 'failed' ? { opacity: 0.3 } : null}>
+        <Box opacity={payment.status == 'failed' ? 0.3 : null}>
           <Text mb={1} textAlign="right">
             {'- '}
             <CryptoValue value={payment.value_sat} />

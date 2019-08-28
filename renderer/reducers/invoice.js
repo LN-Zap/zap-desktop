@@ -250,8 +250,9 @@ const ACTION_HANDLERS = {
   },
   [UPDATE_INVOICE]: (state, { invoice }) => {
     const invoiceIndex = state.invoices.findIndex(
-      invoice => invoice.r_hash.toString('hex') === invoice.r_hash.toString('hex')
+      inv => inv.r_hash.toString('hex') === invoice.r_hash.toString('hex')
     )
+
     // update if exists or add new otherwise
     if (invoiceIndex >= 0) {
       state.invoices[invoiceIndex] = { ...state.invoices[invoiceIndex], ...invoice }

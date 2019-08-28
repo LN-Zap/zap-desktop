@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import CloseButton from 'components/UI/CloseButton'
 import ZapLogo from 'components/Icon/ZapLogo'
 import Page from './Page'
@@ -22,11 +22,6 @@ const ModalHeader = styled(Flex)`
   right: 0;
   z-index: 2;
   pointer-events: none;
-`
-
-const ModalContentWrapper = styled(Box)`
-  height: 100%;
-  width: 100%;
 `
 
 const ModalCloseWrapper = styled(Box)`
@@ -59,7 +54,7 @@ const Modal = props => {
   const { children, onClose, hasClose, hasLogo, ...rest } = props
 
   return (
-    <ModalContentWrapper bg="primaryColor" color="primaryText">
+    <Box bg="primaryColor" color="primaryText" height="100%" width={1}>
       {(hasClose || hasLogo) && (
         <ModalHeader justifyContent={hasLogo ? 'space-between' : 'flex-end'} pt={3} px={3}>
           {hasLogo && <ModalLogo />}
@@ -67,7 +62,7 @@ const Modal = props => {
         </ModalHeader>
       )}
       <Page {...rest}>{children}</Page>
-    </ModalContentWrapper>
+    </Box>
   )
 }
 

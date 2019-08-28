@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import SettingsMenu from 'containers/Settings/SettingsMenu'
@@ -43,11 +43,11 @@ const WalletMenu = ({ openModal }) => {
       <ChannelsMenu />
       {isAutopayEnabled() && <AutopayMenuItem openModal={openModal} />}
       <SettingsMenu
-        css={`
-          position: relative;
-          z-index: 40;
-        `}
         ml={4}
+        sx={{
+          zIndex: 40,
+          position: 'relative',
+        }}
       />
     </Flex>
   )

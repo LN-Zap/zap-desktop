@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Card, Flex } from 'rebass'
+import { Box, Card, Flex } from 'rebass/styled-components'
 import ClippedText from './ClippedText'
 import CopyButton from './CopyButton'
 
 const CopyBox = ({ value, hint, onCopy, ...rest }) => {
   return (
-    <Card bg="tertiaryColor" borderRadius={5} p={0} {...rest}>
+    <Card bg="tertiaryColor" p={0} sx={{ borderRadius: 's' }} {...rest}>
       <Flex justifyContent="space-between">
         <ClippedText fontSize="s" p={3} textAlign="center" width={1}>
           {value}
