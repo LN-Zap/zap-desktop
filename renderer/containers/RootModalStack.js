@@ -7,7 +7,9 @@ import AppErrorBoundary from 'components/ErrorBoundary/AppErrorBoundary'
 import SettingsPage from 'containers/Settings/SettingsPage'
 
 const MODALS = {
-  SETTINGS: <SettingsPage />,
+  SETTINGS: {
+    component: SettingsPage,
+  },
 }
 
 const RootAppModalStack = ({ closeModal, modals, ...rest }) => {

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { closeModal, modalSelectors } from 'reducers/modal'
 import ModalStack from 'components/ModalStack'
@@ -12,16 +13,42 @@ import ReceiveModal from 'containers/Wallet/ReceiveModal'
 import ActivityModal from 'containers/Activity/ActivityModal'
 import ProfilePage from 'containers/Profile/ProfilePage'
 
+const RequestModalContent = ({ isAnimating }) => (
+  <Request isAnimating={isAnimating} mx="auto" py={4} width={9 / 16} />
+)
+RequestModalContent.propTypes = {
+  isAnimating: PropTypes.bool,
+}
+
+const AutopayModalContent = () => <Autopay mt={4} width={1} />
+
+const PayModalContent = () => <Pay mx="auto" py={4} width={9 / 16} />
+
+const ReceiveModalContent = () => <ReceiveModal mx="auto" py={4} width={9 / 16} />
+
+const ActivityModalContent = () => <ActivityModal mx="auto" py={4} width={9 / 16} />
+
+const ChannelsModelContent = () => <Channels width={1} />
+
+const ChannelCreateModalContent = () => <ChannelCreate py={4} width={1} />
+
+const ChannelDetailModalContent = ({ type }) => (
+  <ChannelDetailModal mx={4} py={4} type={type} width={1} />
+)
+ChannelDetailModalContent.propTypes = {
+  type: PropTypes.string,
+}
+
 const MODALS = {
-  PROFILE: <ProfilePage />,
-  AUTOPAY: <Autopay mt={4} width={1} />,
-  PAY_FORM: <Pay mx="auto" py={4} width={9 / 16} />,
-  REQUEST_FORM: <Request mx="auto" py={4} width={9 / 16} />,
-  RECEIVE_MODAL: <ReceiveModal mx="auto" py={4} width={9 / 16} />,
-  ACTIVITY_MODAL: <ActivityModal mx="auto" width={9 / 16} />,
-  CHANNELS: <Channels width={1} />,
-  CHANNEL_CREATE: <ChannelCreate py={4} width={1} />,
-  CHANNEL_DETAIL: <ChannelDetailModal mx={4} py={4} type="CHANNEL_DETAIL" width={1} />,
+  AUTOPAY: { render: AutopayModalContent },
+  ACTIVITY_MODAL: { render: ActivityModalContent },
+  CHANNELS: { render: ChannelsModelContent },
+  CHANNEL_CREATE: { render: ChannelCreateModalContent },
+  CHANNEL_DETAIL: { render: ChannelDetailModalContent },
+  PAY_FORM: { render: PayModalContent },
+  PROFILE: { component: ProfilePage },
+  REQUEST_FORM: { render: RequestModalContent },
+  RECEIVE_MODAL: { render: ReceiveModalContent },
 }
 
 const AppModalStack = props => <ModalStack {...props} modalDefinitions={MODALS} />
