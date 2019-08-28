@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.NodePubkeyInput should render correctly 1`] = `
-.c0 {
+.c2 {
   box-sizing: border-box;
   margin: 0;
   min-width: 0;
@@ -37,13 +37,46 @@ exports[`component.UI.NodePubkeyInput should render correctly 1`] = `
   border-color: #959595;
 }
 
-.c0::-webkit-search-decoration:hover,
-.c0::-webkit-search-cancel-button:hover {
+.c2::-webkit-search-decoration:hover,
+.c2::-webkit-search-cancel-button:hover {
   cursor: pointer;
 }
 
-.c0:not([readOnly]):not([disabled]):focus {
+.c2:not([readOnly]):not([disabled]):focus {
   border-color: #fd9800;
+}
+
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c1 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  position: relative;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  opacity: inherit;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 <form
@@ -52,13 +85,14 @@ exports[`component.UI.NodePubkeyInput should render correctly 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="css-9tqvmu"
+    className="c0"
   >
     <div
-      className="css-71r5s5"
+      className="c1"
+      opacity="inherit"
     >
       <input
-        className="c0"
+        className="c2"
         name="name"
         onBlur={[Function]}
         onChange={[Function]}

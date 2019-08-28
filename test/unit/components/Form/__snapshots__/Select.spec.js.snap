@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.Toggle should render correctly 1`] = `
-.c2 {
+.c4 {
   box-sizing: border-box;
   margin: 0;
   min-width: 0;
@@ -37,16 +37,16 @@ exports[`component.UI.Toggle should render correctly 1`] = `
   border-color: #959595;
 }
 
-.c2::-webkit-search-decoration:hover,
-.c2::-webkit-search-cancel-button:hover {
+.c4::-webkit-search-decoration:hover,
+.c4::-webkit-search-cancel-button:hover {
   cursor: pointer;
 }
 
-.c2:not([readOnly]):not([disabled]):focus {
+.c4:not([readOnly]):not([disabled]):focus {
   border-color: #fd9800;
 }
 
-.c3 {
+.c5 {
   box-sizing: border-box;
   margin: 0;
   min-width: 0;
@@ -66,7 +66,40 @@ exports[`component.UI.Toggle should render correctly 1`] = `
   display: flex;
 }
 
-.c4 {
+.c2 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c3 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  position: relative;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  opacity: inherit;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c6 {
   margin-left: -24px;
   width: 8px;
   pointer-events: none;
@@ -100,10 +133,11 @@ exports[`component.UI.Toggle should render correctly 1`] = `
       className="c0"
     >
       <div
-        className="c1 css-9tqvmu"
+        className="c1 c2"
       >
         <div
-          className="css-71r5s5"
+          className="c3"
+          opacity="inherit"
         >
           <input
             aria-activedescendant={null}
@@ -111,7 +145,7 @@ exports[`component.UI.Toggle should render correctly 1`] = `
             aria-controls={null}
             aria-labelledby="downshift-0-label"
             autoComplete="off"
-            className="c2"
+            className="c4"
             id="downshift-0-input"
             name="name"
             onBlur={[Function]}
@@ -125,10 +159,10 @@ exports[`component.UI.Toggle should render correctly 1`] = `
         </div>
       </div>
       <div
-        className="c3"
+        className="c5"
       >
         <svg
-          className="c4"
+          className="c6"
           height="1em"
           viewBox="6.295 8.295 12 7.41"
           width={8}

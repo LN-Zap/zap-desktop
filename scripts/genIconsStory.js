@@ -63,7 +63,7 @@ const createIconGrid = (iconBasePath, icons) => {
   return `import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { linkTo } from '@storybook/addon-links'
-import { Box, Flex } from 'rebass'
+import { Box, Flex } from 'rebass/styled-components'
 import { Text } from 'components/UI'
 ${unwrapIconImports(iconBasePath, icons)}
 ${unwrapIconList(icons)}
