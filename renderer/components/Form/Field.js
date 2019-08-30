@@ -25,11 +25,7 @@ const Field = ({
       </Label>
     )}
 
-    <Flex
-      alignItems="center"
-      opacity={isDisabled || isReadOnly ? '0.6' : 'inherit'}
-      sx={{ position: 'relative' }}
-    >
+    <Flex alignItems="center" sx={{ position: 'relative' }}>
       {children}
     </Flex>
 

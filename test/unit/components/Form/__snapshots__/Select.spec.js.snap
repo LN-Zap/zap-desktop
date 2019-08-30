@@ -42,7 +42,20 @@ exports[`component.UI.Toggle should render correctly 1`] = `
   cursor: pointer;
 }
 
-.c4:not([readOnly]):not([disabled]):focus {
+.c4:disabled {
+  background-color: #95959533;
+  opacity: 0.6;
+}
+
+.c4:-moz-read-only {
+  opacity: 0.6;
+}
+
+.c4:read-only {
+  opacity: 0.6;
+}
+
+.c4:not([read-only]):not([disabled]):focus {
   border-color: #fd9800;
 }
 
@@ -92,7 +105,6 @@ exports[`component.UI.Toggle should render correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  opacity: inherit;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -137,7 +149,6 @@ exports[`component.UI.Toggle should render correctly 1`] = `
       >
         <div
           className="c3"
-          opacity="inherit"
         >
           <input
             aria-activedescendant={null}

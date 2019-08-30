@@ -75,7 +75,13 @@ storiesOf('Forms', module)
         />
       </Form>
       <Form mb={4}>
-        <Input field="fieldName" id="field-name" isDisabled label="Disabled field" />
+        <Input
+          field="fieldName"
+          id="field-name"
+          initialValue="This is a disabled field"
+          isDisabled
+          label="Disabled field"
+        />
       </Form>
       <Form mb={4}>
         <Input

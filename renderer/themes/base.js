@@ -90,6 +90,7 @@ export const letterSpacings = {
 
 const buttons = {
   normal: {
+    fontFamily: 'sans',
     bg: 'tertiaryColor',
     color: 'primaryAccent',
     '&:hover:enabled': {
@@ -101,11 +102,13 @@ const buttons = {
   },
 
   primary: {
+    fontFamily: 'sans',
     bg: 'primaryAccent',
     color: 'white',
   },
 
   secondary: {
+    fontFamily: 'sans',
     bg: 'inherit',
     color: 'primaryText',
     '&:hover:enabled': {
@@ -121,6 +124,7 @@ const buttons = {
   },
 
   menu: {
+    fontFamily: 'sans',
     bg: 'primaryColor',
     color: 'primaryText',
     '&.active': {
@@ -136,6 +140,7 @@ const buttons = {
   },
 
   danger: {
+    fontFamily: 'sans',
     bg: 'superRed',
     color: 'white',
   },
@@ -157,6 +162,13 @@ const inputStyles = {
   position: 'relative',
   '::-webkit-search-decoration:hover, ::-webkit-search-cancel-button:hover': {
     cursor: 'pointer',
+  },
+  '&:disabled': {
+    bg: `${palette.gray}33`,
+    opacity: 0.6,
+  },
+  '&:read-only': {
+    opacity: 0.6,
   },
 }
 

@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
+import styled, { ThemeProvider } from 'styled-components'
 import { animated, Transition } from 'react-spring/renderprops.cjs'
-import styled from 'styled-components'
 import { Modal, ModalOverlayStyles } from 'components/UI'
 import { useOnKeydown } from 'hooks'
 
@@ -10,10 +10,21 @@ const Container = styled(animated.div)`
 `
 
 const ModalContent = ({ modalDefinitions, type, onClose, isAnimating }) => {
-  const component = modalDefinitions[type]
-  return (
-    component && <Modal onClose={onClose}>{React.cloneElement(component, { isAnimating })}</Modal>
+  const { component, render, theme } = modalDefinitions[type]
+
+  if (!component && !render) {
+    return null
+  }
+
+  const props = { isAnimating, type }
+
+  const renderContent = () => (
+    <Modal onClose={onClose}>
+      {component ? React.createElement(component, props) : render(props)}
+    </Modal>
   )
+
+  return theme ? <ThemeProvider theme={theme}>{renderContent()}</ThemeProvider> : renderContent()
 }
 
 ModalContent.propTypes = {
