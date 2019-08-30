@@ -28,4 +28,6 @@ export default defineMessages({
     'Zap will generate a QR-Code and a lightning invoice so that you can receive {chain} ({ticker}) through the Lightning Network.',
   expires: 'Expires',
   expired: 'Expired',
+  max_capacity_warning:
+    'Request is above your maximum one time receive capacity of {capacity} {unit}',
 })

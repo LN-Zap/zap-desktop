@@ -30,6 +30,8 @@ class PaySummaryLightning extends React.Component {
 
   static defaultProps = {
     nodes: [],
+    maxFee: 0,
+    minFee: 0,
   }
 
   render() {
@@ -55,6 +57,7 @@ class PaySummaryLightning extends React.Component {
     const descriptionTag = invoice.tags.find(tag => tag.tagName === 'description') || {}
     const memo = descriptionTag.data
     const amountInSatoshis = satoshis || convert('msats', 'sats', millisatoshis) || amount
+
     const nodeAlias = getNodeAlias(payeeNodeKey, nodes)
     const hasMinFee = minFee || minFee === 0
     const hasMaxFee = maxFee || maxFee === 0

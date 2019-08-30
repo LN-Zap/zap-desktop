@@ -25,6 +25,7 @@ class Pay extends React.Component {
     initialAmountCrypto: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     initialAmountFiat: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     intl: intlShape.isRequired,
+    isAnimating: PropTypes.bool,
     isProcessing: PropTypes.bool,
     isQueryingFees: PropTypes.bool,
     lndTargetConfirmations: PropTypes.shape({
@@ -32,6 +33,7 @@ class Pay extends React.Component {
       medium: PropTypes.number.isRequired,
       slow: PropTypes.number.isRequired,
     }).isRequired,
+    maxOneTimeSend: PropTypes.number.isRequired,
     mx: PropTypes.string,
     network: PropTypes.string.isRequired,
     onchainFees: PropTypes.shape({
@@ -343,6 +345,7 @@ class Pay extends React.Component {
       intl,
       isProcessing,
       isQueryingFees,
+      isAnimating,
       lndTargetConfirmations,
       network,
       onchainFees,
@@ -354,6 +357,7 @@ class Pay extends React.Component {
       sendCoins,
       setRedirectPayReq,
       walletBalanceConfirmed,
+      maxOneTimeSend,
       ...rest
     } = this.props
 
@@ -400,6 +404,7 @@ class Pay extends React.Component {
               <PayPanelFooter
                 amountInSats={this.amountInSats()}
                 channelBalance={channelBalance}
+                cryptoUnit={cryptoUnit}
                 cryptoUnitName={cryptoUnitName}
                 currentStep={currentStep}
                 formState={formState}
@@ -407,6 +412,7 @@ class Pay extends React.Component {
                 isLn={isLn}
                 isOnchain={isOnchain}
                 isProcessing={isProcessing}
+                maxOneTimeSend={maxOneTimeSend}
                 previousStep={this.goToPreviousStep}
                 walletBalanceConfirmed={walletBalanceConfirmed}
               />

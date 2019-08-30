@@ -1,133 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.Pay.PayPanelFooter current step is "address" should render correctly 1`] = `
-<styled.div>
-  <PayButtons
-    hasBackButton={false}
-    hasSubmitButton={true}
-    isDisabled={false}
-    nextButtonText={
-      <FormattedMessage
-        defaultMessage="Next"
-        id="components.Pay.next"
-        values={Object {}}
-      />
-    }
-    previousStep={[Function]}
-  />
-  <Text
-    fontWeight="normal"
-    mt={3}
-    textAlign="center"
-  >
-    <FormattedMessage
-      defaultMessage="Your current balance"
-      id="components.Pay.current_balance"
-      values={Object {}}
-    />
-    :
-  </Text>
-  <Text
-    fontSize="xs"
-    textAlign="center"
-  >
-    <CryptoValue
-      value={1}
-    />
-     
-    sats
-     
-    <FormattedMessage
-      defaultMessage="(onchain),"
-      id="components.Pay.on_chain"
-      values={Object {}}
-    />
-  </Text>
-  <Text
-    fontSize="xs"
-    textAlign="center"
-  >
-    <CryptoValue
-      value={1}
-    />
-     
-    sats
-     
-    <FormattedMessage
-      defaultMessage="(in channels)"
-      id="components.Pay.in_channels"
-      values={Object {}}
-    />
-  </Text>
-</styled.div>
+<ContextConsumer>
+  <Component />
+</ContextConsumer>
 `;
 
 exports[`component.Pay.PayPanelFooter current step is "summary" should render correctly 1`] = `
-<styled.div>
-  <PayButtons
-    hasBackButton={true}
-    hasSubmitButton={true}
-    isDisabled={false}
-    nextButtonText={
-      <React.Fragment>
-        <FormattedMessage
-          defaultMessage="Send"
-          id="components.Pay.send"
-          values={Object {}}
-        />
-         
-        <CryptoValue
-          value={1}
-        />
-         
-        sats
-      </React.Fragment>
-    }
-    previousStep={[Function]}
-  />
-  <Text
-    fontWeight="normal"
-    mt={3}
-    textAlign="center"
-  >
-    <FormattedMessage
-      defaultMessage="Your current balance"
-      id="components.Pay.current_balance"
-      values={Object {}}
-    />
-    :
-  </Text>
-  <Text
-    fontSize="xs"
-    textAlign="center"
-  >
-    <CryptoValue
-      value={1}
-    />
-     
-    sats
-     
-    <FormattedMessage
-      defaultMessage="(onchain),"
-      id="components.Pay.on_chain"
-      values={Object {}}
-    />
-  </Text>
-  <Text
-    fontSize="xs"
-    textAlign="center"
-  >
-    <CryptoValue
-      value={1}
-    />
-     
-    sats
-     
-    <FormattedMessage
-      defaultMessage="(in channels)"
-      id="components.Pay.in_channels"
-      values={Object {}}
-    />
-  </Text>
-</styled.div>
+<ContextConsumer>
+  <Component />
+</ContextConsumer>
 `;

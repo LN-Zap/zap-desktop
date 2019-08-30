@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { Flex } from 'rebass/styled-components'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { intlShape } from '@zap/i18n'
-import { Bar, Button, Header, Panel, Span, Text, Tooltip } from 'components/UI'
+import { convert } from '@zap/utils/btc'
+import { Bar, Button, Header, Panel, Span, Text, Tooltip, Message } from 'components/UI'
 import { Form, Label, TextArea, Toggle } from 'components/Form'
 import { CurrencyFieldGroup } from 'containers/Form'
 import Lightning from 'components/Icon/Lightning'
@@ -30,6 +31,7 @@ class Request extends React.Component {
     invoice: PropTypes.object,
     isAnimating: PropTypes.bool,
     isProcessing: PropTypes.bool,
+    maxOneTimeReceive: PropTypes.number.isRequired,
     payReq: PropTypes.string,
     showError: PropTypes.func.isRequired,
     showNotification: PropTypes.func.isRequired,
@@ -44,6 +46,19 @@ class Request extends React.Component {
     if (payReq !== prevProps.payReq && currentStep === 'form') {
       this.nextStep()
     }
+  }
+
+  /**
+   * getMaxOneTimeReceive - User's max one time receive capacity in `cryptoUnit`.
+   *
+   * @returns {number} user's max one time receive capacity in `cryptoUnit`
+   * @memberof Request
+   */
+  getMaxOneTimeReceive() {
+    const { cryptoUnit, maxOneTimeReceive, intl } = this.props
+    return intl.formatNumber(convert('sats', cryptoUnit, maxOneTimeReceive), {
+      maximumFractionDigits: 8,
+    })
   }
 
   /**
@@ -117,6 +132,20 @@ class Request extends React.Component {
    */
   setFormApi = formApi => {
     this.formApi = formApi
+  }
+
+  /**
+   * isAmountAboveMax - Checks whether current requested amount is above user's max one time receive
+   * capacity.
+   *
+   * @returns {boolean} true if requested amount is above user's max one time receive capacity
+   * @memberof Request
+   */
+  isAmountAboveMax() {
+    const { values } = this.formApi.getState()
+    const { cryptoUnit, maxOneTimeReceive } = this.props
+    const amountInSats = convert(cryptoUnit, 'sats', values.amountCrypto)
+    return amountInSats > maxOneTimeReceive
   }
 
   renderHelpText = () => {
@@ -200,6 +229,7 @@ class Request extends React.Component {
       createNewAddress,
       showError,
       willUseFallback,
+      maxOneTimeReceive,
       ...rest
     } = this.props
     const { currentStep } = this.state
@@ -245,7 +275,18 @@ class Request extends React.Component {
               </Panel.Body>
               {currentStep == 'form' && (
                 <Panel.Footer>
-                  <Text textAlign="center">
+                  <Flex alignItems="center" flexDirection="column">
+                    {this.isAmountAboveMax() && (
+                      <Message mb={2} variant="warning">
+                        <FormattedMessage
+                          {...messages.max_capacity_warning}
+                          values={{
+                            capacity: this.getMaxOneTimeReceive(),
+                            unit: cryptoUnitName,
+                          }}
+                        />
+                      </Message>
+                    )}
                     <Button
                       isDisabled={formState.pristine || formState.invalid || isProcessing}
                       isProcessing={isProcessing}
@@ -254,7 +295,7 @@ class Request extends React.Component {
                     >
                       {nextButtonText}
                     </Button>
-                  </Text>
+                  </Flex>
                 </Panel.Footer>
               )}
             </Panel>

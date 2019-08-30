@@ -4,6 +4,7 @@ import { fetchTickers, tickerSelectors } from 'reducers/ticker'
 import { createNewAddress } from 'reducers/address'
 import { createInvoice, invoiceSelectors } from 'reducers/invoice'
 import { showNotification, showError } from 'reducers/notification'
+import { channelsSelectors } from 'reducers/channels'
 import { walletSelectors } from 'reducers/wallet'
 import { infoSelectors } from 'reducers/info'
 import { settingsSelectors } from 'reducers/settings'
@@ -16,6 +17,7 @@ const mapStateToProps = state => ({
   isProcessing: state.invoice.isInvoicesLoading,
   payReq: state.invoice.invoice,
   invoice: invoiceSelectors.invoice(state),
+  maxOneTimeReceive: channelsSelectors.maxOneTimeReceive(state),
   willUseFallback: settingsSelectors.currentConfig(state).invoices.useAddressFallback,
 })
 

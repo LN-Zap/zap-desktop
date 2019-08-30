@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box } from 'rebass/styled-components'
-import { FormattedMessage } from 'react-intl'
+import { Flex } from 'rebass/styled-components'
+import { FormattedMessage, injectIntl } from 'react-intl'
+import { intlShape } from '@zap/i18n'
+import { convert } from '@zap/utils/btc'
 import { CryptoValue } from 'containers/UI'
 import { Message, Text } from 'components/UI'
 import messages from './messages'
@@ -61,20 +63,48 @@ const PayPanelFooter = props => {
     isProcessing,
     previousStep,
     walletBalanceConfirmed,
+    intl,
   } = props
+
+  const renderLiquidityWarning = props => {
+    const { currentStep, maxOneTimeSend, cryptoUnit, isLn, amountInSats } = props
+
+    if (currentStep !== PAY_FORM_STEPS.summary) {
+      return null
+    }
+
+    const isNotEnoughFunds = !isEnoughFunds(props)
+    const isAboveMax = isLn && amountInSats > maxOneTimeSend
+    const formattedMax = intl.formatNumber(convert('sats', cryptoUnit, maxOneTimeSend), {
+      maximumFractionDigits: 8,
+    })
+    return (
+      <Flex alignItems="center" flexDirection="column">
+        {isNotEnoughFunds ? (
+          <Message mb={2} variant="error">
+            <FormattedMessage {...messages.error_not_enough_funds} />
+          </Message>
+        ) : (
+          isAboveMax && (
+            <Message justifyContent="center" mb={2} variant="warning">
+              <FormattedMessage
+                {...messages.error_not_onetime_send_capacity}
+                values={{ capacity: formattedMax, unit: cryptoUnit }}
+              />
+            </Message>
+          )
+        )}
+      </Flex>
+    )
+  }
 
   // Determine which buttons should be visible.
   const hasBackButton = currentStep !== PAY_FORM_STEPS.address
   const hasSubmitButton = currentStep !== PAY_FORM_STEPS.address || (isOnchain || isLn)
 
   return (
-    <Box>
-      {currentStep === PAY_FORM_STEPS.summary && !hasEnoughFunds && (
-        <Message justifyContent="center" mb={2} variant="error">
-          <FormattedMessage {...messages.error_not_enough_funds} />
-        </Message>
-      )}
-
+    <Flex flexDirection="column">
+      {renderLiquidityWarning(props)}
       <PayButtons
         hasBackButton={hasBackButton}
         hasSubmitButton={hasSubmitButton}
@@ -90,7 +120,7 @@ const PayPanelFooter = props => {
       />
 
       {walletBalanceConfirmed !== null && (
-        <React.Fragment>
+        <>
           <Text fontWeight="normal" mt={3} textAlign="center">
             <FormattedMessage {...messages.current_balance} />:
           </Text>
@@ -108,24 +138,27 @@ const PayPanelFooter = props => {
             {` `}
             <FormattedMessage {...messages.in_channels} />
           </Text>
-        </React.Fragment>
+        </>
       )}
-    </Box>
+    </Flex>
   )
 }
 
 PayPanelFooter.propTypes = {
   amountInSats: PropTypes.number.isRequired,
   channelBalance: PropTypes.number.isRequired,
+  cryptoUnit: PropTypes.string.isRequired,
   cryptoUnitName: PropTypes.string.isRequired,
   currentStep: PropTypes.string.isRequired,
   formState: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
   invoice: PropTypes.object,
   isLn: PropTypes.bool,
   isOnchain: PropTypes.bool,
   isProcessing: PropTypes.bool,
+  maxOneTimeSend: PropTypes.number.isRequired,
   previousStep: PropTypes.func.isRequired,
   walletBalanceConfirmed: PropTypes.number.isRequired,
 }
 
-export default PayPanelFooter
+export default injectIntl(PayPanelFooter)
