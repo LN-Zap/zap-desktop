@@ -40,7 +40,8 @@ const PaySummary = props => {
   }
 
   const { routes } = props
-  let minFee, maxFee
+  let minFee = 0
+  let maxFee = 0
   if (routes.length) {
     minFee = getMinFee(routes)
     maxFee = getMaxFee(routes)
