@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 import { FormattedNumber } from 'react-intl'
 import { convert } from '@zap/utils/btc'
 
-const forcePositiveNumber = amount => (amount >= 0 ? amount * 1 : amount * -1)
-
 /**
  * Value - Renders a satoshi amount into a specific currency/unit.
  *
@@ -22,7 +20,7 @@ const Value = ({ value, currency, currentTicker, fiatTicker, style }) => {
   }
 
   // Convert the satoshi amount to the requested currency
-  const convertedAmount = convert('sats', currency, forcePositiveNumber(value), price)
+  const convertedAmount = convert('sats', currency, Math.abs(value), price)
 
   // Truncate the amount to the most relevant number of decimal places:
   let dp = 11
