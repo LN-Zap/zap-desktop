@@ -298,7 +298,7 @@
     "testcafe-browser-provider-electron": "0.0.12",
     "testcafe-react-selectors": "3.2.0",
     "url-loader": "2.1.0",
-    "webpack": "4.39.2",
+    "webpack": "4.39.3",
     "webpack-bundle-analyzer": "3.4.1",
     "webpack-cli": "3.3.7",
     "webpack-dev-server": "3.8.0",
