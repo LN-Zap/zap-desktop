@@ -30,30 +30,31 @@ fixture('Onboarding (import)')
 test('should import a wallet from an existing seed', async t => {
   const seed = [
     'abandon',
-    'quick',
-    'wing',
-    'require',
+    'naive',
+    'angry',
+    'envelope',
+    'execute',
+    'great',
+    'iron',
+    'fee',
+    'obtain',
+    'allow',
+    'path',
+    'position',
+    'forum',
     'monkey',
-    'weather',
-    'wrap',
-    'child',
-    'awake',
-    'tooth',
-    'tortoise',
-    'lawsuit',
-    'task',
-    'stable',
-    'number',
-    'wash',
-    'stuff',
-    'other',
-    'advice',
-    'report',
-    'mother',
-    'session',
-    'left',
-    'ask',
+    'invite',
+    'canal',
+    'paper',
+    'crouch',
+    'pilot',
+    'knee',
+    'tiger',
+    'best',
+    'pigeon',
+    'believe',
   ]
+  const seedPassPhrase = 'lol'
 
   await t
     // Fill out and submit ConnectionType form.
@@ -90,6 +91,12 @@ test('should import a wallet from an existing seed', async t => {
     .click(onboarding.nextButton)
 
     // Verify that we show the loading bolt and syncing page.
+    .expect(loading.loadingBolt.exists)
+    .ok()
+
+    // Input encrypted seed passphrase
+    .typeText(onboarding.passPhraseInput, seedPassPhrase, { paste: true })
+    .click(onboarding.nextButton)
     .expect(loading.loadingBolt.exists)
     .ok()
 })
