@@ -227,7 +227,7 @@
   "components.Home.macaroon_title": "Macaroon",
   "components.Home.network": "Réseau",
   "components.Home.no_active_wallet_message": "",
-  "components.Home.no_wallets_message": "",
+  "components.Home.no_wallets_message": "Hélas, vous n'avez pas de portefeuille 😢",
   "components.Home.or": "",
   "components.Home.saved_error": "",
   "components.Home.saved_notification": "",
