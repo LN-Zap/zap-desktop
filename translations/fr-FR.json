@@ -134,7 +134,7 @@
   "components.Channels.channel_sort_name": "Nom du pair",
   "components.Channels.channel_sort_open_date": "Date d'ouverture",
   "components.Channels.channel_sort_remote_balance": "Solde distant",
-  "components.Channels.channels": "Canaux",
+  "components.Channels.channels": "",
   "components.Channels.close_button": "Fermer le canal",
   "components.Channels.close_channel_dialog_acknowledgement": "Je comprends que cette action est irréversible",
   "components.Channels.close_channel_dialog_cancel_text": "Annuler",
