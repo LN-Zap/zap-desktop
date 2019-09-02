@@ -101,26 +101,28 @@ class SeedConfirm extends React.Component {
 
         <Bar my={4} />
 
-        {seedWordIndexes.map((wordIndex, index) => {
-          // Only validate if the word has been entered correctly already or the form has been submitted.
-          return (
-            <Flex key={`word${index}`} justifyContent="flex-start" mb={3}>
-              <Label htmlFor="alias" mt={18} width={25}>
-                {wordIndex}
-              </Label>
-              <Input
-                field={`word${index}`}
-                name={`word${index}`}
-                onChange={e => this.handleWordChange(e.target.value, index, wordIndex - 1)}
-                placeholder={intl.formatMessage({ ...messages.word_placeholder })}
-                validate={value => this.validateWord.call(null, wordIndex - 1, value)}
-                validateOnBlur
-                validateOnChange
-                willAutoFocus={index === 0}
-              />
-            </Flex>
-          )
-        })}
+        <Flex alignItems="center" flexDirection="column">
+          {seedWordIndexes.map((wordIndex, index) => {
+            // Only validate if the word has been entered correctly already or the form has been submitted.
+            return (
+              <Flex key={`word${index}`} justifyContent="flex-start" mb={3}>
+                <Label htmlFor="alias" mt={18} width={25}>
+                  {wordIndex}
+                </Label>
+                <Input
+                  field={`word${index}`}
+                  name={`word${index}`}
+                  onChange={e => this.handleWordChange(e.target.value, index, wordIndex - 1)}
+                  placeholder={intl.formatMessage({ ...messages.word_placeholder })}
+                  validate={value => this.validateWord.call(null, wordIndex - 1, value)}
+                  validateOnBlur
+                  validateOnChange
+                  willAutoFocus={index === 0}
+                />
+              </Flex>
+            )
+          })}
+        </Flex>
       </Form>
     )
   }
