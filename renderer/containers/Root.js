@@ -74,7 +74,6 @@ const Root = ({
             removeNotification={removeNotification}
           />
           <DialogLndCrashed />
-          <ModalStack />
           <PageWithLoading
             hasClose={canLogout()}
             isLoading={isLoading}
@@ -109,6 +108,7 @@ const Root = ({
               </Switch>
             )}
           </PageWithLoading>
+          <ModalStack />
         </React.Fragment>
       </ThemeProvider>
     </Router>
