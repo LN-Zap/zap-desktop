@@ -52,7 +52,7 @@ describe('createScheduler tasks management', () => {
 })
 
 describe('createScheduler tasks execution', () => {
-  test(`doesn't exeacture before delay`, () => {
+  test(`doesn't execute before delay`, () => {
     const scheduler = createScheduler()
     const promise = new Promise((resolve, reject) => {
       scheduler.addTask({ task: reject, taskId: 'taskId', baseDelay: 100 })
@@ -108,11 +108,28 @@ describe('createScheduler tasks execution', () => {
     const scheduler = createScheduler()
 
     const originalTask = new Promise((resolve, reject) => {
-      scheduler.addTask({ task: reject, taskId: 'taskId', baseDelay: 100 })
+      scheduler.addTask({ task: reject, taskId: 'taskId', baseDelay: 10 })
     })
 
     const replacedTask = new Promise(resolve => {
       scheduler.addTask({ task: resolve, taskId: 'taskId', baseDelay: 100 })
+    })
+
+    const promise = Promise.race([originalTask, replacedTask])
+    return expect(promiseTimeout(200, promise)).resolves.toBe(undefined)
+  })
+
+  test('cancels all tasks correctly', () => {
+    const scheduler = createScheduler()
+
+    const originalTask = new Promise((resolve, reject) => {
+      scheduler.addTask({ task: reject, baseDelay: 10 })
+    })
+
+    scheduler.removeAllTasks()
+
+    const replacedTask = new Promise(resolve => {
+      scheduler.addTask({ task: resolve, baseDelay: 100 })
     })
 
     const promise = Promise.race([originalTask, replacedTask])
