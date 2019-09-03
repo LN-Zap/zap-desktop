@@ -28,6 +28,17 @@ module.exports = {
   rules: {
     camelcase: 0,
     curly: ['error', 'all'],
+    'no-restricted-imports': [
+      'error',
+      {
+        paths: [
+          {
+            name: 'rebass',
+            message: 'Please use rebass/styled-components instead.',
+          },
+        ],
+      },
+    ],
     'comma-dangle': ['error', 'always-multiline'],
     // 'prettier/prettier': 0,
     'react/boolean-prop-naming': ['error', { rule: '^(is|has|will|(.*)On)[A-Z]([A-Za-z0-9]?)+' }],
@@ -42,7 +53,6 @@ module.exports = {
     'react/require-default-props': 0,
     'react/sort-prop-types': 'error',
     'react/style-prop-object': 0,
-    // 'sort-imports': 'error',
     'import/no-extraneous-dependencies': 0,
     'import/prefer-default-export': 0,
     'import/order': [
