@@ -305,6 +305,14 @@ storiesOf('Forms', module)
       <Form mb={4}>
         <Select
           field="fieldName"
+          initialValue="grape"
+          items={selectItems}
+          label="Select with initial selected value"
+        />
+      </Form>
+      <Form mb={4}>
+        <Select
+          field="fieldName"
           items={selectItems}
           label="Select with tooltip"
           tooltip="Some detailed help text"
