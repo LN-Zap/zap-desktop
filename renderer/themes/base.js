@@ -163,6 +163,9 @@ const inputStyles = {
   '::-webkit-search-decoration:hover, ::-webkit-search-cancel-button:hover': {
     cursor: 'pointer',
   },
+  '::placeholder': {
+    color: 'gray',
+  },
   '&:disabled': {
     bg: `${palette.gray}33`,
     opacity: 0.6,
