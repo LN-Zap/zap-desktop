@@ -165,16 +165,28 @@ const Select = props => {
         openMenu,
         toggleMenu,
       }) => {
+        /**
+         * getInitialValue - Get the initial selected value.
+         *
+         * @returns {string} Initial selected value.
+         */
         const getInitialValue = () => {
           if (selectedItem) {
             return selectedItem.value
           }
-
           if (initialSelectedItem) {
-            initialSelectedItem.value
+            return initialSelectedItem.value
           }
-
           return ''
+        }
+
+        /**
+         * getValue - Get the current selected value.
+         *
+         * @returns {string} Current selected value.
+         */
+        const getValue = () => {
+          return selectedItem ? selectedItem.value : ''
         }
 
         return (
@@ -199,6 +211,7 @@ const Select = props => {
                 fieldApi={fieldApi}
                 fieldState={fieldState}
                 forwardedRef={inputRef}
+                value={getValue()}
               />
               <Box>
                 {isOpen ? <ArrowIconOpen width={iconSize} /> : <ArrowIconClosed width={iconSize} />}
