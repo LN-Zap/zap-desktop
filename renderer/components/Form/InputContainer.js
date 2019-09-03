@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withTheme } from 'styled-components'
 import { themeGet } from '@styled-system/theme-get'
-import { Flex } from 'rebass'
+import { Flex } from 'rebass/styled-components'
 
 const InputContainer = withTheme(({ isDisabled, isReadOnly, ...rest }) => {
   const extraStyles = {}
