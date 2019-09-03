@@ -1,12 +1,20 @@
 require('@babel/register')
 const baseConfig = require('../webpack/webpack.config.base')
+const path = require('path')
+
+const createResolveConfig = config => {
+  const resolveConfig = {
+    ...config.resolve,
+    ...baseConfig.default.resolve,
+  }
+  resolveConfig.alias['react-redux'] = path.resolve(__dirname, './patchedReactRedux')
+  return resolveConfig
+}
 
 module.exports = ({ config }) => ({
   ...config,
-  resolve: {
-    ...config.resolve,
-    ...baseConfig.default.resolve,
-  },
+  resolve: createResolveConfig(config),
+
   module: {
     ...config.module,
     rules: [
