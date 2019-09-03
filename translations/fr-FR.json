@@ -329,7 +329,7 @@
   "components.Onboarding.Steps.login_title": "Content de vous revoir !",
   "components.Onboarding.Steps.macaroon_description": "Le chemin d'accès au fichier macaroon de lnd. Exemple : /chemin/vers/admin.macaroon",
   "components.Onboarding.Steps.macaroon_title": "Macaroon",
-  "components.Onboarding.Steps.network_description": "",
+  "components.Onboarding.Steps.network_description": "Sélectionnez le réseau auquel votre portefeuille sera connecté",
   "components.Onboarding.Steps.network_mainnet": "Mainnet",
   "components.Onboarding.Steps.network_mainnet_description": "",
   "components.Onboarding.Steps.network_testnet": "Testnet",
