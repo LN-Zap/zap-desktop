@@ -17,7 +17,6 @@ const ModalContent = ({ modalDefinitions, type, onClose, isAnimating }) => {
   }
 
   const props = { isAnimating, type }
-
   const renderContent = () => (
     <Modal onClose={onClose}>
       {component ? React.createElement(component, props) : render(props)}
@@ -34,17 +33,6 @@ ModalContent.propTypes = {
   type: PropTypes.string.isRequired,
 }
 
-/**
- * hasContent - Checks whether any of the currently active modals are relevant to the current stack.
- *
- * @param {Array} modals array of currently active modals
- * @param {object} modalDefinitions modal type to React component mapping
- * @returns {boolean} true if any of the currently active modals are relevant to the current stack
- */
-function hasContent(modals, modalDefinitions) {
-  return Boolean(modals.find(modal => modalDefinitions[modal.type]))
-}
-
 const getItems = item => item.id
 
 /**
@@ -55,18 +43,18 @@ const getItems = item => item.id
  */
 function ModalStack(props) {
   const { modals, closeModal, modalDefinitions } = props
-  const doCloseModal = useCallback(() => closeModal(), [closeModal])
-  useOnKeydown('Escape', doCloseModal)
+  useOnKeydown('Escape', closeModal)
   const [isAnimating, setIsAnimating] = useState(false)
 
   const onStart = useCallback(() => setIsAnimating(true), [setIsAnimating])
   const onRest = useCallback(() => setIsAnimating(false), [setIsAnimating])
+  const relevantModals = modals.filter(modal => modalDefinitions[modal.type])
   return (
-    hasContent(modals, modalDefinitions) && (
+    Boolean(relevantModals.length) && (
       <Transition
         enter={{ opacity: 1, pointerEvents: 'auto' }}
         from={{ opacity: 0, pointerEvents: 'auto' }}
-        items={modals}
+        items={relevantModals}
         keys={getItems}
         leave={{ opacity: 0, pointerEvents: 'none' }}
         onRest={onRest}
@@ -80,7 +68,7 @@ function ModalStack(props) {
               <ModalContent
                 isAnimating={isAnimating}
                 modalDefinitions={modalDefinitions}
-                onClose={doCloseModal}
+                onClose={() => closeModal(modal.id)}
                 type={modal.type}
               />
             </Container>
