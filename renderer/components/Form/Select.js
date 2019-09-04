@@ -155,6 +155,7 @@ const Select = props => {
       }}
     >
       {({
+        getRootProps,
         getInputProps,
         getItemProps,
         getMenuProps,
@@ -165,20 +166,32 @@ const Select = props => {
         openMenu,
         toggleMenu,
       }) => {
+        /**
+         * getInitialValue - Get the initial selected value.
+         *
+         * @returns {string} Initial selected value.
+         */
         const getInitialValue = () => {
           if (selectedItem) {
             return selectedItem.value
           }
-
           if (initialSelectedItem) {
-            initialSelectedItem.value
+            return initialSelectedItem.value
           }
-
           return ''
         }
 
+        /**
+         * getValue - Get the current selected value.
+         *
+         * @returns {string} Current selected value.
+         */
+        const getValue = () => {
+          return selectedItem ? selectedItem.value : ''
+        }
+
         return (
-          <div style={{ position: 'relative' }}>
+          <Box sx={{ position: 'relative' }} {...getRootProps()}>
             {label && (
               <Label htmlFor={field} isRequired={isRequired} mb={2} tooltip={tooltip}>
                 {label}
@@ -199,6 +212,7 @@ const Select = props => {
                 fieldApi={fieldApi}
                 fieldState={fieldState}
                 forwardedRef={inputRef}
+                value={getValue()}
               />
               <Box>
                 {isOpen ? <ArrowIconOpen width={iconSize} /> : <ArrowIconClosed width={iconSize} />}
@@ -209,7 +223,7 @@ const Select = props => {
                 {renderSelectOptions(highlightedIndex, selectedItem, getItemProps)}
               </SelectOptionList>
             )}
-          </div>
+          </Box>
         )
       }}
     </Downshift>
