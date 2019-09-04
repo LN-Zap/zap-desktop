@@ -155,6 +155,7 @@ const Select = props => {
       }}
     >
       {({
+        getRootProps,
         getInputProps,
         getItemProps,
         getMenuProps,
@@ -190,7 +191,7 @@ const Select = props => {
         }
 
         return (
-          <div style={{ position: 'relative' }}>
+          <Box sx={{ position: 'relative' }} {...getRootProps()}>
             {label && (
               <Label htmlFor={field} isRequired={isRequired} mb={2} tooltip={tooltip}>
                 {label}
@@ -222,7 +223,7 @@ const Select = props => {
                 {renderSelectOptions(highlightedIndex, selectedItem, getItemProps)}
               </SelectOptionList>
             )}
-          </div>
+          </Box>
         )
       }}
     </Downshift>
