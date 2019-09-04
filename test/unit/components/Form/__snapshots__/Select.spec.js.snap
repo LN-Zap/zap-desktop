@@ -1,7 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.Toggle should render correctly 1`] = `
-.c4 {
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  position: relative;
+}
+
+.c5 {
   box-sizing: border-box;
   margin: 0;
   min-width: 0;
@@ -37,35 +44,35 @@ exports[`component.UI.Toggle should render correctly 1`] = `
   border-color: #959595;
 }
 
-.c4::-webkit-search-decoration:hover,
-.c4::-webkit-search-cancel-button:hover {
+.c5::-webkit-search-decoration:hover,
+.c5::-webkit-search-cancel-button:hover {
   cursor: pointer;
 }
 
-.c4:disabled {
+.c5:disabled {
   background-color: #95959533;
   opacity: 0.6;
 }
 
-.c4:-moz-read-only {
+.c5:-moz-read-only {
   opacity: 0.6;
 }
 
-.c4:read-only {
+.c5:read-only {
   opacity: 0.6;
 }
 
-.c4:not([read-only]):not([disabled]):focus {
+.c5:not([read-only]):not([disabled]):focus {
   border-color: #fd9800;
 }
 
-.c5 {
+.c6 {
   box-sizing: border-box;
   margin: 0;
   min-width: 0;
 }
 
-.c0 {
+.c1 {
   box-sizing: border-box;
   margin: 0;
   min-width: 0;
@@ -79,7 +86,7 @@ exports[`component.UI.Toggle should render correctly 1`] = `
   display: flex;
 }
 
-.c2 {
+.c3 {
   box-sizing: border-box;
   margin: 0;
   min-width: 0;
@@ -96,7 +103,7 @@ exports[`component.UI.Toggle should render correctly 1`] = `
   display: flex;
 }
 
-.c3 {
+.c4 {
   box-sizing: border-box;
   margin: 0;
   min-width: 0;
@@ -111,14 +118,14 @@ exports[`component.UI.Toggle should render correctly 1`] = `
   display: flex;
 }
 
-.c6 {
+.c7 {
   margin-left: -24px;
   width: 8px;
   pointer-events: none;
   color: #959595;
 }
 
-.c1 input {
+.c2 input {
   cursor: pointer;
   color: transparent;
   text-shadow: 0 0 0 #ffffff;
@@ -134,21 +141,17 @@ exports[`component.UI.Toggle should render correctly 1`] = `
     aria-haspopup="listbox"
     aria-labelledby="downshift-0-label"
     aria-owns={null}
+    className="c0"
     role="combobox"
-    style={
-      Object {
-        "position": "relative",
-      }
-    }
   >
     <div
-      className="c0"
+      className="c1"
     >
       <div
-        className="c1 c2"
+        className="c2 c3"
       >
         <div
-          className="c3"
+          className="c4"
         >
           <input
             aria-activedescendant={null}
@@ -156,7 +159,7 @@ exports[`component.UI.Toggle should render correctly 1`] = `
             aria-controls={null}
             aria-labelledby="downshift-0-label"
             autoComplete="off"
-            className="c4"
+            className="c5"
             id="downshift-0-input"
             name="name"
             onBlur={[Function]}
@@ -170,10 +173,10 @@ exports[`component.UI.Toggle should render correctly 1`] = `
         </div>
       </div>
       <div
-        className="c5"
+        className="c6"
       >
         <svg
-          className="c6"
+          className="c7"
           height="1em"
           viewBox="6.295 8.295 12 7.41"
           width={8}
