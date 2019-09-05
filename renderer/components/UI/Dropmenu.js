@@ -3,7 +3,13 @@ import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass/styled-components'
 import styled, { withTheme } from 'styled-components'
 import { themeGet } from '@styled-system/theme-get'
-import { useOnClickOutside, useOnKeydown, useScroll, useComponentSize } from 'hooks'
+import {
+  useOnClickOutside,
+  useOnKeydown,
+  useScroll,
+  useComponentSize,
+  useMaxScreenHeight,
+} from 'hooks'
 import AngleRight from 'components/Icon/AngleRight'
 import AngleUp from 'components/Icon/AngleUp'
 import AngleDown from 'components/Icon/AngleDown'
@@ -256,6 +262,7 @@ const DropmenuListUpScroller = styled(DropmenuListScroller)`
 `
 
 const DropmenuList = React.forwardRef((props, forwardRef) => {
+  const { children, height } = props
   const SCROLL_STEP = 29
   const { width } = useContext(MenuContext)
   const ref = useRef(null)
@@ -272,8 +279,16 @@ const DropmenuList = React.forwardRef((props, forwardRef) => {
   const scrollUp = () => {
     ref.current.scrollTop -= SCROLL_STEP
   }
+  const BOTTOM_SCROLLER_HEIGHT = 25
+  const listHeight = height ? height - BOTTOM_SCROLLER_HEIGHT * isScrollbarVisible : 'auto'
   return (
-    <Card css="position: relative;" onMouseDown={preventDefault} p={0} width={width}>
+    <Card
+      ref={forwardRef}
+      onMouseDown={preventDefault}
+      p={0}
+      sx={{ position: 'relative' }}
+      width={width}
+    >
       <DropmenuListUpScroller
         direction="up"
         hasTopScroll={hasTopScroll}
@@ -282,8 +297,8 @@ const DropmenuList = React.forwardRef((props, forwardRef) => {
       >
         <AngleUp />
       </DropmenuListUpScroller>
-      <DropmenuListScrollContainer ref={ref} as="ul" p={1}>
-        <Box ref={forwardRef} {...props} />
+      <DropmenuListScrollContainer ref={ref} as="ul" height={listHeight} p={1}>
+        <Box>{children}</Box>
       </DropmenuListScrollContainer>
       {isScrollbarVisible && (
         <DropmenuListScroller
@@ -297,14 +312,17 @@ const DropmenuList = React.forwardRef((props, forwardRef) => {
     </Card>
   )
 })
-
+DropmenuList.propTypes = {
+  children: PropTypes.node,
+  height: PropTypes.number,
+}
 DropmenuList.displayName = 'DropmenuList'
 
 const DropmenuListWithTheme = withTheme(DropmenuList)
 
-const DropmenuContent = ({ menuRef, items }) => {
+const DropmenuContent = ({ menuRef, items, height }) => {
   return (
-    <DropmenuListWithTheme ref={menuRef}>
+    <DropmenuListWithTheme ref={menuRef} height={height}>
       {items.map((item, index) => (
         <DropmenuListItem key={item.id || index} item={item} />
       ))}
@@ -313,6 +331,7 @@ const DropmenuContent = ({ menuRef, items }) => {
 }
 
 DropmenuContent.propTypes = {
+  height: PropTypes.number,
   items: MenuItemsType,
   menuRef: RefType,
 }
@@ -320,7 +339,6 @@ DropmenuContent.propTypes = {
 const DropmenuSubmenuWrapper = styled(Box)`
   position: absolute;
   z-index: 10;
-  height: 0;
   width: 0;
   top: ${props => props.top}px;
   left: ${props => props.left}px;
@@ -328,9 +346,10 @@ const DropmenuSubmenuWrapper = styled(Box)`
 
 const DropmenuSubmenu = props => {
   const { top, left, ...rest } = props
+  const [measuredRef, maxHeight] = useMaxScreenHeight()
   return (
-    <DropmenuSubmenuWrapper left={left} top={top}>
-      <DropmenuContent {...rest} />
+    <DropmenuSubmenuWrapper height={maxHeight} left={left} top={top}>
+      <DropmenuContent {...rest} height={maxHeight} menuRef={measuredRef} />
     </DropmenuSubmenuWrapper>
   )
 }
@@ -374,6 +393,7 @@ const Dropmenu = ({ children, items, width, justify, ...rest }) => {
   // Close the menu if the user clicks outside our elements.
   const buttonRef = useRef(null)
   const menuRef = useRef(null)
+
   useOnClickOutside([buttonRef, menuRef], () => setIsOpen(false))
 
   // Close the menu if the escape key is pressed.

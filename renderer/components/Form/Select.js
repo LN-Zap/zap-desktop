@@ -7,7 +7,7 @@ import styled, { withTheme } from 'styled-components'
 import { themeGet } from '@styled-system/theme-get'
 import Downshift from 'downshift'
 import { Box, Flex } from 'rebass/styled-components'
-import { useIntl } from 'hooks'
+import { useIntl, useMaxScreenHeight } from 'hooks'
 import Check from 'components/Icon/Check'
 import AngleUp from 'components/Icon/AngleUp'
 import AngleDown from 'components/Icon/AngleDown'
@@ -23,7 +23,7 @@ const SelectOptionList = styled.ul`
   position: absolute;
   z-index: 2;
   width: 100%;
-  max-height: 20rem;
+  max-height: ${props => props.maxHeight}px;
   overflow-y: auto;
   overflow-x: hidden;
   outline: 0;
@@ -77,6 +77,28 @@ const getInitialSelectedItem = (items, initialSelectedItem) => {
         initialSelectedItem: items.find(i => i.key === initialSelectedItem),
       }
     : {}
+}
+const SelectOptionListContainer = props => {
+  const { highlightedIndex, selectedItem, getItemProps, getMenuProps, renderSelectOptions } = props
+  const [measuredRef, maxHeight] = useMaxScreenHeight(300)
+  const height = maxHeight < 150 ? undefined : maxHeight
+  return (
+    <SelectOptionList
+      {...getMenuProps({}, { suppressRefError: true })}
+      ref={measuredRef}
+      maxHeight={height}
+    >
+      {renderSelectOptions(highlightedIndex, selectedItem, getItemProps)}
+    </SelectOptionList>
+  )
+}
+
+SelectOptionListContainer.propTypes = {
+  getItemProps: PropTypes.func.isRequired,
+  getMenuProps: PropTypes.func.isRequired,
+  highlightedIndex: PropTypes.number,
+  renderSelectOptions: PropTypes.func.isRequired,
+  selectedItem: PropTypes.object,
 }
 
 const Select = props => {
@@ -219,9 +241,15 @@ const Select = props => {
               </Box>
             </Flex>
             {isOpen && (
-              <SelectOptionList {...getMenuProps({}, { suppressRefError: true })}>
-                {renderSelectOptions(highlightedIndex, selectedItem, getItemProps)}
-              </SelectOptionList>
+              <SelectOptionListContainer
+                {...{
+                  getMenuProps,
+                  renderSelectOptions,
+                  highlightedIndex,
+                  selectedItem,
+                  getItemProps,
+                }}
+              />
             )}
           </Box>
         )

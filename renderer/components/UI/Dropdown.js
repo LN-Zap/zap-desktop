@@ -5,7 +5,7 @@ import { Box, Flex } from 'rebass/styled-components'
 import styled, { withTheme } from 'styled-components'
 import { themeGet } from '@styled-system/theme-get'
 import { opacity, fontWeight } from 'styled-system'
-import { useOnClickOutside, useIntl } from 'hooks'
+import { useOnClickOutside, useIntl, useMaxScreenHeight } from 'hooks'
 import AngleLeft from 'components/Icon/AngleLeft'
 import AngleRight from 'components/Icon/AngleRight'
 import AngleUp from 'components/Icon/AngleUp'
@@ -63,7 +63,7 @@ export const Menu = styled(Box)`
   position: absolute;
   z-index: 40;
   min-width: 70px;
-  max-height: 300px;
+  max-height: ${props => props.maxHeight}px;
   overflow-y: auto;
   list-style-type: none;
   border-radius: 3px;
@@ -135,12 +135,14 @@ const Dropdown = injectIntl(
   }) => {
     // State to track dropdown open state.
     const [isOpen, setIsOpen] = useState(false)
-    const toggleMenu = () => setIsOpen(!isOpen)
 
+    const toggleMenu = () => setIsOpen(!isOpen)
     // Close the dropdown if the user clicks outside our elements.
     const wrapperRef = useRef(null)
     useOnClickOutside([wrapperRef], () => setIsOpen(false))
 
+    const [measuredRef, maxHeight] = useMaxScreenHeight(300)
+    const height = maxHeight < 150 ? undefined : maxHeight
     // coerce array of strings into array of objects.
     let itemsArray = items.map(item => {
       if (typeof item === 'string') {
@@ -185,7 +187,7 @@ const Dropdown = injectIntl(
           </DropdownButton>
           {isOpen && (
             <MenuContainer>
-              <Menu justify={justify}>
+              <Menu ref={measuredRef} justify={justify} maxHeight={height}>
                 {itemsArray.map(item => {
                   return (
                     <MenuItem
