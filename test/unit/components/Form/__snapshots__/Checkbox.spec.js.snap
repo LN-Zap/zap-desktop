@@ -107,6 +107,7 @@ exports[`component.UI.Checkbox should render correctly 1`] = `
     onClick={[Function]}
   >
     <input
+      checked={false}
       className="c1"
       onChange={[Function]}
       type="checkbox"
@@ -133,6 +134,7 @@ exports[`component.UI.Checkbox should render correctly 1`] = `
     onClick={[Function]}
   >
     <input
+      checked={false}
       className="c1"
       onChange={[Function]}
       type="checkbox"

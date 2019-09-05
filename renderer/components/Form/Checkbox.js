@@ -116,6 +116,10 @@ const Checkbox = ({ label, description, isChecked, isDisabled, onChange, ...rest
   </Container>
 )
 
+Checkbox.defaultProps = {
+  isChecked: false,
+}
+
 Checkbox.propTypes = {
   description: PropTypes.string,
   isChecked: PropTypes.bool,
