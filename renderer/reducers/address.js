@@ -89,8 +89,8 @@ export const initAddresses = () => async (dispatch, getState) => {
 export const newAddress = addressType => async dispatch => {
   dispatch({ type: NEW_ADDRESS, addressType })
   try {
-    const data = await createNewAddress(addressType)
-    await dispatch(newAddressSuccess(addressType, data.address))
+    const address = await dispatch(createNewAddress(addressType))
+    await dispatch(newAddressSuccess(addressType, address))
   } catch (error) {
     dispatch(newAddressFailure(addressType, error.message))
   }
