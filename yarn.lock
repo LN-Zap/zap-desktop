@@ -3575,18 +3575,7 @@ babel-plugin-react-intl-auto@2.0.0:
     "@babel/types" "^7.5.5"
     murmurhash3js "^3.0.1"
 
-babel-plugin-react-intl@4.1.12:
-  version "4.1.12"
-  resolved "https://registry.yarnpkg.com/babel-plugin-react-intl/-/babel-plugin-react-intl-4.1.12.tgz#d45d06e247c6428dc453f3927dcf2c6455c8a2d1"
-  integrity sha512-dCw7LjfDCS03ugW0Oz1XG8J/OgAnEDsKqcyfzlDb4JL6aLiYz87XvM9sIdbMAdPZXaHLhj9GyK8CueyMIm66NQ==
-  dependencies:
-    "@babel/core" "^7.4.5"
-    "@babel/helper-plugin-utils" "^7.0.0"
-    "@types/babel__core" "^7.1.2"
-    fs-extra "^8.0.1"
-    intl-messageformat-parser "^3.0.7"
-
-babel-plugin-react-intl@^4.1.16:
+babel-plugin-react-intl@4.1.16, babel-plugin-react-intl@^4.1.16:
   version "4.1.16"
   resolved "https://registry.yarnpkg.com/babel-plugin-react-intl/-/babel-plugin-react-intl-4.1.16.tgz#96d63a007f2aa77b53b93bf7d5ba4f4da8dc7937"
   integrity sha512-JzP+HkF7C+eOAcruygiRIrBgikh2n2xsV3hMBYib3SlqTxZu2pEW2g85nk8Zm1TJ32LvPOEnvZKwWnB0443/CQ==
@@ -9337,11 +9326,6 @@ intl-locales-supported@^1.4.5:
   version "1.4.5"
   resolved "https://registry.yarnpkg.com/intl-locales-supported/-/intl-locales-supported-1.4.5.tgz#be9774e6d4ea518f000165ecfe78c78d5bee7de5"
   integrity sha512-D7oriM5x46rd7kNlSW0f9noIBegFr3ReIM6xlMpwH4lfIPD/zvBelPlCjR10IK16boGJG9lKccOvRAM8wzpbrA==
-
-intl-messageformat-parser@^3.0.7:
-  version "3.0.7"
-  resolved "https://registry.yarnpkg.com/intl-messageformat-parser/-/intl-messageformat-parser-3.0.7.tgz#d28493501a1bc40a094239b7ef26fe9412558e72"
-  integrity sha512-L16VbbV3NFaiZV65XwOIH9fBe52TS2EkOR0k8Y4ratsgTE7KPEbcUCUrz/iEQwJo7BcWY4ohkZbeYZRgAiPR1Q==
 
 intl-messageformat-parser@^3.1.0:
   version "3.1.0"
