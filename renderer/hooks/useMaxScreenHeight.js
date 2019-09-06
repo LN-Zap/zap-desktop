@@ -6,7 +6,7 @@ import useWindowDimensions from './useWindowDimensions'
  * keeps element inside screen bounds.
  *
  * @param {number} defaultHeight default height
- * @returns {Array<Object, number>} ref to be used in the target component and max possible
+ * @returns {Array<object, number>} ref to be used in the target component and max possible
  * element height that keeps  element inside screen bounds.
  */
 export default function useMaxScreenHeight(defaultHeight) {
