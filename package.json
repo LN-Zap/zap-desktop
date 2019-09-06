@@ -268,7 +268,7 @@
     "eslint-plugin-react": "7.14.3",
     "eslint-plugin-react-hooks": "2.0.1",
     "eslint-plugin-testcafe": "0.2.1",
-    "extract-react-intl-messages": "1.0.2",
+    "extract-react-intl-messages": "2.3.3",
     "fake-indexeddb": "2.1.1",
     "gh-pages": "2.1.1",
     "html-webpack-plugin": "3.2.0",

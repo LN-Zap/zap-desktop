@@ -82,7 +82,7 @@ export default defineMessages({
     'Open channels to other nodes on the network to start using the Lightning Network.',
   node_search_placeholder: 'Search the network',
   node_search_description: 'Search for nodes by name, public key, or paste their pubkey@host',
-  node_search_results_header: '{count, plural, =0 {No results}  other {Search results ({count})}}',
+  node_search_results_header: '{count, plural, =0 {No results} other {Search results ({count})}}',
   node_suggestions_title: 'Suggested Nodes',
   refresh_button_hint: 'Refresh channels list',
   channel_filter_all: 'All',
