@@ -12,7 +12,7 @@ export default defineMessages({
   current_value: 'Current value',
   address: 'Address',
   block_height: 'Confirmed in block {height}',
-  maturity_height: 'Locked until block {height} ',
+  maturity_height: 'Locked until block {height}',
   tx_hash: 'Transaction ID',
   block_id: 'Block ID',
   unconfirmed: 'Unconfirmed',
