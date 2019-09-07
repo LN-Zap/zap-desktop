@@ -10704,16 +10704,16 @@ lnd-binary@0.3.13:
     "true-case-path" "^2.0.0"
     unzip-stream "^0.3.0"
 
-lnd-grpc@0.3.0-beta.5:
-  version "0.3.0-beta.5"
-  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.3.0-beta.5.tgz#0f83f7ea769990ca40f36c7fee82358db33a413b"
-  integrity sha512-d0EW16KKg2why0BS1FO6btJ9phvFgBEgJBBOgVjNBFJWzGfDIPUfnw+emyzqttRyplSm1nT7GOzlNb4j68+Amw==
+lnd-grpc@0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.3.0.tgz#dea4258ce36bb43f6a72658b2962e679caa1ade2"
+  integrity sha512-+SI8m9B5K/VXZ0OZu3lNWC0xplsgqrIMfSGIjcS1Wu8Xwq/XnzYIp1Jkxhfysg4eKAwmR8BbzGlNFKw4GVfH/A==
   dependencies:
     "@grpc/grpc-js" "0.5.2"
     "@ln-zap/proto-loader" "0.5.1"
     debug "4.1.1"
     javascript-state-machine "3.1.0"
-    lndconnect "0.2.9"
+    lndconnect "0.2.10"
     lodash.defaultsdeep "4.6.1"
     semver "6.3.0"
     untildify "4.0.0"
@@ -10723,16 +10723,6 @@ lndconnect@0.2.10:
   version "0.2.10"
   resolved "https://registry.yarnpkg.com/lndconnect/-/lndconnect-0.2.10.tgz#9c397dcacc92b9cb1d77bd6dda4aba6600484268"
   integrity sha512-m+EYP1dWlxuGuUmzXgvJYunYdVkpE689idUP/ztPuJrH4fPVicSFEcC2BtAWH76E+swfrbEacxWXsfNAK3boyA==
-  dependencies:
-    base64url "^3.0.1"
-    decode-uri-component "^0.2.0"
-    strict-uri-encode "^2.0.0"
-    untildify "^4.0.0"
-
-lndconnect@0.2.9:
-  version "0.2.9"
-  resolved "https://registry.yarnpkg.com/lndconnect/-/lndconnect-0.2.9.tgz#82cae8a2d07ea3a03315fb3085096d838f15477c"
-  integrity sha512-kw4A63wg9yygfM3xQZcvSbLLoK0ZGfFLyiCDMJOy5P5Pq6e76sJLDgy9WODqdTg69elK7xwthp806xOjJLdhVw==
   dependencies:
     base64url "^3.0.1"
     decode-uri-component "^0.2.0"
