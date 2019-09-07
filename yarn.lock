@@ -10719,6 +10719,16 @@ lnd-grpc@0.3.0-beta.5:
     untildify "4.0.0"
     validator "11.1.0"
 
+lndconnect@0.2.10:
+  version "0.2.10"
+  resolved "https://registry.yarnpkg.com/lndconnect/-/lndconnect-0.2.10.tgz#9c397dcacc92b9cb1d77bd6dda4aba6600484268"
+  integrity sha512-m+EYP1dWlxuGuUmzXgvJYunYdVkpE689idUP/ztPuJrH4fPVicSFEcC2BtAWH76E+swfrbEacxWXsfNAK3boyA==
+  dependencies:
+    base64url "^3.0.1"
+    decode-uri-component "^0.2.0"
+    strict-uri-encode "^2.0.0"
+    untildify "^4.0.0"
+
 lndconnect@0.2.9:
   version "0.2.9"
   resolved "https://registry.yarnpkg.com/lndconnect/-/lndconnect-0.2.9.tgz#82cae8a2d07ea3a03315fb3085096d838f15477c"

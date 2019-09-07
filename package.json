@@ -333,7 +333,7 @@
     "jstimezonedetect": "1.0.6",
     "keytar": "4.13.0",
     "lnd-grpc": "0.3.0-beta.5",
-    "lndconnect": "0.2.9",
+    "lndconnect": "0.2.10",
     "lodash": "4.17.15",
     "new-github-issue-url": "0.2.1",
     "node-fetch": "2.6.0",
