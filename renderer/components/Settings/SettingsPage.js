@@ -14,13 +14,18 @@ import SettingsFieldsGeneral from './SettingsFieldsGeneral'
 import SettingsFieldsSecurity from './SettingsFieldsSecurity'
 import messages from './messages'
 
-const SettingsMenu = ({ group, setGroup, ...rest }) => {
-  const items = [
+const SettingsMenu = ({ group, setGroup, isLoggedIn, ...rest }) => {
+  // Items accessible to unauthenticated users.
+  const anonItems = [
     {
       id: 'general',
       title: <FormattedMessage {...messages.fieldgroup_general} />,
       onClick: () => setGroup('general'),
     },
+  ]
+
+  // Items only accessible to authenticated users.
+  const authItems = [
     {
       id: 'wallet',
       title: <FormattedMessage {...messages.fieldgroup_wallet} />,
@@ -33,11 +38,17 @@ const SettingsMenu = ({ group, setGroup, ...rest }) => {
     },
   ]
 
+  let items = [...anonItems]
+  if (isLoggedIn) {
+    items = items.concat(authItems)
+  }
+
   return <Menu items={items} p={2} selectedItem={group} {...rest} />
 }
 
 SettingsMenu.propTypes = {
   group: PropTypes.string,
+  isLoggedIn: PropTypes.bool,
   setGroup: PropTypes.func.isRequired,
 }
 
@@ -91,8 +102,19 @@ SettingsActions.propTypes = {
   currentConfig: PropTypes.object.isRequired,
 }
 
-const SettingsPage = ({ currentConfig, ...rest }) => {
+const SettingsPage = ({ currentConfig, isLoggedIn, ...rest }) => {
   const [group, setGroup] = useState('general')
+
+  const fieldgroups = {
+    general: SettingsFieldsGeneral,
+    wallet: SettingsFieldsWallet,
+    security: SettingsFieldsSecurity,
+  }
+
+  const FieldGroup = fieldgroups[group]
+  if (!FieldGroup) {
+    return null
+  }
 
   return (
     <Flex width={1} {...rest}>
@@ -102,7 +124,7 @@ const SettingsPage = ({ currentConfig, ...rest }) => {
             <ZapLogo height={28} width={28} />
           </Panel.Header>
           <Panel.Body sx={{ overflowY: 'overlay' }}>
-            <SettingsMenu group={group} setGroup={setGroup} />
+            <SettingsMenu group={group} isLoggedIn={isLoggedIn} setGroup={setGroup} />
           </Panel.Body>
         </Panel>
       </Sidebar.medium>
@@ -112,9 +134,7 @@ const SettingsPage = ({ currentConfig, ...rest }) => {
         </Heading.h1>
 
         <SettingsForm>
-          {group === 'general' && <SettingsFieldsGeneral currentConfig={currentConfig} />}
-          {group === 'wallet' && <SettingsFieldsWallet currentConfig={currentConfig} />}
-          {group === 'security' && <SettingsFieldsSecurity currentConfig={currentConfig} />}
+          <FieldGroup currentConfig={currentConfig} />
           <SettingsActions currentConfig={currentConfig} />
         </SettingsForm>
       </MainContent>
@@ -124,6 +144,7 @@ const SettingsPage = ({ currentConfig, ...rest }) => {
 
 SettingsPage.propTypes = {
   currentConfig: PropTypes.object.isRequired,
+  isLoggedIn: PropTypes.bool,
 }
 
 export default SettingsPage
