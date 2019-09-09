@@ -9,6 +9,7 @@ import { removeNotification, notificationSelectors } from 'reducers/notification
 import { initDatabase, setLoading, setMounted, appSelectors } from 'reducers/app'
 import { initSettings } from 'reducers/settings'
 import { initTheme, themeSelectors } from 'reducers/theme'
+import { initAccount } from 'reducers/account'
 import { walletSelectors } from 'reducers/wallet'
 import { isLoading, isLoadingPerPath, getLoadingMessage } from 'reducers/utils'
 import { Page, Titlebar, GlobalStyle } from 'components/UI'
@@ -32,6 +33,7 @@ const Root = ({
   initDatabase,
   initSettings,
   initTheme,
+  initAccount,
   isMounted,
   setMounted,
   hasWallets,
@@ -54,10 +56,11 @@ const Root = ({
         await initDatabase()
         await initSettings()
         await initTheme()
+        await initAccount()
       }
     }
     init()
-  }, [initDatabase, initSettings, initTheme, isMounted, setMounted])
+  }, [initDatabase, initSettings, initTheme, initAccount, isMounted, setMounted])
 
   const redirectToHome = () => history.push('/home')
   const redirectToLogout = () => history.push('/logout')
@@ -119,6 +122,7 @@ const Root = ({
 Root.propTypes = {
   hasWallets: PropTypes.bool,
   history: PropTypes.object.isRequired,
+  initAccount: PropTypes.func.isRequired,
   initDatabase: PropTypes.func.isRequired,
   initSettings: PropTypes.func.isRequired,
   initTheme: PropTypes.func.isRequired,
@@ -149,6 +153,7 @@ const mapDispatchToProps = {
   initDatabase,
   initSettings,
   initTheme,
+  initAccount,
   setLoading,
   setMounted,
 }
