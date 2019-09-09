@@ -7,7 +7,7 @@ import { IntegerInput, Label } from 'components/Form'
 import messages from './messages'
 
 export const FieldLabel = ({ itemKey, ...rest }) => {
-  const messageKey = itemKey.replace('.', '_')
+  const messageKey = itemKey.replace(/\./g, '_')
   return (
     <Box {...rest}>
       <Label htmlFor={itemKey} mb={2}>

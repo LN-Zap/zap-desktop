@@ -11,6 +11,7 @@ import ZapLogo from 'components/Icon/ZapLogo'
 import SettingsForm from 'containers/Settings/SettingsForm'
 import SettingsFieldsWallet from './SettingsFieldsWallet'
 import SettingsFieldsGeneral from './SettingsFieldsGeneral'
+import SettingsFieldsSecurity from './SettingsFieldsSecurity'
 import messages from './messages'
 
 const SettingsMenu = ({ group, setGroup, ...rest }) => {
@@ -24,6 +25,11 @@ const SettingsMenu = ({ group, setGroup, ...rest }) => {
       id: 'wallet',
       title: <FormattedMessage {...messages.fieldgroup_wallet} />,
       onClick: () => setGroup('wallet'),
+    },
+    {
+      id: 'security',
+      title: <FormattedMessage {...messages.fieldgroup_security} />,
+      onClick: () => setGroup('security'),
     },
   ]
 
@@ -108,6 +114,7 @@ const SettingsPage = ({ currentConfig, ...rest }) => {
         <SettingsForm>
           {group === 'general' && <SettingsFieldsGeneral currentConfig={currentConfig} />}
           {group === 'wallet' && <SettingsFieldsWallet currentConfig={currentConfig} />}
+          {group === 'security' && <SettingsFieldsSecurity currentConfig={currentConfig} />}
           <SettingsActions currentConfig={currentConfig} />
         </SettingsForm>
       </MainContent>
