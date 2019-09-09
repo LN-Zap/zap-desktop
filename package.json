@@ -330,7 +330,7 @@
     "immer": "3.2.0",
     "informed": "2.11.8",
     "is-electron-renderer": "2.0.1",
-    "jstimezonedetect": "1.0.6",
+    "jstimezonedetect": "1.0.7",
     "keytar": "4.13.0",
     "lnd-grpc": "0.3.0",
     "lndconnect": "0.2.10",
