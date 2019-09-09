@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import get from 'lodash/get'
 import { injectIntl } from 'react-intl'
 import { intlShape } from '@zap/i18n'
 import { Form } from 'components/Form'
@@ -18,6 +19,11 @@ const SettingsForm = ({
 }) => {
   const handleSubmit = async values => {
     try {
+      // If password feature has been disabled, reset the password to null.
+      if (!get(values, 'password.value')) {
+        values.password.value = null
+      }
+
       // Save the updated settings.
       await saveConfigOverrides(values)
 

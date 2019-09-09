@@ -2,13 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
-import { initLocale } from 'reducers/locale'
-import { initCurrency } from 'reducers/ticker'
-import { initWallets, walletSelectors } from 'reducers/wallet'
-import { initNeutrino } from 'reducers/neutrino'
-import { startActiveWallet } from 'reducers/lnd'
-import { initAutopay } from 'reducers/autopay'
-import { initChannels } from 'reducers/channels'
+import { walletSelectors } from 'reducers/wallet'
 
 /**
  * Root component that deals with mounting the app and managing top level routing.
@@ -18,34 +12,9 @@ class Initializer extends React.Component {
     activeWallet: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     activeWalletSettings: PropTypes.object,
     hasWallets: PropTypes.bool,
-    initAutopay: PropTypes.func.isRequired,
-    initChannels: PropTypes.func.isRequired,
-    initCurrency: PropTypes.func.isRequired,
-    initLocale: PropTypes.func.isRequired,
-    initNeutrino: PropTypes.func.isRequired,
-    initWallets: PropTypes.func.isRequired,
     isWalletOpen: PropTypes.bool,
     isWalletsLoaded: PropTypes.bool.isRequired,
     lndConnect: PropTypes.string,
-  }
-
-  // Initialize app state.
-  componentDidMount() {
-    const {
-      initLocale,
-      initCurrency,
-      initWallets,
-      initChannels,
-      initAutopay,
-      initNeutrino,
-    } = this.props
-    initNeutrino()
-
-    initLocale()
-    initCurrency()
-    initAutopay()
-    initWallets()
-    initChannels()
   }
 
   /**
@@ -98,17 +67,7 @@ const mapStateToProps = state => ({
   isWalletsLoaded: walletSelectors.isWalletsLoaded(state),
 })
 
-const mapDispatchToProps = {
-  startActiveWallet,
-  initNeutrino,
-  initCurrency,
-  initLocale,
-  initWallets,
-  initAutopay,
-  initChannels,
-}
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(Initializer)

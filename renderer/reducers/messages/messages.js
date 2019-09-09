@@ -4,6 +4,7 @@ import { defineMessages } from 'react-intl'
 
 /* eslint-disable max-len */
 export default defineMessages({
+  account_invalid_password: 'Invalid password',
   backup_import_success: 'Wallet backup imported successfully',
   backup_import_error: 'Backup import has failed: {error} ',
   backup_not_found_error: 'Unable to find backup file ',

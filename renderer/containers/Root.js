@@ -10,7 +10,12 @@ import { initDatabase, setLoading, setMounted, appSelectors } from 'reducers/app
 import { initSettings } from 'reducers/settings'
 import { initTheme, themeSelectors } from 'reducers/theme'
 import { initAccount } from 'reducers/account'
-import { walletSelectors } from 'reducers/wallet'
+import { initLocale } from 'reducers/locale'
+import { initCurrency } from 'reducers/ticker'
+import { initWallets, walletSelectors } from 'reducers/wallet'
+import { initNeutrino } from 'reducers/neutrino'
+import { initAutopay } from 'reducers/autopay'
+import { initChannels } from 'reducers/channels'
 import { isLoading, isLoadingPerPath, getLoadingMessage } from 'reducers/utils'
 import { Page, Titlebar, GlobalStyle } from 'components/UI'
 import GlobalNotification from 'components/GlobalNotification'
@@ -18,6 +23,7 @@ import { withLoading } from 'hocs'
 import { DialogLndCrashed } from './Dialog'
 import Initializer from './Initializer'
 import Logout from './Logout'
+import Login from './Login'
 import Home from './Home'
 import ModalStack from './RootModalStack'
 import Onboarding from './Onboarding/Onboarding'
@@ -34,6 +40,12 @@ const Root = ({
   initSettings,
   initTheme,
   initAccount,
+  initNeutrino,
+  initLocale,
+  initCurrency,
+  initAutopay,
+  initWallets,
+  initChannels,
   isMounted,
   setMounted,
   hasWallets,
@@ -55,12 +67,31 @@ const Root = ({
         setMounted(true)
         await initDatabase()
         await initSettings()
-        await initTheme()
-        await initAccount()
+        initTheme()
+        initAccount()
+        initNeutrino()
+        initLocale()
+        initCurrency()
+        initAutopay()
+        initWallets()
+        initChannels()
       }
     }
     init()
-  }, [initDatabase, initSettings, initTheme, initAccount, isMounted, setMounted])
+  }, [
+    initDatabase,
+    initSettings,
+    initTheme,
+    initAccount,
+    isMounted,
+    setMounted,
+    initNeutrino,
+    initLocale,
+    initCurrency,
+    initAutopay,
+    initWallets,
+    initChannels,
+  ])
 
   const redirectToHome = () => history.push('/home')
   const redirectToLogout = () => history.push('/logout')
@@ -86,7 +117,8 @@ const Root = ({
           >
             {isRootReady && (
               <Switch>
-                <Route component={Initializer} exact path="/" />
+                <Route component={Login} exact path="/" />
+                <Route component={Initializer} exact path="/init" />
                 <Route component={WalletStarter} exact path="/wallet-starter" />
                 <Route component={Home} path="/home" />
                 <Route
@@ -123,9 +155,15 @@ Root.propTypes = {
   hasWallets: PropTypes.bool,
   history: PropTypes.object.isRequired,
   initAccount: PropTypes.func.isRequired,
+  initAutopay: PropTypes.func.isRequired,
+  initChannels: PropTypes.func.isRequired,
+  initCurrency: PropTypes.func.isRequired,
   initDatabase: PropTypes.func.isRequired,
+  initLocale: PropTypes.func.isRequired,
+  initNeutrino: PropTypes.func.isRequired,
   initSettings: PropTypes.func.isRequired,
   initTheme: PropTypes.func.isRequired,
+  initWallets: PropTypes.func.isRequired,
   isAppReady: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
   isMounted: PropTypes.bool.isRequired,
@@ -154,6 +192,12 @@ const mapDispatchToProps = {
   initSettings,
   initTheme,
   initAccount,
+  initNeutrino,
+  initCurrency,
+  initLocale,
+  initWallets,
+  initAutopay,
+  initChannels,
   setLoading,
   setMounted,
 }
