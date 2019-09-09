@@ -19,6 +19,7 @@ const Input = props => {
     fieldState,
     forwardedRef,
     hasMessage,
+    hasMessageSpacer,
     initialValue,
     isDisabled,
     isReadOnly,
@@ -67,6 +68,7 @@ const Input = props => {
       error={fieldError}
       field={field}
       hasFocus={hasFocus}
+      hasMessageSpacer={hasMessageSpacer}
       isDisabled={isDisabled}
       isReadOnly={isReadOnly}
       isRequired={isRequired}
@@ -132,6 +134,7 @@ Input.propTypes = {
   fieldState: PropTypes.object.isRequired,
   forwardedRef: PropTypes.object,
   hasMessage: PropTypes.bool,
+  hasMessageSpacer: PropTypes.bool,
   highlightOnValid: PropTypes.bool,
   initialValue: PropTypes.string,
   isDisabled: PropTypes.bool,
