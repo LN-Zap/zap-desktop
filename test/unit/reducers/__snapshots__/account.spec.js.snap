@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers accountReducer should handle INIT_ACCOUNT 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "initAccountError": null,
+    "isAccountLoaded": false,
+-   "isAccountLoading": false,
++   "isAccountLoading": true,
+    "isLoggedIn": false,
+    "isLoggingIn": false,
+    "loginError": null,
+  }
+`;
+
+exports[`reducers accountReducer should handle INIT_ACCOUNT_FAILURE 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+-   "initAccountError": null,
++   "initAccountError": "some error",
+    "isAccountLoaded": false,
+    "isAccountLoading": false,
+    "isLoggedIn": false,
+    "isLoggingIn": false,
+    "loginError": null,
+  }
+`;
+
+exports[`reducers accountReducer should handle INIT_ACCOUNT_SUCCESS 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "initAccountError": null,
+-   "isAccountLoaded": false,
++   "isAccountLoaded": true,
+    "isAccountLoading": false,
+    "isLoggedIn": false,
+    "isLoggingIn": false,
+    "loginError": null,
+  }
+`;
+
+exports[`reducers accountReducer should handle LOGIN 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "initAccountError": null,
+    "isAccountLoaded": false,
+    "isAccountLoading": false,
+    "isLoggedIn": false,
+-   "isLoggingIn": false,
++   "isLoggingIn": true,
+    "loginError": null,
+  }
+`;
+
+exports[`reducers accountReducer should handle LOGIN_CLEAR_ERROR 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
+`;
+
+exports[`reducers accountReducer should handle LOGIN_FAILURE 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "initAccountError": null,
+    "isAccountLoaded": false,
+    "isAccountLoading": false,
+    "isLoggedIn": false,
+    "isLoggingIn": false,
+-   "loginError": null,
++   "loginError": "some error",
+  }
+`;
+
+exports[`reducers accountReducer should handle LOGIN_SUCCESS 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "initAccountError": null,
+    "isAccountLoaded": false,
+    "isAccountLoading": false,
+-   "isLoggedIn": false,
++   "isLoggedIn": true,
+    "isLoggingIn": false,
+    "loginError": null,
+  }
+`;
+
+exports[`reducers accountReducer should handle initial state 1`] = `
+Object {
+  "initAccountError": null,
+  "isAccountLoaded": false,
+  "isAccountLoading": false,
+  "isLoggedIn": false,
+  "isLoggingIn": false,
+  "loginError": null,
+}
+`;
