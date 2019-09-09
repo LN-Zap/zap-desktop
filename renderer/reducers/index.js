@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import { intlReducer as intl } from 'react-intl-redux'
+import account from './account'
 import locale from './locale'
 import theme from './theme'
 import app from './app'
@@ -35,6 +36,7 @@ const appReducer = combineReducers({
   theme,
 
   // Custom reducers
+  account,
   activity,
   address,
   app,
@@ -66,7 +68,10 @@ export default (state, action) => {
   // Reset all reducers, except for selected reducers which should persist.
   if (action.type === 'RESET_APP') {
     const { app, settings, intl, theme, wallet, lnd, neutrino, ticker } = state
-    return appReducer({ app, settings, intl, theme, wallet, lnd, neutrino, ticker }, action)
+    return appReducer(
+      { account, app, settings, intl, theme, wallet, lnd, neutrino, ticker },
+      action
+    )
   }
   return appReducer(state, action)
 }
