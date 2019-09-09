@@ -25,6 +25,11 @@ module.exports = {
     interval: 60 * 60 * 1000,
   },
 
+  password: {
+    active: false,
+    value: null,
+  },
+
   // Supported chains.
   chains: ['bitcoin', 'litecoin'],
 
