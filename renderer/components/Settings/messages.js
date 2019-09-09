@@ -36,6 +36,9 @@ export default defineMessages({
   fallbackAddress_description: 'Add on-chain fallback address to LN invoices.',
   invoices_expire_label: 'Invoice expiry',
   invoices_expire_description: 'Amount of time before invoices expire.',
+  password_active_label: 'Password',
+  password_active_description: 'Require password to open the app.',
+  password_value_description: 'Must be at least 6 characters.',
   lndTargetConfirmations_slow_label: 'Target confirmations (slow)',
   lndTargetConfirmations_slow_description: 'Number of blocks to target for "slow" sending speed.',
   lndTargetConfirmations_medium_label: 'Target confirmations (medium)',
@@ -45,6 +48,7 @@ export default defineMessages({
   lndTargetConfirmations_fast_description: 'Number of blocks to target for "fast" sending speed.',
   fieldgroup_general: 'General',
   fieldgroup_wallet: 'Wallet',
+  fieldgroup_security: 'Security',
   rateProvider_label: 'Rate provider',
   rateProvider_description: 'Your preferred rate provider.',
 })
