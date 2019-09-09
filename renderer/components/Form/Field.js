@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex } from 'rebass/styled-components'
+import { Box, Flex } from 'rebass/styled-components'
 import { Message, Text } from 'components/UI'
 import Label from './Label'
 
@@ -10,6 +10,7 @@ const Field = ({
   error,
   field,
   hasFocus,
+  hasMessageSpacer,
   isDisabled,
   isReadOnly,
   isRequired,
@@ -40,6 +41,12 @@ const Field = ({
         {error}
       </Message>
     )}
+
+    {hasMessageSpacer && !error && (
+      <Box fontSize="s" fontWeight="normal" height="16px" mt={1}>
+        &nbsp;
+      </Box>
+    )}
   </Flex>
 )
 
@@ -49,6 +56,7 @@ Field.propTypes = {
   error: PropTypes.node,
   field: PropTypes.string.isRequired,
   hasFocus: PropTypes.bool,
+  hasMessageSpacer: PropTypes.bool,
   isDisabled: PropTypes.bool,
   isReadOnly: PropTypes.bool,
   isRequired: PropTypes.bool,
