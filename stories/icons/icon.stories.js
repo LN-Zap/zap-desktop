@@ -12,6 +12,8 @@ import ArrowUp from 'components/Icon/ArrowUp'
 import Autopay from 'components/Icon/Autopay'
 import AutopayCheck from 'components/Icon/AutopayCheck'
 import BackupLocal from 'components/Icon/BackupLocal'
+import BadgeAppStore from 'components/Icon/BadgeAppStore'
+import BadgeGooglePlay from 'components/Icon/BadgeGooglePlay'
 import BigArrowRight from 'components/Icon/BigArrowRight'
 import Bitcoin from 'components/Icon/Bitcoin'
 import BoltOnboarding from 'components/Icon/BoltOnboarding'
@@ -33,16 +35,23 @@ import ExternalLink from 'components/Icon/ExternalLink'
 import Eye from 'components/Icon/Eye'
 import EyeOff from 'components/Icon/EyeOff'
 import FolderOpen from 'components/Icon/FolderOpen'
+import Github from 'components/Icon/Github'
 import GoogleDrive from 'components/Icon/GoogleDrive'
 import ImportOnboarding from 'components/Icon/ImportOnboarding'
 import LayoutCards from 'components/Icon/LayoutCards'
 import LayoutList from 'components/Icon/LayoutList'
 import Lightning from 'components/Icon/Lightning'
+import LightningBolt from 'components/Icon/LightningBolt'
 import LightningChannel from 'components/Icon/LightningChannel'
 import Litecoin from 'components/Icon/Litecoin'
+import LockSafe from 'components/Icon/LockSafe'
 import Logout from 'components/Icon/Logout'
+import Medium from 'components/Icon/Medium'
+import MinusCircle from 'components/Icon/MinusCircle'
 import Onchain from 'components/Icon/Onchain'
+import OpenSource from 'components/Icon/OpenSource'
 import Padlock from 'components/Icon/Padlock'
+import Peace from 'components/Icon/Peace'
 import Plus from 'components/Icon/Plus'
 import PlusCircle from 'components/Icon/PlusCircle'
 import PlusOnboarding from 'components/Icon/PlusOnboarding'
@@ -52,13 +61,16 @@ import Refresh from 'components/Icon/Refresh'
 import Search from 'components/Icon/Search'
 import Send from 'components/Icon/Send'
 import Settings from 'components/Icon/Settings'
+import Slack from 'components/Icon/Slack'
 import Spinner from 'components/Icon/Spinner'
 import Success from 'components/Icon/Success'
+import Twitter from 'components/Icon/Twitter'
 import User from 'components/Icon/User'
 import Warning from 'components/Icon/Warning'
 import X from 'components/Icon/X'
 import Zap from 'components/Icon/Zap'
 import ZapLogo from 'components/Icon/ZapLogo'
+import ZapLogoFull from 'components/Icon/ZapLogoFull'
 import ZapSolid from 'components/Icon/ZapSolid'
 
 const iconSizes = [16, 32, 64, 128]
@@ -74,6 +86,8 @@ const zapIconsList = {
   Autopay,
   AutopayCheck,
   BackupLocal,
+  BadgeAppStore,
+  BadgeGooglePlay,
   BigArrowRight,
   Bitcoin,
   BoltOnboarding,
@@ -95,16 +109,23 @@ const zapIconsList = {
   Eye,
   EyeOff,
   FolderOpen,
+  Github,
   GoogleDrive,
   ImportOnboarding,
   LayoutCards,
   LayoutList,
   Lightning,
+  LightningBolt,
   LightningChannel,
   Litecoin,
+  LockSafe,
   Logout,
+  Medium,
+  MinusCircle,
   Onchain,
+  OpenSource,
   Padlock,
+  Peace,
   Plus,
   PlusCircle,
   PlusOnboarding,
@@ -114,13 +135,16 @@ const zapIconsList = {
   Search,
   Send,
   Settings,
+  Slack,
   Spinner,
   Success,
+  Twitter,
   User,
   Warning,
   X,
   Zap,
   ZapLogo,
+  ZapLogoFull,
   ZapSolid,
 }
 const zapIconStories = storiesOf('Icons', module)
