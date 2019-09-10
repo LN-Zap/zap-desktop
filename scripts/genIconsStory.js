@@ -67,36 +67,53 @@ import { Box, Flex } from 'rebass/styled-components'
 import { Text } from 'components/UI'
 ${unwrapIconImports(iconBasePath, icons)}
 ${unwrapIconList(icons)}
-storiesOf('General', module).add('Icons', () => (
-  <Box
-    css={\`
-      display: grid;
-      grid-template-columns: repeat(auto-fill, 70px);
-    \`}
-  >
-    {Object.keys(zapIconsList).map(name => {
-      var Icon = zapIconsList[name]
-      return (
-        <Flex
-          key={name}
-          alignItems="center"
-          css={\`
-            cursor: pointer;
-          \`}
-          flexDirection="column"
-          mb={3}
-          onClick={linkTo('Icons', name)}
-        >
-          <Icon height={32} width={32} />
-          <Text color="gray" fontSize="xs" mt={2}>
-            {name}
-          </Text>
-        </Flex>
-      )
-    })}
-  </Box>
-))
-
+storiesOf('General', module).addWithChapters('Icons', {
+  subtitle: 'Icons that we use throughout our apps.',
+  info: 'This page shows the various icons that we use throughout our apps. Click on an icon to see larger sizes.',
+  chapters: [
+    {
+      sections: [
+        {
+          options: {
+            showSource: false,
+            allowSourceToggling: false,
+            showPropTables: false,
+            allowPropTablesToggling: false,
+          },
+          sectionFn: () => (
+            <Box
+              css={\`
+                display: grid;
+                grid-template-columns: repeat(auto-fill, 70px);
+              \`}
+            >
+              {Object.keys(zapIconsList).map(name => {
+                var Icon = zapIconsList[name]
+                return (
+                  <Flex
+                    key={name}
+                    alignItems="center"
+                    css={\`
+                      cursor: pointer;
+                    \`}
+                    flexDirection="column"
+                    mb={3}
+                    onClick={linkTo('Icons', name)}
+                  >
+                    <Icon height={32} width={32} />
+                    <Text color="gray" fontSize="xs" mt={2}>
+                      {name}
+                    </Text>
+                  </Flex>
+                )
+              })}
+            </Box>
+          ),
+        },
+      ],
+    },
+  ],
+})
 `
 }
 
