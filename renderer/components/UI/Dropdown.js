@@ -5,7 +5,7 @@ import { Box, Flex } from 'rebass/styled-components'
 import styled, { withTheme } from 'styled-components'
 import { themeGet } from '@styled-system/theme-get'
 import { opacity, fontWeight } from 'styled-system'
-import { useOnClickOutside, useIntl as useIntlMapper, useMaxScreenHeight } from 'hooks'
+import { useOnClickOutside, useIntlMap, useMaxScreenHeight } from 'hooks'
 import AngleLeft from 'components/Icon/AngleLeft'
 import AngleRight from 'components/Icon/AngleRight'
 import AngleUp from 'components/Icon/AngleUp'
@@ -153,7 +153,7 @@ const Dropdown = ({
     return item
   })
 
-  itemsArray = useIntlMapper(itemsArray, messageMapper, intl)
+  itemsArray = useIntlMap(itemsArray, messageMapper, intl)
 
   const selectedItem = itemsArray.find(c => c.key === activeKey)
 

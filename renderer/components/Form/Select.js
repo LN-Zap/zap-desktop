@@ -7,7 +7,7 @@ import styled, { withTheme } from 'styled-components'
 import { themeGet } from '@styled-system/theme-get'
 import Downshift from 'downshift'
 import { Box, Flex } from 'rebass/styled-components'
-import { useIntl, useMaxScreenHeight } from 'hooks'
+import { useIntlMap, useMaxScreenHeight } from 'hooks'
 import Check from 'components/Icon/Check'
 import AngleUp from 'components/Icon/AngleUp'
 import AngleDown from 'components/Icon/AngleDown'
@@ -105,7 +105,7 @@ const Select = props => {
   const { intl, messageMapper } = props
   const inputRef = useRef(null)
   // eslint-disable-next-line react/destructuring-assignment
-  const items = useIntl(props.items, messageMapper, intl)
+  const items = useIntlMap(props.items, messageMapper, intl)
   const blurInput = () => inputRef.current && inputRef.current.blur()
 
   const renderSelectOptions = (highlightedIndex, selectedItem, getItemProps) => {
@@ -293,7 +293,7 @@ const BasicSelectAsField = asField(BasicSelect)
 // This enables us to set the input value as the key, whilst displaying the mapped valued.
 const WrappedSelect = props => {
   const { intl, items, messageMapper } = props
-  const mappedItems = useIntl(items, messageMapper, intl)
+  const mappedItems = useIntlMap(items, messageMapper, intl)
 
   /**
    * format - Format item by mapping key to value.
