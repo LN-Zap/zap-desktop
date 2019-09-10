@@ -52,7 +52,7 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
               />
             </Text>
           </styled.div>
-          <Connect(WithTheme(injectIntl(Component)))
+          <Connect(WithTheme(Dropdown))
             ml={2}
           />
         </Styled(styled.div)>
@@ -134,7 +134,7 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
       <ForwardRef(Styled(styled.div))
         alignItems="baseline"
       >
-        <Memo(Connect(WithTheme(injectIntl(Component))))
+        <Memo(Connect(WithTheme(Dropdown)))
           mr={2}
         />
         <CryptoValue

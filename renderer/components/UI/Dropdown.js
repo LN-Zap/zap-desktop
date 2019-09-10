@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
-import { injectIntl } from 'react-intl'
+import { useIntl } from 'react-intl'
 import { Box, Flex } from 'rebass/styled-components'
 import styled, { withTheme } from 'styled-components'
 import { themeGet } from '@styled-system/theme-get'
 import { opacity, fontWeight } from 'styled-system'
-import { useOnClickOutside, useIntl, useMaxScreenHeight } from 'hooks'
+import { useOnClickOutside, useIntl as useIntlMapper, useMaxScreenHeight } from 'hooks'
 import AngleLeft from 'components/Icon/AngleLeft'
 import AngleRight from 'components/Icon/AngleRight'
 import AngleUp from 'components/Icon/AngleUp'
@@ -120,93 +120,91 @@ export const MenuItem = withTheme(
   )
 )
 
-const Dropdown = injectIntl(
-  ({
-    activeKey,
-    intl,
-    items,
-    justify,
-    theme,
-    buttonOpacity,
-    onChange,
-    messageMapper,
-    valueField,
-    ...rest
-  }) => {
-    // State to track dropdown open state.
-    const [isOpen, setIsOpen] = useState(false)
+const Dropdown = ({
+  activeKey,
+  items,
+  justify,
+  theme,
+  buttonOpacity,
+  onChange,
+  messageMapper,
+  valueField,
+  ...rest
+}) => {
+  const intl = useIntl()
+  // State to track dropdown open state.
+  const [isOpen, setIsOpen] = useState(false)
 
-    const toggleMenu = () => setIsOpen(!isOpen)
-    // Close the dropdown if the user clicks outside our elements.
-    const wrapperRef = useRef(null)
-    useOnClickOutside([wrapperRef], () => setIsOpen(false))
+  const toggleMenu = () => setIsOpen(!isOpen)
+  // Close the dropdown if the user clicks outside our elements.
+  const wrapperRef = useRef(null)
+  useOnClickOutside([wrapperRef], () => setIsOpen(false))
 
-    const [measuredRef, maxHeight] = useMaxScreenHeight(300)
-    const height = maxHeight < 150 ? undefined : maxHeight
-    // coerce array of strings into array of objects.
-    let itemsArray = items.map(item => {
-      if (typeof item === 'string') {
-        return {
-          [valueField]: item,
-          key: item,
-        }
+  const [measuredRef, maxHeight] = useMaxScreenHeight(300)
+  const height = maxHeight < 150 ? undefined : maxHeight
+  // coerce array of strings into array of objects.
+  let itemsArray = items.map(item => {
+    if (typeof item === 'string') {
+      return {
+        [valueField]: item,
+        key: item,
       }
-      return item
-    })
-
-    itemsArray = useIntl(itemsArray, messageMapper, intl)
-
-    const selectedItem = itemsArray.find(c => c.key === activeKey)
-
-    const handleClick = key => {
-      if (key !== activeKey) {
-        if (onChange) {
-          onChange(key)
-        }
-      }
-      setIsOpen(false)
     }
+    return item
+  })
 
-    return (
-      <div style={{ display: 'inline-block' }}>
-        <DropdownContainer {...rest} ref={wrapperRef}>
-          <DropdownButton
-            fontWeight="normal"
-            onClick={toggleMenu}
-            opacity={buttonOpacity}
-            type="button"
-          >
-            <Flex alignItems="center">
-              <Text css="white-space: nowrap;" mr={1} textAlign="left">
-                {selectedItem ? selectedItem[valueField] : activeKey}{' '}
-              </Text>
-              <Flex color="gray">
-                {isOpen ? <AngleUp width="0.6em" /> : <AngleDown width="0.6em" />}
-              </Flex>
-            </Flex>
-          </DropdownButton>
-          {isOpen && (
-            <MenuContainer>
-              <Menu ref={measuredRef} justify={justify} maxHeight={height}>
-                {itemsArray.map(item => {
-                  return (
-                    <MenuItem
-                      key={item.key}
-                      active={activeKey === item.key}
-                      item={item}
-                      onClick={() => handleClick(item.key)}
-                      valueField={valueField}
-                    />
-                  )
-                })}
-              </Menu>
-            </MenuContainer>
-          )}
-        </DropdownContainer>
-      </div>
-    )
+  itemsArray = useIntlMapper(itemsArray, messageMapper, intl)
+
+  const selectedItem = itemsArray.find(c => c.key === activeKey)
+
+  const handleClick = key => {
+    if (key !== activeKey) {
+      if (onChange) {
+        onChange(key)
+      }
+    }
+    setIsOpen(false)
   }
-)
+
+  return (
+    <div style={{ display: 'inline-block' }}>
+      <DropdownContainer {...rest} ref={wrapperRef}>
+        <DropdownButton
+          fontWeight="normal"
+          onClick={toggleMenu}
+          opacity={buttonOpacity}
+          type="button"
+        >
+          <Flex alignItems="center">
+            <Text css="white-space: nowrap;" mr={1} textAlign="left">
+              {selectedItem ? selectedItem[valueField] : activeKey}{' '}
+            </Text>
+            <Flex color="gray">
+              {isOpen ? <AngleUp width="0.6em" /> : <AngleDown width="0.6em" />}
+            </Flex>
+          </Flex>
+        </DropdownButton>
+        {isOpen && (
+          <MenuContainer>
+            <Menu ref={measuredRef} justify={justify} maxHeight={height}>
+              {itemsArray.map(item => {
+                return (
+                  <MenuItem
+                    key={item.key}
+                    active={activeKey === item.key}
+                    item={item}
+                    onClick={() => handleClick(item.key)}
+                    valueField={valueField}
+                  />
+                )
+              })}
+            </Menu>
+          </MenuContainer>
+        )}
+      </DropdownContainer>
+    </div>
+  )
+}
 
 Dropdown.defaultProps = {
   valueField: 'value',
@@ -217,6 +215,7 @@ Dropdown.propTypes = {
   buttonOpacity: PropTypes.number,
   items: PropTypes.array.isRequired,
   justify: PropTypes.string,
+  messageMapper: PropTypes.func,
   onChange: PropTypes.func,
   theme: PropTypes.object.isRequired,
   valueField: PropTypes.string,
