@@ -27,7 +27,7 @@ exports[`component.UI.Dialog should render correctly with custom content 1`] = `
       flexDirection="column"
       mb={3}
     >
-      <SvgGlobe
+      <SvgEye
         color="white"
         height={64}
         width={64}

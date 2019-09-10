@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { injectIntl } from 'react-intl'
+import { useIntl } from 'react-intl'
 import copy from 'copy-to-clipboard'
 import Button from 'components/UI/Button'
 import Copy from 'components/Icon/Copy'
 import messages from './messages'
-import { intlShape } from '@zap/i18n'
 
-const CopyButton = ({ value, hint, intl, onCopy, p, size, ...rest }) => {
+const CopyButton = ({ value, hint, onCopy, p, size, ...rest }) => {
+  const intl = useIntl()
   const doCopy = () => {
     copy(value)
     if (onCopy) {
@@ -41,7 +41,6 @@ const CopyButton = ({ value, hint, intl, onCopy, p, size, ...rest }) => {
 
 CopyButton.propTypes = {
   hint: PropTypes.node,
-  intl: intlShape.isRequired,
   onCopy: PropTypes.func,
   p: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   size: PropTypes.string,
@@ -52,4 +51,4 @@ CopyButton.defaultProps = {
   size: '1em',
 }
 
-export default injectIntl(CopyButton)
+export default CopyButton

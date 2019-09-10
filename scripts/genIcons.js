@@ -31,7 +31,7 @@ try {
     { stdio: [0, 1, 2] }
   )
   updateStorybook('renderer/components/Icon/', 'components/Icon/', {
-    allIconsOutput: 'stories/AllIcons/AllIcons.stories.js',
+    allIconsOutput: 'stories/_general/icons.stories.js',
     iconListOutputFile: 'stories/icons/icon.stories.js',
   })
 } finally {

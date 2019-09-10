@@ -81,7 +81,7 @@ const Button = React.forwardRef((props, ref) => {
     >
       {isProcessing || Icon ? (
         <Flex alignItems="center" justifyContent="center">
-          {isProcessing ? <Spinner /> : Icon && <Icon />}
+          {isProcessing ? <Spinner height="0.8em" width="0.8em" /> : Icon && <Icon />}
           <Box fontSize={fontSize} fontWeight={fontWeight} ml={2}>
             {children}
           </Box>

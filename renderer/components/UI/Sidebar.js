@@ -1,24 +1,29 @@
 import React from 'react'
-import styled from 'styled-components'
-import { themeGet } from '@styled-system/theme-get'
+import PropTypes from 'prop-types'
 import { Flex } from 'rebass/styled-components'
 
-const SidebarBox = styled(Flex)`
-  overflow: hidden;
-  box-shadow: ${themeGet('shadows.m')};
-  z-index: 1;
-`
-
-const Sidebar = ({ ...props }) => (
-  <SidebarBox
+const Sidebar = ({ hasShadow, ...rest }) => (
+  <Flex
     as="aside"
-    bg="primaryColor"
     color="primaryText"
     flexDirection="column"
     width={4 / 12}
-    {...props}
+    {...rest}
+    sx={{
+      overflow: 'hidden',
+      boxShadow: hasShadow ? 'm' : null,
+      zIndex: 1,
+    }}
   />
 )
+
+Sidebar.propTypes = {
+  hasShadow: PropTypes.bool,
+}
+
+Sidebar.defaultProps = {
+  hasShadow: true,
+}
 
 Sidebar.small = props => <Sidebar {...props} width={3 / 16} />
 Sidebar.medium = props => <Sidebar {...props} width={4 / 16} />
