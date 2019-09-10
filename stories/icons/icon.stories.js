@@ -33,9 +33,7 @@ import ExternalLink from 'components/Icon/ExternalLink'
 import Eye from 'components/Icon/Eye'
 import EyeOff from 'components/Icon/EyeOff'
 import FolderOpen from 'components/Icon/FolderOpen'
-import Globe from 'components/Icon/Globe'
 import GoogleDrive from 'components/Icon/GoogleDrive'
-import IconPlus from 'components/Icon/IconPlus'
 import ImportOnboarding from 'components/Icon/ImportOnboarding'
 import LayoutCards from 'components/Icon/LayoutCards'
 import LayoutList from 'components/Icon/LayoutList'
@@ -43,8 +41,6 @@ import Lightning from 'components/Icon/Lightning'
 import LightningChannel from 'components/Icon/LightningChannel'
 import Litecoin from 'components/Icon/Litecoin'
 import Logout from 'components/Icon/Logout'
-import LtcLogo from 'components/Icon/LtcLogo'
-import Network from 'components/Icon/Network'
 import Onchain from 'components/Icon/Onchain'
 import Padlock from 'components/Icon/Padlock'
 import Plus from 'components/Icon/Plus'
@@ -58,7 +54,6 @@ import Send from 'components/Icon/Send'
 import Settings from 'components/Icon/Settings'
 import Spinner from 'components/Icon/Spinner'
 import Success from 'components/Icon/Success'
-import Sync from 'components/Icon/Sync'
 import User from 'components/Icon/User'
 import Warning from 'components/Icon/Warning'
 import X from 'components/Icon/X'
@@ -100,9 +95,7 @@ const zapIconsList = {
   Eye,
   EyeOff,
   FolderOpen,
-  Globe,
   GoogleDrive,
-  IconPlus,
   ImportOnboarding,
   LayoutCards,
   LayoutList,
@@ -110,8 +103,6 @@ const zapIconsList = {
   LightningChannel,
   Litecoin,
   Logout,
-  LtcLogo,
-  Network,
   Onchain,
   Padlock,
   Plus,
@@ -125,7 +116,6 @@ const zapIconsList = {
   Settings,
   Spinner,
   Success,
-  Sync,
   User,
   Warning,
   X,

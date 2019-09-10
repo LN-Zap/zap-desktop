@@ -2,7 +2,7 @@ import React from 'react'
 import { Flex } from 'rebass/styled-components'
 import { storiesOf } from '@storybook/react'
 import { Dialog, Text, Heading, Countdown, Button, Page } from 'components/UI'
-import Globe from 'components/Icon/Globe'
+import Eye from 'components/Icon/Eye'
 
 storiesOf('Components', module)
   .addDecorator(story => (
@@ -44,7 +44,7 @@ storiesOf('Components', module)
               const date = new Date(new Date().getTime() + 60000)
               const customHeader = (
                 <Flex alignItems="center" alignSelf="stretch" flexDirection="column" mb={3}>
-                  <Globe color="white" height={64} width={64} />
+                  <Eye color="white" height={64} width={64} />
                   <Heading.h2>Custom heading</Heading.h2>
                 </Flex>
               )

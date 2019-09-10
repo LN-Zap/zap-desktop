@@ -2,8 +2,8 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import toJSON from 'enzyme-to-json'
 import { Flex } from 'rebass/styled-components'
+import Eye from 'components/Icon/Eye'
 import { Dialog, Text, Heading, Button } from 'components/UI'
-import Globe from 'components/Icon/Globe'
 
 describe('component.UI.Dialog', () => {
   it('should render correctly with two buttons', () => {
@@ -28,7 +28,7 @@ describe('component.UI.Dialog', () => {
     const CustomDialog = () => {
       const customHeader = (
         <Flex alignItems="center" alignSelf="stretch" flexDirection="column" mb={3}>
-          <Globe color="white" height={64} width={64} />
+          <Eye color="white" height={64} width={64} />
           <Heading.h2>Custom heading</Heading.h2>
         </Flex>
       )
