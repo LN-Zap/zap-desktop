@@ -42,6 +42,22 @@ exports[`component.UI.NodePubkeyInput should render correctly 1`] = `
   cursor: pointer;
 }
 
+.c2::-webkit-input-placeholder {
+  color: #959595;
+}
+
+.c2::-moz-placeholder {
+  color: #959595;
+}
+
+.c2:-ms-input-placeholder {
+  color: #959595;
+}
+
+.c2::placeholder {
+  color: #959595;
+}
+
 .c2:disabled {
   background-color: #95959533;
   opacity: 0.6;
