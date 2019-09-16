@@ -500,7 +500,7 @@
   "components.Syncing.fund_description": "Vous pourriez approvisionner votre portefeuille en attendant la synchronisation.",
   "components.Syncing.fund_heading": "Bienvenue !",
   "components.Syncing.fund_link": "Obtenir des fonds Testnet",
-  "components.Syncing.fund_title": "Approvisionner votre portefeuille Zap",
+  "components.Syncing.fund_title": "Approvisionnez votre portefeuille Zap",
   "components.Syncing.generating_address": "Génération d'adresses…",
   "components.Syncing.grab_coffee": "vous pouvez prendre un café ou réessayer plus tard !",
   "components.Syncing.preparing": "Préparation…",
