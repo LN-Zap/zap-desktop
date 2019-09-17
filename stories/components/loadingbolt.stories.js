@@ -2,7 +2,7 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { boolean } from '@storybook/addon-knobs'
 import { Page } from 'components/UI'
-import Loading from 'components/LoadingBolt'
+import Loading from 'components/Loading'
 
 storiesOf('Components', module).addWithChapters('LoadingBolt', {
   subtitle: 'Animation to indicate application is loading.',

@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import messages from 'components/LoadingBolt/messages'
+import messages from 'components/Loading/messages'
 import { walletSelectors } from './wallet'
 import { neutrinoSelectors } from './neutrino'
 import { lndSelectors } from './lnd'

@@ -664,7 +664,8 @@ const ACTION_HANDLERS = {
     state.isUnlockingWallet = true
   },
   [UNLOCK_WALLET_SUCCESS]: state => {
-    ;(state.isUnlockingWallet = false), (state.unlockWalletError = null)
+    state.isUnlockingWallet = false
+    state.unlockWalletError = null
   },
   [UNLOCK_WALLET_FAILURE]: (state, { unlockWalletError }) => {
     state.isUnlockingWallet = false
@@ -679,6 +680,7 @@ const ACTION_HANDLERS = {
 const lndSelectors = {}
 const startLndErrorSelector = state => state.lnd.startLndError
 const isStartingLndSelector = state => state.lnd.isStartingLnd
+const isUnlockingWalletSelector = state => state.lnd.isUnlockingWallet
 
 lndSelectors.startLndHostError = createSelector(
   startLndErrorSelector,
@@ -693,6 +695,7 @@ lndSelectors.startLndMacaroonError = createSelector(
   startLndError => (startLndError ? startLndError.macaroon : null)
 )
 lndSelectors.isStartingLnd = isStartingLndSelector
+lndSelectors.isUnlockingWallet = isUnlockingWalletSelector
 
 export { lndSelectors }
 
