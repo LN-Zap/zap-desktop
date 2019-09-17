@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import LoadingBolt from 'components/LoadingBolt'
+import LoadingBolt from 'containers/Loading'
 
 /**
  * withLoading - A HOC that will display the LoadingBolt component whilst the wrapped component is loading.
@@ -18,10 +18,19 @@ const withLoading = Component =>
       isLoading: PropTypes.bool.isRequired,
       loadingMessage: PropTypes.object,
       onClose: PropTypes.func,
+      pathname: PropTypes.string.isRequired,
     }
 
     render() {
-      const { isLoading, loadingMessage, onClose, hasClose, children, ...rest } = this.props
+      const {
+        isLoading,
+        pathname,
+        loadingMessage,
+        onClose,
+        hasClose,
+        children,
+        ...rest
+      } = this.props
       return (
         <>
           <Component {...rest}>{children}</Component>
@@ -30,6 +39,7 @@ const withLoading = Component =>
             isLoading={isLoading}
             message={loadingMessage}
             onClose={onClose}
+            pathname={pathname}
           />
         </>
       )

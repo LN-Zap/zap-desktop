@@ -15,7 +15,9 @@ export const isLoading = createSelector(
   appSelectors.isLoading,
   walletSelectors.isWalletOpen,
   lndSelectors.isStartingLnd,
-  (isAppLoading, isWalletOpen, isStartingLnd) => isAppLoading || (isStartingLnd && isWalletOpen)
+  walletSelectors.activeWalletSettings,
+  (isAppLoading, isWalletOpen, isStartingLnd, wallet) =>
+    isAppLoading || (isStartingLnd && wallet && wallet.type !== 'local')
 )
 
 /**

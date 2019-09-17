@@ -1,3 +1,3 @@
-import LoadingBolt from './LoadingBolt'
+import LoadingBolt from './Loading'
 
 export default LoadingBolt
