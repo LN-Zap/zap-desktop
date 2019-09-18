@@ -30,6 +30,7 @@ export default class Wallet {
     autopilotPrivate: Boolean,
     autopilotMinconfs: Number,
     backup: Object,
+    neutrinoNodes: Array,
   }
 
   /**
