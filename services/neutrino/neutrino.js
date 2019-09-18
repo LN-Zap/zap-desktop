@@ -91,7 +91,7 @@ class Neutrino extends EventEmitter {
     mainLog.info(' > macaroon:', this.lndConfig.macaroon)
 
     // The height returned from the LND log output may not be the actual current block height (this is the case
-    // when BTCD is still in the middle of syncing the blockchain) so try to fetch thhe current height from from
+    // when BTCD is still in the middle of syncing the blockchain) so try to fetch the current height from from
     // some block explorers so that we have a good starting point.
     fetchBlockHeight(this.lndConfig.chain, this.lndConfig.network)
       .then(blockHeight => this.setCurrentBlockHeight(blockHeight))
@@ -114,7 +114,7 @@ class Neutrino extends EventEmitter {
     this.attachStderrProcessors(this.process.stderr)
     this.attachStdoutProcessors(this.process.stdout)
 
-    // Rewturn the pid.
+    // Return the pid.
     return this.process.pid
   }
 
@@ -319,7 +319,7 @@ class Neutrino extends EventEmitter {
       return autopilotArgs
     }
 
-    // Genreate autopilot config from lnd config.
+    // Generate autopilot config from lnd config.
     const autopilotArgMap = {
       autopilot: `--autopilot.active`,
       autopilotPrivate: `--autopilot.private`,
@@ -366,14 +366,14 @@ class Neutrino extends EventEmitter {
    */
   getNeutrinoArgs() {
     const neutrinoArgs = []
+    const { chain, network } = this.lndConfig
+    const nodes = this.lndConfig.neutrinoNodes || config.lnd.neutrino[chain][network]
 
     neutrinoArgs.push('--bitcoin.node=neutrino')
     neutrinoArgs.push('--neutrino.useragentname=zap-desktop')
     neutrinoArgs.push(`--neutrino.useragentversion=${getPackageDetails().version}`)
     neutrinoArgs.push(`--${this.lndConfig.chain}.${this.lndConfig.network}`)
-    config.lnd.neutrino[this.lndConfig.chain][this.lndConfig.network].forEach(node =>
-      neutrinoArgs.push(`--neutrino.connect=${node}`)
-    )
+    nodes.forEach(node => neutrinoArgs.push(`--neutrino.connect=${node}`))
 
     return neutrinoArgs
   }
