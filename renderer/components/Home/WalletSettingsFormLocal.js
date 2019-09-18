@@ -1,14 +1,33 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import config from 'config'
 import { compose } from 'redux'
 import { withFormApi, withFormState } from 'informed'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass/styled-components'
 import { intlShape } from '@zap/i18n'
 import { Bar, Button, DataRow, Text } from 'components/UI'
-import { Input, Label, Toggle } from 'components/Form'
+import { Input, Label, Toggle, TextArea } from 'components/Form'
 import messages from './messages'
 import AutopilotAllocation from './AutopilotAllocation'
+
+export const FieldLabel = ({ itemKey, ...rest }) => {
+  const messageKey = itemKey.replace('.', '_')
+  return (
+    <Box {...rest}>
+      <Label htmlFor={itemKey} mb={2}>
+        <FormattedMessage {...messages[`${messageKey}_label`]} />
+      </Label>
+      <Text color="gray" fontWeight="light">
+        <FormattedMessage {...messages[`${messageKey}_description`]} />
+      </Text>
+    </Box>
+  )
+}
+
+FieldLabel.propTypes = {
+  itemKey: PropTypes.string.isRequired,
+}
 
 class WalletSettingsFormLocal extends React.Component {
   static propTypes = {
@@ -48,6 +67,27 @@ class WalletSettingsFormLocal extends React.Component {
 
           <DataRow left={<FormattedMessage {...messages.chain} />} py={2} right={chain} />
           <DataRow left={<FormattedMessage {...messages.network} />} py={2} right={network} />
+
+          <Bar variant="light" />
+          <DataRow
+            left={<FieldLabel itemKey="neutrinoUrl" />}
+            right={
+              <TextArea
+                field="neutrinoNodes"
+                format={value => value.join('\n')}
+                highlightOnValid={false}
+                initialValue={config.lnd.neutrino[chain][network]}
+                parse={value => {
+                  if (Array.isArray(value)) {
+                    return value
+                  }
+
+                  return value.split('\n')
+                }}
+                width={300}
+              />
+            }
+          />
         </Box>
 
         <Box as="section" mb={4}>

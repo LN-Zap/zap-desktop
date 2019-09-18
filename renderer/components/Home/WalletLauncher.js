@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom'
 import { Box, Flex } from 'rebass/styled-components'
 import styled from 'styled-components'
 import parse from 'lndconnect/parse'
+import isEqual from 'lodash/isEqual'
 import { intlShape } from '@zap/i18n'
 import { isValidBtcPayConfig, isEmbeddedLndConnectURI } from '@zap/utils/connectionString'
 import parseConnectionString from '@zap/utils/btcpayserver'
@@ -53,11 +54,17 @@ const prepareValues = values => clean(formatAutopilot(Object.assign({}, values))
 // converts form format to db/lnd compatible format
 const formToWalletFormat = values => {
   const result = prepareValues(values)
-  const { autopilot, autopilotAllocation } = result
+  const { autopilot, autopilotAllocation, neutrinoNodes } = result
   if (autopilot && autopilotAllocation) {
     // result expects the autopilot allocation to be a decimal.
     result.autopilotAllocation = autopilotAllocation / 100
   }
+
+  // Sanitize neutrinoNodes
+  if (neutrinoNodes) {
+    result.neutrinoNodes = neutrinoNodes.filter(Boolean).map(n => n.trim())
+  }
+
   return result
 }
 
@@ -92,7 +99,7 @@ const clean = obj => {
  * @returns {boolean} True if compared props all match
  */
 const unsafeShallowCompare = (obj1, obj2, whiteList) => {
-  return Object.keys(whiteList).every(key => obj1[key] == obj2[key])
+  return Object.keys(whiteList).every(key => isEqual(obj1[key], obj2[key]))
 }
 
 const LNDCONNECT_BTCPAY_SERVER = 'LNDCONNECT_BTCPAY_SERVER'
@@ -345,6 +352,7 @@ class WalletLauncher extends React.Component {
       autopilot: '',
       alias: '',
       name: '',
+      neutrinoNodes: '',
     }
     // local node
     return !unsafeShallowCompare(
