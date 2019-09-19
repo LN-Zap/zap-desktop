@@ -30,6 +30,12 @@ class WalletSettingsFormLocal extends React.Component {
     })
   }
 
+  resetNeutrinoSettings = () => {
+    const { formApi, wallet } = this.props
+    const { chain, network } = wallet
+    formApi.setValue('neutrinoNodes', config.lnd.neutrino[chain][network])
+  }
+
   render() {
     const { intl, formState, autopilotDefaults, wallet } = this.props
     const { chain, network } = wallet
@@ -54,7 +60,7 @@ class WalletSettingsFormLocal extends React.Component {
 
           <Bar variant="light" />
           <DataRow
-            left={<FieldLabel itemKey="neutrinoUrl" />}
+            left={<FieldLabel itemKey="neutrinoUrl" tooltip="neutrinoUrl_tooltip" />}
             right={
               <TextArea
                 field="neutrinoNodes"
@@ -72,6 +78,11 @@ class WalletSettingsFormLocal extends React.Component {
               />
             }
           />
+          <Flex justifyContent="center" my={4}>
+            <Button onClick={this.resetNeutrinoSettings} size="small" type="button">
+              <FormattedMessage {...messages.wallet_settings_reset_neutrino_button_text} />
+            </Button>
+          </Flex>
         </Box>
 
         <Box as="section" mb={4}>
