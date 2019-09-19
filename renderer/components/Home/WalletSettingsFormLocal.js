@@ -7,27 +7,11 @@ import { FormattedMessage, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass/styled-components'
 import { intlShape } from '@zap/i18n'
 import { Bar, Button, DataRow, Text } from 'components/UI'
-import { Input, Label, Toggle, TextArea } from 'components/Form'
+import { Input, Label, Toggle, TextArea, FieldLabelFactory } from 'components/Form'
 import messages from './messages'
 import AutopilotAllocation from './AutopilotAllocation'
 
-export const FieldLabel = ({ itemKey, ...rest }) => {
-  const messageKey = itemKey.replace('.', '_')
-  return (
-    <Box {...rest}>
-      <Label htmlFor={itemKey} mb={2}>
-        <FormattedMessage {...messages[`${messageKey}_label`]} />
-      </Label>
-      <Text color="gray" fontWeight="light">
-        <FormattedMessage {...messages[`${messageKey}_description`]} />
-      </Text>
-    </Box>
-  )
-}
-
-FieldLabel.propTypes = {
-  itemKey: PropTypes.string.isRequired,
-}
+const FieldLabel = FieldLabelFactory(messages)
 
 class WalletSettingsFormLocal extends React.Component {
   static propTypes = {
@@ -97,16 +81,7 @@ class WalletSettingsFormLocal extends React.Component {
           <Bar mb={4} mt={2} />
 
           <DataRow
-            left={
-              <>
-                <Label htmlFor="name" mb={2}>
-                  <FormattedMessage {...messages.wallet_settings_name_label} />
-                </Label>
-                <Text color="gray" fontWeight="light">
-                  <FormattedMessage {...messages.wallet_settings_name_description} />
-                </Text>
-              </>
-            }
+            left={<FieldLabel itemKey="wallet_settings_name" />}
             py={2}
             right={
               <Input
@@ -126,16 +101,7 @@ class WalletSettingsFormLocal extends React.Component {
           />
 
           <DataRow
-            left={
-              <>
-                <Label htmlFor="alias" mb={2}>
-                  <FormattedMessage {...messages.wallet_settings_alias_label} />
-                </Label>
-                <Text color="gray" fontWeight="light">
-                  <FormattedMessage {...messages.wallet_settings_alias_description} />
-                </Text>
-              </>
-            }
+            left={<FieldLabel itemKey="wallet_settings_alias" />}
             py={2}
             right={
               <Input
