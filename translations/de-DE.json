@@ -609,6 +609,6 @@
   "reducers.messages.settings_init_error": "Einstellungen können nicht geladen werden: {error}",
   "reducers.messages.transaction_received_body": "Du Glückspilz hast eine neue on-chain Transaktion erhalten. Ich bin neidisch.",
   "reducers.messages.transaction_received_title": "On-chain Transaktion erhalten!",
-  "reducers.messages.transaction_sent_body": "",
-  "reducers.messages.transaction_sent_title": ""
+  "reducers.messages.transaction_sent_body": "Und da geht sie einfach so... Transaktion erfolgreich gesendet.",
+  "reducers.messages.transaction_sent_title": "On-chain Transaktion gesendet!"
 }
