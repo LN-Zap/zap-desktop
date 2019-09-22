@@ -5738,13 +5738,13 @@ cosmiconfig@^5.0.0, cosmiconfig@^5.2.0, cosmiconfig@^5.2.1:
     js-yaml "^3.13.1"
     parse-json "^4.0.0"
 
-country-data-lookup@0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/country-data-lookup/-/country-data-lookup-0.0.3.tgz#59babadbd70c74a870f78e518b517b210bd8e3dd"
-  integrity sha512-xNbqT2XoJBhdZmkbhFsXieGqwLf6npgcM+DWwKuQYWZvQhee1AjgxFxnHL7Z+zKMwLLwE5WtKwh0ptanqfMujQ==
+country-data-lookup@0.0.33:
+  version "0.0.33"
+  resolved "https://registry.yarnpkg.com/country-data-lookup/-/country-data-lookup-0.0.33.tgz#4a9fc101cdd8861258a908d6b3e08a5b5a09a954"
+  integrity sha512-zKxQ9jR1O/gIo48hd7mqU71tmxXBkJta3XwfQ8sOzsr4PT/2Ui+tyZgjhmnv8168+MReFv9GFDUOtcxE//I8FQ==
   dependencies:
-    currency-symbol-map "~4.0.3"
-    lodash "~4.17.4"
+    currency-symbol-map "~4.0.4"
+    lodash "~4.17.15"
 
 coveralls@3.0.6:
   version "3.0.6"
@@ -6031,7 +6031,7 @@ cuint@^0.2.2:
   resolved "https://registry.yarnpkg.com/cuint/-/cuint-0.2.2.tgz#408086d409550c2631155619e9fa7bcadc3b991b"
   integrity sha1-QICG1AlVDCYxFVYZ6fp7ytw7mRs=
 
-currency-symbol-map@~4.0.3:
+currency-symbol-map@~4.0.4:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/currency-symbol-map/-/currency-symbol-map-4.0.4.tgz#3cfba625974dd3f86822d327ecbd10248695e95e"
   integrity sha512-hkSCCopJXVsvIZIiumJc6FoNXR5LQ646c3ufzF0yfv3155PYygysHw24JuzPSg4j86EFpvtgeX+vEhzRtcJ5Ag==
@@ -10963,7 +10963,7 @@ lodash@4.17.14:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.14.tgz#9ce487ae66c96254fe20b599f21b6816028078ba"
   integrity sha512-mmKYbW3GLuJeX+iGP+Y7Gp1AiGHGbXHCOh/jZmrawMmsE7MS4znI3RL2FsjbqOyMayHInjOeykW7PEajUk1/xw==
 
-lodash@4.17.15, "lodash@4.6.1 || ^4.16.1", lodash@^4.0.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.1, lodash@^4.3.0, lodash@~4.17.4:
+lodash@4.17.15, "lodash@4.6.1 || ^4.16.1", lodash@^4.0.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.1, lodash@^4.3.0, lodash@~4.17.15:
   version "4.17.15"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
