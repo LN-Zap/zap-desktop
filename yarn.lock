@@ -9247,10 +9247,10 @@ inflight@^1.0.4:
     once "^1.3.0"
     wrappy "1"
 
-informed@2.11.8:
-  version "2.11.8"
-  resolved "https://registry.yarnpkg.com/informed/-/informed-2.11.8.tgz#6544ea560111d6d04bd40beebf2aa1ec095dab18"
-  integrity sha512-gYQ8NIaIuKkhjig06NPwpC3MBwXV4Uqggt9QzXuXn4/hkTS5C7bysPUDl/iVFrBPxwXfHDu/4T2hzditqUe5NA==
+informed@2.11.9:
+  version "2.11.9"
+  resolved "https://registry.yarnpkg.com/informed/-/informed-2.11.9.tgz#8141b1e0365032fb4fe349b2af410515fbb929a9"
+  integrity sha512-ASSfkvMhj2k5qwC0/Agwl7MR6F8SXmSKqr5gq7TqY7EdF3in0jwT5DwgqbCLCqeBAZxN6t+0EhdZJl3PzuWGsQ==
   dependencies:
     lodash "^4.17.11"
 
