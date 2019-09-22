@@ -14298,12 +14298,12 @@ realpath-native@^1.1.0:
   dependencies:
     util.promisify "^1.0.0"
 
-rebass@4.0.5:
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/rebass/-/rebass-4.0.5.tgz#87bf5b0cc53e530ce0939611637d01aeb989df57"
-  integrity sha512-8MZngk/AmbC8u8pGmI1WelbsKYjmN9Z91C11G4ESB9QZnoppWsI+OAqio1/4/l6dxHmwZ/hR8Q4UApF+IVEprA==
+rebass@4.0.6:
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/rebass/-/rebass-4.0.6.tgz#eaded5d0d99f68e69cd6b1e9e645f391c15d90dd"
+  integrity sha512-O4eSG4vhboiI00R5YmrRTuKiehpLkB3gDBWp00qymEbPxJPjkXoQVkOEhbWaRNRqBv/bMlvLczqarvCno1JORw==
   dependencies:
-    reflexbox "^4.0.5"
+    reflexbox "^4.0.6"
 
 recast@^0.14.7:
   version "0.14.7"
@@ -14406,6 +14406,17 @@ reflexbox@^4.0.5:
     "@styled-system/css" "^5.0.0"
     "@styled-system/should-forward-prop" "^5.0.0"
     react "^16.8.6"
+    styled-system "^5.0.0"
+
+reflexbox@^4.0.6:
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/reflexbox/-/reflexbox-4.0.6.tgz#fc756d2cc1ca493baf9b96bb27dd640ad8154cf1"
+  integrity sha512-UNUL4YoJEXAPjRKHuty1tuOk+LV1nDJ2KYViDcH7lYm5yU3AQ+EKNXxPU3E14bQNK/pE09b1hYl+ZKdA94tWLQ==
+  dependencies:
+    "@emotion/core" "^10.0.0"
+    "@emotion/styled" "^10.0.0"
+    "@styled-system/css" "^5.0.0"
+    "@styled-system/should-forward-prop" "^5.0.0"
     styled-system "^5.0.0"
 
 refractor@^2.4.1:
