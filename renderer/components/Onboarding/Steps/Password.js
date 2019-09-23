@@ -53,7 +53,7 @@ class Password extends React.Component {
         onSubmitFailure={onSubmitFailure}
       >
         {({ formState }) => {
-          const shouldValidateInline = formState.submits > 0
+          const willValidateInline = formState.submits > 0
           return (
             <>
               <Header
@@ -71,8 +71,8 @@ class Password extends React.Component {
                   label={<FormattedMessage {...messages.password_label} />}
                   minLength={8}
                   placeholder={intl.formatMessage({ ...messages.password_placeholder })}
-                  validateOnBlur={shouldValidateInline}
-                  validateOnChange={shouldValidateInline}
+                  validateOnBlur={willValidateInline}
+                  validateOnChange={willValidateInline}
                   willAutoFocus
                 />
               </Box>

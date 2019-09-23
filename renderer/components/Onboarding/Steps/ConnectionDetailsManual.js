@@ -158,7 +158,7 @@ class ConnectionDetailsManual extends React.Component {
         onSubmitFailure={onSubmitFailure}
       >
         {({ formState }) => {
-          const shouldValidateInline =
+          const willValidateInline =
             formState.submits > 0 ||
             connectionHost ||
             connectionCert ||
@@ -199,8 +199,8 @@ class ConnectionDetailsManual extends React.Component {
                 mb={3}
                 name="connectionCert"
                 onBlur={this.validateCert}
-                validateOnBlur={shouldValidateInline}
-                validateOnChange={shouldValidateInline}
+                validateOnBlur={willValidateInline}
+                validateOnChange={willValidateInline}
                 width={1}
               />
 
@@ -212,8 +212,8 @@ class ConnectionDetailsManual extends React.Component {
                 label="Macaroon"
                 name="connectionMacaroon"
                 onBlur={this.validateMacaroon}
-                validateOnBlur={shouldValidateInline}
-                validateOnChange={shouldValidateInline}
+                validateOnBlur={willValidateInline}
+                validateOnChange={willValidateInline}
                 width={1}
               />
             </>

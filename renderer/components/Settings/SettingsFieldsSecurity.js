@@ -10,7 +10,7 @@ import messages from './messages'
 const SettingsFieldsSecurity = ({ currentConfig }) => {
   const { value: isPasswordActive } = useFieldState('password.active')
   const { submits } = useFormState()
-  const shouldValidateInline = submits > 0
+  const willValidateInline = submits > 0
   const intl = useIntl()
 
   return (
@@ -30,8 +30,8 @@ const SettingsFieldsSecurity = ({ currentConfig }) => {
               initialValue={currentConfig.password.value}
               isRequired
               minLength={6}
-              validateOnBlur={shouldValidateInline}
-              validateOnChange={shouldValidateInline}
+              validateOnBlur={willValidateInline}
+              validateOnChange={willValidateInline}
               width={200}
             />
           }
