@@ -1,7 +1,7 @@
 import React from 'react'
-import { IntegerInput } from 'components/Form'
+import IntegerInput from './IntegerInput'
 
-export const PositiveIntegerField = props => (
+const PositiveIntegerField = props => (
   <IntegerInput
     highlightOnValid={false}
     isRequired
@@ -16,3 +16,5 @@ export const PositiveIntegerField = props => (
     {...props}
   />
 )
+
+export default PositiveIntegerField
