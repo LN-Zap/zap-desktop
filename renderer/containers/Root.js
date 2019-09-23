@@ -79,6 +79,7 @@ const Root = ({
             isLoading={isLoading}
             loadingMessage={loadingMessage}
             onClose={redirectToLogout}
+            pathname={history.location.pathname}
           >
             {isRootReady && (
               <Switch>

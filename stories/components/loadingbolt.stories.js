@@ -2,7 +2,7 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { boolean } from '@storybook/addon-knobs'
 import { Page } from 'components/UI'
-import LoadingBolt from 'components/LoadingBolt'
+import Loading from 'components/Loading'
 
 storiesOf('Components', module).addWithChapters('LoadingBolt', {
   subtitle: 'Animation to indicate application is loading.',
@@ -10,11 +10,34 @@ storiesOf('Components', module).addWithChapters('LoadingBolt', {
     {
       sections: [
         {
+          title: 'Bolt',
           sectionFn: () => {
             const isLoading = boolean('Is loading', true)
             return (
               <Page>
-                <LoadingBolt isLoading={isLoading} />
+                <Loading hasClose isLoading={isLoading} onClose={() => {}} variant="bolt" />
+              </Page>
+            )
+          },
+        },
+        {
+          title: 'App',
+          sectionFn: () => {
+            const isLoading = boolean('Is loading', true)
+            return (
+              <Page>
+                <Loading hasClose isLoading={isLoading} onClose={() => {}} variant="app" />
+              </Page>
+            )
+          },
+        },
+        {
+          title: 'Launchpad',
+          sectionFn: () => {
+            const isLoading = boolean('Is loading', true)
+            return (
+              <Page>
+                <Loading isLoading={isLoading} variant="launchpad" />
               </Page>
             )
           },

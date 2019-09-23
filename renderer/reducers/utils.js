@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import messages from 'components/LoadingBolt/messages'
+import messages from 'components/Loading/messages'
 import { walletSelectors } from './wallet'
 import { neutrinoSelectors } from './neutrino'
 import { lndSelectors } from './lnd'
@@ -15,7 +15,9 @@ export const isLoading = createSelector(
   appSelectors.isLoading,
   walletSelectors.isWalletOpen,
   lndSelectors.isStartingLnd,
-  (isAppLoading, isWalletOpen, isStartingLnd) => isAppLoading || (isStartingLnd && isWalletOpen)
+  walletSelectors.activeWalletSettings,
+  (isAppLoading, isWalletOpen, isStartingLnd, wallet) =>
+    isAppLoading || (isStartingLnd && wallet && wallet.type !== 'local')
 )
 
 /**

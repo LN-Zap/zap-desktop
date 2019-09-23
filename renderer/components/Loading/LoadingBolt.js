@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { animated, Transition } from 'react-spring/renderprops.cjs'
 import { FormattedMessage } from 'react-intl'
 import styled, { keyframes, withTheme } from 'styled-components'
 import { themeGet } from '@styled-system/theme-get'
@@ -8,6 +7,7 @@ import { Box, Flex } from 'rebass/styled-components'
 import CloseButton from 'components/UI/CloseButton'
 import Heading from 'components/UI/Heading'
 import CloudLightning from 'components/Icon/CloudLightning'
+import Transition from './Transition'
 import messages from './messages'
 
 const gradientMotion = keyframes`
@@ -20,24 +20,6 @@ const gradientMotion = keyframes`
   100% {
     background-position: 0% 50%;
   }
-`
-
-const AnimationContainer = styled(animated.div)`
-  z-index: 1000;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-`
-
-const FullHeightContainer = styled(Box)`
-  z-index: 1000;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
 `
 
 const FullPageGradient = styled(Box)`
@@ -75,39 +57,24 @@ class LoadingBolt extends React.PureComponent {
     const { isLoading, message, onClose, hasClose } = this.props
 
     return (
-      <Transition
-        enter={{ opacity: 1 }}
-        from={{ opacity: 1 }}
-        items={isLoading}
-        leave={{ opacity: 0 }}
-        native
-      >
-        {show =>
-          show &&
-          (springStyles => (
-            <AnimationContainer style={springStyles}>
-              <FullPageGradient color="primaryText">
-                <FullHeightContent
-                  alignItems="center"
-                  flexDirection="column"
-                  justifyContent="center"
-                  pt={3}
-                  px={3}
-                >
-                  <CloudLightning height="140px" width="140px" />
-                  <Heading.h2 mt={4}>
-                    <FormattedMessage {...message} />
-                  </Heading.h2>
-                </FullHeightContent>
-                {hasClose && (
-                  <FullHeightContainer pt={3} px={3}>
-                    <CloseButton onClick={onClose} />
-                  </FullHeightContainer>
-                )}
-              </FullPageGradient>
-            </AnimationContainer>
-          ))
-        }
+      <Transition isLoading={isLoading}>
+        <FullPageGradient color="primaryText">
+          <FullHeightContent
+            alignItems="center"
+            flexDirection="column"
+            justifyContent="center"
+            pt={3}
+            px={3}
+          >
+            <CloudLightning height="140px" width="140px" />
+            <Heading.h2 mt={4}>
+              <FormattedMessage {...message} />
+            </Heading.h2>
+          </FullHeightContent>
+          {hasClose && (
+            <CloseButton onClick={onClose} sx={{ position: 'absolute', right: 16, top: 16 }} />
+          )}
+        </FullPageGradient>
       </Transition>
     )
   }
