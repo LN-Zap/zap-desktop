@@ -6,6 +6,8 @@ import delay from '@zap/utils/delay'
 import createScheduler from '@zap/utils/scheduler'
 import { updaterLog } from '@zap/utils/log'
 
+autoUpdater.logger = updaterLog
+
 /**
  * @class ZapUpdater
  *
@@ -13,15 +15,12 @@ import { updaterLog } from '@zap/utils/log'
  */
 class ZapUpdater {
   constructor(mainWindow, options = {}) {
-    const settings = { ...config.autopilot, options }
-
     this.mainWindow = mainWindow
     this.isActive = false
     this.scheduler = createScheduler()
+    this.settings = {}
 
-    autoUpdater.logger = updaterLog
-    autoUpdater.channel = settings.channel
-    autoUpdater.allowDowngrade = false
+    this.configure({ ...config.autoupdate, ...options })
 
     autoUpdater.on('update-downloaded', () => {
       const opt = {
@@ -40,13 +39,28 @@ class ZapUpdater {
     })
 
     // Enable updates if needed.
-    if (settings.active && !isDev) {
+    if (this.settings.active && !isDev) {
       this.enableAutoUpdates()
+    } else {
+      updaterLog.info('Automatic updates not enabled')
     }
 
     ipcMain.on('configureAutoUpdater', (event, settings) => {
-      settings.active ? this.enableAutoUpdates() : this.disableAutoUpdates()
+      this.configure(settings)
+      this.settings.active ? this.enableAutoUpdates() : this.disableAutoUpdates()
     })
+  }
+
+  /**
+   * configure - Configure the auto updater.
+   *
+   * @param {object} settings Settings
+   */
+  configure(settings) {
+    Object.assign(this.settings, settings)
+
+    autoUpdater.channel = this.settings.channel
+    autoUpdater.allowDowngrade = false
   }
 
   /**
@@ -57,16 +71,18 @@ class ZapUpdater {
       return
     }
     try {
-      updaterLog.info('Automatic Updates enabled')
-      this.isActive = true
+      updaterLog.info('Automatic updates enabled')
       autoUpdater.checkForUpdates()
       this.scheduler.addTask({
         taskId: 'checkForUpdates',
         task: () => autoUpdater.checkForUpdates(),
-        baseDelay: config.autoupdate.interval,
+        baseDelay: this.settings.interval,
       })
+      this.isActive = true
     } catch (error) {
-      updaterLog.warn('Cannot check for updates', error.message)
+      updaterLog.warn('There was a problem enabling auto updates: %s', error.message)
+      this.isActive = false
+      this.scheduler.removeAllTasks()
     }
   }
 
@@ -77,8 +93,13 @@ class ZapUpdater {
     if (!this.isActive || isDev) {
       return
     }
-    this.scheduler.removeTask('checkForUpdates')
-    updaterLog.info('Automatic Updates disabled')
+    try {
+      this.scheduler.removeAllTasks()
+      this.isActive = false
+      updaterLog.info('Automatic updates disabled')
+    } catch (error) {
+      updaterLog.warn('There was a problem disabling auto updates: %s', error.message)
+    }
   }
 }
 

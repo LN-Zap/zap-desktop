@@ -42,7 +42,7 @@ class Notification extends React.Component {
     return (
       <Card
         borderRadius="5px"
-        boxShadow="0 3px 4px 0 rgba(30, 30, 30, 0.5)"
+        boxShadow="s"
         css={`
           cursor: pointer;
         `}

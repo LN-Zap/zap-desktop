@@ -1,4 +1,7 @@
 import createThemeVariant from '../util'
 import colors from './colors'
+import shadows from './shadows'
 
-export default createThemeVariant('light', colors)
+const theme = createThemeVariant('light', { colors, shadows })
+
+export default theme

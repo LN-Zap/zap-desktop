@@ -1,27 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { RadioGroup as InformedRadioGroup } from 'informed'
-import Label from './Label'
-import Span from './Span'
+import InputLabel from './InputLabel'
 import Text from './Text'
 
-const RadioGroup = ({ label, field, description, isRequired, children, ...rest }) => (
+const RadioGroup = ({ label, field, description, isRequired, tooltip, children, ...rest }) => (
   <>
     {label && (
-      <Label htmlFor={field} mb={2}>
+      <InputLabel field={field} isRequired={isRequired} tooltip={tooltip}>
         {label}
-        {isRequired && (
-          <Span
-            css={`
-              vertical-align: top;
-            `}
-            fontSize="s"
-          >
-            {' '}
-            *
-          </Span>
-        )}
-      </Label>
+      </InputLabel>
     )}
 
     <InformedRadioGroup field={field} required={isRequired} {...rest}>
@@ -42,6 +30,7 @@ RadioGroup.propTypes = {
   field: PropTypes.string.isRequired,
   isRequired: PropTypes.bool,
   label: PropTypes.node,
+  tooltip: PropTypes.string,
 }
 
 export default RadioGroup

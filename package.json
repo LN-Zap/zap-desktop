@@ -1,7 +1,7 @@
 {
   "name": "zap-desktop",
   "productName": "Zap",
-  "version": "0.5.1-beta",
+  "version": "0.5.3-beta",
   "description": "desktop application for the lightning network",
   "scripts": {
     "build": "cross-env NODE_CONFIG_ENV=production webpack -r @babel/register --config webpack/webpack.config.prod.js",
@@ -44,7 +44,7 @@
   },
   "config": {
     "lnd-binary": {
-      "binaryVersion": "0.7.0-beta-rc3-1-gf366eed4",
+      "binaryVersion": "0.7.1-beta-3-g26af2265",
       "binarySite": "https://github.com/LN-Zap/lnd/releases/download"
     }
   },
@@ -138,8 +138,7 @@
         {
           "target": "nsis",
           "arch": [
-            "x64",
-            "ia32"
+            "x64"
           ]
         }
       ]
@@ -150,17 +149,9 @@
       "icon": "resources/linux",
       "target": [
         {
-          "target": "deb",
-          "arch": [
-            "x64",
-            "ia32"
-          ]
-        },
-        {
           "target": "AppImage",
           "arch": [
-            "x64",
-            "ia32"
+            "x64"
           ]
         }
       ],
@@ -168,7 +159,6 @@
         "Comment": "Zap - Lightning wallet",
         "Icon": "zap",
         "Name": "Zap",
-        "Path": "/opt/zap",
         "StartupNotify": "true",
         "Terminal": "false",
         "Type": "Application",
@@ -245,7 +235,7 @@
     "babel-plugin-module-resolver": "3.2.0",
     "babel-plugin-react-intl": "3.3.3",
     "babel-plugin-react-intl-auto": "1.7.0",
-    "babel-plugin-styled-components": "1.10.1",
+    "babel-plugin-styled-components": "1.10.6",
     "babel-plugin-transform-react-pure-class-to-function": "1.0.1",
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
     "browserslist": "4.6.3",
@@ -256,7 +246,7 @@
     "cross-env": "5.2.0",
     "cross-spawn": "6.0.5",
     "csp-html-webpack-plugin": "3.0.2",
-    "electron": "5.0.6",
+    "electron": "5.0.9",
     "electron-builder": "20.41.0",
     "electron-devtools-installer": "2.2.4",
     "electron-updater": "4.0.6",
@@ -340,7 +330,7 @@
     "informed": "2.11.7",
     "is-electron-renderer": "2.0.1",
     "jstimezonedetect": "1.0.6",
-    "lnd-grpc": "0.3.0-4",
+    "lnd-grpc": "0.3.0-beta.5",
     "lndconnect": "0.2.7",
     "lodash": "4.17.14",
     "node-fetch": "2.6.0",

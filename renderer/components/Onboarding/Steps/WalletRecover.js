@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
-import { Bar, Form, Header, Message, Input, Spinner, Text } from 'components/UI'
+import { Bar, Form, Header, Input, Spinner, Text } from 'components/UI'
 import ErrorDialog from './components/ErrorDialog'
 import messages from './messages'
 
@@ -131,16 +131,15 @@ class WalletRecover extends React.Component {
                       willAutoFocus
                     />
                   ) : (
-                    <Message variant="error">{createWalletError}</Message>
+                    <ErrorDialog
+                      error={createWalletError}
+                      isOpen={Boolean(createWalletError)}
+                      isRestoreMode
+                      onClose={this.resetOnboarding}
+                    />
                   )}
                 </>
               )}
-              <ErrorDialog
-                error={createWalletError}
-                isOpen={Boolean(createWalletError)}
-                isRestoreMode
-                onClose={this.resetOnboarding}
-              />
             </>
           )
         }}

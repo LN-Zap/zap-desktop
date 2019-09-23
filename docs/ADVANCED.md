@@ -14,7 +14,7 @@
 
 To compile the Zap wallet, you will need:
 
-- **[Node.js version >= 8](https://nodejs.org)** and **[npm version >= 5](https://www.npmjs.com)**
+- **[Node.js version >= 12](https://nodejs.org)** and **[npm version >= 5](https://www.npmjs.com)**
 - **[yarn](https://yarnpkg.com/lang/en/docs/install/)**
 
 ### Downloading Zap
@@ -53,8 +53,7 @@ To setup your own `lnd` for use with Zap please follow the instructions on the [
 To test that everything has been installed correctly:
 
 ```bash
-npm run build
-npm run test
+yarn test
 ```
 
 ### Running
@@ -62,7 +61,7 @@ npm run test
 To run Zap in development mode:
 
 ```bash
-npm run dev
+yarn dev
 ```
 
 ### Linting
@@ -70,12 +69,26 @@ npm run dev
 To check linting:
 
 ```bash
-npm run lint
+yarn lint
+```
+
+### Packaging
+
+To build a production ready version of the app for your target platform:
+
+```bash
+yarn package --mac // Build for mac
+yarn package --win // Build for windows
+yarn package --linux // Build for linux
 ```
 
 ### Debugging
 
 See [DEBUGGING.md](./DEBUGGING.md)
+
+### Configuration
+
+See [CONFIG.md](./CONFIG.md)
 
 [issues]: https://github.com/LN-Zap/zap-desktop/issues
 [slack]: https://join.slack.com/t/zaphq/shared_invite/enQtMzMxMzIzNDU0NTY3LTgyM2QwYzAyZTA5OTAyMjEwMTQxZmZmZmZkNWUzMTU2MmMyNmMxNjY4Y2VjY2FiYTRkMTkwMTRlMTE4YjM2MWY

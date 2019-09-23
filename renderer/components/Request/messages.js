@@ -23,4 +23,6 @@ export default defineMessages({
   title: 'Receive',
   description:
     'Zap will generate a QR-Code and a lightning invoice so that you can receive {chain} ({ticker}) through the Lightning Network.',
+  expires: 'Expires',
+  expired: 'Expired',
 })

@@ -19,12 +19,14 @@ const WALLET_UNLOCKER_TIMEOUT = 1000 * 60
 
 /**
  * LND gRPC wrapper.
- * @extends EventEmitter
+ *
+ * @augments EventEmitter
  */
 class ZapGrpc extends EventEmitter {
   /**
    * State properties that should be reset after a disconnect.
-   * @type {Object}
+   *
+   * @type {object}
    */
   static VOLATILE_STATE = {
     options: {},
@@ -96,7 +98,7 @@ class ZapGrpc extends EventEmitter {
       )
       return await promiseTimeout(WALLET_UNLOCKER_TIMEOUT, grpc.activateLightning())
     } catch (e) {
-      grpcLog.debug(`Error when trying to connect to LND grpc: %o`, e)
+      grpcLog.error(`Error when trying to connect to LND grpc: %o`, e)
       throw e
     }
   }
@@ -116,7 +118,7 @@ class ZapGrpc extends EventEmitter {
       )
       return await promiseTimeout(WALLET_UNLOCKER_TIMEOUT, grpc.activateLightning())
     } catch (e) {
-      grpcLog.debug(`Error when trying to create wallet: %o`, e)
+      grpcLog.error(`Error when trying to create wallet: %o`, e)
       throw e
     }
   }

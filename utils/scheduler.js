@@ -41,30 +41,44 @@ async function retry({
  *
  * Schedulers allow to add and remove tasks with flat or backoff schedules.
  *
- * @returns {*} Schedular
+ * @returns {*} Scheduler
  */
 export default function createScheduler() {
   const taskList = {}
+  const cancelledTasks = {}
+  // internal task id generator
+  let taskIdGen = 0
 
   /**
    * onCancelComplete - Physically removes `taskDefinition` from the execution queue.
    *
-   * @param {string|Function} task - either original callback or `taskId`
+   * @param {number} internalId - internal task id
    */
-  const onCancelComplete = task => {
-    const taskDesc = findTask(task)
+  const onCancelComplete = internalId => {
+    const taskDesc = findTask(internalId)
     if (taskDesc) {
       const keyToRemove = Object.keys(taskList).find(key => taskList[key] === taskDesc)
       if (keyToRemove) {
         delete taskList[keyToRemove]
       }
     }
+
+    delete cancelledTasks[internalId]
+  }
+
+  /**
+   * genInternalId - Generates unique task id.
+   *
+   *  @returns {number} unique task id
+   */
+  const genInternalId = () => {
+    return ++taskIdGen
   }
 
   /**
    * findTask - Searches for the `taskDefinition` is in the execution queue.
    *
-   * @param {string|Function} task - either original callback or `taskId`
+   * @param {string|Function|number} task - either original callback, `taskId` or internal task id
    * @returns {*} Task definition
    */
   const findTask = task => {
@@ -75,7 +89,17 @@ export default function createScheduler() {
     }
 
     // else try to find by task callback
-    return Object.values(taskList).find(entry => entry.task === task)
+    return Object.values(taskList).find(entry => entry.internalId === task || entry.task === task)
+  }
+
+  /**
+   * isCancelled - Checks whether task is in cancellation queue.
+   *
+   * @param {number} internalId - internal task id assigned during its creation
+   * @returns {boolean} true if task is pending cancellation
+   */
+  const isCancelled = internalId => {
+    return cancelledTasks[internalId]
   }
 
   /**
@@ -99,16 +123,38 @@ export default function createScheduler() {
       return taskDesc && taskDesc.task
     }
 
-    const checkIsCancelled = () => !isScheduled(taskId || task)
-    taskList[taskId || task] = { isCancelled: false, task }
+    // general unique task id so we can keep
+    // track of its state even after it's removed from
+    // the processing queue
+    const internalId = genInternalId()
+    // if we are scheduling under the existing `taskId` cancel prev one first
+    if (taskId && isScheduled(taskId)) {
+      removeTask(taskId)
+    }
+
+    const checkIsCancelled = () => isCancelled(internalId) || !isScheduled(taskId || task)
+
+    taskList[taskId || task] = { isCancelled: false, task, internalId }
+
     retry({
       getTask,
       baseDelay,
       maxDelay,
       checkIsCancelled,
       backoff,
-      onCancelComplete: () => onCancelComplete(task),
+      onCancelComplete: () => onCancelComplete(internalId),
     })
+  }
+
+  /**
+   * cancelTask - Internal helper that sets `taskDesc` to a cancelled state and adds task to a
+   * `cancelledTasks` list.
+   *
+   *  @param {object} taskDesc  one of `taskList` values
+   */
+  const cancelTask = taskDesc => {
+    taskDesc.isCancelled = true
+    cancelledTasks[taskDesc.internalId] = true
   }
 
   /**
@@ -120,7 +166,7 @@ export default function createScheduler() {
   const removeTask = task => {
     const taskDesc = findTask(task)
     if (taskDesc) {
-      taskDesc.isCancelled = true
+      cancelTask(taskDesc)
       return true
     }
     return false
@@ -130,7 +176,7 @@ export default function createScheduler() {
    * removeAllTasks - Clears the entire execution queue.
    */
   const removeAllTasks = () => {
-    Object.keys(taskList).forEach(removeTask)
+    Object.values(taskList).forEach(cancelTask)
   }
 
   /**
@@ -145,6 +191,7 @@ export default function createScheduler() {
   }
 
   return {
+    taskList,
     addTask,
     removeTask,
     removeAllTasks,

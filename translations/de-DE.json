@@ -427,6 +427,8 @@
   "components.Request.copy_button_text": "Rechnung kopieren",
   "components.Request.current_value": "Aktueller Wert",
   "components.Request.description": "Du kannst {chain} ({ticker}) über das Lightning Network anfordern. Geben Sie einfach den Betrag ein, den Sie im Feld unten anfordern möchten. Zap generiert einen QR-Code und eine Lightning Rechnung danach.",
+  "components.Request.expired": "Abgelaufen",
+  "components.Request.expires": "Endet",
   "components.Request.memo": "Memo",
   "components.Request.memo_placeholder": "Zum Beispiel \"Dinner letzte Nacht\"",
   "components.Request.memo_tooltip": "Fügen Sie Ihrem Zahlungsantrag einen Text hinzu, der beim Bezahlen angezeigt wird.",

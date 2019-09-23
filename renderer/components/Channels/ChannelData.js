@@ -154,11 +154,12 @@ const ChannelData = ({ channel, cryptoUnitName, intl, networkInfo, viewMode, ...
       ),
     }),
   }
-
+  // Channel is closing
+  const isClosing = Boolean(closing_txid)
   // Determine which of the properties we will display based on the active view mode.
   const candidateProps =
     viewMode === CHANNEL_DATA_VIEW_MODE_BASIC
-      ? ['channel_point', 'num_updates', 'csv_delay', 'activity']
+      ? [isClosing ? 'closing_txid' : 'channel_point', 'num_updates', 'csv_delay', 'activity']
       : [
           'channel_point',
           'fundingTxTimestamp',

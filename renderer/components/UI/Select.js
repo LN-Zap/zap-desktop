@@ -4,6 +4,7 @@ import { asField } from 'informed'
 import { compose } from 'redux'
 import { injectIntl, intlShape } from 'react-intl'
 import styled, { withTheme } from 'styled-components'
+import { themeGet } from 'styled-system'
 import Downshift from 'downshift'
 import { Box, Flex } from 'rebass'
 import system from '@rebass/components'
@@ -13,6 +14,7 @@ import AngleUp from 'components/Icon/AngleUp'
 import AngleDown from 'components/Icon/AngleDown'
 import Text from './Text'
 import { BasicInput } from './Input'
+import InputLabel from './InputLabel'
 import messages from './messages'
 
 const SelectOptionList = styled.ul`
@@ -28,7 +30,7 @@ const SelectOptionList = styled.ul`
   transition: opacity 0.1s ease;
   background-color: ${props => props.theme.colors.secondaryColor};
   border-radius: 5px;
-  box-shadow: 0 3px 4px 0 rgba(30, 30, 30, 0.5);
+  box-shadow: ${themeGet('shadows.s')};
 `
 
 const SelectOptionItem = styled(
@@ -115,7 +117,11 @@ const Select = props => {
     fieldApi,
     fieldState,
     iconSize,
+    isRequired,
     theme,
+    label,
+    field,
+    tooltip,
     color,
     onValueSelected,
     initialSelectedItem: initialSelectedItemOriginal,
@@ -176,8 +182,15 @@ const Select = props => {
 
         return (
           <div style={{ position: 'relative' }}>
+            {label && (
+              <InputLabel field={field} isRequired={isRequired} tooltip={tooltip}>
+                {label}
+              </InputLabel>
+            )}
             <Flex alignItems="center">
               <StyledInput
+                field={field}
+                isRequired={isRequired}
                 placeholder={intl.formatMessage({ ...messages.select_placeholder })}
                 {...rest}
                 initialValue={getInitialValue()}
@@ -208,15 +221,19 @@ const Select = props => {
 
 Select.propTypes = {
   color: PropTypes.string,
+  field: PropTypes.string.isRequired,
   fieldApi: PropTypes.object.isRequired,
   fieldState: PropTypes.object.isRequired,
   iconSize: PropTypes.number,
   initialSelectedItem: PropTypes.string,
   intl: intlShape.isRequired,
+  isRequired: PropTypes.bool,
   items: PropTypes.array,
+  label: PropTypes.string,
   messageMapper: PropTypes.func,
   onValueSelected: PropTypes.func,
   theme: PropTypes.object.isRequired,
+  tooltip: PropTypes.string,
 }
 
 Select.defaultProps = {

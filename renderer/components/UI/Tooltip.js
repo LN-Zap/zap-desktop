@@ -73,7 +73,7 @@ class Tooltip extends React.Component {
             bg="secondaryColor"
             border="1px solid gray"
             borderRadius={5}
-            boxShadow="0 3px 4px 0 rgba(30, 30, 30, 0.5)"
+            boxShadow="s"
             p={2}
             pl={3}
           >

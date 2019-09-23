@@ -14,7 +14,6 @@ exports[`component.UI.Sidebar should render correctly 1`] = `
   -ms-flex-direction: column;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 0 2px 24px 0 rgba(0,0,0,0.5);
   z-index: 1;
 }
 

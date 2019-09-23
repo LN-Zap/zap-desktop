@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { themeGet } from 'styled-system'
 import { Flex } from 'rebass'
 import { BasicCheckbox, asField } from 'informed'
 import Text from './Text'
@@ -43,7 +44,7 @@ const Wrapper = styled.div`
     background-color: white;
     transition: 0.4s;
     border-radius: 50%;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    box-shadow: ${themeGet('shadows.xs')};
   }
 
   input:checked + .slider {

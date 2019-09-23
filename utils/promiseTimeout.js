@@ -3,19 +3,20 @@
  *
  * @param {number} ms Timeout (ms)
  * @param {Promise} promise Promise to timeout
+ * @param {string} message messaged passed to the reject promise
  * @returns {Promise} Promise that rejects in <ms> milliseconds
  */
-const promiseTimeout = function(ms, promise) {
+export default function(ms, promise, message = 'Timed out') {
   // Create a promise that rejects in <ms> milliseconds
-  let timeout = new Promise((resolve, reject) => {
-    let id = setTimeout(() => {
-      clearTimeout(id)
-      reject(`Timed out.`)
-    }, ms)
+  let timerId
+
+  const timeout = new Promise((resolve, reject) => {
+    timerId = setTimeout(() => reject(new Error(message)), ms)
   })
-
+  const clearTimer = value => {
+    timerId && clearTimeout(timerId)
+    return value
+  }
   // Returns a race between our timeout and the passed in promise
-  return Promise.race([promise, timeout])
+  return Promise.race([promise, timeout]).finally(clearTimer)
 }
-
-export default promiseTimeout

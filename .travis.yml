@@ -10,7 +10,7 @@ os:
   - osx
 
 language: node_js
-node_js: stable
+node_js: '12'
 
 cache:
   apt: true
@@ -52,13 +52,6 @@ script:
     yarn test-ci
     yarn coveralls || travis_terminate 1
     set +e
-
-after_success:
-  - test $TRAVIS_REPO_SLUG = 'LN-Zap/zap-desktop' &&
-    test $TRAVIS_BRANCH = "master" &&
-    test $TRAVIS_PULL_REQUEST = "false" &&
-    test $TRAVIS_OS_NAME = "osx" &&
-    yarn storybook:deploy -r https://$GH_TOKEN@github.com/$TRAVIS_REPO_SLUG.git
 
 after_failure:
   - artifacts upload ./screenshots
