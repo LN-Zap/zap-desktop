@@ -4,9 +4,14 @@ import delay from '@zap/utils/delay'
 import { initDb } from '@zap/renderer/store/db'
 import { getIntl } from '@zap/i18n'
 import { showError } from 'reducers/notification'
-import { tickerSelectors } from './ticker'
-import { setIsWalletOpen, walletSelectors } from './wallet'
-import { setTheme, themeSelectors } from './theme'
+import { initCurrency, tickerSelectors } from './ticker'
+import { initWallets, setIsWalletOpen, walletSelectors } from './wallet'
+import { initTheme, setTheme, themeSelectors } from './theme'
+import { initAccount } from 'reducers/account'
+import { initLocale } from 'reducers/locale'
+import { initNeutrino } from 'reducers/neutrino'
+import { initAutopay } from 'reducers/autopay'
+import { initChannels } from 'reducers/channels'
 import { stopLnd } from './lnd'
 import { openModal } from './modal'
 import createReducer from './utils/createReducer'
@@ -115,6 +120,22 @@ export const initDatabase = () => async dispatch => {
       })
     )
   }
+}
+
+/**
+ * initRoot - Initialize app root.
+ *
+ * @returns {Function} Thunk
+ */
+export const initRoot = () => async dispatch => {
+  dispatch(initTheme())
+  dispatch(initAccount())
+  dispatch(initNeutrino())
+  dispatch(initLocale())
+  dispatch(initCurrency())
+  dispatch(initAutopay())
+  dispatch(initWallets())
+  dispatch(initChannels())
 }
 
 // ------------------------------------
