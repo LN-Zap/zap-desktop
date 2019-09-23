@@ -99,7 +99,7 @@ class WalletRecover extends React.Component {
         onSubmitFailure={onSubmitFailure}
       >
         {({ formState }) => {
-          const shouldValidateInline = formState.submits > 0
+          const willValidateInline = formState.submits > 0
           return (
             <>
               <Header
@@ -126,8 +126,8 @@ class WalletRecover extends React.Component {
                       isRequired
                       label={<FormattedMessage {...messages.passphrase_label} />}
                       placeholder={intl.formatMessage({ ...messages.passphrase_placeholder })}
-                      validateOnBlur={shouldValidateInline}
-                      validateOnChange={shouldValidateInline}
+                      validateOnBlur={willValidateInline}
+                      validateOnChange={willValidateInline}
                       willAutoFocus
                     />
                   ) : (
