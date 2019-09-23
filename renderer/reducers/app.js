@@ -119,6 +119,22 @@ export const initDatabase = () => async dispatch => {
   }
 }
 
+/**
+ * initRoot - Initialize app root.
+ *
+ * @returns {Function} Thunk
+ */
+export const initRoot = () => async dispatch => {
+  dispatch(initTheme())
+  dispatch(initAccount())
+  dispatch(initNeutrino())
+  dispatch(initLocale())
+  dispatch(initCurrency())
+  dispatch(initAutopay())
+  dispatch(initWallets())
+  dispatch(initChannels())
+}
+
 // ------------------------------------
 // IPC
 // ------------------------------------
