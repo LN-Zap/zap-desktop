@@ -13,7 +13,10 @@ import { isValidBtcPayConfig, isEmbeddedLndConnectURI } from '@zap/utils/connect
 import parseConnectionString from '@zap/utils/btcpayserver'
 import { Bar, Button, Heading, Text, ActionBar } from 'components/UI'
 import { Form } from 'components/Form'
-import WalletSettingsFormLocal from './WalletSettingsFormLocal'
+import WalletSettingsFormLocal, {
+  validateNeutrinoNodes,
+  sanitizeNeutrinoNodes,
+} from './WalletSettingsFormLocal'
 import WalletSettingsFormRemote from './WalletSettingsFormRemote'
 import WalletHeader from './WalletHeader'
 import messages from './messages'
@@ -62,7 +65,7 @@ const formToWalletFormat = values => {
 
   // Sanitize neutrinoNodes
   if (neutrinoNodes) {
-    result.neutrinoNodes = neutrinoNodes.filter(Boolean).map(n => n.trim())
+    result.neutrinoNodes = sanitizeNeutrinoNodes(neutrinoNodes)
   }
 
   return result
@@ -163,6 +166,10 @@ class WalletLauncher extends React.Component {
     startLndError: PropTypes.object,
     stopLnd: PropTypes.func.isRequired,
     wallet: PropTypes.object.isRequired,
+  }
+
+  state = {
+    isValidating: false,
   }
 
   componentDidMount() {
@@ -289,6 +296,17 @@ class WalletLauncher extends React.Component {
         }
       }
 
+      const {
+        wallet: { chain, network },
+      } = this.props
+      // do not explicitly save neutrino config if it wasn't changed
+      if (isEqual(result.neutrinoNodes, config.lnd.neutrino[chain][network])) {
+        delete result.neutrinoNodes
+        formApi.setValue('neutrinoNodes', config.lnd.neutrino[chain][network])
+      } else {
+        formApi.setValue('neutrinoNodes', result.neutrinoNodes)
+      }
+
       putWallet(result)
 
       const message = intl.formatMessage({ ...messages.saved_notification })
@@ -304,6 +322,19 @@ class WalletLauncher extends React.Component {
   resetForm = () => {
     const { formApi } = this
     formApi.reset()
+  }
+
+  validateNeutrinoNodes = async () => {
+    try {
+      this.setState({
+        isValidating: true,
+      })
+      return await validateNeutrinoNodes(this.formApi)
+    } finally {
+      this.setState({
+        isValidating: false,
+      })
+    }
   }
 
   setFormApi = formApi => {
@@ -368,6 +399,7 @@ class WalletLauncher extends React.Component {
 
   render() {
     const { wallet, isStartingLnd, isNeutrinoRunning, ...rest } = this.props
+    const { isValidating } = this.state
     const actionBarButtons = formState => (
       <>
         <Button key="cancel" mr={6} onClick={this.resetForm} type="button" variant="secondary">
@@ -376,7 +408,8 @@ class WalletLauncher extends React.Component {
 
         <Button
           key="save"
-          isDisabled={formState.submits > 0 && formState.invalid}
+          isDisabled={(formState.submits > 0 && formState.invalid) || isValidating}
+          isProcessing={isValidating}
           type="submit"
           variant="normal"
         >
@@ -389,7 +422,12 @@ class WalletLauncher extends React.Component {
 
     return (
       <Box {...rest}>
-        <Form getApi={this.setFormApi} initialValues={walletConverted} onSubmit={this.saveSettings}>
+        <Form
+          asyncValidators={[this.validateNeutrinoNodes]}
+          getApi={this.setFormApi}
+          initialValues={walletConverted}
+          onSubmit={this.saveSettings}
+        >
           {({ formState }) => (
             <Box>
               <Flex alignItems="center" mb={4}>
