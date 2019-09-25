@@ -423,7 +423,7 @@
   "components.Request.address_copied_notification_description": "La demande de paiement a été copiée dans votre presse-papiers",
   "components.Request.address_copied_notification_title": "Adresse copiée",
   "components.Request.amount": "Montant",
-  "components.Request.button_text": "Demande de paiement",
+  "components.Request.button_text": "Demander",
   "components.Request.copy_button_text": "Copier la demande",
   "components.Request.current_value": "Valeur actuelle",
   "components.Request.description": "Zap va générer un QR Code et une demande Lightning afin que vous puissiez recevoir {chain} ({ticker}) sur le réseau Lightning.",
