@@ -1,14 +1,59 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import config from 'config'
 import { compose } from 'redux'
 import { withFormApi, withFormState } from 'informed'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass/styled-components'
+import uniq from 'lodash/uniq'
 import { intlShape } from '@zap/i18n'
 import { Bar, Button, DataRow, Text } from 'components/UI'
-import { Input, Label, Toggle } from 'components/Form'
+import { Input, Label, Toggle, TextArea, FieldLabelFactory } from 'components/Form'
 import messages from './messages'
 import AutopilotAllocation from './AutopilotAllocation'
+
+const FieldLabel = FieldLabelFactory(messages)
+
+// de-dupes, trims, removes empty neutrino hosts
+export const sanitizeNeutrinoNodes = nodes => uniq(nodes.filter(Boolean).map(n => n.trim()))
+
+// performs current neutrino nodes urls validation
+export const validateNeutrinoNodes = async formApi => {
+  const field = 'neutrinoNodes'
+  const value = sanitizeNeutrinoNodes(formApi.getValue(field))
+  if (!value) {
+    return
+  }
+
+  const validatorWrapper = async host => {
+    try {
+      return await window.Zap.validateHost(host)
+    } catch (e) {
+      return e.toString()
+    }
+  }
+
+  const result = await Promise.all(value.map(validatorWrapper))
+
+  if (result.every(v => v === true)) {
+    formApi.setError(field, undefined)
+  } else {
+    // display first error
+    formApi.setError(field, result.find(v => v !== true))
+  }
+}
+
+// informed parser for neutrinoNodes field
+const parseNeutrinoNodes = value => {
+  if (Array.isArray(value)) {
+    return value
+  }
+
+  return value.split('\n')
+}
+
+// informed formatter for neutrinoNodes field
+const formatNeutrinoNodes = value => value.join('\n')
 
 class WalletSettingsFormLocal extends React.Component {
   static propTypes = {
@@ -25,6 +70,17 @@ class WalletSettingsFormLocal extends React.Component {
     Object.entries(autopilotDefaults).forEach(([field, value]) => {
       formApi.setValue(field, value)
     })
+  }
+
+  resetNeutrinoSettings = () => {
+    const { formApi, wallet } = this.props
+    const { chain, network } = wallet
+    formApi.setValue('neutrinoNodes', config.lnd.neutrino[chain][network])
+  }
+
+  validateHost = async () => {
+    const { formApi, formState } = this.props
+    return formState.submits && (await validateNeutrinoNodes(formApi))
   }
 
   render() {
@@ -57,16 +113,7 @@ class WalletSettingsFormLocal extends React.Component {
           <Bar mb={4} mt={2} />
 
           <DataRow
-            left={
-              <>
-                <Label htmlFor="name" mb={2}>
-                  <FormattedMessage {...messages.wallet_settings_name_label} />
-                </Label>
-                <Text color="gray" fontWeight="light">
-                  <FormattedMessage {...messages.wallet_settings_name_description} />
-                </Text>
-              </>
-            }
+            left={<FieldLabel itemKey="wallet_settings_name" />}
             py={2}
             right={
               <Input
@@ -86,16 +133,7 @@ class WalletSettingsFormLocal extends React.Component {
           />
 
           <DataRow
-            left={
-              <>
-                <Label htmlFor="alias" mb={2}>
-                  <FormattedMessage {...messages.wallet_settings_alias_label} />
-                </Label>
-                <Text color="gray" fontWeight="light">
-                  <FormattedMessage {...messages.wallet_settings_alias_description} />
-                </Text>
-              </>
-            }
+            left={<FieldLabel itemKey="wallet_settings_alias" />}
             py={2}
             right={
               <Input
@@ -114,6 +152,32 @@ class WalletSettingsFormLocal extends React.Component {
           />
         </Box>
 
+        <Box as="section" mb={4}>
+          <Text fontWeight="normal">
+            <FormattedMessage {...messages.section_naming_connections} />
+          </Text>
+          <Bar mb={4} mt={2} />
+          <DataRow
+            left={<FieldLabel itemKey="neutrinoUrl" tooltip="neutrinoUrl_tooltip" />}
+            right={
+              <TextArea
+                field="neutrinoNodes"
+                format={formatNeutrinoNodes}
+                highlightOnValid={false}
+                initialValue={config.lnd.neutrino[chain][network]}
+                onBlur={this.validateHost}
+                onChange={this.validateHost}
+                parse={parseNeutrinoNodes}
+                width={300}
+              />
+            }
+          />
+          <Flex justifyContent="center" my={4}>
+            <Button onClick={this.resetNeutrinoSettings} size="small" type="button">
+              <FormattedMessage {...messages.wallet_settings_reset_neutrino_button_text} />
+            </Button>
+          </Flex>
+        </Box>
         <Box as="section" mb={4}>
           <DataRow
             left={

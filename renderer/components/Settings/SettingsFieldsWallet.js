@@ -4,11 +4,12 @@ import { injectIntl } from 'react-intl'
 import map from 'lodash/map'
 import get from 'lodash/get'
 import { Bar, DataRow } from 'components/UI'
-import { Select, Toggle } from 'components/Form'
+import { Select, Toggle, FieldLabelFactory, PositiveIntegerField } from 'components/Form'
 import { getSupportedProviders } from '@zap/utils/rateProvider'
 import { intlShape } from '@zap/i18n'
-import { FieldLabel, PositiveIntegerField } from './SettingsFieldHelpers'
 import messages from './messages'
+
+const FieldLabel = FieldLabelFactory(messages)
 
 const addressItems = [{ key: 'p2wkh' }, { key: 'np2wkh' }]
 const addressMessageMapper = key => {

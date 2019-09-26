@@ -2,9 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { currencies, locales, getLanguageName } from '@zap/i18n'
 import { Bar, DataRow } from 'components/UI'
-import { Toggle, Select } from 'components/Form'
-import { FieldLabel } from './SettingsFieldHelpers'
+import { Toggle, Select, FieldLabelFactory } from 'components/Form'
 import messages from './messages'
+
+const FieldLabel = FieldLabelFactory(messages)
 
 const localeItems = locales.map(lang => ({
   key: lang,

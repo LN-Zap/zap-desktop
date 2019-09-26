@@ -6,6 +6,7 @@ import lndconnect from 'lndconnect'
 import fs from 'fs'
 import util from 'util'
 import pick from 'lodash/pick'
+import get from 'lodash/get'
 import config from 'config'
 import { mainLog } from '@zap/utils/log'
 import getLndListen from '@zap/utils/getLndListen'
@@ -56,6 +57,13 @@ class LndConfig {
         enumerable: true,
         get() {
           return `wallet-${this.id}`
+        },
+      },
+      neutrinoNodes: {
+        enumerable: true,
+        get() {
+          const { chain, network } = options
+          return options.neutrinoNodes || get(config.lnd.neutrino, [chain, network], undefined)
         },
       },
       lndconnectQRCode: {

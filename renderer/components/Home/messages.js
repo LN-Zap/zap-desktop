@@ -8,6 +8,7 @@ export default defineMessages({
   section_basic_title: 'Basic',
   section_autopilot_title: 'Autopilot',
   section_naming_title: 'Naming',
+  section_naming_connections: 'Connections',
   section_delete_title: 'Delete',
   section_connection_details: 'Connection details',
   create_wallet_button_text: 'Create new wallet',
@@ -52,4 +53,9 @@ export default defineMessages({
   macaroon_description: 'Path to the lnd macaroon file.',
   hide_connection_string: 'Hide connection string',
   connection_string: 'Connection string',
+  neutrinoUrl_label: 'Neutrino nodes',
+  neutrinoUrl_description: 'Neutrino compliant node addresses',
+  neutrinoUrl_tooltip:
+    'Connect only to the specified peers at startup. Each URL must start from new line.',
+  wallet_settings_reset_neutrino_button_text: 'Set neutrino settings to default',
 })
