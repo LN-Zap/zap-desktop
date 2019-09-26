@@ -264,7 +264,7 @@
   "components.Home.network": "Réseau",
   "components.Home.neutrinoUrl_description": "Adresses de nœuds compatibles à Neutrino",
   "components.Home.neutrinoUrl_label": "Nœuds Neutrino",
-  "components.Home.neutrinoUrl_tooltip": "",
+  "components.Home.neutrinoUrl_tooltip": "Se connecter uniquement à ces pairs au démarrage. Chaque adresse doit se terminer par un retour à la ligne.",
   "components.Home.no_active_wallet_message": "Veuillez sélectionner un portefeuille dans le menu.",
   "components.Home.no_wallets_message": "Hélas, vous n'avez pas de portefeuille 😢",
   "components.Home.or": "ou",
