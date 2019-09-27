@@ -27,8 +27,8 @@ const OpenDialogInput = props => {
         <Flex alignItems="center" {...spaceProps}>
           <InnerInput width={1} {...otherProps} />
           <OpenDialogButton
-            onClick={() => {
-              const result = openDialog(mode)
+            onClick={async () => {
+              const result = await openDialog(mode)
               //set value only if something was selected to avoid
               //overriding an existing state
               if (result) {
