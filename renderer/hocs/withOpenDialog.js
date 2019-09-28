@@ -1,3 +1,4 @@
+import { mainLog } from '@zap/utils/log'
 /**
  * Invokes electron open dialog
  */
@@ -6,18 +7,23 @@
  * openDialog - Open electron dialog.
  *
  * @param {string} mode electron dialog.showOpenDialog compatible mode
- * @returns {string[]} An array of file paths chosen by the user
+ * @returns {string|null} File path chosen by the user or `null` if dialog was cancelled/error has occurred
  */
-function openDialog(mode = 'openFile') {
-  const result = window.showOpenDialog({
-    properties: [mode],
-  })
+async function openDialog(mode = 'openFile') {
+  try {
+    const { canceled, filePaths } = await window.showOpenDialog({
+      properties: [mode],
+    })
 
-  if (result && result.length) {
-    return result[0]
+    if (!canceled && filePaths.length) {
+      return filePaths[0]
+    }
+
+    return null
+  } catch (e) {
+    mainLog.warn('openDialog error: %o', e)
+    return null
   }
-
-  return ''
 }
 
 /**
