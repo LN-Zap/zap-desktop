@@ -30,6 +30,7 @@ Snapshot Diff:
         "key": "INTERNAL_ACTIVITY",
       },
     ],
+    "hasNextPage": true,
     "isActivityLoading": false,
     "modal": Object {
       "itemId": null,
@@ -73,6 +74,7 @@ Snapshot Diff:
         "key": "INTERNAL_ACTIVITY",
       },
     ],
+    "hasNextPage": true,
 -   "isActivityLoading": false,
 +   "isActivityLoading": true,
     "modal": Object {
@@ -113,6 +115,7 @@ Snapshot Diff:
         "key": "INTERNAL_ACTIVITY",
       },
     ],
+    "hasNextPage": true,
     "isActivityLoading": false,
     "modal": Object {
       "itemId": null,
@@ -162,6 +165,7 @@ Snapshot Diff:
         "key": "INTERNAL_ACTIVITY",
       },
     ],
+    "hasNextPage": true,
     "isActivityLoading": false,
     "modal": Object {
       "itemId": null,
@@ -200,6 +204,7 @@ Snapshot Diff:
         "key": "INTERNAL_ACTIVITY",
       },
     ],
+    "hasNextPage": true,
     "isActivityLoading": false,
     "modal": Object {
 -     "itemId": null,
@@ -240,6 +245,7 @@ Snapshot Diff:
         "key": "INTERNAL_ACTIVITY",
       },
     ],
+    "hasNextPage": true,
     "isActivityLoading": false,
     "modal": Object {
       "itemId": null,
