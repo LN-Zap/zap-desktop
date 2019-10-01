@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import uniqBy from 'lodash/uniqBy'
 import { showSystemNotification } from '@zap/utils/notifications'
 import { convert } from '@zap/utils/btc'
 import { getIntl } from '@zap/i18n'
@@ -10,7 +11,6 @@ import { walletSelectors } from './wallet'
 import { settingsSelectors } from './settings'
 import createReducer from './utils/createReducer'
 import messages from './messages'
-
 // ------------------------------------
 // Initial State
 // ------------------------------------
@@ -114,19 +114,21 @@ export function sendInvoice() {
  *
  * @returns {object} Action
  */
-export const fetchInvoices = () => async dispatch => {
+export const fetchInvoices = ({ maxInvoices = 25 } = {}) => async dispatch => {
   dispatch(getInvoices())
-  const invoices = await grpc.services.Lightning.listInvoices({ num_max_invoices: 2500 })
+  const { invoices } = await grpc.services.Lightning.listInvoices({
+    num_max_invoices: maxInvoices,
+  })
   dispatch(receiveInvoices(invoices))
 }
 
 /**
  * receiveInvoices - Receive details of all invoice.
  *
- * @param {Array} data List of invoices
+ * @param {Array} invoices List of invoices
  * @returns {object} Action
  */
-export const receiveInvoices = ({ invoices }) => dispatch => {
+export const receiveInvoices = invoices => dispatch => {
   dispatch({ type: RECEIVE_INVOICES, invoices })
 }
 
@@ -235,7 +237,7 @@ const ACTION_HANDLERS = {
   },
   [RECEIVE_INVOICES]: (state, { invoices }) => {
     state.isInvoicesLoading = false
-    state.invoices = invoices
+    state.invoices = uniqBy(state.invoices.concat(invoices), 'add_index')
   },
   [SEND_INVOICE]: state => {
     state.isInvoicesLoading = true
@@ -244,6 +246,7 @@ const ACTION_HANDLERS = {
     state.isInvoicesLoading = false
     state.createInvoiceError = null
   },
+
   [INVOICE_FAILED]: (state, { error }) => {
     state.isInvoicesLoading = false
     state.createInvoiceError = error

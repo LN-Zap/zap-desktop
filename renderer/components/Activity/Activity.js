@@ -66,7 +66,11 @@ const Activity = props => {
       )
     }
     return (
-      <InfiniteLoader isRowLoaded={isRowLoaded} loadMoreRows={loadMoreRows} rowCount={999999}>
+      <InfiniteLoader
+        isRowLoaded={isRowLoaded}
+        loadMoreRows={loadMoreRows}
+        rowCount={Number.MAX_SAFE_INTEGER}
+      >
         {({ onRowsRendered, registerChild }) => (
           <AutoSizer>
             {({ width, height }) => {

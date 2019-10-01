@@ -1,6 +1,7 @@
 /**
  * combinePaginators - Combines multiple simple paginators into a single stateful paginator.
  *
+ * @param {Function} itemSorter use to maintain sort order for the items
  * @param {Array<Function>} paginators simple pagination function which accepts offset and is expected
  * to return {items, offset} object.
  * Offset should be used in a subsequent call to obtain next page.
@@ -9,7 +10,7 @@
  * next page on each call. Calling paginator function returns an Object which has two fields {items, hasNextPage}
  * items is fetch result and hasNextPage indicates whether more data can be fetched with a subsequent paginator call.
  */
-export default function combinePaginators(...paginators) {
+export default function combinePaginators(itemSorter, ...paginators) {
   // items that weren't included in the previous result if any
   let cache = []
   // pagination tip fo reach of `paginators`
@@ -19,7 +20,7 @@ export default function combinePaginators(...paginators) {
     // splits `items` into two parts - result and rest based on`pageSize`
     // rest is a leftover which should be merged into cache
     const splitResult = (...items) => {
-      const flat = items.flat().sort((a, b) => b.timestamp - a.timestamp)
+      const flat = items.flat().sort(itemSorter)
       const splitPoint = Math.min(pageSize, flat.length)
       return [flat.slice(0, splitPoint), flat.slice(splitPoint)]
     }

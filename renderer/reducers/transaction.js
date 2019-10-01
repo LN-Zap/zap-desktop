@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import uniqBy from 'lodash/uniqBy'
 import { showSystemNotification } from '@zap/utils/notifications'
 import { convert } from '@zap/utils/btc'
 import { getIntl } from '@zap/i18n'
@@ -259,7 +260,7 @@ const ACTION_HANDLERS = {
   },
   [RECEIVE_TRANSACTIONS]: (state, { transactions }) => {
     state.transactionLoading = false
-    state.transactions = transactions
+    state.transactions = uniqBy(state.transactions.concat(transactions), 'tx_hash')
   },
   [ADD_TRANSACTION]: (state, { transaction }) => {
     state.transactions.unshift(transaction)

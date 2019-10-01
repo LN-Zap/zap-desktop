@@ -5,6 +5,7 @@ import { initDb } from '@zap/renderer/store/db'
 import { getIntl } from '@zap/i18n'
 import { showError } from 'reducers/notification'
 import { tickerSelectors } from './ticker'
+import { resetActivity } from './activity'
 import { setIsWalletOpen, walletSelectors } from './wallet'
 import { setTheme, themeSelectors } from './theme'
 import { stopLnd } from './lnd'
@@ -94,6 +95,7 @@ export const logout = () => dispatch => {
   dispatch(setIsWalletOpen(false))
   dispatch(stopLnd())
   dispatch(resetApp())
+  dispatch(resetActivity())
   dispatch({ type: LOGOUT_SUCCESS })
 }
 

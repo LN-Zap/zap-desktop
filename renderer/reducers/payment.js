@@ -1,5 +1,6 @@
 import config from 'config'
 import { createSelector } from 'reselect'
+import uniqBy from 'lodash/uniqBy'
 import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
 import { getIntl } from '@zap/i18n'
 import { decodePayReq, getNodeAlias } from '@zap/utils/crypto'
@@ -312,7 +313,7 @@ const ACTION_HANDLERS = {
   },
   [RECEIVE_PAYMENTS]: (state, { payments }) => {
     state.paymentLoading = false
-    state.payments = payments
+    state.payments = uniqBy(state.payments.concat(payments), 'payment_hash')
     state.paymentsSending = state.paymentsSending.filter(
       item => !payments.find(p => p.payment_hash === item.payment_hash)
     )

@@ -1,11 +1,14 @@
 import { createSelector } from 'reselect'
 import { send } from 'redux-electron-ipc'
+import groupBy from 'lodash/groupBy'
+import { grpc } from 'workers'
 import { getIntl } from '@zap/i18n'
+import combinePaginators from '@zap/utils/pagination'
 import { openModal, closeModal } from './modal'
 import { fetchDescribeNetwork } from './network'
-import { fetchTransactions, transactionsSelectors } from './transaction'
-import { fetchPayments, paymentSelectors } from './payment'
-import { fetchInvoices, invoiceSelectors } from './invoice'
+import { receiveTransactions, transactionsSelectors } from './transaction'
+import { receivePayments, paymentSelectors } from './payment'
+import { receiveInvoices, invoiceSelectors } from './invoice'
 import { fetchBalance } from './balance'
 import { showError, showNotification } from './notification'
 import { fetchChannels } from './channels'
@@ -15,6 +18,9 @@ import messages from './messages'
 // ------------------------------------
 // Initial State
 // ------------------------------------
+
+// activity paginator object. must be reset for each wallet login
+let paginator = null
 
 const initialState = {
   filter: 'ALL_ACTIVITY',
@@ -34,6 +40,7 @@ const initialState = {
   searchText: null,
   isActivityLoading: false,
   activityLoadingError: null,
+  hasNextPage: true, // whether we have next page to load. used in pagination
 }
 
 // ------------------------------------
@@ -49,6 +56,7 @@ export const FETCH_ACTIVITY_HISTORY_SUCCESS = 'FETCH_ACTIVITY_HISTORY_SUCCESS'
 export const FETCH_ACTIVITY_HISTORY_FAILURE = 'FETCH_ACTIVITY_HISTORY_FAILURE'
 export const OPEN_ERROR_DETAILS_DIALOG = 'OPEN_ERROR_DETAILS_DIALOG'
 export const CLOSE_ERROR_DETAILS_DIALOG = 'CLOSE_ERROR_DETAILS_DIALOG'
+export const SET_HAS_NEXT_PAGE = 'SET_HAS_NEXT_PAGE'
 
 // ------------------------------------
 // Helpers
@@ -289,12 +297,84 @@ export const fetchActivityHistory = () => dispatch => {
     dispatch(fetchDescribeNetwork())
     dispatch(fetchChannels())
     dispatch(fetchBalance())
-    dispatch(fetchPayments())
-    dispatch(fetchInvoices())
-    dispatch(fetchTransactions())
+    dispatch(loadNextPage())
     dispatch({ type: FETCH_ACTIVITY_HISTORY_SUCCESS })
   } catch (error) {
     dispatch({ type: FETCH_ACTIVITY_HISTORY_FAILURE, error })
+  }
+}
+
+export const resetActivity = () => () => {
+  paginator = null
+}
+
+/**
+ * createActivityPaginator - Creates activity paginator object.
+ *
+ * @returns {Function} Paginator
+ */
+function createActivityPaginator() {
+  const fetchInvoices = async (pageSize, offset) => {
+    const { invoices, first_index_offset } = await grpc.services.Lightning.listInvoices({
+      num_max_invoices: pageSize,
+      index_offset: offset,
+      reversed: true,
+    })
+    return { items: invoices, offset: first_index_offset }
+  }
+
+  const fetchPayments = async () => {
+    const { payments } = await grpc.services.Lightning.listPayments()
+    return { items: payments, offset: 0 }
+  }
+
+  const fetchTransactions = async () => {
+    const { transactions } = await grpc.services.Lightning.getTransactions()
+    return { items: transactions, offset: 0 }
+  }
+  const getTimestamp = item => item.time_stamp || item.settle_date || item.creation_date
+  const itemSorter = (a, b) => getTimestamp(b) - getTimestamp(a)
+  return combinePaginators(itemSorter, fetchInvoices, fetchPayments, fetchTransactions)
+}
+
+/**
+ * getPaginator - Returns current activity paginator object. This acts as a singleton
+ * and creates paginator if it's not initialized.
+ *
+ * @returns {Function} Paginator
+ */
+function getPaginator() {
+  if (!paginator) {
+    paginator = createActivityPaginator()
+  }
+  return paginator
+}
+
+/**
+ * loadNextPage - Loads next activity page if it's available.
+ *
+ * @returns {Function} Thunk
+ */
+export const loadNextPage = () => async (dispatch, getState) => {
+  const paginator = getPaginator()
+  if (hasNextPageSelector(getState())) {
+    const { items, hasNextPage } = await paginator(25)
+
+    const getItemType = item => {
+      if (item.dest_addresses) {
+        return 'transactions'
+      }
+      if ('add_index' in item) {
+        return 'invoices'
+      }
+      return 'payments'
+    }
+
+    const { invoices, payments, transactions } = groupBy(items, getItemType)
+    dispatch({ type: SET_HAS_NEXT_PAGE, value: hasNextPage })
+    invoices && dispatch(receiveInvoices(invoices))
+    payments && dispatch(receivePayments(payments))
+    transactions && dispatch(receiveTransactions(transactions))
   }
 }
 
@@ -331,6 +411,9 @@ const ACTION_HANDLERS = {
   [CLOSE_ERROR_DETAILS_DIALOG]: state => {
     state.errorDialogDetails = null
   },
+  [SET_HAS_NEXT_PAGE]: (state, { value }) => {
+    state.hasNextPage = value
+  },
 }
 
 // ------------------------------------
@@ -339,6 +422,7 @@ const ACTION_HANDLERS = {
 
 const activitySelectors = {}
 const filterSelector = state => state.activity.filter
+const hasNextPageSelector = state => state.activity.hasNextPage
 const errorDialogDetailsSelector = state => state.activity.errorDialogDetails
 const filtersSelector = state => state.activity.filters
 const searchTextSelector = state => state.activity.searchText
