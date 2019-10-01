@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { space } from 'styled-system'
-import { List, AutoSizer } from 'react-virtualized'
+import { List, AutoSizer, InfiniteLoader } from 'react-virtualized'
 import { FormattedDate, injectIntl } from 'react-intl'
 import { Box } from 'rebass/styled-components'
 import { intlShape } from '@zap/i18n'
@@ -27,11 +27,18 @@ const Activity = props => {
     errorDialogDetails,
     currentActivity,
     showNotification,
+    loadNextPage,
     intl,
   } = props
 
   const onErrorDetailsCopy = () => {
     showNotification(intl.formatMessage({ ...messages.error_copied }))
+  }
+
+  const isRowLoaded = ({ index }) => Boolean(currentActivity[index])
+
+  const loadMoreRows = () => {
+    loadNextPage()
   }
 
   const renderActivityList = () => {
@@ -59,20 +66,26 @@ const Activity = props => {
       )
     }
     return (
-      <AutoSizer>
-        {({ width, height }) => {
-          return (
-            <StyledList
-              height={height}
-              pr={4}
-              rowCount={currentActivity.length}
-              rowHeight={ROW_HEIGHT}
-              rowRenderer={renderRow}
-              width={width}
-            />
-          )
-        }}
-      </AutoSizer>
+      <InfiniteLoader isRowLoaded={isRowLoaded} loadMoreRows={loadMoreRows} rowCount={999999}>
+        {({ onRowsRendered, registerChild }) => (
+          <AutoSizer>
+            {({ width, height }) => {
+              return (
+                <StyledList
+                  ref={registerChild}
+                  height={height}
+                  onRowsRendered={onRowsRendered}
+                  pr={4}
+                  rowCount={currentActivity.length}
+                  rowHeight={ROW_HEIGHT}
+                  rowRenderer={renderRow}
+                  width={width}
+                />
+              )
+            }}
+          </AutoSizer>
+        )}
+      </InfiniteLoader>
     )
   }
 
@@ -102,6 +115,7 @@ Activity.propTypes = {
   hideErrorDetailsDialog: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
   isErrorDialogOpen: PropTypes.bool,
+  loadNextPage: PropTypes.func.isRequired,
   showNotification: PropTypes.func.isRequired,
 }
 
