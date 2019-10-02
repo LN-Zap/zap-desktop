@@ -44,9 +44,11 @@ Snapshot Diff:
 -   "invoices": Array [],
 +   "invoices": Array [
 +     Object {
++       "add_index": 1,
 +       "r_hash": "123",
 +     },
 +     Object {
++       "add_index": 2,
 +       "r_hash": "456",
 +     },
 +   ],

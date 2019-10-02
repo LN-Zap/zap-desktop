@@ -175,6 +175,46 @@ Snapshot Diff:
   }
 `;
 
+exports[`reducers activityReducer should handle SET_HAS_NEXT_PAGE 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "activityLoadingError": null,
+    "errorDialogDetails": null,
+    "filter": "ALL_ACTIVITY",
+    "filters": Array [
+      Object {
+        "key": "ALL_ACTIVITY",
+      },
+      Object {
+        "key": "SENT_ACTIVITY",
+      },
+      Object {
+        "key": "RECEIVED_ACTIVITY",
+      },
+      Object {
+        "key": "PENDING_ACTIVITY",
+      },
+      Object {
+        "key": "EXPIRED_ACTIVITY",
+      },
+      Object {
+        "key": "INTERNAL_ACTIVITY",
+      },
+    ],
+-   "hasNextPage": true,
++   "hasNextPage": undefined,
+    "isActivityLoading": false,
+    "modal": Object {
+      "itemId": null,
+      "itemType": null,
+    },
+    "searchText": null,
+  }
+`;
+
 exports[`reducers activityReducer should handle SHOW_ACTIVITY_MODAL 1`] = `
 Snapshot Diff:
 - First value

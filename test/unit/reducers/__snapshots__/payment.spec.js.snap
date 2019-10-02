@@ -38,9 +38,11 @@ Snapshot Diff:
 -   "payments": Array [],
 +   "payments": Array [
 +     Object {
++       "payment_hash": "1",
 +       "some": "data",
 +     },
 +     Object {
++       "payment_hash": "2",
 +       "some": "data",
 +     },
 +   ],
