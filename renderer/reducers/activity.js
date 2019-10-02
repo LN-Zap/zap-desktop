@@ -149,7 +149,7 @@ export const saveInvoiceSuccess = () => dispatch => {
  * @param {Array} data Items to group
  * @returns {Array} Groups items
  */
-function groupAll(data) {
+export function groupActivity(data) {
   // according too https://stackoverflow.com/a/11252167/3509860
   // this provides an accurate measurement including handling of DST
   const daysBetween = (t1, t2) => Math.round((t2 - t1) / 86400)
@@ -208,7 +208,7 @@ const applySearch = (data, searchTextSelector) => {
 }
 
 const prepareData = (data, searchText) => {
-  return groupAll(applySearch(data, searchText))
+  return groupActivity(applySearch(data, searchText))
 }
 
 // ------------------------------------
