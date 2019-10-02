@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
 import uniqBy from 'lodash/uniqBy'
+import config from 'config'
 import { showSystemNotification } from '@zap/utils/notifications'
 import { convert } from '@zap/utils/btc'
 import { getIntl } from '@zap/i18n'
@@ -114,7 +115,9 @@ export function sendInvoice() {
  *
  * @returns {object} Action
  */
-export const fetchInvoices = ({ maxInvoices = 25 } = {}) => async dispatch => {
+export const fetchInvoices = ({
+  maxInvoices = config.activity.pageSize,
+} = {}) => async dispatch => {
   dispatch(getInvoices())
   const { invoices } = await grpc.services.Lightning.listInvoices({
     num_max_invoices: maxInvoices,

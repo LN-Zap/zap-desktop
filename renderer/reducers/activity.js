@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import { send } from 'redux-electron-ipc'
 import groupBy from 'lodash/groupBy'
+import config from 'config'
 import { grpc } from 'workers'
 import { getIntl } from '@zap/i18n'
 import combinePaginators from '@zap/utils/pagination'
@@ -358,7 +359,7 @@ function getPaginator() {
 export const loadNextPage = () => async (dispatch, getState) => {
   const paginator = getPaginator()
   if (hasNextPageSelector(getState())) {
-    const { items, hasNextPage } = await paginator(25)
+    const { items, hasNextPage } = await paginator(config.activity.pageSize)
 
     const getItemType = item => {
       if (item.dest_addresses) {
