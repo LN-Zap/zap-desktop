@@ -150,17 +150,17 @@ export const sendPayment = data => dispatch => {
  */
 export const fetchPayments = () => async dispatch => {
   dispatch(getPayments())
-  const payments = await grpc.services.Lightning.listPayments()
+  const { payments } = await grpc.services.Lightning.listPayments()
   dispatch(receivePayments(payments))
 }
 
 /**
  * receivePayments - Fetch payments success callback.
  *
- * @param {{payments}} List of payments.
+ * @param {Array} payments list of payments.
  * @returns {Function} Thunk
  */
-export const receivePayments = ({ payments }) => dispatch => {
+export const receivePayments = payments => dispatch => {
   dispatch({ type: RECEIVE_PAYMENTS, payments })
 }
 
@@ -230,6 +230,20 @@ export const payInvoice = ({
 }
 
 /**
+ * updatePayment - Updates specified payment request.
+ *
+ * @param {string} paymentRequest Payment request
+ * @returns {Function} Thunk
+ */
+export const updatePayment = paymentRequest => async dispatch => {
+  const { payments } = await grpc.services.Lightning.listPayments()
+  const payment = payments.find(p => p.payment_request === paymentRequest)
+  if (payment) {
+    dispatch(receivePayments([payment]))
+  }
+}
+
+/**
  * paymentSuccessful - Success handler for payInvoice.
  *
  * @param {{payment_request}} payment_request Payment request
@@ -238,7 +252,7 @@ export const payInvoice = ({
 export const paymentSuccessful = ({ payment_request }) => async (dispatch, getState) => {
   const state = getState()
   const paymentSending = getLastSendingEntry(state, payment_request)
-  // If we found a related entery in paymentsSending, gracefully remove it and handle as success case.
+  // If we found a related entry in paymentsSending, gracefully remove it and handle as success case.
   if (paymentSending) {
     const { creation_date, paymentRequest } = paymentSending
 
@@ -250,10 +264,9 @@ export const paymentSuccessful = ({ payment_request }) => async (dispatch, getSt
 
     // Wait for another second.
     await delay(1500)
-  }
 
-  // Refetch payments.
-  dispatch(fetchPayments())
+    dispatch(updatePayment(paymentRequest))
+  }
 
   // Fetch new balance.
   dispatch(fetchBalance())
