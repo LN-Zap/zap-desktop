@@ -55,7 +55,7 @@ const App = ({
     })
 
     appScheduler.addTask({
-      task: fetchTransactions,
+      task: () => fetchTransactions(true),
       taskId: 'fetchTransactions',
       baseDelay: TX_REFETCH_INTERVAL,
     })

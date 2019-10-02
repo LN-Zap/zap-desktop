@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
 import uniqBy from 'lodash/uniqBy'
+import last from 'lodash/last'
 import { showSystemNotification } from '@zap/utils/notifications'
 import { convert } from '@zap/utils/btc'
 import { getIntl } from '@zap/i18n'
@@ -82,32 +83,49 @@ export function sendTransaction(data) {
 /**
  * fetchTransactions - Fetch details of all transactions.
  *
+ * @param {boolean} updateOnly if true only update known transactions or adds new ones
+ * (ones whose timestamp is greater than the newest known one)
  * @returns {Function} Thunk
  */
-export const fetchTransactions = () => async dispatch => {
+export const fetchTransactions = updateOnly => async dispatch => {
   dispatch({ type: GET_TRANSACTIONS })
   const transactions = await grpc.services.Lightning.getTransactions()
-  dispatch(receiveTransactions(transactions))
+  dispatch(receiveTransactions(transactions.transactions, updateOnly))
 }
 
 /**
  * receiveTransactions - Success callback for fetch transactions.
  *
- * @param {{transactions}} List of transaction.
+ * @param {Array} transactions of transaction.
+ * @param {boolean} updateOnly if true only update known transactions or adds new ones
+ * (ones whose timestamp is greater than the newest known one)
  * @returns {Function} Thunk
  */
-export const receiveTransactions = ({ transactions }) => (dispatch, getState) => {
+export const receiveTransactions = (transactions, updateOnly = false) => (dispatch, getState) => {
   const state = getState()
 
   const currentAddresses = addressSelectors.currentAddresses(state)
   let usedAddresses = []
 
-  // Keep track of used addresses.
-  transactions.forEach(transaction => {
-    usedAddresses = usedAddresses.concat(transaction.dest_addresses)
+  // index of the last tx in `transactions`
+  // that is newer(or equal) than the last tx from the state.
+  // This is used to only update known transactions or add new if
+  // we are in `updateOnly` mode
+  let lastKnownTxIndex = 0
+  const lastTx = last(transactionsSelector(state))
+  transactions.forEach((transaction, index) => {
+    const { time_stamp, dest_addresses } = transaction
+    if (updateOnly && !lastKnownTxIndex && lastTx && time_stamp >= lastTx.time_stamp) {
+      lastKnownTxIndex = index
+    }
+    // Keep track of used addresses.
+    usedAddresses = usedAddresses.concat(dest_addresses)
   })
 
-  dispatch({ type: RECEIVE_TRANSACTIONS, transactions })
+  dispatch({
+    type: RECEIVE_TRANSACTIONS,
+    transactions: lastKnownTxIndex ? transactions.slice(lastKnownTxIndex) : transactions,
+  })
 
   // If our current wallet address has been used, generate a new one.
   Object.entries(currentAddresses).forEach(([type, address]) => {
@@ -224,9 +242,6 @@ export const receiveTransactionData = transaction => (dispatch, getState) => {
     !state.transaction.transactions.find(tx => tx.tx_hash === transaction.tx_hash)
   ) {
     dispatch({ type: ADD_TRANSACTION, transaction })
-
-    // Refetch transactions.
-    dispatch(fetchTransactions())
 
     // fetch updated channels
     dispatch(fetchChannels())
