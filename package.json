@@ -303,7 +303,7 @@
     "comlinkjs": "3.2.0",
     "config": "3.2.2",
     "copy-to-clipboard": "3.2.0",
-    "country-data-lookup": "0.0.3",
+    "country-data-lookup": "0.0.33",
     "debug": "4.1.1",
     "debug-logger": "0.4.1",
     "dexie": "3.0.0-alpha.8",
