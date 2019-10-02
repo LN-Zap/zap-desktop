@@ -30,30 +30,6 @@ const buildAboutMenu = () => {
   }
 }
 
-/**
- * interceptMethod - Alters the `template` to inject `handler` call into `method`.
- *
- * @param {Array} template menu template
- * @param {string} method method to intercept
- * @param {Function} handler  extract method to be called alongside with the original `method`
- * @returns {object} updated menu template
- */
-function interceptMethod(template, method, handler) {
-  return template.map(({ submenu, ...rest }) => {
-    return {
-      ...rest,
-      submenu: submenu.map(item => {
-        const { [method]: wrappedMethod } = item
-        item[method] = () => {
-          wrappedMethod && wrappedMethod()
-          handler()
-        }
-        return item
-      }),
-    }
-  })
-}
-
 export default class ZapMenuBuilder {
   constructor(mainWindow) {
     this.mainWindow = mainWindow
@@ -69,14 +45,11 @@ export default class ZapMenuBuilder {
     if (os.platform() === 'darwin') {
       template = this.buildDarwinTemplate()
     } else {
-      // add global `click` interceptor that re-focuses
-      // Web app after menu is closed
-      template = interceptMethod(this.buildDefaultTemplate(), 'click', () =>
-        this.mainWindow.webContents.focus()
-      )
+      template = this.buildDefaultTemplate()
     }
 
     this.setupInputTemplate()
+
     const menu = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu)
 
