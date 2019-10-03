@@ -12,6 +12,7 @@ import lndBinaryPath from '@zap/utils/lndBinaryPath'
 import lndGrpcProtoDir from '@zap/utils/lndGrpcProtoDir'
 import validateHost from '@zap/utils/validateHost'
 import splitHostname from '@zap/utils/splitHostname'
+import sha256digest from '@zap/utils/sha256'
 import LndConfig from '@zap/utils/lndConfig'
 import getPackageDetails from '@zap/utils/getPackageDetails'
 import { normalizeBackupDir } from './walletBackup/local'
@@ -146,6 +147,7 @@ window.Zap = {
   splitHostname,
   normalizeBackupDir,
   getPackageDetails,
+  sha256digest,
 }
 
 // Provide access to ipcRenderer.
