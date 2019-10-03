@@ -3,9 +3,10 @@ import PropTypes from 'prop-types'
 import { useFieldState, useFormState } from 'informed'
 import { useIntl } from 'react-intl'
 import { DataRow } from 'components/UI'
-import { PasswordInput, Toggle } from 'components/Form'
-import { FieldLabel } from './SettingsFieldHelpers'
+import { PasswordInput, FieldLabelFactory, Toggle } from 'components/Form'
 import messages from './messages'
+
+const FieldLabel = FieldLabelFactory(messages)
 
 const SettingsFieldsSecurity = ({ currentConfig }) => {
   const { value: isPasswordActive } = useFieldState('password.active')
@@ -16,8 +17,7 @@ const SettingsFieldsSecurity = ({ currentConfig }) => {
   return (
     <>
       <DataRow
-        left={<FieldLabel itemKey="password.active" />}
-        pb={0}
+        left={<FieldLabel itemKey="password.active" tooltip="password_tooltip" />}
         right={<Toggle field="password.active" initialValue={currentConfig.password.active} />}
       />
       {isPasswordActive && (
