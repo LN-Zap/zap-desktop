@@ -7,7 +7,7 @@ import Label from './Label'
 const RadioGroup = ({ label, field, description, isRequired, tooltip, children, ...rest }) => (
   <>
     {label && (
-      <Label htmlFor={field} isRequired={isRequired} tooltip={tooltip}>
+      <Label htmlFor={field} isRequired={isRequired} mb={2} tooltip={tooltip}>
         {label}
       </Label>
     )}
