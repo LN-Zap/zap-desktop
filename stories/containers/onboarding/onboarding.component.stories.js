@@ -12,6 +12,7 @@ import {
   Recover,
   SeedConfirm,
   SeedView,
+  WalletCreate,
 } from 'components/Onboarding/Steps'
 
 const setConnectionHost = () => ({})
@@ -19,6 +20,7 @@ const setConnectionCert = () => ({})
 const setConnectionMacaroon = () => ({})
 const stopLnd = () => ({})
 const resetOnboarding = () => ({})
+const wizardApi = { next() {} }
 
 storiesOf('Containers.Onboarding.Forms', module)
   .add('ConnectionType', () => (
@@ -38,6 +40,7 @@ storiesOf('Containers.Onboarding.Forms', module)
   .add('Name', () => <Name />)
   .add('Network', () => <Network />)
   .add('Autopilot', () => <Autopilot />)
+  .add('Creating', () => <WalletCreate isCreatingWallet wizardApi={wizardApi} />)
   .add('SeedConfirm', () => (
     <SeedConfirm
       seed={[
