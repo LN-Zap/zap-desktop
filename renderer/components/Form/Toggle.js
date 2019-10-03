@@ -8,7 +8,7 @@ import { Text } from 'components/UI'
 
 const Wrapper = styled.div`
   position: relative;
-
+  user-select: none;
   .switch {
     position: relative;
     display: inline-block;
