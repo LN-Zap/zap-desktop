@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect'
-import { proxyValue } from 'comlinkjs'
 import orderBy from 'lodash/orderBy'
 import throttle from 'lodash/throttle'
 import config from 'config'
@@ -546,10 +545,6 @@ export const openChannel = data => async (dispatch, getState) => {
       spendUnconfirmed,
     })
     dispatch(pushchannelupdated(data))
-    grpc.services.Lightning.once(
-      'openChannel.data',
-      proxyValue(data => dispatch(pushchannelupdated(data)))
-    )
   } catch (e) {
     dispatch(
       pushchannelerror({
@@ -647,10 +642,6 @@ export const closeChannel = () => async (dispatch, getState) => {
         force: !active,
       })
       dispatch(pushclosechannelupdated(data))
-      grpc.services.Lightning.once(
-        'closeChannel.data',
-        proxyValue(data => dispatch(pushclosechannelupdated(data)))
-      )
     } catch (e) {
       dispatch(
         pushchannelerror({
