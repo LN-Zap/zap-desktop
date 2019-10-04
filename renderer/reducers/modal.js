@@ -7,6 +7,7 @@ import createReducer from './utils/createReducer'
 
 const initialState = {
   modals: [],
+  dialogs: {},
 }
 
 // ------------------------------------
@@ -18,6 +19,8 @@ export const CLOSE_MODAL = 'CLOSE_MODAL'
 export const CLOSE_ALL_MODALS = 'CLOSE_ALL_MODALS'
 export const SET_MODALS = 'SET_MODALS'
 
+export const OPEN_DIALOG = 'SHOW_DIALOG'
+export const CLOSE_DIALOG = 'CLOSE_DIALOG'
 // ------------------------------------
 // Helpers
 // ------------------------------------
@@ -38,6 +41,32 @@ const createModalData = (type, options) => ({
 // ------------------------------------
 // Actions
 // ------------------------------------
+
+/**
+ * openDialog - Open dialog.
+ *
+ * @param  {string} id Name of modal to open
+ * @returns {Function} Thunk
+ */
+export const openDialog = id => dispatch => {
+  dispatch({
+    type: OPEN_DIALOG,
+    id,
+  })
+}
+
+/**
+ * closeDialog - Close specified dialog.
+ *
+ * @param  {string} id Name of modal to open
+ * @returns {Function} Thunk
+ */
+export const closeDialog = id => dispatch => {
+  dispatch({
+    type: CLOSE_DIALOG,
+    id,
+  })
+}
 
 /**
  * openModal - Open a specific modal.
@@ -139,6 +168,14 @@ const ACTION_HANDLERS = {
   [SET_MODALS]: (state, { modals }) => {
     state.modals = modals
   },
+
+  [OPEN_DIALOG]: (state, { id }) => {
+    state.dialogs[id] = true
+  },
+
+  [CLOSE_DIALOG]: (state, { id }) => {
+    delete state.dialogs[id]
+  },
 }
 
 // ------------------------------------
@@ -147,6 +184,7 @@ const ACTION_HANDLERS = {
 
 const modalSelectors = {}
 modalSelectors.getModalState = state => state.modal.modals
+modalSelectors.isDialogOpen = (state, id) => Boolean(state.modal.dialogs[id])
 
 export { modalSelectors }
 
