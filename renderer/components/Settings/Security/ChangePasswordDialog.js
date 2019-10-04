@@ -11,7 +11,7 @@ const DialogWrapper = ({ loginError, clearLoginError, isOpen, onChange, onCancel
   const formApiRef = useRef(null)
   useEffect(() => {
     const { current: formApi } = formApiRef
-    if (loginError) {
+    if (loginError && formApi) {
       formApi.setFormError(loginError)
       clearLoginError()
     }

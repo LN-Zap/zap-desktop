@@ -1,13 +1,22 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass/styled-components'
 import { FormattedMessage, useIntl } from 'react-intl'
-import { Dialog, Heading, Button, DialogOverlay } from 'components/UI'
+import { Dialog, Heading, Button, DialogOverlay, Message } from 'components/UI'
 import { PasswordInput, Form } from 'components/Form'
 import messages from './messages'
 
-const DialogWrapper = ({ isOpen, onOk, onCancel, isPromptMode }) => {
+const DialogWrapper = ({ loginError, clearLoginError, isOpen, onOk, onCancel, isPromptMode }) => {
   const intl = useIntl()
+  const formApiRef = useRef(null)
+  useEffect(() => {
+    const { current: formApi } = formApiRef
+    if (loginError && formApi) {
+      formApi.setFormError(loginError)
+      clearLoginError()
+    }
+  }, [loginError, clearLoginError])
+
   if (!isOpen) {
     return null
   }
@@ -43,20 +52,32 @@ const DialogWrapper = ({ isOpen, onOk, onCancel, isPromptMode }) => {
 
   return (
     <DialogOverlay alignItems="center" justifyContent="center" position="fixed">
-      <Form onSubmit={handleSubmit}>
-        <Dialog buttons={buttons} header={header} onClose={onCancel} width={640}>
-          <Flex alignItems="center" flexDirection="column" width={350}>
-            <PasswordInput
-              description={intl.formatMessage(inputDesc)}
-              field="password"
-              hasMessageSpacer
-              isRequired
-              minLength={6}
-              width={1}
-              willAutoFocus
-            />
-          </Flex>
-        </Dialog>
+      <Form getApi={api => (formApiRef.current = api)} onSubmit={handleSubmit}>
+        {({ formState: { submits, error } }) => {
+          const willValidateInline = submits > 0
+          return (
+            <Dialog buttons={buttons} header={header} onClose={onCancel} width={640}>
+              {error && (
+                <Message mb={3} variant="error">
+                  {error}
+                </Message>
+              )}
+              <Flex alignItems="center" flexDirection="column" width={350}>
+                <PasswordInput
+                  description={intl.formatMessage(inputDesc)}
+                  field="password"
+                  hasMessageSpacer
+                  isRequired
+                  minLength={6}
+                  validateOnBlur={willValidateInline}
+                  validateOnChange={willValidateInline}
+                  width={1}
+                  willAutoFocus
+                />
+              </Flex>
+            </Dialog>
+          )
+        }}
       </Form>
     </DialogOverlay>
   )
@@ -67,9 +88,11 @@ DialogWrapper.defaultProps = {
 }
 
 DialogWrapper.propTypes = {
+  clearLoginError: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
   isPromptMode: PropTypes.bool,
   isRestoreMode: PropTypes.bool,
+  loginError: PropTypes.string,
   onCancel: PropTypes.func.isRequired,
   onOk: PropTypes.func.isRequired,
 }

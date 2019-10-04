@@ -11,7 +11,10 @@ import ZapLogo from 'components/Icon/ZapLogo'
 import SettingsForm from 'containers/Settings/SettingsForm'
 import SettingsFieldsWallet from './SettingsFieldsWallet'
 import SettingsFieldsGeneral from './SettingsFieldsGeneral'
-import SettingsFieldsSecurity from './SettingsFieldsSecurity'
+import SettingsFieldsSecurity from 'containers/Settings/SettingsFieldsSecurity'
+import ChangePasswordDialog from 'containers/Settings/ChangePasswordDialog'
+import PasswordPromptDialog from 'containers/Settings/PasswordPromptDialog'
+import PasswordSetDialog from 'containers/Settings/PasswordSetDialog'
 import messages from './messages'
 
 const SettingsMenu = ({ group, setGroup, isLoggedIn, ...rest }) => {
@@ -117,28 +120,33 @@ const SettingsPage = ({ currentConfig, isLoggedIn, ...rest }) => {
   }
 
   return (
-    <Flex width={1} {...rest}>
-      <Sidebar.medium pt={40}>
-        <Panel>
-          <Panel.Header mb={40} px={4}>
-            <ZapLogo height={28} width={28} />
-          </Panel.Header>
-          <Panel.Body sx={{ overflowY: 'overlay' }}>
-            <SettingsMenu group={group} isLoggedIn={isLoggedIn} setGroup={setGroup} />
-          </Panel.Body>
-        </Panel>
-      </Sidebar.medium>
-      <MainContent pb={2} pl={5} pr={6} pt={4}>
-        <Heading.h1 fontSize={60}>
-          <FormattedMessage {...messages.settings_title} />
-        </Heading.h1>
+    <>
+      <Flex width={1} {...rest}>
+        <Sidebar.medium pt={40}>
+          <Panel>
+            <Panel.Header mb={40} px={4}>
+              <ZapLogo height={28} width={28} />
+            </Panel.Header>
+            <Panel.Body sx={{ overflowY: 'overlay' }}>
+              <SettingsMenu group={group} isLoggedIn={isLoggedIn} setGroup={setGroup} />
+            </Panel.Body>
+          </Panel>
+        </Sidebar.medium>
+        <MainContent pb={2} pl={5} pr={6} pt={4}>
+          <Heading.h1 fontSize={60}>
+            <FormattedMessage {...messages.settings_title} />
+          </Heading.h1>
 
-        <SettingsForm>
-          <FieldGroup currentConfig={currentConfig} />
-          <SettingsActions currentConfig={currentConfig} />
-        </SettingsForm>
-      </MainContent>
-    </Flex>
+          <SettingsForm>
+            <FieldGroup currentConfig={currentConfig} />
+            <SettingsActions currentConfig={currentConfig} />
+          </SettingsForm>
+        </MainContent>
+      </Flex>
+      <ChangePasswordDialog />
+      <PasswordPromptDialog />
+      <PasswordSetDialog />
+    </>
   )
 }
 

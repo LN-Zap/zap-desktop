@@ -1,6 +1,10 @@
+import { send } from 'redux-electron-ipc'
 import { getIntl } from '@zap/i18n'
+import { sha256digest } from '@zap/utils/crypto'
 import createReducer from './utils/createReducer'
-import { settingsSelectors } from './settings'
+import { settingsSelectors, saveConfigOverrides } from './settings'
+import { closeDialog } from './modal'
+import { showNotification } from './notification'
 import messages from './messages'
 
 // ------------------------------------
@@ -29,6 +33,10 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_FAILURE = 'LOGIN_FAILURE'
 export const LOGIN_CLEAR_ERROR = 'LOGIN_CLEAR_ERROR'
 
+export const CHANGE_PASSWORD_DIALOG_ID = 'CHANGE_PASSWORD_DIALOG'
+export const PASSWORD_PROMPT_DIALOG_ID = 'PASSWORD_PROMPT_DIALOG'
+export const PASSWORD_SET_DIALOG_ID = 'PASSWORD_SET_DIALOG_ID'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -54,20 +62,90 @@ export const initAccount = () => async (dispatch, getState) => {
 }
 
 /**
+ * setPassword - Updates wallet password.
+ *
+ * @param {string} password new password
+ * @returns {Function} Thunk
+ */
+const setPassword = password => async dispatch => {
+  dispatch(send('setPassword', { password: await sha256digest(password) }))
+}
+
+export const changePassword = ({ newPassword, oldPassword }) => async dispatch => {
+  try {
+    const intl = getIntl()
+    await dispatch(requirePassword(oldPassword))
+    await dispatch(setPassword(newPassword))
+    dispatch(closeDialog(CHANGE_PASSWORD_DIALOG_ID))
+    dispatch(showNotification(intl.formatMessage(messages.account_password_updated)))
+  } catch (error) {
+    dispatch({ type: LOGIN_FAILURE, error: error.message })
+  }
+}
+
+export const enablePassword = ({ password }) => async dispatch => {
+  try {
+    const intl = getIntl()
+    dispatch(setPassword(password))
+    dispatch(
+      saveConfigOverrides({
+        password: {
+          active: true,
+        },
+      })
+    )
+    dispatch(closeDialog(PASSWORD_SET_DIALOG_ID))
+    dispatch(showNotification(intl.formatMessage(messages.account_password_enabled)))
+  } catch (error) {
+    dispatch({ type: LOGIN_FAILURE, error: error.message })
+  }
+}
+
+export const disablePassword = ({ password }) => async dispatch => {
+  try {
+    const intl = getIntl()
+    await dispatch(requirePassword(password))
+    dispatch(send('deletePassword'))
+    dispatch(
+      saveConfigOverrides({
+        password: {
+          active: false,
+        },
+      })
+    )
+    dispatch(closeDialog(PASSWORD_PROMPT_DIALOG_ID))
+    dispatch(showNotification(intl.formatMessage(messages.account_password_disabled)))
+  } catch (error) {
+    dispatch({ type: LOGIN_FAILURE, error: error.message })
+  }
+}
+
+const requirePassword = password => dispatch => {
+  return new Promise((resolve, reject) => {
+    dispatch(send('getPassword'))
+    // compare hash received from the main thread to a hash of a password provided
+    window.ipcRenderer.once('getPassword', async (event, { password: hash }) => {
+      const passwordHash = await sha256digest(password)
+      if (hash === passwordHash) {
+        resolve()
+      } else {
+        reject(new Error(getIntl().formatMessage(messages.account_invalid_password)))
+      }
+    })
+  })
+}
+
+/**
  * login - Perform account login.
  *
  * @param {string} password Password
  * @returns {Function} Thunk
  */
-export const login = password => (dispatch, getState) => {
-  dispatch({ type: LOGIN, password })
+export const login = password => async dispatch => {
   try {
-    const accountPassword = accountSelectors.accountPassword(getState())
-    if (accountPassword === password) {
-      dispatch({ type: LOGIN_SUCCESS })
-    } else {
-      throw new Error(getIntl().formatMessage(messages.account_invalid_password))
-    }
+    dispatch({ type: LOGIN, password })
+    await dispatch(requirePassword(password))
+    dispatch({ type: LOGIN_SUCCESS })
   } catch (error) {
     dispatch({ type: LOGIN_FAILURE, error: error.message })
   }
@@ -133,6 +211,8 @@ const isLoggingInSelector = state => state.account.isLoggingIn
 const isLoggedInSelector = state => state.account.isLoggedIn
 const loginErrorSelector = state => state.account.loginError
 
+const isChangePasswordDialogOpenSelector = state => state.account.isChangePasswordDialogOpen
+
 const isAccountPasswordEnabledSelector = state =>
   settingsSelectors.currentConfig(state).password.active
 const accountPasswordSelector = state => settingsSelectors.currentConfig(state).password.value
@@ -149,6 +229,7 @@ accountSelectors.loginError = loginErrorSelector
 
 accountSelectors.isAccountPasswordEnabled = isAccountPasswordEnabledSelector
 accountSelectors.accountPassword = accountPasswordSelector
+accountSelectors.isChangePasswordDialogOpen = isChangePasswordDialogOpenSelector
 
 export { accountSelectors }
 
