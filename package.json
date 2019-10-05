@@ -292,7 +292,7 @@
   },
   "dependencies": {
     "@hot-loader/react-dom": "16.9.0",
-    "@rebass/forms": "4.0.5",
+    "@rebass/forms": "4.0.6",
     "@styled-system/theme-get": "5.1.2",
     "axios": "0.19.0",
     "bip21": "2.0.2",
