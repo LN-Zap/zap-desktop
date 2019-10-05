@@ -1,23 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.Radio should render correctly 1`] = `
-.c1 {
-  box-sizing: border-box;
-  margin: 0;
-  min-width: 0;
-  width: 100%;
-  color: #ffffff;
-  font-weight: 400;
-  width: auto;
-  font-weight: 300;
-  margin-bottom: 16px;
-  padding-left: 30px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
 .c3 {
   box-sizing: border-box;
   margin: 0;
@@ -41,6 +24,23 @@ exports[`component.UI.Radio should render correctly 1`] = `
   font-size: 13px;
   line-height: 1.4;
   margin-top: 4px;
+}
+
+.c1 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  width: 100%;
+  color: #ffffff;
+  font-weight: 400;
+  width: auto;
+  font-weight: 300;
+  margin-bottom: 16px;
+  padding-left: 30px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .c2 {
