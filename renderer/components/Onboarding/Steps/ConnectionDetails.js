@@ -33,7 +33,7 @@ class ConnectionDetails extends React.Component {
     wizardState: PropTypes.object,
   }
 
-  componentDidMount() {
+  UNSAFE_componentWillMount() {
     const { connectionHost, connectionCert, connectionMacaroon } = this.props
 
     if (connectionHost || connectionCert || connectionMacaroon) {

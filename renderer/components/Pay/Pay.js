@@ -67,7 +67,7 @@ class Pay extends React.Component {
   }
 
   // Set a flag so that we can trigger form submission in componentDidUpdate once the form is loaded.
-  componentDidMount() {
+  UNSAFE_componentWillMount() {
     const { fetchTickers, queryFees } = this.props
     fetchTickers()
     queryFees()

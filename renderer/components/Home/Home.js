@@ -49,7 +49,7 @@ class Home extends React.Component {
   }
 
   // If there is an active wallet ensure it is selected on mount.
-  componentDidMount() {
+  UNSAFE_componentWillMount() {
     const { activeWallet, activeWalletSettings, history, setIsWalletOpen } = this.props
     if (activeWallet && activeWalletSettings && history.location.pathname === '/home') {
       history.push(`/home/wallet/${activeWallet}`)

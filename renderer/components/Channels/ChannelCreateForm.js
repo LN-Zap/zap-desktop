@@ -110,7 +110,7 @@ class ChannelCreateForm extends React.Component {
 
   amountInput = React.createRef()
 
-  componentDidMount() {
+  UNSAFE_componentWillMount() {
     const { fetchTickers, queryFees } = this.props
     fetchTickers()
     queryFees()

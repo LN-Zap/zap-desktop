@@ -32,7 +32,7 @@ class ConnectionType extends React.Component {
     wizardState: {},
   }
 
-  componentDidMount() {
+  UNSAFE_componentWillMount() {
     const { lndConnect, resetOnboarding, stopLnd } = this.props
     stopLnd()
     if (lndConnect) {

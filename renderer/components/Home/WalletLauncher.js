@@ -172,7 +172,7 @@ class WalletLauncher extends React.Component {
     isValidating: false,
   }
 
-  componentDidMount() {
+  UNSAFE_componentWillMount() {
     const { stopLnd, startLndError, showError, clearStartLndError } = this.props
     stopLnd()
 

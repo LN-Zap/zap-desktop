@@ -39,7 +39,7 @@ class SeedView extends React.Component {
     seed: [],
   }
 
-  componentDidMount() {
+  UNSAFE_componentWillMount() {
     const { seed, fetchSeed } = this.props
     if (seed.length === 0) {
       fetchSeed()

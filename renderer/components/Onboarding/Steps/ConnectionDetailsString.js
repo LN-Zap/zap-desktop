@@ -27,7 +27,7 @@ class ConnectionDetailsString extends React.Component {
     wizardState: {},
   }
 
-  componentDidMount() {
+  UNSAFE_componentWillMount() {
     const {
       startLndHostError,
       startLndCertError,

@@ -24,7 +24,7 @@ class SeedConfirm extends React.Component {
     wizardState: {},
   }
 
-  componentDidMount() {
+  UNSAFE_componentWillMount() {
     this.fetchSeedWordIndexes()
   }
 

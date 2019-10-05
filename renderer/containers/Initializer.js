@@ -30,7 +30,7 @@ class Initializer extends React.Component {
   }
 
   // Initialize app state.
-  componentDidMount() {
+  UNSAFE_componentWillMount() {
     const {
       initLocale,
       initCurrency,

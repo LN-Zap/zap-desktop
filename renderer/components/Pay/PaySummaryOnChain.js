@@ -40,7 +40,7 @@ class PaySummaryOnChain extends React.Component {
     onchainFees: {},
   }
 
-  componentDidMount() {
+  UNSAFE_componentWillMount() {
     const { queryFees, address, amount } = this.props
     queryFees(address, amount)
   }
