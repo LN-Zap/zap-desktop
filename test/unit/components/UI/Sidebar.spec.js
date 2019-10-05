@@ -1,11 +1,10 @@
 import React from 'react'
-import renderer from 'react-test-renderer'
-import { mount } from 'enzyme'
+import { renderWithTheme } from '@zap/test/unit/__helpers__/renderWithTheme'
 import { Sidebar } from 'components/UI'
 
 describe('component.UI.Sidebar', () => {
   it('should render correctly', () => {
-    const tree = renderer.create(<Sidebar />).toJSON()
+    const tree = renderWithTheme(<Sidebar />).toJSON()
     expect(tree).toMatchSnapshot()
   })
 
@@ -14,8 +13,8 @@ describe('component.UI.Sidebar', () => {
       const sizes = ['small', 'medium', 'large']
       sizes.forEach(size => {
         const Element = Sidebar[size]
-        const wrapper = mount(<Element />)
-        expect(wrapper.find(Sidebar[size])).toHaveLength(1)
+        const wrapper = renderWithTheme(<Element />)
+        expect(wrapper.root.find(Sidebar[size])).toBeTruthy()
       })
     })
   })

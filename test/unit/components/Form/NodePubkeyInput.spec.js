@@ -1,24 +1,18 @@
 import React from 'react'
 import { Form } from 'informed'
-import renderer from 'react-test-renderer'
-import { ThemeProvider } from 'styled-components'
 import { IntlProvider } from 'react-intl'
-import { dark } from 'themes'
+import { renderWithTheme } from '@zap/test/unit/__helpers__/renderWithTheme'
 import { NodePubkeyInput } from 'components/Form'
 
 describe('component.UI.NodePubkeyInput', () => {
   it('should render correctly', () => {
-    const tree = renderer
-      .create(
-        <IntlProvider locale="en">
-          <ThemeProvider theme={dark}>
-            <Form>
-              <NodePubkeyInput field="name" theme={dark} />
-            </Form>
-          </ThemeProvider>
-        </IntlProvider>
-      )
-      .toJSON()
+    const tree = renderWithTheme(
+      <IntlProvider locale="en">
+        <Form>
+          <NodePubkeyInput field="name" />
+        </Form>
+      </IntlProvider>
+    ).toJSON()
     expect(tree).toMatchSnapshot()
   })
 })

@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.Dropdown should render correctly 1`] = `
-.c4 {
+.c3 {
   box-sizing: border-box;
   margin: 0;
   min-width: 0;
-  color: primaryText;
-  font-size: m;
-  line-height: normal;
+  color: #ffffff;
+  font-size: 13px;
+  line-height: 1.4;
   margin-right: 4px;
   text-align: left;
 }
@@ -30,7 +30,7 @@ exports[`component.Dropdown should render correctly 1`] = `
   box-sizing: border-box;
   margin: 0;
   min-width: 0;
-  color: gray;
+  color: #959595;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -57,13 +57,13 @@ exports[`component.Dropdown should render correctly 1`] = `
   box-sizing: border-box;
   margin: 0;
   min-width: 0;
-  font-weight: normal;
+  font-weight: 400;
   margin: 0;
   padding: 0;
   text-align: left;
-  font-size: m;
-  line-height: normal;
-  font-weight: normal;
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: 400;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -73,9 +73,10 @@ exports[`component.Dropdown should render correctly 1`] = `
   background: transparent;
   color: inherit;
   cursor: pointer;
+  font-family: Roboto,system-ui,sans-serif;
 }
 
-.c3 {
+.c4 {
   white-space: nowrap;
 }
 

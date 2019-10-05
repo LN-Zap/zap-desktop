@@ -1,9 +1,7 @@
 import React from 'react'
 import { Form } from 'informed'
-import renderer from 'react-test-renderer'
-import { ThemeProvider } from 'styled-components'
 import { IntlProvider } from 'react-intl'
-import { dark } from 'themes'
+import { renderWithTheme } from '@zap/test/unit/__helpers__/renderWithTheme'
 import { Select } from 'components/Form'
 
 describe('component.UI.Toggle', () => {
@@ -16,17 +14,13 @@ describe('component.UI.Toggle', () => {
       { value: 'Grape', key: 'grape' },
       { value: 'Banana', key: 'banana' },
     ]
-    const tree = renderer
-      .create(
-        <IntlProvider locale="en">
-          <ThemeProvider theme={dark}>
-            <Form>
-              <Select field="name" items={selectItems} />
-            </Form>
-          </ThemeProvider>
-        </IntlProvider>
-      )
-      .toJSON()
+    const tree = renderWithTheme(
+      <IntlProvider locale="en">
+        <Form>
+          <Select field="name" items={selectItems} />
+        </Form>
+      </IntlProvider>
+    ).toJSON()
     expect(tree).toMatchSnapshot()
   })
 })

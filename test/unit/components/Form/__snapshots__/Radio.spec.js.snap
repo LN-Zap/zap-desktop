@@ -123,7 +123,7 @@ exports[`component.UI.Radio should render correctly 1`] = `
     className="c0"
   >
     <label
-      className="container c1"
+      className="c1 container"
       fontWeight="light"
       htmlFor="item1"
     >
@@ -166,7 +166,7 @@ exports[`component.UI.Radio should render correctly 1`] = `
     className="c0"
   >
     <label
-      className="container c1"
+      className="c1 container"
       fontWeight="light"
       htmlFor="item2"
     >
@@ -209,7 +209,7 @@ exports[`component.UI.Radio should render correctly 1`] = `
     className="c0"
   >
     <label
-      className="container c1"
+      className="c1 container"
       fontWeight="light"
       htmlFor="item3"
     >

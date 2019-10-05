@@ -1,13 +1,17 @@
 import React from 'react'
-import { shallow } from 'enzyme'
-import toJSON from 'enzyme-to-json'
+import { IntlProvider } from 'react-intl'
+import { renderWithTheme } from '@zap/test/unit/__helpers__/renderWithTheme'
 import CreateWalletButton from 'components/Home/CreateWalletButton'
 
 const history = { push: jest.fn() }
 
 describe('component.CreateWalletButton', () => {
   it('should render correctly', () => {
-    const wrapper = shallow(<CreateWalletButton history={history} />)
-    expect(toJSON(wrapper)).toMatchSnapshot()
+    const tree = renderWithTheme(
+      <IntlProvider locale="en">
+        <CreateWalletButton history={history} />
+      </IntlProvider>
+    ).toJSON()
+    expect(tree).toMatchSnapshot()
   })
 })

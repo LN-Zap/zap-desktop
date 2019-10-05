@@ -1,10 +1,10 @@
 import React from 'react'
-import renderer from 'react-test-renderer'
+import { renderWithTheme } from '@zap/test/unit/__helpers__/renderWithTheme'
 import { BackgroundPrimary } from 'components/UI'
 
 describe('component.UI.BackgroundPrimary', () => {
   it('should render correctly', () => {
-    const tree = renderer.create(<BackgroundPrimary />).toJSON()
+    const tree = renderWithTheme(<BackgroundPrimary />).toJSON()
     expect(tree).toMatchSnapshot()
   })
 })

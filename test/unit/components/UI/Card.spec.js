@@ -1,11 +1,10 @@
 import React from 'react'
-import { shallow } from 'enzyme'
-import toJSON from 'enzyme-to-json'
+import { renderWithTheme } from '@zap/test/unit/__helpers__/renderWithTheme'
 import { Card } from 'components/UI'
 
 describe('component.UI.Card', () => {
   it('should render correctly', () => {
-    const wrapper = shallow(<Card>content</Card>)
-    expect(toJSON(wrapper)).toMatchSnapshot()
+    const tree = renderWithTheme(<Card>content</Card>).toJSON()
+    expect(tree).toMatchSnapshot()
   })
 })

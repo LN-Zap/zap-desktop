@@ -5,14 +5,14 @@ exports[`component.UI.Heading should render correctly 1`] = `
   box-sizing: border-box;
   margin: 0;
   min-width: 0;
-  font-size: 24px;
-  font-family: heading;
-  font-weight: heading;
-  line-height: heading;
-  color: primaryText;
-  font-size: xl;
-  font-weight: light;
-  line-height: normal;
+  font-size: 4px;
+  font-family: Roboto,system-ui,sans-serif;
+  font-weight: 300;
+  line-height: 1.4;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.4;
 }
 
 <h2

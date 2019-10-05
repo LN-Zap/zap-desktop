@@ -1,6 +1,6 @@
 import React from 'react'
-import renderer from 'react-test-renderer'
 import { shallow } from 'enzyme'
+import { renderWithTheme } from '@zap/test/unit/__helpers__/renderWithTheme'
 import Success from 'components/Icon/Success'
 import Warning from 'components/Icon/Warning'
 import Error from 'components/Icon/Error'
@@ -8,7 +8,7 @@ import { Notification, Spinner } from 'components/UI'
 
 describe('component.UI.Notification', () => {
   it('should render correctly', () => {
-    const tree = renderer.create(<Notification />).toJSON()
+    const tree = renderWithTheme(<Notification />).toJSON()
     expect(tree).toMatchSnapshot()
   })
 

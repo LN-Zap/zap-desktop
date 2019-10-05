@@ -1,27 +1,80 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.Message should render correctly with default props 1`] = `
-<styled.div
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  color: #39e673;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.c2 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  margin-right: 8px;
+}
+
+.c3 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  line-height: 1.4;
+}
+
+.c1 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+<div
+  className="c0"
   fontSize="s"
   fontWeight="normal"
-  variant="message.success"
 >
-  <Styled(styled.div)
-    alignItems="flex-start"
+  <div
+    className="c1"
   >
-    <styled.div
-      mr={2}
+    <div
+      className="c2"
     >
-      <Icon
-        type="success"
-      />
-    </styled.div>
-    <ForwardRef
-      flex={1}
-      lineHeight="normal"
+      <svg
+        height="14px"
+        viewBox="0 0 17 17"
+        width="14px"
+      >
+        <defs>
+          <path
+            d="M8.333 16.667A8.333 8.333 0 1 1 8.333 0a8.333 8.333 0 0 1 0 16.667zM11.095 5.66l-4.41 4.41-1.513-1.51a.833.833 0 1 0-1.179 1.178l2.101 2.101a.833.833 0 0 0 1.179 0l5-5a.833.833 0 0 0-1.179-1.178z"
+            id="success_svg__a"
+          />
+        </defs>
+        <use
+          fill="currentColor"
+          fillRule="evenodd"
+          xlinkHref="#success_svg__a"
+        />
+      </svg>
+    </div>
+    <div
+      className="c3"
     >
       A message
-    </ForwardRef>
-  </Styled(styled.div)>
-</styled.div>
+    </div>
+  </div>
+</div>
 `;

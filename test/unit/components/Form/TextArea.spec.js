@@ -1,21 +1,15 @@
 import React from 'react'
 import { Form } from 'informed'
-import renderer from 'react-test-renderer'
-import { ThemeProvider } from 'styled-components'
-import { dark } from 'themes'
-import { Input } from 'components/Form'
+import { renderWithTheme } from '@zap/test/unit/__helpers__/renderWithTheme'
+import { TextArea } from 'components/Form'
 
 describe('component.UI.Input', () => {
   it('should render correctly', () => {
-    const tree = renderer
-      .create(
-        <ThemeProvider theme={dark}>
-          <Form>
-            <Input field="name" />
-          </Form>
-        </ThemeProvider>
-      )
-      .toJSON()
+    const tree = renderWithTheme(
+      <Form>
+        <TextArea field="name" />
+      </Form>
+    ).toJSON()
     expect(tree).toMatchSnapshot()
   })
 })

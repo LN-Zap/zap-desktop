@@ -34,38 +34,6 @@ class ConnectionDetailsManual extends React.Component {
     wizardState: {},
   }
 
-  componentDidMount() {
-    const {
-      startLndHostError,
-      startLndCertError,
-      startLndMacaroonError,
-      clearStartLndError,
-    } = this.props
-
-    // If at least one of the fields has an error, set them all as touched so that they get highlighted.
-    if (startLndHostError || startLndCertError || startLndMacaroonError) {
-      this.formApi.setTouched('connectionHost', true)
-      this.formApi.setTouched('connectionCert', true)
-      this.formApi.setTouched('connectionMacaroon', true)
-    }
-
-    // If we have a connection error, set it into the form errors for the relevant field.
-    if (startLndHostError) {
-      this.formApi.setError('connectionHost', startLndHostError)
-    }
-    if (startLndCertError) {
-      this.formApi.setError('connectionCert', startLndCertError)
-    }
-    if (startLndMacaroonError) {
-      this.formApi.setError('connectionMacaroon', startLndMacaroonError)
-    }
-
-    // Clear connection erros now that we have used them.
-    if (startLndHostError || startLndCertError || startLndMacaroonError) {
-      clearStartLndError()
-    }
-  }
-
   asyncValidateField = async (field, validator) => {
     const value = this.formApi.getValue(field)
     if (!value) {
@@ -112,6 +80,38 @@ class ConnectionDetailsManual extends React.Component {
 
   setFormApi = formApi => {
     this.formApi = formApi
+  }
+
+  UNSAFE_componentWillMount() {
+    const {
+      startLndHostError,
+      startLndCertError,
+      startLndMacaroonError,
+      clearStartLndError,
+    } = this.props
+
+    // If at least one of the fields has an error, set them all as touched so that they get highlighted.
+    if (startLndHostError || startLndCertError || startLndMacaroonError) {
+      this.formApi.setTouched('connectionHost', true)
+      this.formApi.setTouched('connectionCert', true)
+      this.formApi.setTouched('connectionMacaroon', true)
+    }
+
+    // If we have a connection error, set it into the form errors for the relevant field.
+    if (startLndHostError) {
+      this.formApi.setError('connectionHost', startLndHostError)
+    }
+    if (startLndCertError) {
+      this.formApi.setError('connectionCert', startLndCertError)
+    }
+    if (startLndMacaroonError) {
+      this.formApi.setError('connectionMacaroon', startLndMacaroonError)
+    }
+
+    // Clear connection erros now that we have used them.
+    if (startLndHostError || startLndCertError || startLndMacaroonError) {
+      clearStartLndError()
+    }
   }
 
   render() {

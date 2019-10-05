@@ -1,86 +1,268 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.Header should render correctly with default props 1`] = `
-<Styled(styled.div)
-  alignItems="center"
-  as="header"
-  flexDirection="column"
-  justifyContent="center"
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+<header
+  className="c0"
 />
 `;
 
 exports[`component.UI.Header should render correctly with logo 1`] = `
-<Styled(styled.div)
-  alignItems="center"
-  as="header"
-  flexDirection="column"
-  justifyContent="center"
+.c1 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  color: #ffffff;
+  font-size: 50px;
+  line-height: 1;
+  text-align: center;
+}
+
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+<header
+  className="c0"
 >
-  <Text
+  <div
+    className="c1"
+    color="primaryText"
     fontSize="50px"
-    lineHeight="1"
-    textAlign="center"
   >
     logo here
-  </Text>
-</Styled(styled.div)>
+  </div>
+</header>
 `;
 
 exports[`component.UI.Header should render correctly with subtitle 1`] = `
-<Styled(styled.div)
-  alignItems="center"
-  as="header"
-  flexDirection="column"
-  justifyContent="center"
+.c1 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  font-size: 4px;
+  font-family: Roboto,system-ui,sans-serif;
+  font-weight: 300;
+  line-height: 1.4;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+<header
+  className="c0"
 >
-  <Heading4
-    textAlign="center"
+  <h4
+    className="c1"
+    color="primaryText"
+    fontSize="m"
+    fontWeight="light"
   >
     subtitle here
-  </Heading4>
-</Styled(styled.div)>
+  </h4>
+</header>
 `;
 
 exports[`component.UI.Header should render correctly with title 1`] = `
-<Styled(styled.div)
-  alignItems="center"
-  as="header"
-  flexDirection="column"
-  justifyContent="center"
+.c1 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  font-size: 4px;
+  font-family: Roboto,system-ui,sans-serif;
+  font-weight: 300;
+  line-height: 1.4;
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: 300;
+  line-height: 1.1;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+<header
+  className="c0"
 >
-  <Heading1
-    mb={1}
-    textAlign="center"
+  <h1
+    className="c1"
+    color="primaryText"
+    fontSize="xxl"
+    fontWeight="light"
   >
     title here
-  </Heading1>
-</Styled(styled.div)>
+  </h1>
+</header>
 `;
 
 exports[`component.UI.Header should render correctly with title, subtitle, and logo 1`] = `
-<Styled(styled.div)
-  alignItems="center"
-  as="header"
-  flexDirection="column"
-  justifyContent="center"
+.c2 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  font-size: 4px;
+  font-family: Roboto,system-ui,sans-serif;
+  font-weight: 300;
+  line-height: 1.4;
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: 300;
+  line-height: 1.1;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.c3 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  font-size: 4px;
+  font-family: Roboto,system-ui,sans-serif;
+  font-weight: 300;
+  line-height: 1.4;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.c1 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  color: #ffffff;
+  font-size: 50px;
+  line-height: 1;
+  text-align: center;
+}
+
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+<header
+  className="c0"
 >
-  <Text
+  <div
+    className="c1"
+    color="primaryText"
     fontSize="50px"
-    lineHeight="1"
-    textAlign="center"
   >
     logo here
-  </Text>
-  <Heading1
-    mb={1}
-    textAlign="center"
+  </div>
+  <h1
+    className="c2"
+    color="primaryText"
+    fontSize="xxl"
+    fontWeight="light"
   >
     title here
-  </Heading1>
-  <Heading4
-    textAlign="center"
+  </h1>
+  <h4
+    className="c3"
+    color="primaryText"
+    fontSize="m"
+    fontWeight="light"
   >
     logo here
-  </Heading4>
-</Styled(styled.div)>
+  </h4>
+</header>
 `;

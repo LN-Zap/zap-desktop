@@ -1,33 +1,146 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.CreateWalletButton should render correctly 1`] = `
-<Button
-  justify="center"
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-block;
+  text-align: center;
+  line-height: inherit;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: inherit;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  color: white;
+  background-color: primary;
+  border: 0;
+  border-radius: 4px;
+  font-family: Roboto,system-ui,sans-serif;
+  background-color: inherit;
+  color: #ffffff;
+  opacity: 0.6;
+  border-radius: 0;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.c0:hover:enabled {
+  opacity: 1;
+}
+
+.c0.active {
+  opacity: 1;
+}
+
+.c0:focus {
+  opacity: 1;
+}
+
+.c2 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.c4 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  color: #fd9800;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.c5 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  color: #ffffff;
+  font-size: 13px;
+  line-height: 22px;
+  margin-left: 8px;
+}
+
+.c3 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c1 {
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
+  outline: none;
+  font-weight: 300;
+  line-height: '18px';
+  white-space: nowrap;
+  text-align: center;
+}
+
+.c1:disabled {
+  opacity: 0.5;
+}
+
+.c1:hover:enabled {
+  cursor: pointer;
+}
+
+<button
+  className="c0 c1"
   onClick={[Function]}
-  size="small"
-  variant="secondary"
 >
-  <Styled(styled.div)
-    alignItem="center"
+  <div
+    className="c2"
+    fontSize="m"
+    fontWeight="normal"
   >
-    <Text
-      color="primaryAccent"
+    <div
+      className="c3"
     >
-      <SvgPlusCircle
-        height="22px"
-        width="22px"
-      />
-    </Text>
-    <Text
-      lineHeight="22px"
-      ml={2}
-    >
-      <FormattedMessage
-        defaultMessage="Create new wallet"
-        id="components.Home.create_wallet_button_text"
-        values={Object {}}
-      />
-    </Text>
-  </Styled(styled.div)>
-</Button>
+      <div
+        className="c4"
+        color="primaryAccent"
+        fontSize="m"
+      >
+        <svg
+          height="22px"
+          viewBox="0 0 31 31"
+          width="22px"
+        >
+          <path
+            d="M15.5 1.224c7.884 0 14.276 6.392 14.276 14.276 0 7.884-6.392 14.276-14.276 14.276-7.884 0-14.276-6.392-14.276-14.276 0-7.884 6.392-14.276 14.276-14.276zm0 6.489v15.574m7.787-7.787H7.713"
+            fill="none"
+            fillRule="evenodd"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.208}
+          />
+        </svg>
+      </div>
+      <div
+        className="c5"
+        color="primaryText"
+        fontSize="m"
+      >
+        Create new wallet
+      </div>
+    </div>
+  </div>
+</button>
 `;

@@ -1,18 +1,10 @@
 import React from 'react'
-import renderer from 'react-test-renderer'
-import { ThemeProvider } from 'styled-components'
+import { renderWithTheme } from '@zap/test/unit/__helpers__/renderWithTheme'
 import { QRCode } from 'components/UI'
-import { dark } from 'themes'
 
 describe('component.UI.QRCode', () => {
   it('should render correctly', () => {
-    const tree = renderer
-      .create(
-        <ThemeProvider theme={dark}>
-          <QRCode value="qwerty" />
-        </ThemeProvider>
-      )
-      .toJSON()
+    const tree = renderWithTheme(<QRCode value="qwerty" />).toJSON()
     expect(tree).toMatchSnapshot()
   })
 })

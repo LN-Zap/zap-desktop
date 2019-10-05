@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.ActionBar should render correctly 1`] = `
-.c2 {
+.c1 {
   box-sizing: border-box;
   margin: 0;
   min-width: 0;
@@ -22,20 +22,36 @@ exports[`component.UI.ActionBar should render correctly 1`] = `
   background-color: primary;
   border: 0;
   border-radius: 4px;
+  font-family: Roboto,system-ui,sans-serif;
+  background-color: inherit;
+  color: #ffffff;
+  opacity: 0.6;
   border-radius: 0;
   padding-left: 0;
   padding-right: 0;
   padding-top: 16px;
   padding-bottom: 16px;
-  margin-right: 128px;
+  margin-right: 72px;
+}
+
+.c1:hover:enabled {
+  opacity: 1;
+}
+
+.c1.active {
+  opacity: 1;
+}
+
+.c1:focus {
+  opacity: 1;
 }
 
 .c3 {
   box-sizing: border-box;
   margin: 0;
   min-width: 0;
-  font-size: m;
-  font-weight: normal;
+  font-size: 13px;
+  font-weight: 400;
 }
 
 .c4 {
@@ -59,19 +75,30 @@ exports[`component.UI.ActionBar should render correctly 1`] = `
   background-color: primary;
   border: 0;
   border-radius: 4px;
+  font-family: Roboto,system-ui,sans-serif;
+  background-color: #313340;
+  color: #fd9800;
   border-radius: 5px;
-  padding-left: 64px;
-  padding-right: 64px;
+  padding-left: 45px;
+  padding-right: 45px;
   padding-top: 16px;
   padding-bottom: 16px;
   margin-right: 0;
+}
+
+.c4:hover:enabled {
+  background-color: #353745;
+}
+
+.c4:focus {
+  background-color: #353745;
 }
 
 .c0 {
   box-sizing: border-box;
   margin: 0;
   min-width: 0;
-  background-color: secondaryColor;
+  background-color: #373947;
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
@@ -80,7 +107,7 @@ exports[`component.UI.ActionBar should render correctly 1`] = `
   -ms-flex-pack: end;
   justify-content: flex-end;
   padding-bottom: 8px;
-  padding-right: 64px;
+  padding-right: 45px;
   padding-top: 8px;
   display: -webkit-box;
   display: -webkit-flex;
@@ -88,7 +115,7 @@ exports[`component.UI.ActionBar should render correctly 1`] = `
   display: flex;
 }
 
-.c1 {
+.c2 {
   -webkit-transition: all 0.25s;
   transition: all 0.25s;
   outline: none;
@@ -98,11 +125,11 @@ exports[`component.UI.ActionBar should render correctly 1`] = `
   text-align: center;
 }
 
-.c1:disabled {
+.c2:disabled {
   opacity: 0.5;
 }
 
-.c1:hover:enabled {
+.c2:hover:enabled {
   cursor: pointer;
 }
 
@@ -122,7 +149,7 @@ exports[`component.UI.ActionBar should render correctly 1`] = `
     </div>
   </button>
   <button
-    className="c1 c4"
+    className="c4 c2"
     onClick={[Function]}
   >
     <div

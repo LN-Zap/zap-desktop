@@ -1,11 +1,10 @@
 import React from 'react'
-import renderer from 'react-test-renderer'
-import { mount } from 'enzyme'
+import { renderWithTheme } from '@zap/test/unit/__helpers__/renderWithTheme'
 import { Heading } from 'components/UI'
 
 describe('component.UI.Heading', () => {
   it('should render correctly', () => {
-    const tree = renderer.create(<Heading>Heading here</Heading>).toJSON()
+    const tree = renderWithTheme(<Heading>Heading here</Heading>).toJSON()
     expect(tree).toMatchSnapshot()
   })
 
@@ -13,8 +12,8 @@ describe('component.UI.Heading', () => {
     it(`should render a heading of the correct level`, () => {
       for (var i = 1; i <= 6; i++) {
         const Element = Heading[`h${i}`]
-        const wrapper = mount(<Element>Heading here</Element>)
-        expect(wrapper.find(`h${i}`)).toHaveLength(1)
+        const testRenderer = renderWithTheme(<Element>Heading here</Element>)
+        expect(testRenderer.root.findByType(`h${i}`)).toBeTruthy()
       }
     })
   })

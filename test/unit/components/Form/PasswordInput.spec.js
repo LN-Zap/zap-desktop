@@ -1,11 +1,10 @@
 import React from 'react'
-import { shallow } from 'enzyme'
-import toJSON from 'enzyme-to-json'
+import { renderWithTheme } from '@zap/test/unit/__helpers__/renderWithTheme'
 import { PasswordInput } from 'components/Form'
 
 describe('component.UI.PasswordInput', () => {
   it('should render correctly', () => {
-    const wrapper = shallow(<PasswordInput field="password" />)
-    expect(toJSON(wrapper)).toMatchSnapshot()
+    const tree = renderWithTheme(<PasswordInput field="password" />).toJSON()
+    expect(tree).toMatchSnapshot()
   })
 })

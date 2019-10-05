@@ -5,8 +5,10 @@ exports[`component.UI.Notification should render correctly 1`] = `
   box-sizing: border-box;
   margin: 0;
   min-width: 0;
-  border-radius: s;
-  box-shadow: s;
+  background-color: #0d331a;
+  color: #39e673;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.4);
   cursor: pointer;
   padding-left: 16px;
   padding-right: 16px;
@@ -18,14 +20,14 @@ exports[`component.UI.Notification should render correctly 1`] = `
   box-sizing: border-box;
   margin: 0;
   min-width: 0;
-  font-size: xl;
+  font-size: 18px;
 }
 
 .c4 {
   box-sizing: border-box;
   margin: 0;
   min-width: 0;
-  font-weight: normal;
+  font-weight: 400;
   margin-left: 8px;
 }
 
@@ -33,7 +35,7 @@ exports[`component.UI.Notification should render correctly 1`] = `
   box-sizing: border-box;
   margin: 0;
   min-width: 0;
-  font-size: xs;
+  font-size: 10px;
   margin-top: 4px;
 }
 

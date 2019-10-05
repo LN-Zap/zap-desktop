@@ -1,20 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.Countdown should render correctly with default props 1`] = `
-<Text
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  color: #e63939;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+<div
+  className="c0"
   color="superRed"
+  fontSize="m"
 >
-  <FormattedMessage
-    defaultMessage="Expired"
-    id="components.UI.expired"
-    values={Object {}}
-  />
+  Expired
    
-  <FormattedRelativeTime
-    style="long"
-    unit="second"
-    updateIntervalInSeconds={1}
-    value={NaN}
-  />
-</Text>
+  in 0 seconds
+</div>
 `;

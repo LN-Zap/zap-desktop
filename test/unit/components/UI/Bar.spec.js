@@ -1,18 +1,10 @@
 import React from 'react'
-import renderer from 'react-test-renderer'
-import { ThemeProvider } from 'styled-components'
-import { dark } from 'themes'
+import { renderWithTheme } from '@zap/test/unit/__helpers__/renderWithTheme'
 import { Bar } from 'components/UI'
 
 describe('component.UI.Bar', () => {
   it('should render correctly', () => {
-    const tree = renderer
-      .create(
-        <ThemeProvider theme={dark}>
-          <Bar />
-        </ThemeProvider>
-      )
-      .toJSON()
+    const tree = renderWithTheme(<Bar />).toJSON()
     expect(tree).toMatchSnapshot()
   })
 })

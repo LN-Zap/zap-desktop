@@ -1,159 +1,947 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.Dialog should render correctly with custom content 1`] = `
-<Dialog
-  buttons={
-    <React.Fragment>
-      <ForwardRef
-        justify="center"
-        size="medium"
-        variant="primary"
-      >
-        Primary
-      </ForwardRef>
-      <ForwardRef
-        justify="center"
-        size="medium"
-        variant="secondary"
-      >
-        Secondary
-      </ForwardRef>
-    </React.Fragment>
-  }
-  header={
-    <ForwardRef(Styled(styled.div))
-      alignItems="center"
-      alignSelf="stretch"
-      flexDirection="column"
-      mb={3}
-    >
-      <SvgEye
-        color="white"
-        height={64}
-        width={64}
-      />
-      <Heading2>
-        Custom heading
-      </Heading2>
-    </ForwardRef(Styled(styled.div))>
-  }
-  onClose={[Function]}
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  border-radius: 5px;
+  box-shadow: 0 2px 24px 0 rgba(0,0,0,0.5);
+  background-color: #242633;
+  color: #ffffff;
+  padding: 16px;
+  width: 550px;
+}
+
+.c10 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-block;
+  text-align: center;
+  line-height: inherit;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: inherit;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  color: white;
+  background-color: primary;
+  border: 0;
+  border-radius: 4px;
+  font-family: Roboto,system-ui,sans-serif;
+  background-color: #fd9800;
+  color: white;
+  border-radius: 5px;
+  padding-left: 45px;
+  padding-right: 45px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.c12 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.c6 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  font-size: 4px;
+  font-family: Roboto,system-ui,sans-serif;
+  font-weight: 300;
+  line-height: 1.4;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.2;
+}
+
+.c8 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  color: #ffffff;
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.c13 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-block;
+  text-align: center;
+  line-height: inherit;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: inherit;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  color: white;
+  background-color: primary;
+  border: 0;
+  border-radius: 4px;
+  font-family: Roboto,system-ui,sans-serif;
+  background-color: inherit;
+  color: #ffffff;
+  opacity: 0.6;
+  border-radius: 0;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.c13:hover:enabled {
+  opacity: 1;
+}
+
+.c13.active {
+  opacity: 1;
+}
+
+.c13:focus {
+  opacity: 1;
+}
+
+.c1 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c3 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding-bottom: 32px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c4 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c9 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: space-evenly;
+  -webkit-justify-content: space-evenly;
+  -ms-flex-pack: space-evenly;
+  justify-content: space-evenly;
+  margin-top: 32px;
+  padding-left: 72px;
+  padding-right: 72px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c5 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin-bottom: 16px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c7 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c11 {
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
+  outline: none;
+  font-weight: 300;
+  line-height: '18px';
+  white-space: nowrap;
+  text-align: center;
+}
+
+.c11:disabled {
+  opacity: 0.5;
+}
+
+.c11:hover:enabled {
+  cursor: pointer;
+}
+
+.c2 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  padding: 8px;
+  height: 40px;
+  cursor: pointer;
+  color: #ffffff;
+  opacity: 0.6;
+}
+
+.c2:hover {
+  color: #fd9800;
+}
+
+<section
+  className="c0"
+  color="primaryText"
   width={550}
 >
-  <Styled(styled.div)
-    alignItems="center"
-    flexDirection="column"
+  <div
+    className="c1"
   >
-    <Text
-      fontSize="xl"
+    <div
+      className="c2"
+      onClick={[Function]}
     >
-      This is a custom body
-    </Text>
-  </Styled(styled.div)>
-</Dialog>
+      <svg
+        height={15}
+        viewBox="0 0 22 20"
+        width={15}
+      >
+        <defs>
+          <path
+            d="M10 10L0 20l10-10L0 0l10 10L20 0l-8.394 8.394L10 10l1.606 1.606L20 20 10 10z"
+            id="x_svg__a"
+          />
+        </defs>
+        <use
+          fill="none"
+          fillRule="evenodd"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          transform="translate(1)"
+          xlinkHref="#x_svg__a"
+        />
+      </svg>
+    </div>
+  </div>
+  <div
+    className="c3"
+  >
+    <div
+      className="c4"
+    >
+      <div
+        className="c5"
+      >
+        <svg
+          className="eye_svg__feather eye_svg__feather-eye"
+          color="white"
+          fill="none"
+          height={64}
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          viewBox="0 0 24 24"
+          width={64}
+        >
+          <path
+            d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
+          />
+          <circle
+            cx={12}
+            cy={12}
+            r={3}
+          />
+        </svg>
+        <h2
+          className="c6"
+          color="primaryText"
+          fontSize="xl"
+          fontWeight="light"
+        >
+          Custom heading
+        </h2>
+      </div>
+      <div
+        className="c7"
+      >
+        <div
+          className="c8"
+          color="primaryText"
+          fontSize="xl"
+        >
+          This is a custom body
+        </div>
+      </div>
+    </div>
+    <div
+      className="c9"
+    >
+      <button
+        className="c10 c11"
+      >
+        <div
+          className="c12"
+          fontSize="m"
+          fontWeight="normal"
+        >
+          Primary
+        </div>
+      </button>
+      <button
+        className="c13 c11"
+      >
+        <div
+          className="c12"
+          fontSize="m"
+          fontWeight="normal"
+        >
+          Secondary
+        </div>
+      </button>
+    </div>
+  </div>
+</section>
 `;
 
 exports[`component.UI.Dialog should render correctly with one button 1`] = `
-<Card
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  border-radius: 5px;
+  box-shadow: 0 2px 24px 0 rgba(0,0,0,0.5);
+  background-color: #242633;
+  color: #ffffff;
+  padding: 16px;
+  width: 550px;
+}
+
+.c5 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  font-size: 4px;
+  font-family: Roboto,system-ui,sans-serif;
+  font-weight: 300;
+  line-height: 1.4;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.2;
+  margin-bottom: 32px;
+}
+
+.c7 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-block;
+  text-align: center;
+  line-height: inherit;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: inherit;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  color: white;
+  background-color: primary;
+  border: 0;
+  border-radius: 4px;
+  font-family: Roboto,system-ui,sans-serif;
+  background-color: #fd9800;
+  color: white;
+  border-radius: 5px;
+  padding-left: 45px;
+  padding-right: 45px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.c9 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.c1 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c3 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding-bottom: 32px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c4 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c6 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: space-evenly;
+  -webkit-justify-content: space-evenly;
+  -ms-flex-pack: space-evenly;
+  justify-content: space-evenly;
+  margin-top: 32px;
+  padding-left: 72px;
+  padding-right: 72px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c8 {
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
+  outline: none;
+  font-weight: 300;
+  line-height: '18px';
+  white-space: nowrap;
+  text-align: center;
+}
+
+.c8:disabled {
+  opacity: 0.5;
+}
+
+.c8:hover:enabled {
+  cursor: pointer;
+}
+
+.c2 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  padding: 8px;
+  height: 40px;
+  cursor: pointer;
+  color: #ffffff;
+  opacity: 0.6;
+}
+
+.c2:hover {
+  color: #fd9800;
+}
+
+<section
+  className="c0"
+  color="primaryText"
   width={550}
 >
-  <CloseButton
-    onClick={[Function]}
-    size="s"
-  />
-  <Styled(styled.div)
-    alignItems="center"
-    alignSelf="stretch"
-    flexDirection="column"
-    justifyContent="center"
-    pb={4}
+  <div
+    className="c1"
   >
-    <Styled(styled.div)
-      alignItems="center"
-      flexDirection="column"
-      justifyContent="flex-start"
+    <div
+      className="c2"
+      onClick={[Function]}
     >
-      <Heading2
-        mb={4}
+      <svg
+        height={15}
+        viewBox="0 0 22 20"
+        width={15}
+      >
+        <defs>
+          <path
+            d="M10 10L0 20l10-10L0 0l10 10L20 0l-8.394 8.394L10 10l1.606 1.606L20 20 10 10z"
+            id="x_svg__a"
+          />
+        </defs>
+        <use
+          fill="none"
+          fillRule="evenodd"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          transform="translate(1)"
+          xlinkHref="#x_svg__a"
+        />
+      </svg>
+    </div>
+  </div>
+  <div
+    className="c3"
+  >
+    <div
+      className="c4"
+    >
+      <h2
+        className="c5"
+        color="primaryText"
+        fontSize="xl"
+        fontWeight="light"
       >
         Title
-      </Heading2>
-    </Styled(styled.div)>
-    <Styled(styled.div)
-      alignSelf="stretch"
-      flexDirection="row"
-      justifyContent="space-evenly"
-      mt={4}
-      pl={6}
-      pr={6}
+      </h2>
+    </div>
+    <div
+      className="c6"
     >
-      <Button
-        justify="center"
-        key="Ok"
+      <button
+        className="c7 c8"
         onClick={[Function]}
-        size="medium"
-        variant="primary"
       >
-        Ok
-      </Button>
-    </Styled(styled.div)>
-  </Styled(styled.div)>
-</Card>
+        <div
+          className="c9"
+          fontSize="m"
+          fontWeight="normal"
+        >
+          Ok
+        </div>
+      </button>
+    </div>
+  </div>
+</section>
 `;
 
 exports[`component.UI.Dialog should render correctly with two buttons 1`] = `
-<Card
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  border-radius: 5px;
+  box-shadow: 0 2px 24px 0 rgba(0,0,0,0.5);
+  background-color: #242633;
+  color: #ffffff;
+  padding: 16px;
+  width: 550px;
+}
+
+.c5 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  font-size: 4px;
+  font-family: Roboto,system-ui,sans-serif;
+  font-weight: 300;
+  line-height: 1.4;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.2;
+  margin-bottom: 32px;
+}
+
+.c7 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-block;
+  text-align: center;
+  line-height: inherit;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: inherit;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  color: white;
+  background-color: primary;
+  border: 0;
+  border-radius: 4px;
+  font-family: Roboto,system-ui,sans-serif;
+  background-color: #fd9800;
+  color: white;
+  border-radius: 5px;
+  padding-left: 45px;
+  padding-right: 45px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.c9 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.c10 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-block;
+  text-align: center;
+  line-height: inherit;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: inherit;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  color: white;
+  background-color: primary;
+  border: 0;
+  border-radius: 4px;
+  font-family: Roboto,system-ui,sans-serif;
+  background-color: #313340;
+  color: #fd9800;
+  border-radius: 5px;
+  padding-left: 45px;
+  padding-right: 45px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.c10:hover:enabled {
+  background-color: #353745;
+}
+
+.c10:focus {
+  background-color: #353745;
+}
+
+.c1 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c3 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding-bottom: 32px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c4 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c6 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: space-evenly;
+  -webkit-justify-content: space-evenly;
+  -ms-flex-pack: space-evenly;
+  justify-content: space-evenly;
+  margin-top: 32px;
+  padding-left: 72px;
+  padding-right: 72px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c8 {
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
+  outline: none;
+  font-weight: 300;
+  line-height: '18px';
+  white-space: nowrap;
+  text-align: center;
+}
+
+.c8:disabled {
+  opacity: 0.5;
+}
+
+.c8:hover:enabled {
+  cursor: pointer;
+}
+
+.c2 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  padding: 8px;
+  height: 40px;
+  cursor: pointer;
+  color: #ffffff;
+  opacity: 0.6;
+}
+
+.c2:hover {
+  color: #fd9800;
+}
+
+<section
+  className="c0"
+  color="primaryText"
   width={550}
 >
-  <CloseButton
-    onClick={[Function]}
-    size="s"
-  />
-  <Styled(styled.div)
-    alignItems="center"
-    alignSelf="stretch"
-    flexDirection="column"
-    justifyContent="center"
-    pb={4}
+  <div
+    className="c1"
   >
-    <Styled(styled.div)
-      alignItems="center"
-      flexDirection="column"
-      justifyContent="flex-start"
+    <div
+      className="c2"
+      onClick={[Function]}
     >
-      <Heading2
-        mb={4}
+      <svg
+        height={15}
+        viewBox="0 0 22 20"
+        width={15}
+      >
+        <defs>
+          <path
+            d="M10 10L0 20l10-10L0 0l10 10L20 0l-8.394 8.394L10 10l1.606 1.606L20 20 10 10z"
+            id="x_svg__a"
+          />
+        </defs>
+        <use
+          fill="none"
+          fillRule="evenodd"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          transform="translate(1)"
+          xlinkHref="#x_svg__a"
+        />
+      </svg>
+    </div>
+  </div>
+  <div
+    className="c3"
+  >
+    <div
+      className="c4"
+    >
+      <h2
+        className="c5"
+        color="primaryText"
+        fontSize="xl"
+        fontWeight="light"
       >
         Title
-      </Heading2>
-    </Styled(styled.div)>
-    <Styled(styled.div)
-      alignSelf="stretch"
-      flexDirection="row"
-      justifyContent="space-evenly"
-      mt={4}
-      pl={6}
-      pr={6}
+      </h2>
+    </div>
+    <div
+      className="c6"
     >
-      <Button
-        justify="center"
-        key="Delete"
+      <button
+        className="c7 c8"
         onClick={[Function]}
-        size="medium"
-        variant="primary"
       >
-        Delete
-      </Button>
-      <Button
-        justify="center"
-        key="Cancel"
+        <div
+          className="c9"
+          fontSize="m"
+          fontWeight="normal"
+        >
+          Delete
+        </div>
+      </button>
+      <button
+        className="c10 c8"
         onClick={[Function]}
-        size="medium"
-        variant="normal"
       >
-        Cancel
-      </Button>
-    </Styled(styled.div)>
-  </Styled(styled.div)>
-</Card>
+        <div
+          className="c9"
+          fontSize="m"
+          fontWeight="normal"
+        >
+          Cancel
+        </div>
+      </button>
+    </div>
+  </div>
+</section>
 `;

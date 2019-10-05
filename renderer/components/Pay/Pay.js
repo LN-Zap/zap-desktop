@@ -66,13 +66,6 @@ class Pay extends React.Component {
     isOnchain: null,
   }
 
-  // Set a flag so that we can trigger form submission in componentDidUpdate once the form is loaded.
-  componentDidMount() {
-    const { fetchTickers, queryFees } = this.props
-    fetchTickers()
-    queryFees()
-  }
-
   componentDidUpdate(prevProps, prevState) {
     const { redirectPayReq, queryRoutes, setRedirectPayReq } = this.props
     const { currentStep, invoice, isOnchain } = this.state
@@ -327,6 +320,13 @@ class Pay extends React.Component {
 
     // Update the state with our findings.
     this.setState(state)
+  }
+
+  // Set a flag so that we can trigger form submission in componentDidUpdate once the form is loaded.
+  UNSAFE_componentWillMount() {
+    const { fetchTickers, queryFees } = this.props
+    fetchTickers()
+    queryFees()
   }
 
   render() {

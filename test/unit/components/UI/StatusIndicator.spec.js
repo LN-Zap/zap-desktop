@@ -1,31 +1,30 @@
 import React from 'react'
-import { shallow } from 'enzyme'
-import toJSON from 'enzyme-to-json'
+import { renderWithTheme } from '@zap/test/unit/__helpers__/renderWithTheme'
 import { StatusIndicator } from 'components/UI'
 
 describe('component.UI.StatusIndicator', () => {
   describe('online', () => {
     it('should render correctly', () => {
-      const wrapper = shallow(<StatusIndicator variant="online" />)
-      expect(toJSON(wrapper)).toMatchSnapshot()
+      const tree = renderWithTheme(<StatusIndicator variant="online" />).toJSON()
+      expect(tree).toMatchSnapshot()
     })
   })
   describe('offline', () => {
     it('should render correctly', () => {
-      const wrapper = shallow(<StatusIndicator variant="offline" />)
-      expect(toJSON(wrapper)).toMatchSnapshot()
+      const tree = renderWithTheme(<StatusIndicator variant="offline" />).toJSON()
+      expect(tree).toMatchSnapshot()
     })
   })
   describe('pending', () => {
     it('should render correctly', () => {
-      const wrapper = shallow(<StatusIndicator variant="pending" />)
-      expect(toJSON(wrapper)).toMatchSnapshot()
+      const tree = renderWithTheme(<StatusIndicator variant="pending" />).toJSON()
+      expect(tree).toMatchSnapshot()
     })
   })
   describe('closing', () => {
     it('should render correctly', () => {
-      const wrapper = shallow(<StatusIndicator variant="closing" />)
-      expect(toJSON(wrapper)).toMatchSnapshot()
+      const tree = renderWithTheme(<StatusIndicator variant="closing" />).toJSON()
+      expect(tree).toMatchSnapshot()
     })
   })
 })

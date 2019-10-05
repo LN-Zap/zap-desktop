@@ -27,7 +27,28 @@ class ConnectionDetailsString extends React.Component {
     wizardState: {},
   }
 
-  componentDidMount() {
+  componentDidUpdate(prevProps) {
+    const { lndConnect, setLndconnect } = this.props
+
+    // If we have an lndConnect link, populate the form and submit immediately.
+    if (lndConnect && lndConnect !== prevProps.lndConnect) {
+      this.formApi.setValue('connectionString', lndConnect)
+      this.formApi.setTouched('connectionString', true)
+      this.formApi.submitForm()
+      setLndconnect(null)
+    }
+  }
+
+  setFormApi = formApi => {
+    this.formApi = formApi
+  }
+
+  handleSubmit = values => {
+    const { setConnectionString } = this.props
+    setConnectionString(values.connectionString)
+  }
+
+  UNSAFE_componentWillMount() {
     const {
       startLndHostError,
       startLndCertError,
@@ -66,27 +87,6 @@ class ConnectionDetailsString extends React.Component {
     if (startLndHostError || startLndCertError || startLndMacaroonError) {
       clearStartLndError()
     }
-  }
-
-  componentDidUpdate(prevProps) {
-    const { lndConnect, setLndconnect } = this.props
-
-    // If we have an lndConnect link, populate the form and submit immediately.
-    if (lndConnect && lndConnect !== prevProps.lndConnect) {
-      this.formApi.setValue('connectionString', lndConnect)
-      this.formApi.setTouched('connectionString', true)
-      this.formApi.submitForm()
-      setLndconnect(null)
-    }
-  }
-
-  setFormApi = formApi => {
-    this.formApi = formApi
-  }
-
-  handleSubmit = values => {
-    const { setConnectionString } = this.props
-    setConnectionString(values.connectionString)
   }
 
   render() {

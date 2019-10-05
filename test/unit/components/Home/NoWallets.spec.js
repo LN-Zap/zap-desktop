@@ -1,18 +1,26 @@
 import React from 'react'
-import { shallow } from 'enzyme'
-import toJSON from 'enzyme-to-json'
+import { IntlProvider } from 'react-intl'
+import { renderWithTheme } from '@zap/test/unit/__helpers__/renderWithTheme'
 import NoWallets from 'components/Home/NoWallets'
 
 const history = { push: jest.fn() }
 
 describe('component.NoWallets', () => {
   it('should render correctly (no wallets)', () => {
-    const wrapper = shallow(<NoWallets history={history} wallets={[]} />)
-    expect(toJSON(wrapper)).toMatchSnapshot()
+    const tree = renderWithTheme(
+      <IntlProvider locale="en">
+        <NoWallets history={history} wallets={[]} />
+      </IntlProvider>
+    ).toJSON()
+    expect(tree).toMatchSnapshot()
   })
 
   it('should render correctly (no selected wallet)', () => {
-    const wrapper = shallow(<NoWallets history={history} wallets={[{ name: 'wallet 1' }]} />)
-    expect(toJSON(wrapper)).toMatchSnapshot()
+    const tree = renderWithTheme(
+      <IntlProvider locale="en">
+        <NoWallets history={history} wallets={[{ name: 'wallet 1' }]} />
+      </IntlProvider>
+    ).toJSON()
+    expect(tree).toMatchSnapshot()
   })
 })

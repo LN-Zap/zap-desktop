@@ -1,64 +1,191 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.ProgressBar should render correctly (50%) 1`] = `
-<EmptyBar
-  bg="tertiaryColor"
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  border-radius: 100px;
+  color: #ffffff;
+  height: 10px;
+  background-color: #313340;
+}
+
+.c1 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  border-radius: 100px;
+  color: #ffffff;
+  height: 10px;
+  background-color: #fd9800;
+  width: 50%;
+}
+
+.c2 {
+  background: linear-gradient( to left,#fdb64c,#fd9800 );
+  margin-left: none;
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
+}
+
+<div
+  className="c0"
+  color="primaryText"
   height={10}
 >
-  <ProgressBar__FilledBar
-    bg="primaryAccent"
+  <div
+    className="c1 c2"
+    color="primaryText"
     height={10}
-    justify="left"
     width={0.5}
   />
-</EmptyBar>
+</div>
 `;
 
 exports[`component.UI.ProgressBar should render correctly (100%) 1`] = `
-<EmptyBar
-  bg="tertiaryColor"
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  border-radius: 100px;
+  color: #ffffff;
+  height: 10px;
+  background-color: #313340;
+}
+
+.c1 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  border-radius: 100px;
+  color: #ffffff;
+  height: 10px;
+  background-color: #fd9800;
+  width: 100%;
+}
+
+.c2 {
+  background: linear-gradient( to left,#fdb64c,#fd9800 );
+  margin-left: none;
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
+}
+
+<div
+  className="c0"
+  color="primaryText"
   height={10}
 >
-  <ProgressBar__FilledBar
-    bg="primaryAccent"
+  <div
+    className="c1 c2"
+    color="primaryText"
     height={10}
-    justify="left"
     width={1}
   />
-</EmptyBar>
+</div>
 `;
 
 exports[`component.UI.ProgressBar should render correctly (blue) 1`] = `
-<EmptyBar
-  bg="tertiaryColor"
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  border-radius: 100px;
+  color: #ffffff;
+  height: 10px;
+  background-color: #313340;
+}
+
+.c1 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  border-radius: 100px;
+  color: #ffffff;
+  height: 10px;
+  background-color: #005dfc;
+  width: 50%;
+}
+
+.c2 {
+  background: linear-gradient( to left,#4c8dfc,#005dfc );
+  margin-left: none;
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
+}
+
+<div
+  className="c0"
+  color="primaryText"
   height={10}
 >
-  <ProgressBar__FilledBar
-    bg="superBlue"
+  <div
+    className="c1 c2"
+    color="primaryText"
     height={10}
-    justify="left"
     width={0.5}
   />
-</EmptyBar>
+</div>
 `;
 
 exports[`component.UI.ProgressBar should render correctly (default) 1`] = `
-<EmptyBar
-  bg="tertiaryColor"
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  border-radius: 100px;
+  color: #ffffff;
+  height: 10px;
+  background-color: #313340;
+}
+
+<div
+  className="c0"
+  color="primaryText"
   height={10}
 />
 `;
 
 exports[`component.UI.ProgressBar should render correctly (right justify) 1`] = `
-<EmptyBar
-  bg="tertiaryColor"
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  border-radius: 100px;
+  color: #ffffff;
+  height: 10px;
+  background-color: #313340;
+}
+
+.c1 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  border-radius: 100px;
+  color: #ffffff;
+  height: 10px;
+  background-color: #fd9800;
+  width: 50%;
+}
+
+.c2 {
+  background: linear-gradient( to right,#fdb64c,#fd9800 );
+  margin-left: auto;
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
+}
+
+<div
+  className="c0"
+  color="primaryText"
   height={10}
 >
-  <ProgressBar__FilledBar
-    bg="primaryAccent"
+  <div
+    className="c1 c2"
+    color="primaryText"
     height={10}
-    justify="right"
     width={0.5}
   />
-</EmptyBar>
+</div>
 `;

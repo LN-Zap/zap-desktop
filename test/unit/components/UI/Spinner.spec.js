@@ -1,10 +1,10 @@
 import React from 'react'
-import renderer from 'react-test-renderer'
+import { renderWithTheme } from '@zap/test/unit/__helpers__/renderWithTheme'
 import { Spinner } from 'components/UI'
 
 describe('component.UI.Spinner', () => {
   it('should render correctly', () => {
-    const tree = renderer.create(<Spinner />).toJSON()
+    const tree = renderWithTheme(<Spinner />).toJSON()
     expect(tree).toMatchSnapshot()
   })
 })
