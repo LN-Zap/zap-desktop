@@ -1,11 +1,10 @@
 import React from 'react'
-import { shallow } from 'enzyme'
-import toJSON from 'enzyme-to-json'
+import { renderWithTheme } from '@zap/test/unit/__helpers__/renderWithTheme'
 import { Message } from 'components/UI'
 
 describe('component.UI.Message', () => {
   it('should render correctly with default props', () => {
-    const wrapper = shallow(<Message>A message</Message>)
-    expect(toJSON(wrapper)).toMatchSnapshot()
+    const wrapper = renderWithTheme(<Message>A message</Message>).toJSON()
+    expect(wrapper).toMatchSnapshot()
   })
 })

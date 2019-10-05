@@ -1,6 +1,5 @@
 import React from 'react'
-import { shallow } from 'enzyme'
-import toJSON from 'enzyme-to-json'
+import { renderWithTheme } from '@zap/test/unit/__helpers__/renderWithTheme'
 import { WalletName } from 'components/Util'
 
 describe('component.WalletName', () => {
@@ -12,8 +11,8 @@ describe('component.WalletName', () => {
         host: 'local.host',
         name: 'Wallet name',
       }
-      const wrapper = shallow(<WalletName wallet={wallet} />)
-      expect(toJSON(wrapper)).toMatchSnapshot()
+      const tree = renderWithTheme(<WalletName wallet={wallet} />).toJSON()
+      expect(tree).toMatchSnapshot()
     })
   })
   describe('local wallet, without name', () => {
@@ -23,8 +22,8 @@ describe('component.WalletName', () => {
         id: 1,
         host: 'local.host',
       }
-      const wrapper = shallow(<WalletName wallet={wallet} />)
-      expect(toJSON(wrapper)).toMatchSnapshot()
+      const tree = renderWithTheme(<WalletName wallet={wallet} />).toJSON()
+      expect(tree).toMatchSnapshot()
     })
   })
 
@@ -36,8 +35,8 @@ describe('component.WalletName', () => {
         host: 'local.host',
         name: 'Wallet name',
       }
-      const wrapper = shallow(<WalletName wallet={wallet} />)
-      expect(toJSON(wrapper)).toMatchSnapshot()
+      const tree = renderWithTheme(<WalletName wallet={wallet} />).toJSON()
+      expect(tree).toMatchSnapshot()
     })
   })
   describe('custom wallet, without name', () => {
@@ -47,8 +46,8 @@ describe('component.WalletName', () => {
         id: 1,
         host: 'local.host',
       }
-      const wrapper = shallow(<WalletName wallet={wallet} />)
-      expect(toJSON(wrapper)).toMatchSnapshot()
+      const tree = renderWithTheme(<WalletName wallet={wallet} />).toJSON()
+      expect(tree).toMatchSnapshot()
     })
   })
 })

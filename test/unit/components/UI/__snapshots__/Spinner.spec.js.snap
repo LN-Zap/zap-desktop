@@ -5,7 +5,7 @@ exports[`component.UI.Spinner should render correctly 1`] = `
   box-sizing: border-box;
   margin: 0;
   min-width: 0;
-  color: primaryAccent;
+  color: #fd9800;
 }
 
 .c1 {

@@ -1,45 +1,105 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.StatusIndicator closing should render correctly 1`] = `
-<styled.div
-  variant="statuses.closing"
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  color: #e63939;
+}
+
+<div
+  className="c0"
 >
-  <SvgCircle
+  <svg
     height="0.7em"
+    viewBox="0 0 24 24"
     width="0.7em"
-  />
-</styled.div>
+  >
+    <circle
+      cx={12}
+      cy={12}
+      fill="currentColor"
+      r={8}
+    />
+  </svg>
+</div>
 `;
 
 exports[`component.UI.StatusIndicator offline should render correctly 1`] = `
-<styled.div
-  variant="statuses.offline"
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  color: #959595;
+}
+
+<div
+  className="c0"
 >
-  <SvgCircle
+  <svg
     height="0.7em"
+    viewBox="0 0 24 24"
     width="0.7em"
-  />
-</styled.div>
+  >
+    <circle
+      cx={12}
+      cy={12}
+      fill="currentColor"
+      r={8}
+    />
+  </svg>
+</div>
 `;
 
 exports[`component.UI.StatusIndicator online should render correctly 1`] = `
-<styled.div
-  variant="statuses.online"
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  color: #39e673;
+}
+
+<div
+  className="c0"
 >
-  <SvgCircle
+  <svg
     height="0.7em"
+    viewBox="0 0 24 24"
     width="0.7em"
-  />
-</styled.div>
+  >
+    <circle
+      cx={12}
+      cy={12}
+      fill="currentColor"
+      r={8}
+    />
+  </svg>
+</div>
 `;
 
 exports[`component.UI.StatusIndicator pending should render correctly 1`] = `
-<styled.div
-  variant="statuses.pending"
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  color: #fd9800;
+}
+
+<div
+  className="c0"
 >
-  <SvgCircle
+  <svg
     height="0.7em"
+    viewBox="0 0 24 24"
     width="0.7em"
-  />
-</styled.div>
+  >
+    <circle
+      cx={12}
+      cy={12}
+      fill="currentColor"
+      r={8}
+    />
+  </svg>
+</div>
 `;

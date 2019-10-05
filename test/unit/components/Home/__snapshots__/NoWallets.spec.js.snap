@@ -1,89 +1,461 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.NoWallets should render correctly (no selected wallet) 1`] = `
-<Styled(styled.div)
-  alignItems="center"
-  flexDirection="column"
+.c1 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  font-size: 4px;
+  font-family: Roboto,system-ui,sans-serif;
+  font-weight: 300;
+  line-height: 1.4;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.4;
+}
+
+.c2 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  font-size: 4px;
+  font-family: Roboto,system-ui,sans-serif;
+  font-weight: 300;
+  line-height: 1.4;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.4;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.c3 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-block;
+  text-align: center;
+  line-height: inherit;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: inherit;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  color: white;
+  background-color: primary;
+  border: 0;
+  border-radius: 4px;
+  font-family: Roboto,system-ui,sans-serif;
+  background-color: inherit;
+  color: #ffffff;
+  opacity: 0.6;
+  border-radius: 0;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  margin-top: 16px;
+  padding: 16px;
+}
+
+.c3:hover:enabled {
+  opacity: 1;
+}
+
+.c3.active {
+  opacity: 1;
+}
+
+.c3:focus {
+  opacity: 1;
+}
+
+.c5 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.c7 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  color: #fd9800;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.c8 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  color: #ffffff;
+  font-size: 13px;
+  line-height: 22px;
+  margin-left: 8px;
+}
+
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100%;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c6 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c4 {
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
+  outline: none;
+  font-weight: 300;
+  line-height: '18px';
+  white-space: nowrap;
+  text-align: center;
+}
+
+.c4:disabled {
+  opacity: 0.5;
+}
+
+.c4:hover:enabled {
+  cursor: pointer;
+}
+
+<div
+  className="c0"
   height="100%"
-  justifyContent="center"
 >
-  <Heading4>
-    <FormattedMessage
-      defaultMessage="Please select a wallet from the wallets menu."
-      id="components.Home.no_active_wallet_message"
-      values={Object {}}
-    />
-  </Heading4>
-  <Heading4
-    my={1}
+  <h4
+    className="c1"
+    color="primaryText"
+    fontSize="m"
+    fontWeight="light"
+  >
+    Please select a wallet from the wallets menu.
+  </h4>
+  <h4
+    className="c2"
+    color="primaryText"
+    fontSize="m"
+    fontWeight="light"
   >
     - 
-    <FormattedMessage
-      defaultMessage="or"
-      id="components.Home.or"
-      values={Object {}}
-    />
+    or
      -
-  </Heading4>
-  <Heading4>
-    <FormattedMessage
-      defaultMessage="Start creating one from here:"
-      id="components.Home.create_wallet_prompt"
-      values={Object {}}
-    />
-  </Heading4>
-  <CreateWalletButton
-    history={
-      Object {
-        "push": [MockFunction],
-      }
-    }
-    mt={3}
-    p={3}
-  />
-</Styled(styled.div)>
+  </h4>
+  <h4
+    className="c1"
+    color="primaryText"
+    fontSize="m"
+    fontWeight="light"
+  >
+    Start creating one from here:
+  </h4>
+  <button
+    className="c3 c4"
+    onClick={[Function]}
+  >
+    <div
+      className="c5"
+      fontSize="m"
+      fontWeight="normal"
+    >
+      <div
+        className="c6"
+      >
+        <div
+          className="c7"
+          color="primaryAccent"
+          fontSize="m"
+        >
+          <svg
+            height="22px"
+            viewBox="0 0 31 31"
+            width="22px"
+          >
+            <path
+              d="M15.5 1.224c7.884 0 14.276 6.392 14.276 14.276 0 7.884-6.392 14.276-14.276 14.276-7.884 0-14.276-6.392-14.276-14.276 0-7.884 6.392-14.276 14.276-14.276zm0 6.489v15.574m7.787-7.787H7.713"
+              fill="none"
+              fillRule="evenodd"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.208}
+            />
+          </svg>
+        </div>
+        <div
+          className="c8"
+          color="primaryText"
+          fontSize="m"
+        >
+          Create new wallet
+        </div>
+      </div>
+    </div>
+  </button>
+</div>
 `;
 
 exports[`component.NoWallets should render correctly (no wallets) 1`] = `
-<Styled(styled.div)
-  alignItems="center"
-  flexDirection="column"
+.c1 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  font-size: 4px;
+  font-family: Roboto,system-ui,sans-serif;
+  font-weight: 300;
+  line-height: 1.4;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.4;
+}
+
+.c2 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  font-size: 4px;
+  font-family: Roboto,system-ui,sans-serif;
+  font-weight: 300;
+  line-height: 1.4;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.4;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.c3 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-block;
+  text-align: center;
+  line-height: inherit;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: inherit;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  color: white;
+  background-color: primary;
+  border: 0;
+  border-radius: 4px;
+  font-family: Roboto,system-ui,sans-serif;
+  background-color: inherit;
+  color: #ffffff;
+  opacity: 0.6;
+  border-radius: 0;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  margin-top: 16px;
+  padding: 16px;
+}
+
+.c3:hover:enabled {
+  opacity: 1;
+}
+
+.c3.active {
+  opacity: 1;
+}
+
+.c3:focus {
+  opacity: 1;
+}
+
+.c5 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.c7 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  color: #fd9800;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.c8 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  color: #ffffff;
+  font-size: 13px;
+  line-height: 22px;
+  margin-left: 8px;
+}
+
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100%;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c6 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c4 {
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
+  outline: none;
+  font-weight: 300;
+  line-height: '18px';
+  white-space: nowrap;
+  text-align: center;
+}
+
+.c4:disabled {
+  opacity: 0.5;
+}
+
+.c4:hover:enabled {
+  cursor: pointer;
+}
+
+<div
+  className="c0"
   height="100%"
-  justifyContent="center"
 >
-  <Heading4>
-    <FormattedMessage
-      defaultMessage="Unfortunately you don’t have any wallets 😢"
-      id="components.Home.no_wallets_message"
-      values={Object {}}
-    />
-  </Heading4>
-  <Heading4
-    my={1}
+  <h4
+    className="c1"
+    color="primaryText"
+    fontSize="m"
+    fontWeight="light"
+  >
+    Unfortunately you don’t have any wallets 😢
+  </h4>
+  <h4
+    className="c2"
+    color="primaryText"
+    fontSize="m"
+    fontWeight="light"
   >
     - 
-    <FormattedMessage
-      defaultMessage="or"
-      id="components.Home.or"
-      values={Object {}}
-    />
+    or
      -
-  </Heading4>
-  <Heading4>
-    <FormattedMessage
-      defaultMessage="Start creating one from here:"
-      id="components.Home.create_wallet_prompt"
-      values={Object {}}
-    />
-  </Heading4>
-  <CreateWalletButton
-    history={
-      Object {
-        "push": [MockFunction],
-      }
-    }
-    mt={3}
-    p={3}
-  />
-</Styled(styled.div)>
+  </h4>
+  <h4
+    className="c1"
+    color="primaryText"
+    fontSize="m"
+    fontWeight="light"
+  >
+    Start creating one from here:
+  </h4>
+  <button
+    className="c3 c4"
+    onClick={[Function]}
+  >
+    <div
+      className="c5"
+      fontSize="m"
+      fontWeight="normal"
+    >
+      <div
+        className="c6"
+      >
+        <div
+          className="c7"
+          color="primaryAccent"
+          fontSize="m"
+        >
+          <svg
+            height="22px"
+            viewBox="0 0 31 31"
+            width="22px"
+          >
+            <path
+              d="M15.5 1.224c7.884 0 14.276 6.392 14.276 14.276 0 7.884-6.392 14.276-14.276 14.276-7.884 0-14.276-6.392-14.276-14.276 0-7.884 6.392-14.276 14.276-14.276zm0 6.489v15.574m7.787-7.787H7.713"
+              fill="none"
+              fillRule="evenodd"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.208}
+            />
+          </svg>
+        </div>
+        <div
+          className="c8"
+          color="primaryText"
+          fontSize="m"
+        >
+          Create new wallet
+        </div>
+      </div>
+    </div>
+  </button>
+</div>
 `;

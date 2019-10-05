@@ -1,24 +1,18 @@
 import React from 'react'
 import { Form } from 'informed'
-import renderer from 'react-test-renderer'
-import { ThemeProvider } from 'styled-components'
 import { IntlProvider } from 'react-intl'
-import { dark } from 'themes'
+import { renderWithTheme } from '@zap/test/unit/__helpers__/renderWithTheme'
 import { LightningInvoiceInput } from 'components/Form'
 
 describe('component.UI.LightningInvoiceInput', () => {
   it('should render correctly', () => {
-    const tree = renderer
-      .create(
-        <IntlProvider locale="en">
-          <ThemeProvider theme={dark}>
-            <Form>
-              <LightningInvoiceInput chain="bitcoin" field="name" network="mainnet" theme={dark} />
-            </Form>
-          </ThemeProvider>
-        </IntlProvider>
-      )
-      .toJSON()
+    const tree = renderWithTheme(
+      <IntlProvider locale="en">
+        <Form>
+          <LightningInvoiceInput chain="bitcoin" field="name" network="mainnet" />
+        </Form>
+      </IntlProvider>
+    ).toJSON()
     expect(tree).toMatchSnapshot()
   })
 })

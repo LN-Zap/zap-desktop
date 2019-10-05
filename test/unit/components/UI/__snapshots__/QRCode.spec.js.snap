@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.QRCode should render correctly 1`] = `
-.c1 {
+.c0 {
   box-sizing: border-box;
   margin: 0;
   min-width: 0;
@@ -9,7 +9,7 @@ exports[`component.UI.QRCode should render correctly 1`] = `
   height: 150px;
 }
 
-.c0 {
+.c1 {
   position: relative;
   width: 180px;
   height: 180px;
@@ -126,23 +126,23 @@ exports[`component.UI.QRCode should render correctly 1`] = `
   size={150}
 >
   <div
-    className="c2 c1"
+    className="c0 c2"
     size={150}
   >
     <div
-      className="c3 c1"
+      className="c0 c3"
       size={150}
     />
     <div
-      className="c4 c1"
+      className="c0 c4"
       size={150}
     />
     <div
-      className="c5 c1"
+      className="c0 c5"
       size={150}
     />
     <div
-      className="c6 c1"
+      className="c0 c6"
       size={150}
     />
   </div>

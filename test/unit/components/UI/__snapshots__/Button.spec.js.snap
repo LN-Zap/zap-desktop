@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.Button should render correctly 1`] = `
-.c1 {
+.c0 {
   box-sizing: border-box;
   margin: 0;
   min-width: 0;
@@ -22,22 +22,33 @@ exports[`component.UI.Button should render correctly 1`] = `
   background-color: primary;
   border: 0;
   border-radius: 4px;
+  font-family: Roboto,system-ui,sans-serif;
+  background-color: #313340;
+  color: #fd9800;
   border-radius: 5px;
-  padding-left: 64px;
-  padding-right: 64px;
+  padding-left: 45px;
+  padding-right: 45px;
   padding-top: 16px;
   padding-bottom: 16px;
+}
+
+.c0:hover:enabled {
+  background-color: #353745;
+}
+
+.c0:focus {
+  background-color: #353745;
 }
 
 .c2 {
   box-sizing: border-box;
   margin: 0;
   min-width: 0;
-  font-size: m;
-  font-weight: normal;
+  font-size: 13px;
+  font-weight: 400;
 }
 
-.c0 {
+.c1 {
   -webkit-transition: all 0.25s;
   transition: all 0.25s;
   outline: none;
@@ -47,11 +58,11 @@ exports[`component.UI.Button should render correctly 1`] = `
   text-align: center;
 }
 
-.c0:disabled {
+.c1:disabled {
   opacity: 0.5;
 }
 
-.c0:hover:enabled {
+.c1:hover:enabled {
   cursor: pointer;
 }
 
@@ -62,6 +73,8 @@ exports[`component.UI.Button should render correctly 1`] = `
     className="c2"
     fontSize="m"
     fontWeight="normal"
-  />
+  >
+    Click Me
+  </div>
 </button>
 `;

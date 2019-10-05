@@ -30,10 +30,8 @@ exports[`component.UI.Input should render correctly 1`] = `
   outline: none;
   cursor: text;
   position: relative;
-  line-height: 1;
-  padding-left: 16px;
-  padding-right: 16px;
-  height: 48px;
+  padding: 16px;
+  line-height: 1.4;
   border-color: #959595;
 }
 
@@ -118,7 +116,7 @@ exports[`component.UI.Input should render correctly 1`] = `
     <div
       className="c1"
     >
-      <input
+      <textarea
         className="c2"
         disabled={false}
         name="name"

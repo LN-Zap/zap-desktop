@@ -1,18 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.Card should render correctly 1`] = `
-<ForwardRef
-  as="section"
-  bg="primaryColor"
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  border-radius: 5px;
+  box-shadow: 0 2px 24px 0 rgba(0,0,0,0.5);
+  background-color: #242633;
+  color: #ffffff;
+  padding: 16px;
+}
+
+<section
+  className="c0"
   color="primaryText"
-  p={3}
-  sx={
-    Object {
-      "borderRadius": "s",
-      "boxShadow": "m",
-    }
-  }
 >
   content
-</ForwardRef>
+</section>
 `;

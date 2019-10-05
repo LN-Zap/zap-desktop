@@ -102,7 +102,7 @@ exports[`component.UI.Toggle should render correctly 1`] = `
   display: flex;
 }
 
-.c3 {
+.c2 {
   box-sizing: border-box;
   margin: 0;
   min-width: 0;
@@ -141,7 +141,7 @@ exports[`component.UI.Toggle should render correctly 1`] = `
   color: #959595;
 }
 
-.c2 input {
+.c3 input {
   cursor: pointer;
   color: transparent;
   text-shadow: 0 0 0 #ffffff;

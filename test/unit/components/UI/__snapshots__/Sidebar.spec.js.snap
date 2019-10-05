@@ -6,9 +6,9 @@ exports[`component.UI.Sidebar should render correctly 1`] = `
   margin: 0;
   min-width: 0;
   overflow: hidden;
-  box-shadow: m;
+  box-shadow: 0 2px 24px 0 rgba(0,0,0,0.5);
   z-index: 1;
-  color: primaryText;
+  color: #ffffff;
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;

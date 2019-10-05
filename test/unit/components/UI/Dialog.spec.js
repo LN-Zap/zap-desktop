@@ -1,27 +1,26 @@
 import React from 'react'
-import { shallow } from 'enzyme'
-import toJSON from 'enzyme-to-json'
 import { Flex } from 'rebass/styled-components'
+import { renderWithTheme } from '@zap/test/unit/__helpers__/renderWithTheme'
 import Eye from 'components/Icon/Eye'
 import { Dialog, Text, Heading, Button } from 'components/UI'
 
 describe('component.UI.Dialog', () => {
   it('should render correctly with two buttons', () => {
-    const wrapper = shallow(
+    const tree = renderWithTheme(
       <Dialog
         buttons={[{ name: 'Delete', onClick: () => {} }, { name: 'Cancel', onClick: () => {} }]}
         header="Title"
         onClose={() => {}}
       />
-    )
-    expect(toJSON(wrapper)).toMatchSnapshot()
+    ).toJSON()
+    expect(tree).toMatchSnapshot()
   })
 
   it('should render correctly with one button', () => {
-    const wrapper = shallow(
+    const tree = renderWithTheme(
       <Dialog buttons={[{ name: 'Ok', onClick: () => {} }]} header="Title" onClose={() => {}} />
-    )
-    expect(toJSON(wrapper)).toMatchSnapshot()
+    ).toJSON()
+    expect(tree).toMatchSnapshot()
   })
 
   it('should render correctly with custom content', () => {
@@ -53,8 +52,8 @@ describe('component.UI.Dialog', () => {
       )
     }
 
-    const wrapper = shallow(<CustomDialog />)
+    const tree = renderWithTheme(<CustomDialog />).toJSON()
 
-    expect(toJSON(wrapper)).toMatchSnapshot()
+    expect(tree).toMatchSnapshot()
   })
 })
