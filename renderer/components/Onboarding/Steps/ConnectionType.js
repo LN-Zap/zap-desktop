@@ -32,17 +32,6 @@ class ConnectionType extends React.Component {
     wizardState: {},
   }
 
-  UNSAFE_componentWillMount() {
-    const { lndConnect, resetOnboarding, stopLnd } = this.props
-    stopLnd()
-    if (lndConnect) {
-      this.formApi.setValue('connectionType', 'custom')
-      this.formApi.submitForm()
-    } else {
-      resetOnboarding()
-    }
-  }
-
   componentDidUpdate(prevProps) {
     const { lndConnect } = this.props
     if (lndConnect && lndConnect !== prevProps.lndConnect) {
@@ -58,6 +47,17 @@ class ConnectionType extends React.Component {
 
   setFormApi = formApi => {
     this.formApi = formApi
+  }
+
+  UNSAFE_componentWillMount() {
+    const { lndConnect, resetOnboarding, stopLnd } = this.props
+    stopLnd()
+    if (lndConnect) {
+      this.formApi.setValue('connectionType', 'custom')
+      this.formApi.submitForm()
+    } else {
+      resetOnboarding()
+    }
   }
 
   render() {

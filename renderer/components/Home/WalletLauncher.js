@@ -172,17 +172,6 @@ class WalletLauncher extends React.Component {
     isValidating: false,
   }
 
-  UNSAFE_componentWillMount() {
-    const { stopLnd, startLndError, showError, clearStartLndError } = this.props
-    stopLnd()
-
-    // If there are lnd start errors, show as a global error.
-    if (startLndError) {
-      Object.keys(startLndError).forEach(key => showError(startLndError[key]))
-      clearStartLndError()
-    }
-  }
-
   // Redirect to the login page when we establish a connection to lnd.
   componentDidUpdate(prevProps) {
     const {
@@ -395,6 +384,17 @@ class WalletLauncher extends React.Component {
       ),
       whiteList
     )
+  }
+
+  UNSAFE_componentWillMount() {
+    const { stopLnd, startLndError, showError, clearStartLndError } = this.props
+    stopLnd()
+
+    // If there are lnd start errors, show as a global error.
+    if (startLndError) {
+      Object.keys(startLndError).forEach(key => showError(startLndError[key]))
+      clearStartLndError()
+    }
   }
 
   render() {

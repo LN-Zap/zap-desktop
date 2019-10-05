@@ -39,13 +39,6 @@ class SeedView extends React.Component {
     seed: [],
   }
 
-  UNSAFE_componentWillMount() {
-    const { seed, fetchSeed } = this.props
-    if (seed.length === 0) {
-      fetchSeed()
-    }
-  }
-
   componentDidUpdate(prevProps) {
     const { isFetchingSeed, seed } = this.props
     if (seed && seed !== prevProps.seed) {
@@ -59,6 +52,13 @@ class SeedView extends React.Component {
 
   setFormApi = formApi => {
     this.formApi = formApi
+  }
+
+  UNSAFE_componentWillMount() {
+    const { seed, fetchSeed } = this.props
+    if (seed.length === 0) {
+      fetchSeed()
+    }
   }
 
   render() {

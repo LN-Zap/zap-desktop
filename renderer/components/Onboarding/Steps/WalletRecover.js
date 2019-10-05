@@ -27,11 +27,6 @@ class WalletRecover extends React.Component {
     wizardState: {},
   }
 
-  UNSAFE_componentWillMount() {
-    const { wizardApi } = this.props
-    wizardApi.next()
-  }
-
   componentDidUpdate(prevProps) {
     const { isCreatingWallet, createWalletError, passphrase, wizardApi } = this.props
     if (!isCreatingWallet && prevProps.isCreatingWallet) {
@@ -68,6 +63,11 @@ class WalletRecover extends React.Component {
 
   setFormApi = formApi => {
     this.formApi = formApi
+  }
+
+  UNSAFE_componentWillMount() {
+    const { wizardApi } = this.props
+    wizardApi.next()
   }
 
   render() {

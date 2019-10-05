@@ -29,25 +29,6 @@ class Initializer extends React.Component {
     lndConnect: PropTypes.string,
   }
 
-  // Initialize app state.
-  UNSAFE_componentWillMount() {
-    const {
-      initLocale,
-      initCurrency,
-      initWallets,
-      initChannels,
-      initAutopay,
-      initNeutrino,
-    } = this.props
-    initNeutrino()
-
-    initLocale()
-    initCurrency()
-    initAutopay()
-    initWallets()
-    initChannels()
-  }
-
   /**
    * getLocation - Returns current location based on app initialization state and referrer.
    *
@@ -81,6 +62,25 @@ class Initializer extends React.Component {
     // If we have at least one wallet send the user to the homepage.
     // Otherwise send them to the onboarding processes.
     return hasWallets ? '/home' : '/onboarding'
+  }
+
+  // Initialize app state.
+  UNSAFE_componentWillMount() {
+    const {
+      initLocale,
+      initCurrency,
+      initWallets,
+      initChannels,
+      initAutopay,
+      initNeutrino,
+    } = this.props
+    initNeutrino()
+
+    initLocale()
+    initCurrency()
+    initAutopay()
+    initWallets()
+    initChannels()
   }
 
   render() {
