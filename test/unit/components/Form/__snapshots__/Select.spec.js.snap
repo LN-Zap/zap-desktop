@@ -1,13 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.Toggle should render correctly 1`] = `
-.c0 {
-  box-sizing: border-box;
-  margin: 0;
-  min-width: 0;
-  position: relative;
-}
-
 .c5 {
   box-sizing: border-box;
   margin: 0;
@@ -80,6 +73,13 @@ exports[`component.UI.Toggle should render correctly 1`] = `
 
 .c5:not([read-only]):not([disabled]):focus {
   border-color: #fd9800;
+}
+
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  position: relative;
 }
 
 .c6 {
