@@ -49,11 +49,9 @@ before_script:
 
 script:
   - |
-    set -e
     yarn lint-ci
     yarn test-ci
     yarn coveralls || travis_terminate 1
-    set +e
 
 after_failure:
   - artifacts upload ./screenshots
