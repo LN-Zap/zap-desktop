@@ -46,10 +46,13 @@ before_script:
     fi
 
 script:
-  - yarn lint-ci && yarn test-ci && yarn coveralls
+  - yarn lint-ci && yarn test-ci
 
 after_failure:
   - artifacts upload ./screenshots
+
+after_success:
+  - yarn coveralls
 
 branches:
   only:
