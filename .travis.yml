@@ -46,10 +46,7 @@ before_script:
     fi
 
 script:
-  - |
-    yarn lint-ci
-    yarn test-ci
-    yarn coveralls || travis_terminate 1
+  - yarn lint-ci && yarn test-ci && yarn coveralls
 
 after_failure:
   - artifacts upload ./screenshots
