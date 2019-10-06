@@ -131,7 +131,7 @@
   "components.Channels.close_channel_dialog_acknowledgement": "",
   "components.Channels.close_channel_dialog_cancel_text": "",
   "components.Channels.close_channel_dialog_close_text": "",
-  "components.Channels.close_channel_dialog_force_close_text": "",
+  "components.Channels.close_channel_dialog_force_close_text": "强制关闭",
   "components.Channels.close_channel_dialog_force_warning": "",
   "components.Channels.close_channel_dialog_header": "",
   "components.Channels.close_channel_dialog_warning": "",
