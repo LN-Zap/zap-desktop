@@ -22,9 +22,6 @@ addons:
     debug: true
     paths:
       - './screenshots'
-  apt:
-    packages:
-      - fluxbox
 before_install:
   - stty cols 80
   - |
@@ -41,7 +38,6 @@ before_script:
       export DISPLAY=:99.0
       sh -e /etc/init.d/xvfb start
       sleep 3
-      fluxbox >/dev/null 2>&1 &
     fi
 script:
   - yarn lint-ci && yarn test-ci
