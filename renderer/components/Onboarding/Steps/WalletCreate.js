@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Spinner, Text } from 'components/UI'
+import { Spinner, Text, CenteredContent } from 'components/UI'
 import { Form } from 'components/Form'
 import ErrorDialog from './components/ErrorDialog'
 import messages from './messages'
@@ -68,28 +68,30 @@ class WalletCreate extends React.Component {
     const { currentItem } = wizardState
 
     return (
-      <Form
-        {...rest}
-        getApi={formApi => {
-          this.setFormApi(formApi)
-          if (getApi) {
-            getApi(formApi)
-          }
-        }}
-        onChange={onChange && (formState => onChange(formState, currentItem))}
-        onSubmit={this.handleSubmit}
-        onSubmitFailure={onSubmitFailure}
-      >
-        <Text textAlign="center">
-          <Spinner />
-          <FormattedMessage {...messages.creating_wallet} />
-        </Text>
-        <ErrorDialog
-          error={createWalletError}
-          isOpen={Boolean(createWalletError)}
-          onClose={this.resetOnboarding}
-        />
-      </Form>
+      <CenteredContent>
+        <Form
+          {...rest}
+          getApi={formApi => {
+            this.setFormApi(formApi)
+            if (getApi) {
+              getApi(formApi)
+            }
+          }}
+          onChange={onChange && (formState => onChange(formState, currentItem))}
+          onSubmit={this.handleSubmit}
+          onSubmitFailure={onSubmitFailure}
+        >
+          <Text textAlign="center">
+            <Spinner />
+            <FormattedMessage {...messages.creating_wallet} />
+          </Text>
+          <ErrorDialog
+            error={createWalletError}
+            isOpen={Boolean(createWalletError)}
+            onClose={this.resetOnboarding}
+          />
+        </Form>
+      </CenteredContent>
     )
   }
 }
