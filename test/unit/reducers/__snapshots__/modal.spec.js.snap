@@ -5,9 +5,28 @@ Snapshot Diff:
 Compared values have no visual difference.
 `;
 
+exports[`reducers modalReducer should handle CLOSE_DIALOG 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
+`;
+
 exports[`reducers modalReducer should handle CLOSE_MODAL 1`] = `
 Snapshot Diff:
 Compared values have no visual difference.
+`;
+
+exports[`reducers modalReducer should handle OPEN_DIALOG 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+-   "dialogs": Object {},
++   "dialogs": Object {
++     "dialog1": true,
++   },
+    "modals": Array [],
+  }
 `;
 
 exports[`reducers modalReducer should handle OPEN_MODAL 1`] = `
@@ -16,6 +35,7 @@ Snapshot Diff:
 + Second value
 
   Object {
+    "dialogs": Object {},
 -   "modals": Array [],
 +   "modals": Array [
 +     Object {
@@ -32,6 +52,7 @@ Snapshot Diff:
 + Second value
 
   Object {
+    "dialogs": Object {},
 -   "modals": Array [],
 +   "modals": Array [
 +     Object {
@@ -48,6 +69,7 @@ Snapshot Diff:
 
 exports[`reducers modalReducer should handle initial state 1`] = `
 Object {
+  "dialogs": Object {},
   "modals": Array [],
 }
 `;
