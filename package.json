@@ -55,13 +55,9 @@
     "electron 5.0"
   ],
   "engines": {
-    "node": ">=8.11.2",
-    "npm": ">=5.3.0"
-  },
-  "devEngines": {
-    "node": ">=8.2.1",
-    "npm": ">=5.3.0",
-    "yarn": ">=0.21.3"
+    "node": ">=12.0.0",
+    "npm": ">=5.0.0",
+    "yarn": ">=1.0.0"
   },
   "build": {
     "productName": "Zap",
