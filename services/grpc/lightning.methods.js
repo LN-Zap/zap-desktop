@@ -175,7 +175,6 @@ async function openChannel(payload = {}) {
       call.on('data', data => {
         grpcLog.debug('OPEN_CHANNEL DATA', data)
         const response = { ...parsePayload(payload), data }
-        this.emit('openChannel.data', response)
         resolve(response)
       })
 
@@ -183,18 +182,15 @@ async function openChannel(payload = {}) {
         grpcLog.error('OPEN_CHANNEL ERROR', data)
         const error = new Error(data.message)
         error.payload = parsePayload(payload)
-        this.emit('openChannel.error', error)
         reject(error)
       })
 
       call.on('status', status => {
         grpcLog.debug('OPEN_CHANNEL STATUS', status)
-        this.emit('openChannel.status', status)
       })
 
       call.on('end', () => {
         grpcLog.debug('OPEN_CHANNEL END')
-        this.emit('openChannel.end')
       })
     } catch (e) {
       const error = new Error(e.message)
@@ -235,7 +231,6 @@ async function closeChannel(payload = {}) {
       call.on('data', data => {
         grpcLog.debug('CLOSE_CHANNEL DATA', data)
         const response = { data, chan_id }
-        this.emit('closeChannel.data', response)
         resolve(response)
       })
 
@@ -243,18 +238,15 @@ async function closeChannel(payload = {}) {
         grpcLog.error('CLOSE_CHANNEL ERROR', data)
         const error = new Error(data.message)
         error.payload = { chan_id }
-        this.emit('closeChannel.error', error)
         reject(error)
       })
 
       call.on('status', status => {
         grpcLog.debug('CLOSE_CHANNEL STATUS', status)
-        this.emit('closeChannel.status', status)
       })
 
       call.on('end', () => {
         grpcLog.debug('CLOSE_CHANNEL END')
-        this.emit('closeChannel.end')
       })
     } catch (e) {
       const error = new Error(e.message)
