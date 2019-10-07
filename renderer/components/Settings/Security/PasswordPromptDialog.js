@@ -1,21 +1,16 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass/styled-components'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { Dialog, Heading, Button, DialogOverlay, Message } from 'components/UI'
 import { PasswordInput, Form } from 'components/Form'
 import messages from './messages'
+import { useLoginError } from './hooks'
 
 const DialogWrapper = ({ loginError, clearLoginError, isOpen, onOk, onCancel, isPromptMode }) => {
   const intl = useIntl()
   const formApiRef = useRef(null)
-  useEffect(() => {
-    const { current: formApi } = formApiRef
-    if (loginError && formApi) {
-      formApi.setFormError(loginError)
-      clearLoginError()
-    }
-  }, [loginError, clearLoginError])
+  useLoginError(loginError, clearLoginError, formApiRef)
 
   if (!isOpen) {
     return null

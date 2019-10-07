@@ -71,6 +71,14 @@ const setPassword = password => async dispatch => {
   dispatch(send('setPassword', { password: await sha256digest(password) }))
 }
 
+/**
+ * changePassword - Changes existing password.
+ *
+ * @param {object} params password params
+ * @param {string} params.newPassword new password
+ * @param {string} params.oldPassword old password
+ * @returns {Function} Thunk
+ */
 export const changePassword = ({ newPassword, oldPassword }) => async dispatch => {
   try {
     const intl = getIntl()
@@ -83,6 +91,12 @@ export const changePassword = ({ newPassword, oldPassword }) => async dispatch =
   }
 }
 
+/**
+ * enablePassword - Enables app-wide password protection.
+ *
+ * @param {string} password to be used further on.
+ * @returns {Function} Thunk
+ */
 export const enablePassword = ({ password }) => async dispatch => {
   try {
     const intl = getIntl()
@@ -101,6 +115,12 @@ export const enablePassword = ({ password }) => async dispatch => {
   }
 }
 
+/**
+ * enablePassword - Disables app-wide password protection.
+ *
+ * @param {string} password current password.
+ * @returns {Function} Thunk
+ */
 export const disablePassword = ({ password }) => async dispatch => {
   try {
     const intl = getIntl()
@@ -120,6 +140,12 @@ export const disablePassword = ({ password }) => async dispatch => {
   }
 }
 
+/**
+ * requirePassword - Password protect routine. Should be placed before protected code.
+ *
+ * @param {string} password current password.
+ * @returns {Promise} Promise that fulfills after login attempt (either successful or not)
+ */
 const requirePassword = password => dispatch => {
   return new Promise((resolve, reject) => {
     dispatch(send('getPassword'))

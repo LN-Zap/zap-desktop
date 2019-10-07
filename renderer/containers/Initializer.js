@@ -52,25 +52,6 @@ class Initializer extends React.Component {
     return hasWallets ? '/home' : '/onboarding'
   }
 
-  // Initialize app state.
-  UNSAFE_componentWillMount() {
-    const {
-      initLocale,
-      initCurrency,
-      initWallets,
-      initChannels,
-      initAutopay,
-      initNeutrino,
-    } = this.props
-    initNeutrino()
-
-    initLocale()
-    initCurrency()
-    initAutopay()
-    initWallets()
-    initChannels()
-  }
-
   render() {
     const location = this.getLocation()
     return location && <Redirect to={location} />
