@@ -17,6 +17,7 @@ node_js: '12'
 cache:
   apt: true
   yarn: true
+  npm: false
 before_install:
   - stty cols 80
   - |
