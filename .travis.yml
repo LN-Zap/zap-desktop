@@ -1,22 +1,22 @@
 dist: trusty
 sudo: required
 osx_image: xcode11
-
 env:
   global:
     - DEBUG=electron-builder
-
+    - ARTIFACTS_BUCKET=zap-travis
+    - ARTIFACTS_REGION=us-east-1
+    - ARTIFACTS_DEBUG=1
+    - secure: hiqFwocHM6I9ZN3yV17opt7s19qtcoMu9yyy9dD3e7R00O9ZRRP7gOaXnf5kGpHXZrIgFAOg24oRe+sm3Llrgxsv05cJ07di/cOEooIZC8tuPumLlczEfKyGDYiSrZ39gZRQF6446lapOu48qC72eOYhgL4UMDmMJqvcUgeaDoIfiKyrMbcPUQ99rAGZj6ZBUP0EL1JGrIZO139+l5PYHk9oHx2PuOoTmW/lMJGSlKbpK0D3RGaBeDYo2Rv9KHi0PS1vXWCNh0JElmDWscW+m5r0HyngrOXrtTKdSM61zEHWSzb1To2TdUhD+FckmK3L8PpBoAs9505vHMZ4Un6M9F7tqCrMBcTJcspe0Kq34sl9fiTZ9ej6IjOX+SmdcSWzdrvFHkL6t40f/gmv56p552qH+6bp+wODSLfYum4gtpNpozzUo2PtsfUqw5PPH7cz0j2hDoXTtgLyjna9td9+7TXsBtunmze6Yq3SpQuOd+FKeCoxBV/4rO7L6WW/9y54NnPVm9vS9nnfhxlByCgyGaSIuw2YqMDfhGwJwqtJ1HGgtO/fiFbfB7ft9wXfRgR4pA9U9cFV203X+wNxHPvDuoe3DmF9e6zAnk9XbJBf8iVZ1feivyeE3znSZW47rdilJ4a4xSUd8XsjvfJbraT6kN15WnY61EIHQbdbdBieDf4=
+    - secure: yrbDETG/IhHOLPhTLck01LWSzJnxfge+7XoB2CtUjSnC4HGgPrSLl6dw9fO/dYzu1woBDqmUVtMqOjCQKDTKpw5OjG4MtH5DGIPvg+ARmUJPwsJyZZcWxc/0+CT1du2BdROrJeVjV9sCAQcbVTxDVgFxcK04YWfe8Lo+48sQX0oK7VxaPL5T3NvreapSgqsT2M66a2eTxFvn2Bw9Znk/65ug4OFUXGXZLY8/FALkhZGfqqVN9s1a9/Lgq2e2/8mvnAjxvNfNAc+bVlZhgY/zjr8n5Hr072I8QrG+dVLkL+sDpr/vl/CtL73/To3GZ21Mctu/7PN14nMEVCU+G4jOx+JmcQ/97LMZuoO0YoNXeF6npoHL7d1p0pHNBRi4FJcgtQz7ILKOWysHpmRPhiLJjAPJKj67c8F5RO7T7F1+1gFoqz6Xa0HEkOzf3yD+DVwFMjo+f/8cVSSljQKDvAxS/N2202dczGSqwdQIgoRUWqk0Rbs9eYJFiziq7r2WZDUkZlj1CqPg6zbzy1mcEAOZuyDXtS0xsE13aYyLXTvKxG/UZ0LjOzLPxTwX0wzC4g20OhjJp3qX1fwwcyoUb1x+t1kTqXW4ZaNuj6fw6xkG/CRrI1g1uyEOOJwVj2+uUurJmMsmjspd5eDDrWDwsn4aje9Xzuczsz0nCEGCJl8EpZ8=
 os:
   - linux
   - osx
-
 language: node_js
 node_js: '12'
-
 cache:
   apt: true
   yarn: true
-
 addons:
   artifacts:
     debug: true
@@ -25,7 +25,6 @@ addons:
   apt:
     packages:
       - fluxbox
-
 before_install:
   - stty cols 80
   - |
@@ -33,11 +32,10 @@ before_install:
       sudo apt-get install gcc-multilib g++-multilib
       sudo apt-get install libsecret-1-dev
     fi
-  - curl -sL https://raw.githubusercontent.com/travis-ci/artifacts/master/install | bash
-
+  - curl -sL https://raw.githubusercontent.com/travis-ci/artifacts/master/install |
+    bash
 install:
   - yarn
-
 before_script:
   - |
     if [ $TRAVIS_OS_NAME == "linux" ]; then
@@ -46,27 +44,22 @@ before_script:
       sleep 3
       fluxbox >/dev/null 2>&1 &
     fi
-
 script:
   - yarn lint-ci && yarn test-ci
-
 after_failure:
   - artifacts upload ./screenshots
-
 after_success:
   - yarn coveralls
-
 branches:
   only:
     - master
     - next
-    - /^feat\//
-
+    - "/^feat\\//"
 jobs:
   include:
     - stage: deploy
       name: Deploy to Github
-      if: (NOT type IN (pull_request)) AND (branch IN (master,next))
+      if: '(NOT type IN (pull_request)) AND (branch IN (master,next))'
       script: skip
       deploy:
         skip_cleanup: true
@@ -75,11 +68,10 @@ jobs:
         on:
           repo: LN-Zap/zap-desktop
           all_branches: true
-          condition: $TRAVIS_BRANCH =~ ^master|next$
-
+          condition: '$TRAVIS_BRANCH =~ ^master|next$'
     - os: osx
       name: Deploy to Github
-      if: (NOT type IN (pull_request)) AND (branch IN (master,next))
+      if: '(NOT type IN (pull_request)) AND (branch IN (master,next))'
       script: skip
       deploy:
         skip_cleanup: true
@@ -88,4 +80,4 @@ jobs:
         on:
           repo: LN-Zap/zap-desktop
           all_branches: true
-          condition: $TRAVIS_BRANCH =~ ^master|next$
+          condition: '$TRAVIS_BRANCH =~ ^master|next$'
