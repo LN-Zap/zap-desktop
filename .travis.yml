@@ -17,11 +17,6 @@ node_js: '12'
 cache:
   apt: true
   yarn: true
-addons:
-  artifacts:
-    debug: true
-    paths:
-      - './screenshots'
 before_install:
   - stty cols 80
   - |
