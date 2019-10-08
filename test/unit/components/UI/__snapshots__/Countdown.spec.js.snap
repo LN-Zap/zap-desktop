@@ -16,7 +16,7 @@ exports[`component.UI.Countdown should render correctly with default props 1`] =
   fontSize="m"
 >
   Expired
-   
+   
   in 0 seconds
 </div>
 `;

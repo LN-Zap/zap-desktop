@@ -93,7 +93,7 @@ class PaySummaryLightning extends React.Component {
                 <CryptoSelector ml={2} />
               </Flex>
               <Text color="gray">
-                {'≈ '}
+                ≈&nbsp;
                 <FiatValue style="currency" value={amountInSatoshis} />
               </Text>
             </Box>
@@ -104,7 +104,7 @@ class PaySummaryLightning extends React.Component {
             </Box>
             <Box width={5 / 11}>
               <Text className="hint--bottom-left" data-hint={payeeNodeKey} textAlign="right">
-                {<Truncate maxlen={nodeAlias ? 30 : 15} text={nodeAlias || payeeNodeKey} />}
+                <Truncate maxlen={nodeAlias ? 30 : 15} text={nodeAlias || payeeNodeKey} />
               </Text>
             </Box>
           </Flex>

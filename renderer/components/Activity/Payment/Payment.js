@@ -74,7 +74,7 @@ const Payment = ({ payment, showActivityModal, cryptoUnitName, showErrorDetailsD
       >
         <Box opacity={payment.status == 'failed' ? 0.3 : null}>
           <Text mb={1} textAlign="right">
-            {'- '}
+            -&nbsp;
             <CryptoValue value={payment.value_sat} />
             <i> {cryptoUnitName}</i>
           </Text>

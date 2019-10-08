@@ -17,6 +17,8 @@ class Request extends React.Component {
     currentStep: 'form',
   }
 
+  amountInput = React.createRef()
+
   static propTypes = {
     activeWalletSettings: PropTypes.shape({
       type: PropTypes.string.isRequired,
@@ -37,8 +39,6 @@ class Request extends React.Component {
     showNotification: PropTypes.func.isRequired,
     willUseFallback: PropTypes.bool,
   }
-
-  amountInput = React.createRef()
 
   componentDidUpdate(prevProps) {
     const { payReq } = this.props

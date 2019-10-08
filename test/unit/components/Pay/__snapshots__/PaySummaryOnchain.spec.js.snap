@@ -61,7 +61,7 @@ exports[`component.Form.PaySummaryOnchain should render correctly 1`] = `
         <Text
           color="gray"
         >
-           ≈ 
+          ≈ 
           <FiatValue
             style="currency"
             value={1000}

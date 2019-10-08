@@ -39,9 +39,9 @@ const getNextButtonText = (formState, props) => {
       nextButtonText = (
         <>
           <FormattedMessage {...messages.send} />
-          {` `}
+          &nbsp;
           <CryptoValue value={amountInSats} />
-          {` `}
+          &nbsp;
           {cryptoUnitName}
         </>
       )

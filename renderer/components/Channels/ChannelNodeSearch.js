@@ -54,15 +54,15 @@ SearchResults.propTypes = {
 const NoSearchResults = () => <Text color="gray">Your seach did not return any results.</Text>
 
 class ChannelNodeSearch extends React.PureComponent {
+  /*eslint-disable react/destructuring-assignment*/
+  updateContactFormSearchQuery = debounce(this.props.updateContactFormSearchQuery, 300)
+
   static propTypes = {
     filteredNetworkNodes: PropTypes.array.isRequired,
     intl: intlShape.isRequired,
     searchQuery: PropTypes.string,
     updateContactFormSearchQuery: PropTypes.func.isRequired,
   }
-
-  /*eslint-disable react/destructuring-assignment*/
-  updateContactFormSearchQuery = debounce(this.props.updateContactFormSearchQuery, 300)
 
   /**
    * handleClickConnect - Handle connect to node click.

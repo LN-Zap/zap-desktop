@@ -22,7 +22,7 @@ const WalletBalance = ({ totalBalance, openWalletModal }) => (
           <CryptoSelector ml={1} />
         </Flex>
         <Text color="gray">
-          {'≈ '}
+          ≈&nbsp;
           <FiatValue style="currency" value={totalBalance} />
         </Text>
       </Box>

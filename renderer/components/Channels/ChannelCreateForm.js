@@ -57,9 +57,9 @@ const FormFooter = ({ walletBalance, cryptoUnitName }) => (
   <Box>
     <Text textAlign="center">
       <FormattedMessage {...messages.open_channel_form_onchain_balance} />
-      {` `}
+      &nbsp;
       <CryptoValue value={walletBalance} />
-      {` `}
+      &nbsp;
       {cryptoUnitName}
     </Text>
   </Box>
@@ -75,6 +75,8 @@ class ChannelCreateForm extends React.Component {
     step: 'form',
     isSubmitComplete: false, // if we have succesfully initiated channel opening
   }
+
+  amountInput = React.createRef()
 
   static propTypes = {
     activeWalletSettings: PropTypes.shape({
@@ -107,8 +109,6 @@ class ChannelCreateForm extends React.Component {
   static defaultProps = {
     onchainFees: {},
   }
-
-  amountInput = React.createRef()
 
   // focusAmountInput Focus the amount input.
   focusAmountInput = () => {
