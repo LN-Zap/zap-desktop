@@ -192,18 +192,19 @@ class Step extends React.Component {
 }
 
 class Wizard extends React.Component {
+  static propTypes = {
+    children: PropTypes.node,
+    steps: PropTypes.array,
+  }
+
   /* eslint react/no-unused-state: 0 */
+  /* eslint react/sort-comp: 0 */
   static Steps = Steps
   static Step = Step
   static NextButton = NextButton
   static SkipButton = SkipButton
   static BackButton = BackButton
   static Debug = Debug
-
-  static propTypes = {
-    children: PropTypes.node,
-    steps: PropTypes.array,
-  }
 
   constructor(props) {
     super(props)

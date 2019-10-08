@@ -5,15 +5,6 @@ import { mainLog } from '@zap/utils/log'
 import AppCrashedDialog from 'components/Dialog/AppCrashed'
 
 export default class AppErrorBoundary extends Component {
-  static propTypes = {
-    children: PropTypes.node,
-    onCloseDialog: PropTypes.func,
-  }
-
-  static defaultProps = {
-    onCloseDialog: () => {},
-  }
-
   static submitErrorIssue(error) {
     const { productName, version } = window.Zap.getPackageDetails()
 
@@ -25,6 +16,15 @@ export default class AppErrorBoundary extends Component {
       version,
     })
     window.Zap.openExternal(url)
+  }
+
+  static propTypes = {
+    children: PropTypes.node,
+    onCloseDialog: PropTypes.func,
+  }
+
+  static defaultProps = {
+    onCloseDialog: () => {},
   }
 
   constructor(props) {

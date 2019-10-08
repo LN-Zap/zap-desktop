@@ -27,6 +27,22 @@ const ShowHideAmount = Keyframes.Spring({
 })
 
 class PayAmountFields extends React.Component {
+  amountInput = React.createRef()
+
+  updateFees = debounce(() => {
+    const { isOnchain } = this.props
+    // We only need to updated fees for on-chain transactions
+    if (!isOnchain) {
+      return
+    }
+    const { cryptoUnit, formApi, invoice, queryFees } = this.props
+    const formState = formApi.getState()
+    const { payReq: address } = formState.values
+    const amount = formApi.getValue('amountCrypto') || 0
+    const amountInSats = getAmountInSats(amount, cryptoUnit, invoice)
+    queryFees(address, amountInSats)
+  }, 500)
+
   static propTypes = {
     cryptoUnit: PropTypes.string.isRequired,
     currentStep: PropTypes.string.isRequired,
@@ -54,22 +70,6 @@ class PayAmountFields extends React.Component {
   static defaultProps = {
     onchainFees: {},
   }
-
-  amountInput = React.createRef()
-
-  updateFees = debounce(() => {
-    const { isOnchain } = this.props
-    // We only need to updated fees for on-chain transactions
-    if (!isOnchain) {
-      return
-    }
-    const { cryptoUnit, formApi, invoice, queryFees } = this.props
-    const formState = formApi.getState()
-    const { payReq: address } = formState.values
-    const amount = formApi.getValue('amountCrypto') || 0
-    const amountInSats = getAmountInSats(amount, cryptoUnit, invoice)
-    queryFees(address, amountInSats)
-  }, 500)
 
   setCoinSweep = isEnabled => {
     if (isEnabled) {

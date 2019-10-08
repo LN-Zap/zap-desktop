@@ -35,7 +35,7 @@ const Invoice = ({ invoice, showActivityModal, cryptoUnitName, intl }) => (
       width={1 / 4}
     >
       <Text color="superGreen" mb={1} textAlign="right">
-        {'+ '}
+        +&nbsp;
         <CryptoValue value={invoice.finalAmount} />
         <i> {cryptoUnitName}</i>
       </Text>

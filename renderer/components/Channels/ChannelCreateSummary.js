@@ -50,7 +50,7 @@ class ChannelCreateSummary extends React.Component {
             <Box width={5 / 11}>
               <CryptoValueSelector fontSize="xxl" value={amount} />
               <Text color="gray">
-                {'≈ '}
+                ≈&nbsp;
                 <FiatValue style="currency" value={amount} />
               </Text>
             </Box>

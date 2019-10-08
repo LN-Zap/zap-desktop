@@ -10,18 +10,6 @@ import Container from './components/Container'
 import messages from './messages'
 
 class BackupSetupLocal extends React.Component {
-  static propTypes = {
-    intl: intlShape.isRequired,
-    setBackupPathLocal: PropTypes.func.isRequired,
-    wizardApi: PropTypes.object,
-    wizardState: PropTypes.object,
-  }
-
-  static defaultProps = {
-    wizardApi: {},
-    wizardState: {},
-  }
-
   validatePath = debounce(async () => {
     const { intl } = this.props
     const value = this.formApi.getValue('path')
@@ -35,6 +23,18 @@ class BackupSetupLocal extends React.Component {
       this.formApi.setError('path', intl.formatMessage({ ...messages.backup_dir_not_exist }))
     }
   }, 300)
+
+  static propTypes = {
+    intl: intlShape.isRequired,
+    setBackupPathLocal: PropTypes.func.isRequired,
+    wizardApi: PropTypes.object,
+    wizardState: PropTypes.object,
+  }
+
+  static defaultProps = {
+    wizardApi: {},
+    wizardState: {},
+  }
 
   handleSubmit = values => {
     const { setBackupPathLocal } = this.props

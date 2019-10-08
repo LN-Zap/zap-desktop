@@ -8,13 +8,11 @@ import messages from './messages'
 
 const AutopayStatus = ({ fieldState, ...rest }) => (
   <Text {...rest}>
-    {
-      <FormattedMessage
-        {...(fieldState && fieldState.value
-          ? messages.autopay_status_active
-          : messages.autopay_status_inactive)}
-      />
-    }
+    <FormattedMessage
+      {...(fieldState && fieldState.value
+        ? messages.autopay_status_active
+        : messages.autopay_status_inactive)}
+    />
   </Text>
 )
 

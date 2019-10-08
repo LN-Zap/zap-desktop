@@ -25,9 +25,7 @@ const ResetSearchText = styled(Text)`
 const ResetSearch = ({ onClick }) => {
   return (
     <ResetSearchText color="gray" onClick={onClick}>
-      {`(`}
-      <FormattedMessage {...messages.show_all} />
-      {`)`}
+      (<FormattedMessage {...messages.show_all} />)
     </ResetSearchText>
   )
 }

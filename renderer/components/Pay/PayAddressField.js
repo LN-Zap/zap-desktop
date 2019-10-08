@@ -19,6 +19,8 @@ const ShowHidePayReq = Keyframes.Spring({
 })
 
 class PayAddressField extends React.Component {
+  payReqInput = React.createRef()
+
   static propTypes = {
     chain: PropTypes.string.isRequired,
     currentStep: PropTypes.string.isRequired,
@@ -28,8 +30,6 @@ class PayAddressField extends React.Component {
     network: PropTypes.string.isRequired,
     redirectPayReq: PropTypes.object,
   }
-
-  payReqInput = React.createRef()
 
   /**
    * focusPayReqInput - Focus the payReq input.

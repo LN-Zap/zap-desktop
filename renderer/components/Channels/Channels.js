@@ -14,6 +14,9 @@ const StyledPersistentTabControl = styled(PersistentTabControl)`
 `
 
 class Channels extends React.Component {
+  /*eslint-disable react/destructuring-assignment*/
+  updateChannelSearchQuery = debounce(this.props.updateChannelSearchQuery, 300)
+
   static propTypes = {
     channels: PropTypes.array,
     channelViewMode: PropTypes.string.isRequired,
@@ -30,9 +33,6 @@ class Channels extends React.Component {
   static defaultProps = {
     channels: [],
   }
-
-  /*eslint-disable react/destructuring-assignment*/
-  updateChannelSearchQuery = debounce(this.props.updateChannelSearchQuery, 300)
 
   render() {
     const {
