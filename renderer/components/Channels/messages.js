@@ -107,4 +107,10 @@ export default defineMessages({
   channel_sort_label: 'Sort by:',
   channel_filter_label: 'Show:',
   show_all: 'show all',
+  local_chan_reserve_sat_label: 'Local channel reserve amount',
+  local_chan_reserve_sat_description:
+    'The minimum satoshis this node is required to reserve in its balance.',
+  remote_chan_reserve_sat_label: 'Remote channel reserve amount',
+  remote_chan_reserve_sat_description:
+    'The minimum satoshis the other node is required to reserve in its balance.',
 })

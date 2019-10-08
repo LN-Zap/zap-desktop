@@ -20,12 +20,14 @@ const ChannelData = ({ channel, cryptoUnitName, intl, networkInfo, viewMode, ...
     closing_txid,
     commit_fee,
     fee_per_kw,
+    local_chan_reserve_sat,
     total_satoshis_sent,
     total_satoshis_received,
     csv_delay,
     activity,
     num_updates,
     fundingTxTimestamp,
+    remote_chan_reserve_sat,
   } = channel
 
   // Define output for each data property that we might want to display.
@@ -86,6 +88,30 @@ const ChannelData = ({ channel, cryptoUnitName, intl, networkInfo, viewMode, ...
             <Truncate maxlen={25} text={closing_txid} />
           </Link>
         </Flex>
+      ),
+    }),
+
+    local_chan_reserve_sat: () => ({
+      label: <FormattedMessage {...messages.local_chan_reserve_sat_label} />,
+      body: <FormattedMessage {...messages.local_chan_reserve_sat_description} />,
+      value: (
+        <Text>
+          <CryptoValue value={local_chan_reserve_sat} />
+          {` `}
+          {cryptoUnitName}
+        </Text>
+      ),
+    }),
+
+    remote_chan_reserve_sat: () => ({
+      label: <FormattedMessage {...messages.remote_chan_reserve_sat_label} />,
+      body: <FormattedMessage {...messages.remote_chan_reserve_sat_description} />,
+      value: (
+        <Text>
+          <CryptoValue value={remote_chan_reserve_sat} />
+          {` `}
+          {cryptoUnitName}
+        </Text>
       ),
     }),
 
@@ -172,6 +198,8 @@ const ChannelData = ({ channel, cryptoUnitName, intl, networkInfo, viewMode, ...
           'total_satoshis_received',
           'commit_fee',
           'fee_per_kw',
+          'local_chan_reserve_sat',
+          'remote_chan_reserve_sat',
         ]
 
   // filter out keys where the value is null or undefined so that we don't render rows where we have no data.
