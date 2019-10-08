@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { activitySelectors, hideErrorDetailsDialog } from 'reducers/activity'
+import { activitySelectors, hideErrorDetailsDialog, loadNextPage } from 'reducers/activity'
 import { showNotification } from 'reducers/notification'
 import Activity from 'components/Activity'
 
@@ -12,6 +12,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   hideErrorDetailsDialog,
   showNotification,
+  loadNextPage,
 }
 
 export default connect(

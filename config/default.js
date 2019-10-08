@@ -137,6 +137,11 @@ module.exports = {
     slow: 60,
   },
 
+  // activity list related settings
+  activity: {
+    pageSize: 25, // Number of items per one fetch
+  },
+
   backup: {
     filename: 'channels.backup',
     gdrive: {

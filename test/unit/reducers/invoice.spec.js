@@ -33,7 +33,7 @@ describe('reducers', () => {
     it('should handle RECEIVE_INVOICES', () => {
       const action = {
         type: RECEIVE_INVOICES,
-        invoices: [{ r_hash: '123' }, { r_hash: '456' }],
+        invoices: [{ r_hash: '123', add_index: 1 }, { r_hash: '456', add_index: 2 }],
       }
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
