@@ -5,16 +5,12 @@ import { FormattedMessage, useIntl } from 'react-intl'
 import { Dialog, Heading, Button, DialogOverlay, Message } from 'components/UI'
 import { PasswordInput, Form } from 'components/Form'
 import messages from './messages'
-import { useLoginError } from './hooks'
+import { useFormError } from 'hooks'
 
-const DialogWrapper = ({ loginError, clearLoginError, isOpen, onOk, onCancel, isPromptMode }) => {
+const DialogWrapper = ({ loginError, clearLoginError, onOk, onCancel, isPromptMode }) => {
   const intl = useIntl()
   const formApiRef = useRef(null)
-  useLoginError(loginError, clearLoginError, formApiRef)
-
-  if (!isOpen) {
-    return null
-  }
+  useFormError(loginError, clearLoginError, formApiRef)
 
   const headerMessage = isPromptMode
     ? messages.password_prompt_dialog_header
@@ -84,7 +80,6 @@ DialogWrapper.defaultProps = {
 
 DialogWrapper.propTypes = {
   clearLoginError: PropTypes.func.isRequired,
-  isOpen: PropTypes.bool.isRequired,
   isPromptMode: PropTypes.bool,
   isRestoreMode: PropTypes.bool,
   loginError: PropTypes.string,

@@ -13,10 +13,11 @@ const LoadingContainer = ({
   isAccountPasswordEnabled,
   isWalletOpen,
   onClose,
+  isAccountLoading,
   isLoggedIn,
 }) => {
   const getVariant = () => {
-    const needsLogin = isAccountPasswordEnabled && !isLoggedIn
+    const needsLogin = isAccountLoading || (isAccountPasswordEnabled && !isLoggedIn)
 
     if (needsLogin) {
       return 'bolt'
@@ -41,6 +42,7 @@ const LoadingContainer = ({
 LoadingContainer.propTypes = {
   hasClose: PropTypes.bool,
   hasWallets: PropTypes.bool,
+  isAccountLoading: PropTypes.bool,
   isAccountPasswordEnabled: PropTypes.bool,
   isLoading: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
@@ -52,6 +54,7 @@ LoadingContainer.propTypes = {
 const mapStateToProps = state => ({
   hasWallets: walletSelectors.hasWallets(state),
   isLoggedIn: accountSelectors.isLoggedIn(state),
+  isAccountLoading: accountSelectors.isAccountLoading(state),
   isAccountPasswordEnabled: accountSelectors.isAccountPasswordEnabled(state),
   isWalletOpen: walletSelectors.isWalletOpen(state),
   isWalletsLoaded: walletSelectors.isWalletsLoaded(state),

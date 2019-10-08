@@ -105,7 +105,14 @@ SettingsActions.propTypes = {
   currentConfig: PropTypes.object.isRequired,
 }
 
-const SettingsPage = ({ currentConfig, isLoggedIn, ...rest }) => {
+const SettingsPage = ({
+  isChangePasswordDialogOpen,
+  isSetPasswordDialogOpen,
+  isPromptPasswordDialogOpen,
+  currentConfig,
+  isLoggedIn,
+  ...rest
+}) => {
   const [group, setGroup] = useState('general')
 
   const fieldgroups = {
@@ -143,16 +150,19 @@ const SettingsPage = ({ currentConfig, isLoggedIn, ...rest }) => {
           </SettingsForm>
         </MainContent>
       </Flex>
-      <ChangePasswordDialog />
-      <PasswordPromptDialog />
-      <PasswordSetDialog />
+      {isChangePasswordDialogOpen && <ChangePasswordDialog />}
+      {isPromptPasswordDialogOpen && <PasswordPromptDialog />}
+      {isSetPasswordDialogOpen && <PasswordSetDialog />}
     </>
   )
 }
 
 SettingsPage.propTypes = {
   currentConfig: PropTypes.object.isRequired,
+  isChangePasswordDialogOpen: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
+  isPromptPasswordDialogOpen: PropTypes.bool,
+  isSetPasswordDialogOpen: PropTypes.bool,
 }
 
 export default SettingsPage

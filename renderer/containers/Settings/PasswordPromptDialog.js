@@ -6,12 +6,11 @@ import {
   disablePassword as onOk,
   PASSWORD_PROMPT_DIALOG_ID,
 } from 'reducers/account'
-import { modalSelectors, closeDialog } from 'reducers/modal'
+import { closeDialog } from 'reducers/modal'
 
 const onCancel = () => closeDialog(PASSWORD_PROMPT_DIALOG_ID)
 
 const mapStateToProps = state => ({
-  isOpen: modalSelectors.isDialogOpen(state, PASSWORD_PROMPT_DIALOG_ID),
   loginError: accountSelectors.loginError(state),
 })
 

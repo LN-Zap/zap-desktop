@@ -1,6 +1,8 @@
 import { send } from 'redux-electron-ipc'
 /**
  * waitForIpcEvent - Sends a message to main process and waits for the reply.
+ * WARNING: only one event of each kind must be active at a time. All concurrent requests except for one
+ * will timeout and it's not determined which one of them go through.
  *
  * @param {string} message ipc message name
  * @param {object} params ipc event params
@@ -12,7 +14,7 @@ import { send } from 'redux-electron-ipc'
 export default function waitForIpcEvent(message, params, responseEvent, failureEvent) {
   return dispatch => {
     const failureEventName = failureEvent || `${message}Failure`
-    const successEventName = responseEvent || message
+    const successEventName = responseEvent || `${message}Success`
 
     return new Promise((resolve, reject) => {
       dispatch(send(message, params))

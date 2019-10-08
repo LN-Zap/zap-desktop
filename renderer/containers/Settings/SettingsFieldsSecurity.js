@@ -5,11 +5,16 @@ import {
   CHANGE_PASSWORD_DIALOG_ID,
   PASSWORD_PROMPT_DIALOG_ID,
   PASSWORD_SET_DIALOG_ID,
+  accountSelectors,
 } from 'reducers/account'
 
 const changePassword = () => openDialog(CHANGE_PASSWORD_DIALOG_ID)
 const disablePassword = () => openDialog(PASSWORD_PROMPT_DIALOG_ID)
 const enablePassword = () => openDialog(PASSWORD_SET_DIALOG_ID)
+
+const mapStateToProps = state => ({
+  isAccountPasswordEnabled: accountSelectors.isAccountPasswordEnabled(state),
+})
 
 const mapDispatchToProps = {
   changePassword,
@@ -18,6 +23,6 @@ const mapDispatchToProps = {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(SettingsFieldsSecurity)

@@ -8,20 +8,20 @@ import PasswordState from './Security/PasswordState'
 const FieldLabel = FieldLabelFactory(messages)
 
 const SettingsFieldsSecurity = ({
-  currentConfig,
   changePassword,
   enablePassword,
   disablePassword,
+  isAccountPasswordEnabled,
 }) => {
   return (
     <DataRow
       left={<FieldLabel itemKey="password.active" tooltip="password_tooltip" />}
       right={
         <PasswordState
+          isActive={isAccountPasswordEnabled}
           onChange={changePassword}
           onDisable={disablePassword}
           onEnable={enablePassword}
-          value={currentConfig.password.active}
         />
       }
     />
@@ -30,9 +30,9 @@ const SettingsFieldsSecurity = ({
 
 SettingsFieldsSecurity.propTypes = {
   changePassword: PropTypes.func.isRequired,
-  currentConfig: PropTypes.object.isRequired,
   disablePassword: PropTypes.func.isRequired,
   enablePassword: PropTypes.func.isRequired,
+  isAccountPasswordEnabled: PropTypes.bool,
 }
 
 export default SettingsFieldsSecurity

@@ -27,10 +27,20 @@ export default function createStorageService(mainWindow) {
   ipcMain.on('deletePassword', async () => {
     try {
       await storage.deleteKey(key)
-      send('deletePasswordSuccess')
+      send('deletePassword')
     } catch (e) {
       mainLog.warn('Unable to delete  app password: %o', e)
       send('deletePasswordFailure')
+    }
+  })
+
+  ipcMain.on('hasPassword', async () => {
+    try {
+      const password = await storage.getKey(key)
+      send('hasPassword', { value: Boolean(password) })
+    } catch (e) {
+      mainLog.warn('Unable to check app password state: %o', e)
+      send('hasPasswordFailure')
     }
   })
 
@@ -38,7 +48,7 @@ export default function createStorageService(mainWindow) {
   ipcMain.on('setPassword', async (event, { password }) => {
     try {
       await storage.setKey(key, password)
-      send('setPasswordSuccess')
+      send('setPassword')
     } catch (e) {
       mainLog.warn('Unable to set app password: %o', e)
       send('setPasswordFailure')

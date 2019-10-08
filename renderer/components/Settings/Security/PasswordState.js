@@ -27,10 +27,10 @@ const PasswordState = ({ isActive, onDisable, onChange, onEnable, ...props }) =>
 }
 
 PasswordState.propTypes = {
+  isActive: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   onDisable: PropTypes.func.isRequired,
   onEnable: PropTypes.func.isRequired,
-  isActive: PropTypes.bool,
 }
 
 export default PasswordState

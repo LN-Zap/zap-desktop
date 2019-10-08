@@ -5,7 +5,10 @@ import { Redirect } from 'react-router'
 import { login, clearLoginError, accountSelectors } from 'reducers/account'
 import Login from 'components/Login'
 
-const WrappedLogin = ({ isAccountPasswordEnabled, isLoggedIn, ...rest }) => {
+const WrappedLogin = ({ isAccountPasswordEnabled, isAccountLoading, isLoggedIn, ...rest }) => {
+  if (isAccountLoading || isAccountPasswordEnabled === null) {
+    return null
+  }
   if (isAccountPasswordEnabled && !isLoggedIn) {
     return <Login {...rest} />
   }
@@ -13,6 +16,7 @@ const WrappedLogin = ({ isAccountPasswordEnabled, isLoggedIn, ...rest }) => {
 }
 
 WrappedLogin.propTypes = {
+  isAccountLoading: PropTypes.bool,
   isAccountPasswordEnabled: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
 }
@@ -20,6 +24,7 @@ WrappedLogin.propTypes = {
 const mapStateToProps = state => ({
   isAccountPasswordEnabled: accountSelectors.isAccountPasswordEnabled(state),
   isLoggedIn: accountSelectors.isLoggedIn(state),
+  isAccountLoading: accountSelectors.isAccountLoading(state),
   loginError: accountSelectors.loginError(state),
 })
 

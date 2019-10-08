@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Flex } from 'rebass/styled-components'
+import { useFormError } from 'hooks'
 import { Button, CenteredContent, Message, Text } from 'components/UI'
 import { Form, PasswordInput } from 'components/Form'
 import ArrowRight from 'components/Icon/ArrowRight'
@@ -11,13 +12,7 @@ import messages from './messages'
 const Login = ({ login, loginError, clearLoginError, ...rest }) => {
   const formApiRef = useRef(null)
 
-  useEffect(() => {
-    const { current: formApi } = formApiRef
-    if (loginError) {
-      formApi.setFormError(loginError)
-      clearLoginError()
-    }
-  }, [loginError, formApiRef, clearLoginError])
+  useFormError(loginError, clearLoginError, formApiRef)
 
   const handleSubmit = ({ password }) => login(password)
 
@@ -27,7 +22,7 @@ const Login = ({ login, loginError, clearLoginError, ...rest }) => {
         const willValidateInline = submits > 0
         return (
           <CenteredContent {...rest} mx="auto" width={11 / 16}>
-            <Flex alignItems="center" flexDirection="column" px={0} width={5 / 8} {...rest}>
+            <Flex alignItems="center" flexDirection="column" px={0} width={5 / 8}>
               <Flex justifyContent="center" mb={4}>
                 <ZapLogo height={34} width={34} />
               </Flex>
