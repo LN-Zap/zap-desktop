@@ -83,7 +83,7 @@ const setIsPasswordEnabled = value => ({
  * @returns {Function} Thunk
  */
 const setPassword = password => async dispatch => {
-  dispatch(waitForIpcEvent('setPassword', { password: await sha256digest(password) }))
+  dispatch(waitForIpcEvent('setPassword', { value: await sha256digest(password) }))
 }
 
 /**
