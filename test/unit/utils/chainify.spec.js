@@ -17,8 +17,10 @@ describe('chainify util', () => {
       count = 0
 
       inc = chainify(async () => {
+        const current = this.count
         await delay(10)
-        return this.count++
+        this.count += 1
+        return current
       })
     }
     const inst = new Counter()
