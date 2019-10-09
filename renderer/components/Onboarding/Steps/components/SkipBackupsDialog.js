@@ -58,7 +58,7 @@ const DialogWrapper = ({ intl, isOpen, isRestoreMode, onSkip, onCancel }) => {
         <Dialog buttons={buttons} header={header} onClose={onCancel} width={640}>
           <Flex alignItems="center" flexDirection="column">
             <Flex alignItems="flex-start" flexDirection="column">
-              <Text color="gray" mb={2} width={550}>
+              <Text color="gray" mb={2}>
                 <FormattedMessage {...warningMessage} />
               </Text>
             </Flex>
