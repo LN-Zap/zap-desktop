@@ -26,7 +26,6 @@ const downgraded = [
   'no-unused-expressions',
   'no-use-before-define',
   'prefer-const',
-  'require-atomic-updates',
 ]
 
 module.exports = {
