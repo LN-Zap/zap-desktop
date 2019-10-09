@@ -200,7 +200,8 @@ class LndConfig {
    * @returns {string} Lndconnect uri
    */
   async generateLndconnectUri(options) {
-    let { lndconnectUri, host, cert, macaroon } = options
+    const { lndconnectUri } = options
+    let { host, cert, macaroon } = options
 
     // If this is a local wallet, set the lnd connection details based on wallet config.
     if (this.type === LNDCONFIG_TYPE_LOCAL) {
@@ -272,12 +273,12 @@ class LndConfig {
    * @returns {string} Embedded lndconnect uri
    */
   static async qrcodeFromLndconnectUri(lndconnectUri) {
-    let { host, cert, macaroon } = lndconnect.decode(lndconnectUri)
-    cert = safeUntildify(cert)
-    macaroon = safeUntildify(macaroon)
+    const { host, cert, macaroon } = lndconnect.decode(lndconnectUri)
+    const expandedCert = safeUntildify(cert)
+    const expandedMacaroon = safeUntildify(macaroon)
     const [certData, macaroonData] = await Promise.all([
-      isAbsolute(cert) ? readFile(cert) : cert,
-      isAbsolute(macaroon) ? readFile(macaroon) : macaroon,
+      isAbsolute(expandedCert) ? readFile(expandedCert) : expandedCert,
+      isAbsolute(expandedMacaroon) ? readFile(expandedMacaroon) : expandedMacaroon,
     ])
     return lndconnect.encode({ host, cert: certData, macaroon: macaroonData })
   }

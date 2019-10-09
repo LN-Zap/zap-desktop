@@ -64,7 +64,9 @@ async function createClient({ clientId, authRedirectUrl, scope, tokens }) {
     emitter.emit('tokensReceived', tokens)
   }
 
-  let { drive, accessTokens } = await createConnection({ clientId, authRedirectUrl, scope, tokens })
+  const connection = await createConnection({ clientId, authRedirectUrl, scope, tokens })
+  const { accessTokens } = connection
+  let { drive } = connection
   postTokensReceived(accessTokens)
 
   /**
