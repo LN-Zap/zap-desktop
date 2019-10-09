@@ -6,7 +6,6 @@ const downgraded = [
   'consistent-return',
   'eqeqeq',
   'getter-return',
-  'global-require',
   'no-async-promise-executor',
   'no-await-in-loop',
   'no-nested-ternary',
