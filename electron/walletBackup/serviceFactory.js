@@ -3,7 +3,6 @@ import GoogleDrive from './gdrive'
 import Local from './local'
 import Dropbox from './dropbox'
 
-createSingletonFactory
 export const GOOGLE_DRIVE = 'gdrive'
 export const DROPBOX = 'dropbox'
 export const LOCAL = 'local'
