@@ -72,7 +72,8 @@ export default function createScheduler() {
    *  @returns {number} unique task id
    */
   const genInternalId = () => {
-    return ++taskIdGen
+    taskIdGen += 1
+    return taskIdGen
   }
 
   /**
