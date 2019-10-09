@@ -259,8 +259,10 @@ infoSelectors.networkInfo = createSelector(
   settingsSelectors.currentConfig,
   (chain, network, networks, currentConfig) => {
     const networkInfo = get(networks, `${chain}.${network}`, {})
-    networkInfo.explorerUrl = networkInfo.explorerUrls[currentConfig.blockExplorer]
-    return networkInfo
+    return {
+      ...networkInfo,
+      explorerUrl: networkInfo.explorerUrls[currentConfig.blockExplorer],
+    }
   }
 )
 
