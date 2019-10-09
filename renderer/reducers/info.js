@@ -76,6 +76,17 @@ const initialState = {
         bitcoinJsNetwork: networks.litecoin.testnet,
         unitPrefix: 't',
       },
+      regtest: {
+        id: 'regtest',
+        name: 'Regtest',
+        explorerUrls: {
+          blockstream: 'https://insight.litecore.io', // not supported, default to insight.
+          blockcypher: 'https://live.blockcypher.com/ltc',
+          smartbit: 'https://insight.litecore.io', // not supported, default to insight.
+        },
+        bitcoinJsNetwork: networks.litecoin.regtest,
+        unitPrefix: 'r',
+      },
     },
   },
   chains: {
