@@ -340,18 +340,16 @@ class ZapGrpc extends EventEmitter {
    *
    * There is no guarentee that it is ready yet as it can take time for lnd to start it once chain sync has finished
    * so set up a schedular to keep retrying until it works.
+   *
+   * @param {number} initialTimeout Length of time to wait until first retry (ms)
+   * @param {number} backoff Backoff exponent
+   * @param {number} maxTimeout Maximux Length of time to wait until a retry (ms)
    */
-  subscribeChannelGraph() {
-    const backoff = 2
-    const maxTimeout = 1000 * 60
-    let timeout = 250
-
-    const initSubscription = async () => {
+  subscribeChannelGraph(initialTimeout = 250, backoff = 2, maxTimeout = 1000 * 60) {
+    const initSubscription = async timeout => {
       if (this.grpc.state !== 'active') {
         return
       }
-
-      this.subscribe('channelgraph')
 
       // If the channel graph subscription fails to start, try again in a bit.
       if (this.activeSubscriptions.channelgraph) {
@@ -359,16 +357,17 @@ class ZapGrpc extends EventEmitter {
           if (error.message === 'router not started') {
             grpcLog.warn('Unable to subscribe to channelgraph. Will try again in %sms', timeout)
             await delay(timeout)
-            initSubscription()
-            if (timeout <= maxTimeout) {
-              timeout = Math.min(timeout * backoff, maxTimeout)
-            }
+            const nextTimeout = Math.min(maxTimeout, timeout * backoff)
+            initSubscription(nextTimeout)
           }
         })
       }
+
+      // Set up the subscription.
+      this.subscribe('channelgraph')
     }
 
-    initSubscription()
+    initSubscription(initialTimeout)
   }
 }
 

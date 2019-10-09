@@ -101,9 +101,12 @@ export const setIsWalletOpen = isWalletOpen => async dispatch => {
  */
 export const putWallet = wallet => async dispatch => {
   dispatch({ type: PUT_WALLET, wallet })
-  wallet.id = await window.db.wallets.put(wallet)
+  const walletId = await window.db.wallets.put(wallet)
   await dispatch(getWallets())
-  return wallet
+  return {
+    ...wallet,
+    id: walletId,
+  }
 }
 
 /**
