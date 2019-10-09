@@ -25,7 +25,6 @@ const downgraded = [
   'no-underscore-dangle',
   'no-unused-expressions',
   'no-use-before-define',
-  'prefer-const',
 ]
 
 module.exports = {
