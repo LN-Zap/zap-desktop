@@ -404,6 +404,8 @@ export const neutrinoSyncStatus = status => async dispatch => {
         intl.formatMessage(messages.neutrtino_synced_body)
       )
       break
+    default:
+      break
   }
 }
 

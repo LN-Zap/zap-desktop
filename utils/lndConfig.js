@@ -237,6 +237,9 @@ class LndConfig {
           return LndConfig.qrcodeFromLndconnectUri(lndconnectUri)
         }
         break
+
+      default:
+        return null
     }
   }
 

@@ -103,6 +103,8 @@ function returnTimestamp(activity) {
       return activity.settled ? activity.settle_date : activity.creation_date
     case 'payment':
       return activity.creation_date
+    default:
+      return null
   }
 }
 

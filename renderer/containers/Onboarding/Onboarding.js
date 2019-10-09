@@ -43,7 +43,7 @@ function removeSteps(formSteps, steps) {
  */
 
 const getBaseSteps = connectionType => {
-  let formSteps = []
+  let formSteps
   switch (connectionType) {
     /**
      * Form steps for create flow.
@@ -88,6 +88,9 @@ const getBaseSteps = connectionType => {
         <Steps.Login key="Login" />,
       ]
       break
+
+    default:
+      formSteps = []
   }
 
   formSteps.unshift(<Steps.ConnectionType key="ConnectionType" />)

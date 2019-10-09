@@ -23,7 +23,7 @@ const Value = ({ value, currency, currentTicker, fiatTicker, style }) => {
   const convertedAmount = convert('sats', currency, Math.abs(value), price)
 
   // Truncate the amount to the most relevant number of decimal places:
-  let dp = 11
+  let dp
   switch (currency) {
     case 'btc':
     case 'ltc':
@@ -44,6 +44,8 @@ const Value = ({ value, currency, currentTicker, fiatTicker, style }) => {
     case 'fiat':
       dp = 2
       break
+    default:
+      dp = 11
   }
 
   const truncatedAmount = convertedAmount.toFixed(dp)
