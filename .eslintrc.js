@@ -4,7 +4,6 @@ const downgraded = [
   'array-callback-return',
   'class-methods-use-this',
   'consistent-return',
-  'default-case',
   'eqeqeq',
   'getter-return',
   'global-require',
