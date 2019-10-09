@@ -4,9 +4,8 @@ import { mainLog } from '@zap/utils/log'
 /**
  * createCRUD - Creates secure storage <-> ipc CRUD provider. `key` param is used to define IPC event names
  * that the CRUD provider emits:
- * get|set|has|delete${Key} for success case and get|set|has|delete${Key}Failure for exceptions
+ * get|set|has|delete${Key} for success case and get|set|has|delete${Key}Failure for exceptions.
  *
- * @export
  * @param {object} storage Secure storage instance
  * @param {string} storageKey Secure storage key name that is used to persist `key` (can be the same as `key` or differ)
  * @param {string} key ipc event name body
