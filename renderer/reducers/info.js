@@ -80,9 +80,9 @@ const initialState = {
         id: 'regtest',
         name: 'Regtest',
         explorerUrls: {
-          blockstream: 'https://insight.litecore.io', // not supported, default to insight.
+          blockstream: 'https://insight.litecore.io',
           blockcypher: 'https://live.blockcypher.com/ltc',
-          smartbit: 'https://insight.litecore.io', // not supported, default to insight.
+          smartbit: 'https://insight.litecore.io',
         },
         bitcoinJsNetwork: networks.litecoin.regtest,
         unitPrefix: 'r',
