@@ -73,11 +73,11 @@ const StyledInput = styled(BasicInput)`
 
 const itemToString = item => (item ? item.value : '')
 
-const getInitialSelectedItem = (items, initialSelectedItem) => {
-  return initialSelectedItem
+const getSelectedItem = (items, key) => {
+  return key
     ? {
-        initialInputValue: itemToString(initialSelectedItem),
-        initialSelectedItem: items.find(i => i.key === initialSelectedItem),
+        inputValue: itemToString(key),
+        selectedItem: items.find(i => i.key === key),
       }
     : {}
 }
@@ -129,22 +129,22 @@ const Select = props => {
   } = props
   const { setValue, setTouched } = fieldApi
 
-  const { initialInputValue, initialSelectedItem } = getInitialSelectedItem(
+  const { inputValue, selectedItem: initialSelectedItem } = getSelectedItem(
     items,
     initialSelectedItemOriginal || fieldState.value
   )
 
   return (
     <Downshift
-      initialInputValue={initialInputValue}
+      initialInputValue={inputValue}
       initialSelectedItem={initialSelectedItem}
       itemToString={itemToString}
-      // When an item is selected, set the item in the Informed form state.
       onInputValueChange={(inputValue, stateAndHelpers) => {
         if (inputValue && inputValue !== itemToString(stateAndHelpers.selectedItem)) {
           fieldApi.setValue(itemToString(stateAndHelpers.selectedItem))
         }
       }}
+      // When an item is selected, set the item in the Informed form state.
       onSelect={item => {
         if (!item) {
           return
@@ -156,6 +156,7 @@ const Select = props => {
         }
         blurInput()
       }}
+      selectedItem={getSelectedItem(items, fieldState.value).selectedItem}
     >
       {({
         getInputProps,

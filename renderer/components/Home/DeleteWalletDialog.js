@@ -53,7 +53,7 @@ const DialogWrapper = ({ intl, isOpen, walletDir, onDelete, onCancel }) => {
           {walletDir && (
             <Flex alignItems="center" flexDirection="column">
               <Flex alignItems="flex-start" flexDirection="column">
-                <Text color="gray" mb={2} width={550}>
+                <Text color="gray" mb={2}>
                   <FormattedMessage {...messages.delete_wallet_dialog_warning} />
                 </Text>
 
