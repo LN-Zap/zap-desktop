@@ -23,4 +23,7 @@ export default defineMessages({
   transaction_sent_body: `Hate to see 'em go but love to watch 'em leave. Your on-chain transaction successfully sent.`,
   neutrtino_synced_title: 'Lightning Node Synced',
   neutrtino_synced_body: "Visa who? You're your own payment processor now!",
+  account_password_disabled: 'Password protection has been disabled',
+  account_password_enabled: 'Password protection has been enabled',
+  account_password_updated: 'Your password has been successfully updated',
 })
