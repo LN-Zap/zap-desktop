@@ -13,7 +13,6 @@ const downgraded = [
   'no-lonely-if',
   'no-multi-str',
   'no-nested-ternary',
-  'no-plusplus',
   'no-prototype-builtins',
   'no-restricted-globals',
   'no-restricted-syntax',
@@ -34,6 +33,7 @@ module.exports = {
     },
     {
       'no-unused-expressions': ['error', { allowShortCircuit: true, allowTernary: true }],
+      'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
     }
   ),
   settings: {
