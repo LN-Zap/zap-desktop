@@ -196,7 +196,7 @@ const ACTION_HANDLERS = {
   [INIT_APP]: state => {
     state.isRunning = true
   },
-  [INIT_DATABASE]: () => {}, //no state change
+  [INIT_DATABASE]: () => {}, // no state change
   [INIT_DATABASE_SUCCESS]: state => {
     state.isDatabaseReady = true
   },

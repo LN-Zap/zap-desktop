@@ -10,7 +10,7 @@ const truncate = (text, maxlen = 100) => {
     const truncatedText =
       text.length < maxlen
         ? text
-        : text.substr(0, maxlen / 2) + '...' + text.substr(text.length - maxlen / 2)
+        : `${text.substr(0, maxlen / 2)}...${text.substr(text.length - maxlen / 2)}`
 
     return truncatedText
   }

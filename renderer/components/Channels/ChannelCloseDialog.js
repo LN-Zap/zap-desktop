@@ -57,7 +57,7 @@ const DialogWrapper = ({ intl, isForceClose, isOpen, onClose, onCancel, csvDelay
                 {...(isForceClose
                   ? messages.close_channel_dialog_force_warning
                   : messages.close_channel_dialog_warning)}
-                values={{ csvDelay: csvDelay }}
+                values={{ csvDelay }}
               />
             </Text>
             {isForceClose && (

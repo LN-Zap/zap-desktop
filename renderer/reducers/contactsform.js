@@ -79,7 +79,8 @@ const suggestedNodesSelector = state => state.channels.suggestedNodes
 const contactableFirst = (a, b) => {
   if (contactable(a) && !contactable(b)) {
     return -1
-  } else if (!contactable(a) && contactable(b)) {
+  }
+  if (!contactable(a) && contactable(b)) {
     return 1
   }
   return 0

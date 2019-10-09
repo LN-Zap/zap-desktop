@@ -15,6 +15,7 @@ describe('chainify util', () => {
   it('works with classes', async () => {
     class Counter {
       count = 0
+
       inc = chainify(async () => {
         await delay(10)
         return this.count++

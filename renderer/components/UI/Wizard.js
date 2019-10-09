@@ -200,10 +200,15 @@ class Wizard extends React.Component {
   /* eslint react/no-unused-state: 0 */
   /* eslint react/sort-comp: 0 */
   static Steps = Steps
+
   static Step = Step
+
   static NextButton = NextButton
+
   static SkipButton = SkipButton
+
   static BackButton = BackButton
+
   static Debug = Debug
 
   constructor(props) {

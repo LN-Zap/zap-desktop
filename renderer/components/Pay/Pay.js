@@ -210,8 +210,8 @@ class Pay extends React.Component {
       sendCoins({
         addr: values.payReq,
         value: values.amountCrypto,
-        cryptoUnit: cryptoUnit,
-        satPerByte: satPerByte,
+        cryptoUnit,
+        satPerByte,
         isCoinSweep: values.isCoinSweep,
       })
     } else {

@@ -11,7 +11,7 @@ import { Provider } from '../../Provider'
 
 const mockCreateInvoice = async (amount, currency, memo = '') => {
   const satoshis = convert(currency, 'sats', amount)
-  var encoded = lightningPayReq.encode({
+  const encoded = lightningPayReq.encode({
     coinType: 'bitcoin',
     satoshis,
     tags: [
@@ -33,8 +33,8 @@ const mockCreateInvoice = async (amount, currency, memo = '') => {
       },
     ],
   })
-  var privateKeyHex = 'e126f68f7eafcc8b74f54d269fe206be715000f94dac067d1c04a8ca3b2db734'
-  var signed = lightningPayReq.sign(encoded, privateKeyHex)
+  const privateKeyHex = 'e126f68f7eafcc8b74f54d269fe206be715000f94dac067d1c04a8ca3b2db734'
+  const signed = lightningPayReq.sign(encoded, privateKeyHex)
   return signed.paymentRequest
 }
 

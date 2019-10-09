@@ -34,7 +34,7 @@ class Countdown extends React.Component {
   }
 
   UNSAFE_componentWillMount() {
-    let { offset, onExpire } = this.props
+    const { offset, onExpire } = this.props
     let expiresIn = offset
 
     if (offset instanceof Date) {

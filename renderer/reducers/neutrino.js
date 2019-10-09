@@ -265,7 +265,7 @@ export const startNeutrino = lndConfig => async (dispatch, getState) => {
     // This allows the main process to force terminate the process if it needs to.
     dispatch(send('processSpawn', { name: 'neutrino', pid }))
 
-    //Wait for the wallet unlocker service to become available before notifying of a successful start.
+    // Wait for the wallet unlocker service to become available before notifying of a successful start.
     await waitForWalletUnlocker
     dispatch(startNeutrinoSuccess())
   } catch (error) {

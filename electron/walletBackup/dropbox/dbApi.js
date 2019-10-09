@@ -101,7 +101,7 @@ export function createAuthWindow(
       if (hash && hash.length > 1) {
         // Login is complete
         authWindow.removeAllListeners('closed')
-        //close window
+        // close window
         setImmediate(() => authWindow.close())
         // retrieve access tokens
         resolve(parseUrlFragments(hash))

@@ -49,9 +49,8 @@ export default class BackupService extends TokenBasedBackupService {
     if (connection) {
       const { id } = await connection.uploadFromBuffer(resolveBackupPath(walletId), backup)
       return id
-    } else {
-      mainLog.warn('Attempting to call saveBackup in logged-out state')
     }
+    mainLog.warn('Attempting to call saveBackup in logged-out state')
   })
 
   // Define the name of this backup service.

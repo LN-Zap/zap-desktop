@@ -563,7 +563,8 @@ class Neutrino extends EventEmitter {
    * @param  {string} line log output line
    */
   notifyOnSyncProgress(line) {
-    let height, cfilter
+    let height
+    let cfilter
 
     // Check the log line to see if we can parse the current block header height from it.
     height = this.getBlockHeaderIncrement(line)
@@ -599,7 +600,8 @@ class Neutrino extends EventEmitter {
    * @returns {string}      Current block header height, if found
    */
   getBlockHeaderIncrement(line) {
-    let match, height
+    let match
+    let height
 
     if ((match = line.match(/Caught up to height (\d+)/))) {
       height = match[1]
@@ -627,7 +629,8 @@ class Neutrino extends EventEmitter {
    * @returns {string}      Current cfilter height, if found
    */
   getCfilterIncrement(line) {
-    let match, cfilter
+    let match
+    let cfilter
 
     if ((match = line.match(/Starting cfheaders sync from \(block_height=(\d+)/))) {
       cfilter = match[1]
@@ -651,7 +654,8 @@ class Neutrino extends EventEmitter {
    * @returns {string}      Current recovery height, if found
    */
   getRecoveryHeightIncrement(line) {
-    let match, cfilter
+    let match
+    let cfilter
 
     if ((match = line.match(/Fetching filters for heights=\[(\d*), (\d*)\]/))) {
       cfilter = match[1]

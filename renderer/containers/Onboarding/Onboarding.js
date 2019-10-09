@@ -114,10 +114,8 @@ const Onboarding = props => {
       if (isLightningGrpcActive) {
         history.push('/app')
       }
-    } else {
-      if (!isCreatingWallet && prevIsCreatingWallet && !createWalletError) {
-        history.push('/syncing')
-      }
+    } else if (!isCreatingWallet && prevIsCreatingWallet && !createWalletError) {
+      history.push('/syncing')
     }
   }, [
     connectionType,

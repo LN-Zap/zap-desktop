@@ -39,10 +39,10 @@ window.ipcRenderer.on('about-window:info', (_, info) => {
       name_td.innerText = name
       tr.appendChild(name_td)
       const version_td = document.createElement('td')
-      version_td.innerText = ' : ' + vs[name]
+      version_td.innerText = ` : ${vs[name]}`
       tr.appendChild(version_td)
       versions.appendChild(tr)
     }
   }
 })
-//# sourceMappingURL=renderer.js.map
+// # sourceMappingURL=renderer.js.map

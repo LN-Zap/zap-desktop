@@ -74,7 +74,7 @@ export function requestFees(options) {
      */
     const getFee = targetConfs => {
       const targetDelay = targetConfs - 1
-      let feeRange = response.data.fees
+      const feeRange = response.data.fees
         // Filter out everything where the max delay is less than our target delay.
         .filter(f => f.maxDelay >= targetDelay)
         // Only include items with the lowest fee that is closest to our target delay.

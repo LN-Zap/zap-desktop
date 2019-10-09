@@ -74,7 +74,7 @@ test('provide access to basic wallet functionality', async t => {
     .ok()
     .click(wallet.requestModal.closeButton)
 
-    //test pay form lightning
+    // test pay form lightning
     .click(wallet.payButton)
     .typeText(wallet.rayReqTextArea, payReq, { paste: true })
     .expect(wallet.payForm.modal.exists)

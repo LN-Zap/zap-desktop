@@ -190,7 +190,7 @@ export function createAuthWindow(oAuthClient, scope, windowParams = { width: 500
         } else if (query.code) {
           // Login is complete
           authWindow.removeAllListeners('closed')
-          //close window
+          // close window
           setImmediate(() => authWindow.close())
           // Authorization that allows to request tokens
           resolve(query.code)

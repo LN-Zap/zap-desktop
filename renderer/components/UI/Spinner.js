@@ -20,7 +20,7 @@ const renderSpinner = Element => {
 }
 
 const WrappedSpinner = ({ element, width, height, ...rest }) => {
-  const Icon = element ? element : Spinner
+  const Icon = element || Spinner
   const Element = renderSpinner(Icon)
   return (
     <Box color="primaryAccent" {...rest}>

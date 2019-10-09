@@ -43,7 +43,7 @@ function getSize(el) {
  * @returns {object} Component size
  */
 function useComponentSize(ref) {
-  let [ComponentSize, setComponentSize] = useState(getSize(ref ? ref.current : {}))
+  const [ComponentSize, setComponentSize] = useState(getSize(ref ? ref.current : {}))
 
   const handleResize = useCallback(
     function handleResize() {
@@ -71,12 +71,11 @@ function useComponentSize(ref) {
         resizeObserver.disconnect(node)
         resizeObserver = null
       }
-    } else {
-      window.addEventListener('resize', handleResize)
+    }
+    window.addEventListener('resize', handleResize)
 
-      return () => {
-        window.removeEventListener('resize', handleResize)
-      }
+    return () => {
+      window.removeEventListener('resize', handleResize)
     }
   }, [handleResize, ref])
 
