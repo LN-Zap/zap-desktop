@@ -23,16 +23,20 @@ const downgraded = [
   'no-self-compare',
   'no-shadow',
   'no-underscore-dangle',
-  'no-unused-expressions',
   'no-use-before-define',
 ]
 
 module.exports = {
   extends: '@ln-zap',
-  rules: downgraded.reduce((acc, next) => {
-    acc[next] = 'warn'
-    return acc
-  }, {}),
+  rules: downgraded.reduce(
+    (acc, next) => {
+      acc[next] = 'warn'
+      return acc
+    },
+    {
+      'no-unused-expressions': ['error', { allowShortCircuit: true, allowTernary: true }],
+    }
+  ),
   settings: {
     'import/resolver': {
       'babel-module': {},
