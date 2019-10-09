@@ -4,8 +4,8 @@ describe('userFriendlyErrors', () => {
   describe('errorToUserFriendly', () => {
     it('should handle defined user-friendly errors', () => {
       expect(errorToUserFriendly('Error: 11 OUT_OF_RANGE: EOF')).toBe(
-        "The person you're trying to connect to isn't available or rejected the connection.\
- Their public key may have changed or the server may no longer be responding."
+        /* eslint-disable max-len */
+        "The person you're trying to connect to isn't available or rejected the connection. Their public key may have changed or the server may no longer be responding."
       )
     })
 
