@@ -33,16 +33,24 @@ class Onboarding {
 
   // Controls
   backButton = ReactSelector('BackButton')
+
   nextButton = ReactSelector('NextButton')
 
   // Steps
   connectionType = ReactSelector('ConnectionType')
+
   connectionDetails = ReactSelector('ConnectionDetails')
+
   connectionConfirm = ReactSelector('ConnectionConfirm')
+
   seedView = ReactSelector('SeedView')
+
   seedConfirm = ReactSelector('SeedConfirm')
+
   password = ReactSelector('Password')
+
   autopilot = ReactSelector('Autopilot')
+
   network = ReactSelector('Network')
 
   // Connection type radio options.
@@ -62,26 +70,35 @@ class Onboarding {
   seeedWordInput1 = ReactSelector('SeedConfirm Input')
     .nth(0)
     .find('input')
+
   seeedWordInput2 = ReactSelector('SeedConfirm Input')
     .nth(1)
     .find('input')
+
   seeedWordInput3 = ReactSelector('SeedConfirm Input')
     .nth(2)
     .find('input')
+
   passwordInput = ReactSelector('Password Input').find('input')
+
   passPhraseInput = ReactSelector('WalletRecover PasswordInput').find('input')
+
   passwordInputSeePasswordButton = ReactSelector('Password Input').find('svg')
+
   nameInput = ReactSelector('Name Input').find('input')
 
   hostInput = ReactSelector('ConnectionDetailsManual Input')
     .nth(0)
     .find('input')
+
   certInput = ReactSelector('ConnectionDetailsManual Input')
     .nth(1)
     .find('input')
+
   macaroonInput = ReactSelector('ConnectionDetailsManual Input')
     .nth(2)
     .find('input')
+
   connectionStringInput = ReactSelector('ConnectionDetails TextArea')
     .withProps({ field: 'connectionString' })
     .find('textarea')

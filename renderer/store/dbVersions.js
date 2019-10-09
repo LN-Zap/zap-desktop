@@ -75,7 +75,6 @@ const dbVersions = db => {
             case 'CHANNEL_LIST_VIEW_MODE_CARD':
               return 'card'
             default:
-              return
           }
         },
       },

@@ -10,7 +10,7 @@ import ActivityActions from 'components/Activity/ActivityActions'
 const mapDispatchToProps = {
   changeFilter,
   fetchActivityHistory,
-  updateSearchText: updateSearchText,
+  updateSearchText,
 }
 
 const mapStateToProps = state => ({

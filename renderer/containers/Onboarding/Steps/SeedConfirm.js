@@ -7,5 +7,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  {} //avoid passing dispatch
+  {} // avoid passing dispatch
 )(SeedConfirm)

@@ -9,7 +9,7 @@ module.exports = {
       port: 8180,
     },
     p2p: {
-      host: '', //disable p2p interface
+      host: '', // disable p2p interface
       port: 9735,
     },
   },

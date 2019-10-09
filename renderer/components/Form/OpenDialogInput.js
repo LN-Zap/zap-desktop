@@ -29,8 +29,8 @@ const OpenDialogInput = props => {
           <OpenDialogButton
             onClick={async () => {
               const result = await openDialog(mode)
-              //set value only if something was selected to avoid
-              //overriding an existing state
+              // set value only if something was selected to avoid
+              // overriding an existing state
               if (result) {
                 props.fieldApi.setValue(result)
               }

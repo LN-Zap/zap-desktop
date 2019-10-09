@@ -305,12 +305,10 @@ app.on('ready', async () => {
       }
     }
     // On Windows/Linux, we quit the app when the window is closed.
-    else {
-      if (!mainWindow.forceClose) {
-        event.preventDefault()
-        mainWindow.hide()
-        app.quit()
-      }
+    else if (!mainWindow.forceClose) {
+      event.preventDefault()
+      mainWindow.hide()
+      app.quit()
     }
   })
 

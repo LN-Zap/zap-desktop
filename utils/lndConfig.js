@@ -85,7 +85,6 @@ class LndConfig {
           if (this.type === LNDCONFIG_TYPE_LOCAL) {
             return join(options.userDataDir, 'lnd', this.chain, this.network, this.wallet)
           }
-          return
         },
       },
       host: {
@@ -212,12 +211,12 @@ class LndConfig {
     }
 
     // If lndconnectUri is provided, use it as is.
-    else if (lndconnectUri) {
+    if (lndconnectUri) {
       return lndconnectUri
     }
 
     // If this is a custom type, assign the host, cert, and macaroon. This will generate the lndconnectUri.
-    else if (this.type === LNDCONFIG_TYPE_CUSTOM) {
+    if (this.type === LNDCONFIG_TYPE_CUSTOM) {
       return lndconnect.encode({ host, cert, macaroon })
     }
   }

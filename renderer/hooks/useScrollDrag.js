@@ -18,11 +18,11 @@ const useScrollDrag = isReversed => {
 
   const isScrolling = useRef()
 
-  //parent global scroll position
+  // parent global scroll position
   const scrollLeft = useRef()
   const scrollTop = useRef()
 
-  //original click coordinates
+  // original click coordinates
   const originX = useRef()
   const originY = useRef()
 

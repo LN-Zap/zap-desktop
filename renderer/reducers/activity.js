@@ -157,14 +157,14 @@ function groupAll(data) {
     .sort((a, b) => b.timestamp - a.timestamp)
     .reduce((acc, next) => {
       const prev = acc[acc.length - 1]
-      //check if need insert a group title
+      // check if need insert a group title
       if (prev) {
         const days = daysBetween(next.timestamp, prev.timestamp)
         if (days >= 1) {
           acc.push({ title: next.date })
         }
       } else {
-        //This is a very first row. Insert title here too
+        // This is a very first row. Insert title here too
         acc.push({ title: next.date })
       }
       acc.push(next)

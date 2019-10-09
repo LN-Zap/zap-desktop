@@ -21,7 +21,7 @@ class Autopilot extends React.Component {
 
   handleSubmit = values => {
     const { setAutopilot } = this.props
-    setAutopilot(values.autopilot === 'enable' ? true : false)
+    setAutopilot(values.autopilot === 'enable')
   }
 
   setFormApi = formApi => {

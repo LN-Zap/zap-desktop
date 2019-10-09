@@ -46,7 +46,6 @@ const preventNonNumeric = e => {
   // Prevent non-numeric values.
   if (e.key.length === 1 && !e.key.match(/^[0-9]$/)) {
     e.preventDefault()
-    return
   }
 }
 

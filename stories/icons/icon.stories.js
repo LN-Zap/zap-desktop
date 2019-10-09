@@ -149,7 +149,7 @@ const zapIconsList = {
 }
 const zapIconStories = storiesOf('Icons', module)
 Object.keys(zapIconsList).forEach(name => {
-  var Icon = zapIconsList[name]
+  const Icon = zapIconsList[name]
   zapIconStories.add(name, () => (
     <React.Fragment>
       {iconSizes.map(size => (

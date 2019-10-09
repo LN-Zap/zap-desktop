@@ -444,7 +444,7 @@ export const signMessage = message => () => {
 export const verifyMessage = (message, signature) => () => {
   return grpc.services.Lightning.verifyMessage({
     msg: Buffer.from(message),
-    signature: signature,
+    signature,
   })
 }
 
