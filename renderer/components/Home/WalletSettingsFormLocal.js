@@ -15,7 +15,8 @@ import AutopilotAllocation from './AutopilotAllocation'
 const FieldLabel = FieldLabelFactory(messages)
 
 // de-dupes, trims, removes empty neutrino hosts
-export const sanitizeNeutrinoNodes = nodes => uniq(nodes.filter(Boolean).map(n => n.trim()))
+export const sanitizeNeutrinoNodes = nodes =>
+  nodes && uniq(nodes.filter(Boolean).map(n => n.trim()))
 
 // performs current neutrino nodes urls validation
 export const validateNeutrinoNodes = async formApi => {
