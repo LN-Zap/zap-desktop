@@ -3,11 +3,13 @@ import Neutrino from '@zap/services/neutrino'
 import LndConfig from '@zap/utils/lndConfig'
 
 jest.mock('child_process', () => {
+  /* eslint-disable global-require */
   const mockSpawn = require('mock-spawn')
   return {
     spawn: mockSpawn(),
   }
 })
+
 const userDataDir = '/some/data/dir'
 const binaryPath = '/some/bin/dir'
 
