@@ -7,7 +7,6 @@ const downgraded = [
   'eqeqeq',
   'getter-return',
   'global-require',
-  'new-cap',
   'no-async-promise-executor',
   'no-await-in-loop',
   'no-lonely-if',
