@@ -39,16 +39,13 @@ class LndConnectionStringInput extends React.Component {
   }
 
   render() {
-    let { initialValue, intl, ...rest } = this.props
-
-    if (initialValue) {
-      initialValue = this.prettyPrint(initialValue)
-    }
+    const { initialValue, intl, ...rest } = this.props
+    const formattedInitialValue = initialValue ? this.prettyPrint(initialValue) : null
 
     return (
       <TextArea
         css="word-break: break-all;"
-        initialValue={initialValue}
+        initialValue={formattedInitialValue}
         mask={mask}
         placeholder={intl.formatMessage({ ...messages.lnd_connection_string_placeholder })}
         rows={5}

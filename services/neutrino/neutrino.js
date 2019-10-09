@@ -563,11 +563,10 @@ class Neutrino extends EventEmitter {
    * @param  {string} line log output line
    */
   notifyOnSyncProgress(line) {
-    let height
     let cfilter
 
     // Check the log line to see if we can parse the current block header height from it.
-    height = this.getBlockHeaderIncrement(line)
+    const height = this.getBlockHeaderIncrement(line)
     if (height) {
       this.setNeutrinoBlockHeight(height)
     }
