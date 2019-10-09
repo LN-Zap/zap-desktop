@@ -42,6 +42,17 @@ const initialState = {
         bitcoinJsNetwork: networks.bitcoin.testnet,
         unitPrefix: 't',
       },
+      regtest: {
+        id: 'regtest',
+        name: 'Regtest',
+        explorerUrls: {
+          blockstream: 'https://blockstream.info',
+          blockcypher: 'https://live.blockcypher.com/btc',
+          smartbit: 'https://www.smartbit.com.au',
+        },
+        bitcoinJsNetwork: networks.bitcoin.regtest,
+        unitPrefix: 'r',
+      },
     },
     litecoin: {
       mainnet: {
@@ -65,6 +76,17 @@ const initialState = {
         },
         bitcoinJsNetwork: networks.litecoin.testnet,
         unitPrefix: 't',
+      },
+      regtest: {
+        id: 'regtest',
+        name: 'Regtest',
+        explorerUrls: {
+          blockstream: 'https://insight.litecore.io',
+          blockcypher: 'https://live.blockcypher.com/ltc',
+          smartbit: 'https://insight.litecore.io',
+        },
+        bitcoinJsNetwork: networks.litecoin.regtest,
+        unitPrefix: 'r',
       },
     },
   },
