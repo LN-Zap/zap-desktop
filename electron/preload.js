@@ -4,6 +4,7 @@
  */
 import { ipcRenderer, remote, shell } from 'electron'
 import url from 'url'
+import defaults from 'lodash/defaults'
 import fileExists from '@zap/utils/fileExists'
 import dirExists from '@zap/utils/dirExists'
 import { getAllLocalWallets, getWalletDir, deleteLocalWallet } from '@zap/utils/localWallets'
@@ -89,11 +90,10 @@ function killNeutrino(signal) {
  * @returns {object}        Lnd config
  */
 async function generateLndConfigFromWallet(wallet) {
-  // Convert wallet config to lnd config.
-  wallet.decoder = wallet.decoder || 'lnd.lndconnect.v1'
+  const walletConfig = defaults(wallet, { decoder: 'lnd.lndconnect.v1' })
 
   const lndConfig = new LndConfig({
-    ...wallet,
+    ...walletConfig,
     userDataDir: getUserDataDir(),
     binaryPath: lndBinaryPath(),
     protoDir: lndGrpcProtoDir(),
