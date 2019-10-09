@@ -9,7 +9,6 @@ const downgraded = [
   'global-require',
   'no-async-promise-executor',
   'no-await-in-loop',
-  'no-lonely-if',
   'no-nested-ternary',
   'no-prototype-builtins',
   'no-restricted-globals',
