@@ -134,6 +134,8 @@ class ChannelCreateForm extends React.Component {
         return get(onchainFees, 'medium', null)
       case TRANSACTION_SPEED_FAST:
         return get(onchainFees, 'fast', null)
+      default:
+        return null
     }
   }
 

@@ -76,6 +76,9 @@ const handleOpenUrl = (urlToOpen = '') => {
       case 'lndconnect':
         handleLndconnectLink(urlToOpen)
         break
+
+      default:
+        break
     }
   }
 
