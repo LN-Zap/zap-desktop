@@ -238,6 +238,16 @@ class WalletLauncher extends React.Component {
 
       if (wallet.type === 'local') {
         result = formToWalletFormat(values)
+        const {
+          wallet: { chain, network },
+        } = this.props
+        // do not explicitly save neutrino config if it wasn't changed
+        if (isEqual(result.neutrinoNodes, config.lnd.neutrino[chain][network])) {
+          delete result.neutrinoNodes
+          formApi.setValue('neutrinoNodes', config.lnd.neutrino[chain][network])
+        } else {
+          formApi.setValue('neutrinoNodes', result.neutrinoNodes)
+        }
       } else {
         const hasHideLndConnectUri = typeof formApi.getValue('hideLndConnectUri') !== 'undefined'
         const lndconnectType = getLndConnectType(values.lndconnectUri)
@@ -283,17 +293,6 @@ class WalletLauncher extends React.Component {
         if (hasHideLndConnectUri) {
           formApi.setValue('hideLndConnectUri', true)
         }
-      }
-
-      const {
-        wallet: { chain, network },
-      } = this.props
-      // do not explicitly save neutrino config if it wasn't changed
-      if (isEqual(result.neutrinoNodes, config.lnd.neutrino[chain][network])) {
-        delete result.neutrinoNodes
-        formApi.setValue('neutrinoNodes', config.lnd.neutrino[chain][network])
-      } else {
-        formApi.setValue('neutrinoNodes', result.neutrinoNodes)
       }
 
       putWallet(result)
