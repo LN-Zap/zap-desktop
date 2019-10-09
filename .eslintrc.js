@@ -10,7 +10,6 @@ const downgraded = [
   'no-async-promise-executor',
   'no-await-in-loop',
   'no-lonely-if',
-  'no-multi-str',
   'no-nested-ternary',
   'no-prototype-builtins',
   'no-restricted-globals',
