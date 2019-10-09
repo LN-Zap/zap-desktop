@@ -190,7 +190,7 @@
   "components.Channels.refresh_button_hint": "Kanalliste aktualisieren",
   "components.Channels.remote_balance": "Remote Kontostand",
   "components.Channels.remote_chan_reserve_sat_description": "Das Minimum an Satoshis des anderen Knoten ist erforderlich, um in seinem Gleichgewicht zu bleiben.",
-  "components.Channels.remote_chan_reserve_sat_label": "",
+  "components.Channels.remote_chan_reserve_sat_label": "Fernkanal-Reservebetrag",
   "components.Channels.remote_pubkey": "Remote PubKey",
   "components.Channels.search_placeholder": "Suche Kanäle",
   "components.Channels.show_all": "alle anzeigen",
