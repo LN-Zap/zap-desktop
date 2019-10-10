@@ -557,7 +557,7 @@ export const clearCreateWalletError = () => ({
  * @returns {Function} Thunk
  */
 export const generateLndConfigFromWallet = wallet => async () => {
-  return await window.Zap.generateLndConfigFromWallet(wallet)
+  return window.Zap.generateLndConfigFromWallet(wallet)
 }
 
 // ------------------------------------

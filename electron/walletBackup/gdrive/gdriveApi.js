@@ -153,7 +153,7 @@ export function downloadToBuffer(drive, fileId) {
  */
 export async function listFiles(drive, params = {}) {
   const { pageToken, fields = 'nextPageToken, files(id, name)', pageSize = 10, ...rest } = params
-  return await drive.files.list({
+  return drive.files.list({
     pageSize,
     pageToken,
     fields,

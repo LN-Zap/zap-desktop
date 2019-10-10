@@ -62,9 +62,9 @@ export function uploadFromBuffer(dbx, path, buffer, mode = 'overwrite') {
 export async function listFiles(dbx, params = {}) {
   const { path = '', cursor, ...rest } = params
   if (cursor) {
-    return await dbx.filesListFolder({ path, cursor, ...rest })
+    return dbx.filesListFolder({ path, cursor, ...rest })
   }
-  return await dbx.filesListFolder({ path, ...rest })
+  return dbx.filesListFolder({ path, ...rest })
 }
 
 /**

@@ -31,7 +31,7 @@ export default function combinePaginators(itemSorter, ...paginators) {
       const hasMore = p => !offsets.has(p) || offsets.get(p)
       const depleted = { offset: 0, items: [] }
       const next = p => p(pageSize, offsets.get(p) || 0)
-      return await Promise.all(paginators.map(p => (hasMore(p) ? next(p) : depleted)))
+      return Promise.all(paginators.map(p => (hasMore(p) ? next(p) : depleted)))
     }
 
     // returns true if some of the paginators have next page

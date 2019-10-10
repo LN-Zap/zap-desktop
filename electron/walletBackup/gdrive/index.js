@@ -84,7 +84,7 @@ export default class BackupService extends TokenBasedBackupService {
    */
   async findBackup(walletId) {
     const fileId = await this.findBackupId(walletId)
-    return fileId && (await super.loadBackup(fileId))
+    return fileId && super.loadBackup(fileId)
   }
 
   /**

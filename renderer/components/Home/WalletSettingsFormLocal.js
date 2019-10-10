@@ -81,7 +81,7 @@ class WalletSettingsFormLocal extends React.Component {
 
   validateHost = async () => {
     const { formApi, formState } = this.props
-    return formState.submits && (await validateNeutrinoNodes(formApi))
+    return formState.submits && validateNeutrinoNodes(formApi)
   }
 
   render() {

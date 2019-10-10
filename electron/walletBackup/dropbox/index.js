@@ -33,7 +33,7 @@ export default class BackupService extends TokenBasedBackupService {
    * @memberof BackupService
    */
   async loadBackup({ walletId }) {
-    return await super.loadBackup(resolveBackupPath(walletId))
+    return super.loadBackup(resolveBackupPath(walletId))
   }
 
   /**
