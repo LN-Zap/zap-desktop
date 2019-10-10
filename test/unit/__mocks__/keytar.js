@@ -3,7 +3,7 @@ import set from 'lodash/set'
 
 const db = {}
 
-module.exports = {
+export default {
   setPassword(service, account, password) {
     set(db, [service, account], password)
     return Promise.resolve()
