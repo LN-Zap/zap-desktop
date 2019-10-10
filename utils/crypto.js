@@ -21,6 +21,7 @@ export const coinTypes = {
     mainnet: 'bitcoin',
     testnet: 'testnet',
     regtest: 'regtest',
+    simnet: 'simnet',
   },
   litecoin: {
     mainnet: 'litecoin',

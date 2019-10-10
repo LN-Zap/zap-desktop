@@ -28,7 +28,7 @@ module.exports = {
   // Default chain for new wallets (bitcoin|litecoin).
   chain: 'bitcoin',
 
-  // Default network for new wallets (mainnet|testnet|regtest).
+  // Default network for new wallets (mainnet|testnet|regtest|simnet).
   network: 'mainnet',
 
   // Default address format (p2wkh|np2wkh)

@@ -53,6 +53,17 @@ const initialState = {
         bitcoinJsNetwork: networks.bitcoin.regtest,
         unitPrefix: 'r',
       },
+      simnet: {
+        id: 'simnet',
+        name: 'Simnet',
+        explorerUrls: {
+          blockstream: 'https://blockstream.info',
+          blockcypher: 'https://live.blockcypher.com/btc',
+          smartbit: 'https://www.smartbit.com.au',
+        },
+        bitcoinJsNetwork: networks.bitcoin.simnet,
+        unitPrefix: 's',
+      },
     },
     litecoin: {
       mainnet: {
@@ -87,6 +98,17 @@ const initialState = {
         },
         bitcoinJsNetwork: networks.litecoin.regtest,
         unitPrefix: 'r',
+      },
+      simnet: {
+        id: 'simnet',
+        name: 'Simnet',
+        explorerUrls: {
+          blockstream: 'https://insight.litecore.io',
+          blockcypher: 'https://live.blockcypher.com/ltc',
+          smartbit: 'https://insight.litecore.io',
+        },
+        bitcoinJsNetwork: networks.litecoin.simnet,
+        unitPrefix: 's',
       },
     },
   },
