@@ -20,7 +20,7 @@ async function requestTicker(provider, coin, currency) {
     return {}
   }
 
-  return await axios
+  return axios
     .get(apiUrl)
     .then(parser)
     .catch(() => ({}))

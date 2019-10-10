@@ -49,7 +49,7 @@ class ConnectionConfirm extends React.Component {
     const cleanConnectionString = connectionString && connectionString.trim()
     // If we have a hostname, assume we are using the custom form in which host, cer and macaroon paths are supplied.
     if (connectionHost) {
-      return await startLnd({
+      return startLnd({
         type: 'custom',
         decoder: 'lnd.lndconnect.v1',
         lndconnectUri: encode({
@@ -74,7 +74,7 @@ class ConnectionConfirm extends React.Component {
       // lndconnect://example.com:10009?cert=~/.lnd/tls.cert&macaroon=~/.lnd/admin.macaroon
       const lndconnectUri = encode(decode(cleanConnectionString))
 
-      return await startLnd({
+      return startLnd({
         type: 'custom',
         decoder: 'lnd.lndconnect.v1',
         lndconnectUri,
@@ -89,7 +89,7 @@ class ConnectionConfirm extends React.Component {
       cert,
     })
 
-    return await startLnd({
+    return startLnd({
       type: 'custom',
       decoder: 'lnd.lndconnect.v1',
       lndconnectUri,
