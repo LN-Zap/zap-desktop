@@ -73,7 +73,7 @@ const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', '
  * @param  {string}  prop Prop name
  * @returns {boolean} Boolean indicating if the prop was found and contains the search string
  */
-const propMatches = function(prop) {
+const propMatches = function propMatches(prop) {
   const { item, searchTextSelector = '' } = this
   return item[prop] && item[prop].toLowerCase().includes(searchTextSelector.toLowerCase())
 }
