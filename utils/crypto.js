@@ -8,6 +8,7 @@ export const networks = {
     mainnet: coininfo.bitcoin.main.toBitcoinJS(),
     testnet: coininfo.bitcoin.test.toBitcoinJS(),
     regtest: coininfo.bitcoin.regtest.toBitcoinJS(),
+    simnet: coininfo.bitcoin.simnet.toBitcoinJS(),
   },
   litecoin: {
     mainnet: coininfo.litecoin.main.toBitcoinJS(),

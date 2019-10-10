@@ -295,7 +295,7 @@
     "bip39-en": "1.1.1",
     "bitcoinjs-lib": "5.1.6",
     "bolt11": "1.2.6",
-    "coininfo": "5.1.0",
+    "coininfo": "https://github.com/LN-Zap/coininfo#d7ac7be9c9c4ee74dada187f7762a55887a9c6ca",
     "comlinkjs": "3.2.0",
     "config": "3.2.3",
     "copy-to-clipboard": "3.2.0",
