@@ -54,7 +54,7 @@ const parseNeutrinoNodes = value => {
 }
 
 // informed formatter for neutrinoNodes field
-const formatNeutrinoNodes = value => value.join('\n')
+const formatNeutrinoNodes = value => value && value.join('\n')
 
 class WalletSettingsFormLocal extends React.Component {
   static propTypes = {
