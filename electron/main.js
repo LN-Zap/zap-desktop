@@ -138,7 +138,7 @@ const handleLndconnectLink = input => {
  */
 const getSetting = (store, key) => {
   const setting = store.find(s => s.key === key)
-  return setting && setting.hasOwnProperty('value') ? setting.value : null
+  return setting ? get(setting, 'value', null) : null
 }
 
 /**
