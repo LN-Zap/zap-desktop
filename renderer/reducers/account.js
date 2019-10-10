@@ -6,8 +6,6 @@ import { closeDialog } from './modal'
 import { showNotification } from './notification'
 import messages from './messages'
 
-const { sha256digest } = window.Zap
-
 // ------------------------------------
 // Initial State
 // ------------------------------------
@@ -41,6 +39,7 @@ export const PASSWORD_SET_DIALOG_ID = 'PASSWORD_SET_DIALOG_ID'
 
 export const SET_IS_PASSWORD_ENABLED = 'SET_IS_PASSWORD_ENABLED'
 
+export const LOGIN_NOT_ALLOWED = 'LOGIN_NOT_ALLOWED'
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -60,8 +59,9 @@ export const initAccount = () => async dispatch => {
       dispatch({ type: LOGIN_SUCCESS })
     }
     dispatch({ type: INIT_ACCOUNT_SUCCESS })
-  } catch (error) {
-    dispatch({ type: INIT_ACCOUNT_FAILURE, error: error.message })
+  } catch (e) {
+    mainLog.warn('checkAccountPasswordEnabled error: %o', e)
+    dispatch({ type: LOGIN_FAILURE, error: LOGIN_NOT_ALLOWED })
   }
 }
 
@@ -83,6 +83,7 @@ const setIsPasswordEnabled = value => ({
  * @returns {Function} Thunk
  */
 const setPassword = password => async dispatch => {
+  const { sha256digest } = window.Zap
   dispatch(waitForIpcEvent('setPassword', { value: await sha256digest(password) }))
 }
 
@@ -92,16 +93,10 @@ const setPassword = password => async dispatch => {
  *
  * @returns {Function} Thunk
  */
-export const checkAccountPasswordEnabled = () => async dispatch => {
-  try {
-    const { value } = await dispatch(waitForIpcEvent('hasPassword'))
-    dispatch(setIsPasswordEnabled(value))
-    return value
-  } catch (e) {
-    mainLog.warn('checkAccountPasswordEnabled error: %o', e)
-    dispatch(setIsPasswordEnabled(false))
-    return false
-  }
+const checkAccountPasswordEnabled = () => async dispatch => {
+  const { value } = await dispatch(waitForIpcEvent('hasPassword'))
+  dispatch(setIsPasswordEnabled(value))
+  return value
 }
 
 /**
@@ -168,6 +163,7 @@ export const disablePassword = ({ password }) => async dispatch => {
  * @returns {Promise} Promise that fulfills after login attempt (either successful or not)
  */
 const requirePassword = password => async dispatch => {
+  const { sha256digest } = window.Zap
   const { password: hash } = await dispatch(waitForIpcEvent('getPassword'))
   const passwordHash = await sha256digest(password)
   // compare hash received from the main thread to a hash of a password provided

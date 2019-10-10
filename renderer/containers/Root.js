@@ -13,6 +13,7 @@ import { walletSelectors } from 'reducers/wallet'
 import { isLoading, isLoadingPerPath, getLoadingMessage } from 'reducers/utils'
 import { Page, Titlebar, GlobalStyle } from 'components/UI'
 import GlobalNotification from 'components/GlobalNotification'
+import { LoginNotAllowed } from 'components/Login'
 import { withLoading } from 'hocs'
 import { DialogLndCrashed } from './Dialog'
 import Initializer from './Initializer'
@@ -85,6 +86,7 @@ const Root = ({
             {isRootReady && (
               <Switch>
                 <Route component={Login} exact path="/" />
+                <Route component={LoginNotAllowed} exact path="/nologin" />
                 <Route component={Initializer} exact path="/init" />
                 <Route component={WalletStarter} exact path="/wallet-starter" />
                 <Route component={Home} path="/home" />
