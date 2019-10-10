@@ -103,7 +103,7 @@ class Neutrino extends EventEmitter {
     mainLog.info(
       'Spawning Neutrino process: %s %s',
       this.lndConfig.binaryPath,
-      lndArgs.filter(v => v != '').join(' ')
+      lndArgs.filter(v => v !== '').join(' ')
     )
 
     // Spawn neutrino process.

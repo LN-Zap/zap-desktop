@@ -9,7 +9,7 @@ import { getAllLocalWallets, deleteLocalWallet } from '@zap/utils/localWallets'
  */
 const migration = async () => {
   const { chains, networks } = config
-  const isTmpWallet = wallet => wallet.wallet == 'wallet-tmp'
+  const isTmpWallet = wallet => wallet.wallet === 'wallet-tmp'
   const allLocalWallets = await getAllLocalWallets(chains, networks)
   const tmpWallets = allLocalWallets.filter(isTmpWallet)
   mainLog.debug('Found tmp wallets to delete: %O', tmpWallets)

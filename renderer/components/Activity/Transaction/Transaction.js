@@ -70,7 +70,7 @@ const Transaction = ({ transaction, showActivityModal, cryptoUnitName, intl }) =
         data-hint={intl.formatMessage({ ...messages.amount })}
         width={1 / 4}
       >
-        <Box opactiy={transaction.status == 'failed' ? 0.2 : null}>
+        <Box opactiy={transaction.status === 'failed' ? 0.2 : null}>
           <Text color={isIncoming ? 'superGreen' : null} mb={1} textAlign="right">
             {isIncoming ? `+ ` : `- `}
             <CryptoValue value={amount} />
