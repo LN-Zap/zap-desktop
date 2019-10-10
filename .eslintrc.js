@@ -8,7 +8,6 @@ const downgraded = [
   'no-async-promise-executor',
   'no-await-in-loop',
   'no-restricted-syntax',
-  'no-return-assign',
   'no-self-compare',
   'no-shadow',
   'no-underscore-dangle',
