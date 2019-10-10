@@ -1,7 +1,6 @@
 var path = require('path')
 
 const downgraded = [
-  'array-callback-return',
   'class-methods-use-this',
   'consistent-return',
   'eqeqeq',
