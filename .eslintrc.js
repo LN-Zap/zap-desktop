@@ -13,7 +13,6 @@ const downgraded = [
   'no-restricted-globals',
   'no-restricted-syntax',
   'no-return-assign',
-  'no-return-await',
   'no-self-compare',
   'no-shadow',
   'no-underscore-dangle',
