@@ -8,6 +8,7 @@ import translations from '@zap/i18n/translation'
 import { configureStore } from '@zap/renderer/store/configureStore'
 import { getDefaultLocale } from '@zap/i18n'
 import { getDb } from '@zap/renderer/store/db'
+import sha256digest from '@zap/utils/sha256'
 import getDbName from '@zap/utils/db'
 import { setTheme } from 'reducers/theme'
 import { setCryptoUnit } from 'reducers/ticker'
@@ -19,6 +20,7 @@ window.db = db
 
 window.Zap = {
   openExternal: uri => window.open(uri, '_blank'),
+  sha256digest,
   splitHostname: host => {
     const { hostname = host, port } = new URL(`http://${host}`)
     return { host: hostname, port }
