@@ -85,6 +85,7 @@ class LndConfig {
           if (this.type === LNDCONFIG_TYPE_LOCAL) {
             return join(options.userDataDir, 'lnd', this.chain, this.network, this.wallet)
           }
+          return null
         },
       },
       host: {
