@@ -6,7 +6,6 @@ const downgraded = [
   'eqeqeq',
   'no-async-promise-executor',
   'no-await-in-loop',
-  'no-self-compare',
   'no-shadow',
   'no-underscore-dangle',
   'no-use-before-define',
