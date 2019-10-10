@@ -72,7 +72,7 @@ const Payment = ({ payment, showActivityModal, cryptoUnitName, showErrorDetailsD
         data-hint={intl.formatMessage({ ...messages.amount })}
         width={1 / 4}
       >
-        <Box opacity={payment.status == 'failed' ? 0.3 : null}>
+        <Box opacity={payment.status === 'failed' ? 0.3 : null}>
           <Text mb={1} textAlign="right">
             -&nbsp;
             <CryptoValue value={payment.value_sat} />

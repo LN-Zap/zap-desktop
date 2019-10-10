@@ -150,7 +150,7 @@ const Onboarding = props => {
   const shouldRemoveBackupSetupStep = () => connectionType === 'import' && !isSCBRestoreEnabled()
 
   const shouldRemoveBackupSetupLocalStep = () =>
-    !backupProvider || backupProvider != 'local' || shouldRemoveBackupSetupStep()
+    !backupProvider || backupProvider !== 'local' || shouldRemoveBackupSetupStep()
 
   const steps = removeSteps(getBaseSteps(connectionType), [
     // It is currently not recommended to use autopilot on mainnet.
