@@ -33,7 +33,7 @@ const prepareLndConfig = async options => {
   return neutrino
 }
 
-describe('Neutrino', function() {
+describe('Neutrino', function testNeutrino() {
   describe('Constructor', () => {
     beforeAll(async () => {
       this.neutrino = await prepareLndConfig(lndConfigOptions)

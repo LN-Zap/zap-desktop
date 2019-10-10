@@ -1,6 +1,6 @@
 import validateHost from '@zap/utils/validateHost'
 
-describe('Utils', function() {
+describe('Utils', () => {
   describe('validateHost', () => {
     it('should resolve true for valid hostnames', async () => {
       await expect(validateHost('example.com')).resolves.toBeTruthy()
