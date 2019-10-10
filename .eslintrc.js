@@ -3,7 +3,6 @@ var path = require('path')
 const downgraded = [
   'class-methods-use-this',
   'consistent-return',
-  'eqeqeq',
   'no-async-promise-executor',
   'no-await-in-loop',
   'no-shadow',
