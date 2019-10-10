@@ -5,7 +5,6 @@ const downgraded = [
   'class-methods-use-this',
   'consistent-return',
   'eqeqeq',
-  'getter-return',
   'no-async-promise-executor',
   'no-await-in-loop',
   'no-prototype-builtins',
