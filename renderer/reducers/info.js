@@ -175,9 +175,12 @@ export const receiveInfo = data => async (dispatch, getState) => {
 
   const wallet = walletSelectors.activeWalletSettings(state)
   if (wallet && (wallet.chain !== chain || wallet.network !== network)) {
-    wallet.chain = chain
-    wallet.network = network
-    await dispatch(putWallet(wallet))
+    const updatedWallet = {
+      ...wallet,
+      chain,
+      network,
+    }
+    await dispatch(putWallet(updatedWallet))
   }
 }
 
