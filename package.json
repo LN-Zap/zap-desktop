@@ -302,7 +302,7 @@
     "country-data-lookup": "0.0.33",
     "debug": "4.1.1",
     "debug-logger": "0.4.1",
-    "dexie": "3.0.0-alpha.8",
+    "dexie": "3.0.0-beta.1",
     "downshift": "3.3.4",
     "dropbox": "4.0.30",
     "electron-is-dev": "1.1.0",
