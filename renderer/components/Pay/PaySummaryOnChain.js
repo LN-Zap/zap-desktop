@@ -45,6 +45,40 @@ class PaySummaryOnChain extends React.Component {
     queryFees(address, amount)
   }
 
+  renderFee() {
+    const { isQueryingFees, lndTargetConfirmations, fee, speed } = this.props
+    if (isQueryingFees) {
+      return (
+        <Flex alignItems="center" justifyContent="flex-end" ml="auto">
+          <Text mr={2}>
+            <FormattedMessage {...messages.calculating} />
+            &hellip;
+          </Text>
+          <Spinner color="primaryAccent" />
+        </Flex>
+      )
+    }
+    if (fee) {
+      return (
+        <>
+          <Flex>
+            <CryptoValueSelector mr={2} value={fee} />
+            <Text>
+              <FormattedMessage {...messages.fee_per_byte} />
+            </Text>
+          </Flex>
+
+          <TransactionSpeedDesc
+            fontSize="s"
+            lndTargetConfirmations={lndTargetConfirmations}
+            speed={speed}
+          />
+        </>
+      )
+    }
+    return <FormattedMessage {...messages.fee_unknown} />
+  }
+
   render() {
     const {
       amount,
@@ -95,34 +129,7 @@ class PaySummaryOnChain extends React.Component {
               </Text>
             </Box>
           }
-          right={
-            isQueryingFees ? (
-              <Flex alignItems="center" justifyContent="flex-end" ml="auto">
-                <Text mr={2}>
-                  <FormattedMessage {...messages.calculating} />
-                  &hellip;
-                </Text>
-                <Spinner color="primaryAccent" />
-              </Flex>
-            ) : fee ? (
-              <>
-                <Flex>
-                  <CryptoValueSelector mr={2} value={fee} />
-                  <Text>
-                    <FormattedMessage {...messages.fee_per_byte} />
-                  </Text>
-                </Flex>
-
-                <TransactionSpeedDesc
-                  fontSize="s"
-                  lndTargetConfirmations={lndTargetConfirmations}
-                  speed={speed}
-                />
-              </>
-            ) : (
-              <FormattedMessage {...messages.fee_unknown} />
-            )
-          }
+          right={this.renderFee()}
         />
       </Box>
     )

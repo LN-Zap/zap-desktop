@@ -17,17 +17,20 @@ const NodeCardList = ({ nodes, updateContactFormSearchQuery, ...rest }) => (
           {nodes.map((nodeInfo, index) => {
             const column = index % 3
             const isLeft = column === 0
-            const isMiddle = column === 1
             const isRight = column === 2
 
+            let pl = 3
+            let pr = 3
+            if (isLeft) {
+              pl = 0
+              pr = 4
+            } else if (isRight) {
+              pr = 0
+              pl = 4
+            }
+
             return (
-              <Flex
-                key={nodeInfo.pubkey}
-                pb={4}
-                pl={isLeft ? 0 : isMiddle ? 3 : 4}
-                pr={isRight ? 0 : isMiddle ? 3 : 4}
-                width={1 / 3}
-              >
+              <Flex key={nodeInfo.pubkey} pb={4} pl={pl} pr={pr} width={1 / 3}>
                 <NodeCardView {...nodeInfo} nodeClicked={updateContactFormSearchQuery} width={1} />
               </Flex>
             )
