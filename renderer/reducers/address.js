@@ -69,9 +69,9 @@ export const initAddresses = () => async (dispatch, getState) => {
 
     // Ensure that we have an address for all supported address types.
     await Promise.all(
-      Object.keys(ADDRESS_TYPES).map(type => {
+      Object.keys(ADDRESS_TYPES).forEach(type => {
         if (!addresses[type]) {
-          return dispatch(newAddress(type))
+          dispatch(newAddress(type))
         }
       })
     )
