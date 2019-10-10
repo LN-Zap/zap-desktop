@@ -7,7 +7,6 @@ const downgraded = [
   'eqeqeq',
   'no-async-promise-executor',
   'no-await-in-loop',
-  'no-restricted-syntax',
   'no-self-compare',
   'no-shadow',
   'no-underscore-dangle',
@@ -24,6 +23,7 @@ module.exports = {
     {
       'no-unused-expressions': ['error', { allowShortCircuit: true, allowTernary: true }],
       'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
+      'no-restricted-syntax': 'off',
     }
   ),
   settings: {
