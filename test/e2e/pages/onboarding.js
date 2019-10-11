@@ -1,4 +1,5 @@
 import { ReactSelector } from 'testcafe-react-selectors'
+import range from 'lodash/range'
 
 class ConnectionTypeOption {
   constructor(key) {
@@ -26,9 +27,7 @@ class SeedWordAtIndex {
 class Onboarding {
   constructor() {
     this.seedWordInputs = []
-    Array.from(Array(24).keys()).forEach(async index => {
-      this.seedWordInputs.push(new SeedWordAtIndex(index).input)
-    })
+    range(24).forEach(index => this.seedWordInputs.push(new SeedWordAtIndex(index).input))
   }
 
   // Controls
