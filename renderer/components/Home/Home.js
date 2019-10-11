@@ -119,7 +119,7 @@ class Home extends React.Component {
               exact
               path="/home/wallet/:walletId"
               render={({ match: { params } }) => {
-                const wallet = wallets.find(wallet => wallet.id === params.walletId)
+                const wallet = wallets.find(wallet => wallet.id == params.walletId)
                 if (!wallet) {
                   return <Redirect to="/home" />
                 }
@@ -148,7 +148,7 @@ class Home extends React.Component {
               exact
               path="/home/wallet/:walletId/unlock"
               render={({ match: { params } }) => {
-                const wallet = wallets.find(wallet => wallet.id === params.walletId)
+                const wallet = wallets.find(wallet => wallet.id == params.walletId)
                 if (!wallet) {
                   return <Redirect to="/home" />
                 }
