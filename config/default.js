@@ -25,16 +25,10 @@ module.exports = {
     interval: 60 * 60 * 1000,
   },
 
-  // Supported chains.
-  chains: ['bitcoin', 'litecoin'],
-
-  // Supported networks.
-  networks: ['testnet', 'mainnet'],
-
-  // Default chain for new wallets.
+  // Default chain for new wallets (bitcoin|litecoin).
   chain: 'bitcoin',
 
-  // Default network for new wallets.
+  // Default network for new wallets (mainnet|testnet|regtest|simnet).
   network: 'mainnet',
 
   // Default address format (p2wkh|np2wkh)

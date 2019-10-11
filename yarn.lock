@@ -4739,16 +4739,15 @@ body-parser@1.19.0:
     raw-body "2.4.0"
     type-is "~1.6.17"
 
-bolt11@1.2.6:
+"bolt11@https://github.com/LN-Zap/bolt11#0492874ea9ced4ab49bf0f59a62368687f147247":
   version "1.2.6"
-  resolved "https://registry.yarnpkg.com/bolt11/-/bolt11-1.2.6.tgz#ba8eed12640a9c6e1e62b8851cb998ec956f3418"
-  integrity sha512-y4ctQaMgslIPbgfQ3UjDpoa7foURai5E+wBTYZ0gUHGjuCVUK/xU968R15UUyFnwEcEcomGeyE1vLrgSFnzj6A==
+  resolved "https://github.com/LN-Zap/bolt11#0492874ea9ced4ab49bf0f59a62368687f147247"
   dependencies:
     "@types/bn.js" "^4.11.3"
     bech32 "^1.1.2"
     bitcoinjs-lib "^3.3.1"
     bn.js "^4.11.8"
-    coininfo "^4.5.0"
+    coininfo "https://github.com/LN-Zap/coininfo#d7ac7be9c9c4ee74dada187f7762a55887a9c6ca"
     lodash "^4.17.11"
     safe-buffer "^5.1.1"
     secp256k1 "^3.4.0"
@@ -5599,17 +5598,9 @@ coffeescript@^2.3.1:
   resolved "https://registry.yarnpkg.com/coffeescript/-/coffeescript-2.4.1.tgz#815fd337df0a34d49e74a98a6ebea9c3e7930f70"
   integrity sha512-34GV1aHrsMpTaO3KfMJL40ZNuvKDR/g98THHnE9bQj8HjMaZvSrLik99WWqyMhRtbe8V5hpx5iLgdcSvM/S2wg==
 
-coininfo@5.1.0:
+"coininfo@https://github.com/LN-Zap/coininfo#d7ac7be9c9c4ee74dada187f7762a55887a9c6ca":
   version "5.1.0"
-  resolved "https://registry.yarnpkg.com/coininfo/-/coininfo-5.1.0.tgz#512b850d867e49afe55f15322e891f34ab6b49bd"
-  integrity sha512-q1Bv+yYSca68VpXGvaMwO0xzEJl9Zxxk0g2YWfX8EUHld8t7e3xEnaRa473IqNVWBq9CAwiXzkYR9UCCtUZVrA==
-  dependencies:
-    safe-buffer "^5.1.1"
-
-coininfo@^4.5.0:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/coininfo/-/coininfo-4.5.0.tgz#f56e7c093425d8f4f6e99454796698dd7c9246e8"
-  integrity sha512-9YnPekCDaFSJl/yG27dEkCbHF09CO3Cz38A2TMcFZRMcaCy2l38B2nQK/rdz8zLqOLVzzE/e0MpcWMxvyEncGA==
+  resolved "https://github.com/LN-Zap/coininfo#d7ac7be9c9c4ee74dada187f7762a55887a9c6ca"
   dependencies:
     safe-buffer "^5.1.1"
 

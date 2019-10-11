@@ -77,6 +77,98 @@ Snapshot Diff:
           "name": "Mainnet",
           "unitPrefix": "",
         },
+        "regtest": Object {
+          "bitcoinJsNetwork": Object {
+            "bech32": "bcrt",
+            "bip32": Object {
+              "private": 70615956,
+              "public": 70617039,
+            },
+            "dustThreshold": null,
+            "hashGenesisBlock": "0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206",
+            "messagePrefix": "Bitcoin Signed Message:
+  ",
+            "name": "Bitcoin",
+            "per1": 100000000,
+            "port": 18444,
+            "portRpc": 18332,
+            "protocol": Object {
+              "magic": 3669344250,
+            },
+            "pubKeyHash": 111,
+            "scriptHash": 196,
+            "seedsDns": Array [],
+            "testnet": true,
+            "toBitcoinJS": [Function bound toBitcoinJS],
+            "toBitcore": [Function bound toBitcore],
+            "unit": "BTC",
+            "versions": Object {
+              "bip32": Object {
+                "private": 70615956,
+                "public": 70617039,
+              },
+              "bip44": 1,
+              "private": 239,
+              "public": 111,
+              "scripthash": 196,
+            },
+            "wif": 239,
+          },
+          "explorerUrls": Object {
+            "blockcypher": "https://live.blockcypher.com/btc",
+            "blockstream": "https://blockstream.info",
+            "smartbit": "https://www.smartbit.com.au",
+          },
+          "id": "regtest",
+          "name": "Regtest",
+          "unitPrefix": "r",
+        },
+        "simnet": Object {
+          "bitcoinJsNetwork": Object {
+            "bech32": "sb",
+            "bip32": Object {
+              "private": 69253376,
+              "public": 69254458,
+            },
+            "dustThreshold": null,
+            "hashGenesisBlock": "f67ad7695d9b662a72ff3d8edbbb2de0bfa67b13974bb9910d116d5cbd863e68",
+            "messagePrefix": "Bitcoin Signed Message:
+  ",
+            "name": "Bitcoin",
+            "per1": 100000000,
+            "port": 18555,
+            "portRpc": 18556,
+            "protocol": Object {
+              "magic": 3669344250,
+            },
+            "pubKeyHash": 63,
+            "scriptHash": 123,
+            "seedsDns": Array [],
+            "testnet": true,
+            "toBitcoinJS": [Function bound toBitcoinJS],
+            "toBitcore": [Function bound toBitcore],
+            "unit": "BTC",
+            "versions": Object {
+              "bip32": Object {
+                "private": 69253376,
+                "public": 69254458,
+              },
+              "bip44": 115,
+              "private": 100,
+              "public": 63,
+              "scripthash": 123,
+            },
+            "wif": 100,
+          },
+          "explorerUrls": Object {
+            "blockcypher": "https://live.blockcypher.com/btc",
+            "blockstream": "https://blockstream.info",
+            "smartbit": "https://www.smartbit.com.au",
+          },
+          "id": "simnet",
+          "name": "Simnet",
+          "unitPrefix": "s",
+        },
         "testnet": Object {
           "bitcoinJsNetwork": Object {
             "bech32": "tb",
@@ -180,6 +272,28 @@ Snapshot Diff:
           "id": "mainnet",
           "name": "Mainnet",
           "unitPrefix": "",
+        },
+        "regtest": Object {
+          "bitcoinJsNetwork": undefined,
+          "explorerUrls": Object {
+            "blockcypher": "https://live.blockcypher.com/ltc",
+            "blockstream": "https://insight.litecore.io",
+            "smartbit": "https://insight.litecore.io",
+          },
+          "id": "regtest",
+          "name": "Regtest",
+          "unitPrefix": "r",
+        },
+        "simnet": Object {
+          "bitcoinJsNetwork": undefined,
+          "explorerUrls": Object {
+            "blockcypher": "https://live.blockcypher.com/ltc",
+            "blockstream": "https://insight.litecore.io",
+            "smartbit": "https://insight.litecore.io",
+          },
+          "id": "simnet",
+          "name": "Simnet",
+          "unitPrefix": "s",
         },
         "testnet": Object {
           "bitcoinJsNetwork": Object {
@@ -314,6 +428,98 @@ Snapshot Diff:
           "name": "Mainnet",
           "unitPrefix": "",
         },
+        "regtest": Object {
+          "bitcoinJsNetwork": Object {
+            "bech32": "bcrt",
+            "bip32": Object {
+              "private": 70615956,
+              "public": 70617039,
+            },
+            "dustThreshold": null,
+            "hashGenesisBlock": "0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206",
+            "messagePrefix": "Bitcoin Signed Message:
+  ",
+            "name": "Bitcoin",
+            "per1": 100000000,
+            "port": 18444,
+            "portRpc": 18332,
+            "protocol": Object {
+              "magic": 3669344250,
+            },
+            "pubKeyHash": 111,
+            "scriptHash": 196,
+            "seedsDns": Array [],
+            "testnet": true,
+            "toBitcoinJS": [Function bound toBitcoinJS],
+            "toBitcore": [Function bound toBitcore],
+            "unit": "BTC",
+            "versions": Object {
+              "bip32": Object {
+                "private": 70615956,
+                "public": 70617039,
+              },
+              "bip44": 1,
+              "private": 239,
+              "public": 111,
+              "scripthash": 196,
+            },
+            "wif": 239,
+          },
+          "explorerUrls": Object {
+            "blockcypher": "https://live.blockcypher.com/btc",
+            "blockstream": "https://blockstream.info",
+            "smartbit": "https://www.smartbit.com.au",
+          },
+          "id": "regtest",
+          "name": "Regtest",
+          "unitPrefix": "r",
+        },
+        "simnet": Object {
+          "bitcoinJsNetwork": Object {
+            "bech32": "sb",
+            "bip32": Object {
+              "private": 69253376,
+              "public": 69254458,
+            },
+            "dustThreshold": null,
+            "hashGenesisBlock": "f67ad7695d9b662a72ff3d8edbbb2de0bfa67b13974bb9910d116d5cbd863e68",
+            "messagePrefix": "Bitcoin Signed Message:
+  ",
+            "name": "Bitcoin",
+            "per1": 100000000,
+            "port": 18555,
+            "portRpc": 18556,
+            "protocol": Object {
+              "magic": 3669344250,
+            },
+            "pubKeyHash": 63,
+            "scriptHash": 123,
+            "seedsDns": Array [],
+            "testnet": true,
+            "toBitcoinJS": [Function bound toBitcoinJS],
+            "toBitcore": [Function bound toBitcore],
+            "unit": "BTC",
+            "versions": Object {
+              "bip32": Object {
+                "private": 69253376,
+                "public": 69254458,
+              },
+              "bip44": 115,
+              "private": 100,
+              "public": 63,
+              "scripthash": 123,
+            },
+            "wif": 100,
+          },
+          "explorerUrls": Object {
+            "blockcypher": "https://live.blockcypher.com/btc",
+            "blockstream": "https://blockstream.info",
+            "smartbit": "https://www.smartbit.com.au",
+          },
+          "id": "simnet",
+          "name": "Simnet",
+          "unitPrefix": "s",
+        },
         "testnet": Object {
           "bitcoinJsNetwork": Object {
             "bech32": "tb",
@@ -417,6 +623,28 @@ Snapshot Diff:
           "id": "mainnet",
           "name": "Mainnet",
           "unitPrefix": "",
+        },
+        "regtest": Object {
+          "bitcoinJsNetwork": undefined,
+          "explorerUrls": Object {
+            "blockcypher": "https://live.blockcypher.com/ltc",
+            "blockstream": "https://insight.litecore.io",
+            "smartbit": "https://insight.litecore.io",
+          },
+          "id": "regtest",
+          "name": "Regtest",
+          "unitPrefix": "r",
+        },
+        "simnet": Object {
+          "bitcoinJsNetwork": undefined,
+          "explorerUrls": Object {
+            "blockcypher": "https://live.blockcypher.com/ltc",
+            "blockstream": "https://insight.litecore.io",
+            "smartbit": "https://insight.litecore.io",
+          },
+          "id": "simnet",
+          "name": "Simnet",
+          "unitPrefix": "s",
         },
         "testnet": Object {
           "bitcoinJsNetwork": Object {
@@ -540,6 +768,98 @@ Snapshot Diff:
           "name": "Mainnet",
           "unitPrefix": "",
         },
+        "regtest": Object {
+          "bitcoinJsNetwork": Object {
+            "bech32": "bcrt",
+            "bip32": Object {
+              "private": 70615956,
+              "public": 70617039,
+            },
+            "dustThreshold": null,
+            "hashGenesisBlock": "0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206",
+            "messagePrefix": "Bitcoin Signed Message:
+  ",
+            "name": "Bitcoin",
+            "per1": 100000000,
+            "port": 18444,
+            "portRpc": 18332,
+            "protocol": Object {
+              "magic": 3669344250,
+            },
+            "pubKeyHash": 111,
+            "scriptHash": 196,
+            "seedsDns": Array [],
+            "testnet": true,
+            "toBitcoinJS": [Function bound toBitcoinJS],
+            "toBitcore": [Function bound toBitcore],
+            "unit": "BTC",
+            "versions": Object {
+              "bip32": Object {
+                "private": 70615956,
+                "public": 70617039,
+              },
+              "bip44": 1,
+              "private": 239,
+              "public": 111,
+              "scripthash": 196,
+            },
+            "wif": 239,
+          },
+          "explorerUrls": Object {
+            "blockcypher": "https://live.blockcypher.com/btc",
+            "blockstream": "https://blockstream.info",
+            "smartbit": "https://www.smartbit.com.au",
+          },
+          "id": "regtest",
+          "name": "Regtest",
+          "unitPrefix": "r",
+        },
+        "simnet": Object {
+          "bitcoinJsNetwork": Object {
+            "bech32": "sb",
+            "bip32": Object {
+              "private": 69253376,
+              "public": 69254458,
+            },
+            "dustThreshold": null,
+            "hashGenesisBlock": "f67ad7695d9b662a72ff3d8edbbb2de0bfa67b13974bb9910d116d5cbd863e68",
+            "messagePrefix": "Bitcoin Signed Message:
+  ",
+            "name": "Bitcoin",
+            "per1": 100000000,
+            "port": 18555,
+            "portRpc": 18556,
+            "protocol": Object {
+              "magic": 3669344250,
+            },
+            "pubKeyHash": 63,
+            "scriptHash": 123,
+            "seedsDns": Array [],
+            "testnet": true,
+            "toBitcoinJS": [Function bound toBitcoinJS],
+            "toBitcore": [Function bound toBitcore],
+            "unit": "BTC",
+            "versions": Object {
+              "bip32": Object {
+                "private": 69253376,
+                "public": 69254458,
+              },
+              "bip44": 115,
+              "private": 100,
+              "public": 63,
+              "scripthash": 123,
+            },
+            "wif": 100,
+          },
+          "explorerUrls": Object {
+            "blockcypher": "https://live.blockcypher.com/btc",
+            "blockstream": "https://blockstream.info",
+            "smartbit": "https://www.smartbit.com.au",
+          },
+          "id": "simnet",
+          "name": "Simnet",
+          "unitPrefix": "s",
+        },
         "testnet": Object {
           "bitcoinJsNetwork": Object {
             "bech32": "tb",
@@ -643,6 +963,28 @@ Snapshot Diff:
           "id": "mainnet",
           "name": "Mainnet",
           "unitPrefix": "",
+        },
+        "regtest": Object {
+          "bitcoinJsNetwork": undefined,
+          "explorerUrls": Object {
+            "blockcypher": "https://live.blockcypher.com/ltc",
+            "blockstream": "https://insight.litecore.io",
+            "smartbit": "https://insight.litecore.io",
+          },
+          "id": "regtest",
+          "name": "Regtest",
+          "unitPrefix": "r",
+        },
+        "simnet": Object {
+          "bitcoinJsNetwork": undefined,
+          "explorerUrls": Object {
+            "blockcypher": "https://live.blockcypher.com/ltc",
+            "blockstream": "https://insight.litecore.io",
+            "smartbit": "https://insight.litecore.io",
+          },
+          "id": "simnet",
+          "name": "Simnet",
+          "unitPrefix": "s",
         },
         "testnet": Object {
           "bitcoinJsNetwork": Object {
@@ -761,6 +1103,98 @@ Object {
         "name": "Mainnet",
         "unitPrefix": "",
       },
+      "regtest": Object {
+        "bitcoinJsNetwork": Object {
+          "bech32": "bcrt",
+          "bip32": Object {
+            "private": 70615956,
+            "public": 70617039,
+          },
+          "dustThreshold": null,
+          "hashGenesisBlock": "0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206",
+          "messagePrefix": "Bitcoin Signed Message:
+",
+          "name": "Bitcoin",
+          "per1": 100000000,
+          "port": 18444,
+          "portRpc": 18332,
+          "protocol": Object {
+            "magic": 3669344250,
+          },
+          "pubKeyHash": 111,
+          "scriptHash": 196,
+          "seedsDns": Array [],
+          "testnet": true,
+          "toBitcoinJS": [Function],
+          "toBitcore": [Function],
+          "unit": "BTC",
+          "versions": Object {
+            "bip32": Object {
+              "private": 70615956,
+              "public": 70617039,
+            },
+            "bip44": 1,
+            "private": 239,
+            "public": 111,
+            "scripthash": 196,
+          },
+          "wif": 239,
+        },
+        "explorerUrls": Object {
+          "blockcypher": "https://live.blockcypher.com/btc",
+          "blockstream": "https://blockstream.info",
+          "smartbit": "https://www.smartbit.com.au",
+        },
+        "id": "regtest",
+        "name": "Regtest",
+        "unitPrefix": "r",
+      },
+      "simnet": Object {
+        "bitcoinJsNetwork": Object {
+          "bech32": "sb",
+          "bip32": Object {
+            "private": 69253376,
+            "public": 69254458,
+          },
+          "dustThreshold": null,
+          "hashGenesisBlock": "f67ad7695d9b662a72ff3d8edbbb2de0bfa67b13974bb9910d116d5cbd863e68",
+          "messagePrefix": "Bitcoin Signed Message:
+",
+          "name": "Bitcoin",
+          "per1": 100000000,
+          "port": 18555,
+          "portRpc": 18556,
+          "protocol": Object {
+            "magic": 3669344250,
+          },
+          "pubKeyHash": 63,
+          "scriptHash": 123,
+          "seedsDns": Array [],
+          "testnet": true,
+          "toBitcoinJS": [Function],
+          "toBitcore": [Function],
+          "unit": "BTC",
+          "versions": Object {
+            "bip32": Object {
+              "private": 69253376,
+              "public": 69254458,
+            },
+            "bip44": 115,
+            "private": 100,
+            "public": 63,
+            "scripthash": 123,
+          },
+          "wif": 100,
+        },
+        "explorerUrls": Object {
+          "blockcypher": "https://live.blockcypher.com/btc",
+          "blockstream": "https://blockstream.info",
+          "smartbit": "https://www.smartbit.com.au",
+        },
+        "id": "simnet",
+        "name": "Simnet",
+        "unitPrefix": "s",
+      },
       "testnet": Object {
         "bitcoinJsNetwork": Object {
           "bech32": "tb",
@@ -864,6 +1298,28 @@ Object {
         "id": "mainnet",
         "name": "Mainnet",
         "unitPrefix": "",
+      },
+      "regtest": Object {
+        "bitcoinJsNetwork": undefined,
+        "explorerUrls": Object {
+          "blockcypher": "https://live.blockcypher.com/ltc",
+          "blockstream": "https://insight.litecore.io",
+          "smartbit": "https://insight.litecore.io",
+        },
+        "id": "regtest",
+        "name": "Regtest",
+        "unitPrefix": "r",
+      },
+      "simnet": Object {
+        "bitcoinJsNetwork": undefined,
+        "explorerUrls": Object {
+          "blockcypher": "https://live.blockcypher.com/ltc",
+          "blockstream": "https://insight.litecore.io",
+          "smartbit": "https://insight.litecore.io",
+        },
+        "id": "simnet",
+        "name": "Simnet",
+        "unitPrefix": "s",
       },
       "testnet": Object {
         "bitcoinJsNetwork": Object {

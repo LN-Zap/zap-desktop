@@ -15,7 +15,7 @@ class LightningInvoiceInput extends React.Component {
     chain: PropTypes.oneOf(['bitcoin', 'litecoin']),
     intl: intlShape.isRequired,
     isRequired: PropTypes.bool,
-    network: PropTypes.oneOf(['mainnet', 'testnet', 'regtest']),
+    network: PropTypes.oneOf(['mainnet', 'testnet', 'regtest', 'simnet']),
   }
 
   validate = value => {

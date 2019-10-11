@@ -42,6 +42,28 @@ const initialState = {
         bitcoinJsNetwork: networks.bitcoin.testnet,
         unitPrefix: 't',
       },
+      regtest: {
+        id: 'regtest',
+        name: 'Regtest',
+        explorerUrls: {
+          blockstream: 'https://blockstream.info',
+          blockcypher: 'https://live.blockcypher.com/btc',
+          smartbit: 'https://www.smartbit.com.au',
+        },
+        bitcoinJsNetwork: networks.bitcoin.regtest,
+        unitPrefix: 'r',
+      },
+      simnet: {
+        id: 'simnet',
+        name: 'Simnet',
+        explorerUrls: {
+          blockstream: 'https://blockstream.info',
+          blockcypher: 'https://live.blockcypher.com/btc',
+          smartbit: 'https://www.smartbit.com.au',
+        },
+        bitcoinJsNetwork: networks.bitcoin.simnet,
+        unitPrefix: 's',
+      },
     },
     litecoin: {
       mainnet: {
@@ -65,6 +87,28 @@ const initialState = {
         },
         bitcoinJsNetwork: networks.litecoin.testnet,
         unitPrefix: 't',
+      },
+      regtest: {
+        id: 'regtest',
+        name: 'Regtest',
+        explorerUrls: {
+          blockstream: 'https://insight.litecore.io',
+          blockcypher: 'https://live.blockcypher.com/ltc',
+          smartbit: 'https://insight.litecore.io',
+        },
+        bitcoinJsNetwork: networks.litecoin.regtest,
+        unitPrefix: 'r',
+      },
+      simnet: {
+        id: 'simnet',
+        name: 'Simnet',
+        explorerUrls: {
+          blockstream: 'https://insight.litecore.io',
+          blockcypher: 'https://live.blockcypher.com/ltc',
+          smartbit: 'https://insight.litecore.io',
+        },
+        bitcoinJsNetwork: networks.litecoin.simnet,
+        unitPrefix: 's',
       },
     },
   },
@@ -175,9 +219,12 @@ export const receiveInfo = data => async (dispatch, getState) => {
 
   const wallet = walletSelectors.activeWalletSettings(state)
   if (wallet && (wallet.chain !== chain || wallet.network !== network)) {
-    wallet.chain = chain
-    wallet.network = network
-    await dispatch(putWallet(wallet))
+    const updatedWallet = {
+      ...wallet,
+      chain,
+      network,
+    }
+    await dispatch(putWallet(updatedWallet))
   }
 }
 

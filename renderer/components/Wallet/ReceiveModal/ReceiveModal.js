@@ -28,7 +28,7 @@ const ReceiveModal = ({
         title={
           <>
             <WalletName wallet={activeWalletSettings} />
-            {networkInfo && networkInfo.id === 'testnet' && ` (${networkInfo.name})`}
+            {networkInfo && networkInfo.id !== 'mainnet' && ` (${networkInfo.name})`}
           </>
         }
       />
