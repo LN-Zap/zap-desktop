@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import { intlReducer as intl } from 'react-intl-redux'
+import pick from 'lodash/pick'
 import account from './account'
 import locale from './locale'
 import theme from './theme'
@@ -67,11 +68,26 @@ const appReducer = combineReducers({
 export default (state, action) => {
   // Reset all reducers, except for selected reducers which should persist.
   if (action.type === 'RESET_APP') {
-    const { account, app, settings, intl, theme, wallet, lnd, neutrino, ticker } = state
-    return appReducer(
-      { account, app, settings, intl, theme, wallet, lnd, neutrino, ticker },
-      action
-    )
+    const list = [
+      'account',
+      'app',
+      'settings',
+      'intl',
+      'theme',
+      'wallet',
+      'lnd',
+      'neutrino',
+      'ticker',
+    ]
+    const persistentReducers = pick(state, list)
+
+    if (list.length != Object.keys(persistentReducers).length) {
+      throw new Error(
+        'RESET_APP: persistent reducers list size differs from the plucked state. One of the entries in the list is likely a typo'
+      )
+    }
+
+    return appReducer(persistentReducers, action)
   }
   return appReducer(state, action)
 }
