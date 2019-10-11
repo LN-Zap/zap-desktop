@@ -98,7 +98,11 @@ export const queryFees = (address, amountInSats) => async (dispatch, getState) =
 export const queryRoutes = (pubKey, amount) => async dispatch => {
   dispatch({ type: QUERY_ROUTES, pubKey })
   try {
-    const { routes } = await grpc.services.Lightning.queryRoutes({ pub_key: pubKey, amt: amount })
+    const { routes } = await grpc.services.Lightning.queryRoutes({
+      pub_key: pubKey,
+      amt: amount,
+      use_mission_control: true,
+    })
     dispatch({ type: QUERY_ROUTES_SUCCESS, routes })
   } catch (e) {
     dispatch({ type: QUERY_ROUTES_FAILURE })

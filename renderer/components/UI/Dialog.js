@@ -37,6 +37,7 @@ const Dialog = ({ header, onClose, buttons, width, children }) => {
         flexDirection="column"
         justifyContent="center"
         pb={4}
+        px={5}
       >
         <Flex alignItems="center" flexDirection="column" justifyContent="flex-start">
           {headerLayout}

@@ -52,7 +52,7 @@ const DialogWrapper = ({ intl, isForceClose, isOpen, onClose, onCancel, csvDelay
       <Form onSubmit={handleSubmit}>
         <Dialog buttons={buttons} header={header} onClose={onCancel} width={640}>
           <Flex alignItems="center" flexDirection="column">
-            <Text color="gray" mb={2} textAlign={isForceClose ? 'left' : 'center'} width={500}>
+            <Text color="gray" mb={2} textAlign={isForceClose ? 'left' : 'center'}>
               <FormattedMessage
                 {...(isForceClose
                   ? messages.close_channel_dialog_force_warning

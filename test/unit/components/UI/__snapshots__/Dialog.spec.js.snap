@@ -152,6 +152,8 @@ exports[`component.UI.Dialog should render correctly with custom content 1`] = `
   -ms-flex-pack: center;
   justify-content: center;
   padding-bottom: 32px;
+  padding-left: 45px;
+  padding-right: 45px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -489,6 +491,8 @@ exports[`component.UI.Dialog should render correctly with one button 1`] = `
   -ms-flex-pack: center;
   justify-content: center;
   padding-bottom: 32px;
+  padding-left: 45px;
+  padding-right: 45px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -781,6 +785,8 @@ exports[`component.UI.Dialog should render correctly with two buttons 1`] = `
   -ms-flex-pack: center;
   justify-content: center;
   padding-bottom: 32px;
+  padding-left: 45px;
+  padding-right: 45px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;

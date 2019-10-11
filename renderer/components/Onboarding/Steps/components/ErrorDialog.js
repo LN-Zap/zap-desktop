@@ -39,7 +39,7 @@ const ErrorDialog = ({ onClose, error, isRestoreMode, isOpen }) => {
         width={640}
       >
         <FormattedMessage {...subHeaderMsg} />
-        <Text color="gray" px={4} py={2}>
+        <Text color="gray" py={2}>
           {error}
         </Text>
       </Dialog>
