@@ -57,7 +57,7 @@ const withNumberInputMask = Component =>
       // Run any additional onKeyDown handlers provided by the caller.
       const { onKeyDown } = this.props
       if (onKeyDown) {
-        return onKeyDown(e)
+        onKeyDown(e)
       }
     }
 

@@ -56,7 +56,7 @@ function useComponentSize(ref) {
 
   useLayoutEffect(() => {
     if (!ref.current) {
-      return
+      return null
     }
 
     handleResize()
