@@ -4,12 +4,15 @@ import Downshift from 'downshift'
 import bip39 from 'bip39-en'
 import { Box, Flex } from 'rebass/styled-components'
 import { useFieldApi } from 'informed'
+import { useMaxScreenHeight } from 'hooks'
 import SeedWordList from './SeedWordList'
 import { Input, Label } from 'components/Form'
 
 const SeedWordInput = ({ index, onPaste, placeholder, setFormApiFieldValue }) => {
   const inputKey = `word${index}`
   const fieldApi = useFieldApi(inputKey)
+  const [measuredRef, maxHeight] = useMaxScreenHeight(300)
+  const height = Math.max(maxHeight, 100)
 
   /**
    * mask - Masks the value with a trimmed version.
@@ -88,6 +91,8 @@ const SeedWordInput = ({ index, onPaste, placeholder, setFormApiFieldValue }) =>
                 getItemProps,
                 inputValue,
               }}
+              ref={measuredRef}
+              maxHeight={height}
             />
           )}
         </Box>
