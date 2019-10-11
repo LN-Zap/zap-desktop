@@ -113,6 +113,10 @@ module.exports = {
     suggestedNodes: 'https://resources.zaphq.io/api/v1/suggested-nodes',
   },
 
+  secureStorage: {
+    namespace: 'ln-zap',
+  },
+
   // feature flags to enable/disable experimental functionality
   features: {
     autopay: false,

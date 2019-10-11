@@ -6,17 +6,19 @@ import { Router } from 'react-router'
 import { ThemeProvider } from 'styled-components'
 import { hot } from 'react-hot-loader/root'
 import { removeNotification, notificationSelectors } from 'reducers/notification'
-import { initDatabase, setLoading, setMounted, appSelectors } from 'reducers/app'
+import { initDatabase, initRoot, setLoading, setMounted, appSelectors } from 'reducers/app'
 import { initSettings } from 'reducers/settings'
-import { initTheme, themeSelectors } from 'reducers/theme'
+import { themeSelectors } from 'reducers/theme'
 import { walletSelectors } from 'reducers/wallet'
 import { isLoading, isLoadingPerPath, getLoadingMessage } from 'reducers/utils'
 import { Page, Titlebar, GlobalStyle } from 'components/UI'
 import GlobalNotification from 'components/GlobalNotification'
+import { LoginNotAllowed } from 'components/Login'
 import { withLoading } from 'hocs'
 import { DialogLndCrashed } from './Dialog'
 import Initializer from './Initializer'
 import Logout from './Logout'
+import Login from './Login'
 import Home from './Home'
 import ModalStack from './RootModalStack'
 import Onboarding from './Onboarding/Onboarding'
@@ -31,7 +33,7 @@ const PageWithLoading = withLoading(Page)
 const Root = ({
   initDatabase,
   initSettings,
-  initTheme,
+  initRoot,
   isMounted,
   setMounted,
   hasWallets,
@@ -53,11 +55,11 @@ const Root = ({
         setMounted(true)
         await initDatabase()
         await initSettings()
-        await initTheme()
+        await initRoot()
       }
     }
     init()
-  }, [initDatabase, initSettings, initTheme, isMounted, setMounted])
+  }, [initDatabase, initRoot, initSettings, isMounted, setMounted])
 
   const redirectToHome = () => history.push('/home')
   const redirectToLogout = () => history.push('/logout')
@@ -83,7 +85,9 @@ const Root = ({
           >
             {isRootReady && (
               <Switch>
-                <Route component={Initializer} exact path="/" />
+                <Route component={Login} exact path="/" />
+                <Route component={LoginNotAllowed} exact path="/nologin" />
+                <Route component={Initializer} exact path="/init" />
                 <Route component={WalletStarter} exact path="/wallet-starter" />
                 <Route component={Home} path="/home" />
                 <Route
@@ -120,8 +124,8 @@ Root.propTypes = {
   hasWallets: PropTypes.bool,
   history: PropTypes.object.isRequired,
   initDatabase: PropTypes.func.isRequired,
+  initRoot: PropTypes.func.isRequired,
   initSettings: PropTypes.func.isRequired,
-  initTheme: PropTypes.func.isRequired,
   isAppReady: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
   isMounted: PropTypes.bool.isRequired,
@@ -148,7 +152,7 @@ const mapDispatchToProps = {
   removeNotification,
   initDatabase,
   initSettings,
-  initTheme,
+  initRoot,
   setLoading,
   setMounted,
 }

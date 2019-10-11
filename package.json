@@ -5,7 +5,7 @@
   "description": "desktop application for the lightning network",
   "scripts": {
     "build": "cross-env NODE_CONFIG_ENV=production webpack -r @babel/register --config webpack/webpack.config.prod.js",
-    "build-e2e": "cross-env NODE_CONFIG_ENV=production webpack -r @babel/register --config webpack/webpack.config.e2e.js",
+    "build-e2e": "cross-env NODE_CONFIG_ENV=e2e webpack -r @babel/register --config webpack/webpack.config.e2e.js",
     "build-dll": "webpack -r @babel/register --config webpack/webpack.config.dll.js",
     "build-main": "webpack -r @babel/register --config webpack/webpack.config.main.js",
     "clean": "rimraf node_modules dll dist coverage .eslintcache",

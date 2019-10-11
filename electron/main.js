@@ -24,6 +24,7 @@ import themes from '@zap/renderer/themes'
 import ZapMenuBuilder from './menuBuilder'
 import ZapController from './controller'
 import createBackupService from './walletBackup/service'
+import createStorageService from './secureStorage'
 import createPDFGeneratorService from './pdfGenerator/service'
 import ZapUpdater from './updater'
 import ZapMigrator from './migrator'
@@ -222,10 +223,13 @@ app.on('ready', async () => {
   menuBuilder = new ZapMenuBuilder(mainWindow)
   menuBuilder.buildMenu(locale)
 
-  // Initialize backup system
+  // Initialize backup system.
   createBackupService(mainWindow)
 
-  // Initialize pdf generator service
+  // Initialize secure storage service.
+  createStorageService(mainWindow)
+
+  // Initialize pdf generator service.
   createPDFGeneratorService(mainWindow)
 
   /**

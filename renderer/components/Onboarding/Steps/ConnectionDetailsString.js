@@ -124,7 +124,7 @@ class ConnectionDetailsString extends React.Component {
         onSubmitFailure={onSubmitFailure}
       >
         {({ formState }) => {
-          const shouldValidateInline =
+          const willValidateInline =
             formState.submits > 0 ||
             connectionString ||
             startLndHostError ||
@@ -157,8 +157,8 @@ class ConnectionDetailsString extends React.Component {
                 initialValue={connectionString}
                 isRequired
                 rows="12"
-                validateOnBlur={shouldValidateInline}
-                validateOnChange={shouldValidateInline}
+                validateOnBlur={willValidateInline}
+                validateOnChange={willValidateInline}
                 willAutoFocus
               />
             </>

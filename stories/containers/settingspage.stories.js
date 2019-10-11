@@ -1,5 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
+import ChangePasswordDialog from 'components/Settings/Security/ChangePasswordDialog'
+import PasswordPromptDialog from 'components/Settings/Security/PasswordPromptDialog'
 import SettingsPage from 'containers/Settings/SettingsPage'
 import { Provider } from '../Provider'
 import { Window } from '../helpers'
@@ -8,3 +10,6 @@ storiesOf('Containers.SettingsPage', module)
   .addDecorator(story => <Provider story={story()} />)
   .addDecorator(story => <Window>{story()}</Window>)
   .add('SettingsPage', () => <SettingsPage />)
+  .add('Change password', () => <ChangePasswordDialog />)
+  .add('Password prompt', () => <PasswordPromptDialog />)
+  .add('Enable password', () => <PasswordPromptDialog isPromptMode={false} />)

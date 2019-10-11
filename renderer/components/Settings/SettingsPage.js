@@ -11,27 +11,47 @@ import ZapLogo from 'components/Icon/ZapLogo'
 import SettingsForm from 'containers/Settings/SettingsForm'
 import SettingsFieldsWallet from './SettingsFieldsWallet'
 import SettingsFieldsGeneral from './SettingsFieldsGeneral'
+import SettingsFieldsSecurity from 'containers/Settings/SettingsFieldsSecurity'
+import ChangePasswordDialog from 'containers/Settings/ChangePasswordDialog'
+import PasswordPromptDialog from 'containers/Settings/PasswordPromptDialog'
+import PasswordSetDialog from 'containers/Settings/PasswordSetDialog'
 import messages from './messages'
 
-const SettingsMenu = ({ group, setGroup, ...rest }) => {
-  const items = [
+const SettingsMenu = ({ group, setGroup, isLoggedIn, ...rest }) => {
+  // Items accessible to unauthenticated users.
+  const anonItems = [
     {
       id: 'general',
       title: <FormattedMessage {...messages.fieldgroup_general} />,
       onClick: () => setGroup('general'),
     },
+  ]
+
+  // Items only accessible to authenticated users.
+  const authItems = [
     {
       id: 'wallet',
       title: <FormattedMessage {...messages.fieldgroup_wallet} />,
       onClick: () => setGroup('wallet'),
     },
+    {
+      id: 'security',
+      title: <FormattedMessage {...messages.fieldgroup_security} />,
+      onClick: () => setGroup('security'),
+    },
   ]
+
+  let items = [...anonItems]
+  if (isLoggedIn) {
+    items = items.concat(authItems)
+  }
 
   return <Menu items={items} p={2} selectedItem={group} {...rest} />
 }
 
 SettingsMenu.propTypes = {
   group: PropTypes.string,
+  isLoggedIn: PropTypes.bool,
   setGroup: PropTypes.func.isRequired,
 }
 
@@ -85,38 +105,64 @@ SettingsActions.propTypes = {
   currentConfig: PropTypes.object.isRequired,
 }
 
-const SettingsPage = ({ currentConfig, ...rest }) => {
+const SettingsPage = ({
+  isChangePasswordDialogOpen,
+  isSetPasswordDialogOpen,
+  isPromptPasswordDialogOpen,
+  currentConfig,
+  isLoggedIn,
+  ...rest
+}) => {
   const [group, setGroup] = useState('general')
 
-  return (
-    <Flex width={1} {...rest}>
-      <Sidebar.medium pt={40}>
-        <Panel>
-          <Panel.Header mb={40} px={4}>
-            <ZapLogo height={28} width={28} />
-          </Panel.Header>
-          <Panel.Body sx={{ overflowY: 'overlay' }}>
-            <SettingsMenu group={group} setGroup={setGroup} />
-          </Panel.Body>
-        </Panel>
-      </Sidebar.medium>
-      <MainContent pb={2} pl={5} pr={6} pt={4}>
-        <Heading.h1 fontSize={60}>
-          <FormattedMessage {...messages.settings_title} />
-        </Heading.h1>
+  const fieldgroups = {
+    general: SettingsFieldsGeneral,
+    wallet: SettingsFieldsWallet,
+    security: SettingsFieldsSecurity,
+  }
 
-        <SettingsForm>
-          {group === 'general' && <SettingsFieldsGeneral currentConfig={currentConfig} />}
-          {group === 'wallet' && <SettingsFieldsWallet currentConfig={currentConfig} />}
-          <SettingsActions currentConfig={currentConfig} />
-        </SettingsForm>
-      </MainContent>
-    </Flex>
+  const FieldGroup = fieldgroups[group]
+  if (!FieldGroup) {
+    return null
+  }
+
+  return (
+    <>
+      <Flex width={1} {...rest}>
+        <Sidebar.medium pt={40}>
+          <Panel>
+            <Panel.Header mb={40} px={4}>
+              <ZapLogo height={28} width={28} />
+            </Panel.Header>
+            <Panel.Body sx={{ overflowY: 'overlay' }}>
+              <SettingsMenu group={group} isLoggedIn={isLoggedIn} setGroup={setGroup} />
+            </Panel.Body>
+          </Panel>
+        </Sidebar.medium>
+        <MainContent pb={2} pl={5} pr={6} pt={4}>
+          <Heading.h1 fontSize={60}>
+            <FormattedMessage {...messages.settings_title} />
+          </Heading.h1>
+
+          <SettingsForm>
+            <FieldGroup currentConfig={currentConfig} />
+            <SettingsActions currentConfig={currentConfig} />
+          </SettingsForm>
+        </MainContent>
+      </Flex>
+      {isChangePasswordDialogOpen && <ChangePasswordDialog />}
+      {isPromptPasswordDialogOpen && <PasswordPromptDialog />}
+      {isSetPasswordDialogOpen && <PasswordSetDialog />}
+    </>
   )
 }
 
 SettingsPage.propTypes = {
   currentConfig: PropTypes.object.isRequired,
+  isChangePasswordDialogOpen: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
+  isPromptPasswordDialogOpen: PropTypes.bool,
+  isSetPasswordDialogOpen: PropTypes.bool,
 }
 
 export default SettingsPage

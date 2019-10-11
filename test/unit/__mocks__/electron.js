@@ -1,4 +1,5 @@
 const { normalize } = require('path')
+const EventEmitter = require('events')
 
 module.exports = {
   require: jest.fn(),
@@ -18,7 +19,5 @@ module.exports = {
   },
   dialog: jest.fn(),
   BrowserWindow: jest.fn(),
-  ipcMain: {
-    on: jest.fn(),
-  },
+  ipcMain: new EventEmitter(),
 }

@@ -55,7 +55,7 @@ class Name extends React.Component {
         onSubmitFailure={onSubmitFailure}
       >
         {({ formState }) => {
-          const shouldValidateInline = formState.submits > 0
+          const willValidateInline = formState.submits > 0
           return (
             <>
               <Header
@@ -70,8 +70,8 @@ class Name extends React.Component {
                   label={<FormattedMessage {...messages.wallet_name_label} />}
                   maxLength={30}
                   name="name"
-                  validateOnBlur={shouldValidateInline}
-                  validateOnChange={shouldValidateInline}
+                  validateOnBlur={willValidateInline}
+                  validateOnChange={willValidateInline}
                   willAutoFocus
                 />
               </Box>

@@ -108,7 +108,7 @@ export const parseNumber = (_value, precision) => {
   if (value * 1.0 < 0) {
     value = '0.0'
   }
-  // pearse integer and fractional value so that we can reproduce the same string value afterwards
+  // parse integer and fractional value so that we can reproduce the same string value afterwards
   // [0, 0] === 0.0
   // [0, ''] === 0.
   // [0, null] === 0
