@@ -17,8 +17,7 @@ export default function useMaxScreenHeight(defaultHeight) {
     node => {
       if (node !== null) {
         const { height, y } = node.getBoundingClientRect()
-        const maxHeight = Math.min(height, screenHeight - y)
-        setMaxHeight(maxHeight)
+        setMaxHeight(Math.min(height, screenHeight - y))
       }
     },
     [screenHeight]
