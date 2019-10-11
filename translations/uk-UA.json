@@ -525,7 +525,7 @@
   "components.Request.total": "",
   "components.Settings.Security.password_change_button_text": "",
   "components.Settings.Security.password_change_dialog_header": "",
-  "components.Settings.Security.password_dialog_cancel_button_text": "",
+  "components.Settings.Security.password_dialog_cancel_button_text": "Скасувати",
   "components.Settings.Security.password_disable_button_text": "",
   "components.Settings.Security.password_enable_button_text": "",
   "components.Settings.Security.password_new_password": "",
