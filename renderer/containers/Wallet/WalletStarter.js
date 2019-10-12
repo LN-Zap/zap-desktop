@@ -19,6 +19,13 @@ class WalletStarter extends Component {
     startLndError: PropTypes.object,
   }
 
+  componentDidMount() {
+    const { startActiveWallet } = this.props
+    // Catch the error and swallow it with a noop.
+    // Errors are handled below by listening for updates to the startLndError prop.
+    startActiveWallet().catch(() => {})
+  }
+
   getLocation() {
     const {
       activeWallet,
@@ -45,13 +52,6 @@ class WalletStarter extends Component {
 
     // no location change for now
     return null
-  }
-
-  UNSAFE_componentWillMount() {
-    const { startActiveWallet } = this.props
-    // Catch the error and swallow it with a noop.
-    // Errors are handled below by listening for updates to the startLndError prop.
-    startActiveWallet().catch(() => {})
   }
 
   render() {

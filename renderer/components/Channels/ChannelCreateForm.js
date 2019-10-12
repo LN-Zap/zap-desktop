@@ -110,6 +110,12 @@ class ChannelCreateForm extends React.Component {
     onchainFees: {},
   }
 
+  componentDidMount() {
+    const { fetchTickers, queryFees } = this.props
+    fetchTickers()
+    queryFees()
+  }
+
   // focusAmountInput Focus the amount input.
   focusAmountInput = () => {
     if (this.amountInput.current) {
@@ -217,12 +223,6 @@ class ChannelCreateForm extends React.Component {
   // Store the formApi on the component context to make it available at this.formApi.
   setFormApi = formApi => {
     this.formApi = formApi
-  }
-
-  UNSAFE_componentWillMount() {
-    const { fetchTickers, queryFees } = this.props
-    fetchTickers()
-    queryFees()
   }
 
   renderFormFields() {

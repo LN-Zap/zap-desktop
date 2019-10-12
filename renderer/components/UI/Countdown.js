@@ -28,12 +28,7 @@ class Countdown extends React.Component {
     updateInterval: 1,
   }
 
-  componentWillUnmount() {
-    const { timer } = this.state
-    clearInterval(timer)
-  }
-
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     let { offset, onExpire } = this.props
     let expiresIn = offset
 
@@ -55,6 +50,11 @@ class Countdown extends React.Component {
       this.setState({ isExpired: true })
       onExpire && onExpire()
     }
+  }
+
+  componentWillUnmount() {
+    const { timer } = this.state
+    clearInterval(timer)
   }
 
   render() {

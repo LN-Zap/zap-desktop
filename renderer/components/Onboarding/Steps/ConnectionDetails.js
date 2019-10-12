@@ -33,6 +33,16 @@ class ConnectionDetails extends React.Component {
     wizardState: PropTypes.object,
   }
 
+  componentDidMount() {
+    const { connectionHost, connectionCert, connectionMacaroon } = this.props
+
+    if (connectionHost || connectionCert || connectionMacaroon) {
+      this.openModal(FORM_TYPE_MANUAL)
+    } else {
+      this.openModal(FORM_TYPE_CONNECTION_STRING)
+    }
+  }
+
   componentDidUpdate(prevProps, prevState) {
     const {
       lndConnect,
@@ -62,16 +72,6 @@ class ConnectionDetails extends React.Component {
 
   openModal = formType => {
     this.setState({ formType })
-  }
-
-  UNSAFE_componentWillMount() {
-    const { connectionHost, connectionCert, connectionMacaroon } = this.props
-
-    if (connectionHost || connectionCert || connectionMacaroon) {
-      this.openModal(FORM_TYPE_MANUAL)
-    } else {
-      this.openModal(FORM_TYPE_CONNECTION_STRING)
-    }
   }
 
   render() {
