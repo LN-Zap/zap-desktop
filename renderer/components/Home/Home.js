@@ -48,21 +48,21 @@ class Home extends React.Component {
     wallets: PropTypes.array.isRequired,
   }
 
-  componentDidUpdate(prevProps) {
-    const { lndConnect, history } = this.props
-    if (lndConnect && lndConnect !== prevProps.lndConnect) {
-      history.push(`/onboarding`)
-    }
-  }
-
   // If there is an active wallet ensure it is selected on mount.
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     const { activeWallet, activeWalletSettings, history, setIsWalletOpen } = this.props
     if (activeWallet && activeWalletSettings && history.location.pathname === '/home') {
       history.push(`/home/wallet/${activeWallet}`)
     }
 
     setIsWalletOpen(false)
+  }
+
+  componentDidUpdate(prevProps) {
+    const { lndConnect, history } = this.props
+    if (lndConnect && lndConnect !== prevProps.lndConnect) {
+      history.push(`/onboarding`)
+    }
   }
 
   render() {

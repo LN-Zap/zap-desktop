@@ -24,6 +24,10 @@ class SeedConfirm extends React.Component {
     wizardState: {},
   }
 
+  componentDidMount() {
+    this.fetchSeedWordIndexes()
+  }
+
   fetchSeedWordIndexes = () => {
     const seedWordIndexes = []
     while (seedWordIndexes.length < 3) {
@@ -55,10 +59,6 @@ class SeedConfirm extends React.Component {
   validateWord = (index, word) => {
     const { seed } = this.props
     return !word || word !== seed[index] ? 'incorrect' : undefined
-  }
-
-  UNSAFE_componentWillMount() {
-    this.fetchSeedWordIndexes()
   }
 
   render() {
