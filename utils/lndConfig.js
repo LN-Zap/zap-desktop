@@ -4,6 +4,7 @@ import untildify from 'untildify'
 import tildify from 'tildify'
 import lndconnect from 'lndconnect'
 import fs from 'fs'
+import { tmpdir } from 'os'
 import util from 'util'
 import pick from 'lodash/pick'
 import get from 'lodash/get'
@@ -38,6 +39,7 @@ export const networks = {
 
 const _isReady = new WeakMap()
 const _lndconnectQRCode = new WeakMap()
+const _tmpDir = new WeakMap()
 
 // Utility methods to clean and prepare data.
 const safeTrim = val => (typeof val === 'string' ? val.trim() : val)
@@ -82,10 +84,19 @@ class LndConfig {
       lndDir: {
         enumerable: true,
         get() {
+          if (this.id === 'tmp') {
+            const cache = _tmpDir.get(this)
+            if (cache) {
+              return cache
+            }
+            const lndDir = fs.mkdtempSync(join(tmpdir(), 'zap-tmp-wallet'))
+            _tmpDir.set(this, lndDir)
+            return lndDir
+          }
           if (this.type === LNDCONFIG_TYPE_LOCAL) {
             return join(options.userDataDir, 'lnd', this.chain, this.network, this.wallet)
           }
-          return
+          return null
         },
       },
       host: {
