@@ -1,4 +1,8 @@
 import { app, ipcMain } from 'electron'
+import serveStatic from 'serve-static'
+import http from 'http'
+import finalhandler from 'finalhandler'
+import getPort from 'get-port'
 import { mainLog } from '@zap/utils/log'
 import sanitize from '@zap/utils/sanitize'
 
@@ -38,15 +42,7 @@ class ZapController {
    *
    * @param  {[object]} options Options to pass through to the renderer
    */
-  init(options) {
-    // Load the application into the main window.
-    if (process.env.HOT) {
-      const port = process.env.PORT || 1212
-      this.mainWindow.loadURL(`http://localhost:${port}/dist/index.html`)
-    } else {
-      this.mainWindow.loadURL(`file://${__dirname}/index.html`)
-    }
-
+  async init(options = {}) {
     // Once the winow content has fully loaded, bootstrap the app.
     this.mainWindow.webContents.on('did-finish-load', () => {
       mainLog.trace('webContents.did-finish-load')
@@ -58,6 +54,28 @@ class ZapController {
       // Start app.
       this.initApp(options)
     })
+
+    // Load the application into the main window.
+    if (process.env.HOT) {
+      // If hot mode is enabled, serve from webpack
+      const port = process.env.PORT || 1212
+      this.mainWindow.loadURL(`http://localhost:${port}/dist/index.html`)
+    }
+    // Otherwise it's a production build, serve content over a static html server.
+    // We do this rather than loading over a `file://` in order to mitigate issues with external services wrongly
+    // detecting that we don't support ssl.
+    else {
+      const serve = serveStatic(__dirname, { index: ['index.html'] })
+      const server = http.createServer((req, res) => {
+        serve(req, res, finalhandler(req, res))
+      })
+      const port = await getPort({
+        host: 'localhost',
+        port: getPort.makeRange(3100, 3199),
+      })
+      server.listen(port)
+      this.mainWindow.loadURL(`http://localhost:${port}/index.html`)
+    }
   }
 
   /**
