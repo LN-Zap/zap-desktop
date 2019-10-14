@@ -16,7 +16,7 @@ const Wallet = ({ totalBalance, networkInfo, openWalletModal, openModal }) => (
 
     <Flex alignItems="flex-end" as="header" justifyContent="space-between" mb={3} mt={4} px={5}>
       <WalletBalance openWalletModal={openWalletModal} totalBalance={totalBalance} />
-      <WalletButtons openModal={openModal} />
+      <WalletButtons openModal={openModal} totalBalance={totalBalance} />
     </Flex>
   </Card>
 )
