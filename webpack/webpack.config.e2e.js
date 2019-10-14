@@ -15,7 +15,7 @@ prodConfig.map(config => {
 // patch mainConfig. use mock keytar on linux
 // TODO remove and add support for linux in e2e
 if (os.platform() === 'linux') {
-  prodConfig[2].resolve.alias['keytar'] = path.resolve(__dirname, '../test/unit/__mocks__/keytar')
+  prodConfig[2].resolve.alias.keytar = path.resolve(__dirname, '../test/unit/__mocks__/keytar')
 }
 
 export default prodConfig
