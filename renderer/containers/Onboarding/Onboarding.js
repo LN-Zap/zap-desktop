@@ -223,7 +223,7 @@ const OnboardingModal = ({ hasWallets, onClose, ...rest }) => {
   return (
     <AppErrorBoundary onCloseDialog={onClose}>
       <ModalOverlay>
-        <Modal hasClose={hasWallets} onClose={onClose} p={4}>
+        <Modal hasClose={hasWallets} onClose={onClose} p={4} sx={{ overflowY: 'overlay' }}>
           <OnboardingContainer {...rest} />
         </Modal>
       </ModalOverlay>

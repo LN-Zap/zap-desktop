@@ -1,4 +1,5 @@
 import { waitForReact } from 'testcafe-react-selectors'
+import range from 'lodash/range'
 import {
   getBaseUrl,
   getUserDataDir,
@@ -64,8 +65,8 @@ test('should import a wallet from an existing seed', async t => {
     .click(onboarding.nextButton)
 
   // Fill in the seed form.
-  Array.from(Array(24).keys()).forEach(async index => {
-    await t.typeText(onboarding.seedWordInputs[index], seed[index], { paste: true })
+  range(24).forEach(async index => {
+    await t.typeText(onboarding.seedWordInputs[index], seed[index]).pressKey('tab')
   })
 
   // Submit the seed.
