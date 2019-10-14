@@ -17,7 +17,13 @@ const Login = ({ login, loginError, clearLoginError, ...rest }) => {
   const handleSubmit = ({ password }) => login(password)
 
   return (
-    <Form getApi={api => (formApiRef.current = api)} onSubmit={handleSubmit} width={1}>
+    <Form
+      getApi={api => {
+        formApiRef.current = api
+      }}
+      onSubmit={handleSubmit}
+      width={1}
+    >
       {({ formState: { submits, error } }) => {
         const willValidateInline = submits > 0
         return (

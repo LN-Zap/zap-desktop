@@ -35,7 +35,12 @@ const DialogWrapper = ({ loginError, clearLoginError, onChange, onCancel }) => {
 
   return (
     <DialogOverlay alignItems="center" justifyContent="center" position="fixed">
-      <Form getApi={api => (formApiRef.current = api)} onSubmit={handleSubmit}>
+      <Form
+        getApi={api => {
+          formApiRef.current = api
+        }}
+        onSubmit={handleSubmit}
+      >
         {({ formState: { submits, error } }) => {
           const willValidateInline = submits > 0
           return (
