@@ -1,24 +1,15 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { space } from 'styled-system'
-import { List, AutoSizer, InfiniteLoader } from 'react-virtualized'
-import { FormattedDate, injectIntl } from 'react-intl'
-import { Box } from 'rebass/styled-components'
+import { AutoSizer, InfiniteLoader } from 'react-virtualized'
+import { injectIntl } from 'react-intl'
 import { intlShape } from '@zap/i18n'
-import { Bar, Heading, Panel } from 'components/UI'
+import { Panel } from 'components/UI'
 import ActivityActions from 'containers/Activity/ActivityActions'
-import ActivityListItem from './ActivityListItem'
 import ErrorDetailsDialog from './ErrorDetailsDialog'
+import ActivityListItem from './ActivityListItem'
+import Row from './Row'
+import List from './List'
 import messages from './messages'
-
-const ROW_HEIGHT = 53
-
-const StyledList = styled(List)`
-  ${space}
-  outline: none;
-  padding-left: 12px;
-`
 
 const Activity = props => {
   const {
@@ -35,36 +26,17 @@ const Activity = props => {
     showNotification(intl.formatMessage({ ...messages.error_copied }))
   }
 
+  const renderRow = useCallback(
+    ({ index, key, style }) => (
+      <Row key={key} item={currentActivity[index]} RowComponent={ActivityListItem} style={style} />
+    ),
+    [currentActivity]
+  )
+
   const isRowLoaded = ({ index }) => Boolean(currentActivity[index])
 
-  const loadMoreRows = () => {
-    loadNextPage()
-  }
-
+  const loadMoreRows = () => loadNextPage()
   const renderActivityList = () => {
-    /**
-     * renderRow - renders react virtualized row.
-     *
-     * @param {*} { index, key, style, parent }
-     */
-    // eslint-disable-next-line react/prop-types
-    const renderRow = ({ index, key, style }) => {
-      const item = currentActivity[index]
-      return (
-        <div key={key} style={style}>
-          {item.title ? (
-            <Box mt={4} pl={4}>
-              <Heading.h4 fontWeight="normal">
-                <FormattedDate day="2-digit" month="short" value={item.title} year="numeric" />
-              </Heading.h4>
-              <Bar my={1} />
-            </Box>
-          ) : (
-            <ActivityListItem activity={currentActivity[index]} />
-          )}
-        </div>
-      )
-    }
     return (
       <InfiniteLoader
         isRowLoaded={isRowLoaded}
@@ -75,13 +47,11 @@ const Activity = props => {
           <AutoSizer>
             {({ width, height }) => {
               return (
-                <StyledList
+                <List
                   ref={registerChild}
                   height={height}
                   onRowsRendered={onRowsRendered}
-                  pr={4}
                   rowCount={currentActivity.length}
-                  rowHeight={ROW_HEIGHT}
                   rowRenderer={renderRow}
                   width={width}
                 />
