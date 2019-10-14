@@ -26,7 +26,7 @@ Wrapper.displayName = 'Button'
  * <Button><Basic button</Button>
  */
 const Button = React.forwardRef((props, ref) => {
-  let {
+  const {
     children,
     isActive,
     isDisabled,
@@ -52,7 +52,7 @@ const Button = React.forwardRef((props, ref) => {
       y: 3,
     },
   }
-  const dimensions = sizes[size] || sizes['medium']
+  const dimensions = sizes[size] || sizes.medium
   if (variant === 'secondary') {
     dimensions.x = 0
   }
@@ -61,7 +61,7 @@ const Button = React.forwardRef((props, ref) => {
   const fontSize = size === 'large' ? 'l' : 'm'
   const borderRadius = variant === 'secondary' ? 0 : 5
 
-  //support custom styled and styled-components
+  // support custom styled and styled-components
   const wrapperClasses = [className, isActive ? 'active' : null]
     .filter(cls => Boolean(cls))
     .join(' ')

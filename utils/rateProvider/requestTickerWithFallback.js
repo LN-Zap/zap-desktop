@@ -20,6 +20,7 @@ async function requestTickerWithFallback(provider, coin, currency) {
   for (const currentProvider of allProviders) {
     try {
       // Attempt to fetch the ticker data.
+      // eslint-disable-next-line no-await-in-loop
       result = await requestTicker(currentProvider, coin, currency)
       // If we got the result we were looking for abort early.
       if (result[currency]) {

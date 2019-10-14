@@ -11,9 +11,9 @@ describe('createSingletonFactory', () => {
     }
 
     const factory = createSingletonFactory(instanceDefinition)
-    expect(factory('class1') === factory('class2')).toBe(false)
-    expect(factory('class1') === factory('class1')).toBe(true)
-    expect(factory('class2') === factory('class2')).toBe(true)
+    expect(factory('class1')).not.toBe(factory('class2'))
+    expect(factory('class1')).toBe(factory('class1'))
+    expect(factory('class2')).toBe(factory('class2'))
   })
 
   it('return null for unknown definitions', () => {

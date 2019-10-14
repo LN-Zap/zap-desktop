@@ -8,7 +8,7 @@
  */
 const chainify = fn => {
   let currentTask = Promise.resolve()
-  return function(...args) {
+  return (...args) => {
     const cb = () => fn(...args)
     // eslint-disable-next-line promise/no-callback-in-promise
     currentTask = currentTask.then(cb, cb)

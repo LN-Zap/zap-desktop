@@ -153,7 +153,7 @@ export function downloadToBuffer(drive, fileId) {
  */
 export async function listFiles(drive, params = {}) {
   const { pageToken, fields = 'nextPageToken, files(id, name)', pageSize = 10, ...rest } = params
-  return await drive.files.list({
+  return drive.files.list({
     pageSize,
     pageToken,
     fields,
@@ -190,7 +190,7 @@ export function createAuthWindow(oAuthClient, scope, windowParams = { width: 500
         } else if (query.code) {
           // Login is complete
           authWindow.removeAllListeners('closed')
-          //close window
+          // close window
           setImmediate(() => authWindow.close())
           // Authorization that allows to request tokens
           resolve(query.code)

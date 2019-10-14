@@ -76,6 +76,9 @@ const handleOpenUrl = (urlToOpen = '') => {
       case 'lndconnect':
         handleLndconnectLink(urlToOpen)
         break
+
+      default:
+        break
     }
   }
 
@@ -135,7 +138,7 @@ const handleLndconnectLink = input => {
  */
 const getSetting = (store, key) => {
   const setting = store.find(s => s.key === key)
-  return setting && setting.hasOwnProperty('value') ? setting.value : null
+  return setting ? get(setting, 'value', null) : null
 }
 
 /**
@@ -305,12 +308,10 @@ app.on('ready', async () => {
       }
     }
     // On Windows/Linux, we quit the app when the window is closed.
-    else {
-      if (!mainWindow.forceClose) {
-        event.preventDefault()
-        mainWindow.hide()
-        app.quit()
-      }
+    else if (!mainWindow.forceClose) {
+      event.preventDefault()
+      mainWindow.hide()
+      app.quit()
     }
   })
 

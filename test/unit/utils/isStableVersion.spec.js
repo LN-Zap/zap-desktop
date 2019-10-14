@@ -11,7 +11,7 @@ describe('isStableVersion', () => {
       ['0.3.0', STABLE_VERSION, true],
     ]
 
-    positiveTests.map(test => {
+    positiveTests.forEach(test => {
       const [version, stable, expectation] = test
       const res = isStableVersion(version, stable)
 
@@ -29,7 +29,7 @@ describe('isStableVersion', () => {
       ['0.4.0-beta', STABLE_VERSION, false],
     ]
 
-    negativeTests.map(test => {
+    negativeTests.forEach(test => {
       const [version, stable, expectation] = test
       const res = isStableVersion(version, stable)
 

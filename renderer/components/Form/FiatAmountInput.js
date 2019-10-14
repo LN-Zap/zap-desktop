@@ -34,7 +34,7 @@ class FiatAmountInput extends React.Component {
       const btcValue = convert('fiat', 'btc', value, lastPriceInOrigCurrency)
       // Convert to new currency.
       const newFiatValue = convert('btc', 'fiat', btcValue, lastPriceInNewCurrency)
-      const [integer, fractional] = parseNumber(newFiatValue, this.getRules().precision)
+      const [integer, fractional] = parseNumber(newFiatValue, FiatAmountInput.getRules().precision)
       value = formatValue(integer, fractional)
       fieldApi.setValue(value)
     }
@@ -44,7 +44,7 @@ class FiatAmountInput extends React.Component {
     const valueAfter = fieldState.value
 
     if (valueAfter !== valueBefore) {
-      const [integer, fractional] = parseNumber(valueAfter, this.getRules().precision)
+      const [integer, fractional] = parseNumber(valueAfter, FiatAmountInput.getRules().precision)
       const formattedValue = formatValue(integer, fractional)
       if (formattedValue !== valueAfter) {
         fieldApi.setValue(formattedValue)
@@ -52,7 +52,7 @@ class FiatAmountInput extends React.Component {
     }
   }
 
-  getRules() {
+  static getRules() {
     return {
       precision: 2,
       step: '0.01',
@@ -62,7 +62,7 @@ class FiatAmountInput extends React.Component {
   }
 
   render() {
-    const rules = this.getRules()
+    const rules = FiatAmountInput.getRules()
     return (
       <BasicInput
         {...this.props}

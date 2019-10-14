@@ -80,13 +80,12 @@ export const formatValue = (integer, fractional) => {
   let value
   if (fractional && fractional.length > 0) {
     value = `${integer}.${fractional}`
+  }
+  // Empty string means `XYZ.` instead of just plain `XYZ`.
+  else if (fractional === '') {
+    value = `${integer}.`
   } else {
-    // Empty string means `XYZ.` instead of just plain `XYZ`.
-    if (fractional === '') {
-      value = `${integer}.`
-    } else {
-      value = `${integer}`
-    }
+    value = `${integer}`
   }
   return value
 }

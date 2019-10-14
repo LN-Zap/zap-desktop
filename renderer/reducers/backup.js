@@ -65,7 +65,7 @@ const dbGet = async walletId => {
  * @returns {Function} Thunk
  */
 const dbUpdate = async (walletId, update) => {
-  return await window.db.wallets.update(walletId, { backup: update })
+  return window.db.wallets.update(walletId, { backup: update })
 }
 
 /**
@@ -247,10 +247,10 @@ export const setupBackupService = (walletId, isRestoreMode) => async (dispatch, 
  * @returns {Function} Thunk
  */
 const setRestoreState = async (walletId, state) => {
-  return await dbTransaction(async () => {
+  return dbTransaction(async () => {
     const backupDesc = (await dbGet(walletId)) || {}
     backupDesc.channelsRestoreState = state
-    return await dbUpdate(walletId, backupDesc)
+    return dbUpdate(walletId, backupDesc)
   })
 }
 
@@ -298,7 +298,7 @@ export const initBackupService = walletId => async (dispatch, getState) => {
 export const backupCurrentWallet = (walletId, backup) => async (dispatch, getState) => {
   const getFreshBackup = async () => {
     if (await grpc.services.Lightning.hasMethod('exportAllChannelBackups')) {
-      return await grpc.services.Lightning.exportAllChannelBackups({})
+      return grpc.services.Lightning.exportAllChannelBackups({})
     }
     return null
   }
@@ -346,10 +346,10 @@ export const backupCurrentWallet = (walletId, backup) => async (dispatch, getSta
  *  @returns {Function} Thunk
  */
 export const updateLocationHint = async ({ provider, locationHint, walletId }) => {
-  return await dbTransaction(async () => {
+  return dbTransaction(async () => {
     const backupDesc = (await dbGet(walletId)) || {}
     set(backupDesc, [provider, 'locationHint'], locationHint)
-    return await dbUpdate(walletId, backupDesc)
+    return dbUpdate(walletId, backupDesc)
   })
 }
 

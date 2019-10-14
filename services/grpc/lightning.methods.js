@@ -164,7 +164,7 @@ async function connectAndOpen(payload = {}) {
  * @returns {Promise} OpenStatusUpdate
  */
 async function openChannel(payload = {}) {
-  const parsePayload = payload => ({
+  const parsePayload = () => ({
     ...payload,
     node_pubkey: Buffer.from(payload.node_pubkey).toString('hex'),
   })

@@ -29,7 +29,7 @@ class Countdown extends React.Component {
   }
 
   componentDidMount() {
-    let { offset, onExpire } = this.props
+    const { offset, onExpire } = this.props
     let expiresIn = offset
 
     if (offset instanceof Date) {

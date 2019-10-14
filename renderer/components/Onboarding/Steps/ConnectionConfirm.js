@@ -39,17 +39,17 @@ class ConnectionConfirm extends React.Component {
   }
 
   handleSubmit = async () => {
-    let {
+    const {
       connectionHost,
       connectionCert,
       connectionMacaroon,
       connectionString,
       startLnd,
     } = this.props
-    connectionString = connectionString && connectionString.trim()
+    const cleanConnectionString = connectionString && connectionString.trim()
     // If we have a hostname, assume we are using the custom form in which host, cer and macaroon paths are supplied.
     if (connectionHost) {
-      return await startLnd({
+      return startLnd({
         type: 'custom',
         decoder: 'lnd.lndconnect.v1',
         lndconnectUri: encode({
@@ -61,7 +61,7 @@ class ConnectionConfirm extends React.Component {
     }
 
     // If its already an lndconnect uri, use it as is.
-    if (connectionString.startsWith('lndconnect:')) {
+    if (cleanConnectionString.startsWith('lndconnect:')) {
       // In order to support legacy style lndconnect links we first pass the connection string through
       // lndconnect.decode (which supports legacy style links where the host is provided as a querystring). Then encode
       // the result. This ensures that we always store the link the current lndconnect format (with the host part in the
@@ -72,9 +72,9 @@ class ConnectionConfirm extends React.Component {
       //
       // eg. current lndconnect format:
       // lndconnect://example.com:10009?cert=~/.lnd/tls.cert&macaroon=~/.lnd/admin.macaroon
-      const lndconnectUri = encode(decode(connectionString))
+      const lndconnectUri = encode(decode(cleanConnectionString))
 
-      return await startLnd({
+      return startLnd({
         type: 'custom',
         decoder: 'lnd.lndconnect.v1',
         lndconnectUri,
@@ -82,14 +82,14 @@ class ConnectionConfirm extends React.Component {
     }
 
     // Otherwise, process it as a BtcPayServer connection string.
-    const { host, port, macaroon, cert } = parseConnectionString(connectionString)
+    const { host, port, macaroon, cert } = parseConnectionString(cleanConnectionString)
     const lndconnectUri = encode({
       host: `${host}:${port}`,
       macaroon,
       cert,
     })
 
-    return await startLnd({
+    return startLnd({
       type: 'custom',
       decoder: 'lnd.lndconnect.v1',
       lndconnectUri,

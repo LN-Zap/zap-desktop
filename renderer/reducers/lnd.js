@@ -114,16 +114,16 @@ const handleLndStartError = (e, lndConfig) => {
 /**
  * unsubFromGrpcEvents - Unsubscribe from grpc events.
  *
- * @param  {object} grpc Lnd Grpc instance
+ * @param  {object} lndGrpc Lnd Grpc instance
  */
-function unsubFromGrpcEvents(grpc) {
-  grpc.removeAllListeners('subscribeInvoices.data')
-  grpc.removeAllListeners('subscribeTransactions.data')
-  grpc.removeAllListeners('subscribeChannelGraph.data')
-  grpc.removeAllListeners('subscribeGetInfo.data')
-  grpc.removeAllListeners('subscribeChannelBackups.data')
-  grpc.removeAllListeners('GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE')
-  grpc.removeAllListeners('GRPC_LIGHTNING_SERVICE_ACTIVE')
+function unsubFromGrpcEvents(lndGrpc) {
+  lndGrpc.removeAllListeners('subscribeInvoices.data')
+  lndGrpc.removeAllListeners('subscribeTransactions.data')
+  lndGrpc.removeAllListeners('subscribeChannelGraph.data')
+  lndGrpc.removeAllListeners('subscribeGetInfo.data')
+  lndGrpc.removeAllListeners('subscribeChannelBackups.data')
+  lndGrpc.removeAllListeners('GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE')
+  lndGrpc.removeAllListeners('GRPC_LIGHTNING_SERVICE_ACTIVE')
 }
 
 // ------------------------------------
@@ -230,7 +230,7 @@ export const startLnd = wallet => async dispatch => {
     // Connect the gRPC service.
     await dispatch(connectGrpcService(lndConfig))
 
-    dispatch(lndStarted())
+    return dispatch(lndStarted())
   } catch (e) {
     const errors = handleLndStartError(e, lndConfig)
     dispatch(startLndError(errors))
@@ -444,7 +444,7 @@ export const signMessage = message => () => {
 export const verifyMessage = (message, signature) => () => {
   return grpc.services.Lightning.verifyMessage({
     msg: Buffer.from(message),
-    signature: signature,
+    signature,
   })
 }
 
@@ -511,7 +511,7 @@ export const createWallet = ({ recover } = {}) => async (dispatch, getState) => 
     try {
       const { lndConfig } = getState().lnd
       await dispatch(stopLnd())
-      await dispatch(removeWallet(lndConfig))
+      return await dispatch(removeWallet(lndConfig))
     } finally {
       // Notify of wallet recovery failure.
       dispatch(createWalletFailure(error.message))
@@ -557,7 +557,7 @@ export const clearCreateWalletError = () => ({
  * @returns {Function} Thunk
  */
 export const generateLndConfigFromWallet = wallet => async () => {
-  return await window.Zap.generateLndConfigFromWallet(wallet)
+  return window.Zap.generateLndConfigFromWallet(wallet)
 }
 
 // ------------------------------------
@@ -684,15 +684,15 @@ const isUnlockingWalletSelector = state => state.lnd.isUnlockingWallet
 
 lndSelectors.startLndHostError = createSelector(
   startLndErrorSelector,
-  startLndError => (startLndError ? startLndError.host : null)
+  error => (error ? error.host : null)
 )
 lndSelectors.startLndCertError = createSelector(
   startLndErrorSelector,
-  startLndError => (startLndError ? startLndError.cert : null)
+  error => (error ? error.cert : null)
 )
 lndSelectors.startLndMacaroonError = createSelector(
   startLndErrorSelector,
-  startLndError => (startLndError ? startLndError.macaroon : null)
+  error => (error ? error.macaroon : null)
 )
 lndSelectors.isStartingLnd = isStartingLndSelector
 lndSelectors.isUnlockingWallet = isUnlockingWalletSelector

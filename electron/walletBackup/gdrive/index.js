@@ -84,7 +84,7 @@ export default class BackupService extends TokenBasedBackupService {
    */
   async findBackup(walletId) {
     const fileId = await this.findBackupId(walletId)
-    return fileId && (await super.loadBackup(fileId))
+    return fileId && super.loadBackup(fileId)
   }
 
   /**
@@ -132,18 +132,16 @@ export default class BackupService extends TokenBasedBackupService {
       if (fileId) {
         await connection.updateFromBuffer(fileId, backup)
         return fileId
-      } else {
-        // create new folder
-        const { id: folderId } = await connection.createFolder(walletId)
-        // create new file
-        const { id } = await connection.uploadFromBuffer(config.backup.filename, backup, {
-          parents: [folderId],
-        })
-        return id
       }
-    } else {
-      mainLog.warn('Attempting to call saveBackup in logged-out state')
+      // create new folder
+      const { id: folderId } = await connection.createFolder(walletId)
+      // create new file
+      const { id } = await connection.uploadFromBuffer(config.backup.filename, backup, {
+        parents: [folderId],
+      })
+      return id
     }
+    mainLog.warn('Attempting to call saveBackup in logged-out state')
   })
 
   // Define the name of this backup service.

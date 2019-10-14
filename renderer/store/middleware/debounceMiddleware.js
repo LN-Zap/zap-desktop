@@ -63,7 +63,9 @@ const middleware = () => dispatch => action => {
       queues[type] = createDebouncedAction({ dispatch, type, wait, maxWait })
     }
     queues[type].action(data)
-    const clear = () => (queues[type] = null)
+    const clear = () => {
+      queues[type] = null
+    }
     // new queue is created for the each batch
     return queues[type].promise.then(clear, clear)
   }

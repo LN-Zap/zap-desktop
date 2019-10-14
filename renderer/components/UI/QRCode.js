@@ -109,7 +109,8 @@ class ZapQRCode extends React.PureComponent {
   }
 
   render() {
-    let { bg, color, size, border, isObfuscated, theme, value, ...rest } = this.props
+    const { bg, color, isObfuscated, theme, value, ...rest } = this.props
+    let { size, border } = this.props
 
     switch (size) {
       case QRCODE_SIZE_SMALL:
@@ -130,10 +131,12 @@ class ZapQRCode extends React.PureComponent {
         size = 300
         border = 2
         break
+      default:
+        size = 150
     }
 
     return (
-      <Container size={size} {...rest}>
+      <Container {...rest} size={size}>
         <CropWrapper size={size}>
           <TopLeft border={border} borderColor="primaryAccent" size={size} />
           <TopRight border={border} borderColor="primaryAccent" size={size} />

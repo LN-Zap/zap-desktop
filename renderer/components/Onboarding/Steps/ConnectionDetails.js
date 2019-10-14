@@ -58,10 +58,13 @@ class ConnectionDetails extends React.Component {
           setConnectionHost(null)
           setConnectionCert(null)
           setConnectionMacaroon(null)
-
           break
+
         case FORM_TYPE_MANUAL:
           setConnectionString(null)
+          break
+
+        default:
           break
       }
     }

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 // adapted from https://github.com/kozhevnikov/proxymise
 // comlink compatible version
 
@@ -11,6 +12,26 @@ const proxymise = target => {
 }
 
 const isComlinkFn = value => Reflect.has(value, '__isComlink__')
+
+const getProp = (target, property, receiver) => {
+  return typeof target === 'object' ? Reflect.get(target, property, receiver) : target[property]
+}
+
+const get = (target, property, receiver) => {
+  const value = getProp(target, property, receiver)
+
+  if (typeof value === 'function' && typeof value.bind === 'function') {
+    return Object.assign(value.bind(target), value)
+  }
+
+  if (isComlinkFn(target)) {
+    // wrap comlink functions to avoid cloning errors
+    const result = () => target()[property]
+    result.__isComlink__ = true
+    return result
+  }
+  return value
+}
 
 const handler = {
   construct(target, argumentsList) {
@@ -48,26 +69,6 @@ const handler = {
     }
     return proxymise(Reflect.apply(targetObj, thisArg, argumentsList))
   },
-}
-
-const getProp = (target, property, receiver) => {
-  return typeof target === 'object' ? Reflect.get(target, property, receiver) : target[property]
-}
-
-const get = (target, property, receiver) => {
-  const value = getProp(target, property, receiver)
-
-  if (typeof value === 'function' && typeof value.bind === 'function') {
-    return Object.assign(value.bind(target), value)
-  }
-
-  if (isComlinkFn(target)) {
-    // wrap comlink functions to avoid cloning errors
-    const result = () => target()[property]
-    result.__isComlink__ = true
-    return result
-  }
-  return value
 }
 
 export default proxymise

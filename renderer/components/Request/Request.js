@@ -257,7 +257,7 @@ class Request extends React.Component {
                 <Bar mt={2} />
               </Panel.Header>
               <Panel.Body py={3}>
-                {currentStep == 'form' ? (
+                {currentStep === 'form' ? (
                   <React.Fragment>
                     {this.renderHelpText()}
                     {this.renderAmountFields()}
@@ -273,7 +273,7 @@ class Request extends React.Component {
                   />
                 )}
               </Panel.Body>
-              {currentStep == 'form' && (
+              {currentStep === 'form' && (
                 <Panel.Footer>
                   <Flex alignItems="center" flexDirection="column">
                     {this.isAmountAboveMax() && (

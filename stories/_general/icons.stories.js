@@ -170,7 +170,7 @@ storiesOf('General', module).addWithChapters('Icons', {
               `}
             >
               {Object.keys(zapIconsList).map(name => {
-                var Icon = zapIconsList[name]
+                const Icon = zapIconsList[name]
                 return (
                   <Flex
                     key={name}

@@ -10,7 +10,7 @@ describe('component.UI.Heading', () => {
 
   describe('Heading.{h1|h2|h3|h4|h5|h6}', () => {
     it(`should render a heading of the correct level`, () => {
-      for (var i = 1; i <= 6; i++) {
+      for (let i = 1; i <= 6; i++) {
         const Element = Heading[`h${i}`]
         const testRenderer = renderWithTheme(<Element>Heading here</Element>)
         expect(testRenderer.root.findByType(`h${i}`)).toBeTruthy()

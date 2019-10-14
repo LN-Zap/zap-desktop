@@ -4,8 +4,8 @@
  *
  * @param {object} instanceDefinition  Instance definitions. Is used to instantiate
  * singleton classes. Has the following structure
- * {key: constructorFn} `key` is used to access singleton instances,
- * `constructorFn` is constructor function used to instantiate objects
+ * {key: ConstructorFn} `key` is used to access singleton instances,
+ * `ConstructorFn` is constructor function used to instantiate objects
  * @returns {Function} singleton factory method
  */
 const createSingletonFactory = instanceDefinition => {
@@ -21,9 +21,9 @@ const createSingletonFactory = instanceDefinition => {
       return instanceMap[key]
     }
 
-    const constructorFn = instanceDefinition[key]
-    if (constructorFn) {
-      instanceMap[key] = new constructorFn()
+    const ConstructorFn = instanceDefinition[key]
+    if (ConstructorFn) {
+      instanceMap[key] = new ConstructorFn()
       return instanceMap[key]
     }
 

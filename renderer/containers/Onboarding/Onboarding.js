@@ -43,7 +43,7 @@ function removeSteps(formSteps, steps) {
  */
 
 const getBaseSteps = connectionType => {
-  let formSteps = []
+  let formSteps
   switch (connectionType) {
     /**
      * Form steps for create flow.
@@ -88,6 +88,9 @@ const getBaseSteps = connectionType => {
         <Steps.Login key="Login" />,
       ]
       break
+
+    default:
+      formSteps = []
   }
 
   formSteps.unshift(<Steps.ConnectionType key="ConnectionType" />)
@@ -114,10 +117,8 @@ const Onboarding = props => {
       if (isLightningGrpcActive) {
         history.push('/app')
       }
-    } else {
-      if (!isCreatingWallet && prevIsCreatingWallet && !createWalletError) {
-        history.push('/syncing')
-      }
+    } else if (!isCreatingWallet && prevIsCreatingWallet && !createWalletError) {
+      history.push('/syncing')
     }
   }, [
     connectionType,
@@ -149,7 +150,7 @@ const Onboarding = props => {
   const shouldRemoveBackupSetupStep = () => connectionType === 'import' && !isSCBRestoreEnabled()
 
   const shouldRemoveBackupSetupLocalStep = () =>
-    !backupProvider || backupProvider != 'local' || shouldRemoveBackupSetupStep()
+    !backupProvider || backupProvider !== 'local' || shouldRemoveBackupSetupStep()
 
   const steps = removeSteps(getBaseSteps(connectionType), [
     // It is currently not recommended to use autopilot on mainnet.

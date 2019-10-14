@@ -19,7 +19,8 @@ class PayHeader extends React.PureComponent {
 
   render() {
     const { title, type } = this.props
-    let logo, subtitle
+    let logo
+    let subtitle
 
     switch (type) {
       case PAY_HEADER_TYPES.onchain:

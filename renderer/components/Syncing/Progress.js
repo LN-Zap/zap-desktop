@@ -31,34 +31,32 @@ const getSyncMessages = ({
       mainMessage = intl.formatMessage({ ...messages.preparing })
       detailMessage = null
       extraDetailMessage = null
-    } else {
-      if (syncStatus === 'in-progress') {
-        mainMessage = `${syncPercentage}%`
-        detailMessage = intl.formatMessage(
-          { ...messages.block_progress },
-          {
-            currentBlock: neutrinoBlockHeight.toLocaleString(),
-            totalBlocks: blockHeight.toLocaleString(),
-          }
-        )
-        extraDetailMessage = intl.formatMessage(
-          { ...messages.filter_progress },
-          {
-            currentFilter: neutrinoCfilterHeight.toLocaleString(),
-            totalFilters: blockHeight.toLocaleString(),
-          }
-        )
-      } else if (syncStatus === 'recovering') {
-        caption = intl.formatMessage({ ...messages.recovery_caption })
-        mainMessage = `${recoveryPercentage}%`
-        detailMessage = intl.formatMessage(
-          { ...messages.filter_progress },
-          {
-            currentFilter: neutrinoRecoveryHeight.toLocaleString(),
-            totalFilters: blockHeight.toLocaleString(),
-          }
-        )
-      }
+    } else if (syncStatus === 'in-progress') {
+      mainMessage = `${syncPercentage}%`
+      detailMessage = intl.formatMessage(
+        { ...messages.block_progress },
+        {
+          currentBlock: neutrinoBlockHeight.toLocaleString(),
+          totalBlocks: blockHeight.toLocaleString(),
+        }
+      )
+      extraDetailMessage = intl.formatMessage(
+        { ...messages.filter_progress },
+        {
+          currentFilter: neutrinoCfilterHeight.toLocaleString(),
+          totalFilters: blockHeight.toLocaleString(),
+        }
+      )
+    } else if (syncStatus === 'recovering') {
+      caption = intl.formatMessage({ ...messages.recovery_caption })
+      mainMessage = `${recoveryPercentage}%`
+      detailMessage = intl.formatMessage(
+        { ...messages.filter_progress },
+        {
+          currentFilter: neutrinoRecoveryHeight.toLocaleString(),
+          totalFilters: blockHeight.toLocaleString(),
+        }
+      )
     }
   }
   return { caption, mainMessage, extraDetailMessage, detailMessage }

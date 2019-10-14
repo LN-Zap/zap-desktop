@@ -62,9 +62,9 @@ export function uploadFromBuffer(dbx, path, buffer, mode = 'overwrite') {
 export async function listFiles(dbx, params = {}) {
   const { path = '', cursor, ...rest } = params
   if (cursor) {
-    return await dbx.filesListFolder({ path, cursor, ...rest })
+    return dbx.filesListFolder({ path, cursor, ...rest })
   }
-  return await dbx.filesListFolder({ path, ...rest })
+  return dbx.filesListFolder({ path, ...rest })
 }
 
 /**
@@ -101,7 +101,7 @@ export function createAuthWindow(
       if (hash && hash.length > 1) {
         // Login is complete
         authWindow.removeAllListeners('closed')
-        //close window
+        // close window
         setImmediate(() => authWindow.close())
         // retrieve access tokens
         resolve(parseUrlFragments(hash))

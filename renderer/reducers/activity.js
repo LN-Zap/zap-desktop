@@ -73,7 +73,7 @@ const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', '
  * @param  {string}  prop Prop name
  * @returns {boolean} Boolean indicating if the prop was found and contains the search string
  */
-const propMatches = function(prop) {
+const propMatches = function propMatches(prop) {
   const { item, searchTextSelector = '' } = this
   return item[prop] && item[prop].toLowerCase().includes(searchTextSelector.toLowerCase())
 }
@@ -103,6 +103,8 @@ function returnTimestamp(activity) {
       return activity.settled ? activity.settle_date : activity.creation_date
     case 'payment':
       return activity.creation_date
+    default:
+      return null
   }
 }
 
@@ -157,14 +159,14 @@ export function groupActivity(data) {
     .sort((a, b) => b.timestamp - a.timestamp)
     .reduce((acc, next) => {
       const prev = acc[acc.length - 1]
-      //check if need insert a group title
+      // check if need insert a group title
       if (prev) {
         const days = daysBetween(next.timestamp, prev.timestamp)
         if (days >= 1) {
           acc.push({ title: next.date })
         }
       } else {
-        //This is a very first row. Insert title here too
+        // This is a very first row. Insert title here too
         acc.push({ title: next.date })
       }
       acc.push(next)

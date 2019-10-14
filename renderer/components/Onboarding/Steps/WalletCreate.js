@@ -42,7 +42,7 @@ class WalletCreate extends React.Component {
 
   handleSubmit = async () => {
     const { createWallet } = this.props
-    return await createWallet()
+    return createWallet()
   }
 
   resetOnboarding = () => {

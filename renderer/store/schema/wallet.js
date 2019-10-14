@@ -77,7 +77,7 @@ export const hooks = {
    * @param  {object} obj [description]
    * @returns {object}     [description]
    */
-  reading: function(obj) {
+  reading(obj) {
     obj.wallet = `wallet-${obj.id}`
     return obj
   },
@@ -89,11 +89,11 @@ export const hooks = {
    * @param  {string} primKey       [description]
    * @param  {object} obj           [description]
    */
-  updating: function(modifications, primKey, obj) {
+  updating(modifications, primKey, obj) {
     Object.keys({ ...obj, ...modifications }).reduce((acc, cur) => {
       const isValidKey = Object.keys(Wallet.SCHEMA).includes(cur)
       const isInMods = Object.keys(modifications).includes(cur)
-      let newVal = isInMods ? modifications[cur] : obj[cur]
+      const newVal = isInMods ? modifications[cur] : obj[cur]
       return {
         ...acc,
         [cur]: isValidKey ? newVal : undefined,
@@ -107,7 +107,7 @@ export const hooks = {
    * @param  {string} primKey [description]
    * @param  {object} obj     [description]
    */
-  creating: function(primKey, obj) {
+  creating(primKey, obj) {
     Object.keys(obj).forEach(key => {
       if (!Object.keys(Wallet.SCHEMA).includes(key)) {
         delete obj[key]

@@ -67,7 +67,8 @@ describe('createScheduler tasks execution', () => {
     const promise = new Promise(resolve => {
       let times = 0
       const task = () => {
-        if (times++ > 3) {
+        times += 1
+        if (times) {
           resolve(true)
         }
       }
@@ -83,7 +84,8 @@ describe('createScheduler tasks execution', () => {
     const promise = new Promise(resolve => {
       let times = 0
       const task = () => {
-        if (times++ > 3) {
+        times += 1
+        if (times > 3) {
           resolve(true)
         }
       }

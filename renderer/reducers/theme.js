@@ -55,7 +55,7 @@ export const setTheme = currentTheme => async dispatch => {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [SET_THEME]: () => {}, //noop
+  [SET_THEME]: () => {}, // noop
 }
 
 // ------------------------------------

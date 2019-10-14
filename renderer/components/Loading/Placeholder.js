@@ -6,13 +6,13 @@ import { lighten } from 'polished'
 
 const pulse = props => keyframes`
 0% {
-  background-color: ${lighten(0.03, themeGet('colors.' + props.color)(props))};
+  background-color: ${lighten(0.03, themeGet(`colors.${props.color}`)(props))};
 }
 50% {
-  background-color: ${lighten(0.1, themeGet('colors.' + props.color)(props))};
+  background-color: ${lighten(0.1, themeGet(`colors.${props.color}`)(props))};
 }
 100% {
-  background-color: ${lighten(0.03, themeGet('colors.' + props.color)(props))};
+  background-color: ${lighten(0.03, themeGet(`colors.${props.color}`)(props))};
 }
 `
 

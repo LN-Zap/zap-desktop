@@ -9,7 +9,7 @@ const lndOptions = {
   binaryPath,
 }
 
-describe('LndConfig', function() {
+describe('LndConfig', function testLndConfig() {
   const checkForConfigProperties = type => {
     it(`should have the "type" property set to the ${type} value`, () => {
       expect(this.lndConfig.type).toEqual(this.type)
