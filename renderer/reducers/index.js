@@ -81,9 +81,10 @@ export default (state, action) => {
     ]
     const persistentReducers = pick(state, list)
 
-    if (list.length != Object.keys(persistentReducers).length) {
+    if (list.length !== Object.keys(persistentReducers).length) {
       throw new Error(
-        'RESET_APP: persistent reducers list size differs from the plucked state. One of the entries in the list is likely a typo'
+        `RESET_APP: persistent reducers list size differs from the plucked state.
+         One of the entries in the list is likely a typo`
       )
     }
 
