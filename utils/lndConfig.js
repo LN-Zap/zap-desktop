@@ -4,6 +4,7 @@ import untildify from 'untildify'
 import tildify from 'tildify'
 import lndconnect from 'lndconnect'
 import fs from 'fs'
+import { tmpdir } from 'os'
 import util from 'util'
 import pick from 'lodash/pick'
 import get from 'lodash/get'
@@ -17,27 +18,13 @@ const debug = createDebug('zap:lnd-config')
 
 const LNDCONFIG_TYPE_LOCAL = 'local'
 const LNDCONFIG_TYPE_CUSTOM = 'custom'
+const TEMP_WALLET_ID = 'tmp'
+const TEMP_WALLET_DIR = 'zap-tmp-wallet'
 
-// Supported connection types.
-export const types = {
-  [LNDCONFIG_TYPE_LOCAL]: 'Local',
-  [LNDCONFIG_TYPE_CUSTOM]: 'Custom',
-}
-
-// Supported chains.
-export const chains = {
-  bitcoin: 'Bitcoin',
-  litecoin: 'Litecoin',
-}
-
-// Supported networks.
-export const networks = {
-  mainnet: 'Mainnet',
-  testnet: 'Testnet',
-}
-
-const _isReady = new WeakMap()
-const _lndconnectQRCode = new WeakMap()
+// Private properties for `LndConfig` instances.
+const isReadyStore = new WeakMap()
+const lndconnectQRCodeStore = new WeakMap()
+const tmpDirStore = new WeakMap()
 
 // Utility methods to clean and prepare data.
 const safeTrim = val => (typeof val === 'string' ? val.trim() : val)
@@ -69,23 +56,32 @@ class LndConfig {
       lndconnectQRCode: {
         enumerable: true,
         get() {
-          return _lndconnectQRCode.get(this)
+          return lndconnectQRCodeStore.get(this)
         },
       },
 
       isReady: {
         enumerable: false,
         get() {
-          return _isReady.get(this)
+          return isReadyStore.get(this)
         },
       },
       lndDir: {
         enumerable: true,
         get() {
+          if (this.id === TEMP_WALLET_ID) {
+            const cache = tmpDirStore.get(this)
+            if (cache) {
+              return cache
+            }
+            const lndDir = fs.mkdtempSync(join(tmpdir(), TEMP_WALLET_DIR))
+            tmpDirStore.set(this, lndDir)
+            return lndDir
+          }
           if (this.type === LNDCONFIG_TYPE_LOCAL) {
             return join(options.userDataDir, 'lnd', this.chain, this.network, this.wallet)
           }
-          return
+          return null
         },
       },
       host: {
@@ -172,7 +168,7 @@ class LndConfig {
     // a `ready` property that resolves once we have calculated this value so that users of this class to wait until the
     // `ready` property has been resolved before using the class instance in order to ensure that the instance has been
     // fully instantiated.
-    const isReady = async () => {
+    const completeSetup = async () => {
       try {
         // Generate lndConenct uri.
         const lndconnectUri = await this.generateLndconnectUri(options)
@@ -183,7 +179,7 @@ class LndConfig {
         // Generate lndConenct QR code..
         if (this.lndconnectUri) {
           const lndconnectQRCode = await this.generateLndconnectQRCode()
-          _lndconnectQRCode.set(this, lndconnectQRCode)
+          lndconnectQRCodeStore.set(this, lndconnectQRCode)
         }
         return true
       } catch (e) {
@@ -191,7 +187,7 @@ class LndConfig {
         return true
       }
     }
-    _isReady.set(this, isReady())
+    isReadyStore.set(this, completeSetup())
   }
 
   /**

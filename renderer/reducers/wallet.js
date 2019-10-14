@@ -191,26 +191,24 @@ export const initWallets = () => async dispatch => {
   // Create wallet entry in the database if one doesn't exist already.
   const { chains, networks } = config
   const fsWallets = await window.Zap.getAllLocalWallets(chains, networks)
-  return fsWallets
-    .filter(wallet => wallet.wallet !== 'wallet-tmp')
-    .forEach(walletDetails => {
-      if (
-        !dbWallets.find(
-          w =>
-            w.type === 'local' &&
-            w.chain === walletDetails.chain &&
-            w.network === walletDetails.network &&
-            w.wallet === walletDetails.wallet
-        )
-      ) {
-        walletDetails.decoder = 'lnd.lndconnect.v1'
-        const id = Number(walletDetails.wallet.split('-')[1])
-        if (id && !Number.isNaN(id)) {
-          walletDetails.id = id
-        }
-        dispatch(putWallet(walletDetails))
+  return fsWallets.forEach(walletDetails => {
+    if (
+      !dbWallets.find(
+        w =>
+          w.type === 'local' &&
+          w.chain === walletDetails.chain &&
+          w.network === walletDetails.network &&
+          w.wallet === walletDetails.wallet
+      )
+    ) {
+      walletDetails.decoder = 'lnd.lndconnect.v1'
+      const id = Number(walletDetails.wallet.split('-')[1])
+      if (id && !Number.isNaN(id)) {
+        walletDetails.id = id
       }
-    })
+      dispatch(putWallet(walletDetails))
+    }
+  })
 }
 
 // ------------------------------------
