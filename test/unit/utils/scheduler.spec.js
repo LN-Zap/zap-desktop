@@ -10,6 +10,23 @@ describe('createScheduler tasks management', () => {
     expect(scheduler.isScheduled(task)).toEqual(true)
   })
 
+  it('finds by task callback', () => {
+    const scheduler = createScheduler()
+    const task = () => {}
+    const task2 = () => {}
+    scheduler.addTask({ task })
+    expect(scheduler.isScheduled(task2)).toEqual(false)
+    expect(scheduler.isScheduled(task)).toEqual(true)
+  })
+
+  it('finds by task id', () => {
+    const scheduler = createScheduler()
+    const task = () => {}
+    scheduler.addTask({ task, taskId: 'task' })
+    expect(scheduler.isScheduled('task2')).toEqual(false)
+    expect(scheduler.isScheduled('task')).toEqual(true)
+  })
+
   it('add task by taskId', () => {
     const scheduler = createScheduler()
     const task = () => {}
