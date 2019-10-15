@@ -29,7 +29,7 @@ const withInputValidation = Component =>
     validate = (value = '') => {
       const { isDisabled, isRequired, minLength, maxLength } = this.props
       if (isDisabled) {
-        return
+        return null
       }
       try {
         let validator = yup.string()
@@ -52,6 +52,7 @@ const withInputValidation = Component =>
       if (validate) {
         return validate(value)
       }
+      return null
     }
 
     render() {

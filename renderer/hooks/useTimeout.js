@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 
 /**
- * useTimeout - React hook that triggers @callback after @delay timout.
+ * useTimeout - React hook that triggers @callback after @delay timeout.
  *
  * @param {Function} callback Callback to run after timeout
  * @param {[number]} delay Delay. Pass null to pause
@@ -23,5 +23,6 @@ export default function useTimeout(callback, delay) {
       const id = setTimeout(tick, delay)
       return () => clearTimeout(id)
     }
+    return null
   }, [delay])
 }

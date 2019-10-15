@@ -86,7 +86,7 @@ export function setAutopayList(list) {
 export function initAutopay() {
   return async dispatch => {
     if (!isAutopayEnabled()) {
-      return
+      return []
     }
 
     let autopayList

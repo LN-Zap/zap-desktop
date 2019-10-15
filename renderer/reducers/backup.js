@@ -406,6 +406,7 @@ export const restoreWallet = backup => async dispatch => {
     return result
   } catch (e) {
     dispatch(showError(intl.formatMessage(messages.backup_import_error, { error: e.message })))
+    return null
   }
 }
 

@@ -24,7 +24,7 @@ const withNumberValidation = Component => {
   }) => {
     const handleValidate = value => {
       if (isDisabled) {
-        return
+        return null
       }
       try {
         let validator = yup.number().typeError('A number is required')
@@ -52,6 +52,7 @@ const withNumberValidation = Component => {
       if (validate) {
         return validate(value)
       }
+      return null
     }
 
     return (

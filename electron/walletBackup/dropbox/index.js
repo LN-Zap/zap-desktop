@@ -41,7 +41,7 @@ export default class BackupService extends TokenBasedBackupService {
    *
    * @param {string} walletId desired file name
    * @param {Buffer} backup `Buffer` with backup data
-   * @returns {string} google drive fileID
+   * @returns {string|null} google drive fileID
    * @memberof BackupService
    */
   saveBackup = chainify(async ({ walletId, backup }) => {
@@ -51,6 +51,7 @@ export default class BackupService extends TokenBasedBackupService {
       return id
     }
     mainLog.warn('Attempting to call saveBackup in logged-out state')
+    return null
   })
 
   // Define the name of this backup service.

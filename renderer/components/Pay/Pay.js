@@ -83,14 +83,15 @@ class Pay extends React.Component {
     // If redirectPayReq is set, clear it and then use it's values to autopopulate and submit the form.
     if (redirectPayReq) {
       setRedirectPayReq(null)
-      return this.autoFillForm(address, amount)
+      this.autoFillForm(address, amount)
+      return
     }
 
     // If payReq address or amount has has changed update the relevant form values.
     const isChangedAddress = address !== prevAddress
     const isChangedAmount = amount !== prevAmount
     if (isChangedAddress || isChangedAmount) {
-      return this.autoFillForm(address, amount)
+      this.autoFillForm(address, amount)
     }
 
     // If we have gone back to the address step, unmark all fields from being touched.

@@ -181,13 +181,13 @@ class LndConfig {
           const lndconnectQRCode = await this.generateLndconnectQRCode()
           lndconnectQRCodeStore.set(this, lndconnectQRCode)
         }
-        return true
       } catch (e) {
         mainLog.error('Unable to generate lndconnect uri: %o', e)
-        return true
       }
     }
+
     isReadyStore.set(this, completeSetup())
+    return true
   }
 
   /**
@@ -233,7 +233,7 @@ class LndConfig {
         if (lndconnectUri) {
           return LndConfig.qrcodeFromLndconnectUri(lndconnectUri)
         }
-        break
+        return null
 
       default:
         return null
@@ -254,7 +254,7 @@ class LndConfig {
   }
 
   /**
-   * getConnectionProp - Getter helper for connection keyerties.
+   * getConnectionProp - Getter helper for connection key entries.
    *
    * @param {string} key key
    * @returns {string} Value
@@ -264,6 +264,7 @@ class LndConfig {
       const decoded = lndconnect.decode(this.lndconnectUri)
       return safeUntildify(decoded[key])
     }
+    return null
   }
 
   /**

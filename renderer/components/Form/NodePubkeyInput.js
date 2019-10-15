@@ -19,7 +19,7 @@ class NodePubkeyInput extends React.Component {
   validate = value => {
     const { isDisabled, isRequired, validate } = this.props
     if (isDisabled) {
-      return
+      return null
     }
     try {
       let validator = yup.string()
@@ -37,6 +37,8 @@ class NodePubkeyInput extends React.Component {
     if (validate) {
       return validate(value)
     }
+
+    return null
   }
 
   render() {

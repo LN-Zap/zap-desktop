@@ -53,6 +53,7 @@ class LightningInvoiceInput extends React.Component {
         }
       }
     }
+    return null
   }
 
   render() {

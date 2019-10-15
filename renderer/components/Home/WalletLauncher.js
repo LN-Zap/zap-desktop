@@ -224,6 +224,7 @@ class WalletLauncher extends React.Component {
     } catch (e) {
       // this error is handled via startLndErrors mechanism
       // so should be ignored
+      return null
     }
   }
 
@@ -315,6 +316,7 @@ class WalletLauncher extends React.Component {
     } catch (e) {
       const message = intl.formatMessage({ ...messages.saved_error })
       showError(message)
+      return null
     }
   }
 

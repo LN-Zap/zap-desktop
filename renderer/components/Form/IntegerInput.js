@@ -92,7 +92,7 @@ class WrappedIntegerInputAsField extends React.Component {
   validate = value => {
     const { isDisabled, isRequired, max, min } = this.props
     if (isDisabled) {
-      return
+      return null
     }
     try {
       let validator = yup.number().typeError('A number is required')
@@ -115,6 +115,8 @@ class WrappedIntegerInputAsField extends React.Component {
     if (validate) {
       return validate(value)
     }
+
+    return null
   }
 
   render() {

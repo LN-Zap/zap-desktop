@@ -74,7 +74,7 @@ class ConnectionDetailsManual extends React.Component {
 
     const validatorWrapper = async () => {
       try {
-        await validator(value)
+        return await validator(value)
       } catch (e) {
         return e.toString()
       }
