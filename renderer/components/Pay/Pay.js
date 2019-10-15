@@ -83,14 +83,16 @@ class Pay extends React.Component {
     // If redirectPayReq is set, clear it and then use it's values to autopopulate and submit the form.
     if (redirectPayReq) {
       setRedirectPayReq(null)
-      return this.autoFillForm(address, amount)
+      this.autoFillForm(address, amount)
+      return
     }
 
     // If payReq address or amount has has changed update the relevant form values.
     const isChangedAddress = address !== prevAddress
     const isChangedAmount = amount !== prevAmount
     if (isChangedAddress || isChangedAmount) {
-      return this.autoFillForm(address, amount)
+      this.autoFillForm(address, amount)
+      return
     }
 
     // If we have gone back to the address step, unmark all fields from being touched.
@@ -106,15 +108,17 @@ class Pay extends React.Component {
     const isNowOnchain = isOnchain && isOnchain !== prevState.isOnchain
     if (currentStep === PAY_FORM_STEPS.address && isNowOnchain) {
       this.formApi.submitForm()
+      return
     }
 
     // If we now have a valid lightning invoice submit the form.
     const isNowLightning = invoice && invoice !== prevState.invoice
     if (currentStep === PAY_FORM_STEPS.address && isNowLightning) {
       this.formApi.submitForm()
+      return
     }
 
-    // update route
+    // update route.
     if (
       invoice &&
       prevState.currentStep === PAY_FORM_STEPS.address &&

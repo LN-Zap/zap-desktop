@@ -285,7 +285,7 @@ class ZapGrpc extends EventEmitter {
   async cancelSubscription(key) {
     if (!this.activeSubscriptions[key]) {
       grpcLog.warn(`Unable to unsubscribe from gRPC stream: %s (not active)`, key)
-      return
+      return null
     }
 
     grpcLog.info(`Unsubscribing from ${key} gRPC stream`)

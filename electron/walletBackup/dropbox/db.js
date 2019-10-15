@@ -83,6 +83,7 @@ async function createClient({ clientId, authRedirectUrl, tokens }) {
       // try re-initializing connection
       // TODO: continue call exec ?
       refreshAuth()
+      return null
     }
   }
 

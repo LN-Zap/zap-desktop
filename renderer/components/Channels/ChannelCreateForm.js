@@ -150,7 +150,8 @@ class ChannelCreateForm extends React.Component {
     const { step } = this.state
 
     if (step === 'form') {
-      return this.setState({ step: 'summary' })
+      this.setState({ step: 'summary' })
+      return
     }
     // set submitted flag to prevent multiple submissions
     this.setState({
@@ -213,12 +214,12 @@ class ChannelCreateForm extends React.Component {
     const fee = this.getFee()
     const amount = convert(cryptoUnit, 'sats', value)
 
-    // FIXME: The fee here is a per byte fee, however what we realy need is the projected fee for the transaction.
+    // FIXME: The fee here is a per byte fee, however what we really need is the projected fee for the transaction.
     // This is not currently available in lnd, but will be in it's upcoming fee estimation API.
     const totalAmount = amount + fee
 
     if (totalAmount > walletBalance) {
-      return intl.formatMessage({ ...messages.error_not_enough_funds })
+      intl.formatMessage({ ...messages.error_not_enough_funds })
     }
   }
 

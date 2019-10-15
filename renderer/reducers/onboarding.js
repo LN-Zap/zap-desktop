@@ -283,9 +283,9 @@ export function setLndconnect(lndConnect) {
 export const validateHost = host => async dispatch => {
   try {
     dispatch({ type: VALIDATING_HOST, validatingHost: true })
-    const res = await window.Zap.validateHost(host)
+    await window.Zap.validateHost(host)
     dispatch({ type: VALIDATING_HOST, validatingHost: false })
-    return res
+    return true
   } catch (e) {
     dispatch({ type: VALIDATING_HOST, validatingHost: false })
     return Promise.reject(e.message)
@@ -301,9 +301,9 @@ export const validateHost = host => async dispatch => {
 export const validateCert = certPath => async dispatch => {
   try {
     dispatch({ type: VALIDATING_CERT, validatingCert: true })
-    const res = await window.Zap.fileExists(certPath)
+    await window.Zap.fileExists(certPath)
     dispatch({ type: VALIDATING_CERT, validatingCert: false })
-    return res
+    return true
   } catch (e) {
     dispatch({ type: VALIDATING_CERT, validatingCert: false })
     if (e.code === 'ENOENT') {
@@ -322,9 +322,9 @@ export const validateCert = certPath => async dispatch => {
 export const validateMacaroon = macaroonPath => async dispatch => {
   try {
     dispatch({ type: VALIDATING_MACAROON, validatingMacaroon: true })
-    const res = await window.Zap.fileExists(macaroonPath)
+    await window.Zap.fileExists(macaroonPath)
     dispatch({ type: VALIDATING_MACAROON, validatingMacaroon: false })
-    return res
+    return true
   } catch (e) {
     dispatch({ type: VALIDATING_MACAROON, validatingMacaroon: false })
     if (e.code === 'ENOENT') {

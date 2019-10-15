@@ -75,16 +75,17 @@ class ConnectionDetailsManual extends React.Component {
     const validatorWrapper = async () => {
       try {
         await validator(value)
+        return null
       } catch (e) {
         return e.toString()
       }
     }
 
     const result = await validatorWrapper(field, validator)
-    if (result === true) {
-      this.formApi.setError(field, undefined)
-    } else {
+    if (result) {
       this.formApi.setError(field, result)
+    } else {
+      this.formApi.setError(field, undefined)
     }
   }
 
