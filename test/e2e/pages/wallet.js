@@ -1,5 +1,13 @@
 import { ReactSelector } from 'testcafe-react-selectors'
-
+/**
+ * Modal - Creates modal selector of the specified `type`
+ *
+ * @param {string} type Modal type
+ */
+function Modal(type) {
+  this.modal = ReactSelector('ModalContent').withProps({ type })
+  this.closeButton = this.modal.findReact('CloseButton')
+}
 class Wallet {
   wallet = ReactSelector('Wallet')
 
@@ -49,16 +57,6 @@ class Wallet {
   manageChannels = this.ChannelsMenu.findReact('DropmenuItem').withProps({ id: 'manage' })
 
   createChannel = this.ChannelsMenu.findReact('DropmenuItem').withProps({ id: 'create' })
-}
-
-/**
- * Modal - Creates modal selector of the specified `type`
- *
- * @param {string} type Modal type
- */
-function Modal(type) {
-  this.modal = ReactSelector('ModalContent').withProps({ type })
-  this.closeButton = this.modal.findReact('CloseButton')
 }
 
 export default Wallet
