@@ -1,3 +1,4 @@
+/* eslint-disable-file  no-alert */
 import React from 'react'
 import { Flex } from 'rebass/styled-components'
 import { storiesOf } from '@storybook/react'
