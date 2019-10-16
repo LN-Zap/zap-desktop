@@ -70,7 +70,7 @@ module.exports = {
     neutrino: {
       bitcoin: {
         testnet: ['testnet3-btcd.zaphq.io', 'testnet4-btcd.zaphq.io'],
-        mainnet: ['mainnet1-btcd.zaphq.io', 'mainnet2-btcd.zaphq.io'],
+        mainnet: ['mainnet3-btcd.zaphq.io', 'mainnet4-btcd.zaphq.io'],
       },
       litecoin: {
         testnet: [],
