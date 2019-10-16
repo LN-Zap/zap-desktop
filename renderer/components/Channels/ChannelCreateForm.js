@@ -36,10 +36,10 @@ const ShowHide = Keyframes.Spring({
 
 const FormButtons = ({ isNextButtonDisabled, nextButtonText, onBack }) => (
   <Flex alignItems="center" mb={3}>
-    <Box width={1 / 4}>
+    <Box width={1 / 6}>
       <ChannelBackButton mr="auto" onClick={onBack} />
     </Box>
-    <Flex justifyContent="center" width={2 / 4}>
+    <Flex justifyContent="center" width={4 / 6}>
       <Button isDisabled={isNextButtonDisabled} type="submit">
         {nextButtonText}
       </Button>
