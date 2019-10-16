@@ -7,18 +7,10 @@ import { PasswordInput, Form } from 'components/Form'
 import messages from './messages'
 import { useFormError } from 'hooks'
 
-const DialogWrapper = ({ loginError, clearLoginError, onOk, onCancel, isPromptMode }) => {
+const DialogWrapper = ({ loginError, clearLoginError, onOk, onCancel }) => {
   const intl = useIntl()
   const formApiRef = useRef(null)
   useFormError(loginError, clearLoginError, formApiRef)
-
-  const headerMessage = isPromptMode
-    ? messages.password_prompt_dialog_header
-    : messages.password_set_dialog_header
-
-  const inputDesc = isPromptMode
-    ? messages.password_prompt_dialog_description
-    : messages.password_set_dialog_description
 
   const buttons = (
     <>
@@ -34,7 +26,7 @@ const DialogWrapper = ({ loginError, clearLoginError, onOk, onCancel, isPromptMo
   const header = (
     <Flex alignItems="center" flexDirection="column" mb={4}>
       <Heading.h1>
-        <FormattedMessage {...headerMessage} />
+        <FormattedMessage {...messages.password_prompt_dialog_header} />
       </Heading.h1>
     </Flex>
   )
@@ -60,7 +52,7 @@ const DialogWrapper = ({ loginError, clearLoginError, onOk, onCancel, isPromptMo
               )}
               <Flex alignItems="center" flexDirection="column" width={350}>
                 <PasswordInput
-                  description={intl.formatMessage(inputDesc)}
+                  description={intl.formatMessage(messages.password_prompt_dialog_description)}
                   field="password"
                   hasMessageSpacer
                   isRequired
@@ -79,13 +71,8 @@ const DialogWrapper = ({ loginError, clearLoginError, onOk, onCancel, isPromptMo
   )
 }
 
-DialogWrapper.defaultProps = {
-  isPromptMode: true,
-}
-
 DialogWrapper.propTypes = {
   clearLoginError: PropTypes.func.isRequired,
-  isPromptMode: PropTypes.bool,
   isRestoreMode: PropTypes.bool,
   loginError: PropTypes.string,
   onCancel: PropTypes.func.isRequired,

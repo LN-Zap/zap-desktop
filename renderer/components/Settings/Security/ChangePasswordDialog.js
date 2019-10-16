@@ -81,7 +81,6 @@ const DialogWrapper = ({ loginError, clearLoginError, onChange, onCancel }) => {
 
 DialogWrapper.propTypes = {
   clearLoginError: PropTypes.func.isRequired,
-  isRestoreMode: PropTypes.bool,
   loginError: PropTypes.string,
   onCancel: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
