@@ -19,14 +19,15 @@ const InnerInput = styled(BasicInput)`
 `
 
 const OpenDialogInput = props => {
-  const { mode, ...rest } = props
+  const { mode, label, ...rest } = props
   const [spaceProps, otherProps] = extractSpaceProps(rest)
   return (
     <WithOpenDialog
       render={({ openDialog }) => (
-        <Flex alignItems="center" {...spaceProps}>
-          <InnerInput width={1} {...otherProps} />
+        <Flex {...spaceProps}>
+          <InnerInput width={1} {...otherProps} label={label} />
           <OpenDialogButton
+            mt={label ? 23 : '1px'}
             onClick={async () => {
               const result = await openDialog(mode)
               // set value only if something was selected to avoid
@@ -47,6 +48,7 @@ OpenDialogInput.propTypes = {
   // electron showOpenDialog feature flags
   // https://electronjs.org/docs/api/dialog
   // options.properties
+  label: PropTypes.node,
   mode: PropTypes.string,
 }
 
