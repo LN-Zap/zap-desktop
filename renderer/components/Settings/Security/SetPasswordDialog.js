@@ -7,31 +7,28 @@ import { PasswordInput, Form } from 'components/Form'
 import messages from './messages'
 import { useFormError } from 'hooks'
 
-const DialogWrapper = ({ loginError, clearLoginError, onChange, onCancel }) => {
+const DialogWrapper = ({ loginError, clearLoginError, onOk, onCancel }) => {
   const intl = useIntl()
   const formApiRef = useRef(null)
+
   useFormError(loginError, clearLoginError, formApiRef)
 
-  const buttons = (
-    <>
-      <Button type="submit" variant="primary">
-        <FormattedMessage {...messages.password_change_button_text} />
-      </Button>
-      <Button onClick={onCancel} type="button" variant="secondary">
-        <FormattedMessage {...messages.password_dialog_cancel_button_text} />
-      </Button>
-    </>
-  )
+  const validate = ({ password, confirmPassword }) => {
+    if (password !== confirmPassword) {
+      return intl.formatMessage({ ...messages.password_do_not_match })
+    }
+    return undefined
+  }
 
   const header = (
     <Flex alignItems="center" flexDirection="column" mb={4}>
       <Heading.h1>
-        <FormattedMessage {...messages.password_change_dialog_header} />
+        <FormattedMessage {...messages.password_set_dialog_header} />
       </Heading.h1>
     </Flex>
   )
 
-  const handleSubmit = values => onChange(values)
+  const handleSubmit = values => onOk(values)
 
   return (
     <DialogOverlay alignItems="center" justifyContent="center" position="fixed">
@@ -40,11 +37,26 @@ const DialogWrapper = ({ loginError, clearLoginError, onChange, onCancel }) => {
           formApiRef.current = api
         }}
         onSubmit={handleSubmit}
+        validate={validate}
       >
-        {({ formState: { submits, error } }) => {
+        {({ formState: { submits, error, invalid } }) => {
           const willValidateInline = submits > 0
           return (
-            <Dialog buttons={buttons} header={header} onClose={onCancel} width={640}>
+            <Dialog
+              buttons={
+                <>
+                  <Button isDisabled={submits > 0 && invalid} type="submit" variant="primary">
+                    <FormattedMessage {...messages.password_set_dialog_ok_button_text} />
+                  </Button>
+                  <Button onClick={onCancel} type="button" variant="secondary">
+                    <FormattedMessage {...messages.password_dialog_cancel_button_text} />
+                  </Button>
+                </>
+              }
+              header={header}
+              onClose={onCancel}
+              width={640}
+            >
               <Flex alignItems="center" alignSelf="stretch" flexDirection="column" width={350}>
                 {error && (
                   <Message mb={3} variant="error">
@@ -52,8 +64,8 @@ const DialogWrapper = ({ loginError, clearLoginError, onChange, onCancel }) => {
                   </Message>
                 )}
                 <PasswordInput
-                  description={intl.formatMessage(messages.password_old_password)}
-                  field="oldPassword"
+                  description={intl.formatMessage(messages.password)}
+                  field="password"
                   hasMessageSpacer
                   isRequired
                   mb={2}
@@ -63,11 +75,13 @@ const DialogWrapper = ({ loginError, clearLoginError, onChange, onCancel }) => {
                   willAutoFocus
                 />
                 <PasswordInput
-                  description={intl.formatMessage(messages.password_new_password)}
-                  field="newPassword"
+                  description={intl.formatMessage(messages.password_confirm_password)}
+                  field="confirmPassword"
                   hasMessageSpacer
                   isRequired
                   minLength={6}
+                  validateOnBlur={willValidateInline}
+                  validateOnChange={willValidateInline}
                   width={1}
                 />
               </Flex>
@@ -83,7 +97,7 @@ DialogWrapper.propTypes = {
   clearLoginError: PropTypes.func.isRequired,
   loginError: PropTypes.string,
   onCancel: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
+  onOk: PropTypes.func.isRequired,
 }
 
 export default DialogWrapper
