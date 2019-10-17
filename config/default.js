@@ -4,6 +4,8 @@ import isStableVersion from '../utils/isStableVersion'
 // If the current version is in the same range asd this, the default database domain will be used.
 const STABLE_VERSION = '0.5.x'
 
+const IS_STABLE_VERSION = isStableVersion(getPackageDetails().version, STABLE_VERSION)
+
 module.exports = {
   // Default debug settings.
   debug: 'zap:main,zap:updater,zap:grpc,lnrpc*',
@@ -12,7 +14,7 @@ module.exports = {
   // Database settings.
   db: {
     namespace: 'ZapDesktop',
-    domain: isStableVersion(getPackageDetails().version, STABLE_VERSION) ? null : 'next',
+    domain: IS_STABLE_VERSION ? null : 'next',
   },
 
   theme: 'dark',
@@ -114,7 +116,7 @@ module.exports = {
   },
 
   secureStorage: {
-    namespace: 'ln-zap',
+    namespace: IS_STABLE_VERSION ? 'ln-zap' : 'ln-zap-next',
   },
 
   // feature flags to enable/disable experimental functionality
