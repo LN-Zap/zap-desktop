@@ -1389,13 +1389,6 @@
   resolved "https://registry.yarnpkg.com/@formatjs/intl-utils/-/intl-utils-1.4.0.tgz#b59fdf78bbae9f99c500a298bf73b1945f5991f1"
   integrity sha512-z5HyJumGzORM+5SpvkAlp/hu0AHDeZcUNKSmj9NjS7kWxOGZMuAdS3X1K5XiE0j5I8r8s8SIaz0IQOdMA1WFeA==
 
-"@grpc/grpc-js@0.5.2":
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-0.5.2.tgz#8e39876033749e1611fe9fa181d9535077805abe"
-  integrity sha512-NE1tP/1AF6BqhLdILElnF7aOBfoky+4ZOdZU/0NmKo2d+9F9QD8zGoElpBk/5BfyQZ3u1Zs+wFbDOFpVUzDx1w==
-  dependencies:
-    semver "^6.0.0"
-
 "@hot-loader/react-dom@16.10.2":
   version "16.10.2"
   resolved "https://registry.yarnpkg.com/@hot-loader/react-dom/-/react-dom-16.10.2.tgz#91920442252acac6f343eef5df41aca333f7dcea"
@@ -1580,6 +1573,13 @@
     eslint-plugin-react "7.16.0"
     eslint-plugin-react-hooks "2.1.2"
     eslint-plugin-testcafe "0.2.1"
+
+"@ln-zap/grpc-js@0.6.9":
+  version "0.6.9"
+  resolved "https://registry.yarnpkg.com/@ln-zap/grpc-js/-/grpc-js-0.6.9.tgz#2fa2be69b4179f7da6e3a40f215fb46a1aa9eb68"
+  integrity sha512-JqFSdslFxRjifDzVGmPhnx4mOmC3PaW6Efkj/YP2Kx2MXn+DlCxAB33tA5ToWYD4PCkr8o6ulyr511TKi48xTA==
+  dependencies:
+    semver "^6.2.0"
 
 "@ln-zap/prettier-config@0.1.0":
   version "0.1.0"
@@ -11354,12 +11354,12 @@ lnd-binary@0.3.13:
     "true-case-path" "^2.0.0"
     unzip-stream "^0.3.0"
 
-lnd-grpc@0.3.3:
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.3.3.tgz#049a54d33305031ed03ad068aa9abbf9b53752e8"
-  integrity sha512-3mYTUR3u3tsF8j1aFyS6owneNvxsvOdY4qoccUqgb8vataWldWBrRnYwI4x6x6hWzgf6trSViApbSTQ0wwJhWw==
+lnd-grpc@0.3.4-beta.3:
+  version "0.3.4-beta.3"
+  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.3.4-beta.3.tgz#fd3a6e8f5f9f9fd3d94fa0db2575fcd309c8cbbc"
+  integrity sha512-vT0TpNY+vp4iE7yWLjO4SvRzhci/PYC67VIpcNVmPUjiNbVXzjhGnCn6MkZ+nOvT8+c3peUjhtNGd8jGhvzg3g==
   dependencies:
-    "@grpc/grpc-js" "0.5.2"
+    "@ln-zap/grpc-js" "0.6.9"
     "@ln-zap/proto-loader" "0.5.1"
     debug "4.1.1"
     javascript-state-machine "3.1.0"

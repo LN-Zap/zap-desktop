@@ -1,5 +1,5 @@
 /* eslint-disable react/no-this-in-sfc */
-import { status } from '@grpc/grpc-js'
+import { status } from '@ln-zap/grpc-js'
 import { grpcLog } from '@zap/utils/log'
 import streamify from '@zap/utils/streamify'
 import { forwardAll } from '@zap/utils/events'

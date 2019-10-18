@@ -1,7 +1,7 @@
 import EventEmitter from 'events'
 import intersection from 'lodash/intersection'
 import { proxyValue } from 'comlinkjs'
-import { status } from '@grpc/grpc-js'
+import { status } from '@ln-zap/grpc-js'
 import LndGrpc from 'lnd-grpc'
 import { grpcLog } from '@zap/utils/log'
 import delay from '@zap/utils/delay'

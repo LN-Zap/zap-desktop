@@ -14,7 +14,7 @@ export default merge.smart(baseConfig, {
   target: 'web',
   mode: 'development',
   externals: [
-    '@grpc/grpc-js',
+    '@ln-zap/grpc-js',
     '@ln-zap/proto-loader',
     'config',
     'electron',
