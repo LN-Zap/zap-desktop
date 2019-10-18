@@ -60,13 +60,7 @@ const config = merge.smart(baseConfig, {
       ],
       'img-src': ['http://resources.zaphq.io', 'data:'],
       'script-src': ["'self'", 'http://localhost:*', "'unsafe-eval'"],
-      'font-src': [
-        "'self'",
-        'data:',
-        'http://localhost:*',
-        'https://s3.amazonaws.com',
-        'https://fonts.gstatic.com',
-      ],
+      'font-src': ["'self'", 'data:', 'http://localhost:*', 'https://s3.amazonaws.com'],
       'style-src': ["'self'", 'blob:', 'https://s3.amazonaws.com', "'unsafe-inline'"],
     }),
     new webpack.DllReferencePlugin({
