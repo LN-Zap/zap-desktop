@@ -3,7 +3,7 @@ import { defineMessages } from 'react-intl'
 /* eslint-disable max-len */
 export default defineMessages({
   calculating: 'calculating',
-  current_balance: 'Your current balance',
+  current_balance: 'Your current confirmed balance',
   error_not_enough_funds: 'You do not have enough funds available to make this payment.',
   request_label_combined: 'Payment Request or Address',
   request_label_offchain: 'Payment Request',
