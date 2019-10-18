@@ -305,7 +305,7 @@
   "components.Loading.starting_lnd": "Démarrage de lnd",
   "components.Loading.starting_neutrino": "Démarrage de Neutrino",
   "components.Loading.starting_wallet_unlocker": "Démarrage du déverrouillage de portefeuille",
-  "components.Login.error_desc_darwin": "",
+  "components.Login.error_desc_darwin": "Le Trousseau macOS n'est pas disponible. Il est requis pour démarrer Zap.",
   "components.Login.error_desc_linux": "Gnome Keyring n'est pas disponible. Soit il n'est pas installé, soit il n'est pas en cours d'exécution. Veuillez vous assurer qu'il est installé et démarré, puis redémarrez l'application",
   "components.Login.error_desc_win32": "Le Gestionnaire d'informations d'identification Windows n'est pas disponible. Il est requis pour démarrer Zap.",
   "components.Login.header": "",
