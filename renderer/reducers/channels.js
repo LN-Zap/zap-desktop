@@ -1,11 +1,11 @@
 import { createSelector } from 'reselect'
 import { proxyValue } from 'comlinkjs'
+import get from 'lodash/get'
 import orderBy from 'lodash/orderBy'
 import throttle from 'lodash/throttle'
 import { requestSuggestedNodes } from '@zap/utils/api'
 import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
 import { grpcService } from 'workers'
-import config from 'config'
 import { updateNotification, showWarning, showError } from './notification'
 import { fetchBalance } from './balance'
 import { walletSelectors } from './wallet'
@@ -53,7 +53,6 @@ const initialState = {
   ],
 
   selectedChannelId: null,
-  viewMode: config.channels.viewMode,
 
   suggestedNodes: {
     mainnet: [],
@@ -843,7 +842,10 @@ const channelSortSelector = state => state.channels.sort
 const channelSortOrderSelector = state => state.channels.sortOrder
 const filterSelector = state => state.channels.filter
 const nodesSelector = state => networkSelectors.nodes(state)
-const viewModeSelector = state => state.channels.viewMode
+const viewModeSelector = createSelector(
+  settingsSelectors.currentConfig,
+  currentConfig => get(currentConfig, 'channels.viewMode')
+)
 
 channelsSelectors.viewMode = viewModeSelector
 
