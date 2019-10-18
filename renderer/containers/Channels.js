@@ -19,7 +19,7 @@ const mapStateToProps = state => ({
   allChannels: channelsSelectors.allChannels(state),
   channels: channelsSelectors.currentChannels(state),
   channelBalance: state.balance.channelBalance,
-  channelViewMode: state.channels.viewMode,
+  channelViewMode: channelsSelectors.viewMode(state),
   cryptoUnitName: tickerSelectors.cryptoUnitName(state),
   filter: state.channels.filter,
   filters: state.channels.filters,

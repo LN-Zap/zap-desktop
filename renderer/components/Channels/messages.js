@@ -29,7 +29,7 @@ export default defineMessages({
     "To open a channel, enter the desired node's publickey@host, set the amount of BTC you'd like to commit to the channel, and submit.",
   open_channel_form_next_button_text: 'Next',
   open_channel_summary_next_button_text: 'Open Channel with {amount}',
-  open_channel_form_onchain_balance: 'Your current on-chain balance:',
+  open_channel_form_onchain_balance: 'Your current confirmed on-chain balance:',
   open_channel_notification: 'Channel opening initiated',
   private_label: 'Keep this channel private',
   search_placeholder: 'Search Channels',
