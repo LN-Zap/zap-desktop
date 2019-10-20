@@ -1,5 +1,12 @@
 /* eslint-disable max-len */
-import { formatValue, isLn, isOnchain } from '@zap/utils/crypto'
+import {
+  formatValue,
+  isLn,
+  isOnchain,
+  getMinFee,
+  getMaxFee,
+  getMaxFeeInclusive,
+} from '@zap/utils/crypto'
 
 const VALID_BITCOIN_MAINNET_LN =
   'lnbc10u1pduey89pp57gt0mqvh9gv4m5kkxmy9a0a46ha5jlzr3mcfcz2fx8tzu63vpjksdq8w3jhxaqcqzystfg0drarrx89nvpegwykvfr4fypvwz2d9ktcr6tj5s08f0nn8gdjnv74y9amksk3rjw7englhjrsev70k77vwf603qh2pr4tnqeue6qp5n92gy'
@@ -119,5 +126,41 @@ describe('formatValue', () => {
 
     test(['1', '0'], '1.0')
     test(['01', '0'], '01.0')
+  })
+})
+
+describe('getMinFee', () => {
+  const test = (from, to) => expect(getMinFee(from)).toEqual(to)
+  it('returns the minimum fee (1 above the lowest value)', () => {
+    test([], null)
+    test([{ total_fees: 2 }], 3)
+    test([{ total_fees: 2 }, { total_fees: 5 }], 3)
+    test([{ total_fees: 4 }], 5)
+    test([{ total_fees: 0 }], 1)
+    test([{ total_fees: 85 }, { total_fees: 95 }], 86)
+  })
+})
+
+describe('getMaxFee', () => {
+  const test = (from, to) => expect(getMaxFee(from)).toEqual(to)
+  it('returns the maximum fee (1 above the highest value)', () => {
+    test([], null)
+    test([{ total_fees: 2 }], 3)
+    test([{ total_fees: 2 }, { total_fees: 5 }], 6)
+    test([{ total_fees: 4 }], 5)
+    test([{ total_fees: 0 }], 1)
+    test([{ total_fees: 85 }, { total_fees: 95 }], 96)
+  })
+})
+
+describe('getMaxFeeInclusive', () => {
+  const test = (from, to) => expect(getMaxFeeInclusive(from)).toEqual(to)
+  it('returns the minimum fee includding increases after all retry attempts', () => {
+    test([], null)
+    test([{ total_fees: 2 }], 5)
+    test([{ total_fees: 2 }, { total_fees: 5 }], 8)
+    test([{ total_fees: 4 }], 7)
+    test([{ total_fees: 0 }], 3)
+    test([{ total_fees: 85 }, { total_fees: 95 }], 117)
   })
 })
