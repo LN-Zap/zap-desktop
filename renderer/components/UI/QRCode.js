@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
-import styled, { withTheme } from 'styled-components'
+import styled, { ThemeContext } from 'styled-components'
 import { Box, Card } from 'rebass/styled-components'
 import QRCode from 'qrcode.react'
 
@@ -85,78 +85,78 @@ const Code = styled(QRCode)`
 
 /**
  * @name QRCode
+ * @param {*} props Props
+ * @returns {*} Component
  * @example
  * <QRCode value="103456789" />
  */
-class ZapQRCode extends React.PureComponent {
-  static displayName = 'QRCode'
+const ZapQRCode = props => {
+  const { bg, color, isObfuscated, value, ...rest } = props
+  let { size, border } = props
+  const theme = useContext(ThemeContext)
 
-  static propTypes = {
-    bg: PropTypes.string,
-    border: PropTypes.number,
-    color: PropTypes.string,
-    isObfuscated: PropTypes.bool,
-    size: PropTypes.string,
-    theme: PropTypes.object.isRequired,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  switch (size) {
+    case QRCODE_SIZE_SMALL:
+      size = 120
+      break
+    case QRCODE_SIZE_MEDIUM:
+      size = 150
+      break
+    case QRCODE_SIZE_LARGE:
+      size = 180
+      border = 2
+      break
+    case QRCODE_SIZE_XLARGE:
+      size = 250
+      border = 2
+      break
+    case QRCODE_SIZE_XXLARGE:
+      size = 300
+      border = 2
+      break
+    default:
+      size = 150
   }
 
-  static defaultProps = {
-    size: QRCODE_SIZE_MEDIUM,
-    color: 'black',
-    bg: 'white',
-    border: 1,
-  }
-
-  render() {
-    const { bg, color, isObfuscated, theme, value, ...rest } = this.props
-    let { size, border } = this.props
-
-    switch (size) {
-      case QRCODE_SIZE_SMALL:
-        size = 120
-        break
-      case QRCODE_SIZE_MEDIUM:
-        size = 150
-        break
-      case QRCODE_SIZE_LARGE:
-        size = 180
-        border = 2
-        break
-      case QRCODE_SIZE_XLARGE:
-        size = 250
-        border = 2
-        break
-      case QRCODE_SIZE_XXLARGE:
-        size = 300
-        border = 2
-        break
-      default:
-        size = 150
-    }
-
-    return (
-      <Container {...rest} size={size}>
-        <CropWrapper size={size}>
-          <TopLeft border={border} borderColor="primaryAccent" size={size} />
-          <TopRight border={border} borderColor="primaryAccent" size={size} />
-          <BottomLeft border={border} borderColor="primaryAccent" size={size} />
-          <BottomRight border={border} borderColor="primaryAccent" size={size} />
-        </CropWrapper>
-        <CodeWrapper isObfuscated={isObfuscated}>
-          <Code
-            bgColor={(theme && theme.colors[bg]) || bg}
-            fgColor={(theme && theme.colors[color]) || color}
-            level="L"
-            renderAs="svg"
-            size={size}
-            value={value}
-          />
-        </CodeWrapper>
-        <Mask isObfuscated={isObfuscated} />
-      </Container>
-    )
-  }
+  return (
+    <Container {...rest} size={size}>
+      <CropWrapper size={size}>
+        <TopLeft border={border} borderColor="primaryAccent" size={size} />
+        <TopRight border={border} borderColor="primaryAccent" size={size} />
+        <BottomLeft border={border} borderColor="primaryAccent" size={size} />
+        <BottomRight border={border} borderColor="primaryAccent" size={size} />
+      </CropWrapper>
+      <CodeWrapper isObfuscated={isObfuscated}>
+        <Code
+          bgColor={(theme && theme.colors[bg]) || bg}
+          fgColor={(theme && theme.colors[color]) || color}
+          level="L"
+          renderAs="svg"
+          size={size}
+          value={value}
+        />
+      </CodeWrapper>
+      <Mask isObfuscated={isObfuscated} />
+    </Container>
+  )
 }
 
-export default withTheme(ZapQRCode)
+ZapQRCode.displayName = 'QRCode'
+
+ZapQRCode.propTypes = {
+  bg: PropTypes.string,
+  border: PropTypes.number,
+  color: PropTypes.string,
+  isObfuscated: PropTypes.bool,
+  size: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+}
+
+ZapQRCode.defaultProps = {
+  size: QRCODE_SIZE_MEDIUM,
+  color: 'black',
+  bg: 'white',
+  border: 1,
+}
+
+export default ZapQRCode
