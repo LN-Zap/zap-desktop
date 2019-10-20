@@ -33,6 +33,10 @@ export const PAYMENT_SUCCESSFUL = 'PAYMENT_SUCCESSFUL'
 export const PAYMENT_FAILED = 'PAYMENT_FAILED'
 export const DECREASE_PAYMENT_RETRIES = 'DECREASE_PAYMENT_RETRIES'
 
+const PAYMENT_STATUS_SENDING = 'sending'
+const PAYMENT_STATUS_SUCCESSFUL = 'successful'
+const PAYMENT_STATUS_FAILED = 'failed'
+
 // ------------------------------------
 // Helpers
 // ------------------------------------
@@ -105,8 +109,14 @@ const getLastSendingEntry = (state, paymentRequest) =>
  */
 const handleDecreaseRetries = (state, { paymentRequest }) => {
   const paymentsSending = state.paymentsSending.map(payment => {
-    if (payment.paymentRequest === paymentRequest) {
-      return { ...payment, remainingRetries: payment.remainingRetries - 1 }
+    if (payment.paymentRequest === paymentRequest && payment.status === PAYMENT_STATUS_SENDING) {
+      return {
+        ...payment,
+        remainingRetries: payment.remainingRetries - 1,
+        feeLimit: payment.feeLimit
+          ? Math.ceil(payment.feeLimit * config.invoices.feeIncrementExponent)
+          : payment.feeLimit,
+      }
     }
     return payment
   })
@@ -162,7 +172,7 @@ export const sendPayment = data => dispatch => {
 
   const payment = {
     ...data,
-    status: 'sending',
+    status: PAYMENT_STATUS_SENDING,
     isSending: true,
     creation_date: Math.round(new Date() / 1000),
     payment_hash: paymentHashTag.data,
@@ -308,6 +318,7 @@ export const paymentFailed = ({ payment_request, error }) => async (dispatch, ge
   const paymentSending = getLastSendingEntry(state, payment_request)
   // errors that trigger retry mechanism
   const RETRIABLE_ERRORS = [
+    'payment attempt not completed before timeout', // ErrPaymentAttemptTimeout
     'unable to find a path to destination', // ErrNoPathFound
     'target not found', // ErrTargetNotInNetwork
   ]
@@ -365,7 +376,7 @@ const ACTION_HANDLERS = {
         }
         return {
           ...item,
-          status: 'successful',
+          status: PAYMENT_STATUS_SUCCESSFUL,
         }
       }),
     }
@@ -379,7 +390,7 @@ const ACTION_HANDLERS = {
         }
         return {
           ...item,
-          status: 'failed',
+          status: PAYMENT_STATUS_FAILED,
           error,
         }
       }),

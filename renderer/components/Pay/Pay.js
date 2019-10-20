@@ -6,7 +6,14 @@ import get from 'lodash/get'
 import { Box, Flex } from 'rebass'
 import { animated, Keyframes, Transition } from 'react-spring/renderprops.cjs'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
-import { decodePayReq, getMinFee, getMaxFee, isOnchain, isLn } from '@zap/utils/crypto'
+import {
+  decodePayReq,
+  getMinFee,
+  getMaxFee,
+  getMaxFeeInclusive,
+  isOnchain,
+  isLn,
+} from '@zap/utils/crypto'
 import { convert } from '@zap/utils/btc'
 import {
   Bar,
@@ -559,10 +566,10 @@ class Pay extends React.Component {
 
     const formState = this.formApi.getState()
     const { speed, payReq, isCoinSweep } = formState.values
-    let minFee, maxFee
+    let minFee, maxFeeInclusive
     if (routes.length) {
       minFee = getMinFee(routes)
-      maxFee = getMaxFee(routes)
+      maxFeeInclusive = getMaxFeeInclusive(routes)
     }
     const render = () => {
       // convert entered amount to satoshis
@@ -584,7 +591,7 @@ class Pay extends React.Component {
         return (
           <PaySummaryLightning
             amount={amount}
-            maxFee={maxFee}
+            maxFee={maxFeeInclusive}
             minFee={minFee}
             mt={-3}
             payReq={payReq}

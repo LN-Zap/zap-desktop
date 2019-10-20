@@ -102,7 +102,8 @@ module.exports = {
   invoices: {
     expire: 3600,
     baseRetryDelay: 1000,
-    retryCount: 3, // Number of retries for pay invoice failure
+    retryCount: 2, // Number of retries for pay invoice failure
+    feeIncrementExponent: 1.1, // Exponent applied to fee limit on payment retry attempts
   },
 
   autopay: {
