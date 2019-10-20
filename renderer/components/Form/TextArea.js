@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { asField } from 'informed'
-import { withTheme } from 'styled-components'
 import { Textarea as BaseTextArea } from '@rebass/forms/styled-components'
+import { ThemeContext } from 'styled-components'
 import { extractSpaceProps } from 'themes/util'
 import { withInputValidation } from 'hocs'
 import { useAutoFocus } from 'hooks'
@@ -29,7 +29,6 @@ const TextArea = props => {
     onBlur,
     onFocus,
     sx,
-    theme,
     tooltip,
     variant,
     willAutoFocus,
@@ -37,6 +36,7 @@ const TextArea = props => {
   } = props
   const [hasFocus, setFocus] = useState(false)
   const [spaceProps, otherProps] = extractSpaceProps(rest)
+  const theme = useContext(ThemeContext)
   const { setValue, setTouched } = fieldApi
   const { value, maskedValue, error, asyncError } = fieldState
 
@@ -94,9 +94,9 @@ const TextArea = props => {
         readOnly={isReadOnly}
         required={isRequired}
         sx={{
-          borderColor: mapDefaultBorderColor(props),
+          borderColor: mapDefaultBorderColor(props, theme),
           '&:not([read-only]):not([disabled]):focus': {
-            borderColor: mapFocusBorderColor(props),
+            borderColor: mapFocusBorderColor(props, theme),
           },
           ...sx,
         }}
@@ -128,7 +128,6 @@ TextArea.propTypes = {
   onChange: PropTypes.func,
   onFocus: PropTypes.func,
   sx: PropTypes.object,
-  theme: PropTypes.object.isRequired,
   tooltip: PropTypes.string,
   variant: PropTypes.string,
   willAutoFocus: PropTypes.bool,
@@ -140,7 +139,7 @@ TextArea.defaultProps = {
   initialValue: '',
 }
 
-const BasicTextArea = withTheme(TextArea)
+const BasicTextArea = TextArea
 
 export { BasicTextArea }
 
