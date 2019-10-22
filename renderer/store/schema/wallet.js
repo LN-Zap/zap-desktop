@@ -88,16 +88,23 @@ export const hooks = {
    * @param  {object} modifications [description]
    * @param  {string} primKey       [description]
    * @param  {object} obj           [description]
+   * @returns {object}
    */
   updating(modifications, primKey, obj) {
-    Object.keys({ ...obj, ...modifications }).reduce((acc, cur) => {
+    return Object.keys({ ...obj, ...modifications }).reduce((acc, cur) => {
       const isValidKey = Object.keys(Wallet.SCHEMA).includes(cur)
-      const isInMods = Object.keys(modifications).includes(cur)
-      const newVal = isInMods ? modifications[cur] : obj[cur]
-      return {
-        ...acc,
-        [cur]: isValidKey ? newVal : undefined,
+
+      if (isValidKey) {
+        const isInMods = Object.keys(modifications).includes(cur)
+        const newVal = isInMods ? modifications[cur] : obj[cur]
+        acc[cur] = newVal
+      } else {
+        // if key is not in the whitelist set it to undefined
+        // so it's later merged with the db object
+        acc[cur] = undefined
       }
+
+      return acc
     }, {})
   },
 
