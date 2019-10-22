@@ -35,6 +35,8 @@ export const QUERY_ROUTES_FAILURE = 'QUERY_ROUTES_FAILURE'
 
 export const SET_REDIRECT_PAY_REQ = 'SET_REDIRECT_PAY_REQ'
 
+export const SET_LNURL = 'SET_LNURL'
+
 // ------------------------------------
 // IPC
 // ------------------------------------
@@ -60,6 +62,15 @@ export const lightningPaymentUri = (event, { address }) => dispatch => {
 export const bitcoinPaymentUri = (event, { address, options: { amount } }) => dispatch => {
   dispatch(setRedirectPayReq({ address, amount }))
 }
+
+/**
+ * lnurlRequest - Initiate lnurl request flow.
+ *
+ * @param  {event} event Event
+ * @param  {string} lnurl lnurl
+ * @returns {Function} Thunk
+ */
+export const lnurlRequest = (event, lnurl) => dispatch => {}
 
 // ------------------------------------
 // Actions
