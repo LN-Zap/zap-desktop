@@ -36,6 +36,10 @@ export const PAYMENT_SUCCESSFUL = 'PAYMENT_SUCCESSFUL'
 export const PAYMENT_FAILED = 'PAYMENT_FAILED'
 export const DECREASE_PAYMENT_RETRIES = 'DECREASE_PAYMENT_RETRIES'
 
+const PAYMENT_STATUS_SENDING = 'sending'
+const PAYMENT_STATUS_SUCCESSFUL = 'successful'
+const PAYMENT_STATUS_FAILED = 'failed'
+
 // ------------------------------------
 // Helpers
 // ------------------------------------
@@ -131,7 +135,7 @@ export const sendPayment = data => dispatch => {
 
   const payment = {
     ...data,
-    status: 'sending',
+    status: PAYMENT_STATUS_SENDING,
     isSending: true,
     creation_date: Math.round(new Date() / 1000),
     payment_hash: paymentHashTag.data,
@@ -288,6 +292,7 @@ export const paymentFailed = ({ payment_request, error }) => async (dispatch, ge
   const paymentSending = getLastSendingEntry(state, payment_request)
   // errors that trigger retry mechanism
   const RETRIABLE_ERRORS = [
+    'payment attempt not completed before timeout', // ErrPaymentAttemptTimeout
     'unable to find a path to destination', // ErrNoPathFound
     'target not found', // ErrTargetNotInNetwork
   ]
@@ -337,23 +342,28 @@ const ACTION_HANDLERS = {
 
   [DECREASE_PAYMENT_RETRIES]: (state, { paymentRequest }) => {
     const { paymentsSending } = state
-    const item = paymentsSending.find(item => item.paymentRequest === paymentRequest)
+    const item = paymentsSending.find(
+      i => i.paymentRequest === paymentRequest && i.status === PAYMENT_STATUS_SENDING
+    )
     if (item) {
       item.remainingRetries -= 1
+      if (item.feeLimit) {
+        item.feeLimit = Math.ceil(item.feeLimit * config.invoices.feeIncrementExponent)
+      }
     }
   },
   [PAYMENT_SUCCESSFUL]: (state, { paymentRequest }) => {
     const { paymentsSending } = state
-    const item = paymentsSending.find(item => item.paymentRequest === paymentRequest)
+    const item = paymentsSending.find(i => i.paymentRequest === paymentRequest)
     if (item) {
-      item.status = 'successful'
+      item.status = PAYMENT_STATUS_SUCCESSFUL
     }
   },
   [PAYMENT_FAILED]: (state, { paymentRequest, error }) => {
     const { paymentsSending } = state
-    const item = paymentsSending.find(item => item.paymentRequest === paymentRequest)
+    const item = paymentsSending.find(i => i.paymentRequest === paymentRequest)
     if (item) {
-      item.status = 'failed'
+      item.status = PAYMENT_STATUS_FAILED
       item.error = error
     }
   },

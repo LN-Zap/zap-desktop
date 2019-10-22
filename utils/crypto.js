@@ -1,4 +1,6 @@
 import get from 'lodash/get'
+import config from 'config'
+import range from 'lodash/range'
 import { address } from 'bitcoinjs-lib'
 import lightningRequestReq from 'bolt11'
 import coininfo from 'coininfo'
@@ -192,9 +194,9 @@ export const getNodeAlias = (pubkey, nodes = []) => {
 }
 
 /**
- * getMinFee - Given a list of routest, find the minimum fee.
+ * getMinFee - Given a list of routes, find the minimum fee.
  *
- * @param {*} routes List of routes
+ * @param {Array} routes List of routes
  * @returns {number} minimum fee rounded up to the nearest satoshi
  */
 export const getMinFee = (routes = []) => {
@@ -208,9 +210,9 @@ export const getMinFee = (routes = []) => {
 }
 
 /**
- * getMaxFee - Given a list of routest, find the maximum fee.
+ * getMaxFee - Given a list of routes, find the maximum fee.
  *
- * @param {*} routes List of routes
+ * @param {Array} routes List of routes
  * @returns {number} maximum fee
  */
 export const getMaxFee = routes => {
@@ -224,9 +226,28 @@ export const getMaxFee = routes => {
 }
 
 /**
+ * getMaxFee - Given a list of routes, find the maximum fee factoring in all possible payment retry attempts.
+ *
+ * @param {Array} routes List of routes
+ * @returns {number} maximum fee
+ */
+export const getMaxFeeInclusive = routes => {
+  if (!routes || !routes.length) {
+    return null
+  }
+
+  const {
+    invoices: { retryCount, feeIncrementExponent },
+  } = config
+
+  const fee = getMaxFee(routes)
+  return range(retryCount).reduce(max => Math.ceil(max * feeIncrementExponent), fee)
+}
+
+/**
  * getFeeRange - Given a list of routest, find the maximum and maximum fee.
  *
- * @param {*} routes List of routes
+ * @param {Array} routes List of routes
  * @returns {{min:number, max:number}} object with keys `min` and `max`
  */
 export const getFeeRange = (routes = []) => ({

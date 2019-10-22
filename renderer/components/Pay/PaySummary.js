@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { animated, Transition } from 'react-spring/renderprops.cjs'
 import PaySummaryLightning from 'containers/Pay/PaySummaryLightning'
 import PaySummaryOnChain from 'containers/Pay/PaySummaryOnChain'
-import { getMaxFee, getMinFee } from '@zap/utils/crypto'
+import { getMaxFeeInclusive, getMinFee } from '@zap/utils/crypto'
 import { PAY_FORM_STEPS } from './constants'
 import { getFeeRate } from './utils'
 
@@ -41,16 +41,16 @@ const PaySummary = props => {
 
   const { routes } = props
   let minFee = 0
-  let maxFee = 0
+  let maxFeeInclusive = 0
   if (routes.length) {
     minFee = getMinFee(routes)
-    maxFee = getMaxFee(routes)
+    maxFeeInclusive = getMaxFeeInclusive(routes)
   }
 
   return (
     <PaySummaryLightning
       amount={amountInSats}
-      maxFee={maxFee}
+      maxFee={maxFeeInclusive}
       minFee={minFee}
       mt={-3}
       payReq={payReq}
