@@ -4183,7 +4183,18 @@ babel-plugin-react-intl-auto@3.0.0:
     "@babel/types" "^7.5.5"
     murmurhash3js "^3.0.1"
 
-babel-plugin-react-intl@4.1.20, babel-plugin-react-intl@^4.1.16:
+babel-plugin-react-intl@4.1.21:
+  version "4.1.21"
+  resolved "https://registry.yarnpkg.com/babel-plugin-react-intl/-/babel-plugin-react-intl-4.1.21.tgz#2670e958f8c477931ce0b36faf187af0e14a4f0f"
+  integrity sha512-lcMnHogFGMWNJHjOAEKsfxGVRcW8D858jjipbETACH8oFUwK1IqVf8iwk+zqC2WKamrCxbGe2JZ9XiqEd4GYHQ==
+  dependencies:
+    "@babel/core" "^7.6.2"
+    "@babel/helper-plugin-utils" "^7.0.0"
+    "@types/babel__core" "^7.1.2"
+    fs-extra "^8.0.1"
+    intl-messageformat-parser "^3.2.2"
+
+babel-plugin-react-intl@^4.1.16:
   version "4.1.20"
   resolved "https://registry.yarnpkg.com/babel-plugin-react-intl/-/babel-plugin-react-intl-4.1.20.tgz#8790659d0ea216cc48d76004b1713da383bc266a"
   integrity sha512-IsHp08rkQ0VX3t/Px/tvOm1izuxf9v+kFwjPSdVKZbo/uJ/vXGNJ2ebEXxYyX0dNYeyDkSFUjvBgJxmvKASjow==
@@ -10082,6 +10093,11 @@ intl-messageformat-parser@^3.2.0, intl-messageformat-parser@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/intl-messageformat-parser/-/intl-messageformat-parser-3.2.1.tgz#598795221267cbbd206f1497c42ffced9b5565b6"
   integrity sha512-ajCL1k1ha0mUrutlBTo5vcTzyfdH2OoghUu8SmR7tJ1D0uifZh9Hqd3ZC2SYVv/GTfTdW//rgKonMgAhZWmwZg==
+
+intl-messageformat-parser@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/intl-messageformat-parser/-/intl-messageformat-parser-3.2.2.tgz#28cacc80a53823a28b5ecaf16b3b35d0a1d5f9d2"
+  integrity sha512-ax9639ST77YimAddTH/0Q9qhXuYS8ZVsoqOZinqnS90MbXaNuIq+KIdifaIndwI+lMEv3o+qNaGycXYvlh17rw==
 
 intl-messageformat@^7.3.1:
   version "7.3.2"
