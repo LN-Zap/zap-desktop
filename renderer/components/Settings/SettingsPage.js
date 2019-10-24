@@ -5,6 +5,7 @@ import { useFormState, useFormApi } from 'informed'
 import styled from 'styled-components'
 import { Box, Flex } from 'rebass/styled-components'
 import merge from 'lodash/merge'
+import config from 'config'
 import difference from '@zap/utils/difference'
 import { ActionBar, Button, Heading, MainContent, Menu, Panel, Sidebar } from 'components/UI'
 import ZapLogo from 'components/Icon/ZapLogo'
@@ -16,6 +17,8 @@ import ChangePasswordDialog from 'containers/Settings/ChangePasswordDialog'
 import PasswordPromptDialog from 'containers/Settings/PasswordPromptDialog'
 import PasswordSetDialog from 'containers/Settings/PasswordSetDialog'
 import messages from './messages'
+
+const isSecurityPaneEnabled = window.Zap.getPlatform() !== 'win32' || config.isWinPlatformSupported
 
 const SettingsMenu = ({ group, setGroup, isLoggedIn, ...rest }) => {
   // Items accessible to unauthenticated users.
@@ -34,15 +37,17 @@ const SettingsMenu = ({ group, setGroup, isLoggedIn, ...rest }) => {
       title: <FormattedMessage {...messages.fieldgroup_wallet} />,
       onClick: () => setGroup('wallet'),
     },
-    {
-      id: 'security',
-      title: <FormattedMessage {...messages.fieldgroup_security} />,
-      onClick: () => setGroup('security'),
-    },
   ]
 
   let items = [...anonItems]
   if (isLoggedIn) {
+    if (isSecurityPaneEnabled) {
+      authItems.push({
+        id: 'security',
+        title: <FormattedMessage {...messages.fieldgroup_security} />,
+        onClick: () => setGroup('security'),
+      })
+    }
     items = items.concat(authItems)
   }
 
@@ -118,7 +123,7 @@ const SettingsPage = ({
   const fieldgroups = {
     general: SettingsFieldsGeneral,
     wallet: SettingsFieldsWallet,
-    security: SettingsFieldsSecurity,
+    security: isSecurityPaneEnabled && SettingsFieldsSecurity,
   }
 
   const FieldGroup = fieldgroups[group]
