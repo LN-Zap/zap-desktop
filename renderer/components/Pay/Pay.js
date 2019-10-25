@@ -738,12 +738,12 @@ class Pay extends React.Component {
                           <Text fontSize="xs" textAlign="center">
                             <CryptoValue value={walletBalanceConfirmed} />
                             {` `}
-                            {cryptoUnitName} (onchain),
+                            {cryptoUnitName} <FormattedMessage {...messages.onchain_label} />
                           </Text>
                           <Text fontSize="xs" textAlign="center">
                             <CryptoValue value={channelBalance} />
                             {` `}
-                            {cryptoUnitName} (in channels)
+                            {cryptoUnitName} <FormattedMessage {...messages.in_channels_label} />
                           </Text>
                         </React.Fragment>
                       )}
