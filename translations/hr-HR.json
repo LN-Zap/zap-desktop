@@ -296,6 +296,7 @@
   "components.Onboarding.Steps.connection_details_custom_title": "Detalji veze",
   "components.Onboarding.Steps.connection_details_tab_custom_paths": "Prilagođeno",
   "components.Onboarding.Steps.connection_details_tab_lndconnect": "String veze",
+  "components.Onboarding.Steps.connection_options_separator": "",
   "components.Onboarding.Steps.connection_string_invalid": "Nevaljana instrukcija spajanja",
   "components.Onboarding.Steps.connection_string_label": "String veze",
   "components.Onboarding.Steps.connection_string_placeholder": "BTCPay Server string veze",

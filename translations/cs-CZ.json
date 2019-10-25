@@ -296,6 +296,7 @@
   "components.Onboarding.Steps.connection_details_custom_title": "Podrobnosti o připojení",
   "components.Onboarding.Steps.connection_details_tab_custom_paths": "Vlastní",
   "components.Onboarding.Steps.connection_details_tab_lndconnect": "Řetězec připojení",
+  "components.Onboarding.Steps.connection_options_separator": "",
   "components.Onboarding.Steps.connection_string_invalid": "Neplatný řetězec připojení",
   "components.Onboarding.Steps.connection_string_label": "Řetězec připojení",
   "components.Onboarding.Steps.connection_string_placeholder": "BTCPay Server řetězec připojení",

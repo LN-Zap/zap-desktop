@@ -296,6 +296,7 @@
   "components.Onboarding.Steps.connection_details_custom_title": "",
   "components.Onboarding.Steps.connection_details_tab_custom_paths": "自定义",
   "components.Onboarding.Steps.connection_details_tab_lndconnect": "",
+  "components.Onboarding.Steps.connection_options_separator": "",
   "components.Onboarding.Steps.connection_string_invalid": "",
   "components.Onboarding.Steps.connection_string_label": "",
   "components.Onboarding.Steps.connection_string_placeholder": "",

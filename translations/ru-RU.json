@@ -296,6 +296,7 @@
   "components.Onboarding.Steps.connection_details_custom_title": "",
   "components.Onboarding.Steps.connection_details_tab_custom_paths": "Пользовательские",
   "components.Onboarding.Steps.connection_details_tab_lndconnect": "Строка подключения",
+  "components.Onboarding.Steps.connection_options_separator": "",
   "components.Onboarding.Steps.connection_string_invalid": "Неверная строка подключения",
   "components.Onboarding.Steps.connection_string_label": "Строка подключения",
   "components.Onboarding.Steps.connection_string_placeholder": "",

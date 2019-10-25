@@ -296,6 +296,7 @@
   "components.Onboarding.Steps.connection_details_custom_title": "Détails de la connexion",
   "components.Onboarding.Steps.connection_details_tab_custom_paths": "Personnalisé",
   "components.Onboarding.Steps.connection_details_tab_lndconnect": "Chaîne de connexion",
+  "components.Onboarding.Steps.connection_options_separator": "",
   "components.Onboarding.Steps.connection_string_invalid": "Chaîne de connexion invalide",
   "components.Onboarding.Steps.connection_string_label": "Chaîne de connexion",
   "components.Onboarding.Steps.connection_string_placeholder": "Chaîne de connexion BTCPay Server",

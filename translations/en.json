@@ -296,6 +296,7 @@
   "components.Onboarding.Steps.connection_details_custom_title": "Connection details",
   "components.Onboarding.Steps.connection_details_tab_custom_paths": "Files",
   "components.Onboarding.Steps.connection_details_tab_lndconnect": "Connection String",
+  "components.Onboarding.Steps.connection_options_separator": "- or -",
   "components.Onboarding.Steps.connection_string_invalid": "Invalid Connection String",
   "components.Onboarding.Steps.connection_string_label": "Connection String",
   "components.Onboarding.Steps.connection_string_placeholder": "BTCPay Server Connection String",

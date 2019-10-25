@@ -146,7 +146,9 @@ class ConnectionDetailsString extends React.Component {
                     <Box mb={2}>
                       <FormattedMessage {...messages.connection_uri_lndconnect_description} />
                     </Box>
-                    <Box mb={2}>- or -</Box>
+                    <Box mb={2}>
+                      <FormattedMessage {...messages.connection_options_separator} />
+                    </Box>
                     <Box>
                       <FormattedMessage {...messages.connection_uri_btcpay_description} />
                     </Box>

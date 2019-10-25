@@ -296,6 +296,7 @@
   "components.Onboarding.Steps.connection_details_custom_title": "Verbindungsdetails",
   "components.Onboarding.Steps.connection_details_tab_custom_paths": "Benutzerdefiniert",
   "components.Onboarding.Steps.connection_details_tab_lndconnect": "Zeichenfolge der Verbindung",
+  "components.Onboarding.Steps.connection_options_separator": "",
   "components.Onboarding.Steps.connection_string_invalid": "Ungültiger Verbindungsstring",
   "components.Onboarding.Steps.connection_string_label": "Zeichenfolge der Verbindung",
   "components.Onboarding.Steps.connection_string_placeholder": "Verbindungszeichenfolge des BTCPay Server",
