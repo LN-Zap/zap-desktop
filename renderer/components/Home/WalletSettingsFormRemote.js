@@ -123,11 +123,13 @@ const WalletSettingsFormRemote = ({
 
         <DataRow
           left={
-            <RowLabel
-              descMessage={messages.wallet_settings_name_description}
-              htmlFor="name"
-              nameMessage={messages.wallet_settings_name_label}
-            />
+            <Box mr={2}>
+              <RowLabel
+                descMessage={messages.wallet_settings_name_description}
+                htmlFor="name"
+                nameMessage={messages.wallet_settings_name_label}
+              />
+            </Box>
           }
           py={2}
           right={

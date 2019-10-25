@@ -56,14 +56,14 @@ class WalletSettingsFormLocal extends React.Component {
 
           <DataRow
             left={
-              <>
+              <Box mr={2}>
                 <Label htmlFor="name" mb={2}>
                   <FormattedMessage {...messages.wallet_settings_name_label} />
                 </Label>
                 <Text color="gray" fontWeight="light">
                   <FormattedMessage {...messages.wallet_settings_name_description} />
                 </Text>
-              </>
+              </Box>
             }
             py={2}
             right={
@@ -85,14 +85,14 @@ class WalletSettingsFormLocal extends React.Component {
 
           <DataRow
             left={
-              <>
+              <Box mr={2}>
                 <Label htmlFor="alias" mb={2}>
                   <FormattedMessage {...messages.wallet_settings_alias_label} />
                 </Label>
                 <Text color="gray" fontWeight="light">
                   <FormattedMessage {...messages.wallet_settings_alias_description} />
                 </Text>
-              </>
+              </Box>
             }
             py={2}
             right={
