@@ -166,7 +166,7 @@
   "components.Channels.num_updates_description": "The total number of updates within this channel.",
   "components.Channels.num_updates_label": "Number of Updates",
   "components.Channels.offline": "offline",
-  "components.Channels.open": "open",
+  "components.Channels.open": "online",
   "components.Channels.open_channel_form_description": "To open a channel, enter the desired node's publickey@host, set the amount of BTC you'd like to commit to the channel, and submit.",
   "components.Channels.open_channel_form_next_button_text": "Next",
   "components.Channels.open_channel_form_onchain_balance": "Your current confirmed on-chain balance:",
