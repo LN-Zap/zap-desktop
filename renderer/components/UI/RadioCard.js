@@ -6,9 +6,7 @@ import Radio from 'components/UI/Radio'
 import Text from 'components/UI/Text'
 import Heading from 'components/UI/Heading'
 import BaseCard from 'components/UI/Card'
-
 import BoltOnboarding from 'components/Icon/BoltOnboarding'
-
 import { animated, Transition } from 'react-spring/renderprops'
 
 const Card = styled(BaseCard)`
@@ -58,9 +56,10 @@ const RadioCard = ({ fieldApi, icons, value, label, isDisabled, description, ...
 
       <Radio isDisabled={isDisabled} px={0} value={value} width={16} />
 
-      <Heading.h1 color={isDisabled ? 'gray' : 'primaryText'} mb={2} mt={3}>
+      <Heading.h1 color={isDisabled ? 'gray' : 'primaryText'} mb={2} mt={3} textAlign="center">
         {label}
       </Heading.h1>
+
       {description && (
         <Text color="gray" textAlign="center">
           {description}

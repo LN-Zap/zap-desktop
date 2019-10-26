@@ -20,7 +20,14 @@ const messageMapper = key => {
 
 const ActivityFilter = ({ changeFilter, filter, filters, ...rest }) => (
   <Flex alignItems="baseline" {...rest}>
-    <Label fontWeight="light" htmlFor="channel-filter" mr={2}>
+    <Label
+      css={{
+        whiteSpace: 'nowrap',
+      }}
+      fontWeight="light"
+      htmlFor="channel-filter"
+      mr={2}
+    >
       <FormattedMessage {...messages.actiity_filter_label} />
     </Label>
     <Dropdown
