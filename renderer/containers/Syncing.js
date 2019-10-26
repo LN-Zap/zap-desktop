@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import styled, { withTheme } from 'styled-components'
+import styled from 'styled-components'
 import { infoSelectors } from 'reducers/info'
 import { addressSelectors } from 'reducers/address'
 import { neutrinoSelectors } from 'reducers/neutrino'
@@ -35,7 +35,7 @@ const mapDispatchToProps = {
 const SyncingContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(withTheme(Syncing))
+)(Syncing)
 
 const ModalOverlay = styled.div`
   ${ModalOverlayStyles}

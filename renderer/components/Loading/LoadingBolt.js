@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import styled, { keyframes, withTheme } from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import { themeGet } from '@styled-system/theme-get'
 import { Box, Flex } from 'rebass/styled-components'
 import CloseButton from 'components/UI/CloseButton'
@@ -41,43 +41,39 @@ const FullHeightContent = styled(Flex)`
   height: 100%;
 `
 
-class LoadingBolt extends React.PureComponent {
-  static propTypes = {
-    hasClose: PropTypes.bool,
-    isLoading: PropTypes.bool.isRequired,
-    message: PropTypes.object,
-    onClose: PropTypes.func,
-  }
-
-  static defaultProps = {
-    message: messages.loading,
-  }
-
-  render() {
-    const { isLoading, message, onClose, hasClose } = this.props
-
-    return (
-      <Transition isLoading={isLoading}>
-        <FullPageGradient color="primaryText">
-          <FullHeightContent
-            alignItems="center"
-            flexDirection="column"
-            justifyContent="center"
-            pt={3}
-            px={3}
-          >
-            <CloudLightning height="140px" width="140px" />
-            <Heading.h2 mt={4}>
-              <FormattedMessage {...message} />
-            </Heading.h2>
-          </FullHeightContent>
-          {hasClose && (
-            <CloseButton onClick={onClose} sx={{ position: 'absolute', right: 16, top: 16 }} />
-          )}
-        </FullPageGradient>
-      </Transition>
-    )
-  }
+const LoadingBolt = ({ isLoading, message, onClose, hasClose }) => {
+  return (
+    <Transition isLoading={isLoading}>
+      <FullPageGradient color="primaryText">
+        <FullHeightContent
+          alignItems="center"
+          flexDirection="column"
+          justifyContent="center"
+          pt={3}
+          px={3}
+        >
+          <CloudLightning height="140px" width="140px" />
+          <Heading.h2 mt={4}>
+            <FormattedMessage {...message} />
+          </Heading.h2>
+        </FullHeightContent>
+        {hasClose && (
+          <CloseButton onClick={onClose} sx={{ position: 'absolute', right: 16, top: 16 }} />
+        )}
+      </FullPageGradient>
+    </Transition>
+  )
 }
 
-export default withTheme(LoadingBolt)
+LoadingBolt.propTypes = {
+  hasClose: PropTypes.bool,
+  isLoading: PropTypes.bool.isRequired,
+  message: PropTypes.object,
+  onClose: PropTypes.func,
+}
+
+LoadingBolt.defaultProps = {
+  message: messages.loading,
+}
+
+export default LoadingBolt

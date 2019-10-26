@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import { Card, Flex, Box } from 'rebass/styled-components'
 import { themeGet } from '@styled-system/theme-get'
-import styled, { withTheme } from 'styled-components'
+import styled, { ThemeContext } from 'styled-components'
 import { tint } from 'polished'
 
 const Gradient = styled(Card)`
@@ -14,14 +14,17 @@ const Gradient = styled(Card)`
 `
 
 const AutopayLimitBadge = ({ limit, limitCurrency, ...rest }) => {
+  const theme = useContext(ThemeContext)
+
   return (
     <Gradient
       height={27}
       px={2}
       sx={{
-        boxShadow: `0 0 24px 0 ${themeGet('colors.primaryAccent')(rest)}`,
+        boxShadow: `0 0 24px 0 ${themeGet('colors.primaryAccent')({ theme })}`,
         borderRadius: 'l',
       }}
+      theme={theme}
       {...rest}
     >
       <Flex alignItems="center" height="100%" justifyContent="center">
@@ -38,4 +41,4 @@ AutopayLimitBadge.propTypes = {
   limitCurrency: PropTypes.string.isRequired,
 }
 
-export default withTheme(AutopayLimitBadge)
+export default AutopayLimitBadge

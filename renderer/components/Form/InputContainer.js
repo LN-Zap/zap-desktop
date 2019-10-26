@@ -1,18 +1,28 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
-import { withTheme } from 'styled-components'
+import { ThemeContext } from 'styled-components'
 import { themeGet } from '@styled-system/theme-get'
 import { Flex } from 'rebass/styled-components'
 
-const InputContainer = withTheme(({ isDisabled, isReadOnly, ...rest }) => {
+const InputContainer = ({ isDisabled, isReadOnly, ...rest }) => {
+  const theme = useContext(ThemeContext)
   const extraStyles = {}
   if (isDisabled || isReadOnly) {
-    const inputStyles = themeGet('forms.input.normal')(rest)
+    const inputStyles = themeGet('forms.input.normal')({ theme })
     isDisabled && Object.assign(extraStyles, inputStyles['&:disabled'])
     isReadOnly && Object.assign(extraStyles, inputStyles['&:read-only'])
   }
-  return <Flex alignItems="center" sx={extraStyles} variant="normal" {...rest} tx="forms.input" />
-})
+  return (
+    <Flex
+      alignItems="center"
+      sx={extraStyles}
+      variant="normal"
+      {...rest}
+      theme={theme}
+      tx="forms.input"
+    />
+  )
+}
 
 InputContainer.propTypes = {
   isDisabled: PropTypes.bool,

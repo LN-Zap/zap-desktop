@@ -1,9 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { withTheme } from 'styled-components'
+import React, { useContext } from 'react'
+import { ThemeContext } from 'styled-components'
 
 const SvgDropbox = props => {
-  const { theme } = props
+  const theme = useContext(ThemeContext)
+
   return (
     <svg height="1em" viewBox="0 0 324 63.8" width="1em" {...props}>
       <path
@@ -19,8 +19,4 @@ const SvgDropbox = props => {
   )
 }
 
-SvgDropbox.propTypes = {
-  theme: PropTypes.object.isRequired,
-}
-
-export default withTheme(SvgDropbox)
+export default SvgDropbox

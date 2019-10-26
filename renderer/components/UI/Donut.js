@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
+import { ThemeContext } from 'styled-components'
 import { themeGet } from '@styled-system/theme-get'
-import { withTheme } from 'styled-components'
 import { tint } from 'polished'
 
 const Segment = ({ color, strokeWidth, amount = 0, rotate, ...rest }) => {
@@ -31,7 +31,8 @@ Segment.propTypes = {
   strokeWidth: PropTypes.number.isRequired,
 }
 
-const Donut = withTheme(({ data, text, strokeWidth, ...rest }) => {
+const Donut = ({ data, text, strokeWidth, ...rest }) => {
+  const theme = useContext(ThemeContext)
   const initialRotation = 90
   let cumRotation = initialRotation
 
@@ -49,7 +50,7 @@ const Donut = withTheme(({ data, text, strokeWidth, ...rest }) => {
   return (
     <svg height="100%" viewBox="0 0 40 40" width="100%" {...rest}>
       {segments.map(segment => {
-        const color = themeGet(`colors.${segment.color}`)(rest)
+        const color = themeGet(`colors.${segment.color}`)({ theme })
         return (
           <React.Fragment key={segment.key}>
             <defs>
@@ -84,7 +85,7 @@ const Donut = withTheme(({ data, text, strokeWidth, ...rest }) => {
               color={
                 segment.withTint
                   ? `url(#gradient-${segment.key})`
-                  : themeGet(`colors.${segment.color}`)(rest)
+                  : themeGet(`colors.${segment.color}`)({ theme })
               }
               filter={segment.withGlow ? `url(#glow-${segment.key})` : null}
               rotate={segment.rotate}
@@ -94,14 +95,14 @@ const Donut = withTheme(({ data, text, strokeWidth, ...rest }) => {
         )
       })}
 
-      <text fill={themeGet('colors.primaryText')(rest)} transform="translate(0, 5)" y="50%">
+      <text fill={themeGet('colors.primaryText')({ theme })} transform="translate(0, 5)" y="50%">
         <tspan textAnchor="middle" x="50%">
           {text}
         </tspan>
       </text>
     </svg>
   )
-})
+}
 
 Donut.propTypes = {
   data: PropTypes.arrayOf(

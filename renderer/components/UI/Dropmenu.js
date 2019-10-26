@@ -1,7 +1,7 @@
 import React, { useRef, useState, useContext } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass/styled-components'
-import styled, { withTheme } from 'styled-components'
+import styled from 'styled-components'
 import { themeGet } from '@styled-system/theme-get'
 import {
   useOnClickOutside,
@@ -318,15 +318,13 @@ DropmenuList.propTypes = {
 }
 DropmenuList.displayName = 'DropmenuList'
 
-const DropmenuListWithTheme = withTheme(DropmenuList)
-
 const DropmenuContent = ({ menuRef, items, height }) => {
   return (
-    <DropmenuListWithTheme ref={menuRef} height={height}>
+    <DropmenuList ref={menuRef} height={height}>
       {items.map((item, index) => (
         <DropmenuListItem key={item.id || index} item={item} />
       ))}
-    </DropmenuListWithTheme>
+    </DropmenuList>
   )
 }
 
