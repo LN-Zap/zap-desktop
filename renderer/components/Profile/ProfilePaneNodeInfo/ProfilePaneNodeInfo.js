@@ -47,14 +47,14 @@ const ProfilePaneNodeInfo = ({
         <>
           <DataRow
             left={
-              <>
+              <Box mr={3}>
                 <Text fontWeight="normal" mb={2}>
                   <FormattedMessage {...messages.node_pubkey_title} />
                 </Text>
                 <Text color="gray" fontWeight="light">
                   <FormattedMessage {...messages.node_pubkey_description} />
                 </Text>
-              </>
+              </Box>
             }
             py={2}
             right={!isLocalWallet && <QRCode size="xxlarge" value={nodeUriOrPubkey} />}
