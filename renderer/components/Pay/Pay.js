@@ -736,14 +736,22 @@ class Pay extends React.Component {
                             <FormattedMessage {...messages.current_balance} />:
                           </Text>
                           <Text fontSize="xs" textAlign="center">
-                            <CryptoValue value={walletBalanceConfirmed} />
-                            {` `}
-                            {cryptoUnitName} (onchain),
+                            <FormattedMessage
+                              {...messages.onchain_balance}
+                              values={{
+                                amount: <CryptoValue value={walletBalanceConfirmed} />,
+                                cryptoUnitName,
+                              }}
+                            />
                           </Text>
                           <Text fontSize="xs" textAlign="center">
-                            <CryptoValue value={channelBalance} />
-                            {` `}
-                            {cryptoUnitName} (in channels)
+                            <FormattedMessage
+                              {...messages.lightning_balance}
+                              values={{
+                                amount: <CryptoValue value={channelBalance} />,
+                                cryptoUnitName,
+                              }}
+                            />
                           </Text>
                         </React.Fragment>
                       )}

@@ -64,7 +64,7 @@ const ChannelsMenu = ({
 
   return (
     <Dropmenu items={items} justify="right" {...rest}>
-      Channels
+      <FormattedMessage {...messages.title} />
     </Dropmenu>
   )
 }
