@@ -423,7 +423,7 @@
   "components.Pay.amount": "Montant",
   "components.Pay.back": "Retour",
   "components.Pay.calculating": "calcul en cours",
-  "components.Pay.current_balance": "Votre solde confirmé actuellement",
+  "components.Pay.current_balance": "Votre solde actuel",
   "components.Pay.description": "Collez une demande de paiement Lightning ou une adresse {chain} dans le champ ci-dessous pour envoyer des {chain} ({ticker}) sur le réseau Lightning ou On-chain.",
   "components.Pay.error_not_enough_funds": "Vous ne disposez pas d'assez de fonds disponibles pour effectuer ce paiement.",
   "components.Pay.error_not_onetime_send_capacity": "Vous essayez d'envoyer plus que ce que votre capacité d'envoi de {capacity}{unit} vous permet d'envoyer d'un coup",
