@@ -279,7 +279,7 @@
     "stylelint-processor-styled-components": "1.8.0",
     "testcafe": "1.6.0",
     "testcafe-browser-provider-electron": "0.0.12",
-    "testcafe-react-selectors": "3.2.0",
+    "testcafe-react-selectors": "3.3.0",
     "url-loader": "2.2.0",
     "webpack": "4.41.2",
     "webpack-bundle-analyzer": "3.6.0",
