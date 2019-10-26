@@ -74,7 +74,7 @@ class Password extends React.Component {
 
               <Box>
                 <PasswordInput
-                  autoComplete="current-password"
+                  autoComplete="new-password"
                   field="password"
                   hasMessageSpacer
                   isRequired
@@ -87,7 +87,7 @@ class Password extends React.Component {
                   willAutoFocus
                 />
                 <PasswordInput
-                  autoComplete="current-password"
+                  autoComplete="new-password"
                   field="confirmPassword"
                   hasMessageSpacer
                   isRequired
