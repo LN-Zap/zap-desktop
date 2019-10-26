@@ -54,6 +54,15 @@ class Password extends React.Component {
       >
         {({ formState }) => {
           const willValidateInline = formState.submits > 0
+
+          const validatePassword = confirmPassword => {
+            const { password } = formState.values
+            if (password !== confirmPassword) {
+              return intl.formatMessage({ ...messages.password_error_match })
+            }
+            return undefined
+          }
+
           return (
             <>
               <Header
@@ -67,13 +76,27 @@ class Password extends React.Component {
                 <PasswordInput
                   autoComplete="current-password"
                   field="password"
+                  hasMessageSpacer
                   isRequired
                   label={<FormattedMessage {...messages.password_label} />}
+                  mb={3}
                   minLength={8}
                   placeholder={intl.formatMessage({ ...messages.password_placeholder })}
                   validateOnBlur={willValidateInline}
                   validateOnChange={willValidateInline}
                   willAutoFocus
+                />
+                <PasswordInput
+                  autoComplete="current-password"
+                  field="confirmPassword"
+                  hasMessageSpacer
+                  isRequired
+                  label={<FormattedMessage {...messages.password_confirm_label} />}
+                  minLength={8}
+                  placeholder={intl.formatMessage({ ...messages.password_confirm_placeholder })}
+                  validate={validatePassword}
+                  validateOnBlur={willValidateInline}
+                  validateOnChange={willValidateInline}
                 />
               </Box>
             </>

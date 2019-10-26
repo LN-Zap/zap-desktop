@@ -54,9 +54,10 @@ export default defineMessages({
     'WARNING: You may lose your funds. Mainnet support is experimental and has not been thoroughly tested. Use Testnet to experiment without risk.',
   next: 'Next',
   only: 'only',
-  password_confirm_placeholder: 'Confirm Password',
+  password_confirm_label: 'Confirm password',
+  password_confirm_placeholder: 'Confirm your password',
   password_error_length: 'Password must be at least {passwordMinLength} characters long',
-  password_error_match: 'Passwords do not match',
+  password_error_match: `Password don't match`,
   password_label: 'Password',
   password_placeholder: 'Enter your password',
   password_description:
