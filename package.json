@@ -298,7 +298,7 @@
     "bolt11": "https://github.com/LN-Zap/bolt11#0492874ea9ced4ab49bf0f59a62368687f147247",
     "coininfo": "https://github.com/LN-Zap/coininfo#d7ac7be9c9c4ee74dada187f7762a55887a9c6ca",
     "comlinkjs": "3.2.0",
-    "config": "3.2.3",
+    "config": "3.2.4",
     "copy-to-clipboard": "3.2.0",
     "country-data-lookup": "0.0.33",
     "debug": "4.1.1",
