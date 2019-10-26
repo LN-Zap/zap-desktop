@@ -473,7 +473,7 @@
   "components.Settings.durationUnitSeconds": "{value} {value, plural, one {seconde} other {secondes}}",
   "components.Settings.durationUnitWeeks": "{value} {value, plural, one {semaine} other {semaines}}",
   "components.Settings.durationUnitYears": "{value} {value, plural, one {année} other {années}}",
-  "components.Settings.fieldgroup_general": "Réglages généraux",
+  "components.Settings.fieldgroup_general": "Général",
   "components.Settings.fieldgroup_wallet": "Portefeuille",
   "components.Settings.invoices_expire_description": "Temps avant l'expiration de vos demandes.",
   "components.Settings.invoices_expire_label": "Expiration des demandes",
