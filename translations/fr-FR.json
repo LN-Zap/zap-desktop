@@ -571,7 +571,7 @@
   "components.Settings.durationUnitYears": "{value} {value, plural, one {année} other {années}}",
   "components.Settings.fallbackAddress_description": "Ajoute une adresse de rappel à vos demandes Lightning.",
   "components.Settings.fallbackAddress_label": "Activer le rappel vers une adresse On-chain",
-  "components.Settings.fieldgroup_general": "Réglages généraux",
+  "components.Settings.fieldgroup_general": "Général",
   "components.Settings.fieldgroup_security": "Sécurité",
   "components.Settings.fieldgroup_wallet": "Portefeuille",
   "components.Settings.invoices_expire_description": "Temps avant l'expiration de vos demandes.",
