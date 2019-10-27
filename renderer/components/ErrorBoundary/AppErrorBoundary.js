@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import createZapIssueTemplate from '@zap/utils/github'
 import { mainLog } from '@zap/utils/log'
-import AppCrashedDialog from 'components/Dialog/AppCrashed'
+import { DialogAppCrashed } from 'components/Dialog'
 
 export default class AppErrorBoundary extends Component {
   static submitErrorIssue(error) {
@@ -42,7 +42,7 @@ export default class AppErrorBoundary extends Component {
     const { children, onCloseDialog } = this.props
     if (error) {
       return (
-        <AppCrashedDialog
+        <DialogAppCrashed
           error={error}
           isOpen
           onClose={onCloseDialog}
