@@ -54,6 +54,7 @@ const WalletSettingsFormRemote = ({
                 <RowLabel
                   descMessage={messages.hostname_description}
                   htmlFor="host"
+                  mr={2}
                   nameMessage={messages.hostname_title}
                 />
               }
@@ -79,6 +80,7 @@ const WalletSettingsFormRemote = ({
                 <RowLabel
                   descMessage={messages.cert_description}
                   htmlFor="cert"
+                  mr={2}
                   nameMessage={messages.cert_title}
                 />
               }
@@ -90,6 +92,7 @@ const WalletSettingsFormRemote = ({
                 <RowLabel
                   descMessage={messages.macaroon_description}
                   htmlFor="macaroon"
+                  mr={2}
                   nameMessage={messages.macaroon_title}
                 />
               }
@@ -117,6 +120,7 @@ const WalletSettingsFormRemote = ({
             <RowLabel
               descMessage={messages.wallet_settings_name_description}
               htmlFor="name"
+              mr={2}
               nameMessage={messages.wallet_settings_name_label}
             />
           }

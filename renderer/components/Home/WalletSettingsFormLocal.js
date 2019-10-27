@@ -114,7 +114,11 @@ class WalletSettingsFormLocal extends React.Component {
           <Bar mb={4} mt={2} />
 
           <DataRow
-            left={<FieldLabel itemKey="wallet_settings_name" />}
+            left={
+              <Box mr={2}>
+                <FieldLabel itemKey="wallet_settings_name" />
+              </Box>
+            }
             py={2}
             right={
               <Input
@@ -134,7 +138,11 @@ class WalletSettingsFormLocal extends React.Component {
           />
 
           <DataRow
-            left={<FieldLabel itemKey="wallet_settings_alias" />}
+            left={
+              <Box mr={2}>
+                <FieldLabel itemKey="wallet_settings_alias" />
+              </Box>
+            }
             py={2}
             right={
               <Input
@@ -159,7 +167,11 @@ class WalletSettingsFormLocal extends React.Component {
           </Text>
           <Bar mb={4} mt={2} />
           <DataRow
-            left={<FieldLabel itemKey="neutrinoUrl" tooltip="neutrinoUrl_tooltip" />}
+            left={
+              <Box mr={2}>
+                <FieldLabel itemKey="neutrinoUrl" tooltip="neutrinoUrl_tooltip" />
+              </Box>
+            }
             right={
               <TextArea
                 field="neutrinoNodes"

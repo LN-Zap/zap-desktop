@@ -118,6 +118,7 @@ module.exports = {
 
   secureStorage: {
     namespace: IS_STABLE_VERSION ? 'ln-zap' : 'ln-zap-next',
+    isWinPlatformSupported: false,
   },
 
   // feature flags to enable/disable experimental functionality

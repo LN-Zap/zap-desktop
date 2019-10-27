@@ -30,8 +30,8 @@ export default defineMessages({
   sweep_funds: 'Send all of your funds',
   description:
     'Paste a Lightning Payment Request or a {chain} address in the field below to send {chain} ({ticker}) through the Lightning Network or make an On-Chain Transaction.',
-  on_chain: '(onchain),',
-  in_channels: '(in channels)',
   error_not_onetime_send_capacity:
     'You are trying to send more than your current one time send capacity of {capacity} {unit}',
+  onchain_balance: '{amount} {cryptoUnitName} (onchain)',
+  lightning_balance: '{amount} {cryptoUnitName} (in channels)',
 })
