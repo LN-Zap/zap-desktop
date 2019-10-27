@@ -114,7 +114,6 @@ test('provide access to basic wallet functionality', async t => {
     .expect(wallet.createChannels.modal.exists)
     .ok()
     .click(wallet.createChannels.closeButton)
-    .click(wallet.channelsForm.closeButton)
 
     // test profile
     .click(wallet.settingsMenu)

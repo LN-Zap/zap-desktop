@@ -55,10 +55,7 @@ const ChannelsMenu = ({
       id: 'create',
       title: <FormattedMessage {...messages.menu_item_channel_create_title} />,
       description: <FormattedMessage {...messages.menu_item_channel_create_description} />,
-      onClick: () => {
-        openModal('CHANNELS')
-        openModal('CHANNEL_CREATE')
-      },
+      onClick: () => openModal('CHANNEL_CREATE'),
     },
   ]
 
