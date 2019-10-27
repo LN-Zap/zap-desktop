@@ -17,7 +17,7 @@ export default defineMessages({
   pending_close: 'pending close',
   pending_force_close: 'pending force close',
   waiting_close: 'closing',
-  open: 'open',
+  open: 'online',
   offline: 'offline',
   fee: 'Fee',
   fee_unknown: 'unknown',
