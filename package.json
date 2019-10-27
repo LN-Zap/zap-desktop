@@ -346,7 +346,7 @@
     "source-map-support": "0.5.13",
     "split2": "3.1.1",
     "styled-components": "4.4.0",
-    "styled-reset": "4.0.2",
+    "styled-reset": "4.0.3",
     "tildify": "2.0.0",
     "untildify": "4.0.0",
     "validator": "11.1.0",
