@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import styled, { ThemeContext } from 'styled-components'
+import { themeGet } from '@styled-system/theme-get'
 import { Box, Card } from 'rebass/styled-components'
 import QRCode from 'qrcode.react'
 
@@ -128,8 +129,8 @@ const ZapQRCode = props => {
       </CropWrapper>
       <CodeWrapper isObfuscated={isObfuscated}>
         <Code
-          bgColor={(theme && theme.colors[bg]) || bg}
-          fgColor={(theme && theme.colors[color]) || color}
+          bgColor={themeGet(`colors.${bg}`, bg)({ theme })}
+          fgColor={themeGet(`colors.${color}`, color)({ theme })}
           level="L"
           renderAs="svg"
           size={size}

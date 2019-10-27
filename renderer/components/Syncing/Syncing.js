@@ -1,7 +1,6 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
-import { ThemeContext } from 'styled-components'
 import { Bar, Panel } from 'components/UI'
 import Address from './Address'
 import Tutorials from './Tutorials'
@@ -29,14 +28,13 @@ const Syncing = ({
   useEffect(() => {
     setIsWalletOpen(true)
   }, [setIsWalletOpen])
-  const theme = useContext(ThemeContext)
 
   if (isLightningGrpcActive && syncStatus === 'complete') {
     return <Redirect to="/app" />
   }
 
   return (
-    <Panel width={1} {...rest} theme={theme}>
+    <Panel width={1} {...rest}>
       <Panel.Header mx="auto" width={9 / 16}>
         {hasSynced ? <OldWalletHeader /> : <NewWalletHeader network={network} />}
         <Bar my={3} />

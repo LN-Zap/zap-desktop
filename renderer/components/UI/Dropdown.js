@@ -129,9 +129,9 @@ export const MenuItem = ({
 }
 
 MenuItem.propTypes = {
-  hasChildren: PropTypes.bool.isRequired,
-  hasParent: PropTypes.bool.isRequired,
-  isActive: PropTypes.bool.isRequired,
+  hasChildren: PropTypes.bool,
+  hasParent: PropTypes.bool,
+  isActive: PropTypes.bool,
   item: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
   valueField: PropTypes.string,

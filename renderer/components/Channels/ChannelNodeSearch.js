@@ -1,5 +1,5 @@
-import React, { useContext, useRef } from 'react'
-import styled, { ThemeContext } from 'styled-components'
+import React, { useRef } from 'react'
+import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import debounce from 'lodash/debounce'
 import { FormattedMessage, injectIntl } from 'react-intl'
@@ -80,10 +80,8 @@ const ChannelNodeSearch = ({
     updateContactFormSearchQueryRef.current(value)
   }
 
-  const theme = useContext(ThemeContext)
-
   return (
-    <Box {...rest} theme={theme}>
+    <Box {...rest}>
       <Box mb={3}>
         <Text textAlign="justify">
           <FormattedMessage {...messages.node_search_form_description} />

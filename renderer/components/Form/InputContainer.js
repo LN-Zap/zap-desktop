@@ -12,16 +12,7 @@ const InputContainer = ({ isDisabled, isReadOnly, ...rest }) => {
     isDisabled && Object.assign(extraStyles, inputStyles['&:disabled'])
     isReadOnly && Object.assign(extraStyles, inputStyles['&:read-only'])
   }
-  return (
-    <Flex
-      alignItems="center"
-      sx={extraStyles}
-      variant="normal"
-      {...rest}
-      theme={theme}
-      tx="forms.input"
-    />
-  )
+  return <Flex alignItems="center" sx={extraStyles} variant="normal" {...rest} tx="forms.input" />
 }
 
 InputContainer.propTypes = {
