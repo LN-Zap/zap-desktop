@@ -393,7 +393,7 @@
   "components.Onboarding.Steps.passphrase_label": "Passphrase",
   "components.Onboarding.Steps.passphrase_placeholder": "Zadejte váš šifrovací seed passphrase",
   "components.Onboarding.Steps.password_confirm_label": "Potvrdit heslo",
-  "components.Onboarding.Steps.password_confirm_placeholder": "Potvrdit heslo",
+  "components.Onboarding.Steps.password_confirm_placeholder": "Potvrďte své heslo",
   "components.Onboarding.Steps.password_description": "Při prvním vytváření peněženky byste si měli nastavit heslo. To je oddělené od vašich 24 seed slov.",
   "components.Onboarding.Steps.password_error_length": "Heslo musí být alespoň {passwordMinLength} znaků dlouhé",
   "components.Onboarding.Steps.password_error_match": "Hesla se neshodují",
