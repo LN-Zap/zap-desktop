@@ -2,7 +2,7 @@ import axios from 'axios'
 import bech32 from 'bech32'
 
 /**
- *uintToString - Converts uint array to string.
+ * uintToString - Converts uint array to string.
  *
  * @param {Array} uintArray array
  * @returns {string} converted string
@@ -13,11 +13,14 @@ function uintToString(uintArray) {
 }
 
 /**
+ * fetchWithdrawParams - Fetches withdrawal request params from the specified `lnurl`
  *
+ * @param {string} lnurl url
+ * @returns {object} request params
+ * Throws exception if target `lnurl` is not withdrawal request of params weren't successfully
+ * fetched
  */
 export async function fetchWithdrawParams(lnurl) {
-  const { words } = bech32.decode(lnurl, lnurl.length)
-  const serviceUrl = uintToString(bech32.fromWords(words))
   const {
     data: {
       // a second-level url which would accept a withdrawal Lightning invoice as query parameter
@@ -32,7 +35,7 @@ export async function fetchWithdrawParams(lnurl) {
       // action type
       tag,
     },
-  } = await axios.get(serviceUrl)
+  } = await axios.get(lnurl)
 
   if (tag === 'withdrawRequest') {
     return {
@@ -47,12 +50,39 @@ export async function fetchWithdrawParams(lnurl) {
   throw new Error('Unknown request type')
 }
 
+
 /**
+ * makeWithdrawRequest - Attempts withdrawal with the service specified by `callback`.
  *
+ * @param {object} params { callback, secret, invoice }
+ * @param {string} params.callback service callback to get from
+ * @param {string} params.secret k1 lnurl spec secret
+ * @param {string}  params.invoice LN request to pay
+ * @returns {Promise} request result
  */
 export function makeWithdrawRequest({ callback, secret, invoice }) {
   return axios.get(callback, {
-    k1: secret,
-    invoice,
+    params: {
+      k1: secret,
+      pr: invoice,
+    },
   })
+}
+
+/**
+ * parseLnUrl - Decodes specified by `url` lnurl.
+ *
+ * @param {string} url bech32 encoded lnurl without 'lightning:' protocol part
+ * @returns {string|null} decoded lnurl or null if decoding has failed
+ */
+export function parseLnUrl(url) {
+  try {
+    const { prefix, words } = bech32.decode(url, url.length)
+    if (prefix === 'lnurl') {
+      return uintToString(bech32.fromWords(words))
+    }
+    return null
+  } catch (e) {
+    return null
+  }
 }
