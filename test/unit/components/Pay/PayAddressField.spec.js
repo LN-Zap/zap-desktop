@@ -11,6 +11,7 @@ const props = {
   isLn: null,
   network: 'testnet',
   redirectPayReq: {},
+  formState: { values: {}, submits: 0 },
 }
 
 describe('component.Pay.PayAddressField', () => {

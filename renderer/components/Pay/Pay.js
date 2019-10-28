@@ -382,6 +382,7 @@ class Pay extends React.Component {
                 cryptoUnitName={cryptoUnitName}
                 currentStep={currentStep}
                 formApi={this.formApi}
+                formState={formState}
                 handlePayReqChange={this.handlePayReqChange}
                 initialAmountCrypto={initialAmountCrypto}
                 initialAmountFiat={initialAmountFiat}
