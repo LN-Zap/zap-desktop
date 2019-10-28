@@ -16,6 +16,10 @@ exports[`component.Pay.PayAddressField current step is "address" should render c
         "props": Object {
           "chain": "Bitcoin",
           "currentStep": "address",
+          "formState": Object {
+            "submits": 0,
+            "values": Object {},
+          },
           "handlePayReqChange": [Function],
           "intl": Object {},
           "isLn": null,
@@ -47,6 +51,12 @@ exports[`component.Pay.PayAddressField current step is "address" should render c
             "_element": <PayAddressField
               chain="Bitcoin"
               currentStep="address"
+              formState={
+                Object {
+                  "submits": 0,
+                  "values": Object {},
+                }
+              }
               handlePayReqChange={[Function]}
               intl={Object {}}
               isLn={null}
@@ -100,6 +110,10 @@ exports[`component.Pay.PayAddressField current step is "summary" and it is an LN
         "props": Object {
           "chain": "Bitcoin",
           "currentStep": "summary",
+          "formState": Object {
+            "submits": 0,
+            "values": Object {},
+          },
           "handlePayReqChange": [Function],
           "intl": Object {},
           "isLn": true,
@@ -131,6 +145,12 @@ exports[`component.Pay.PayAddressField current step is "summary" and it is an LN
             "_element": <PayAddressField
               chain="Bitcoin"
               currentStep="summary"
+              formState={
+                Object {
+                  "submits": 0,
+                  "values": Object {},
+                }
+              }
               handlePayReqChange={[Function]}
               intl={Object {}}
               isLn={true}
@@ -184,6 +204,10 @@ exports[`component.Pay.PayAddressField current step is "summary" and it is an on
         "props": Object {
           "chain": "Bitcoin",
           "currentStep": "summary",
+          "formState": Object {
+            "submits": 0,
+            "values": Object {},
+          },
           "handlePayReqChange": [Function],
           "intl": Object {},
           "isLn": false,
@@ -215,6 +239,12 @@ exports[`component.Pay.PayAddressField current step is "summary" and it is an on
             "_element": <PayAddressField
               chain="Bitcoin"
               currentStep="summary"
+              formState={
+                Object {
+                  "submits": 0,
+                  "values": Object {},
+                }
+              }
               handlePayReqChange={[Function]}
               intl={Object {}}
               isLn={false}

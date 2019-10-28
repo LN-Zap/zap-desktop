@@ -15,6 +15,7 @@ const PayPanelBody = props => {
     cryptoUnitName,
     currentStep,
     formApi,
+    formState,
     handlePayReqChange,
     initialAmountCrypto,
     initialAmountFiat,
@@ -45,6 +46,7 @@ const PayPanelBody = props => {
       <PayAddressField
         chain={chain}
         currentStep={currentStep}
+        formApi={formState}
         handlePayReqChange={handlePayReqChange}
         intl={intl}
         isLn={isLn}
@@ -87,6 +89,7 @@ PayPanelBody.propTypes = {
   cryptoUnitName: PropTypes.string.isRequired,
   currentStep: PropTypes.string.isRequired,
   formApi: PropTypes.object.isRequired,
+  formState: PropTypes.object.isRequired,
   handlePayReqChange: PropTypes.func.isRequired,
   initialAmountCrypto: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   initialAmountFiat: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

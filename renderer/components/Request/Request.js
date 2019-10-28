@@ -162,12 +162,16 @@ class Request extends React.Component {
 
   renderAmountFields = () => {
     const { isAnimating } = this.props
+    const { submits } = this.formApi.getState()
+    const willValidateInline = submits > 0
     return (
       <CurrencyFieldGroup
         formApi={this.formApi}
         forwardedRef={this.amountInput}
         isRequired
         mb={3}
+        validateOnBlur={willValidateInline}
+        validateOnChange={willValidateInline}
         willAutoFocus={!isAnimating}
       />
     )

@@ -24,11 +24,18 @@ class PayAddressField extends React.Component {
   static propTypes = {
     chain: PropTypes.string.isRequired,
     currentStep: PropTypes.string.isRequired,
+    formState: PropTypes.object,
     handlePayReqChange: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     isLn: PropTypes.bool,
     network: PropTypes.string.isRequired,
     redirectPayReq: PropTypes.object,
+  }
+
+  static defaultProps = {
+    formState: {
+      values: {},
+    },
   }
 
   /**
@@ -54,34 +61,44 @@ class PayAddressField extends React.Component {
   }
 
   render() {
-    const { chain, currentStep, handlePayReqChange, isLn, network, redirectPayReq } = this.props
+    const {
+      chain,
+      currentStep,
+      formState,
+      handlePayReqChange,
+      isLn,
+      network,
+      redirectPayReq,
+    } = this.props
     const addressFieldState = currentStep === PAY_FORM_STEPS.address || isLn ? 'big' : 'small'
+
+    const { payReq } = formState.values
+    const { submits } = formState
+    const willValidateInline = submits > 0 || (submits === 0 && Boolean(payReq))
 
     return (
       <Box className={currentStep === PAY_FORM_STEPS.summary ? 'element-hide' : 'element-show'}>
         <ShowHidePayReq context={this} state={addressFieldState}>
           {styles => (
-            <React.Fragment>
-              <LightningInvoiceInput
-                chain={chain}
-                css="resize: vertical;"
-                field="payReq"
-                forwardedRef={this.payReqInput}
-                initialValue={redirectPayReq && redirectPayReq.address}
-                isReadOnly={currentStep !== PAY_FORM_STEPS.address}
-                isRequired
-                label={this.getPaymentRequestLabel()}
-                minHeight={48}
-                name="payReq"
-                network={network}
-                onValueChange={handlePayReqChange}
-                style={styles}
-                validateOnBlur
-                validateOnChange
-                width={1}
-                willAutoFocus
-              />
-            </React.Fragment>
+            <LightningInvoiceInput
+              chain={chain}
+              css="resize: vertical;"
+              field="payReq"
+              forwardedRef={this.payReqInput}
+              initialValue={redirectPayReq && redirectPayReq.address}
+              isReadOnly={currentStep !== PAY_FORM_STEPS.address}
+              isRequired
+              label={this.getPaymentRequestLabel()}
+              minHeight={48}
+              name="payReq"
+              network={network}
+              onValueChange={handlePayReqChange}
+              style={styles}
+              validateOnBlur={willValidateInline}
+              validateOnChange={willValidateInline}
+              width={1}
+              willAutoFocus
+            />
           )}
         </ShowHidePayReq>
       </Box>
