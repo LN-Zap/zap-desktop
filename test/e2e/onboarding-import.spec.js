@@ -56,6 +56,7 @@ test('should import a wallet from an existing seed', async t => {
     'believe',
   ]
   const seedPassPhrase = 'lol'
+  const password = 'password'
 
   await t
     // Fill out and submit ConnectionType form.
@@ -73,8 +74,19 @@ test('should import a wallet from an existing seed', async t => {
   await t
     .click(onboarding.nextButton)
 
-    // Fill out and submit Password form.
-    .typeText(onboarding.passwordInput, 'password', { paste: true })
+    // Fill out Password form.
+    .typeText(onboarding.passwordInput, password, { paste: true })
+
+    // Verify password confirm behavior.
+    .typeText(onboarding.passwordConfirmInput, 'incorrect password', { paste: true })
+    .click(onboarding.nextButton)
+    .expect(onboarding.nextButton.hasAttribute('disabled'))
+    .ok()
+    .typeText(onboarding.passwordConfirmInput, password, { paste: true, replace: true })
+    .expect(onboarding.nextButton.hasAttribute('disabled'))
+    .notOk('ready to be submitted')
+
+    // Continue
     .click(onboarding.nextButton)
 
     // Fill out and submit Name form.

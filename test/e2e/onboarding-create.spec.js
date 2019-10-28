@@ -63,6 +63,15 @@ test('should create a new wallet', async t => {
     // Fill out Password form.
     .typeText(onboarding.passwordInput, password, { paste: true })
 
+    // Verify password confirm behavior.
+    .typeText(onboarding.passwordConfirmInput, 'incorrect password', { paste: true })
+    .click(onboarding.nextButton)
+    .expect(onboarding.nextButton.hasAttribute('disabled'))
+    .ok()
+    .typeText(onboarding.passwordConfirmInput, password, { paste: true, replace: true })
+    .expect(onboarding.nextButton.hasAttribute('disabled'))
+    .notOk('ready to be submitted')
+
     // Check if "Show/Hide password" functionality is working
     .click(onboarding.passwordInputSeePasswordButton)
 

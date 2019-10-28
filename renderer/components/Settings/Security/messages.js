@@ -14,8 +14,8 @@ export default defineMessages({
   password_change_button_text: 'Change',
   password_enable_button_text: 'Enable',
   password_disable_button_text: 'Disable',
-  password_new_password: 'New password.',
-  password_confirm_password: 'Confirm password.',
+  password_new_password: 'New password',
+  password_confirm_password: 'Confirm password',
   password: 'Password.',
-  password_old_password: 'Old password.',
+  password_old_password: 'Old password',
 })

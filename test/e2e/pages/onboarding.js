@@ -78,7 +78,13 @@ class Onboarding {
     .nth(2)
     .find('input')
 
-  passwordInput = ReactSelector('Password Input').find('input')
+  passwordInput = ReactSelector('Password Input')
+    .nth(0)
+    .find('input')
+
+  passwordConfirmInput = ReactSelector('Password Input')
+    .nth(1)
+    .find('input')
 
   passPhraseInput = ReactSelector('WalletRecover PasswordInput').find('input')
 
