@@ -21,6 +21,7 @@ window.db = db
 window.Zap = {
   openExternal: uri => window.open(uri, '_blank'),
   sha256digest,
+  getPlatform: () => null,
   splitHostname: host => {
     const { hostname = host, port } = new URL(`http://${host}`)
     return { host: hostname, port }
