@@ -46,7 +46,9 @@ const AutopayCreateSettings = ({
       left={
         <>
           <Flex justifyContent="space-between">
-            <Text fontWeight="normal">Limit</Text>
+            <Text fontWeight="normal">
+              <FormattedMessage {...messages.limit} />
+            </Text>
             <Text color="gray" fontWeight="light">
               <FormattedMessage {...messages.max_text} /> <FiatValue style="currency" value={max} />
             </Text>

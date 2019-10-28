@@ -113,4 +113,5 @@ export default defineMessages({
   remote_chan_reserve_sat_label: 'Remote channel reserve amount',
   remote_chan_reserve_sat_description:
     'The minimum satoshis the other node is required to reserve in its balance.',
+  no_search_results: 'Your search did not return any results.',
 })

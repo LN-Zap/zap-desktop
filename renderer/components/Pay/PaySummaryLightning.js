@@ -119,7 +119,6 @@ class PaySummaryLightning extends React.Component {
               <Flex alignItems="center" justifyContent="flex-end" ml="auto">
                 <Text mr={2}>
                   <FormattedMessage {...messages.searching_routes} />
-                  &hellip;
                 </Text>
                 <Spinner color="primaryAccent" />
               </Flex>
