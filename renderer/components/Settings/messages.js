@@ -53,4 +53,6 @@ export default defineMessages({
   fieldgroup_security: 'Security',
   rateProvider_label: 'Rate provider',
   rateProvider_description: 'Your preferred rate provider.',
+  lnurl_withdrawal_label: 'Require confirmation to process lnurl withdrawal links',
+  lnurl_withdrawal_description: 'Show prompt that allows you confirm or decline lnurl withdrawal.',
 })

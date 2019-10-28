@@ -34,4 +34,8 @@ export default defineMessages({
     'You are trying to send more than your current one time send capacity of {capacity} {unit}',
   onchain_balance: '{amount} {cryptoUnitName} (onchain)',
   lightning_balance: '{amount} {cryptoUnitName} (in channels)',
+  withdrawal_prompt_dialog_header: 'Confirm withdrawal',
+  withdrawal_prompt_dialog_body: 'Do you confirm withdrawal of {amount} sats from',
+  withdrawal_prompt_dialog_confirm_text: 'Confirm',
+  withdrawal_prompt_dialog_decline_text: 'Decline',
 })
