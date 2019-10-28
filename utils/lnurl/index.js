@@ -50,7 +50,6 @@ export async function fetchWithdrawParams(lnurl) {
   throw new Error('Unknown request type')
 }
 
-
 /**
  * makeWithdrawRequest - Attempts withdrawal with the service specified by `callback`.
  *
@@ -78,6 +77,7 @@ export function makeWithdrawRequest({ callback, secret, invoice }) {
 export function parseLnUrl(url) {
   try {
     const { prefix, words } = bech32.decode(url, url.length)
+
     if (prefix === 'lnurl') {
       return uintToString(bech32.fromWords(words))
     }

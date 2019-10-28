@@ -19,12 +19,14 @@ import fs from 'fs'
 import bip21 from 'bip21'
 import config from 'config'
 import { mainLog } from '@zap/utils/log'
+import { parseLnUrl } from '@zap/utils/lnurl'
 import appRootPath from '@zap/utils/appRootPath'
 import themes from '@zap/renderer/themes'
 import ZapMenuBuilder from './menuBuilder'
 import ZapController from './controller'
 import createBackupService from './walletBackup/service'
 import createStorageService from './secureStorage'
+import LnurlService from './lnurl'
 import createPDFGeneratorService from './pdfGenerator/service'
 import ZapUpdater from './updater'
 import ZapMigrator from './migrator'
@@ -49,6 +51,7 @@ let updater
 let menuBuilder
 let mainWindow
 let protocolUrl
+let lnurlService
 
 // Set up a couple of timers to track the app startup progress.
 mainLog.time('Time until app is ready')
@@ -69,14 +72,37 @@ const handleBitcoinLink = input => {
 }
 
 /**
+ * handleLnurlLink - Handler for lnurl: links.
+ *
+ * @param {string} input lnurl link
+ */
+const handleLnurlLink = input => {
+  try {
+    lnurlService.startWithdrawal(input)
+    mainWindow.show()
+  } catch (e) {
+    mainLog.warn('Unable to process lnurl uri: %s', e)
+  }
+}
+
+/**
  * handleLightningLink - Handler for lightning: links.
  *
- * @param {string} input Lightning link
+ * @param {string} fullUrl Lightning request
  */
-const handleLightningLink = input => {
-  const address = input.split(':')[1]
-  zap.sendMessage('lightningPaymentUri', { address })
-  mainWindow.show()
+const handleLightningLink = fullUrl => {
+  try {
+    const [, url] = fullUrl.split(':')
+    const lnurl = parseLnUrl(url)
+    if (lnurl) {
+      handleLnurlLink(lnurl)
+    } else {
+      zap.sendMessage('lightningPaymentUri', { address: url })
+      mainWindow.show()
+    }
+  } catch (e) {
+    mainLog.warn('Unable to process lightning uri: %s', e)
+  }
 }
 
 /**
@@ -108,11 +134,10 @@ const handleOpenUrl = (urlToOpen = '') => {
   // If we already have the mainWindow, handle the link right away.
   if (mainWindow) {
     mainLog.debug('handleOpenUrl: %s', urlToOpen)
-    const type = urlToOpen.split(':')[0]
-    const handler = protocolHandlers[type]
+    const [protocol] = urlToOpen.split(':')
+    const handler = protocolHandlers[protocol]
     handler && handler(urlToOpen)
   }
-
   // Otherwise, defer until the window content has fully loaded.
   // See mainWindow.webContents.on('did-finish-load') below.
   else {
@@ -225,6 +250,8 @@ app.on('ready', async () => {
 
   // Initialize pdf generator service.
   createPDFGeneratorService(mainWindow)
+
+  lnurlService = new LnurlService(mainWindow)
 
   /**
    * Add application event listener:

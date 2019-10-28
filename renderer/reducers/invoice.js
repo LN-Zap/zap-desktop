@@ -173,8 +173,10 @@ export const createInvoice = ({ amount, cryptoUnit, memo, isPrivate, fallbackAdd
       fallback_addr: fallbackAddress,
     })
     dispatch(createInvoiceSuccess(invoice))
+    return invoice
   } catch (error) {
     dispatch(createInvoiceFailure(error))
+    return null
   }
 }
 
