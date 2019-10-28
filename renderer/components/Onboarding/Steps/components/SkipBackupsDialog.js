@@ -52,7 +52,7 @@ const DialogWrapper = ({ intl, isOpen, isRestoreMode, onSkip, onCancel }) => {
     : messages.skip_backup_dialog_warning
 
   return (
-    <DialogOverlay alignItems="center" justifyContent="center" position="fixed">
+    <DialogOverlay alignItems="center" justifyContent="center">
       <Form onSubmit={handleSubmit}>
         <Dialog buttons={buttons} header={header} onClose={onCancel} width={640}>
           <Flex alignItems="center" flexDirection="column">

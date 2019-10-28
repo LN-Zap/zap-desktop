@@ -27,7 +27,7 @@ const ErrorDialog = ({ onClose, error, isRestoreMode, isOpen }) => {
     : messages.error_dialog_create_wallet_error_desc
 
   return (
-    <DialogOverlay alignItems="center" justifyContent="center" position="fixed">
+    <DialogOverlay alignItems="center" justifyContent="center">
       <Dialog
         buttons={
           <Button onClick={onClose} type="button" variant="danger">

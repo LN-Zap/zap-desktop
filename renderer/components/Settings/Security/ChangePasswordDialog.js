@@ -34,7 +34,7 @@ const DialogWrapper = ({ loginError, clearLoginError, onChange, onCancel }) => {
   const handleSubmit = values => onChange(values)
 
   return (
-    <DialogOverlay alignItems="center" justifyContent="center" position="fixed">
+    <DialogOverlay alignItems="center" justifyContent="center">
       <Form
         getApi={api => {
           formApiRef.current = api
