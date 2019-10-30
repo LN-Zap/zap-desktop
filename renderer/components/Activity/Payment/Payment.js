@@ -5,9 +5,13 @@ import { Box, Flex } from 'rebass/styled-components'
 import { intlShape } from '@zap/i18n'
 import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
 import { Message, Text } from 'components/UI'
+import Zap from 'components/Icon/Zap'
 import { CryptoValue, FiatValue } from 'containers/UI'
 import ErrorLink from '../ErrorLink'
 import messages from './messages'
+
+const ZapIcon = () => <Zap height="1.6em" width="1.6em" />
+
 /**
  * getDisplayNodeName - Given a payment object devise the most appropriate display name.
  *
@@ -28,41 +32,54 @@ const getDisplayNodeName = (payment, intl) => {
   return intl.formatMessage({ ...messages.unknown })
 }
 
-const Payment = ({ payment, showActivityModal, cryptoUnitName, showErrorDetailsDialog, intl }) => {
+const Payment = ({
+  activity,
+  showActivityModal,
+  cryptoUnitName,
+  showErrorDetailsDialog,
+  intl,
+  ...rest
+}) => {
   return (
     <Flex
       alignItems="center"
       justifyContent="space-between"
-      onClick={payment.isSending ? null : () => showActivityModal('PAYMENT', payment.payment_hash)}
+      onClick={
+        activity.isSending ? null : () => showActivityModal('PAYMENT', activity.payment_hash)
+      }
       py={2}
+      {...rest}
     >
+      <Text color="gray" mr={10} textAlign="center" width={24}>
+        <ZapIcon />
+      </Text>
       <Box
         className="hint--top-right"
         data-hint={intl.formatMessage({ ...messages.type })}
         width={3 / 4}
       >
-        <Text mb={1}>{getDisplayNodeName(payment, intl)}</Text>
-        {payment.isSending ? (
+        <Text mb={1}>{getDisplayNodeName(activity, intl)}</Text>
+        {activity.isSending ? (
           <>
-            {payment.status === 'sending' && (
+            {activity.status === 'sending' && (
               <Message variant="processing">
                 <FormattedMessage {...messages.status_processing} />
               </Message>
             )}
-            {payment.status === 'successful' && (
+            {activity.status === 'successful' && (
               <Message variant="success">
                 <FormattedMessage {...messages.status_success} />
               </Message>
             )}
-            {payment.status === 'failed' && (
-              <ErrorLink onClick={() => showErrorDetailsDialog({ details: payment.error })}>
+            {activity.status === 'failed' && (
+              <ErrorLink onClick={() => showErrorDetailsDialog({ details: activity.error })}>
                 <FormattedMessage {...messages.status_error} />
               </ErrorLink>
             )}
           </>
         ) : (
           <Text color="gray" fontSize="xs" fontWeight="normal">
-            <FormattedTime value={payment.creation_date * 1000} />
+            <FormattedTime value={activity.creation_date * 1000} />
           </Text>
         )}
       </Box>
@@ -72,18 +89,18 @@ const Payment = ({ payment, showActivityModal, cryptoUnitName, showErrorDetailsD
         data-hint={intl.formatMessage({ ...messages.amount })}
         width={1 / 4}
       >
-        <Box opacity={payment.status === 'failed' ? 0.3 : null}>
+        <Box opacity={activity.status === 'failed' ? 0.3 : null}>
           {(() => (
             /* eslint-disable shopify/jsx-no-hardcoded-content */
             <Text mb={1} textAlign="right">
               -&nbsp;
-              <CryptoValue value={payment.value_sat} />
+              <CryptoValue value={activity.value_sat} />
               <i> {cryptoUnitName}</i>
             </Text>
             /* eslint-enable shopify/jsx-no-hardcoded-content */
           ))()}
           <Text color="gray" fontSize="xs" fontWeight="normal" textAlign="right">
-            <FiatValue style="currency" value={payment.value_sat} />
+            <FiatValue style="currency" value={activity.value_sat} />
           </Text>
         </Box>
       </Box>
@@ -92,9 +109,9 @@ const Payment = ({ payment, showActivityModal, cryptoUnitName, showErrorDetailsD
 }
 
 Payment.propTypes = {
+  activity: PropTypes.object.isRequired,
   cryptoUnitName: PropTypes.string.isRequired,
   intl: intlShape.isRequired,
-  payment: PropTypes.object.isRequired,
   showActivityModal: PropTypes.func.isRequired,
   showErrorDetailsDialog: PropTypes.func.isRequired,
 }

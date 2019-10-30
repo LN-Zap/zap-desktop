@@ -1,15 +1,8 @@
 import React from 'react'
-import { Box, Flex } from 'rebass/styled-components'
 import PropTypes from 'prop-types'
 import Invoice from 'containers/Activity/Invoice'
 import Payment from 'containers/Activity/Payment'
 import Transaction from 'containers/Activity/Transaction'
-import ChainLink from 'components/Icon/ChainLink'
-import Clock from 'components/Icon/Clock'
-import Zap from 'components/Icon/Zap'
-import { Text } from 'components/UI'
-
-const ZapIcon = () => <Zap height="1.6em" width="1.6em" />
 
 const ACTIVITY_ITEM_TYPES = {
   transaction: Transaction,
@@ -17,35 +10,15 @@ const ACTIVITY_ITEM_TYPES = {
   payment: Payment,
 }
 
-const ActivityIcon = ({ activity }) => {
-  switch (activity.type) {
-    case 'transaction':
-      return <ChainLink />
-    case 'payment':
-      return <ZapIcon />
-    case 'invoice':
-      return activity.settled ? <ZapIcon /> : <Clock />
-    default:
-      return null
-  }
-}
-
-ActivityIcon.propTypes = {
-  activity: PropTypes.object.isRequired,
-}
-
 const ActivityListItem = ({ activity, ...rest }) => {
   const ListItem = ACTIVITY_ITEM_TYPES[activity.type]
-  const listItemProps = { [activity.type]: activity }
   return (
-    <Flex alignItems="center" justifyContent="space-between" {...rest}>
-      <Text color="gray" mr={10} textAlign="center" width={24}>
-        <ActivityIcon activity={activity} />
-      </Text>
-      <Box sx={activity.isSending ? null : { cursor: 'pointer' }} width={1}>
-        <ListItem {...listItemProps} />
-      </Box>
-    </Flex>
+    <ListItem
+      activity={activity}
+      {...rest}
+      sx={activity.isSending ? null : { cursor: 'pointer' }}
+      width={1}
+    />
   )
 }
 
