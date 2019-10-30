@@ -6971,10 +6971,10 @@ detective@^4.3.1:
     acorn "^5.2.1"
     defined "^1.0.0"
 
-dexie@3.0.0-beta.1:
-  version "3.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/dexie/-/dexie-3.0.0-beta.1.tgz#fcd75ca08c8be2c34b25b563b7617d9cf97a3c96"
-  integrity sha512-gT65LlB31mVMsGFoTQyS+A/osPQMvICzwy/kySVcabNnGYNU0RVtx8TR5tCWm6qvF76QBt/NNcwS4Iju4tRCYw==
+dexie@3.0.0-rc.1:
+  version "3.0.0-rc.1"
+  resolved "https://registry.yarnpkg.com/dexie/-/dexie-3.0.0-rc.1.tgz#3f7fe711b8d8ad27b69370696d9dbf5817f849d4"
+  integrity sha512-hQ5d/wS3nEPNEMnV4vCFoiXrSCordsVlxsFKEXA4VhPHWpMwO1CD+2eYsGYtGFs6HZK5MSmGjkVV2kQsPyBCGg==
 
 dfa@^1.0.0:
   version "1.2.0"
