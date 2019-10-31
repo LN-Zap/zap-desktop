@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useRef } from 'react'
+import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import debounce from 'lodash/debounce'
-import styled, { withTheme } from 'styled-components'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass/styled-components'
 import { intlShape } from '@zap/i18n'
@@ -53,24 +53,21 @@ SearchResults.propTypes = {
 
 const NoSearchResults = () => <Text color="gray">Your seach did not return any results.</Text>
 
-class ChannelNodeSearch extends React.PureComponent {
-  /* eslint-disable react/destructuring-assignment */
-  updateContactFormSearchQuery = debounce(this.props.updateContactFormSearchQuery, 300)
-
-  static propTypes = {
-    filteredNetworkNodes: PropTypes.array.isRequired,
-    intl: intlShape.isRequired,
-    searchQuery: PropTypes.string,
-    updateContactFormSearchQuery: PropTypes.func.isRequired,
-  }
+const ChannelNodeSearch = ({
+  searchQuery,
+  updateContactFormSearchQuery,
+  filteredNetworkNodes,
+  intl,
+  ...rest
+}) => {
+  const updateContactFormSearchQueryRef = useRef(debounce(updateContactFormSearchQuery, 300))
 
   /**
    * handleClickConnect - Handle connect to node click.
    *
    * @param {object} node Node
    */
-  handleClickConnect = node => {
-    const { updateContactFormSearchQuery } = this.props
+  const handleClickConnect = node => {
     updateContactFormSearchQuery(`${node.pub_key}@${node.addresses[0].addr}`)
   }
 
@@ -79,69 +76,57 @@ class ChannelNodeSearch extends React.PureComponent {
    *
    * @param {string} value Search string
    */
-  handleSearchUpdated = value => {
-    this.updateContactFormSearchQuery(value)
+  const handleSearchUpdated = value => {
+    updateContactFormSearchQueryRef.current(value)
   }
 
-  /**
-   * setFormApi - Store the formApi on the component context to make it available at this.formApi.
-   *
-   * @param {object} formApi Informed formApi
-   */
-  setFormApi = formApi => {
-    this.formApi = formApi
-  }
-
-  render() {
-    const {
-      searchQuery,
-      updateContactFormSearchQuery,
-      filteredNetworkNodes,
-      intl,
-      ...rest
-    } = this.props
-
-    return (
-      <Box {...rest}>
-        <Box mb={3}>
-          <Text textAlign="justify">
-            <FormattedMessage {...messages.node_search_form_description} />
-          </Text>
-        </Box>
-
-        <Form getApi={this.setFormApi}>
-          <SearchInput
-            description={intl.formatMessage({ ...messages.node_search_description })}
-            field="search"
-            id="search"
-            initialValue={searchQuery}
-            isRequired
-            onValueChange={this.handleSearchUpdated}
-            placeholder={intl.formatMessage({ ...messages.node_search_placeholder })}
-          />
-        </Form>
-
-        {searchQuery && (
-          <>
-            <Heading.h1 mt={4}>
-              <FormattedMessage
-                {...messages.node_search_results_header}
-                values={{ count: filteredNetworkNodes.length }}
-              />
-            </Heading.h1>
-            {filteredNetworkNodes.length > 0 ? (
-              <SearchResults
-                filteredNetworkNodes={filteredNetworkNodes}
-                onClickConnect={this.handleClickConnect}
-              />
-            ) : (
-              <NoSearchResults />
-            )}
-          </>
-        )}
+  return (
+    <Box {...rest}>
+      <Box mb={3}>
+        <Text textAlign="justify">
+          <FormattedMessage {...messages.node_search_form_description} />
+        </Text>
       </Box>
-    )
-  }
+
+      <Form>
+        <SearchInput
+          description={intl.formatMessage({ ...messages.node_search_description })}
+          field="search"
+          id="search"
+          initialValue={searchQuery}
+          isRequired
+          onValueChange={handleSearchUpdated}
+          placeholder={intl.formatMessage({ ...messages.node_search_placeholder })}
+        />
+      </Form>
+
+      {searchQuery && (
+        <>
+          <Heading.h1 mt={4}>
+            <FormattedMessage
+              {...messages.node_search_results_header}
+              values={{ count: filteredNetworkNodes.length }}
+            />
+          </Heading.h1>
+          {filteredNetworkNodes.length > 0 ? (
+            <SearchResults
+              filteredNetworkNodes={filteredNetworkNodes}
+              onClickConnect={handleClickConnect}
+            />
+          ) : (
+            <NoSearchResults />
+          )}
+        </>
+      )}
+    </Box>
+  )
 }
 
-export default injectIntl(withTheme(ChannelNodeSearch))
+ChannelNodeSearch.propTypes = {
+  filteredNetworkNodes: PropTypes.array.isRequired,
+  intl: intlShape.isRequired,
+  searchQuery: PropTypes.string,
+  updateContactFormSearchQuery: PropTypes.func.isRequired,
+}
+
+export default injectIntl(ChannelNodeSearch)

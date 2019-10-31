@@ -1,4 +1,4 @@
-import styled, { withTheme } from 'styled-components'
+import styled from 'styled-components'
 import { themeGet } from '@styled-system/theme-get'
 import { Flex } from 'rebass/styled-components'
 
@@ -12,4 +12,4 @@ const Overlay = styled(Flex)`
   right: 0;
 `
 
-export default withTheme(Overlay)
+export default Overlay

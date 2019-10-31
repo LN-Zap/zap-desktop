@@ -1,25 +1,28 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Card, Flex } from 'rebass/styled-components'
 import { themeGet } from '@styled-system/theme-get'
-import styled, { withTheme } from 'styled-components'
+import styled, { ThemeContext } from 'styled-components'
 import { tint } from 'polished'
 import { Text } from 'components/UI'
 
 const Gradient = styled(Card)`
   background: linear-gradient(
     to bottom,
-    ${props => tint(0.2, themeGet('colors.primaryAccent')(props))},
-    ${themeGet('colors.primaryAccent')}
+    ${props => tint(0.2, props.color)},
+    ${props => props.color}
   );
 `
 
 const AutopayAddButton = props => {
+  const theme = useContext(ThemeContext)
+
   return (
     <Gradient
       bg="primaryAccent"
+      color={themeGet('colors.primaryAccent')({ theme })}
       size={35}
       sx={{
-        boxShadow: `0 0 24px 0 ${themeGet('colors.primaryAccent')(props)}`,
+        boxShadow: `0 0 24px 0 ${themeGet('colors.primaryAccent')({ theme })}`,
         borderRadius: '50%',
       }}
       {...props}
@@ -31,4 +34,4 @@ const AutopayAddButton = props => {
   )
 }
 
-export default withTheme(AutopayAddButton)
+export default AutopayAddButton

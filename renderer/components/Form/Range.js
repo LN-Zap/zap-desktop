@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import { asField } from 'informed'
-import styled, { withTheme } from 'styled-components'
+import styled, { ThemeContext } from 'styled-components'
 import { themeGet } from '@styled-system/theme-get'
 
 /**
@@ -84,6 +84,7 @@ const Range = ({ fieldState, fieldApi, ...props }) => {
     fitThumbInSlider: '-2px',
     backgroundFilledSlider: 'primaryAccent',
   }
+  const theme = useContext(ThemeContext)
 
   return (
     <Input
@@ -105,6 +106,7 @@ const Range = ({ fieldState, fieldApi, ...props }) => {
           onChange(e)
         }
       }}
+      theme={theme}
       type="range"
       value={value || 0}
     />
@@ -121,7 +123,7 @@ Range.propTypes = {
   sliderWidthNumber: PropTypes.number,
 }
 
-const BasicRange = withTheme(Range)
+const BasicRange = Range
 export { BasicRange }
 
 export default asField(BasicRange)

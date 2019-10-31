@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useIntl } from 'react-intl'
 import { Box, Flex } from 'rebass/styled-components'
-import styled, { withTheme } from 'styled-components'
+import styled from 'styled-components'
 import { themeGet } from '@styled-system/theme-get'
 import { opacity, fontWeight } from 'styled-system'
 import { useOnClickOutside, useIntlMap, useMaxScreenHeight } from 'hooks'
@@ -96,9 +96,17 @@ MenuItemText.defaultProps = {
 /**
  * MenuItem
  */
-export const MenuItem = withTheme(
-  ({ item, onClick, active, theme, hasParent, hasChildren, valueField, ...rest }) => (
-    <MenuItemText key={item.key} onClick={() => onClick(item.key)} {...rest}>
+export const MenuItem = ({
+  item,
+  onClick,
+  isActive,
+  hasParent,
+  hasChildren,
+  valueField,
+  ...rest
+}) => {
+  return (
+    <MenuItemText onClick={() => onClick(item.key)} {...rest}>
       <Flex alignItems="center" pr={2}>
         {hasParent && (
           <Flex alignItems="center" color="gray" width="20px">
@@ -107,7 +115,7 @@ export const MenuItem = withTheme(
         )}
         {!hasParent && (
           <Text color="superGreen" textAlign="center" width="20px">
-            {active && <Check height="0.95em" />}
+            {isActive && <Check height="0.95em" />}
           </Text>
         )}
         <Text mr={2}>{item[valueField]}</Text>
@@ -118,13 +126,21 @@ export const MenuItem = withTheme(
       </Flex>
     </MenuItemText>
   )
-)
+}
+
+MenuItem.propTypes = {
+  hasChildren: PropTypes.bool,
+  hasParent: PropTypes.bool,
+  isActive: PropTypes.bool,
+  item: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired,
+  valueField: PropTypes.string,
+}
 
 const Dropdown = ({
   activeKey,
   items,
   justify,
-  theme,
   buttonOpacity,
   onChange,
   messageMapper,
@@ -191,7 +207,7 @@ const Dropdown = ({
                 return (
                   <MenuItem
                     key={item.key}
-                    active={activeKey === item.key}
+                    isActive={activeKey === item.key}
                     item={item}
                     onClick={() => handleClick(item.key)}
                     valueField={valueField}
@@ -217,8 +233,7 @@ Dropdown.propTypes = {
   justify: PropTypes.string,
   messageMapper: PropTypes.func,
   onChange: PropTypes.func,
-  theme: PropTypes.object.isRequired,
   valueField: PropTypes.string,
 }
 
-export default withTheme(Dropdown)
+export default Dropdown

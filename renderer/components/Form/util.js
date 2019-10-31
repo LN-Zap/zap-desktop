@@ -12,18 +12,19 @@ export const isFieldValid = ({ value, error, asyncError, touched }) => {
  * mapDefaultBorderColor - Determine the most appropriate border color for an input (normal state).
  *
  * @param  {object} props Props
+ * @param {object} theme Theme object
  * @returns {string} Color
  */
-export const mapDefaultBorderColor = props => {
+export const mapDefaultBorderColor = (props, theme) => {
   const {
     isDisabled,
     isReadOnly,
     fieldState,
     fieldState: { error, asyncError },
-    theme: {
-      colors: { gray, superGreen, superRed },
-    },
   } = props
+  const {
+    colors: { gray, superGreen, superRed },
+  } = theme
   let borderColor = gray
 
   if (isFieldValid(fieldState) && !props.highlightOnValid) {
@@ -43,16 +44,15 @@ export const mapDefaultBorderColor = props => {
 /**
  * mapFocusBorderColor - Determine the most appropriate border color for an input (focus state).
  *
- * @param  {object} props Props
+ * @param {object} props Props
+ * @param {object} theme Theme object
  * @returns {string} Color
  */
-export const mapFocusBorderColor = props => {
+export const mapFocusBorderColor = (props, theme) => {
+  const { fieldState } = props
   const {
-    fieldState,
-    theme: {
-      colors: { primaryAccent, superGreen },
-    },
-  } = props
+    colors: { primaryAccent, superGreen },
+  } = theme
 
   if (!props.highlightOnValid) {
     return primaryAccent

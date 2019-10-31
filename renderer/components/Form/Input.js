@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { compose } from 'redux'
 import PropTypes from 'prop-types'
 import { asField } from 'informed'
-import { withTheme } from 'styled-components'
+import { ThemeContext } from 'styled-components'
 import { Input as BaseInput } from '@rebass/forms/styled-components'
 import { extractSpaceProps } from 'themes/util'
 import { withInputValidation } from 'hocs'
@@ -34,7 +34,6 @@ const Input = props => {
     prefix,
     suffix,
     sx,
-    theme,
     tooltip,
     type,
     variant,
@@ -43,6 +42,7 @@ const Input = props => {
   } = props
   const [hasFocus, setFocus] = useState(false)
   const [spaceProps, otherProps] = extractSpaceProps(rest)
+  const theme = useContext(ThemeContext)
   const { setValue, setTouched } = fieldApi
   const { value, maskedValue, error, asyncError } = fieldState
 
@@ -108,9 +108,9 @@ const Input = props => {
         readOnly={isReadOnly}
         required={isRequired}
         sx={{
-          borderColor: mapDefaultBorderColor(props),
+          borderColor: mapDefaultBorderColor(props, theme),
           '&:not([read-only]):not([disabled]):focus': {
-            borderColor: mapFocusBorderColor(props),
+            borderColor: mapFocusBorderColor(props, theme),
           },
           ...sx,
         }}
@@ -150,7 +150,6 @@ Input.propTypes = {
   prefix: PropTypes.node,
   suffix: PropTypes.node,
   sx: PropTypes.object,
-  theme: PropTypes.object.isRequired,
   tooltip: PropTypes.string,
   type: PropTypes.string,
   variant: PropTypes.string,
@@ -164,7 +163,7 @@ Input.defaultProps = {
   variant: 'normal',
 }
 
-const BasicInput = withTheme(Input)
+const BasicInput = Input
 
 export { BasicInput }
 
