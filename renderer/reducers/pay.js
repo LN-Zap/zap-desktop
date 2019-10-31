@@ -7,7 +7,7 @@ import { estimateFeeRange } from '@zap/utils/fee'
 import { decodePayReq } from '@zap/utils/crypto'
 import { settingsSelectors } from './settings'
 import { walletSelectors } from './wallet'
-import { autopaySelectors } from './autopay'
+import { showAutopayNotification, autopaySelectors } from './autopay'
 import { payInvoice } from './payment'
 import createReducer from './utils/createReducer'
 import { createInvoice } from './invoice'
@@ -80,6 +80,7 @@ export const lightningPaymentUri = (event, { address }) => (dispatch, getState) 
       // If autopay is enabled for the node pubkey we got from the invoice and the amount of the invoice is less
       // than the autopay's configured limit, pay the invoice silently in the background.
       if (autopayEntry && amountInSats <= autopayEntry.limit) {
+        dispatch(showAutopayNotification(invoice))
         dispatch(payInvoice({ payReq: address, amt: amountInSats }))
         return
       }

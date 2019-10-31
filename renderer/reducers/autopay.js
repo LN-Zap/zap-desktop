@@ -1,7 +1,10 @@
 import { createSelector } from 'reselect'
 import { isAutopayEnabled } from '@zap/utils/featureFlag'
+import { showSystemNotification } from '@zap/utils/notifications'
+import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
 import { contactFormSelectors } from './contactsform'
 import { tickerSelectors } from './ticker'
+import { getNodeDisplayName, networkSelectors } from './network'
 
 // ------------------------------------
 // Initial State
@@ -217,6 +220,28 @@ function setAutopayListFromArray(state, { list }) {
     ...state,
     list: mapped,
   }
+}
+
+/**
+ * showAutopayNotification - Show a system notification to advise users that autopay is taking place.
+ *
+ * @param {object} invoice Decoded bolt 11 Invoice
+ * @returns {Function} Thunk
+ */
+export const showAutopayNotification = invoice => async (dispatch, getState) => {
+  const nodes = networkSelectors.nodes(getState())
+
+  const descriptionTag = invoice.tags.find(tag => tag.tagName === 'description') || {}
+  const node = nodes.find(n => n.pub_key === invoice.payeeNodeKey)
+  const nodeName = node ? getNodeDisplayName(node) : truncateNodePubkey(invoice.payeeNodeKey)
+
+  const title = `Autopay invoice for ${invoice.satoshis} satoshis`
+  let body = `Paying ${invoice.satoshis} satoshis to ${nodeName}`
+  if (descriptionTag.data) {
+    body += ` for "${descriptionTag.data}"`
+  }
+
+  showSystemNotification(title, { body })
 }
 
 // ------------------------------------
