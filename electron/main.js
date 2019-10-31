@@ -54,42 +54,6 @@ let protocolUrl
 mainLog.time('Time until app is ready')
 
 /**
- * handleOpenUrl - Handler for open-link events.
- *
- * @param {string} urlToOpen Url to open
- */
-const handleOpenUrl = (urlToOpen = '') => {
-  // If we already have the mainWindow, handle the link right away.
-  if (mainWindow) {
-    mainLog.debug('handleOpenUrl: %s', urlToOpen)
-    const type = urlToOpen.split(':')[0]
-
-    switch (type) {
-      case 'bitcoin':
-        handleBitcoinLink(urlToOpen)
-        break
-
-      case 'lightning':
-        handleLightningLink(urlToOpen)
-        break
-
-      case 'lndconnect':
-        handleLndconnectLink(urlToOpen)
-        break
-
-      default:
-        break
-    }
-  }
-
-  // Otherwise, defer until the winow content has fully loaded.
-  // See mainWindow.webContents.on('did-finish-load') below.
-  else {
-    protocolUrl = urlToOpen
-  }
-}
-
-/**
  * handleBitcoinLink - Handler for bitcoin: links.
  *
  * @param {string} input Bitcoin link
@@ -129,6 +93,33 @@ const handleLndconnectLink = input => {
   }
 }
 
+const protocolHandlers = {
+  bitcoin: handleBitcoinLink,
+  lightning: handleLightningLink,
+  lndconnect: handleLndconnectLink,
+}
+
+/**
+ * handleOpenUrl - Handler for open-link events.
+ *
+ * @param {string} urlToOpen Url to open
+ */
+const handleOpenUrl = (urlToOpen = '') => {
+  // If we already have the mainWindow, handle the link right away.
+  if (mainWindow) {
+    mainLog.debug('handleOpenUrl: %s', urlToOpen)
+    const type = urlToOpen.split(':')[0]
+    const handler = protocolHandlers[type]
+    handler && handler(urlToOpen)
+  }
+
+  // Otherwise, defer until the window content has fully loaded.
+  // See mainWindow.webContents.on('did-finish-load') below.
+  else {
+    protocolUrl = urlToOpen
+  }
+}
+
 /**
  * getSetting - Helper method to fetch a a settings property value.
  *
@@ -142,7 +133,7 @@ const getSetting = (store, key) => {
 }
 
 /**
- * singleInstanceLock - If we are not able to get a single instnace lock, quit immediately.
+ * singleInstanceLock - If we are not able to get a single instance lock, quit immediately.
  */
 const singleInstanceLock = app.requestSingleInstanceLock()
 if (!singleInstanceLock) {
@@ -166,9 +157,9 @@ app.on('ready', async () => {
   mainLog.timeEnd('Time until app is ready')
 
   // Get the users preference so that we can:
-  //  - set the background color of the window to avoid unwanted flicker.
-  //  - Initialise the Language menu with the users locale selected by default.
-  //  - Enable autoupdates based on user preferences.
+  //  - set the background colour of the window to avoid unwanted flicker.
+  //  - Initialize the Language menu with the users locale selected by default.
+  //  - Enable auto updates based on user preferences.
   let autoupdate = {}
   let theme = {}
   let locale = null
@@ -209,20 +200,20 @@ app.on('ready', async () => {
     },
   })
 
-  // Initialise the migrator and run any pending migrations.
+  // Initialize the migrator and run any pending migrations.
   if (!process.env.DISABLE_INIT) {
     const migrator = new ZapMigrator()
     await migrator.up()
   }
 
-  // Initialise the updater.
+  // Initialize the updater.
   updater = new ZapUpdater(mainWindow, autoupdate)
 
-  // Initialise the application.
+  // Initialize the application.
   zap = new ZapController(mainWindow)
   zap.init({ theme: theme ? theme.name : undefined })
 
-  // Initialise the application menus.
+  // Initialize the application menus.
   menuBuilder = new ZapMenuBuilder(mainWindow)
   menuBuilder.buildMenu(locale)
 
@@ -275,9 +266,16 @@ app.on('ready', async () => {
    * Someone tried to run a second instance, we should focus our window.
    */
   app.on('second-instance', (event, commandLine) => {
+    // Tries to find protocol link among cmd line params
+    const getUrl = () => {
+      const protocols = Object.keys(protocolHandlers)
+      const isKnownProtocol = value => protocols.find(p => value.indexOf(`${p}:`) === 0)
+      return commandLine.find((value, index) => index > 0 && isKnownProtocol(value))
+    }
     mainLog.trace('app.second-instance')
+    // handler for macOS is done via 'open-url' event handling
     if (os.platform() !== 'darwin') {
-      const urlToOpen = commandLine && commandLine.slice(1)[0]
+      const urlToOpen = commandLine && getUrl()
       if (urlToOpen) {
         handleOpenUrl(urlToOpen)
       }
