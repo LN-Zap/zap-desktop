@@ -2,10 +2,16 @@ import get from 'lodash/get'
 import { createSelector } from 'reselect'
 import { send } from 'redux-electron-ipc'
 import { grpc } from 'workers'
+import { convert } from '@zap/utils/btc'
 import { estimateFeeRange } from '@zap/utils/fee'
+import { decodePayReq } from '@zap/utils/crypto'
 import { settingsSelectors } from './settings'
+import { walletSelectors } from './wallet'
+import { autopaySelectors } from './autopay'
+import { payInvoice } from './payment'
 import createReducer from './utils/createReducer'
 import { createInvoice } from './invoice'
+
 // ------------------------------------
 // Initial State
 // ------------------------------------
@@ -55,8 +61,35 @@ export const LNURL_WITHDRAWAL_PROMPT_DIALOG_ID = 'LNURL_WITHDRAWAL_PROMPT_DIALOG
  * @param  {{ address }} address Address (payment request)
  * @returns {Function} Thunk
  */
-export const lightningPaymentUri = (event, { address }) => dispatch => {
-  dispatch(setRedirectPayReq({ address }))
+export const lightningPaymentUri = (event, { address }) => (dispatch, getState) => {
+  const forwardToMainWindow = () => {
+    dispatch(setRedirectPayReq({ address }))
+  }
+
+  try {
+    const state = getState()
+
+    // If the user is logged into a wallet, try to autopay the invoice.
+    if (walletSelectors.isWalletOpen(state)) {
+      const autopayList = autopaySelectors.autopayList(state)
+      const invoice = decodePayReq(address)
+      const { payeeNodeKey, satoshis, millisatoshis } = invoice
+      const amountInSats = satoshis || convert('msats', 'sats', millisatoshis)
+      const autopayEntry = autopayList[payeeNodeKey]
+
+      // If autopay is enabled for the node pubkey we got from the invoice and the amount of the invoice is less
+      // than the autopay's configured limit, pay the invoice silently in the background.
+      if (autopayEntry && amountInSats <= autopayEntry.limit) {
+        dispatch(payInvoice({ payReq: address, amt: amountInSats }))
+        return
+      }
+    }
+
+    // If it wasn't handled with autopay or there was an error, open in the pay form and focus the app.
+    forwardToMainWindow()
+  } catch (e) {
+    forwardToMainWindow()
+  }
 }
 
 /**

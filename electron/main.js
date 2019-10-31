@@ -72,9 +72,9 @@ const handleBitcoinLink = input => {
 }
 
 /**
- * handleLnurlLink - Handler for lnurl: links.
+ * handleLnurlLink - Handler for lightning lnurl links.
  *
- * @param {string} input lnurl link
+ * @param {string} input lnurl string
  */
 const handleLnurlLink = input => {
   try {
@@ -83,6 +83,16 @@ const handleLnurlLink = input => {
   } catch (e) {
     mainLog.warn('Unable to process lnurl uri: %s', e)
   }
+}
+
+/**
+ * handleLninvoiceLink - Handler for lightning invoice links.
+ *
+ * @param {string} address payment request
+ */
+const handleLninvoiceLink = address => {
+  zap.sendMessage('lightningPaymentUri', { address })
+  mainWindow.show()
 }
 
 /**
@@ -97,8 +107,7 @@ const handleLightningLink = fullUrl => {
     if (lnurl) {
       handleLnurlLink(lnurl)
     } else {
-      zap.sendMessage('lightningPaymentUri', { address: url })
-      mainWindow.show()
+      handleLninvoiceLink(url)
     }
   } catch (e) {
     mainLog.warn('Unable to process lightning uri: %s', e)
