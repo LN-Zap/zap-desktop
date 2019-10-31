@@ -226,7 +226,7 @@ export const receiveInvoiceData = invoice => dispatch => {
     const notifTitle = intl.formatMessage(messages.invoice_receive_title)
     const notifBody = intl.formatMessage(messages.invoice_receive_body)
 
-    showSystemNotification(notifTitle, notifBody)
+    showSystemNotification(notifTitle, { body: notifBody })
   }
 }
 // ------------------------------------
