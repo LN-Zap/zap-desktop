@@ -1,5 +1,5 @@
 {
   "extends": ["config:js-app"],
   "baseBranches": ["next"],
-  "labels": ["dependency"]
+  "labels": ["dependencies"]
 }
