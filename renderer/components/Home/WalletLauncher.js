@@ -38,7 +38,7 @@ const autopilotDefaults = {
 
 // cleans up autopilot settings if autopilot flag is turned
 const formatAutopilot = values => {
-  const result = Object.assign({}, values)
+  const result = { ...values }
   if (!values.autopilot) {
     // remove autopilot related fields if it's turned off
     delete result.autopilotAllocation
@@ -52,7 +52,7 @@ const formatAutopilot = values => {
 }
 
 // Format autopilot, then clean.
-const prepareValues = values => clean(formatAutopilot(Object.assign({}, values)))
+const prepareValues = values => clean(formatAutopilot({ ...values }))
 
 // converts form format to db/lnd compatible format
 const formToWalletFormat = values => {
@@ -84,7 +84,7 @@ const walletToFormFormat = values => {
 
 // deletes null undefined and empty string fields from a given object
 const clean = obj => {
-  const result = Object.assign({}, obj)
+  const result = { ...obj }
   Object.keys(result).forEach(
     key =>
       (result[key] === undefined || result[key] === '' || result[key] === null) &&
@@ -244,7 +244,7 @@ class WalletLauncher extends React.Component {
     try {
       const { formApi } = this
       const formState = formApi.getState()
-      const values = Object.assign({}, wallet, formState.values)
+      const values = { ...wallet, ...formState.values }
       let result = values
 
       if (wallet.type === 'local') {
@@ -268,31 +268,33 @@ class WalletLauncher extends React.Component {
             // re-generate lndconnectUri and
             // QR using updated host, cert and macaroon values. This is done in the main process
             result = formToWalletFormat(
-              await generateLndConfigFromWallet(
-                Object.assign({}, { lndconnectQRCode: values.lndconnectUri }, values)
-              )
+              await generateLndConfigFromWallet({
+                lndconnectQRCode: values.lndconnectUri,
+                ...values,
+              })
             )
             break
 
           case LNDCONNECT_BTCPAY_SERVER: {
-            const config = Object.assign({}, values, {
-              // btcpay config we needs to be decoded down to  host, cert and macaroon first
+            const config = {
+              ...values, // btcpay config we needs to be decoded down to  host, cert and macaroon first
               ...parseLndConnectURI(values.lndconnectUri),
               lndconnectUri: undefined, // delete uris so the main process re-generates them
               lndconnectQRCode: undefined,
-            })
+            }
             // re-generate lndconnectUri and
             // QR using updated host, cert and macaroon values. This is done in the main process
             result = formToWalletFormat(await generateLndConfigFromWallet(config))
 
-            formApi.setValues(Object.assign({}, values, { lndconnectUri: result.lndconnectUri }))
+            formApi.setValues({ ...values, lndconnectUri: result.lndconnectUri })
             break
           }
           default: {
-            const config = Object.assign({}, values, {
+            const config = {
+              ...values,
               lndconnectUri: undefined, // delete uris so the main process re-generates them
               lndconnectQRCode: undefined,
-            })
+            }
             // re-generate lndconnectUri and
             // QR using updated host, cert and macaroon values. This is done in the main process
             result = formToWalletFormat(await generateLndConfigFromWallet(config))
@@ -366,7 +368,7 @@ class WalletLauncher extends React.Component {
       const { host, cert, macaroon } = parseLndConnectURI(wallet.lndconnectUri)
       return !unsafeShallowCompare(
         // include derived host, cert, macaroon values to detect changes
-        clean(Object.assign({}, { host, cert, macaroon }, wallet)),
+        clean({ host, cert, macaroon, ...wallet }),
         clean(formState.values),
         {
           name: '',
@@ -386,12 +388,8 @@ class WalletLauncher extends React.Component {
     }
     // local node
     return !unsafeShallowCompare(
-      clean(formatAutopilot(Object.assign({}, { autopilot: false }, autopilotDefaults, wallet))),
-      clean(
-        formToWalletFormat(
-          Object.assign({}, { autopilot: false }, autopilotDefaults, formState.values)
-        )
-      ),
+      clean(formatAutopilot({ autopilot: false, ...autopilotDefaults, ...wallet })),
+      clean(formToWalletFormat({ autopilot: false, ...autopilotDefaults, ...formState.values })),
       whiteList
     )
   }

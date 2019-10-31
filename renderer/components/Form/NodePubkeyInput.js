@@ -57,14 +57,14 @@ const InternalNodePubkeyInput = ({ fieldState, fieldApi, ...rest }) => {
   const { value, error } = fieldState
 
   return (
-    <React.Fragment>
+    <>
       <BasicInput {...rest} fieldApi={fieldApi} fieldState={fieldState} />
       {value && !error && (
         <Message mt={2} variant="success">
           <FormattedMessage {...messages.valid_pubkey} />
         </Message>
       )}
-    </React.Fragment>
+    </>
   )
 }
 

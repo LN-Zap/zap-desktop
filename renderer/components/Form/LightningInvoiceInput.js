@@ -84,7 +84,7 @@ const InformedTextArea = asField(({ fieldState, fieldApi, ...props }) => {
     chainName += ` (${network})`
   }
   return (
-    <React.Fragment>
+    <>
       <BasicTextArea {...rest} fieldApi={fieldApi} fieldState={fieldState} />
       {value && !fieldState.error && (
         <Message mt={2} variant="success">
@@ -96,7 +96,7 @@ const InformedTextArea = asField(({ fieldState, fieldApi, ...props }) => {
           />
         </Message>
       )}
-    </React.Fragment>
+    </>
   )
 })
 

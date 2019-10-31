@@ -77,7 +77,7 @@ export const putSetting = (key, value) => async dispatch => {
  */
 export const putConfig = (path, value) => async (dispatch, getState) => {
   const currentConfig = settingsSelectors.currentConfig(getState())
-  const updatedConfig = set(Object.assign({}, currentConfig), path, value)
+  const updatedConfig = set({ ...currentConfig }, path, value)
   await dispatch(saveConfigOverrides(updatedConfig))
 }
 

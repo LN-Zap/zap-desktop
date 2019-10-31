@@ -77,14 +77,14 @@ class Countdown extends React.Component {
           <FormattedMessage {...messages.expires} />
         )}
         {(!isExpired || (isExpired && isContinual)) && (
-          <React.Fragment>
+          <>
             &nbsp;
             <FormattedRelativeTime
               style={countdownStyle}
               updateIntervalInSeconds={updateInterval}
               value={this.expiresIn}
             />
-          </React.Fragment>
+          </>
         )}
       </Text>
     )

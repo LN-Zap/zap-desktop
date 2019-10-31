@@ -95,7 +95,7 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
 
       <DataRow
         left={
-          <React.Fragment>
+          <>
             <FormattedMessage {...messages.payment_request} />
             <Text
               className="hint--bottom-left"
@@ -110,7 +110,7 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
             <Button onClick={() => copyToClipboard(payReq)} size="small" type="button">
               <FormattedMessage {...messages.copy_button_text} />
             </Button>
-          </React.Fragment>
+          </>
         }
         right={
           <Text>
