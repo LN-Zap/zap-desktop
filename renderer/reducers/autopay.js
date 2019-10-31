@@ -1,10 +1,12 @@
 import { createSelector } from 'reselect'
 import { isAutopayEnabled } from '@zap/utils/featureFlag'
 import { showSystemNotification } from '@zap/utils/notifications'
+import { getIntl } from '@zap/i18n'
 import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
 import { contactFormSelectors } from './contactsform'
 import { tickerSelectors } from './ticker'
 import { getNodeDisplayName, networkSelectors } from './network'
+import messages from './messages'
 
 // ------------------------------------
 // Initial State
@@ -235,10 +237,22 @@ export const showAutopayNotification = invoice => async (dispatch, getState) => 
   const node = nodes.find(n => n.pub_key === invoice.payeeNodeKey)
   const nodeName = node ? getNodeDisplayName(node) : truncateNodePubkey(invoice.payeeNodeKey)
 
-  const title = `Autopay invoice for ${invoice.satoshis} satoshis`
-  let body = `Paying ${invoice.satoshis} satoshis to ${nodeName}`
+  const intl = getIntl()
+
+  const title = intl.formatMessage(messages.autopay_notification_title, {
+    amount: invoice.satoshis,
+  })
+  const message = intl.formatMessage(messages.autopay_notification_message, {
+    amount: invoice.satoshis,
+    pubkey: nodeName,
+  })
+
+  let body = message
   if (descriptionTag.data) {
-    body += ` for "${descriptionTag.data}"`
+    const detail = intl.formatMessage(messages.autopay_notification_detail, {
+      reason: descriptionTag.data,
+    })
+    body += ` ${detail}`
   }
 
   showSystemNotification(title, { body })
