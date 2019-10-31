@@ -393,7 +393,7 @@
   "components.Onboarding.Steps.passphrase_label": "Entrez votre clé de chiffrement",
   "components.Onboarding.Steps.passphrase_placeholder": "Clé de chiffrement",
   "components.Onboarding.Steps.password_confirm_label": "Confirmez le mot de passe",
-  "components.Onboarding.Steps.password_confirm_placeholder": "Confirmez le mot de passe",
+  "components.Onboarding.Steps.password_confirm_placeholder": "confirmer votre mot de passe",
   "components.Onboarding.Steps.password_description": "Vous avez du définir un mot de passe à la création de votre portefeuille. Celui-ci est différent de votre phrase secrète à 24 mots.",
   "components.Onboarding.Steps.password_error_length": "Le mot de passe doit contenir au moins {passwordMinLength} caractères",
   "components.Onboarding.Steps.password_error_match": "Les mots de passe ne sont pas identiques",

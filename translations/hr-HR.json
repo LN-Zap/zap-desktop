@@ -393,7 +393,7 @@
   "components.Onboarding.Steps.passphrase_label": "",
   "components.Onboarding.Steps.passphrase_placeholder": "",
   "components.Onboarding.Steps.password_confirm_label": "Potvrdi Lozinku",
-  "components.Onboarding.Steps.password_confirm_placeholder": "Potvrdi Lozinku",
+  "components.Onboarding.Steps.password_confirm_placeholder": "",
   "components.Onboarding.Steps.password_description": "Postavili ste lozinku prilikom stvaranja voleta. To je nevezano za vaš niz od 24 riječi.",
   "components.Onboarding.Steps.password_error_length": "Lozinka mora biti dugačka najmanje {passwordMinLength} znakova",
   "components.Onboarding.Steps.password_error_match": "Lozinke se ne poklapaju",

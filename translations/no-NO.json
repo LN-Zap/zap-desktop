@@ -393,7 +393,7 @@
   "components.Onboarding.Steps.passphrase_label": "",
   "components.Onboarding.Steps.passphrase_placeholder": "",
   "components.Onboarding.Steps.password_confirm_label": "Bekreft passord",
-  "components.Onboarding.Steps.password_confirm_placeholder": "Bekreft passord",
+  "components.Onboarding.Steps.password_confirm_placeholder": "",
   "components.Onboarding.Steps.password_description": "Du skal ha satt et passord når du først opprettet din wallet. Dette er separat fra din 24-ords seed.",
   "components.Onboarding.Steps.password_error_length": "Passord må være minst {passwordMinLength} tegn lang",
   "components.Onboarding.Steps.password_error_match": "Passordene samsvarer ikke",
