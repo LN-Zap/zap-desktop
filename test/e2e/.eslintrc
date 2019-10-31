@@ -1,0 +1,5 @@
+{
+  "rules": {
+    "jest/no-test-callback": 0
+  }
+}
