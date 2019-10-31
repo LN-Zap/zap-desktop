@@ -108,7 +108,7 @@ async function generateLndConfigFromWallet(wallet) {
   // `isReady` prop used above. We convert this to a plain object so that we can store in Redux and freely pass
   // between the renderer and Web Worker processes without needing to proxy. This also flattens getter method
   // properties to plan props.
-  return Object.assign({}, lndConfig)
+  return { ...lndConfig }
 }
 
 /**

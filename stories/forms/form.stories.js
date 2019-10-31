@@ -238,7 +238,7 @@ storiesOf('Forms', module)
     </Form>
   ))
   .add('Lightning Invoice', () => (
-    <React.Fragment>
+    <>
       <Box my={4}>
         <Form id="testnet">
           <LightningInvoiceInput
@@ -266,7 +266,7 @@ storiesOf('Forms', module)
           />
         </Form>
       </Box>
-    </React.Fragment>
+    </>
   ))
   .add('Lnd Connection String', () => (
     <Form>
@@ -389,7 +389,7 @@ storiesOf('Forms', module)
         <MainContent>
           <Form>
             {({ formState }) => (
-              <React.Fragment>
+              <>
                 <Box my={4}>
                   <Input
                     field="input1"
@@ -520,7 +520,7 @@ storiesOf('Forms', module)
                 <Box bg="tertiaryColor">
                   <pre>{JSON.stringify(formState, null, 2)}</pre>
                 </Box>
-              </React.Fragment>
+              </>
             )}
           </Form>
         </MainContent>

@@ -211,17 +211,19 @@ class Wizard extends React.Component {
 
   static Debug = Debug
 
+  state = {
+    currentItem: null,
+    currentStep: 0,
+    direction: 'next',
+    isSkip: false, // if the wizard is currently in skip mode
+    isSubmitting: false,
+    formState: {},
+  }
+
   constructor(props) {
     super(props)
     const { steps } = this.props
-    this.state = {
-      currentItem: steps && steps[0] && steps[0].key,
-      currentStep: 0,
-      direction: 'next',
-      isSkip: false, // if the wizard is currently in skip mode
-      isSubmitting: false,
-      formState: {},
-    }
+    this.state.currentItem = steps && steps[0] && steps[0].key
   }
 
   previousStep = () => {

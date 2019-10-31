@@ -262,12 +262,12 @@ class Request extends React.Component {
               </Panel.Header>
               <Panel.Body py={3}>
                 {currentStep === 'form' ? (
-                  <React.Fragment>
+                  <>
                     {this.renderHelpText()}
                     {this.renderAmountFields()}
                     {this.renderMemoField()}
                     {activeWalletSettings.type !== 'local' && this.renderRoutingHints()}
-                  </React.Fragment>
+                  </>
                 ) : (
                   <RequestSummary
                     invoice={invoice}

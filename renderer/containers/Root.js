@@ -68,7 +68,7 @@ const Root = ({
   return (
     <Router history={history}>
       <ThemeProvider theme={theme}>
-        <React.Fragment>
+        <>
           <GlobalStyle />
           <Titlebar />
           <GlobalNotification
@@ -114,7 +114,7 @@ const Root = ({
             )}
           </PageWithLoading>
           <ModalStack />
-        </React.Fragment>
+        </>
       </ThemeProvider>
     </Router>
   )

@@ -18,6 +18,10 @@ export default class AppErrorBoundary extends Component {
     window.Zap.openExternal(url)
   }
 
+  state = {
+    error: null,
+  }
+
   static propTypes = {
     children: PropTypes.node,
     onCloseDialog: PropTypes.func,
@@ -25,11 +29,6 @@ export default class AppErrorBoundary extends Component {
 
   static defaultProps = {
     onCloseDialog: () => {},
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = { error: null }
   }
 
   static getDerivedStateFromError(error) {
