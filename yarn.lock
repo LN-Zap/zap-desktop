@@ -4186,10 +4186,10 @@ babel-plugin-react-docgen@^3.0.0:
     react-docgen "^4.1.0"
     recast "^0.14.7"
 
-babel-plugin-react-intl-auto@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-react-intl-auto/-/babel-plugin-react-intl-auto-3.0.0.tgz#39fe9697ee3f63dd8de7299becb867f3f3f387d4"
-  integrity sha512-3gWsEieSJbj9eXjSSYNcfg4BjHyH9PsGRyxgZFd+nk/5BTHr2ze0Hc7DVbPLc/EA97JL56el7UfccF1okKSj9g==
+babel-plugin-react-intl-auto@3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-react-intl-auto/-/babel-plugin-react-intl-auto-3.0.1.tgz#b451f109143d61e701db00e8ca1ef8e13a4c9e76"
+  integrity sha512-0HLTT50PlG08/mkmyHMTFb5SuSBWbC5aiU4QRDkOWVoWv5KUqiYfvXpInx623kFe9ckpniUDWfNGIHXOQEikFw==
   dependencies:
     "@babel/core" "^7.5.5"
     "@babel/traverse" "^7.5.5"
