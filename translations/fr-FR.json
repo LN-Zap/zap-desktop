@@ -293,6 +293,7 @@
   "components.Home.wallet_settings_name_placeholder": "Nom",
   "components.Home.wallet_settings_reset_autopilot_button_text": "Utiliser les paramètres par défaut d'Autopilot",
   "components.Home.wallet_settings_reset_neutrino_button_text": "Réinitialiser les réglages Neutrino",
+  "components.Home.wallet_settings_whitelist_peers": "",
   "components.Home.wallet_unlocker_button_label": "Déverrouiller",
   "components.Home.wallet_unlocker_password_label": "Entrez votre mot de passe",
   "components.Home.wallet_unlocker_password_placeholder": "Mot de passe",

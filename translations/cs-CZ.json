@@ -293,6 +293,7 @@
   "components.Home.wallet_settings_name_placeholder": "Zadejte jméno\"",
   "components.Home.wallet_settings_reset_autopilot_button_text": "Nastavení Autopilota na výchozí",
   "components.Home.wallet_settings_reset_neutrino_button_text": "Nastavení neutrina na výchozí",
+  "components.Home.wallet_settings_whitelist_peers": "",
   "components.Home.wallet_unlocker_button_label": "Zadejte",
   "components.Home.wallet_unlocker_password_label": "Zadejte heslo",
   "components.Home.wallet_unlocker_password_placeholder": "Zadejte své heslo",

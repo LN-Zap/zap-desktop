@@ -82,6 +82,7 @@ module.exports = {
 
     assumechanvalid: true,
     recoveryWindow: 2500,
+    whitelistPeers: false,
   },
 
   // Default currency units.
