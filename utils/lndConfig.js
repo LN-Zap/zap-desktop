@@ -142,6 +142,7 @@ class LndConfig {
         minconfs: autopilotMinconfs,
       },
       assumechanvalid,
+      whitelistPeers,
     } = config.lnd
 
     // Assign default settings.
@@ -156,6 +157,7 @@ class LndConfig {
       autopilotAllocation,
       autopilotMinconfs,
       assumechanvalid,
+      whitelistPeers,
     }
     // Merge in whitelisted settings.
     const userSettings = pick(options, Object.keys(lndDefaults))

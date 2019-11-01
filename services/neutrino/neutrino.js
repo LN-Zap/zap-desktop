@@ -366,14 +366,15 @@ class Neutrino extends EventEmitter {
    */
   getNeutrinoArgs() {
     const neutrinoArgs = []
-    const { chain, network } = this.lndConfig
-    const nodes = this.lndConfig.neutrinoNodes || config.lnd.neutrino[chain][network]
+    const { chain, network, whitelistPeers, neutrinoNodes } = this.lndConfig
+    const nodes = neutrinoNodes || config.lnd.neutrino[chain][network]
+    const connectFlag = whitelistPeers ? 'connect' : 'addpeer'
 
     neutrinoArgs.push('--bitcoin.node=neutrino')
     neutrinoArgs.push('--neutrino.useragentname=zap-desktop')
     neutrinoArgs.push(`--neutrino.useragentversion=${getPackageDetails().version}`)
-    neutrinoArgs.push(`--${this.lndConfig.chain}.${this.lndConfig.network}`)
-    nodes.forEach(node => neutrinoArgs.push(`--neutrino.addpeer=${node}`))
+    neutrinoArgs.push(`--${chain}.${network}`)
+    nodes.forEach(node => neutrinoArgs.push(`--neutrino.${connectFlag}=${node}`))
 
     return neutrinoArgs
   }

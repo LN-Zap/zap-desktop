@@ -77,6 +77,7 @@ class WalletSettingsFormLocal extends React.Component {
     const { formApi, wallet } = this.props
     const { chain, network } = wallet
     formApi.setValue('neutrinoNodes', config.lnd.neutrino[chain][network])
+    formApi.setValue('whitelistPeers', config.lnd.whitelistPeers)
   }
 
   validateHost = async () => {
@@ -184,6 +185,15 @@ class WalletSettingsFormLocal extends React.Component {
                 width={300}
               />
             }
+          />
+          <DataRow
+            left={
+              <Label htmlFor="whitelistPeers">
+                <FormattedMessage {...messages.wallet_settings_whitelist_peers} />
+              </Label>
+            }
+            py={2}
+            right={<Toggle field="whitelistPeers" id="whitelistPeers" />}
           />
           <Flex justifyContent="center" my={4}>
             <Button onClick={this.resetNeutrinoSettings} size="small" type="button">

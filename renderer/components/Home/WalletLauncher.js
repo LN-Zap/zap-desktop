@@ -383,6 +383,7 @@ class WalletLauncher extends React.Component {
       alias: '',
       name: '',
       neutrinoNodes: '',
+      whitelistPeers: '',
     }
     // local node
     return !unsafeShallowCompare(
