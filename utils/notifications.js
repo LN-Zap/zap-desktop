@@ -2,13 +2,11 @@
  * showSystemNotification - Show a system notification.
  *
  * @param {string} title Notification title
- * @param {string} body Notification body
- * @param {Function} onClick onClick handler
+ * @param {object} options Notification options
+ * @returns {Notification} HTML5 Notification
  */
-export const showSystemNotification = (title, body, onClick) => {
-  const notification = new Notification(title, { body })
-
-  notification.onClick = onClick
+export const showSystemNotification = (title, options) => {
+  return new Notification(title, options)
 }
 
 export default { showSystemNotification }

@@ -248,16 +248,15 @@ export const receiveTransactionData = transaction => (dispatch, getState) => {
     const intl = getIntl()
     // HTML 5 desktop notification for the new transaction
     if (transaction.received) {
-      showSystemNotification(
-        intl.formatMessage(messages.transaction_received_title),
-        intl.formatMessage(messages.transaction_received_body)
-      )
-      dispatch(newAddress(settingsSelectors.currentConfig(state).address)) // Generate a new address
+      showSystemNotification(intl.formatMessage(messages.transaction_received_title), {
+        body: intl.formatMessage(messages.transaction_received_body),
+      })
+      // Generate a new address
+      dispatch(newAddress(settingsSelectors.currentConfig(state).address))
     } else {
-      showSystemNotification(
-        intl.formatMessage(messages.transaction_sent_title),
-        intl.formatMessage(messages.transaction_sent_body)
-      )
+      showSystemNotification(intl.formatMessage(messages.transaction_sent_title), {
+        body: intl.formatMessage(messages.transaction_sent_body),
+      })
     }
   }
 }
