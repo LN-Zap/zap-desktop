@@ -293,6 +293,7 @@
   "components.Home.wallet_settings_name_placeholder": "Cuir isteach ainm",
   "components.Home.wallet_settings_reset_autopilot_button_text": "Socraigh na socruithe Autopilot go réamhshocraithe",
   "components.Home.wallet_settings_reset_neutrino_button_text": "",
+  "components.Home.wallet_settings_whitelist_peers": "",
   "components.Home.wallet_unlocker_button_label": "Cuir isteach",
   "components.Home.wallet_unlocker_password_label": "Cuir isteach Pasfhocal",
   "components.Home.wallet_unlocker_password_placeholder": "Cuir isteach do Pasfhocal",

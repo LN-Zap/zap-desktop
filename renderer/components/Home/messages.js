@@ -58,4 +58,5 @@ export default defineMessages({
   neutrinoUrl_tooltip:
     'Connect only to the specified peers at startup. Each URL must start from new line.',
   wallet_settings_reset_neutrino_button_text: 'Set neutrino settings to default',
+  wallet_settings_whitelist_peers: 'Connect only to specified nodes',
 })

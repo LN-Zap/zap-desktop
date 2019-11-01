@@ -293,6 +293,7 @@
   "components.Home.wallet_settings_name_placeholder": "Indtast navn",
   "components.Home.wallet_settings_reset_autopilot_button_text": "Sæt Autopilot indstillinger til standard",
   "components.Home.wallet_settings_reset_neutrino_button_text": "",
+  "components.Home.wallet_settings_whitelist_peers": "",
   "components.Home.wallet_unlocker_button_label": "Angiv",
   "components.Home.wallet_unlocker_password_label": "Angiv password",
   "components.Home.wallet_unlocker_password_placeholder": "Angiv dit password",

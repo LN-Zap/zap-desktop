@@ -293,6 +293,7 @@
   "components.Home.wallet_settings_name_placeholder": "Name eingeben",
   "components.Home.wallet_settings_reset_autopilot_button_text": "Autopilot-Einstellungen auf Standard setzen",
   "components.Home.wallet_settings_reset_neutrino_button_text": "Neutrino-Einstellungen auf Standard setzen",
+  "components.Home.wallet_settings_whitelist_peers": "",
   "components.Home.wallet_unlocker_button_label": "Eingabe",
   "components.Home.wallet_unlocker_password_label": "Passwort eingeben",
   "components.Home.wallet_unlocker_password_placeholder": "Passwort eingeben",

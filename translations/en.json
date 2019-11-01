@@ -293,6 +293,7 @@
   "components.Home.wallet_settings_name_placeholder": "Enter name",
   "components.Home.wallet_settings_reset_autopilot_button_text": "Set Autopilot settings to default",
   "components.Home.wallet_settings_reset_neutrino_button_text": "Set neutrino settings to default",
+  "components.Home.wallet_settings_whitelist_peers": "Connect only to specified nodes",
   "components.Home.wallet_unlocker_button_label": "Enter",
   "components.Home.wallet_unlocker_password_label": "Enter Password",
   "components.Home.wallet_unlocker_password_placeholder": "Enter your password",

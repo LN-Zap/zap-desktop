@@ -293,6 +293,7 @@
   "components.Home.wallet_settings_name_placeholder": "",
   "components.Home.wallet_settings_reset_autopilot_button_text": "",
   "components.Home.wallet_settings_reset_neutrino_button_text": "",
+  "components.Home.wallet_settings_whitelist_peers": "",
   "components.Home.wallet_unlocker_button_label": "Ввод",
   "components.Home.wallet_unlocker_password_label": "Введите пароль",
   "components.Home.wallet_unlocker_password_placeholder": "",
