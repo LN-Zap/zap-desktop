@@ -4201,10 +4201,10 @@ babel-plugin-react-intl-auto@3.0.1:
     "@babel/types" "^7.5.5"
     murmurhash3js "^3.0.1"
 
-babel-plugin-react-intl@4.3.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-react-intl/-/babel-plugin-react-intl-4.3.0.tgz#bcff1936dbad4a1bb2e7d955032f92aba6fdc063"
-  integrity sha512-X4R9ZrQ6LR6EaNqk7DCA39GamD8Deo1XOeQGEbsswV741AgQ8HfuXtQ7FKCiDnfWp2nhVVio+BAIrhwS5JxHdQ==
+babel-plugin-react-intl@5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-react-intl/-/babel-plugin-react-intl-5.1.0.tgz#e2c34f89361e0866a6b89e00706a7575d0ee77f8"
+  integrity sha512-6nuVu0n0p3x7KSs6FkC61neavCp4Bgjr1peFgcB249j1mp7CNX7lUS9zoWfM7TEzNoqQBiiuVP8ak+VW3UFEwg==
   dependencies:
     "@babel/core" "^7.6.2"
     "@babel/helper-plugin-utils" "^7.0.0"
