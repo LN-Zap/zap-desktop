@@ -4,6 +4,7 @@ import { send } from 'redux-electron-ipc'
 import { grpc } from 'workers'
 import { convert } from '@zap/utils/btc'
 import { estimateFeeRange } from '@zap/utils/fee'
+import { isAutopayEnabled } from '@zap/utils/featureFlag'
 import { decodePayReq } from '@zap/utils/crypto'
 import { settingsSelectors } from './settings'
 import { walletSelectors } from './wallet'
@@ -62,34 +63,37 @@ export const LNURL_WITHDRAWAL_PROMPT_DIALOG_ID = 'LNURL_WITHDRAWAL_PROMPT_DIALOG
  * @returns {Function} Thunk
  */
 export const lightningPaymentUri = (event, { address }) => (dispatch, getState) => {
+  const state = getState()
+
   const forwardToMainWindow = () => {
     dispatch(setRedirectPayReq({ address }))
   }
 
+  // If the user is not logged into a wallet or autopay is not enabled just forward the payment request to the main
+  // window and return early.
+  if (!isAutopayEnabled || !walletSelectors.isWalletOpen(state)) {
+    return forwardToMainWindow()
+  }
+
+  // Otherwise check if this payment request qualifies for autopay.
   try {
-    const state = getState()
+    const autopayList = autopaySelectors.autopayList(state)
+    const invoice = decodePayReq(address)
+    const { payeeNodeKey, satoshis, millisatoshis } = invoice
+    const amountInSats = satoshis || convert('msats', 'sats', millisatoshis)
+    const autopayEntry = autopayList[payeeNodeKey]
 
-    // If the user is logged into a wallet, try to autopay the invoice.
-    if (walletSelectors.isWalletOpen(state)) {
-      const autopayList = autopaySelectors.autopayList(state)
-      const invoice = decodePayReq(address)
-      const { payeeNodeKey, satoshis, millisatoshis } = invoice
-      const amountInSats = satoshis || convert('msats', 'sats', millisatoshis)
-      const autopayEntry = autopayList[payeeNodeKey]
-
-      // If autopay is enabled for the node pubkey we got from the invoice and the amount of the invoice is less
-      // than the autopay's configured limit, pay the invoice silently in the background.
-      if (autopayEntry && amountInSats <= autopayEntry.limit) {
-        dispatch(showAutopayNotification(invoice))
-        dispatch(payInvoice({ payReq: address, amt: amountInSats }))
-        return
-      }
+    // If autopay is enabled for the node pubkey we got from the invoice and the amount of the invoice is less
+    // than the autopay's configured limit, pay the invoice silently in the background.
+    if (autopayEntry && amountInSats <= autopayEntry.limit) {
+      dispatch(showAutopayNotification(invoice))
+      return dispatch(payInvoice({ payReq: address, amt: amountInSats }))
     }
 
     // If it wasn't handled with autopay or there was an error, open in the pay form and focus the app.
-    forwardToMainWindow()
+    return forwardToMainWindow()
   } catch (e) {
-    forwardToMainWindow()
+    return forwardToMainWindow()
   }
 }
 
