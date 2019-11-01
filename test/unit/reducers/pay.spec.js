@@ -7,6 +7,7 @@ import reducer, {
   QUERY_ROUTES_SUCCESS,
   QUERY_ROUTES_FAILURE,
   SET_REDIRECT_PAY_REQ,
+  SET_REDIRECT_LN_URL,
 } from 'reducers/pay'
 
 describe('reducers', () => {
@@ -70,6 +71,14 @@ describe('reducers', () => {
       const action = {
         type: SET_REDIRECT_PAY_REQ,
         redirectPayReq: 'lightning:abc123',
+      }
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
+    })
+
+    it('should handle SET_REDIRECT_LN_URL', () => {
+      const action = {
+        type: SET_REDIRECT_LN_URL,
+        params: { memo: '1', amount: 100 },
       }
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })

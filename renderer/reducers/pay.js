@@ -1,9 +1,11 @@
 import get from 'lodash/get'
+import { createSelector } from 'reselect'
+import { send } from 'redux-electron-ipc'
 import { grpc } from 'workers'
 import { estimateFeeRange } from '@zap/utils/fee'
 import { settingsSelectors } from './settings'
 import createReducer from './utils/createReducer'
-
+import { createInvoice } from './invoice'
 // ------------------------------------
 // Initial State
 // ------------------------------------
@@ -19,6 +21,7 @@ const initialState = {
   queryFeesError: null,
   queryRoutesError: null,
   redirectPayReq: null,
+  lnurlWithdrawParams: null,
   routes: [],
 }
 
@@ -35,6 +38,12 @@ export const QUERY_ROUTES_FAILURE = 'QUERY_ROUTES_FAILURE'
 
 export const SET_REDIRECT_PAY_REQ = 'SET_REDIRECT_PAY_REQ'
 
+export const SET_REDIRECT_LN_URL = 'SET_REDIRECT_LN_URL'
+
+export const SET_LNURL = 'SET_LNURL'
+export const DECLINE_LNURL_WITHDRAWAL = 'DECLINE_LNURL_WITHDRAWAL'
+
+export const LNURL_WITHDRAWAL_PROMPT_DIALOG_ID = 'LNURL_WITHDRAWAL_PROMPT_DIALOG_ID'
 // ------------------------------------
 // IPC
 // ------------------------------------
@@ -59,6 +68,53 @@ export const lightningPaymentUri = (event, { address }) => dispatch => {
  */
 export const bitcoinPaymentUri = (event, { address, options: { amount } }) => dispatch => {
   dispatch(setRedirectPayReq({ address, amount }))
+}
+
+/**
+ * lnurlRequest - IPC handler for lnurlRequest event.
+ *
+ * @param  {event} event Event ipc event
+ * @param  {object} params { service, amount, memo }
+ * @param  {string} params.service lnurl
+ * @param  {number} params.amount ln pr amount
+ * @param  {string} params.memo ln pr memo
+ * @returns {Function} Thunk
+ */
+export const lnurlRequest = (event, { service, amount, memo }) => dispatch => {
+  dispatch(setLnurlWithdrawalParams({ amount, service, memo }))
+}
+
+/**
+ * finishLnurlWithdrawal - Concludes lnurl withdraw request processing by sending our ln PR to the service.
+ *
+ * @returns {Function} Thunk
+ */
+export const finishLnurlWithdrawal = () => async (dispatch, getState) => {
+  const state = getState()
+  if (state.pay.lnurlWithdrawParams) {
+    const { amount, memo } = getState().pay.lnurlWithdrawParams
+    dispatch(setLnurlWithdrawalParams(null))
+    const { payment_request: paymentRequest } = await dispatch(
+      createInvoice({
+        amount,
+        memo,
+        cryptoUnit: 'msats',
+        isPrivate: true,
+      })
+    )
+    dispatch(send('lnurlCreateInvoice', { paymentRequest }))
+  }
+}
+
+/**
+ * declineLnurlWithdrawal - Cancels lnurl withdrawal and clears params cache.
+ *
+ * @returns {object} Action
+ */
+export const declineLnurlWithdrawal = () => {
+  return {
+    type: DECLINE_LNURL_WITHDRAWAL,
+  }
 }
 
 // ------------------------------------
@@ -121,6 +177,18 @@ export function setRedirectPayReq(redirectPayReq) {
     redirectPayReq,
   }
 }
+/**
+ * setLnurlWithdrawalParams - Set request details.
+ *
+ * @param {object} params lnurl request details or null to clear
+ * @returns {object} Action
+ */
+export function setLnurlWithdrawalParams(params) {
+  return {
+    type: SET_REDIRECT_LN_URL,
+    params,
+  }
+}
 
 // ------------------------------------
 // Action Handlers
@@ -162,6 +230,34 @@ const ACTION_HANDLERS = {
   [SET_REDIRECT_PAY_REQ]: (state, { redirectPayReq }) => {
     state.redirectPayReq = redirectPayReq
   },
+
+  [SET_REDIRECT_LN_URL]: (state, { params }) => {
+    state.lnurlWithdrawParams = params
+  },
+  [DECLINE_LNURL_WITHDRAWAL]: state => {
+    state.lnurlWithdrawParams = null
+  },
 }
+
+// ------------------------------------
+// Selectors
+// ------------------------------------
+
+const paySelectors = {}
+const getLnurlWithdrawParamsSelector = state => state.pay.lnurlWithdrawParams
+
+paySelectors.willShowLnurlWithdrawalPrompt = createSelector(
+  getLnurlWithdrawParamsSelector,
+  settingsSelectors.currentConfig,
+  (params, config) => {
+    const promptEnabled = config.lnurl.requirePrompt
+    return Boolean(promptEnabled && params)
+  }
+)
+paySelectors.lnurlWithdrawParams = createSelector(
+  getLnurlWithdrawParamsSelector,
+  params => params
+)
+export { paySelectors }
 
 export default createReducer(initialState, ACTION_HANDLERS)

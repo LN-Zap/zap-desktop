@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import SettingsFieldsSecurity from 'components/Settings/SettingsFieldsSecurity'
 import { openDialog } from 'reducers/modal'
+import { settingsSelectors } from 'reducers/settings'
 import {
   CHANGE_PASSWORD_DIALOG_ID,
   PASSWORD_PROMPT_DIALOG_ID,
@@ -14,6 +15,7 @@ const enablePassword = () => openDialog(PASSWORD_SET_DIALOG_ID)
 
 const mapStateToProps = state => ({
   isAccountPasswordEnabled: accountSelectors.isAccountPasswordEnabled(state),
+  currentConfig: settingsSelectors.currentConfig(state),
 })
 
 const mapDispatchToProps = {

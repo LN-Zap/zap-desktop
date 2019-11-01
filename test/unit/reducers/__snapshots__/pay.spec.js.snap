@@ -9,6 +9,7 @@ Snapshot Diff:
 -   "isQueryingFees": false,
 +   "isQueryingFees": true,
     "isQueryingRoutes": false,
+    "lnurlWithdrawParams": null,
 -   "onchainFees": Object {
 -     "fast": null,
 -     "medium": null,
@@ -31,6 +32,7 @@ Snapshot Diff:
   Object {
     "isQueryingFees": false,
     "isQueryingRoutes": false,
+    "lnurlWithdrawParams": null,
 -   "onchainFees": Object {
 -     "fast": null,
 -     "medium": null,
@@ -54,6 +56,7 @@ Snapshot Diff:
   Object {
     "isQueryingFees": false,
     "isQueryingRoutes": false,
+    "lnurlWithdrawParams": null,
     "onchainFees": Object {
 -     "fast": null,
 -     "medium": null,
@@ -79,6 +82,7 @@ Snapshot Diff:
     "isQueryingFees": false,
 -   "isQueryingRoutes": false,
 +   "isQueryingRoutes": true,
+    "lnurlWithdrawParams": null,
     "onchainFees": Object {
       "fast": null,
       "medium": null,
@@ -101,6 +105,7 @@ Snapshot Diff:
   Object {
     "isQueryingFees": false,
     "isQueryingRoutes": false,
+    "lnurlWithdrawParams": null,
     "onchainFees": Object {
       "fast": null,
       "medium": null,
@@ -123,6 +128,7 @@ Snapshot Diff:
   Object {
     "isQueryingFees": false,
     "isQueryingRoutes": false,
+    "lnurlWithdrawParams": null,
     "onchainFees": Object {
       "fast": null,
       "medium": null,
@@ -141,6 +147,32 @@ Snapshot Diff:
   }
 `;
 
+exports[`reducers payReducer should handle SET_REDIRECT_LN_URL 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "isQueryingFees": false,
+    "isQueryingRoutes": false,
+-   "lnurlWithdrawParams": null,
++   "lnurlWithdrawParams": Object {
++     "amount": 100,
++     "memo": "1",
++   },
+    "onchainFees": Object {
+      "fast": null,
+      "medium": null,
+      "slow": null,
+    },
+    "pubKey": null,
+    "queryFeesError": null,
+    "queryRoutesError": null,
+    "redirectPayReq": null,
+    "routes": Array [],
+  }
+`;
+
 exports[`reducers payReducer should handle SET_REDIRECT_PAY_REQ 1`] = `
 Snapshot Diff:
 - First value
@@ -149,6 +181,7 @@ Snapshot Diff:
   Object {
     "isQueryingFees": false,
     "isQueryingRoutes": false,
+    "lnurlWithdrawParams": null,
     "onchainFees": Object {
       "fast": null,
       "medium": null,
@@ -167,6 +200,7 @@ exports[`reducers payReducer should handle initial state 1`] = `
 Object {
   "isQueryingFees": false,
   "isQueryingRoutes": false,
+  "lnurlWithdrawParams": null,
   "onchainFees": Object {
     "fast": null,
     "medium": null,
