@@ -36,6 +36,7 @@ class LndConnectionStringInput extends React.Component {
     if (!isValid) {
       return intl.formatMessage({ ...messages.invalid_lnd_connection_string })
     }
+    return undefined
   }
 
   render() {

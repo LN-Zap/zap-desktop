@@ -275,7 +275,7 @@ infoSelectors.commitString = createSelector(
   infoSelectors.version,
   version => {
     if (!version) {
-      return
+      return undefined
     }
     const commitString = version.split(' ')[1]
     return commitString ? commitString.replace('commit=', '') : undefined

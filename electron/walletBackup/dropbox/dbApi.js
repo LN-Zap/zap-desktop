@@ -104,8 +104,10 @@ export function createAuthWindow(
         // close window
         setImmediate(() => authWindow.close())
         // retrieve access tokens
-        resolve(parseUrlFragments(hash))
+        return resolve(parseUrlFragments(hash))
       }
+
+      return null
     }
     authWindow.on('closed', () => {
       reject('cancelled')

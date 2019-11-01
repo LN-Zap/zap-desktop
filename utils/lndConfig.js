@@ -189,6 +189,7 @@ class LndConfig {
         return true
       }
     }
+
     isReadyStore.set(this, completeSetup())
   }
 
@@ -219,6 +220,8 @@ class LndConfig {
     if (this.type === LNDCONFIG_TYPE_CUSTOM) {
       return lndconnect.encode({ host, cert, macaroon })
     }
+
+    return null
   }
 
   /**
@@ -235,7 +238,7 @@ class LndConfig {
         if (lndconnectUri) {
           return LndConfig.qrcodeFromLndconnectUri(lndconnectUri)
         }
-        break
+        return null
 
       default:
         return null
@@ -256,7 +259,7 @@ class LndConfig {
   }
 
   /**
-   * getConnectionProp - Getter helper for connection keyerties.
+   * getConnectionProp - Getter helper for connection key entries.
    *
    * @param {string} key key
    * @returns {string} Value
@@ -266,6 +269,7 @@ class LndConfig {
       const decoded = lndconnect.decode(this.lndconnectUri)
       return safeUntildify(decoded[key])
     }
+    return null
   }
 
   /**

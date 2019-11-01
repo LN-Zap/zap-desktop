@@ -96,7 +96,6 @@ export function initAutopay() {
       autopayList = []
     }
     dispatch(setAutopayList(autopayList))
-    return autopayList
   }
 }
 
