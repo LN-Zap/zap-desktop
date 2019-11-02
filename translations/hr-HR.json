@@ -449,7 +449,7 @@
   "components.Pay.request_label_combined": "Zahtjev za plaćanjem ili adresa",
   "components.Pay.request_label_offchain": "Zahtjev za plaćanjem",
   "components.Pay.request_label_onchain": "Adresa",
-  "components.Pay.searching_routes": "traženje rute plaćanja",
+  "components.Pay.searching_routes": "",
   "components.Pay.send": "Slanje",
   "components.Pay.send_all": "",
   "components.Pay.subtitle_offchain": "LN plaćanje",
