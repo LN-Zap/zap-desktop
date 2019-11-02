@@ -659,6 +659,7 @@
   "reducers.messages.invoice_receive_title": "Byl jsi Zappován",
   "reducers.messages.neutrtino_synced_body": "Visa kdo? Jste nyní svým vlastním zpracovatelem plateb!",
   "reducers.messages.neutrtino_synced_title": "Lightning uzel synchronizován",
+  "reducers.messages.pay_lnurl_withdraw_error": "",
   "reducers.messages.payment_send_error": "Nelze odeslat platbu: Neplatná faktura (bez hashe platby)",
   "reducers.messages.settings_init_error": "Nastavení nelze načíst: {error}",
   "reducers.messages.transaction_received_body": "Máte štěstí, právě jste obdrželi novou on-chain transakci. Žárlím.",

@@ -659,6 +659,7 @@
   "reducers.messages.invoice_receive_title": "Zap ! Vous avez été foudroyé",
   "reducers.messages.neutrtino_synced_body": "Visa, vous dites ? Vous êtes désormais votre propre système de paiement !",
   "reducers.messages.neutrtino_synced_title": "Nœud Lightning synchronisé",
+  "reducers.messages.pay_lnurl_withdraw_error": "",
   "reducers.messages.payment_send_error": "Impossible d'envoyer le paiement : demande invalide (pas de hash du paiement)",
   "reducers.messages.settings_init_error": "Impossible de charger les réglages : {error}",
   "reducers.messages.transaction_received_body": "Vous venez de recevoir une transaction On-chain. La chance.",
