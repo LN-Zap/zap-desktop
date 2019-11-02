@@ -2,16 +2,19 @@ import get from 'lodash/get'
 import { createSelector } from 'reselect'
 import { send } from 'redux-electron-ipc'
 import { grpc } from 'workers'
+import { getIntl } from '@zap/i18n'
 import { convert } from '@zap/utils/btc'
 import { estimateFeeRange } from '@zap/utils/fee'
 import { isAutopayEnabled } from '@zap/utils/featureFlag'
 import { decodePayReq } from '@zap/utils/crypto'
+import { showError } from './notification'
 import { settingsSelectors } from './settings'
 import { walletSelectors } from './wallet'
 import { showAutopayNotification, autopaySelectors } from './autopay'
 import { payInvoice } from './payment'
 import createReducer from './utils/createReducer'
 import { createInvoice } from './invoice'
+import messages from './messages'
 
 // ------------------------------------
 // Initial State
@@ -106,6 +109,20 @@ export const lightningPaymentUri = (event, { address }) => (dispatch, getState) 
  */
 export const bitcoinPaymentUri = (event, { address, options: { amount } }) => dispatch => {
   dispatch(setRedirectPayReq({ address, amount }))
+}
+
+/**
+ * lnurlError - IPC handler for lnurlError event.
+ *
+ * @param  {event} event Event ipc event
+ * @param  {object} params { service, reason }
+ * @param  {string} params.service lnurl
+ * @param  {string} params.reason error reason
+ * @returns {Function} Thunk
+ */
+export const lnurlError = (event, { service, reason }) => dispatch => {
+  const intl = getIntl()
+  dispatch(showError(intl.formatMessage(messages.pay_lnurl_withdraw_error, { reason, service })))
 }
 
 /**

@@ -1,6 +1,6 @@
 import { ipcMain } from 'electron'
 import { parse } from 'url'
-import { fetchWithdrawParams, makeWithdrawRequest } from '@zap/utils/lnurl'
+import { fetchWithdrawParams, makeWithdrawRequest, LNURL_STATUS_ERROR } from '@zap/utils/lnurl'
 import { mainLog } from '@zap/utils/log'
 
 /**
@@ -43,7 +43,7 @@ export default class LnurlService {
       const { callback, secret } = this.withdrawParams
       if (callback && secret && paymentRequest) {
         const res = await makeWithdrawRequest({ callback, secret, invoice: paymentRequest })
-        mainLog.info(res.data)
+        mainLog.info('Completed withdraw request: %o', res.data)
       }
     } catch (e) {
       mainLog.warn('Unable to process lnurl uri: %s', e)
@@ -65,13 +65,27 @@ export default class LnurlService {
    * @memberof LnurlService
    */
   async startWithdrawal(lnurl) {
+    mainLog.info('Attempting to process lnurl withdraw request: %s', lnurl)
+
     if (this.isWithdrawalProcessing) {
+      mainLog.warn('Error processing lnurl withdraw request: busy')
       this.send('lnurlWithdrawalBusy')
-    } else {
-      this.withdrawParams = await fetchWithdrawParams(lnurl)
-      const { maxWithdrawable, defaultDescription } = this.withdrawParams
-      const service = getServiceName(lnurl)
-      this.send('lnurlRequest', { amount: maxWithdrawable, memo: defaultDescription, service })
+      return
     }
+
+    this.withdrawParams = await fetchWithdrawParams(lnurl)
+    const { status, reason, maxWithdrawable, defaultDescription } = this.withdrawParams
+    const service = getServiceName(lnurl)
+
+    if (status === LNURL_STATUS_ERROR) {
+      const params = { status, reason, service }
+      mainLog.error('Unable to process lnurl withdraw request: %o', params)
+      this.send('lnurlError', params)
+      return
+    }
+
+    const params = { amount: maxWithdrawable, memo: defaultDescription, service }
+    mainLog.info('Processing lnurl withdraw request: %o', params)
+    this.send('lnurlRequest', params)
   }
 }

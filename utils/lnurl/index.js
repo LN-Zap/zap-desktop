@@ -1,5 +1,8 @@
 import axios from 'axios'
 import bech32 from 'bech32'
+import { mainLog } from '@zap/utils/log'
+
+export const LNURL_STATUS_ERROR = 'ERROR'
 
 /**
  * uintToString - Converts uint array to string.
@@ -21,6 +24,10 @@ function uintToString(uintArray) {
  * fetched
  */
 export async function fetchWithdrawParams(lnurl) {
+  mainLog.debug('Extracting params from lnurl: %s', lnurl)
+  const params = await axios.get(lnurl)
+  mainLog.debug('Got params from lnurl: %o', params)
+
   const {
     data: {
       // a second-level url which would accept a withdrawal Lightning invoice as query parameter
@@ -34,9 +41,19 @@ export async function fetchWithdrawParams(lnurl) {
       minWithdrawable,
       // action type
       tag,
+      // error status
+      status,
+      // error reason
+      reason,
     },
-  } = await axios.get(lnurl)
+  } = params
 
+  if (status === LNURL_STATUS_ERROR) {
+    return {
+      status,
+      reason,
+    }
+  }
   if (tag === 'withdrawRequest') {
     return {
       callback,
@@ -75,11 +92,14 @@ export function makeWithdrawRequest({ callback, secret, invoice }) {
  * @returns {string|null} decoded lnurl or null if decoding has failed
  */
 export function parseLnUrl(url) {
+  mainLog.debug('Parsing ln url: %s', url)
   try {
     const { prefix, words } = bech32.decode(url, url.length)
-
+    mainLog.debug('Determined ln url prefix as : %s', prefix)
     if (prefix === 'lnurl') {
-      return uintToString(bech32.fromWords(words))
+      const lnurl = uintToString(bech32.fromWords(words))
+      mainLog.debug('Determined ln url as : %s', lnurl)
+      return lnurl
     }
     return null
   } catch (e) {
