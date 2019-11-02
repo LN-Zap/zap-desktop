@@ -68,6 +68,7 @@ import Spinner from 'components/Icon/Spinner'
 import Success from 'components/Icon/Success'
 import Twitter from 'components/Icon/Twitter'
 import User from 'components/Icon/User'
+import UserCircle from 'components/Icon/UserCircle'
 import Warning from 'components/Icon/Warning'
 import X from 'components/Icon/X'
 import Zap from 'components/Icon/Zap'
@@ -141,6 +142,7 @@ const zapIconsList = {
   Success,
   Twitter,
   User,
+  UserCircle,
   Warning,
   X,
   Zap,

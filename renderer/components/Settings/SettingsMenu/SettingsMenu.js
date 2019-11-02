@@ -8,7 +8,7 @@ import { Dropmenu, StatusIndicator } from 'components/UI'
 import { WalletName } from 'components/Util'
 import Logout from 'components/Icon/Logout'
 import Settings from 'components/Icon/Settings'
-import User from 'components/Icon/User'
+import UserCircle from 'components/Icon/UserCircle'
 import messages from './messages'
 
 const buildLocaleMenu = localeProps => {
@@ -66,16 +66,16 @@ const SettingsMenu = ({
 
   const items = [
     {
+      id: 'profile',
+      title: <FormattedMessage {...messages.profile_title} />,
+      icon: <UserCircle />,
+      onClick: openProfile,
+    },
+    {
       id: 'settings',
       title: <FormattedMessage {...messages.settings_title} />,
       icon: <Settings />,
       onClick: openSettings,
-    },
-    {
-      id: 'profile',
-      title: <FormattedMessage {...messages.profile_title} />,
-      icon: <User />,
-      onClick: openProfile,
     },
     {
       id: 'logout',
