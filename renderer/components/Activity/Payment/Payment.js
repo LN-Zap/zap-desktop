@@ -73,11 +73,15 @@ const Payment = ({ payment, showActivityModal, cryptoUnitName, showErrorDetailsD
         width={1 / 4}
       >
         <Box opacity={payment.status === 'failed' ? 0.3 : null}>
-          <Text mb={1} textAlign="right">
-            -&nbsp;
-            <CryptoValue value={payment.value_sat} />
-            <i> {cryptoUnitName}</i>
-          </Text>
+          {(() => (
+            /* eslint-disable shopify/jsx-no-hardcoded-content */
+            <Text mb={1} textAlign="right">
+              -&nbsp;
+              <CryptoValue value={payment.value_sat} />
+              <i> {cryptoUnitName}</i>
+            </Text>
+            /* eslint-enable shopify/jsx-no-hardcoded-content */
+          ))()}
           <Text color="gray" fontSize="xs" fontWeight="normal" textAlign="right">
             <FiatValue style="currency" value={payment.value_sat} />
           </Text>

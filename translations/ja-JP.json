@@ -417,7 +417,7 @@
   "components.Onboarding.Steps.unlock": "解除",
   "components.Onboarding.Steps.unlocking": "",
   "components.Onboarding.Steps.verify_host_description": "ホスト名を慎重に確認してください。",
-  "components.Onboarding.Steps.verify_host_title": "",
+  "components.Onboarding.Steps.verify_host_title": "本当に接続したいのですか {hostName}?",
   "components.Onboarding.Steps.wallet_name_description": "",
   "components.Onboarding.Steps.wallet_name_label": "",
   "components.Onboarding.Steps.wallet_name_title": "",

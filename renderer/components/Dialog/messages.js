@@ -10,7 +10,7 @@ export default defineMessages({
   lnd_crashed_dialog_button_text: 'Ok',
   app_crashed_dialog_text: 'Ok',
   app_crashed_dialog_header: 'Unexpected error has occurred',
-  app_crashed_dialog_show_stack: 'show details',
-  app_crashed_dialog_hide_stack: 'hide details',
+  app_crashed_dialog_show_stack: '(show details)',
+  app_crashed_dialog_hide_stack: '(hide details)',
   app_crashed_dialog_submit_issue: 'Report this issue',
 })

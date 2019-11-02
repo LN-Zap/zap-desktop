@@ -2,13 +2,13 @@ import { defineMessages } from 'react-intl'
 
 /* eslint-disable max-len */
 export default defineMessages({
-  calculating: 'calculating',
-  current_balance: 'Your current confirmed balance',
+  calculating: 'calculating…',
+  current_balance: 'Your current confirmed balance:',
   error_not_enough_funds: 'You do not have enough funds available to make this payment.',
   request_label_combined: 'Payment Request or Address',
   request_label_offchain: 'Payment Request',
   request_label_onchain: 'Address',
-  searching_routes: 'searching for routes',
+  searching_routes: 'searching for routes…',
   subtitle_onchain: 'On-Chain Payment',
   subtitle_offchain: 'Lightning Payment',
   next_block_confirmation: 'next block confirmation',

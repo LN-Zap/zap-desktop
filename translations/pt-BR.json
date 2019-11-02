@@ -417,7 +417,7 @@
   "components.Onboarding.Steps.unlock": "Desbloquear",
   "components.Onboarding.Steps.unlocking": "",
   "components.Onboarding.Steps.verify_host_description": "Por favor, verifique o nome do host com cuidado.",
-  "components.Onboarding.Steps.verify_host_title": "",
+  "components.Onboarding.Steps.verify_host_title": "Tem certeza de que você deseja se conectar ao {hostName}?",
   "components.Onboarding.Steps.wallet_name_description": "",
   "components.Onboarding.Steps.wallet_name_label": "",
   "components.Onboarding.Steps.wallet_name_title": "",

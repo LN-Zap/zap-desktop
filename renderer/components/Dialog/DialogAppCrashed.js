@@ -43,13 +43,11 @@ const DialogAppCrashed = ({ onClose, onSubmit, error, isOpen }) => {
           ml={1}
           onClick={() => setIsStackVisible(!isStackVisible)}
         >
-          (
           <FormattedMessage
             {...messages[
               isStackVisible ? 'app_crashed_dialog_hide_stack' : 'app_crashed_dialog_show_stack'
             ]}
           />
-          )
         </ShowDetails>
       </Text>
 

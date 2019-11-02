@@ -417,7 +417,7 @@
   "components.Onboarding.Steps.unlock": "Розблокування",
   "components.Onboarding.Steps.unlocking": "",
   "components.Onboarding.Steps.verify_host_description": "Перевірте ім'я хоста.",
-  "components.Onboarding.Steps.verify_host_title": "",
+  "components.Onboarding.Steps.verify_host_title": "Ви дійсно бажаєте підключитися до {hostName}?",
   "components.Onboarding.Steps.wallet_name_description": "",
   "components.Onboarding.Steps.wallet_name_label": "",
   "components.Onboarding.Steps.wallet_name_title": "",

@@ -165,8 +165,14 @@ class ConnectionConfirm extends React.Component {
         {hostname && (
           <>
             <Text>
-              <FormattedMessage {...messages.verify_host_title} />{' '}
-              <Span color="superGreen">{window.Zap.splitHostname(hostname).host}</Span>?{' '}
+              <FormattedMessage
+                {...messages.verify_host_title}
+                values={{
+                  hostname: (
+                    <Span color="superGreen">{window.Zap.splitHostname(hostname).host}</Span>
+                  ),
+                }}
+              />
             </Text>
             <Text mt={2}>
               <FormattedMessage {...messages.verify_host_description} />

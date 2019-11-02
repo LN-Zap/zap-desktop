@@ -417,7 +417,7 @@
   "components.Onboarding.Steps.unlock": "Ξεκλειδώσετε",
   "components.Onboarding.Steps.unlocking": "",
   "components.Onboarding.Steps.verify_host_description": "Ελέγξτε προσεκτικά το όνομα του κεντρικού υπολογιστή.",
-  "components.Onboarding.Steps.verify_host_title": "",
+  "components.Onboarding.Steps.verify_host_title": "Είστε βέβαιοι ότι θέλετε να συνδεθείτε προς {hostName}?",
   "components.Onboarding.Steps.wallet_name_description": "",
   "components.Onboarding.Steps.wallet_name_label": "",
   "components.Onboarding.Steps.wallet_name_title": "",

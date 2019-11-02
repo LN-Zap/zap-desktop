@@ -71,7 +71,6 @@ const TransactionFeeInput = ({
           <Flex alignItems="center" justifyContent="flex-end" ml="auto">
             <Text mr={2}>
               <FormattedMessage {...messages.calculating} />
-              &hellip;
             </Text>
             <Spinner color="primaryAccent" />
           </Flex>

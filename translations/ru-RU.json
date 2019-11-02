@@ -417,7 +417,7 @@
   "components.Onboarding.Steps.unlock": "Разблокировать",
   "components.Onboarding.Steps.unlocking": "",
   "components.Onboarding.Steps.verify_host_description": "Пожалуйста, внимательно проверьте имя хоста (hostname).",
-  "components.Onboarding.Steps.verify_host_title": "",
+  "components.Onboarding.Steps.verify_host_title": "Уверены, что хотите подключиться (к) {hostName}?",
   "components.Onboarding.Steps.wallet_name_description": "",
   "components.Onboarding.Steps.wallet_name_label": "",
   "components.Onboarding.Steps.wallet_name_title": "",
