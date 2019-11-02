@@ -95,11 +95,10 @@ const ChannelData = ({ channel, cryptoUnitName, intl, networkInfo, viewMode, ...
       label: <FormattedMessage {...messages.local_chan_reserve_sat_label} />,
       body: <FormattedMessage {...messages.local_chan_reserve_sat_description} />,
       value: (
-        <Text>
-          <CryptoValue value={local_chan_reserve_sat} />
-          {` `}
-          {cryptoUnitName}
-        </Text>
+        <FormattedMessage
+          {...messages.crypto_amount_with_unit}
+          values={{ amount: <CryptoValue value={local_chan_reserve_sat} />, cryptoUnitName }}
+        />
       ),
     }),
 
@@ -107,11 +106,10 @@ const ChannelData = ({ channel, cryptoUnitName, intl, networkInfo, viewMode, ...
       label: <FormattedMessage {...messages.remote_chan_reserve_sat_label} />,
       body: <FormattedMessage {...messages.remote_chan_reserve_sat_description} />,
       value: (
-        <Text>
-          <CryptoValue value={remote_chan_reserve_sat} />
-          {` `}
-          {cryptoUnitName}
-        </Text>
+        <FormattedMessage
+          {...messages.crypto_amount_with_unit}
+          values={{ amount: <CryptoValue value={remote_chan_reserve_sat} />, cryptoUnitName }}
+        />
       ),
     }),
 
@@ -137,11 +135,10 @@ const ChannelData = ({ channel, cryptoUnitName, intl, networkInfo, viewMode, ...
       label: <FormattedMessage {...messages.total_sent_label} />,
       body: <FormattedMessage {...messages.total_sent_description} />,
       value: (
-        <Text>
-          <CryptoValue value={total_satoshis_sent} />
-          {` `}
-          {cryptoUnitName}
-        </Text>
+        <FormattedMessage
+          {...messages.crypto_amount_with_unit}
+          values={{ amount: <CryptoValue value={total_satoshis_sent} />, cryptoUnitName }}
+        />
       ),
     }),
 
@@ -149,11 +146,10 @@ const ChannelData = ({ channel, cryptoUnitName, intl, networkInfo, viewMode, ...
       label: <FormattedMessage {...messages.total_received_label} />,
       body: <FormattedMessage {...messages.total_received_description} />,
       value: (
-        <Text>
-          <CryptoValue value={total_satoshis_received} />
-          {` `}
-          {cryptoUnitName}
-        </Text>
+        <FormattedMessage
+          {...messages.crypto_amount_with_unit}
+          values={{ amount: <CryptoValue value={total_satoshis_received} />, cryptoUnitName }}
+        />
       ),
     }),
 
@@ -161,11 +157,10 @@ const ChannelData = ({ channel, cryptoUnitName, intl, networkInfo, viewMode, ...
       label: <FormattedMessage {...messages.commit_fee_label} />,
       body: <FormattedMessage {...messages.commit_fee_description} />,
       value: (
-        <Text>
-          <CryptoValue value={commit_fee} />
-          {` `}
-          {cryptoUnitName}
-        </Text>
+        <FormattedMessage
+          {...messages.crypto_amount_with_unit}
+          values={{ amount: <CryptoValue value={commit_fee} />, cryptoUnitName }}
+        />
       ),
     }),
 
@@ -173,11 +168,10 @@ const ChannelData = ({ channel, cryptoUnitName, intl, networkInfo, viewMode, ...
       label: <FormattedMessage {...messages.base_fee_label} />,
       body: <FormattedMessage {...messages.base_fee_description} values={{ cryptoUnitName }} />,
       value: (
-        <Text>
-          <CryptoValue value={fee_per_kw} />
-          {` `}
-          {cryptoUnitName}
-        </Text>
+        <FormattedMessage
+          {...messages.crypto_amount_with_unit}
+          values={{ amount: <CryptoValue value={fee_per_kw} />, cryptoUnitName }}
+        />
       ),
     }),
   }

@@ -23,8 +23,12 @@ module.exports = {
       'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
       'no-restricted-syntax': 'off',
       'jest/no-mocks-import': 'off',
+      'shopify/jsx-no-hardcoded-content': 'error',
     }
   ),
+  plugins: [
+    'shopify',
+  ],
   settings: {
     'import/resolver': {
       'babel-module': {},

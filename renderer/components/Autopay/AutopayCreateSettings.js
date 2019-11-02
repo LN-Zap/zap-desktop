@@ -63,6 +63,7 @@ const AutopayCreateSettings = ({
         </>
       }
       right={
+        /* eslint-disable shopify/jsx-no-hardcoded-content */
         <Flex alignItems="flex-end" flexDirection="column" ml={4}>
           <Flex alignItems="baseline">
             <CryptoValue fontSize="xxl" value={limit || defaultValue} />
@@ -73,6 +74,7 @@ const AutopayCreateSettings = ({
             <FiatValue color="gray" style="currency" value={limit || defaultValue} />
           </Flex>
         </Flex>
+        /* eslint-enable shopify/jsx-no-hardcoded-content */
       }
     />
     <Bar variant="light" />

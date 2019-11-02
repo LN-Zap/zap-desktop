@@ -10,9 +10,11 @@ const Supertext = styled(Span)`
 `
 
 const RequiredMark = () => (
+  /* eslint-disable shopify/jsx-no-hardcoded-content */
   <Supertext fontSize="s" ml={1}>
     *
   </Supertext>
+  /* eslint-enable shopify/jsx-no-hardcoded-content */
 )
 
 const Label = ({ htmlFor, children, isRequired, tooltip, ...rest }) => (

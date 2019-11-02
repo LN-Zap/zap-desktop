@@ -1,6 +1,7 @@
 {
   "rules": {
     "react/display-name": 0,
-    "no-console": 0
+    "no-console": 0,
+    "shopify/jsx-no-hardcoded-content": 0
   }
 }

@@ -34,11 +34,15 @@ const Invoice = ({ invoice, showActivityModal, cryptoUnitName, intl }) => (
       data-hint={intl.formatMessage({ ...messages.amount })}
       width={1 / 4}
     >
-      <Text color="superGreen" mb={1} textAlign="right">
-        +&nbsp;
-        <CryptoValue value={invoice.finalAmount} />
-        <i> {cryptoUnitName}</i>
-      </Text>
+      {(() => (
+        /* eslint-disable shopify/jsx-no-hardcoded-content */
+        <Text color="superGreen" mb={1} textAlign="right">
+          +&nbsp;
+          <CryptoValue value={invoice.finalAmount} />
+          <i> {cryptoUnitName}</i>
+        </Text>
+        /* eslint-enable shopify/jsx-no-hardcoded-content */
+      ))()}
       <Text color="gray" fontSize="xs" fontWeight="normal" textAlign="right">
         <FiatValue style="currency" value={invoice.finalAmount} />
       </Text>

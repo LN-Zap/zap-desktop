@@ -47,22 +47,30 @@ class Tooltip extends React.Component {
     this.setState({ hover: false })
   }
 
+  tooltipIcon = () => {
+    /* eslint-disable shopify/jsx-no-hardcoded-content */
+    return (
+      <StyledTooltipIconBox
+        bg="primaryText"
+        ml={1}
+        onMouseEnter={this.hoverOn}
+        onMouseLeave={this.hoverOff}
+      >
+        <Text color="primaryColor" fontSize="s" fontWeight="bold">
+          ?
+        </Text>
+      </StyledTooltipIconBox>
+    )
+    /* eslint-enable shopify/jsx-no-hardcoded-content */
+  }
+
   render() {
     const { children, ...rest } = this.props
     const { hover } = this.state
 
     return (
       <Box sx={{ position: 'relative' }} {...rest}>
-        <StyledTooltipIconBox
-          bg="primaryText"
-          ml={1}
-          onMouseEnter={this.hoverOn}
-          onMouseLeave={this.hoverOff}
-        >
-          <Text color="primaryColor" fontSize="s" fontWeight="bold">
-            ?
-          </Text>
-        </StyledTooltipIconBox>
+        {this.tooltipIcon()}
         {hover && (
           <StyledTooltipWrapper
             bg="secondaryColor"

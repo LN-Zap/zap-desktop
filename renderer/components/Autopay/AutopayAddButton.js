@@ -17,6 +17,7 @@ const AutopayAddButton = props => {
   const theme = useContext(ThemeContext)
 
   return (
+    /* eslint-disable shopify/jsx-no-hardcoded-content */
     <Gradient
       bg="primaryAccent"
       color={themeGet('colors.primaryAccent')({ theme })}
@@ -31,6 +32,7 @@ const AutopayAddButton = props => {
         <Text fontSize="xl">+</Text>
       </Flex>
     </Gradient>
+    /* eslint-enable shopify/jsx-no-hardcoded-content */
   )
 }
 

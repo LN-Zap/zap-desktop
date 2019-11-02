@@ -109,6 +109,14 @@ const CurrencyFieldGroup = React.forwardRef(
       setFiatCurrency(value)
     }
 
+    const equalitySign = () => (
+      /* eslint-disable shopify/jsx-no-hardcoded-content */
+      <Flex justifyContent="center" mt={42} width={1 / 11}>
+        =
+      </Flex>
+      /* eslint-enable shopify/jsx-no-hardcoded-content */
+    )
+
     return (
       <Box {...rest}>
         <Flex justifyContent="space-between">
@@ -140,9 +148,7 @@ const CurrencyFieldGroup = React.forwardRef(
               valueField="name"
             />
           </Flex>
-          <Flex justifyContent="center" mt={42} width={1 / 11}>
-            =
-          </Flex>
+          {equalitySign()}
           <Flex width={6 / 13}>
             <Box ml="auto" width={150}>
               <FiatAmountInput

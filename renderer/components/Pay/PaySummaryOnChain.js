@@ -52,7 +52,6 @@ class PaySummaryOnChain extends React.Component {
         <Flex alignItems="center" justifyContent="flex-end" ml="auto">
           <Text mr={2}>
             <FormattedMessage {...messages.calculating} />
-            &hellip;
           </Text>
           <Spinner color="primaryAccent" />
         </Flex>
@@ -79,6 +78,19 @@ class PaySummaryOnChain extends React.Component {
     return <FormattedMessage {...messages.fee_unknown} />
   }
 
+  renderApproximateFiatAmount = () => {
+    const { amount } = this.props
+
+    /* eslint-disable shopify/jsx-no-hardcoded-content */
+    return (
+      <Text color="gray">
+        ≈&nbsp;
+        <FiatValue style="currency" value={amount} />
+      </Text>
+    )
+    /* eslint-enable shopify/jsx-no-hardcoded-content */
+  }
+
   render() {
     const {
       amount,
@@ -98,10 +110,7 @@ class PaySummaryOnChain extends React.Component {
           <Flex alignItems="center">
             <Box width={5 / 11}>
               <CryptoValueSelector fontSize="xxl" value={amount} />
-              <Text color="gray">
-                ≈&nbsp;
-                <FiatValue style="currency" value={amount} />
-              </Text>
+              {this.renderApproximateFiatAmount()}
             </Box>
             <Box width={1 / 11}>
               <Text color="primaryAccent" textAlign="center">

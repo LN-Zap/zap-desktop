@@ -34,6 +34,15 @@ class PaySummaryLightning extends React.Component {
     minFee: 0,
   }
 
+  renderApproximateFiatAmount = amountInSatoshis => (
+    /* eslint-disable shopify/jsx-no-hardcoded-content */
+    <Text color="gray">
+      ≈&nbsp;
+      <FiatValue style="currency" value={amountInSatoshis} />
+    </Text>
+    /* eslint-enable shopify/jsx-no-hardcoded-content */
+  )
+
   render() {
     const {
       amount,
@@ -92,10 +101,7 @@ class PaySummaryLightning extends React.Component {
                 </Box>
                 <CryptoSelector ml={2} />
               </Flex>
-              <Text color="gray">
-                ≈&nbsp;
-                <FiatValue style="currency" value={amountInSatoshis} />
-              </Text>
+              {this.renderApproximateFiatAmount(amountInSatoshis)}
             </Box>
             <Box width={1 / 11}>
               <Text color="primaryAccent" textAlign="center">
