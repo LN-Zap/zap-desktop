@@ -46,7 +46,9 @@ const AutopayCreateSettings = ({
       left={
         <>
           <Flex justifyContent="space-between">
-            <Text fontWeight="normal">Limit</Text>
+            <Text fontWeight="normal">
+              <FormattedMessage {...messages.limit} />
+            </Text>
             <Text color="gray" fontWeight="light">
               <FormattedMessage {...messages.max_text} /> <FiatValue style="currency" value={max} />
             </Text>
@@ -61,6 +63,7 @@ const AutopayCreateSettings = ({
         </>
       }
       right={
+        /* eslint-disable shopify/jsx-no-hardcoded-content */
         <Flex alignItems="flex-end" flexDirection="column" ml={4}>
           <Flex alignItems="baseline">
             <CryptoValue fontSize="xxl" value={limit || defaultValue} />
@@ -71,6 +74,7 @@ const AutopayCreateSettings = ({
             <FiatValue color="gray" style="currency" value={limit || defaultValue} />
           </Flex>
         </Flex>
+        /* eslint-enable shopify/jsx-no-hardcoded-content */
       }
     />
     <Bar variant="light" />

@@ -6,6 +6,7 @@
   "extends": ["plugin:jest/recommended"],
   "rules": {
     "no-console": 0,
-    "jest/no-mocks-import": 0
+    "jest/no-mocks-import": 0,
+    "shopify/jsx-no-hardcoded-content": 0
   }
 }

@@ -24,4 +24,5 @@ export default defineMessages({
   autopay_status: 'Autopay Status',
   autopay_status_active: 'Active',
   autopay_status_inactive: 'Inactive',
+  limit: 'Limit',
 })

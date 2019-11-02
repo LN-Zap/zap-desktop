@@ -122,7 +122,7 @@ const PayPanelFooter = props => {
       {walletBalanceConfirmed !== null && (
         <>
           <Text fontWeight="normal" mt={3} textAlign="center">
-            <FormattedMessage {...messages.current_balance} />:
+            <FormattedMessage {...messages.current_balance} />
           </Text>
           <Text fontSize="xs" textAlign="center">
             <FormattedMessage

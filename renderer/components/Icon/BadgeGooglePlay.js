@@ -1,5 +1,6 @@
 import React from 'react'
 
+/* eslint-disable shopify/jsx-no-hardcoded-content */
 const SvgBadgeGooglePlay = props => (
   <svg
     height="1em"

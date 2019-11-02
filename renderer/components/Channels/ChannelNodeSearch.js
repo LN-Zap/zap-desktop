@@ -51,7 +51,11 @@ SearchResults.propTypes = {
   onClickConnect: PropTypes.func.isRequired,
 }
 
-const NoSearchResults = () => <Text color="gray">Your seach did not return any results.</Text>
+const NoSearchResults = () => (
+  <Text color="gray">
+    <FormattedMessage {...messages.no_search_results} />
+  </Text>
+)
 
 const ChannelNodeSearch = ({
   searchQuery,

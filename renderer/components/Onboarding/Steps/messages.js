@@ -88,7 +88,7 @@ export default defineMessages({
   unlock: 'Unlock',
   unlocking: 'Unlocking',
   verify_host_description: 'Please check the hostname carefully.',
-  verify_host_title: 'Are you sure you want to connect to',
+  verify_host_title: 'Are you sure you want to connect to {hostName}?',
   wallet_name_description:
     'This is for your convenience only and will not be broadcasted on the Lightning Network.',
   wallet_name_title: 'Name your wallet',
