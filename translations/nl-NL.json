@@ -417,7 +417,7 @@
   "components.Onboarding.Steps.unlock": "Ontgrendelen",
   "components.Onboarding.Steps.unlocking": "",
   "components.Onboarding.Steps.verify_host_description": "Controleer zorgvuldig de hostnaam.",
-  "components.Onboarding.Steps.verify_host_title": "Weet je zeker dat je verbinding wil maken met {hostName}?",
+  "components.Onboarding.Steps.verify_host_title": "",
   "components.Onboarding.Steps.wallet_name_description": "",
   "components.Onboarding.Steps.wallet_name_label": "",
   "components.Onboarding.Steps.wallet_name_title": "",

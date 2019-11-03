@@ -417,7 +417,7 @@
   "components.Onboarding.Steps.unlock": "Unlock",
   "components.Onboarding.Steps.unlocking": "Unlocking",
   "components.Onboarding.Steps.verify_host_description": "Please check the hostname carefully.",
-  "components.Onboarding.Steps.verify_host_title": "Are you sure you want to connect to {hostName}?",
+  "components.Onboarding.Steps.verify_host_title": "Are you sure you want to connect to {hostname}?",
   "components.Onboarding.Steps.wallet_name_description": "This is for your convenience only and will not be broadcasted on the Lightning Network.",
   "components.Onboarding.Steps.wallet_name_label": "Wallet Name",
   "components.Onboarding.Steps.wallet_name_title": "Name your wallet",
