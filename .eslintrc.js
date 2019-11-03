@@ -12,7 +12,10 @@ const downgraded = [
 ]
 
 module.exports = {
-  extends: '@ln-zap',
+  extends: [
+    '@ln-zap',
+    'plugin:testcafe/recommended',
+  ],
   rules: downgraded.reduce(
     (acc, next) => {
       acc[next] = 'warn'
@@ -28,6 +31,7 @@ module.exports = {
   ),
   plugins: [
     'shopify',
+    'testcafe',
   ],
   settings: {
     'import/resolver': {
