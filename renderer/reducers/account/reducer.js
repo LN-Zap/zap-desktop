@@ -1,10 +1,27 @@
 import { getIntl } from '@zap/i18n'
 import { mainLog } from '@zap/utils/log'
-import createReducer from './utils/createReducer'
-import waitForIpcEvent from './utils/waitForIpc'
-import { closeDialog } from './modal'
-import { showNotification } from './notification'
+import createReducer from 'reducers/utils/createReducer'
+import waitForIpcEvent from 'reducers/utils/waitForIpc'
+import { closeDialog } from 'reducers/modal'
+import { showNotification } from 'reducers/notification'
+import accountSelectors from './selectors'
 import messages from './messages'
+import * as constants from './constants'
+
+const {
+  INIT_ACCOUNT,
+  INIT_ACCOUNT_SUCCESS,
+  INIT_ACCOUNT_FAILURE,
+  LOGIN,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
+  LOGIN_CLEAR_ERROR,
+  CHANGE_PASSWORD_DIALOG_ID,
+  PASSWORD_PROMPT_DIALOG_ID,
+  PASSWORD_SET_DIALOG_ID,
+  SET_IS_PASSWORD_ENABLED,
+  LOGIN_NOT_ALLOWED,
+} = constants
 
 // ------------------------------------
 // Initial State
@@ -20,26 +37,6 @@ export const initialState = {
   isPasswordEnabled: null,
 }
 
-// ------------------------------------
-// Constants
-// ------------------------------------
-
-export const INIT_ACCOUNT = 'INIT_ACCOUNT'
-export const INIT_ACCOUNT_SUCCESS = 'INIT_ACCOUNT_SUCCESS'
-export const INIT_ACCOUNT_FAILURE = 'INIT_ACCOUNT_FAILURE'
-
-export const LOGIN = 'LOGIN'
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-export const LOGIN_FAILURE = 'LOGIN_FAILURE'
-export const LOGIN_CLEAR_ERROR = 'LOGIN_CLEAR_ERROR'
-
-export const CHANGE_PASSWORD_DIALOG_ID = 'CHANGE_PASSWORD_DIALOG'
-export const PASSWORD_PROMPT_DIALOG_ID = 'PASSWORD_PROMPT_DIALOG'
-export const PASSWORD_SET_DIALOG_ID = 'PASSWORD_SET_DIALOG_ID'
-
-export const SET_IS_PASSWORD_ENABLED = 'SET_IS_PASSWORD_ENABLED'
-
-export const LOGIN_NOT_ALLOWED = 'LOGIN_NOT_ALLOWED'
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -239,31 +236,6 @@ const ACTION_HANDLERS = {
     state.isPasswordEnabled = value
   },
 }
-
-// ------------------------------------
-// Selectors
-// ------------------------------------
-
-const accountSelector = state => state.account.account
-const isAccountLoadingSelector = state => state.account.isAccountLoading
-const initAccountErrorSelector = state => state.exchange.initAccountError
-
-const isLoggingInSelector = state => state.account.isLoggingIn
-const isLoggedInSelector = state => state.account.isLoggedIn
-const loginErrorSelector = state => state.account.loginError
-const isAccountPasswordEnabledSelector = state => state.account.isPasswordEnabled
-
-const accountSelectors = {}
-
-accountSelectors.account = accountSelector
-accountSelectors.isAccountLoading = isAccountLoadingSelector
-accountSelectors.initAccountError = initAccountErrorSelector
-
-accountSelectors.isLoggingIn = isLoggingInSelector
-accountSelectors.isLoggedIn = isLoggedInSelector
-accountSelectors.loginError = loginErrorSelector
-accountSelectors.isAccountPasswordEnabled = isAccountPasswordEnabledSelector
-export { accountSelectors }
 
 // ------------------------------------
 // Reducer
