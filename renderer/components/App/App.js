@@ -136,7 +136,7 @@ App.propTypes = {
   initBackupService: PropTypes.func.isRequired,
   initTickers: PropTypes.func.isRequired,
   isAppReady: PropTypes.bool.isRequired,
-  lnurlWithdrawParams: PropTypes.object.isRequired,
+  lnurlWithdrawParams: PropTypes.object,
   modals: PropTypes.array.isRequired,
   redirectPayReq: PropTypes.object,
   setIsWalletOpen: PropTypes.func.isRequired,
