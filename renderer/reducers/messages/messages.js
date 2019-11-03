@@ -14,8 +14,6 @@ export default defineMessages({
   settings_init_error: 'Unable to load settings: {error}',
   payment_send_error: 'Unable to send payment: Invalid invoice (no payment hash)',
   channels_open_warning: 'Channel opening initiated',
-  activity_invoice_download_error: 'An error has occurred',
-  activity_invoice_download_success: 'Download Complete',
   invoice_receive_title: `You've been Zapped`,
   invoice_receive_body: 'Congrats, someone just paid an invoice of yours',
   app_init_db_error: 'Unable to initialize database: {error}',

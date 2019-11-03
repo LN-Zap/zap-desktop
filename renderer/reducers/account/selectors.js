@@ -1,13 +1,10 @@
-const accountSelectors = {}
-export default { accountSelectors }
-
 /**
  * account - Active account.
  *
  * @param  {object} state redux state
  * @returns {object} currently active account
  */
-accountSelectors.account = state => state.account.account
+export const account = state => state.account.account
 
 /**
  * isAccountLoading - Account loading state.
@@ -15,7 +12,7 @@ accountSelectors.account = state => state.account.account
  * @param  {object} state redux state
  * @returns {boolean} Boolean indicating wether the current account is in loading state
  */
-accountSelectors.isAccountLoading = state => state.account.isAccountLoading
+export const isAccountLoading = state => state.account.isAccountLoading
 
 /**
  * initAccountError - Last known error that occured when trying to initialise the account.
@@ -23,7 +20,7 @@ accountSelectors.isAccountLoading = state => state.account.isAccountLoading
  * @param  {object} state redux state
  * @returns {string} Error message
  */
-accountSelectors.initAccountError = state => state.exchange.initAccountError
+export const initAccountError = state => state.exchange.initAccountError
 
 /**
  * isLoggingIn - Aaccount logging in state.
@@ -31,7 +28,7 @@ accountSelectors.initAccountError = state => state.exchange.initAccountError
  * @param  {object} state redux state
  * @returns {boolean} Boolean indicating wether the current account is being logged into
  */
-accountSelectors.isLoggingIn = state => state.account.isLoggingIn
+export const isLoggingIn = state => state.account.isLoggingIn
 
 /**
  * isLoggingIn - Account login state.
@@ -39,7 +36,7 @@ accountSelectors.isLoggingIn = state => state.account.isLoggingIn
  * @param  {object} state redux state
  * @returns {boolean} Boolean indicating wether the current account is logged in
  */
-accountSelectors.isLoggedIn = state => state.account.isLoggedIn
+export const isLoggedIn = state => state.account.isLoggedIn
 
 /**
  * loginError - Last known error that occured when trying to login to the account.
@@ -47,7 +44,7 @@ accountSelectors.isLoggedIn = state => state.account.isLoggedIn
  * @param  {object} state redux state
  * @returns {string} Error message
  */
-accountSelectors.loginError = state => state.account.loginError
+export const loginError = state => state.account.loginError
 
 /**
  * isAccountPasswordEnabled - Enabled state of the application password feature.
@@ -55,4 +52,17 @@ accountSelectors.loginError = state => state.account.loginError
  * @param  {object} state redux state
  * @returns {boolean} Boolean indicating wether the application password feature is enabled
  */
-accountSelectors.isAccountPasswordEnabled = state => state.account.isPasswordEnabled
+export const isAccountPasswordEnabled = state => state.account.isPasswordEnabled
+
+/**
+ * All selectors to export.
+ */
+export default {
+  account,
+  isAccountLoading,
+  initAccountError,
+  isLoggingIn,
+  isLoggedIn,
+  loginError,
+  isAccountPasswordEnabled,
+}
