@@ -1566,10 +1566,10 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
-"@ln-zap/eslint-config@0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@ln-zap/eslint-config/-/eslint-config-0.3.0.tgz#45331051f7b1cd4ab8ed14228a8d9846614ede18"
-  integrity sha512-v7rtTFuodo0zHLYEgS6rQiKNi9GeoggX0Rp+jak0U2Nf04rH6WHrQoXbzJuvQ5hcZEgfRp/eNX726UjX6xAmDQ==
+"@ln-zap/eslint-config@0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@ln-zap/eslint-config/-/eslint-config-0.3.1.tgz#aed7fd76208fd77335dd2eacdccd236235d3877c"
+  integrity sha512-7478o55YWrF0yjsZ95dpSyTJFv4ZldLeERX29Bc29ouhqFSIBtMkSaaz1SVdfsz4PXJYGuiU6kvVbry31MI/hw==
   dependencies:
     babel-eslint "10.0.3"
     eslint-config-airbnb "18.0.1"
@@ -1578,7 +1578,7 @@
     eslint-plugin-compat "3.3.0"
     eslint-plugin-import "2.18.2"
     eslint-plugin-jest "23.0.2"
-    eslint-plugin-jsdoc "16.1.1"
+    eslint-plugin-jsdoc "17.0.1"
     eslint-plugin-json "2.0.1"
     eslint-plugin-jsx-a11y "6.2.3"
     eslint-plugin-markdown "1.0.1"
@@ -6183,10 +6183,10 @@ commander@~2.19.0:
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.19.0.tgz#f6198aa84e5b83c46054b94ddedbfed5ee9ff12a"
   integrity sha512-6tvAOO+D6OENvRAh524Dh9jcfKTYDQAqvqezbCW82xj5X0pSrcpxtvRKHLG0yBY6SD7PSDrJaj+0AiOcKVd1Xg==
 
-comment-parser@^0.6.2:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/comment-parser/-/comment-parser-0.6.2.tgz#b71e8fcacad954bea616779391838150d0096dcb"
-  integrity sha512-Wdms0Q8d4vvb2Yk72OwZjwNWtMklbC5Re7lD9cjCP/AG1fhocmc0TrxGBBAXPLy8fZQPrfHGgyygwI0lA7pbzA==
+comment-parser@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/comment-parser/-/comment-parser-0.7.0.tgz#9dc1f689a60d81fbcaf867d3c9eba3eb061ccfc1"
+  integrity sha512-m0SGP0RFO4P3hIBlIor4sBFPe5Y4HUeGgo/UZK/1Zdea5eUiqxroQ3lFqBDDSfWo9z9Q6LLnt2u0JqwacVEd/A==
 
 common-tags@^1.8.0:
   version "1.8.0"
@@ -8070,12 +8070,12 @@ eslint-plugin-jest@23.0.2:
   dependencies:
     "@typescript-eslint/experimental-utils" "^2.5.0"
 
-eslint-plugin-jsdoc@16.1.1:
-  version "16.1.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jsdoc/-/eslint-plugin-jsdoc-16.1.1.tgz#fa9e66579575ebc5e68d86e0a2f3058fa6a53602"
-  integrity sha512-GvnWWoctfpFG5knKZhR04arLcZrsRF4Ihxq48y0k1rJ6UrjiTExqExs21Gd+HNdPwrPZIty03UvIuEIzpFY+lw==
+eslint-plugin-jsdoc@17.0.1:
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jsdoc/-/eslint-plugin-jsdoc-17.0.1.tgz#fd7c01b810184ebe3697374261605e1338476e22"
+  integrity sha512-5L8nNpZmc3IWP2YXuMelSCGdsKBxaXPBYIs8ug7gHWqmFtGIUhPZfKTuFIT6K5Hbcsg/zXhjTEHpCMe2M7slJQ==
   dependencies:
-    comment-parser "^0.6.2"
+    comment-parser "^0.7.0"
     debug "^4.1.1"
     jsdoctypeparser "^5.1.1"
     lodash "^4.17.15"
