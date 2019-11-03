@@ -2,11 +2,12 @@ import config from 'config'
 import merge from 'lodash/merge'
 import set from 'lodash/set'
 import { createSelector } from 'reselect'
+import createReducer from '@zap/utils/createReducer'
 import difference from '@zap/utils/difference'
 import { getIntl } from '@zap/i18n'
 import { showError } from './notification'
-import createReducer from './utils/createReducer'
 import messages from './messages'
+
 // ------------------------------------
 // Initial State
 // ------------------------------------

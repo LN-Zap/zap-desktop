@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import uniqBy from 'lodash/uniqBy'
 import last from 'lodash/last'
+import createReducer from '@zap/utils/createReducer'
 import { showSystemNotification } from '@zap/utils/notifications'
 import { convert } from '@zap/utils/btc'
 import { getIntl } from '@zap/i18n'
@@ -11,7 +12,6 @@ import { addressSelectors, newAddress } from './address'
 import { fetchBalance } from './balance'
 import { fetchChannels, channelsSelectors, getChannelData } from './channels'
 import { settingsSelectors } from './settings'
-import createReducer from './utils/createReducer'
 import messages from './messages'
 
 // ------------------------------------

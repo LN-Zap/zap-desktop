@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import uniqBy from 'lodash/uniqBy'
 import config from 'config'
+import createReducer from '@zap/utils/createReducer'
 import { showSystemNotification } from '@zap/utils/notifications'
 import { convert } from '@zap/utils/btc'
 import { getIntl } from '@zap/i18n'
@@ -10,8 +11,8 @@ import { fetchChannels } from './channels'
 import { showError } from './notification'
 import { walletSelectors } from './wallet'
 import { settingsSelectors } from './settings'
-import createReducer from './utils/createReducer'
 import messages from './messages'
+
 // ------------------------------------
 // Initial State
 // ------------------------------------

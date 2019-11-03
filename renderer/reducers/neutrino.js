@@ -2,10 +2,10 @@ import { send } from 'redux-electron-ipc'
 import { createSelector } from 'reselect'
 import { proxyValue } from 'comlinkjs'
 import { neutrino } from 'workers'
+import createReducer from '@zap/utils/createReducer'
 import { getIntl } from '@zap/i18n'
 import { showSystemNotification } from '@zap/utils/notifications'
 import { setHasSynced } from './info'
-import createReducer from './utils/createReducer'
 import messages from './messages'
 
 // ------------------------------------

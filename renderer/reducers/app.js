@@ -1,5 +1,6 @@
 import { send } from 'redux-electron-ipc'
 import { createSelector } from 'reselect'
+import createReducer from '@zap/utils/createReducer'
 import delay from '@zap/utils/delay'
 import { initDb } from '@zap/renderer/store/db'
 import { getIntl } from '@zap/i18n'
@@ -15,7 +16,6 @@ import { initAutopay } from 'reducers/autopay'
 import { initChannels } from 'reducers/channels'
 import { stopLnd } from './lnd'
 import { openModal } from './modal'
-import createReducer from './utils/createReducer'
 import messages from './messages'
 
 // ------------------------------------

@@ -1,4 +1,5 @@
 import { send } from 'redux-electron-ipc'
+
 /**
  * waitForIpcEvent - Sends a message to main process and waits for the reply.
  * WARNING: only one event of each kind must be active at a time. All concurrent requests except for one
