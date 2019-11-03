@@ -645,7 +645,7 @@
   "reducers.messages.account.account_password_enabled": "Ochrana heslem byla povolena",
   "reducers.messages.account.account_password_updated": "Vaše heslo bylo úspěšně aktualizováno",
   "reducers.messages.activity_invoice_download_error": "Došlo k chybě",
-  "reducers.messages.activity_invoice_download_success": "Stahování dokončeno",
+  "reducers.messages.activity.activity_invoice_download_success": "Stahování dokončeno",
   "reducers.messages.address_new_address_error": "Nelze získat {addressType} adresu: {error}",
   "reducers.messages.app_init_db_error": "Nelze inicializovat databázi: {error}",
   "reducers.messages.autopay_notification_detail": "pro \"{reason}\"",

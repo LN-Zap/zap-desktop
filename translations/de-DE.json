@@ -645,7 +645,7 @@
   "reducers.messages.account.account_password_enabled": "Passwortschutz wurde aktiviert",
   "reducers.messages.account.account_password_updated": "Ihr Passwort wurde erfolgreich aktualisiert",
   "reducers.messages.activity_invoice_download_error": "Es ist ein Fehler aufgetreten",
-  "reducers.messages.activity_invoice_download_success": "Download komplett",
+  "reducers.messages.activity.activity_invoice_download_success": "Download komplett",
   "reducers.messages.address_new_address_error": "{addressType} -Adresse konnte nicht gefunden werden: {error}",
   "reducers.messages.app_init_db_error": "Datenbank kann nicht initialisiert werden: {error}",
   "reducers.messages.autopay_notification_detail": "",

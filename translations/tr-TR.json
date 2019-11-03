@@ -645,7 +645,7 @@
   "reducers.messages.account.account_password_enabled": "",
   "reducers.messages.account.account_password_updated": "",
   "reducers.messages.activity_invoice_download_error": "Bir hata oluştu",
-  "reducers.messages.activity_invoice_download_success": "İndirme tamamlandı",
+  "reducers.messages.activity.activity_invoice_download_success": "İndirme tamamlandı",
   "reducers.messages.address_new_address_error": "",
   "reducers.messages.app_init_db_error": "",
   "reducers.messages.autopay_notification_detail": "",

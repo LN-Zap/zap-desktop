@@ -645,7 +645,7 @@
   "reducers.messages.account.account_password_enabled": "",
   "reducers.messages.account.account_password_updated": "",
   "reducers.messages.activity_invoice_download_error": "Se ha producido un error",
-  "reducers.messages.activity_invoice_download_success": "Descarga completa",
+  "reducers.messages.activity.activity_invoice_download_success": "Descarga completa",
   "reducers.messages.address_new_address_error": "No se puede obtener la dirección {addressType}: {error}",
   "reducers.messages.app_init_db_error": "No se puede inicializar la base de datos: {error}",
   "reducers.messages.autopay_notification_detail": "",
