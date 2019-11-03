@@ -338,7 +338,7 @@
     "lodash": "4.17.15",
     "new-github-issue-url": "0.2.1",
     "node-fetch": "2.6.0",
-    "pdfmake": "0.1.61",
+    "pdfmake": "0.1.62",
     "polished": "3.4.2",
     "prop-types": "15.7.2",
     "qrcode.react": "0.9.3",
