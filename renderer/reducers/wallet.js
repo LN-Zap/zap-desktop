@@ -1,8 +1,8 @@
 import config from 'config'
 import { createSelector } from 'reselect'
+import createReducer from '@zap/utils/createReducer'
 import { showError } from './notification'
 import { putSetting } from './settings'
-import createReducer from './utils/createReducer'
 
 // ------------------------------------
 // Initial State

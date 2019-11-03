@@ -1,10 +1,10 @@
 import { createSelector } from 'reselect'
 import get from 'lodash/get'
+import createReducer from '@zap/utils/createReducer'
 import { currencies, getDefaultCurrency } from '@zap/i18n'
 import { requestTickerWithFallback } from '@zap/utils/rateProvider'
 import { infoSelectors } from './info'
 import { putConfig, settingsSelectors } from './settings'
-import createReducer from './utils/createReducer'
 
 // ------------------------------------
 // Initial State
