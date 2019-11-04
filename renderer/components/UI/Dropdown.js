@@ -137,6 +137,35 @@ MenuItem.propTypes = {
   valueField: PropTypes.string,
 }
 
+const DefaultDropdownButton = ({
+  onToggle,
+  selectedItem,
+  valueField,
+  activeKey,
+  isOpen,
+  opacity: buttonOpacity,
+}) => {
+  return (
+    <DropdownButton fontWeight="normal" onClick={onToggle} opacity={buttonOpacity} type="button">
+      <Flex alignItems="center">
+        <Text css="white-space: nowrap;" mr={1} textAlign="left">
+          {selectedItem ? selectedItem[valueField] : activeKey}{' '}
+        </Text>
+        <Flex color="gray">{isOpen ? <AngleUp width="0.6em" /> : <AngleDown width="0.6em" />}</Flex>
+      </Flex>
+    </DropdownButton>
+  )
+}
+
+DefaultDropdownButton.propTypes = {
+  activeKey: PropTypes.string,
+  isOpen: PropTypes.bool,
+  onToggle: PropTypes.func.isRequired,
+  opacity: PropTypes.number,
+  selectedItem: PropTypes.object,
+  valueField: PropTypes.string,
+}
+
 const Dropdown = ({
   activeKey,
   items,
@@ -145,6 +174,7 @@ const Dropdown = ({
   onChange,
   messageMapper,
   valueField,
+  buttonComponent: ButtonComponent,
   ...rest
 }) => {
   const intl = useIntl()
@@ -185,21 +215,16 @@ const Dropdown = ({
   return (
     <div style={{ display: 'inline-block' }}>
       <DropdownContainer {...rest} ref={wrapperRef}>
-        <DropdownButton
-          fontWeight="normal"
-          onClick={toggleMenu}
-          opacity={buttonOpacity}
-          type="button"
-        >
-          <Flex alignItems="center">
-            <Text css="white-space: nowrap;" mr={1} textAlign="left">
-              {selectedItem ? selectedItem[valueField] : activeKey}{' '}
-            </Text>
-            <Flex color="gray">
-              {isOpen ? <AngleUp width="0.6em" /> : <AngleDown width="0.6em" />}
-            </Flex>
-          </Flex>
-        </DropdownButton>
+        <ButtonComponent
+          {...{
+            onToggle: toggleMenu,
+            selectedItem,
+            valueField,
+            activeKey,
+            isOpen,
+            opacity: buttonOpacity,
+          }}
+        />
         {isOpen && (
           <MenuContainer>
             <Menu ref={measuredRef} justify={justify} maxHeight={height}>
@@ -224,10 +249,12 @@ const Dropdown = ({
 
 Dropdown.defaultProps = {
   valueField: 'value',
+  buttonComponent: DefaultDropdownButton,
 }
 
 Dropdown.propTypes = {
   activeKey: PropTypes.string.isRequired,
+  buttonComponent: PropTypes.elementType,
   buttonOpacity: PropTypes.number,
   items: PropTypes.array.isRequired,
   justify: PropTypes.string,
