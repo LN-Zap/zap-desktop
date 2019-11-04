@@ -22,9 +22,9 @@ import messages from './messages'
 
 // activity paginator object. must be reset for each wallet login
 let paginator = null
-
+const defaultFilter = new Set(['SENT_ACTIVITY', 'RECEIVED_ACTIVITY', 'PENDING_ACTIVITY'])
 const initialState = {
-  filter: new Set(['SENT_ACTIVITY', 'RECEIVED_ACTIVITY', 'PENDING_ACTIVITY']),
+  filter: new Set([...defaultFilter]),
   filters: [
     { key: 'SENT_ACTIVITY' },
     { key: 'RECEIVED_ACTIVITY' },
@@ -594,6 +594,17 @@ activitySelectors.currentActivity = createSelector(
     filters.has('INTERNAL_ACTIVITY') && result.push(...internal)
 
     return prepareData(result, searchText)
+  }
+)
+
+activitySelectors.isCustomFilter = createSelector(
+  filterSelector,
+  filters => {
+    if (filters.size !== defaultFilter.size) {
+      return true
+    }
+    const difference = new Set([...filters].filter(x => !defaultFilter.has(x)))
+    return difference.size > 0
   }
 )
 

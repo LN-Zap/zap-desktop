@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex } from 'rebass/styled-components'
+import { Flex, Box } from 'rebass/styled-components'
 import { Dropdown, Button } from 'components/UI'
-import Settings from 'components/Icon/Settings'
+import Filter from 'components/Icon/Filter'
 import messages from './messages'
 
 const messageMapper = key => {
@@ -17,37 +17,44 @@ const messageMapper = key => {
   return filters[key]
 }
 
-const IconDropdownButton = ({ onToggle }) => {
+const IconDropdownButton = ({ onToggle, isActive }) => {
   return (
     <Button onClick={onToggle} size="small" variant="secondary">
-      <Settings height="16px" width="16px" />
+      <Box color={isActive ? 'primaryAccent' : undefined}>
+        <Filter height="16px" width="16px" />
+      </Box>
     </Button>
   )
 }
 
 IconDropdownButton.propTypes = {
+  isActive: PropTypes.bool,
   onToggle: PropTypes.func.isRequired,
 }
 
-const ActivityFilter = ({ changeFilter, filter, filters, ...rest }) => (
-  <Flex alignItems="baseline" {...rest}>
-    <Dropdown
-      activeKey={filter}
-      buttonComponent={IconDropdownButton}
-      highlightOnValid={false}
-      id="activity-filter"
-      isMultiselect
-      items={filters}
-      messageMapper={messageMapper}
-      onChange={changeFilter}
-    />
-  </Flex>
-)
+const ActivityFilter = ({ changeFilter, isCustomFilter, filter, filters, ...rest }) => {
+  const DropdownButton = props => <IconDropdownButton {...props} isActive={isCustomFilter} />
+  return (
+    <Flex alignItems="baseline" {...rest}>
+      <Dropdown
+        activeKey={filter}
+        buttonComponent={DropdownButton}
+        highlightOnValid={false}
+        id="activity-filter"
+        isMultiselect
+        items={filters}
+        messageMapper={messageMapper}
+        onChange={changeFilter}
+      />
+    </Flex>
+  )
+}
 
 ActivityFilter.propTypes = {
   changeFilter: PropTypes.func.isRequired,
   filter: PropTypes.object.isRequired,
   filters: PropTypes.array,
+  isCustomFilter: PropTypes.bool,
 }
 
 ActivityFilter.defaultProps = {

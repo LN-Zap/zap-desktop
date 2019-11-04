@@ -16,6 +16,7 @@ const ActivityActions = ({
   changeFilter,
   fetchActivityHistory,
   updateSearchText,
+  isCustomFilter,
   intl,
   ...rest
 }) => (
@@ -30,7 +31,13 @@ const ActivityActions = ({
         />
       </Box>
       <Flex alignItems="center" as="section" justifyContent="flex-end">
-        <ActivityFilter changeFilter={changeFilter} filter={filter} filters={filters} mx={3} />
+        <ActivityFilter
+          changeFilter={changeFilter}
+          filter={filter}
+          filters={filters}
+          isCustomFilter={isCustomFilter}
+          mx={3}
+        />
 
         <ActivityRefresh mx={3} onClick={fetchActivityHistory} />
       </Flex>
@@ -44,6 +51,7 @@ ActivityActions.propTypes = {
   filter: PropTypes.object.isRequired,
   filters: PropTypes.array.isRequired,
   intl: intlShape.isRequired,
+  isCustomFilter: PropTypes.bool,
   searchText: PropTypes.string,
   updateSearchText: PropTypes.func.isRequired,
 }
