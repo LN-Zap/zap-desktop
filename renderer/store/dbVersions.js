@@ -41,7 +41,7 @@ const dbVersions = db => {
     })
   )
 
-  // ADd autopay table.
+  // Add autopay table.
   db.version(3).stores({
     autopay: 'id',
   })
@@ -110,6 +110,11 @@ const dbVersions = db => {
     })
     // Save the migrated config overrides.
     await tx.settings.put({ key: 'config', value: newConfig })
+  })
+
+  // Add secrets table.
+  db.version(5).stores({
+    secrets: 'key',
   })
 }
 

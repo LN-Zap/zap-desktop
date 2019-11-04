@@ -11,5 +11,5 @@ export default function createStorageService(mainWindow) {
   const storage = createStorage(config.secureStorage.namespace)
   // helper func to send messages to the renderer process
   const send = (msg, params) => mainWindow.webContents.send(msg, params)
-  createCRUD(storage, 'app-password', 'password', send)
+  createCRUD(storage, 'encryption-key', 'encryptionKey', send)
 }

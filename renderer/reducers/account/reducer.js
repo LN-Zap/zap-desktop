@@ -4,7 +4,11 @@ import { mainLog } from '@zap/utils/log'
 import waitForIpcEvent from '@zap/utils/waitForIpc'
 import { closeDialog } from 'reducers/modal'
 import { showNotification } from 'reducers/notification'
-import accountSelectors from './selectors'
+import { loginError } from './selectors'
+import { byteToHexString, hexStringToByte } from '@zap/utils/byteutils'
+import { encrypt, decrypt } from '@zap/utils/aes'
+import { initDb } from '@zap/renderer/store/db'
+import { genEncryptionKey, hashPassword } from './utils'
 import messages from './messages'
 import * as constants from './constants'
 
@@ -21,6 +25,7 @@ const {
   PASSWORD_SET_DIALOG_ID,
   SET_IS_PASSWORD_ENABLED,
   LOGIN_NOT_ALLOWED,
+  SECRET_NONCE,
 } = constants
 
 // ------------------------------------
@@ -40,6 +45,31 @@ export const initialState = {
 // ------------------------------------
 // Actions
 // ------------------------------------
+
+/**
+ * setIsPasswordEnabled - Whether password is set for the account.
+ *
+ * @param {string} value value
+ * @returns {object} Action
+ */
+const setIsPasswordEnabled = value => ({
+  type: SET_IS_PASSWORD_ENABLED,
+  value,
+})
+
+/**
+ * checkAccountPasswordEnabled - Checks whether app password is enabled.
+ * Password determined as enabled if there is an encryption key in secure storage or a password hash in database.
+ *
+ * @returns {Function} Thunk
+ */
+const checkAccountPasswordEnabled = () => async dispatch => {
+  const { value: hasEncryptionKey } = await dispatch(waitForIpcEvent('hasEncryptionKey'))
+  const hasPassword = await window.db.secrets.get('password')
+  const isEnabled = hasEncryptionKey || hasPassword
+  dispatch(setIsPasswordEnabled(isEnabled))
+  return isEnabled
+}
 
 /**
  * initAccount - Fetch the current account info from the database and save into the store.
@@ -63,52 +93,140 @@ export const initAccount = () => async dispatch => {
 }
 
 /**
- * setIsPasswordEnabled - Whether password is set for the account.
+ * getEncryptionKey - Fetch current encryption key from secure storage and decrypt with user supplied password.
  *
- * @param {string} value value
- * @returns {object} Action
- */
-const setIsPasswordEnabled = value => ({
-  type: SET_IS_PASSWORD_ENABLED,
-  value,
-})
-
-/**
- * setPassword - Updates wallet password.
- *
- * @param {string} password new password
+ * @param {string} password current password.
  * @returns {Function} Thunk
  */
-const setPassword = password => async dispatch => {
-  const { sha256digest } = window.Zap
-  dispatch(waitForIpcEvent('setPassword', { value: await sha256digest(password) }))
+export const getEncryptionKey = password => async dispatch => {
+  const { encryptionKey } = await dispatch(waitForIpcEvent('getEncryptionKey'))
+  if (encryptionKey) {
+    const encoded = hexStringToByte(encryptionKey)
+    if (!password) {
+      return encoded
+    }
+    const decrypted = decrypt(encoded, password)
+    return decrypted
+  }
+  return null
 }
 
 /**
- * checkAccountPasswordEnabled - Checks whether app password is set via checking secure storage.
- * Dispatches setIsPasswordEnabled on completion.
+ * setEncryptionKey - Updates current encryption key.
  *
+ * @param {string} key New key
+ * @param {string} password Password used to encerypt the key
  * @returns {Function} Thunk
  */
-const checkAccountPasswordEnabled = () => async dispatch => {
-  const { value } = await dispatch(waitForIpcEvent('hasPassword'))
-  dispatch(setIsPasswordEnabled(value))
-  return value
+export const setEncryptionKey = (key, password) => async dispatch => {
+  // Encrypt the key with the user supplied password.
+  const encryptedKey = encrypt(key, password)
+  const encryptionKeyAsSting = byteToHexString(encryptedKey)
+
+  // Store the encrypted database encryption key in secure storage.
+  await dispatch(waitForIpcEvent('setEncryptionKey', { value: encryptionKeyAsSting }))
+}
+
+/**
+ * changeEncryptionKey - Generate new encryption key encrypted with user password and use to reencrypt database.
+ *
+ * @param  {string} oldPassword Old password
+ * @param  {string} newPassword New password
+ * @returns {Function} Thunk
+ */
+export const changeEncryptionKey = (oldPassword, newPassword) => async dispatch => {
+  try {
+    // Fetch the existing encryption key.
+    let oldKey
+    if (oldPassword) {
+      oldKey = await dispatch(getEncryptionKey(oldPassword))
+    }
+
+    // Generate a new encryption key.
+    const newKey = genEncryptionKey()
+
+    // Re-encrypt database with new password/key.
+    await initDb({ oldKey, newKey })
+
+    // Save the new encryption key
+    await dispatch(setEncryptionKey(newKey, newPassword))
+
+    // Save updated password hash.
+    const hashedPassword = await hashPassword(newPassword)
+    await window.db.secrets.put({ key: 'password', value: hashedPassword })
+  } catch (e) {
+    mainLog.error('A problem was encountered when changing encryption key: %s', e.message)
+    throw e
+  }
+}
+
+/**
+ * disableEncryption - Decrypt the database and delete encryption keys.
+ *
+ * @param  {string} oldPassword Existing encryption password
+ * @returns {Function} Thunk
+ */
+export const disableEncryption = oldPassword => async dispatch => {
+  try {
+    // Fetch the existing encryption key.
+    const oldKey = await dispatch(getEncryptionKey(oldPassword))
+
+    // Decrypt the database..
+    await initDb({ oldKey, newKey: null })
+
+    // Delete old encryption key and password.
+    await dispatch(waitForIpcEvent('deleteEncryptionKey'))
+    window.db.secrets.delete('password')
+  } catch (e) {
+    mainLog.error('A problem was encountered when disabling encryption: %s', e.message)
+    throw e
+  }
+}
+
+/**
+ * requirePassword - Password protect routine. Should be placed before protected code.
+ *
+ * @param {string} password Current password.
+ * @returns {Promise} Promise that fulfills after login attempt (either successful or not)
+ */
+const requirePassword = password => async dispatch => {
+  const { sha256digest } = window.Zap
+  const key = await dispatch(getEncryptionKey(password))
+
+  // Use supplied password to decryot the database.
+  await initDb({ oldKey: key, newKey: key })
+
+  // Compare hash received from the main thread to a hash of a password provided
+  try {
+    const { value: existingHash } = await window.db.secrets.get('password')
+    const newHash = await sha256digest(password)
+
+    mainLog.info('Comparing password hashes:')
+    mainLog.info(' - old: %s', existingHash)
+    mainLog.info(' - new: %s', newHash)
+
+    if (existingHash === newHash) {
+      return true
+    }
+    throw new Error('passwords do not match')
+  } catch (e) {
+    throw new Error(getIntl().formatMessage(messages.account_invalid_password))
+  }
 }
 
 /**
  * changePassword - Changes existing password.
  *
  * @param {object} params password params
- * @param {string} params.newPassword new password
  * @param {string} params.oldPassword old password
+ * @param {string} params.newPassword new password
  * @returns {Function} Thunk
  */
-export const changePassword = ({ newPassword, oldPassword }) => async dispatch => {
+export const changePassword = ({ oldPassword, newPassword }) => async dispatch => {
   try {
     const intl = getIntl()
     await dispatch(requirePassword(oldPassword))
-    await dispatch(setPassword(newPassword))
+    await dispatch(changeEncryptionKey(oldPassword, newPassword))
     dispatch(closeDialog(CHANGE_PASSWORD_DIALOG_ID))
     dispatch(showNotification(intl.formatMessage(messages.account_password_updated)))
   } catch (error) {
@@ -125,10 +243,18 @@ export const changePassword = ({ newPassword, oldPassword }) => async dispatch =
 export const enablePassword = ({ password }) => async dispatch => {
   try {
     const intl = getIntl()
-    await dispatch(setPassword(password))
+    await dispatch(changeEncryptionKey(null, password))
     dispatch(closeDialog(PASSWORD_SET_DIALOG_ID))
     dispatch(setIsPasswordEnabled(true))
     dispatch(showNotification(intl.formatMessage(messages.account_password_enabled)))
+
+    // Add dummy value to secrets store to provide an easy way to check if encryption/decryption is working.
+    if (!(await window.db.secrets.get('nonce'))) {
+      await window.db.secrets.put({
+        key: 'nonce',
+        value: SECRET_NONCE,
+      })
+    }
   } catch (error) {
     dispatch({ type: LOGIN_FAILURE, error: error.message })
   }
@@ -144,30 +270,13 @@ export const disablePassword = ({ password }) => async dispatch => {
   try {
     const intl = getIntl()
     await dispatch(requirePassword(password))
-    await dispatch(waitForIpcEvent('deletePassword'))
+    await dispatch(disableEncryption(password))
     dispatch(setIsPasswordEnabled(false))
     dispatch(closeDialog(PASSWORD_PROMPT_DIALOG_ID))
     dispatch(showNotification(intl.formatMessage(messages.account_password_disabled)))
   } catch (error) {
     dispatch({ type: LOGIN_FAILURE, error: error.message })
   }
-}
-
-/**
- * requirePassword - Password protect routine. Should be placed before protected code.
- *
- * @param {string} password current password.
- * @returns {Promise} Promise that fulfills after login attempt (either successful or not)
- */
-const requirePassword = password => async dispatch => {
-  const { sha256digest } = window.Zap
-  const { password: hash } = await dispatch(waitForIpcEvent('getPassword'))
-  const passwordHash = await sha256digest(password)
-  // compare hash received from the main thread to a hash of a password provided
-  if (hash === passwordHash) {
-    return true
-  }
-  throw new Error(getIntl().formatMessage(messages.account_invalid_password))
 }
 
 /**
@@ -192,7 +301,7 @@ export const login = password => async dispatch => {
  * @returns {Function} Thunk
  */
 export const clearLoginError = () => (dispatch, getState) => {
-  if (accountSelectors.loginError(getState())) {
+  if (loginError(getState())) {
     dispatch({
       type: 'LOGIN_CLEAR_ERROR',
     })

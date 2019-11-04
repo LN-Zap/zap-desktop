@@ -107,12 +107,13 @@ export const logout = () => dispatch => {
 /**
  * initDatabase - Initialize app database.
  *
+ * @param {string} key Database encryption key
  * @returns {Function} Thunk
  */
-export const initDatabase = () => async dispatch => {
+export const initDatabase = key => async dispatch => {
   dispatch({ type: INIT_DATABASE })
   try {
-    await initDb()
+    window.db = await initDb({ newKey: key })
     dispatch({ type: INIT_DATABASE_SUCCESS })
   } catch (e) {
     dispatch({ type: INIT_DATABASE_FAILURE, error: e.message })
