@@ -659,6 +659,7 @@
   "reducers.messages.invoice_receive_title": "You've been Zapped",
   "reducers.messages.neutrtino_synced_body": "Visa who? You're your own payment processor now!",
   "reducers.messages.neutrtino_synced_title": "Lightning Node Synced",
+  "reducers.messages.pay_lnurl_withdraw_error": "Unable to process withdraw request from {service}: {reason}",
   "reducers.messages.payment_send_error": "Unable to send payment: Invalid invoice (no payment hash)",
   "reducers.messages.settings_init_error": "Unable to load settings: {error}",
   "reducers.messages.transaction_received_body": "Lucky you, you just received a new on-chain transaction. I'm jealous.",

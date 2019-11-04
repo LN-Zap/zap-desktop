@@ -29,4 +29,5 @@ export default defineMessages({
   account_password_disabled: 'Password protection has been disabled',
   account_password_enabled: 'Password protection has been enabled',
   account_password_updated: 'Your password has been successfully updated',
+  pay_lnurl_withdraw_error: 'Unable to process withdraw request from {service}: {reason}',
 })

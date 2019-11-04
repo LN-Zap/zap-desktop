@@ -77,6 +77,7 @@ const handleBitcoinLink = input => {
  * @param {string} input lnurl string
  */
 const handleLnurlLink = input => {
+  mainLog.info('Processing lightning uri as lnurl: %s', input)
   try {
     lnurlService.startWithdrawal(input)
     mainWindow.show()
@@ -91,8 +92,13 @@ const handleLnurlLink = input => {
  * @param {string} address payment request
  */
 const handleLninvoiceLink = address => {
-  zap.sendMessage('lightningPaymentUri', { address })
-  mainWindow.show()
+  mainLog.info('Processing lightning uri as lninvoice: %s', address)
+  try {
+    zap.sendMessage('lightningPaymentUri', { address })
+    mainWindow.show()
+  } catch (e) {
+    mainLog.warn('Unable to process lightning uri: %s', e)
+  }
 }
 
 /**
@@ -101,6 +107,7 @@ const handleLninvoiceLink = address => {
  * @param {string} fullUrl Lightning request
  */
 const handleLightningLink = fullUrl => {
+  mainLog.info('Attempting to process lightning uri: %s', fullUrl)
   try {
     const [, url] = fullUrl.split(':')
     const lnurl = parseLnUrl(url)

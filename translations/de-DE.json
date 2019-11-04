@@ -659,6 +659,7 @@
   "reducers.messages.invoice_receive_title": "Du wurdest geZappt",
   "reducers.messages.neutrtino_synced_body": "Visa wer? Du bist jetzt dein eigener Zahlungsabwickler!",
   "reducers.messages.neutrtino_synced_title": "Lightning Node synchronisiert",
+  "reducers.messages.pay_lnurl_withdraw_error": "",
   "reducers.messages.payment_send_error": "Zahlung konnte nicht gesendet werden: Ungültige Rechnung (kein Zahlungshash)",
   "reducers.messages.settings_init_error": "Einstellungen können nicht geladen werden: {error}",
   "reducers.messages.transaction_received_body": "Du Glückspilz hast eine neue on-chain Transaktion erhalten. Ich bin neidisch.",
