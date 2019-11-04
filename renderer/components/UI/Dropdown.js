@@ -103,6 +103,7 @@ export const MenuItem = ({
   hasParent,
   hasChildren,
   valueField,
+  isMultiselect,
   ...rest
 }) => {
   return (
@@ -114,7 +115,11 @@ export const MenuItem = ({
           </Flex>
         )}
         {!hasParent && (
-          <Text color="superGreen" textAlign="center" width="20px">
+          <Text
+            color={isMultiselect ? 'primaryAccent' : 'superGreen'}
+            textAlign="center"
+            width="20px"
+          >
             {isActive && <Check height="0.95em" />}
           </Text>
         )}
@@ -132,6 +137,7 @@ MenuItem.propTypes = {
   hasChildren: PropTypes.bool,
   hasParent: PropTypes.bool,
   isActive: PropTypes.bool,
+  isMultiselect: PropTypes.bool,
   item: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
   valueField: PropTypes.string,
@@ -174,6 +180,7 @@ const Dropdown = ({
   onChange,
   messageMapper,
   valueField,
+  isMultiselect,
   buttonComponent: ButtonComponent,
   ...rest
 }) => {
@@ -204,12 +211,16 @@ const Dropdown = ({
   const selectedItem = itemsArray.find(c => c.key === activeKey)
 
   const handleClick = key => {
-    if (key !== activeKey) {
+    if (key !== activeKey || isMultiselect) {
       if (onChange) {
         onChange(key)
       }
     }
-    setIsOpen(false)
+    !isMultiselect && setIsOpen(false)
+  }
+
+  const isActiveItem = key => {
+    return activeKey === key || (isMultiselect && activeKey.has(key))
   }
 
   return (
@@ -232,7 +243,8 @@ const Dropdown = ({
                 return (
                   <MenuItem
                     key={item.key}
-                    isActive={activeKey === item.key}
+                    isActive={isActiveItem(item.key)}
+                    isMultiselect={isMultiselect}
                     item={item}
                     onClick={() => handleClick(item.key)}
                     valueField={valueField}
@@ -253,9 +265,10 @@ Dropdown.defaultProps = {
 }
 
 Dropdown.propTypes = {
-  activeKey: PropTypes.string.isRequired,
+  activeKey: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   buttonComponent: PropTypes.elementType,
   buttonOpacity: PropTypes.number,
+  isMultiselect: PropTypes.bool,
   items: PropTypes.array.isRequired,
   justify: PropTypes.string,
   messageMapper: PropTypes.func,
