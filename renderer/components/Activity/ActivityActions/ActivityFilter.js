@@ -1,14 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
 import { Flex } from 'rebass/styled-components'
-import { Dropdown } from 'components/UI'
-import { Label } from 'components/Form'
+import { Dropdown, Button } from 'components/UI'
+import Settings from 'components/Icon/Settings'
 import messages from './messages'
 
 const messageMapper = key => {
   const filters = {
-    ALL_ACTIVITY: messages.actiity_filter_all,
     SENT_ACTIVITY: messages.actiity_filter_sent,
     RECEIVED_ACTIVITY: messages.actiity_filter_received,
     PENDING_ACTIVITY: messages.actiity_filter_pending,
@@ -19,22 +17,26 @@ const messageMapper = key => {
   return filters[key]
 }
 
+const IconDropdownButton = ({ onToggle }) => {
+  return (
+    <Button onClick={onToggle} size="small" variant="secondary">
+      <Settings height="16px" width="16px" />
+    </Button>
+  )
+}
+
+IconDropdownButton.propTypes = {
+  onToggle: PropTypes.func.isRequired,
+}
+
 const ActivityFilter = ({ changeFilter, filter, filters, ...rest }) => (
   <Flex alignItems="baseline" {...rest}>
-    <Label
-      css={{
-        whiteSpace: 'nowrap',
-      }}
-      fontWeight="light"
-      htmlFor="channel-filter"
-      mr={2}
-    >
-      <FormattedMessage {...messages.actiity_filter_label} />
-    </Label>
     <Dropdown
       activeKey={filter}
+      buttonComponent={IconDropdownButton}
       highlightOnValid={false}
       id="activity-filter"
+      isMultiselect
       items={filters}
       messageMapper={messageMapper}
       onChange={changeFilter}
@@ -44,7 +46,7 @@ const ActivityFilter = ({ changeFilter, filter, filters, ...rest }) => (
 
 ActivityFilter.propTypes = {
   changeFilter: PropTypes.func.isRequired,
-  filter: PropTypes.string,
+  filter: PropTypes.object.isRequired,
   filters: PropTypes.array,
 }
 

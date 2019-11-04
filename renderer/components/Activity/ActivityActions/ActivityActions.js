@@ -41,7 +41,7 @@ const ActivityActions = ({
 ActivityActions.propTypes = {
   changeFilter: PropTypes.func.isRequired,
   fetchActivityHistory: PropTypes.func.isRequired,
-  filter: PropTypes.string.isRequired,
+  filter: PropTypes.object.isRequired,
   filters: PropTypes.array.isRequired,
   intl: intlShape.isRequired,
   searchText: PropTypes.string,

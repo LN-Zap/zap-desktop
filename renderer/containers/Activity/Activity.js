@@ -4,7 +4,7 @@ import { showNotification } from 'reducers/notification'
 import Activity from 'components/Activity'
 
 const mapStateToProps = state => ({
-  currentActivity: activitySelectors.currentActivity(state)(state),
+  currentActivity: activitySelectors.currentActivity(state),
   isErrorDialogOpen: activitySelectors.isErrorDialogOpen(state),
   errorDialogDetails: activitySelectors.errorDialogDetailsSelector(state),
 })
