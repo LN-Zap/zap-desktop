@@ -4,9 +4,9 @@ import { neutrinoSelectors } from 'reducers/neutrino'
 import {
   setActiveWallet,
   walletSelectors,
-  showDeleteWalletDialog,
   setIsWalletOpen,
   putWallet,
+  DELETE_WALLET_DIALOG_ID,
 } from 'reducers/wallet'
 import {
   setUnlockWalletError,
@@ -16,10 +16,13 @@ import {
   generateLndConfigFromWallet,
   clearStartLndError,
 } from 'reducers/lnd'
+import { openDialog } from 'reducers/modal'
 import { showError, showNotification } from 'reducers/notification'
 import Home from 'components/Home'
 import DeleteWalletDialog from './DeleteWalletDialog'
 import AppErrorBoundary from 'components/ErrorBoundary/AppErrorBoundary'
+
+const deleteWallet = openDialog.bind(null, DELETE_WALLET_DIALOG_ID)
 
 const HomeWrapper = props => (
   <>
@@ -51,7 +54,7 @@ const mapDispatchToProps = {
   showNotification,
   startLnd,
   unlockWallet,
-  deleteWallet: showDeleteWalletDialog,
+  deleteWallet,
   setIsWalletOpen,
   showError,
   generateLndConfigFromWallet,
