@@ -1,10 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`reducers walletReducer should handle CLOSE_DELETE_WALLET_DIALOG 1`] = `
-Snapshot Diff:
-Compared values have no visual difference.
-`;
-
 exports[`reducers walletReducer should handle DELETE_WALLET 1`] = `
 Snapshot Diff:
 Compared values have no visual difference.
@@ -27,20 +22,6 @@ Snapshot Diff:
 exports[`reducers walletReducer should handle DELETE_WALLET_SUCCESS 1`] = `
 Snapshot Diff:
 Compared values have no visual difference.
-`;
-
-exports[`reducers walletReducer should handle OPEN_DELETE_WALLET_DIALOG 1`] = `
-Snapshot Diff:
-- First value
-+ Second value
-
-  Object {
-    "deleteWalletError": null,
--   "isDeleteDialogOpen": false,
-+   "isDeleteDialogOpen": true,
-    "isWalletsLoaded": false,
-    "wallets": Array [],
-  }
 `;
 
 exports[`reducers walletReducer should handle PUT_WALLET 1`] = `
