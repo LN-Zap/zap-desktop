@@ -8,12 +8,14 @@ Snapshot Diff:
   Object {
     "activityLoadingError": null,
     "errorDialogDetails": null,
--   "filter": "ALL_ACTIVITY",
-+   "filter": "SENT_ACTIVITY",
+    "filter": Set {
+-     "SENT_ACTIVITY",
+      "RECEIVED_ACTIVITY",
+      "PENDING_ACTIVITY",
+      "EXPIRED_ACTIVITY",
+      "INTERNAL_ACTIVITY",
+    },
     "filters": Array [
-      Object {
-        "key": "ALL_ACTIVITY",
-      },
       Object {
         "key": "SENT_ACTIVITY",
       },
@@ -53,11 +55,14 @@ Snapshot Diff:
   Object {
     "activityLoadingError": null,
     "errorDialogDetails": null,
-    "filter": "ALL_ACTIVITY",
+    "filter": Set {
+      "SENT_ACTIVITY",
+      "RECEIVED_ACTIVITY",
+      "PENDING_ACTIVITY",
+      "EXPIRED_ACTIVITY",
+      "INTERNAL_ACTIVITY",
+    },
     "filters": Array [
-      Object {
-        "key": "ALL_ACTIVITY",
-      },
       Object {
         "key": "SENT_ACTIVITY",
       },
@@ -94,11 +99,14 @@ Snapshot Diff:
 -   "activityLoadingError": null,
 +   "activityLoadingError": "some error",
     "errorDialogDetails": null,
-    "filter": "ALL_ACTIVITY",
+    "filter": Set {
+      "SENT_ACTIVITY",
+      "RECEIVED_ACTIVITY",
+      "PENDING_ACTIVITY",
+      "EXPIRED_ACTIVITY",
+      "INTERNAL_ACTIVITY",
+    },
     "filters": Array [
-      Object {
-        "key": "ALL_ACTIVITY",
-      },
       Object {
         "key": "SENT_ACTIVITY",
       },
@@ -144,11 +152,14 @@ Snapshot Diff:
     "activityLoadingError": null,
 -   "errorDialogDetails": null,
 +   "errorDialogDetails": "some error",
-    "filter": "ALL_ACTIVITY",
+    "filter": Set {
+      "SENT_ACTIVITY",
+      "RECEIVED_ACTIVITY",
+      "PENDING_ACTIVITY",
+      "EXPIRED_ACTIVITY",
+      "INTERNAL_ACTIVITY",
+    },
     "filters": Array [
-      Object {
-        "key": "ALL_ACTIVITY",
-      },
       Object {
         "key": "SENT_ACTIVITY",
       },
@@ -183,11 +194,14 @@ Snapshot Diff:
   Object {
     "activityLoadingError": null,
     "errorDialogDetails": null,
-    "filter": "ALL_ACTIVITY",
+    "filter": Set {
+      "SENT_ACTIVITY",
+      "RECEIVED_ACTIVITY",
+      "PENDING_ACTIVITY",
+      "EXPIRED_ACTIVITY",
+      "INTERNAL_ACTIVITY",
+    },
     "filters": Array [
-      Object {
-        "key": "ALL_ACTIVITY",
-      },
       Object {
         "key": "SENT_ACTIVITY",
       },
@@ -223,11 +237,14 @@ Snapshot Diff:
   Object {
     "activityLoadingError": null,
     "errorDialogDetails": null,
-    "filter": "ALL_ACTIVITY",
+    "filter": Set {
+      "SENT_ACTIVITY",
+      "RECEIVED_ACTIVITY",
+      "PENDING_ACTIVITY",
+      "EXPIRED_ACTIVITY",
+      "INTERNAL_ACTIVITY",
+    },
     "filters": Array [
-      Object {
-        "key": "ALL_ACTIVITY",
-      },
       Object {
         "key": "SENT_ACTIVITY",
       },
@@ -264,11 +281,14 @@ Snapshot Diff:
   Object {
     "activityLoadingError": null,
     "errorDialogDetails": null,
-    "filter": "ALL_ACTIVITY",
+    "filter": Set {
+      "SENT_ACTIVITY",
+      "RECEIVED_ACTIVITY",
+      "PENDING_ACTIVITY",
+      "EXPIRED_ACTIVITY",
+      "INTERNAL_ACTIVITY",
+    },
     "filters": Array [
-      Object {
-        "key": "ALL_ACTIVITY",
-      },
       Object {
         "key": "SENT_ACTIVITY",
       },
