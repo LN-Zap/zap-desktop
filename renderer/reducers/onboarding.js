@@ -47,8 +47,8 @@ export const VALIDATING_CERT = 'VALIDATING_CERT'
 export const VALIDATING_MACAROON = 'VALIDATING_MACAROON'
 export const RESET_ONBOARDING = 'RESET_ONBOARDING'
 export const SET_LNDCONNECT = 'SET_LNDCONNECT'
-export const OPEN_SKIP_BACKUP_DIALOG = 'OPEN_SKIP_BACKUP_DIALOG'
-export const CLOSE_SKIP_BACKUP_DIALOG = 'CLOSE_SKIP_BACKUP_DIALOG'
+
+export const SKIP_BACKUP_DIALOG_ID = 'SKIP_BACKUP_DIALOG_ID'
 
 // ------------------------------------
 // IPC
@@ -73,24 +73,6 @@ export const lndconnectUri = (event, lndConnect) => dispatch => {
 export const resetOnboarding = () => dispatch => {
   dispatch({ type: RESET_ONBOARDING })
 }
-
-/**
- * showSkipBackupDialog - Show the skip backup dialog.
- *
- * @returns {object} Action
- */
-export const showSkipBackupDialog = () => ({
-  type: OPEN_SKIP_BACKUP_DIALOG,
-})
-
-/**
- * hideSkipBackupDialog - Hide the skip backup dialog.
- *
- * @returns {object} Action
- */
-export const hideSkipBackupDialog = () => ({
-  type: CLOSE_SKIP_BACKUP_DIALOG,
-})
 
 /**
  * setConnectionString - Set the connection string.
@@ -391,12 +373,6 @@ const ACTION_HANDLERS = {
     state.validatingMacaroon = validatingMacaroon
   },
   [RESET_ONBOARDING]: state => ({ ...state, ...initialState }),
-  [OPEN_SKIP_BACKUP_DIALOG]: state => {
-    state.isSkipBackupDialogOpen = true
-  },
-  [CLOSE_SKIP_BACKUP_DIALOG]: state => {
-    state.isSkipBackupDialogOpen = false
-  },
 }
 
 export default createReducer(initialState, ACTION_HANDLERS)
