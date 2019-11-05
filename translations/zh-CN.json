@@ -417,7 +417,7 @@
   "components.Onboarding.Steps.unlock": "解锁",
   "components.Onboarding.Steps.unlocking": "",
   "components.Onboarding.Steps.verify_host_description": "请仔细检查主机名。",
-  "components.Onboarding.Steps.verify_host_title": "确认要连接到 {hostName}?",
+  "components.Onboarding.Steps.verify_host_title": "",
   "components.Onboarding.Steps.wallet_name_description": "",
   "components.Onboarding.Steps.wallet_name_label": "",
   "components.Onboarding.Steps.wallet_name_title": "",

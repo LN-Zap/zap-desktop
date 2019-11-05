@@ -417,7 +417,7 @@
   "components.Onboarding.Steps.unlock": "Deblocheaza",
   "components.Onboarding.Steps.unlocking": "",
   "components.Onboarding.Steps.verify_host_description": "Vă rugăm să verificaţi hostname-ul cu atenţie.",
-  "components.Onboarding.Steps.verify_host_title": "Sunteţi sigur că doriţi să vă conectaţi la {hostName}?",
+  "components.Onboarding.Steps.verify_host_title": "",
   "components.Onboarding.Steps.wallet_name_description": "",
   "components.Onboarding.Steps.wallet_name_label": "",
   "components.Onboarding.Steps.wallet_name_title": "",
