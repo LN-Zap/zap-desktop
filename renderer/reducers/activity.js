@@ -22,7 +22,13 @@ import messages from './messages'
 
 // activity paginator object. must be reset for each wallet login
 let paginator = null
-const defaultFilter = new Set(['SENT_ACTIVITY', 'RECEIVED_ACTIVITY', 'PENDING_ACTIVITY'])
+const defaultFilter = new Set([
+  'SENT_ACTIVITY',
+  'RECEIVED_ACTIVITY',
+  'PENDING_ACTIVITY',
+  'EXPIRED_ACTIVITY',
+  'INTERNAL_ACTIVITY',
+])
 const initialState = {
   filter: new Set([...defaultFilter]),
   filters: [
@@ -586,12 +592,13 @@ activitySelectors.currentActivity = createSelector(
   internalActivityRaw,
   (searchText, filters, sent, received, pending, expired, internal) => {
     const result = []
+    const curFilter = filters.size ? filters : defaultFilter
 
-    filters.has('SENT_ACTIVITY') && result.push(...sent)
-    filters.has('RECEIVED_ACTIVITY') && result.push(...received)
-    filters.has('PENDING_ACTIVITY') && result.push(...pending)
-    filters.has('EXPIRED_ACTIVITY') && result.push(...expired)
-    filters.has('INTERNAL_ACTIVITY') && result.push(...internal)
+    curFilter.has('SENT_ACTIVITY') && result.push(...sent)
+    curFilter.has('RECEIVED_ACTIVITY') && result.push(...received)
+    curFilter.has('PENDING_ACTIVITY') && result.push(...pending)
+    curFilter.has('EXPIRED_ACTIVITY') && result.push(...expired)
+    curFilter.has('INTERNAL_ACTIVITY') && result.push(...internal)
 
     return prepareData(result, searchText)
   }
@@ -600,7 +607,7 @@ activitySelectors.currentActivity = createSelector(
 activitySelectors.isCustomFilter = createSelector(
   filterSelector,
   filters => {
-    if (filters.size !== defaultFilter.size) {
+    if (filters.size && filters.size !== defaultFilter.size) {
       return true
     }
     const difference = new Set([...filters].filter(x => !defaultFilter.has(x)))
