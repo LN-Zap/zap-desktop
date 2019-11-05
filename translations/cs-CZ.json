@@ -417,7 +417,7 @@
   "components.Onboarding.Steps.unlock": "Odemknout",
   "components.Onboarding.Steps.unlocking": "Odemykání",
   "components.Onboarding.Steps.verify_host_description": "Prosím, pečlivě zkontrolujte název hositele.",
-  "components.Onboarding.Steps.verify_host_title": "Jste si jistí, že chcete připojit k {hostname}?",
+  "components.Onboarding.Steps.verify_host_title": "Jste si jistí, že chcete připojit k {hostName}?",
   "components.Onboarding.Steps.wallet_name_description": "Toto je pouze pro vaše pohodlí a nebude vysíláno v Lightning Network.",
   "components.Onboarding.Steps.wallet_name_label": "Název peněženky",
   "components.Onboarding.Steps.wallet_name_title": "Pojmenujte svou peněženku",
