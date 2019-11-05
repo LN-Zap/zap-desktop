@@ -14,7 +14,6 @@ import {
 import { infoSelectors } from 'reducers/info'
 import { tickerSelectors } from 'reducers/ticker'
 
-
 const mapStateToProps = state => ({
   allChannels: channelsSelectors.allChannels(state),
   channels: channelsSelectors.currentChannels(state),
