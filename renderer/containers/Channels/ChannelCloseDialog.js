@@ -1,7 +1,8 @@
 import { connect } from 'react-redux'
 import { ChannelCloseDialog } from 'components/Channels'
-import { hideCloseChannelDialog, closeChannel, channelsSelectors } from 'reducers/channels'
+import { closeChannel, channelsSelectors, CLOSE_CHANNEL_DIALOG_ID } from 'reducers/channels'
 import { showNotification } from 'reducers/notification'
+import { modalSelectors, closeDialog } from 'reducers/modal'
 
 const isForceCloseDialog = state => {
   const selectedChannel = channelsSelectors.selectedChannel(state)
@@ -14,9 +15,8 @@ const csvDelay = state => {
 }
 
 const mapStateToProps = state => {
-  const isOpen = Boolean(state.channels.isCloseDialogOpen)
   return {
-    isOpen,
+    isOpen: modalSelectors.isDialogOpen(state, CLOSE_CHANNEL_DIALOG_ID),
     isForceClose: isForceCloseDialog(state),
     csvDelay: csvDelay(state),
   }
@@ -25,12 +25,12 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   onClose(message) {
     dispatch(closeChannel())
-    dispatch(hideCloseChannelDialog())
+    dispatch(closeDialog(CLOSE_CHANNEL_DIALOG_ID))
     dispatch(showNotification(message))
   },
 
   onCancel() {
-    dispatch(hideCloseChannelDialog())
+    dispatch(closeDialog(CLOSE_CHANNEL_DIALOG_ID))
   },
 })
 

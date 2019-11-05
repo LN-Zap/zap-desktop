@@ -6,7 +6,6 @@ import {
   changeFilter,
   channelsSelectors,
   fetchChannels,
-  showCloseChannelDialog,
   setSelectedChannel,
   setChannelViewMode,
   switchSortOrder,
@@ -14,6 +13,7 @@ import {
 } from 'reducers/channels'
 import { infoSelectors } from 'reducers/info'
 import { tickerSelectors } from 'reducers/ticker'
+
 
 const mapStateToProps = state => ({
   allChannels: channelsSelectors.allChannels(state),
@@ -34,7 +34,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   changeFilter,
   changeSort,
-  closeChannel: showCloseChannelDialog,
   setSelectedChannel,
   setChannelViewMode,
   openModal,

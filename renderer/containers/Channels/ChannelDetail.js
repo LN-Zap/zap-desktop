@@ -1,9 +1,12 @@
 import { connect } from 'react-redux'
 import { ChannelDetail } from 'components/Channels'
-import { showCloseChannelDialog, setSelectedChannel } from 'reducers/channels'
+import { setSelectedChannel, CLOSE_CHANNEL_DIALOG_ID } from 'reducers/channels'
 import { infoSelectors } from 'reducers/info'
 import { tickerSelectors } from 'reducers/ticker'
 import { decoratedSelectedChannel } from 'reducers/utils'
+import { openDialog } from 'reducers/modal'
+
+const closeChannel = openDialog.bind(null, CLOSE_CHANNEL_DIALOG_ID)
 
 const mapStateToProps = state => ({
   cryptoUnitName: tickerSelectors.cryptoUnitName(state),
@@ -12,7 +15,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  closeChannel: showCloseChannelDialog,
+  closeChannel,
   setSelectedChannel,
 }
 
