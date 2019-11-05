@@ -91,8 +91,7 @@ export const GET_SUGGESTED_NODES = 'GET_SUGGESTED_NODES'
 export const RECEIVE_SUGGESTED_NODES_ERROR = 'RECEIVE_SUGGESTED_NODES_ERROR'
 export const RECEIVE_SUGGESTED_NODES = 'RECEIVE_SUGGESTED_NODES'
 
-export const OPEN_CLOSE_CHANNEL_DIALOG = 'OPEN_CLOSE_CHANNEL_DIALOG'
-export const CLOSE_CLOSE_CHANNEL_DIALOG = 'CLOSE_CLOSE_CHANNEL_DIALOG'
+export const CLOSE_CHANNEL_DIALOG_ID = 'CLOSE_CHANNEL_DIALOG_ID'
 
 // channel sorters
 const OPEN_DATE = 'OPEN_DATE'
@@ -598,24 +597,6 @@ export const pushchannelerror = ({ node_pubkey, error }) => dispatch => {
 }
 
 /**
- * showCloseChannelDialog - Show the channel close dialog.
- *
- * @returns {object} Action
- */
-export const showCloseChannelDialog = () => ({
-  type: OPEN_CLOSE_CHANNEL_DIALOG,
-})
-
-/**
- * hideCloseChannelDialog - Hide the channel close dialog.
- *
- * @returns {object} Action
- */
-export const hideCloseChannelDialog = () => ({
-  type: CLOSE_CLOSE_CHANNEL_DIALOG,
-})
-
-/**
  * closeChannel - Close the currently selected channel.
  *
  * @returns {Function} Thunk
@@ -800,12 +781,6 @@ const ACTION_HANDLERS = {
       mainnet: [],
       testnet: [],
     }
-  },
-  [OPEN_CLOSE_CHANNEL_DIALOG]: state => {
-    state.isCloseDialogOpen = true
-  },
-  [CLOSE_CLOSE_CHANNEL_DIALOG]: state => {
-    state.isCloseDialogOpen = false
   },
 }
 

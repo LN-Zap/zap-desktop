@@ -46,7 +46,7 @@ export function setWallets(wallets) {
 }
 
 /**
- * setWalletsLoaded - Set wallts loaded state.
+ * setWalletsLoaded - Set wallets loaded state.
  *
  * @returns {object} Action
  */
