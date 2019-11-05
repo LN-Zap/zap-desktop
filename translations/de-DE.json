@@ -417,7 +417,7 @@
   "components.Onboarding.Steps.unlock": "Entsperren",
   "components.Onboarding.Steps.unlocking": "Entsperre",
   "components.Onboarding.Steps.verify_host_description": "Bitte überprüfe den Hostnamen sorgfältig.",
-  "components.Onboarding.Steps.verify_host_title": "Willst du wirklich eine Verbindung zu {hostname} herstellen?",
+  "components.Onboarding.Steps.verify_host_title": "Willst du wirklich eine Verbindung zu {hostName} herstellen?",
   "components.Onboarding.Steps.wallet_name_description": "Legen Sie einen Namen für Ihre Wallet fest, um Ihnen bei der Identifizierung in Zap zu helfen. Dies ist nur für interne Zwecke und wird nicht im Lightning Network gesendet.",
   "components.Onboarding.Steps.wallet_name_label": "Name der Wallet",
   "components.Onboarding.Steps.wallet_name_title": "Benennen deine neue Wallet",
