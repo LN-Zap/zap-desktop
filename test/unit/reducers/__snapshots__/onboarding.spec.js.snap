@@ -1,38 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`reducers onboardingReducer should handle CLOSE_SKIP_BACKUP_DIALOG 1`] = `
-Snapshot Diff:
-Compared values have no visual difference.
-`;
-
-exports[`reducers onboardingReducer should handle OPEN_SKIP_BACKUP_DIALOG 1`] = `
-Snapshot Diff:
-- First value
-+ Second value
-
-  Object {
-    "alias": "",
-    "autopilot": false,
-    "chain": "bitcoin",
-    "connectionCert": "",
-    "connectionHost": "",
-    "connectionMacaroon": "",
-    "connectionString": "",
-    "connectionType": "create",
--   "isSkipBackupDialogOpen": false,
-+   "isSkipBackupDialogOpen": true,
-    "lndConnect": null,
-    "name": "",
-    "network": "mainnet",
-    "passphrase": "",
-    "password": "",
-    "seed": Array [],
-    "validatingCert": false,
-    "validatingHost": false,
-    "validatingMacaroon": false,
-  }
-`;
-
 exports[`reducers onboardingReducer should handle RESET_ONBOARDING 1`] = `
 Snapshot Diff:
 Compared values have no visual difference.

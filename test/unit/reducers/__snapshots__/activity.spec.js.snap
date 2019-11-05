@@ -40,11 +40,6 @@ Snapshot Diff:
   }
 `;
 
-exports[`reducers activityReducer should handle CLOSE_ERROR_DETAILS_DIALOG 1`] = `
-Snapshot Diff:
-Compared values have no visual difference.
-`;
-
 exports[`reducers activityReducer should handle FETCH_ACTIVITY_HISTORY 1`] = `
 Snapshot Diff:
 - First value
@@ -133,46 +128,6 @@ Compared values have no visual difference.
 exports[`reducers activityReducer should handle HIDE_ACTIVITY_MODAL 1`] = `
 Snapshot Diff:
 Compared values have no visual difference.
-`;
-
-exports[`reducers activityReducer should handle OPEN_ERROR_DETAILS_DIALOG 1`] = `
-Snapshot Diff:
-- First value
-+ Second value
-
-  Object {
-    "activityLoadingError": null,
--   "errorDialogDetails": null,
-+   "errorDialogDetails": "some error",
-    "filter": "ALL_ACTIVITY",
-    "filters": Array [
-      Object {
-        "key": "ALL_ACTIVITY",
-      },
-      Object {
-        "key": "SENT_ACTIVITY",
-      },
-      Object {
-        "key": "RECEIVED_ACTIVITY",
-      },
-      Object {
-        "key": "PENDING_ACTIVITY",
-      },
-      Object {
-        "key": "EXPIRED_ACTIVITY",
-      },
-      Object {
-        "key": "INTERNAL_ACTIVITY",
-      },
-    ],
-    "hasNextPage": true,
-    "isActivityLoading": false,
-    "modal": Object {
-      "itemId": null,
-      "itemType": null,
-    },
-    "searchText": null,
-  }
 `;
 
 exports[`reducers activityReducer should handle SET_HAS_NEXT_PAGE 1`] = `
