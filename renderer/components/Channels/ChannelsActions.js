@@ -51,6 +51,7 @@ const ChannelsActions = ({
   updateChannelSearchQuery,
   setChannelViewMode,
   openModal,
+  isCustomFilter,
   intl,
   ...rest
 }) => (
@@ -66,10 +67,20 @@ const ChannelsActions = ({
           />
         </Box>
         <Flex alignItems="center" justifyContent="flex-end">
-          <ChannelFilter changeFilter={changeFilter} filter={filter} filters={filters} mx={3} />
-          <ChannelSort changeSort={changeSort} mx={3} sort={sort} sorters={sorters} />
-          <ChannelSortDirectionButton isAsc={sortOrder === 'asc'} onClick={switchSortOrder} />
-          <ChannelsRefresh onClick={fetchChannels} />
+          <ChannelSort changeSort={changeSort} mx={2} sort={sort} sorters={sorters} />
+          <ChannelSortDirectionButton
+            isAsc={sortOrder === 'asc'}
+            mx={2}
+            onClick={switchSortOrder}
+          />
+          <ChannelFilter
+            changeFilter={changeFilter}
+            filter={filter}
+            filters={filters}
+            isCustomFilter={isCustomFilter}
+            mx={2}
+          />
+          <ChannelsRefresh mx={2} onClick={fetchChannels} />
           <ChannelsViewButtons
             channelViewMode={channelViewMode}
             setChannelViewMode={setChannelViewMode}
@@ -83,7 +94,7 @@ const ChannelsActions = ({
         {currentChannelCount !== channels.length && (
           <ResetSearch
             onClick={() => {
-              changeFilter('ALL_CHANNELS')
+              changeFilter()
               updateChannelSearchQuery(null)
             }}
           />
@@ -104,9 +115,10 @@ ChannelsActions.propTypes = {
   channelViewMode: PropTypes.string.isRequired,
   currentChannelCount: PropTypes.number.isRequired,
   fetchChannels: PropTypes.func.isRequired,
-  filter: PropTypes.string.isRequired,
+  filter: PropTypes.object.isRequired,
   filters: PropTypes.array.isRequired,
   intl: intlShape.isRequired,
+  isCustomFilter: PropTypes.bool,
   openModal: PropTypes.func.isRequired,
   searchQuery: PropTypes.string,
   setChannelViewMode: PropTypes.func.isRequired,

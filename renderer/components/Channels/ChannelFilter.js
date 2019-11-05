@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
-import { Flex } from 'rebass/styled-components'
-import { Dropdown } from 'components/UI'
-import { Label } from 'components/Form'
+import { Box } from 'rebass/styled-components'
+import { Dropdown, Button } from 'components/UI'
+import Filter from 'components/Icon/Filter'
 import messages from './messages'
 
 const messageMapper = key => {
@@ -18,25 +17,42 @@ const messageMapper = key => {
   return filters[key]
 }
 
-const ChannelFilter = ({ changeFilter, filter, filters, ...rest }) => (
-  <Flex alignItems="baseline" {...rest}>
-    <Label css="white-space: nowrap;" fontWeight="light" htmlFor="channel-filter" mr={2}>
-      <FormattedMessage {...messages.channel_filter_label} />
-    </Label>
+const IconDropdownButton = ({ onToggle, isActive }) => {
+  return (
+    <Button onClick={onToggle} size="small" variant="secondary">
+      <Box color={isActive ? 'primaryAccent' : undefined}>
+        <Filter height="16px" width="16px" />
+      </Box>
+    </Button>
+  )
+}
+
+IconDropdownButton.propTypes = {
+  isActive: PropTypes.bool,
+  onToggle: PropTypes.func.isRequired,
+}
+
+const ChannelFilter = ({ changeFilter, filter, filters, isCustomFilter, ...rest }) => {
+  const DropdownButton = props => <IconDropdownButton {...props} isActive={isCustomFilter} />
+  return (
     <Dropdown
+      {...rest}
       activeKey={filter}
+      buttonComponent={DropdownButton}
       id="channel-filter"
+      isMultiselect
       items={filters}
       messageMapper={messageMapper}
       onChange={changeFilter}
     />
-  </Flex>
-)
+  )
+}
 
 ChannelFilter.propTypes = {
   changeFilter: PropTypes.func.isRequired,
-  filter: PropTypes.string,
+  filter: PropTypes.object,
   filters: PropTypes.array,
+  isCustomFilter: PropTypes.bool,
 }
 
 ChannelFilter.defaultProps = {
