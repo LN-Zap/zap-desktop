@@ -55,10 +55,9 @@ export const UPDATE_SEARCH_TEXT = 'UPDATE_SEARCH_TEXT'
 export const FETCH_ACTIVITY_HISTORY = 'FETCH_ACTIVITY_HISTORY'
 export const FETCH_ACTIVITY_HISTORY_SUCCESS = 'FETCH_ACTIVITY_HISTORY_SUCCESS'
 export const FETCH_ACTIVITY_HISTORY_FAILURE = 'FETCH_ACTIVITY_HISTORY_FAILURE'
-export const OPEN_ERROR_DETAILS_DIALOG = 'OPEN_ERROR_DETAILS_DIALOG'
-export const CLOSE_ERROR_DETAILS_DIALOG = 'CLOSE_ERROR_DETAILS_DIALOG'
 export const SET_HAS_NEXT_PAGE = 'SET_HAS_NEXT_PAGE'
 
+export const ERROR_DETAILS_DIALOG_ID = 'ERROR_DETAILS_DIALOG_ID'
 // ------------------------------------
 // Helpers
 // ------------------------------------
@@ -216,30 +215,6 @@ const prepareData = (data, searchText) => {
 // ------------------------------------
 // Actions
 // ------------------------------------
-
-/**
- * showErrorDetailsDialog - Show the activity error detail dialog.
- *
- * @param {object} error Error description
- * @returns {object} Action
- */
-export function showErrorDetailsDialog(error) {
-  return {
-    type: OPEN_ERROR_DETAILS_DIALOG,
-    error,
-  }
-}
-
-/**
- * hideErrorDetailsDialog - Hide the activity error detail dialog.
- *
- * @returns {object} Action
- */
-export function hideErrorDetailsDialog() {
-  return {
-    type: CLOSE_ERROR_DETAILS_DIALOG,
-  }
-}
 
 /**
  * showActivityModal - Show the activity modal with a given activity item.
@@ -407,12 +382,6 @@ const ACTION_HANDLERS = {
   [FETCH_ACTIVITY_HISTORY_FAILURE]: (state, { error }) => {
     state.isActivityLoading = false
     state.activityLoadingError = error
-  },
-  [OPEN_ERROR_DETAILS_DIALOG]: (state, { error }) => {
-    state.errorDialogDetails = error
-  },
-  [CLOSE_ERROR_DETAILS_DIALOG]: state => {
-    state.errorDialogDetails = null
   },
   [SET_HAS_NEXT_PAGE]: (state, { value }) => {
     state.hasNextPage = value
