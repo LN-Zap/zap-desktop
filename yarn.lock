@@ -8056,10 +8056,10 @@ eslint-plugin-jest@23.0.2:
   dependencies:
     "@typescript-eslint/experimental-utils" "^2.5.0"
 
-eslint-plugin-jsdoc@17.0.1:
-  version "17.0.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jsdoc/-/eslint-plugin-jsdoc-17.0.1.tgz#fd7c01b810184ebe3697374261605e1338476e22"
-  integrity sha512-5L8nNpZmc3IWP2YXuMelSCGdsKBxaXPBYIs8ug7gHWqmFtGIUhPZfKTuFIT6K5Hbcsg/zXhjTEHpCMe2M7slJQ==
+eslint-plugin-jsdoc@17.1.0:
+  version "17.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jsdoc/-/eslint-plugin-jsdoc-17.1.0.tgz#4367ed2ae4c9e04c909c068d661c09bae0e07f9a"
+  integrity sha512-nIsSjuJOa95O5ayhFDdtaa1y0t1CGAksemcqXGTkXE49xOzZSMUChixzCP6feL+hfRcDZHWoHk17lOlblGFkaw==
   dependencies:
     comment-parser "^0.7.0"
     debug "^4.1.1"
