@@ -62,6 +62,7 @@ mainLog.time('Time until app is ready')
  * @param {string} input Bitcoin link
  */
 const handleBitcoinLink = input => {
+  mainLog.info('Attempting to process bitcoin uri: %s', input)
   try {
     const decoded = bip21.decode(input)
     zap.sendMessage('bitcoinPaymentUri', decoded)
