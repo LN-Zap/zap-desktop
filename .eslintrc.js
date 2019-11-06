@@ -2,7 +2,6 @@ var path = require('path')
 
 const downgraded = [
   'class-methods-use-this',
-  'consistent-return',
   'max-classes-per-file',
   'no-async-promise-executor',
   'no-await-in-loop',
