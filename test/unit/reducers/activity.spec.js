@@ -7,8 +7,6 @@ import reducer, {
   FETCH_ACTIVITY_HISTORY,
   FETCH_ACTIVITY_HISTORY_SUCCESS,
   FETCH_ACTIVITY_HISTORY_FAILURE,
-  OPEN_ERROR_DETAILS_DIALOG,
-  CLOSE_ERROR_DETAILS_DIALOG,
   SET_HAS_NEXT_PAGE,
   ADD_FILTER,
 } from 'reducers/activity'
@@ -66,21 +64,6 @@ describe('reducers', () => {
       const action = {
         type: FETCH_ACTIVITY_HISTORY_FAILURE,
         error: 'some error',
-      }
-      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
-    })
-
-    it('should handle OPEN_ERROR_DETAILS_DIALOG', () => {
-      const action = {
-        type: OPEN_ERROR_DETAILS_DIALOG,
-        error: 'some error',
-      }
-      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
-    })
-
-    it('should handle CLOSE_ERROR_DETAILS_DIALOG', () => {
-      const action = {
-        type: CLOSE_ERROR_DETAILS_DIALOG,
       }
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
