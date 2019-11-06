@@ -7,9 +7,26 @@ import { Bar, Header, Span } from 'components/UI'
 import { Form, Input, Label } from 'components/Form'
 import messages from './messages'
 
+/**
+ * genIndices - Generate a random selection of seed word indexes.
+ *
+ * @param {number} qty Number of indexes to generate
+ * @returns {Array} Array of random seed indexes
+ */
+const genIndices = qty => {
+  const seedWordIndexes = []
+  while (seedWordIndexes.length < qty) {
+    const r = Math.floor(Math.random() * 24) + 1
+    if (seedWordIndexes.indexOf(r) === -1) {
+      seedWordIndexes.push(r)
+    }
+  }
+  return seedWordIndexes
+}
+
 class SeedConfirm extends React.Component {
   state = {
-    seedWordIndexes: [],
+    seedWordIndexes: genIndices(3),
   }
 
   static propTypes = {
@@ -22,21 +39,6 @@ class SeedConfirm extends React.Component {
   static defaultProps = {
     wizardApi: {},
     wizardState: {},
-  }
-
-  componentDidMount() {
-    this.fetchSeedWordIndexes()
-  }
-
-  fetchSeedWordIndexes = () => {
-    const seedWordIndexes = []
-    while (seedWordIndexes.length < 3) {
-      const r = Math.floor(Math.random() * 24) + 1
-      if (seedWordIndexes.indexOf(r) === -1) {
-        seedWordIndexes.push(r)
-      }
-    }
-    this.setState({ seedWordIndexes })
   }
 
   setFormApi = formApi => {
