@@ -326,7 +326,7 @@
     "electron-is-dev": "1.1.0",
     "finalhandler": "1.1.2",
     "get-port": "5.0.0",
-    "googleapis": "44.0.0",
+    "googleapis": "45.0.0",
     "history": "4.10.1",
     "immer": "5.0.0",
     "informed": "2.11.15",
