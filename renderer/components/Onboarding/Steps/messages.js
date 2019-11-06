@@ -29,7 +29,7 @@ export default defineMessages({
   connection_string_invalid: 'Invalid Connection String',
   connection_title: 'How will you connect to the Lightning Network?',
   create_wallet_password_description:
-    'Set a password to encrypt your wallet. This password will be needed to unlock Zap in the future.',
+    'Set a password to encrypt your wallet. This password will be needed to unlock the wallet in the future.',
   create_wallet_password_title: 'Welcome!',
   custom: 'Custom',
   default: 'Default',
