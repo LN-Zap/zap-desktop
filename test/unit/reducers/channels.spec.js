@@ -16,8 +16,6 @@ import reducer, {
   GET_SUGGESTED_NODES,
   RECEIVE_SUGGESTED_NODES_ERROR,
   RECEIVE_SUGGESTED_NODES,
-  OPEN_CLOSE_CHANNEL_DIALOG,
-  CLOSE_CLOSE_CHANNEL_DIALOG,
 } from 'reducers/channels'
 
 describe('reducers', () => {
@@ -157,20 +155,6 @@ describe('reducers', () => {
         suggestedNodes: {
           some: 'data',
         },
-      }
-      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
-    })
-
-    it('should handle OPEN_CLOSE_CHANNEL_DIALOG', () => {
-      const action = {
-        type: OPEN_CLOSE_CHANNEL_DIALOG,
-      }
-      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
-    })
-
-    it('should handle CLOSE_CLOSE_CHANNEL_DIALOG', () => {
-      const action = {
-        type: CLOSE_CLOSE_CHANNEL_DIALOG,
       }
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })

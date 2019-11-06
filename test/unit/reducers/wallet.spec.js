@@ -3,8 +3,6 @@ import reducer, {
   SET_WALLETS,
   SET_WALLETS_LOADED,
   DELETE_WALLET,
-  OPEN_DELETE_WALLET_DIALOG,
-  CLOSE_DELETE_WALLET_DIALOG,
   DELETE_WALLET_SUCCESS,
   DELETE_WALLET_FAILURE,
   PUT_WALLET,
@@ -34,20 +32,6 @@ describe('reducers', () => {
     it('should handle DELETE_WALLET', () => {
       const action = {
         type: DELETE_WALLET,
-      }
-      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
-    })
-
-    it('should handle OPEN_DELETE_WALLET_DIALOG', () => {
-      const action = {
-        type: OPEN_DELETE_WALLET_DIALOG,
-      }
-      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
-    })
-
-    it('should handle CLOSE_DELETE_WALLET_DIALOG', () => {
-      const action = {
-        type: CLOSE_DELETE_WALLET_DIALOG,
       }
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
