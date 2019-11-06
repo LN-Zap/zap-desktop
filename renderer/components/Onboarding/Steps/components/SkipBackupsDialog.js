@@ -9,7 +9,7 @@ import { Dialog, Text, Heading, Button, DialogOverlay } from 'components/UI'
 import { Checkbox, Form } from 'components/Form'
 import messages from './messages'
 
-const DialogWrapper = ({ intl, isOpen, isRestoreMode, onSkip, onCancel }) => {
+const DialogWrapper = ({ intl, isOpen, isRestoreMode, onSkip, onCancel, position }) => {
   if (!isOpen) {
     return null
   }
@@ -52,7 +52,7 @@ const DialogWrapper = ({ intl, isOpen, isRestoreMode, onSkip, onCancel }) => {
     : messages.skip_backup_dialog_warning
 
   return (
-    <DialogOverlay alignItems="center" justifyContent="center">
+    <DialogOverlay alignItems="center" justifyContent="center" position={position}>
       <Form onSubmit={handleSubmit}>
         <Dialog buttons={buttons} header={header} onClose={onCancel} width={640}>
           <Flex alignItems="center" flexDirection="column">
@@ -75,6 +75,7 @@ DialogWrapper.propTypes = {
   isRestoreMode: PropTypes.bool,
   onCancel: PropTypes.func.isRequired,
   onSkip: PropTypes.func.isRequired,
+  position: PropTypes.string,
 }
 
 export default injectIntl(DialogWrapper)

@@ -6,7 +6,7 @@ import Delete from 'components/Icon/Delete'
 import { Dialog, Heading, DialogOverlay, Text, Button } from 'components/UI'
 import messages from './messages'
 
-const ErrorDialog = ({ onClose, error, isRestoreMode, isOpen }) => {
+const ErrorDialog = ({ onClose, error, isRestoreMode, isOpen, position }) => {
   if (!isOpen) {
     return null
   }
@@ -27,7 +27,7 @@ const ErrorDialog = ({ onClose, error, isRestoreMode, isOpen }) => {
     : messages.error_dialog_create_wallet_error_desc
 
   return (
-    <DialogOverlay alignItems="center" justifyContent="center">
+    <DialogOverlay alignItems="center" justifyContent="center" position={position}>
       <Dialog
         buttons={
           <Button onClick={onClose} type="button" variant="danger">
@@ -52,6 +52,7 @@ ErrorDialog.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   isRestoreMode: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
+  position: PropTypes.string,
 }
 
 export default ErrorDialog

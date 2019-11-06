@@ -129,6 +129,7 @@ class BackupSetup extends React.Component {
           isRestoreMode={isRestoreMode}
           onCancel={this.onCancelSkip}
           onSkip={this.onSkip}
+          position="fixed"
         />
       </Container>
     )

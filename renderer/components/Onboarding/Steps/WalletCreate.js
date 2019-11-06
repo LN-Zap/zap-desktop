@@ -89,6 +89,7 @@ class WalletCreate extends React.Component {
             error={createWalletError}
             isOpen={Boolean(createWalletError)}
             onClose={this.resetOnboarding}
+            position="fixed"
           />
         </Form>
       </CenteredContent>
