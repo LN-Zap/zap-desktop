@@ -364,7 +364,7 @@
   "components.Onboarding.Steps.connection_uri_btcpay_description": "Indsæt det fulde indhold af din BTCPay Server-forbindelses konfig fil. Dette kan findes ved at klikke på linket med titlen \"Klik her for at åbne konfigurationsfilen\" i dine BTCPay Server gRPC indstillinger.",
   "components.Onboarding.Steps.connection_uri_label": "Forbindelsesstreng",
   "components.Onboarding.Steps.connection_uri_lndconnect_description": "",
-  "components.Onboarding.Steps.create_wallet_password_description": "Indtast et adgangskode for at kryptere din tegnebog. Denne adgangskode kræves for at låse tegnebogen i fremtiden.",
+  "components.Onboarding.Steps.create_wallet_password_description": "",
   "components.Onboarding.Steps.create_wallet_password_title": "Velkommen!",
   "components.Onboarding.Steps.creating_wallet": "",
   "components.Onboarding.Steps.custom": "Brugerdefinerede",
