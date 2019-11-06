@@ -105,7 +105,6 @@ export default defineMessages({
   channel_asc_sort: 'Switch to ascending order',
   channel_desc_sort: 'Switch to descending order',
   channel_sort_label: 'Sort by:',
-  channel_filter_label: 'Show:',
   show_all: '(show all)',
   local_chan_reserve_sat_label: 'Local channel reserve amount',
   local_chan_reserve_sat_description:
@@ -115,4 +114,5 @@ export default defineMessages({
     'The minimum satoshis the other node is required to reserve in its balance.',
   no_search_results: 'Your search did not return any results.',
   crypto_amount_with_unit: '{amount} {cryptoUnitName}',
+  channels_filter_hint: 'Channels filter',
 })

@@ -1,14 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
-import { Flex } from 'rebass/styled-components'
+import { useIntl } from 'react-intl'
 import { Dropdown } from 'components/UI'
-import { Label } from 'components/Form'
+import Filter from 'components/Icon/Filter'
 import messages from './messages'
+import IconDropdownButton from 'components/UI/Dropdown/IconDropdownButton'
 
 const messageMapper = key => {
   const filters = {
-    ALL_ACTIVITY: messages.actiity_filter_all,
     SENT_ACTIVITY: messages.actiity_filter_sent,
     RECEIVED_ACTIVITY: messages.actiity_filter_received,
     PENDING_ACTIVITY: messages.actiity_filter_pending,
@@ -19,33 +18,37 @@ const messageMapper = key => {
   return filters[key]
 }
 
-const ActivityFilter = ({ changeFilter, filter, filters, ...rest }) => (
-  <Flex alignItems="baseline" {...rest}>
-    <Label
-      css={{
-        whiteSpace: 'nowrap',
-      }}
-      fontWeight="light"
-      htmlFor="channel-filter"
-      mr={2}
-    >
-      <FormattedMessage {...messages.actiity_filter_label} />
-    </Label>
+const ActivityFilter = ({ changeFilter, isCustomFilter, filter, filters, ...rest }) => {
+  const intl = useIntl()
+  const DropdownButton = props => (
+    <IconDropdownButton
+      hint={intl.formatMessage({ ...messages.activity_filter_hint })}
+      Icon={Filter}
+      {...props}
+      isActive={isCustomFilter}
+    />
+  )
+  return (
     <Dropdown
+      {...rest}
       activeKey={filter}
+      buttonComponent={DropdownButton}
       highlightOnValid={false}
       id="activity-filter"
+      isMultiselect
       items={filters}
+      justify="right"
       messageMapper={messageMapper}
       onChange={changeFilter}
     />
-  </Flex>
-)
+  )
+}
 
 ActivityFilter.propTypes = {
   changeFilter: PropTypes.func.isRequired,
-  filter: PropTypes.string,
+  filter: PropTypes.object.isRequired,
   filters: PropTypes.array,
+  isCustomFilter: PropTypes.bool,
 }
 
 ActivityFilter.defaultProps = {

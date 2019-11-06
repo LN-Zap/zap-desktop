@@ -22,11 +22,16 @@ import messages from './messages'
 
 // activity paginator object. must be reset for each wallet login
 let paginator = null
-
+const defaultFilter = new Set([
+  'SENT_ACTIVITY',
+  'RECEIVED_ACTIVITY',
+  'PENDING_ACTIVITY',
+  'EXPIRED_ACTIVITY',
+  'INTERNAL_ACTIVITY',
+])
 const initialState = {
-  filter: 'ALL_ACTIVITY',
+  filter: new Set([...defaultFilter]),
   filters: [
-    { key: 'ALL_ACTIVITY' },
     { key: 'SENT_ACTIVITY' },
     { key: 'RECEIVED_ACTIVITY' },
     { key: 'PENDING_ACTIVITY' },
@@ -393,7 +398,12 @@ const ACTION_HANDLERS = {
     state.modal = { itemType: null, itemId: null }
   },
   [CHANGE_FILTER]: (state, { filter }) => {
-    state.filter = filter
+    const { filter: allFilters } = state
+    if (allFilters.has(filter)) {
+      allFilters.delete(filter)
+    } else {
+      allFilters.add(filter)
+    }
   },
   [UPDATE_SEARCH_TEXT]: (state, { searchText }) => {
     state.searchText = searchText
@@ -489,33 +499,6 @@ const addDate = entry => {
   return { ...entry, date: `${months[d.getMonth()]} ${date}, ${d.getFullYear()}`, timestamp }
 }
 
-// All activity: pre-search
-const allActivityRaw = createSelector(
-  paymentsSendingSelector,
-  transactionsSending,
-  paymentsSelector,
-  transactionsSelector,
-  invoicesSelector,
-  (paymentsSending, transactionsSending, payments, transactions, invoices) => {
-    return [
-      ...paymentsSending,
-      ...transactionsSending,
-      ...payments,
-      ...transactions.filter(
-        transaction => !transaction.isFunding && !transaction.isClosing && !transaction.isPending
-      ),
-      ...invoices.filter(invoice => invoice.settled || !invoiceExpired(invoice)),
-    ].map(addDate)
-  }
-)
-
-// All activity: post search
-const allActivity = createSelector(
-  searchTextSelector,
-  allActivityRaw,
-  (searchText, activity) => prepareData(activity, searchText)
-)
-
 // Sent activity: pre-search
 const sentActivityRaw = createSelector(
   paymentsSendingSelector,
@@ -538,13 +521,6 @@ const sentActivityRaw = createSelector(
   }
 )
 
-// Sent activity: post-search
-const sentActivity = createSelector(
-  searchTextSelector,
-  sentActivityRaw,
-  (searchText, activity) => prepareData(activity, searchText)
-)
-
 // Received activity: pre-search
 const receivedActivityRaw = createSelector(
   invoicesSelector,
@@ -563,13 +539,6 @@ const receivedActivityRaw = createSelector(
   }
 )
 
-// Received activity: post-search
-const receivedActivity = createSelector(
-  searchTextSelector,
-  receivedActivityRaw,
-  (searchText, activity) => prepareData(activity, searchText)
-)
-
 // Pending activity: pre-search
 const pendingActivityRaw = createSelector(
   paymentsSendingSelector,
@@ -586,26 +555,12 @@ const pendingActivityRaw = createSelector(
   }
 )
 
-// Pending activity: post-search
-const pendingActivity = createSelector(
-  searchTextSelector,
-  pendingActivityRaw,
-  (searchText, activity) => prepareData(activity, searchText)
-)
-
 // Expired activity: pre-search
 const expiredActivityRaw = createSelector(
   invoicesSelector,
   invoices => {
     return invoices.filter(invoice => !invoice.settled && invoiceExpired(invoice)).map(addDate)
   }
-)
-
-// Expired activity: post-search
-const expiredActivity = createSelector(
-  searchTextSelector,
-  expiredActivityRaw,
-  (searchText, activity) => prepareData(activity, searchText)
 )
 
 // Internal activity: pre-search
@@ -620,22 +575,6 @@ const internalActivityRaw = createSelector(
   }
 )
 
-// Internal activity: post-search
-const internalActivity = createSelector(
-  searchTextSelector,
-  internalActivityRaw,
-  (searchText, activity) => prepareData(activity, searchText)
-)
-
-const FILTERS = {
-  ALL_ACTIVITY: allActivity,
-  SENT_ACTIVITY: sentActivity,
-  RECEIVED_ACTIVITY: receivedActivity,
-  PENDING_ACTIVITY: pendingActivity,
-  EXPIRED_ACTIVITY: expiredActivity,
-  INTERNAL_ACTIVITY: internalActivity,
-}
-
 activitySelectors.isErrorDialogOpen = createSelector(
   errorDialogDetailsSelector,
   error => Boolean(error)
@@ -644,8 +583,36 @@ activitySelectors.isErrorDialogOpen = createSelector(
 activitySelectors.errorDialogDetailsSelector = errorDialogDetailsSelector
 
 activitySelectors.currentActivity = createSelector(
+  searchTextSelector,
   filterSelector,
-  filter => FILTERS[filter]
+  sentActivityRaw,
+  receivedActivityRaw,
+  pendingActivityRaw,
+  expiredActivityRaw,
+  internalActivityRaw,
+  (searchText, filters, sent, received, pending, expired, internal) => {
+    const result = []
+    const curFilter = filters.size ? filters : defaultFilter
+
+    curFilter.has('SENT_ACTIVITY') && result.push(...sent)
+    curFilter.has('RECEIVED_ACTIVITY') && result.push(...received)
+    curFilter.has('PENDING_ACTIVITY') && result.push(...pending)
+    curFilter.has('EXPIRED_ACTIVITY') && result.push(...expired)
+    curFilter.has('INTERNAL_ACTIVITY') && result.push(...internal)
+
+    return prepareData(result, searchText)
+  }
+)
+
+activitySelectors.isCustomFilter = createSelector(
+  filterSelector,
+  filters => {
+    if (filters.size && filters.size !== defaultFilter.size) {
+      return true
+    }
+    const difference = new Set([...filters].filter(x => !defaultFilter.has(x)))
+    return difference.size > 0
+  }
 )
 
 export { activitySelectors }

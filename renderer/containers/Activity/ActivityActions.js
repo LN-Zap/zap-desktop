@@ -17,6 +17,7 @@ const mapStateToProps = state => ({
   filter: activitySelectors.filter(state),
   filters: activitySelectors.filters(state),
   searchText: activitySelectors.searchText(state),
+  isCustomFilter: activitySelectors.isCustomFilter(state),
 })
 
 export default connect(

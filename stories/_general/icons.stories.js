@@ -36,6 +36,7 @@ import Error from 'components/Icon/Error'
 import ExternalLink from 'components/Icon/ExternalLink'
 import Eye from 'components/Icon/Eye'
 import EyeOff from 'components/Icon/EyeOff'
+import Filter from 'components/Icon/Filter'
 import FolderOpen from 'components/Icon/FolderOpen'
 import Github from 'components/Icon/Github'
 import GoogleDrive from 'components/Icon/GoogleDrive'
@@ -110,6 +111,7 @@ const zapIconsList = {
   ExternalLink,
   Eye,
   EyeOff,
+  Filter,
   FolderOpen,
   Github,
   GoogleDrive,

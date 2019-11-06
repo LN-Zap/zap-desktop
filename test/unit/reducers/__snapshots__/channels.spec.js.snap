@@ -14,12 +14,13 @@ Snapshot Diff:
 +   "closingChannelIds": Array [
 +     "123",
 +   ],
-    "filter": "ALL_CHANNELS",
+    "filter": Set {
+      "ACTIVE_CHANNELS",
+      "NON_ACTIVE_CHANNELS",
+      "OPEN_PENDING_CHANNELS",
+      "CLOSING_PENDING_CHANNELS",
+    },
     "filters": Array [
-      Object {
-        "key": "ALL_CHANNELS",
-        "value": "All",
-      },
       Object {
         "key": "ACTIVE_CHANNELS",
         "value": "Online",
@@ -95,12 +96,13 @@ Snapshot Diff:
     "closedChannels": Array [],
     "closingChannel": false,
     "closingChannelIds": Array [],
-    "filter": "ALL_CHANNELS",
+    "filter": Set {
+      "ACTIVE_CHANNELS",
+      "NON_ACTIVE_CHANNELS",
+      "OPEN_PENDING_CHANNELS",
+      "CLOSING_PENDING_CHANNELS",
+    },
     "filters": Array [
-      Object {
-        "key": "ALL_CHANNELS",
-        "value": "All",
-      },
       Object {
         "key": "ACTIVE_CHANNELS",
         "value": "Online",
@@ -181,13 +183,13 @@ Snapshot Diff:
     "closedChannels": Array [],
     "closingChannel": false,
     "closingChannelIds": Array [],
--   "filter": "ALL_CHANNELS",
-+   "filter": "NON_ACTIVE_CHANNELS",
+    "filter": Set {
+      "ACTIVE_CHANNELS",
+-     "NON_ACTIVE_CHANNELS",
+      "OPEN_PENDING_CHANNELS",
+      "CLOSING_PENDING_CHANNELS",
+    },
     "filters": Array [
-      Object {
-        "key": "ALL_CHANNELS",
-        "value": "All",
-      },
       Object {
         "key": "ACTIVE_CHANNELS",
         "value": "Online",
@@ -263,12 +265,13 @@ Snapshot Diff:
     "closedChannels": Array [],
     "closingChannel": false,
     "closingChannelIds": Array [],
-    "filter": "ALL_CHANNELS",
+    "filter": Set {
+      "ACTIVE_CHANNELS",
+      "NON_ACTIVE_CHANNELS",
+      "OPEN_PENDING_CHANNELS",
+      "CLOSING_PENDING_CHANNELS",
+    },
     "filters": Array [
-      Object {
-        "key": "ALL_CHANNELS",
-        "value": "All",
-      },
       Object {
         "key": "ACTIVE_CHANNELS",
         "value": "Online",
@@ -345,12 +348,13 @@ Snapshot Diff:
     "closedChannels": Array [],
     "closingChannel": false,
     "closingChannelIds": Array [],
-    "filter": "ALL_CHANNELS",
+    "filter": Set {
+      "ACTIVE_CHANNELS",
+      "NON_ACTIVE_CHANNELS",
+      "OPEN_PENDING_CHANNELS",
+      "CLOSING_PENDING_CHANNELS",
+    },
     "filters": Array [
-      Object {
-        "key": "ALL_CHANNELS",
-        "value": "All",
-      },
       Object {
         "key": "ACTIVE_CHANNELS",
         "value": "Online",
@@ -427,12 +431,13 @@ Snapshot Diff:
     "closedChannels": Array [],
     "closingChannel": false,
     "closingChannelIds": Array [],
-    "filter": "ALL_CHANNELS",
+    "filter": Set {
+      "ACTIVE_CHANNELS",
+      "NON_ACTIVE_CHANNELS",
+      "OPEN_PENDING_CHANNELS",
+      "CLOSING_PENDING_CHANNELS",
+    },
     "filters": Array [
-      Object {
-        "key": "ALL_CHANNELS",
-        "value": "All",
-      },
       Object {
         "key": "ACTIVE_CHANNELS",
         "value": "Online",
@@ -510,12 +515,13 @@ Snapshot Diff:
 -   "closingChannel": false,
 +   "closingChannel": true,
     "closingChannelIds": Array [],
-    "filter": "ALL_CHANNELS",
+    "filter": Set {
+      "ACTIVE_CHANNELS",
+      "NON_ACTIVE_CHANNELS",
+      "OPEN_PENDING_CHANNELS",
+      "CLOSING_PENDING_CHANNELS",
+    },
     "filters": Array [
-      Object {
-        "key": "ALL_CHANNELS",
-        "value": "All",
-      },
       Object {
         "key": "ACTIVE_CHANNELS",
         "value": "Online",
@@ -592,12 +598,13 @@ Snapshot Diff:
     "closedChannels": Array [],
     "closingChannel": false,
     "closingChannelIds": Array [],
-    "filter": "ALL_CHANNELS",
+    "filter": Set {
+      "ACTIVE_CHANNELS",
+      "NON_ACTIVE_CHANNELS",
+      "OPEN_PENDING_CHANNELS",
+      "CLOSING_PENDING_CHANNELS",
+    },
     "filters": Array [
-      Object {
-        "key": "ALL_CHANNELS",
-        "value": "All",
-      },
       Object {
         "key": "ACTIVE_CHANNELS",
         "value": "Online",
@@ -673,12 +680,13 @@ Snapshot Diff:
     "closedChannels": Array [],
     "closingChannel": false,
     "closingChannelIds": Array [],
-    "filter": "ALL_CHANNELS",
+    "filter": Set {
+      "ACTIVE_CHANNELS",
+      "NON_ACTIVE_CHANNELS",
+      "OPEN_PENDING_CHANNELS",
+      "CLOSING_PENDING_CHANNELS",
+    },
     "filters": Array [
-      Object {
-        "key": "ALL_CHANNELS",
-        "value": "All",
-      },
       Object {
         "key": "ACTIVE_CHANNELS",
         "value": "Online",
@@ -755,12 +763,13 @@ Snapshot Diff:
     "closedChannels": Array [],
     "closingChannel": false,
     "closingChannelIds": Array [],
-    "filter": "ALL_CHANNELS",
+    "filter": Set {
+      "ACTIVE_CHANNELS",
+      "NON_ACTIVE_CHANNELS",
+      "OPEN_PENDING_CHANNELS",
+      "CLOSING_PENDING_CHANNELS",
+    },
     "filters": Array [
-      Object {
-        "key": "ALL_CHANNELS",
-        "value": "All",
-      },
       Object {
         "key": "ACTIVE_CHANNELS",
         "value": "Online",
@@ -845,12 +854,13 @@ Snapshot Diff:
 +   ],
     "closingChannel": false,
     "closingChannelIds": Array [],
-    "filter": "ALL_CHANNELS",
+    "filter": Set {
+      "ACTIVE_CHANNELS",
+      "NON_ACTIVE_CHANNELS",
+      "OPEN_PENDING_CHANNELS",
+      "CLOSING_PENDING_CHANNELS",
+    },
     "filters": Array [
-      Object {
-        "key": "ALL_CHANNELS",
-        "value": "All",
-      },
       Object {
         "key": "ACTIVE_CHANNELS",
         "value": "Online",
@@ -939,12 +949,13 @@ Snapshot Diff:
     "closedChannels": Array [],
     "closingChannel": false,
     "closingChannelIds": Array [],
-    "filter": "ALL_CHANNELS",
+    "filter": Set {
+      "ACTIVE_CHANNELS",
+      "NON_ACTIVE_CHANNELS",
+      "OPEN_PENDING_CHANNELS",
+      "CLOSING_PENDING_CHANNELS",
+    },
     "filters": Array [
-      Object {
-        "key": "ALL_CHANNELS",
-        "value": "All",
-      },
       Object {
         "key": "ACTIVE_CHANNELS",
         "value": "Online",
@@ -1021,12 +1032,13 @@ Snapshot Diff:
     "closedChannels": Array [],
     "closingChannel": false,
     "closingChannelIds": Array [],
-    "filter": "ALL_CHANNELS",
+    "filter": Set {
+      "ACTIVE_CHANNELS",
+      "NON_ACTIVE_CHANNELS",
+      "OPEN_PENDING_CHANNELS",
+      "CLOSING_PENDING_CHANNELS",
+    },
     "filters": Array [
-      Object {
-        "key": "ALL_CHANNELS",
-        "value": "All",
-      },
       Object {
         "key": "ACTIVE_CHANNELS",
         "value": "Online",
@@ -1113,12 +1125,13 @@ Snapshot Diff:
     "closedChannels": Array [],
     "closingChannel": false,
     "closingChannelIds": Array [],
-    "filter": "ALL_CHANNELS",
+    "filter": Set {
+      "ACTIVE_CHANNELS",
+      "NON_ACTIVE_CHANNELS",
+      "OPEN_PENDING_CHANNELS",
+      "CLOSING_PENDING_CHANNELS",
+    },
     "filters": Array [
-      Object {
-        "key": "ALL_CHANNELS",
-        "value": "All",
-      },
       Object {
         "key": "ACTIVE_CHANNELS",
         "value": "Online",
@@ -1195,12 +1208,13 @@ Snapshot Diff:
     "closedChannels": Array [],
     "closingChannel": false,
     "closingChannelIds": Array [],
-    "filter": "ALL_CHANNELS",
+    "filter": Set {
+      "ACTIVE_CHANNELS",
+      "NON_ACTIVE_CHANNELS",
+      "OPEN_PENDING_CHANNELS",
+      "CLOSING_PENDING_CHANNELS",
+    },
     "filters": Array [
-      Object {
-        "key": "ALL_CHANNELS",
-        "value": "All",
-      },
       Object {
         "key": "ACTIVE_CHANNELS",
         "value": "Online",
@@ -1277,12 +1291,13 @@ Snapshot Diff:
     "closedChannels": Array [],
     "closingChannel": false,
     "closingChannelIds": Array [],
-    "filter": "ALL_CHANNELS",
+    "filter": Set {
+      "ACTIVE_CHANNELS",
+      "NON_ACTIVE_CHANNELS",
+      "OPEN_PENDING_CHANNELS",
+      "CLOSING_PENDING_CHANNELS",
+    },
     "filters": Array [
-      Object {
-        "key": "ALL_CHANNELS",
-        "value": "All",
-      },
       Object {
         "key": "ACTIVE_CHANNELS",
         "value": "Online",
@@ -1355,12 +1370,13 @@ Object {
   "closedChannels": Array [],
   "closingChannel": false,
   "closingChannelIds": Array [],
-  "filter": "ALL_CHANNELS",
+  "filter": Set {
+    "ACTIVE_CHANNELS",
+    "NON_ACTIVE_CHANNELS",
+    "OPEN_PENDING_CHANNELS",
+    "CLOSING_PENDING_CHANNELS",
+  },
   "filters": Array [
-    Object {
-      "key": "ALL_CHANNELS",
-      "value": "All",
-    },
     Object {
       "key": "ACTIVE_CHANNELS",
       "value": "Online",

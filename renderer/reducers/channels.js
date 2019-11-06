@@ -16,7 +16,12 @@ import messages from './messages'
 // ------------------------------------
 // Initial State
 // ------------------------------------
-
+const defaultFilter = new Set([
+  'ACTIVE_CHANNELS',
+  'NON_ACTIVE_CHANNELS',
+  'OPEN_PENDING_CHANNELS',
+  'CLOSING_PENDING_CHANNELS',
+])
 const initialState = {
   channelsLoading: false,
   loadingChannels: [],
@@ -32,10 +37,8 @@ const initialState = {
   closingChannelIds: [],
   closingChannel: false,
   searchQuery: null,
-
-  filter: 'ALL_CHANNELS',
+  filter: new Set([...defaultFilter]),
   filters: [
-    { key: 'ALL_CHANNELS', value: 'All' },
     { key: 'ACTIVE_CHANNELS', value: 'Online' },
     { key: 'NON_ACTIVE_CHANNELS', value: 'Offline' },
     { key: 'OPEN_PENDING_CHANNELS', value: 'Pending' },
@@ -755,7 +758,15 @@ const ACTION_HANDLERS = {
   },
 
   [CHANGE_CHANNEL_FILTER]: (state, { filter }) => {
-    state.filter = filter
+    const { filter: allFilters } = state
+    // if `filter` action param is not set - reset to default
+    if (!filter) {
+      state.filter = new Set([...defaultFilter])
+    } else if (allFilters.has(filter)) {
+      allFilters.delete(filter)
+    } else {
+      allFilters.add(filter)
+    }
   },
   [CHANGE_CHANNEL_SORT]: (state, { sort }) => {
     state.sort = sort
@@ -1075,34 +1086,23 @@ channelsSelectors.currentChannels = createSelector(
     pendingOpenChannels,
     pendingClosedChannels,
     nonActiveChannelsArr,
-    channelFilter,
+    filters,
     searchQuery,
     sort,
     sortOrder
   ) => {
-    // Helper function to deliver correct channel array based on filter
-    const filteredArray = filterKey => {
-      switch (filterKey) {
-        case 'ALL_CHANNELS':
-          return allChannelsArr
-        case 'ACTIVE_CHANNELS':
-          return activeChannelsArr
-        case 'NON_ACTIVE_CHANNELS':
-          return nonActiveChannelsArr
-        case 'OPEN_CHANNELS':
-          return openChannels
-        case 'OPEN_PENDING_CHANNELS':
-          return pendingOpenChannels
-        case 'CLOSING_PENDING_CHANNELS':
-          return pendingClosedChannels
-        default:
-          return []
-      }
-    }
     const filterChannel = channel => channelMatchesQuery(channel, searchQuery)
 
-    const result = filteredArray(channelFilter).filter(filterChannel)
-    return applyChannelSort(result, sort, sortOrder)
+    const result = []
+    const curFilter = filters.size ? filters : defaultFilter
+
+    curFilter.has('ACTIVE_CHANNELS') && result.push(...activeChannelsArr)
+    curFilter.has('NON_ACTIVE_CHANNELS') && result.push(...nonActiveChannelsArr)
+    curFilter.has('OPEN_CHANNELS') && result.push(...openChannels)
+    curFilter.has('OPEN_PENDING_CHANNELS') && result.push(...pendingOpenChannels)
+    curFilter.has('CLOSING_PENDING_CHANNELS') && result.push(...pendingClosedChannels)
+
+    return applyChannelSort(result.filter(filterChannel), sort, sortOrder)
   }
 )
 
@@ -1157,6 +1157,17 @@ channelsSelectors.maxOneTimeSend = createSelector(
 channelsSelectors.maxOneTimeReceive = createSelector(
   channelsSelectors.capacity,
   capacity => capacity.maxOneTimeReceive
+)
+
+channelsSelectors.isCustomFilter = createSelector(
+  filterSelector,
+  filters => {
+    if (filters.size && filters.size !== defaultFilter.size) {
+      return true
+    }
+    const difference = new Set([...filters].filter(x => !defaultFilter.has(x)))
+    return difference.size > 0
+  }
 )
 
 export { channelsSelectors }

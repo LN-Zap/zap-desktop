@@ -11,7 +11,7 @@ import AngleRight from 'components/Icon/AngleRight'
 import AngleUp from 'components/Icon/AngleUp'
 import AngleDown from 'components/Icon/AngleDown'
 import Check from 'components/Icon/Check'
-import Text from './Text'
+import Text from '../Text'
 
 /**
  * Container
@@ -103,6 +103,7 @@ export const MenuItem = ({
   hasParent,
   hasChildren,
   valueField,
+  isMultiselect,
   ...rest
 }) => {
   return (
@@ -114,7 +115,11 @@ export const MenuItem = ({
           </Flex>
         )}
         {!hasParent && (
-          <Text color="superGreen" textAlign="center" width="20px">
+          <Text
+            color={isMultiselect ? 'primaryAccent' : 'superGreen'}
+            textAlign="center"
+            width="20px"
+          >
             {isActive && <Check height="0.95em" />}
           </Text>
         )}
@@ -132,8 +137,38 @@ MenuItem.propTypes = {
   hasChildren: PropTypes.bool,
   hasParent: PropTypes.bool,
   isActive: PropTypes.bool,
+  isMultiselect: PropTypes.bool,
   item: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
+  valueField: PropTypes.string,
+}
+
+const DefaultDropdownButton = ({
+  onToggle,
+  selectedItem,
+  valueField,
+  activeKey,
+  isOpen,
+  opacity: buttonOpacity,
+}) => {
+  return (
+    <DropdownButton fontWeight="normal" onClick={onToggle} opacity={buttonOpacity} type="button">
+      <Flex alignItems="center">
+        <Text css="white-space: nowrap;" mr={1} textAlign="left">
+          {selectedItem ? selectedItem[valueField] : activeKey}{' '}
+        </Text>
+        <Flex color="gray">{isOpen ? <AngleUp width="0.6em" /> : <AngleDown width="0.6em" />}</Flex>
+      </Flex>
+    </DropdownButton>
+  )
+}
+
+DefaultDropdownButton.propTypes = {
+  activeKey: PropTypes.string,
+  isOpen: PropTypes.bool,
+  onToggle: PropTypes.func.isRequired,
+  opacity: PropTypes.number,
+  selectedItem: PropTypes.object,
   valueField: PropTypes.string,
 }
 
@@ -145,6 +180,8 @@ const Dropdown = ({
   onChange,
   messageMapper,
   valueField,
+  isMultiselect,
+  buttonComponent: ButtonComponent,
   ...rest
 }) => {
   const intl = useIntl()
@@ -174,32 +211,31 @@ const Dropdown = ({
   const selectedItem = itemsArray.find(c => c.key === activeKey)
 
   const handleClick = key => {
-    if (key !== activeKey) {
+    if (key !== activeKey || isMultiselect) {
       if (onChange) {
         onChange(key)
       }
     }
-    setIsOpen(false)
+    !isMultiselect && setIsOpen(false)
+  }
+
+  const isActiveItem = key => {
+    return activeKey === key || (isMultiselect && activeKey.has(key))
   }
 
   return (
     <div style={{ display: 'inline-block' }}>
       <DropdownContainer {...rest} ref={wrapperRef}>
-        <DropdownButton
-          fontWeight="normal"
-          onClick={toggleMenu}
-          opacity={buttonOpacity}
-          type="button"
-        >
-          <Flex alignItems="center">
-            <Text css="white-space: nowrap;" mr={1} textAlign="left">
-              {selectedItem ? selectedItem[valueField] : activeKey}{' '}
-            </Text>
-            <Flex color="gray">
-              {isOpen ? <AngleUp width="0.6em" /> : <AngleDown width="0.6em" />}
-            </Flex>
-          </Flex>
-        </DropdownButton>
+        <ButtonComponent
+          {...{
+            onToggle: toggleMenu,
+            selectedItem,
+            valueField,
+            activeKey,
+            isOpen,
+            opacity: buttonOpacity,
+          }}
+        />
         {isOpen && (
           <MenuContainer>
             <Menu ref={measuredRef} justify={justify} maxHeight={height}>
@@ -207,7 +243,8 @@ const Dropdown = ({
                 return (
                   <MenuItem
                     key={item.key}
-                    isActive={activeKey === item.key}
+                    isActive={isActiveItem(item.key)}
+                    isMultiselect={isMultiselect}
                     item={item}
                     onClick={() => handleClick(item.key)}
                     valueField={valueField}
@@ -224,11 +261,14 @@ const Dropdown = ({
 
 Dropdown.defaultProps = {
   valueField: 'value',
+  buttonComponent: DefaultDropdownButton,
 }
 
 Dropdown.propTypes = {
-  activeKey: PropTypes.string.isRequired,
+  activeKey: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+  buttonComponent: PropTypes.elementType,
   buttonOpacity: PropTypes.number,
+  isMultiselect: PropTypes.bool,
   items: PropTypes.array.isRequired,
   justify: PropTypes.string,
   messageMapper: PropTypes.func,

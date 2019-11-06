@@ -238,7 +238,7 @@ class Pay extends React.Component {
     }
 
     // Change the transaction filter to ALL transactions
-    changeFilter('ALL_ACTIVITY')
+    changeFilter('SENT_ACTIVITY')
     // Close the form modal once the transaction has been sent
     closeModal()
   }

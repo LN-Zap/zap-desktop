@@ -29,6 +29,7 @@ const mapStateToProps = state => ({
   networkInfo: infoSelectors.networkInfo(state),
   searchQuery: state.channels.searchQuery,
   selectedChannel: channelsSelectors.selectedChannel(state),
+  isCustomFilter: channelsSelectors.isCustomFilter(state),
 })
 
 const mapDispatchToProps = {

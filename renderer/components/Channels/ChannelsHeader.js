@@ -23,6 +23,7 @@ const ChannelsHeader = ({
   switchSortOrder,
   sendCapacity,
   receiveCapacity,
+  isCustomFilter,
   ...rest
 }) => (
   <Box as="header" {...rest}>
@@ -43,6 +44,7 @@ const ChannelsHeader = ({
       fetchChannels={fetchChannels}
       filter={filter}
       filters={filters}
+      isCustomFilter={isCustomFilter}
       mx={4}
       openModal={openModal}
       searchQuery={searchQuery}
@@ -63,8 +65,9 @@ ChannelsHeader.propTypes = {
   channelViewMode: PropTypes.string.isRequired,
   currentChannelCount: PropTypes.number.isRequired,
   fetchChannels: PropTypes.func.isRequired,
-  filter: PropTypes.string.isRequired,
+  filter: PropTypes.object.isRequired,
   filters: PropTypes.array.isRequired,
+  isCustomFilter: PropTypes.bool,
   openModal: PropTypes.func.isRequired,
   receiveCapacity: PropTypes.number.isRequired,
   searchQuery: PropTypes.string,
