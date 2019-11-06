@@ -136,6 +136,7 @@ class WalletRecover extends React.Component {
                       isOpen={Boolean(createWalletError)}
                       isRestoreMode
                       onClose={this.resetOnboarding}
+                      position="fixed"
                     />
                   )}
                 </>
