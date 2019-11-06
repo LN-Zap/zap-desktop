@@ -364,7 +364,7 @@
   "components.Onboarding.Steps.connection_uri_btcpay_description": "Paste the full content of your BTCPay Server connection config file. This can be found by clicking the link entitled 'Click here to open the configuration file' in your BTCPay Server gRPC settings.",
   "components.Onboarding.Steps.connection_uri_label": "Connection String",
   "components.Onboarding.Steps.connection_uri_lndconnect_description": "Paste an Lnd Connect URI. You can generate one of these using the lndconnect utility. Example: \"lndconnect://1.2.3.4:10009?cert=x&macaroon=y\"",
-  "components.Onboarding.Steps.create_wallet_password_description": "Set a password to encrypt your wallet. This password will be needed to unlock Zap in the future.",
+  "components.Onboarding.Steps.create_wallet_password_description": "Set a password to encrypt your wallet. This password will be needed to unlock the wallet in the future.",
   "components.Onboarding.Steps.create_wallet_password_title": "Welcome!",
   "components.Onboarding.Steps.creating_wallet": "Creating wallet…",
   "components.Onboarding.Steps.custom": "Custom",
