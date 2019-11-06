@@ -1,8 +1,9 @@
 import React from 'react'
+import { useIntl } from 'react-intl'
 import PropTypes from 'prop-types'
-import { Box } from 'rebass/styled-components'
-import { Dropdown, Button } from 'components/UI'
+import { Dropdown } from 'components/UI'
 import Filter from 'components/Icon/Filter'
+import IconDropdownButton from 'components/UI/Dropdown/IconDropdownButton'
 import messages from './messages'
 
 const messageMapper = key => {
@@ -17,23 +18,16 @@ const messageMapper = key => {
   return filters[key]
 }
 
-const IconDropdownButton = ({ onToggle, isActive }) => {
-  return (
-    <Button onClick={onToggle} size="small" variant="secondary">
-      <Box color={isActive ? 'primaryAccent' : undefined}>
-        <Filter height="16px" width="16px" />
-      </Box>
-    </Button>
-  )
-}
-
-IconDropdownButton.propTypes = {
-  isActive: PropTypes.bool,
-  onToggle: PropTypes.func.isRequired,
-}
-
 const ChannelFilter = ({ changeFilter, filter, filters, isCustomFilter, ...rest }) => {
-  const DropdownButton = props => <IconDropdownButton {...props} isActive={isCustomFilter} />
+  const intl = useIntl()
+  const DropdownButton = props => (
+    <IconDropdownButton
+      {...props}
+      hint={intl.formatMessage({ ...messages.channels_filter_hint })}
+      Icon={Filter}
+      isActive={isCustomFilter}
+    />
+  )
   return (
     <Dropdown
       {...rest}

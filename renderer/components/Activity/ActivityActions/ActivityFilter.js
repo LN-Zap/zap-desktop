@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex, Box } from 'rebass/styled-components'
-import { Dropdown, Button } from 'components/UI'
+import { useIntl } from 'react-intl'
+import { Dropdown } from 'components/UI'
 import Filter from 'components/Icon/Filter'
 import messages from './messages'
+import IconDropdownButton from 'components/UI/Dropdown/IconDropdownButton'
 
 const messageMapper = key => {
   const filters = {
@@ -17,36 +18,29 @@ const messageMapper = key => {
   return filters[key]
 }
 
-const IconDropdownButton = ({ onToggle, isActive }) => {
-  return (
-    <Button onClick={onToggle} size="small" variant="secondary">
-      <Box color={isActive ? 'primaryAccent' : undefined}>
-        <Filter height="16px" width="16px" />
-      </Box>
-    </Button>
-  )
-}
-
-IconDropdownButton.propTypes = {
-  isActive: PropTypes.bool,
-  onToggle: PropTypes.func.isRequired,
-}
-
 const ActivityFilter = ({ changeFilter, isCustomFilter, filter, filters, ...rest }) => {
-  const DropdownButton = props => <IconDropdownButton {...props} isActive={isCustomFilter} />
+  const intl = useIntl()
+  const DropdownButton = props => (
+    <IconDropdownButton
+      hint={intl.formatMessage({ ...messages.activity_filter_hint })}
+      Icon={Filter}
+      {...props}
+      isActive={isCustomFilter}
+    />
+  )
   return (
-    <Flex alignItems="baseline" {...rest}>
-      <Dropdown
-        activeKey={filter}
-        buttonComponent={DropdownButton}
-        highlightOnValid={false}
-        id="activity-filter"
-        isMultiselect
-        items={filters}
-        messageMapper={messageMapper}
-        onChange={changeFilter}
-      />
-    </Flex>
+    <Dropdown
+      {...rest}
+      activeKey={filter}
+      buttonComponent={DropdownButton}
+      highlightOnValid={false}
+      id="activity-filter"
+      isMultiselect
+      items={filters}
+      justify="right"
+      messageMapper={messageMapper}
+      onChange={changeFilter}
+    />
   )
 }
 

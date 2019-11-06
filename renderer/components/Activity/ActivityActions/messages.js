@@ -9,4 +9,5 @@ export default defineMessages({
   actiity_filter_pending: 'Pending',
   actiity_filter_expired: 'Expired',
   actiity_filter_internal: 'Internal',
+  activity_filter_hint: 'Activity list filters',
 })
