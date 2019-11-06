@@ -364,7 +364,7 @@
   "components.Onboarding.Steps.connection_uri_btcpay_description": "Pegar todo el contenido del archivo de configuración de conexión de su servidor BTCPay. Esto se puede encontrar haciendo clic en el enlace titulado \"haga clic aquí para abrir el archivo de configuración.\" en los comandos de configuración del servidor gRPC BTCPay.",
   "components.Onboarding.Steps.connection_uri_label": "Cadena de conexión",
   "components.Onboarding.Steps.connection_uri_lndconnect_description": "Pegar un LND Connect URI. Puedes generar uno de estos usando la utilidad lndconnect. Ejemplo: \"lndconnect://1.2.3.4:10009?cert=x&macaroon=y\"",
-  "components.Onboarding.Steps.create_wallet_password_description": "Establezca una contraseña para cifrar su billetera. Esta contraseña será necesaria para desbloquear la billetera en el futuro.",
+  "components.Onboarding.Steps.create_wallet_password_description": "",
   "components.Onboarding.Steps.create_wallet_password_title": "Bienvenido",
   "components.Onboarding.Steps.creating_wallet": "Creando cartera…",
   "components.Onboarding.Steps.custom": "Personalizado",
