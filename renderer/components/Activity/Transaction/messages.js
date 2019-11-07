@@ -18,4 +18,6 @@ export default defineMessages({
   closetype_breach_close: 'Breach',
   closetype_funding_canceled: 'Funding Canceled',
   closetype_abandoned: 'Abandoned',
+  pending: 'Pending',
+  confirmed: 'Confirmed',
 })

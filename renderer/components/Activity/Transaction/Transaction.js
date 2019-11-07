@@ -1,13 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import findLast from 'lodash/findLast'
 import { FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass/styled-components'
+import config from 'config'
 import { intlShape } from '@zap/i18n'
 import { Message, Text } from 'components/UI'
 import ChainLink from 'components/Icon/ChainLink'
 import { CryptoValue, FiatValue } from 'containers/UI'
 import ErrorLink from '../ErrorLink'
 import messages from './messages'
+
+const { pending, confirmed } = config.onchainFinality
+
+// finality to color mapping
+const DISPLAY_PARAMS = [
+  { finality: pending, msg: messages.pending, color: 'primaryAccent' },
+  { finality: confirmed, msg: messages.confirmed, color: 'superGreen' },
+]
 
 const Transaction = ({ activity, showActivityModal, cryptoUnitName, intl, ...rest }) => {
   const amount = activity.amount || activity.limboAmount || 0
@@ -17,6 +27,27 @@ const Transaction = ({ activity, showActivityModal, cryptoUnitName, intl, ...res
     type = 'funding'
   } else if (activity.isClosing) {
     type = 'closing'
+  }
+  const renderConfirmations = () => {
+    const { num_confirmations } = activity
+
+    // returns color for the current number of confirmations
+    const getDisplayParams = () =>
+      findLast(DISPLAY_PARAMS, ({ finality }) => num_confirmations >= finality)
+
+    if (num_confirmations > confirmed) {
+      return (
+        <Text color="gray" fontSize="xs" fontWeight="normal">
+          <FormattedTime value={activity.time_stamp * 1000} />
+        </Text>
+      )
+    }
+    const { color, msg } = getDisplayParams()
+    return (
+      <Text color={color} fontSize="xs" fontWeight="normal">
+        <FormattedMessage {...msg} />
+      </Text>
+    )
   }
 
   return (
@@ -62,9 +93,7 @@ const Transaction = ({ activity, showActivityModal, cryptoUnitName, intl, ...res
             )}
           </>
         ) : (
-          <Text color="gray" fontSize="xs" fontWeight="normal">
-            <FormattedTime value={activity.time_stamp * 1000} />
-          </Text>
+          renderConfirmations()
         )}
       </Box>
 
