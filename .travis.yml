@@ -3,7 +3,7 @@ sudo: required
 osx_image: xcode11.2
 env:
   global:
-    - DEBUG=electron-builder
+    - DEBUG=electron-builder,electron-notarize
     - ARTIFACTS_BUCKET=zap-travis
     - ARTIFACTS_REGION=us-east-1
     - ARTIFACTS_DEBUG=1
