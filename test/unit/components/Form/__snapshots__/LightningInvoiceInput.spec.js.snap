@@ -73,16 +73,6 @@ exports[`component.UI.LightningInvoiceInput should render correctly 1`] = `
   border-color: #fd9800;
 }
 
-.c3 {
-  box-sizing: border-box;
-  margin: 0;
-  min-width: 0;
-  color: #959595;
-  font-size: 11px;
-  line-height: 1.4;
-  margin-top: 4px;
-}
-
 .c0 {
   box-sizing: border-box;
   margin: 0;
@@ -128,21 +118,14 @@ exports[`component.UI.LightningInvoiceInput should render correctly 1`] = `
     >
       <textarea
         className="c2"
+        disabled={false}
         name="name"
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
-        rows={5}
-        spellCheck="false"
+        required={false}
         value=""
       />
-    </div>
-    <div
-      className="c3"
-      color="gray"
-      fontSize="s"
-    >
-      Paste a Lightning Payment Request or bitcoin Address here
     </div>
   </div>
 </form>
