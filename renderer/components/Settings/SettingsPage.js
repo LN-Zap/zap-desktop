@@ -18,7 +18,8 @@ import PasswordPromptDialog from 'containers/Settings/PasswordPromptDialog'
 import PasswordSetDialog from 'containers/Settings/PasswordSetDialog'
 import messages from './messages'
 
-const isSecurityPaneEnabled = window.Zap.getPlatform() !== 'win32' || config.isWinPlatformSupported
+const isSecurityPaneEnabled =
+  window.Zap.getPlatform() !== 'win32' || config.secureStorage.isWinPlatformSupported
 
 const SettingsMenu = ({ group, setGroup, isLoggedIn, ...rest }) => {
   // Items accessible to unauthenticated users.
