@@ -46,7 +46,7 @@
   "components.Activity.Transaction.closetype_local_force_close": "Vynutit lokální zavření",
   "components.Activity.Transaction.closetype_remote_force_close": "Vynutit vzdálené zavření",
   "components.Activity.Transaction.closing": "Zavírání kanálu",
-  "components.Activity.Transaction.confirmed": "",
+  "components.Activity.Transaction.confirmed": "Potvrzeno",
   "components.Activity.Transaction.fee": "Poplatek",
   "components.Activity.Transaction.funding": "Financování kanálu",
   "components.Activity.Transaction.pending": "Čekající",
