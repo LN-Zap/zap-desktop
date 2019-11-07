@@ -1,92 +1,58 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, injectIntl } from 'react-intl'
-import { asField } from 'informed'
+import { FormattedMessage, useIntl } from 'react-intl'
+import { useFieldState } from 'informed'
 import { isOnchain, isLn, decodePayReq } from '@zap/utils/crypto'
 import { Message } from 'components/UI'
-import { BasicTextArea } from './TextArea'
+import TextArea from './TextArea'
 import messages from './messages'
-import { intlShape } from '@zap/i18n'
 
-class LightningInvoiceInput extends React.Component {
-  static displayName = 'LightningInvoiceInput'
-
-  static propTypes = {
-    chain: PropTypes.oneOf(['bitcoin', 'litecoin']),
-    intl: intlShape.isRequired,
-    isRequired: PropTypes.bool,
-    network: PropTypes.oneOf(['mainnet', 'testnet', 'regtest', 'simnet']),
-  }
-
-  validate = value => {
-    const { intl } = this.props
-    const { network, chain, isRequired } = this.props
-
+const validate = (intl, network, chain, value) => {
+  if (value) {
     let chainName = `${chain}/lightning`
     if (network !== 'mainnet') {
       chainName += ` (${network})`
     }
-
-    // Ensure we have a value.
-    if (isRequired && (!value || value.trim() === '')) {
-      return intl.formatMessage({ ...messages.required_field })
-    }
-
-    if (value) {
-      const invoiceIsLn = isLn(value, chain, network)
-      const invoiceIsOnchain = isOnchain(value, chain, network)
-
-      // Ensure we have a valid invoice or address.
-      if (!invoiceIsLn && !invoiceIsOnchain) {
-        return intl.formatMessage({ ...messages.invalid_request }, { chain: chainName })
-      }
-
-      // If we have a LN invoice, ensure the invoice has an amount.
-      if (invoiceIsLn) {
-        try {
-          const invoice = decodePayReq(value)
-          if (!invoice || (!invoice.satoshis && !invoice.millisatoshis)) {
-            throw new Error('Invalid invoice')
-          }
-        } catch (e) {
-          return intl.formatMessage({ ...messages.invalid_request }, { chain: chainName })
-        }
-      }
-    }
-    return undefined
-  }
-
-  render() {
-    const { chain, intl } = this.props
-
-    return (
-      <InformedTextArea
-        description={intl.formatMessage(
-          {
-            ...messages.payreq_placeholder,
-          },
-          { chain }
-        )}
-        rows={5}
-        {...this.props}
-        spellCheck="false"
-        validate={this.validate}
-      />
+    const invalidRequestMessage = intl.formatMessage(
+      { ...messages.invalid_request },
+      { chain: chainName }
     )
+    // If we have a LN invoice, ensure the invoice has an amount.
+    if (isLn(value, chain, network)) {
+      try {
+        const invoice = decodePayReq(value)
+        if (!invoice || (!invoice.satoshis && !invoice.millisatoshis)) {
+          throw new Error('Invalid invoice')
+        }
+      } catch (e) {
+        return invalidRequestMessage
+      }
+    } else if (!isOnchain(value, chain, network)) {
+      return invalidRequestMessage
+    }
   }
+  return undefined
 }
 
-const InformedTextArea = asField(({ fieldState, fieldApi, ...props }) => {
+const LightningInvoiceInput = props => {
+  const { network, chain, field } = props
+  const intl = useIntl()
+  const fieldState = useFieldState(field)
   const { value } = fieldState
-  const { chain, network, ...rest } = props
-
   let chainName = isLn(value, chain, network) ? 'lightning' : chain
   if (network !== 'mainnet') {
     chainName += ` (${network})`
   }
+
+  const doValidate = useCallback(value => validate(intl, network, chain, value), [
+    chain,
+    intl,
+    network,
+  ])
+
   return (
     <>
-      <BasicTextArea {...rest} fieldApi={fieldApi} fieldState={fieldState} />
+      <TextArea validate={doValidate} {...props} validateOnBlur validateOnChange />
       {value && !fieldState.error && (
         <Message mt={2} variant="success">
           <FormattedMessage
@@ -99,6 +65,15 @@ const InformedTextArea = asField(({ fieldState, fieldApi, ...props }) => {
       )}
     </>
   )
-})
+}
 
-export default injectIntl(LightningInvoiceInput)
+LightningInvoiceInput.displayName = 'LightningInvoiceInput'
+
+LightningInvoiceInput.propTypes = {
+  chain: PropTypes.oneOf(['bitcoin', 'litecoin']),
+  field: PropTypes.string.isRequired,
+  isRequired: PropTypes.bool,
+  network: PropTypes.oneOf(['mainnet', 'testnet', 'regtest', 'simnet']),
+}
+
+export default LightningInvoiceInput
