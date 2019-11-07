@@ -3,7 +3,7 @@ import { Pay } from 'components/Pay'
 import { fetchTickers, tickerSelectors } from 'reducers/ticker'
 import { setRedirectPayReq, queryFees, queryRoutes } from 'reducers/pay'
 import { balanceSelectors } from 'reducers/balance'
-import { changeFilter } from 'reducers/activity'
+import { addFilter } from 'reducers/activity'
 import { channelsSelectors } from 'reducers/channels'
 import { sendCoins } from 'reducers/transaction'
 import { payInvoice } from 'reducers/payment'
@@ -28,7 +28,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  changeFilter,
+  addFilter,
   closeModal,
   fetchTickers,
   payInvoice,

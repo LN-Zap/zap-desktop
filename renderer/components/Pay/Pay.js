@@ -14,9 +14,9 @@ import { intlShape } from '@zap/i18n'
 
 class Pay extends React.Component {
   static propTypes = {
+    addFilter: PropTypes.func.isRequired,
     chain: PropTypes.string.isRequired,
     chainName: PropTypes.string.isRequired,
-    changeFilter: PropTypes.func.isRequired,
     channelBalance: PropTypes.number.isRequired,
     closeModal: PropTypes.func.isRequired,
     cryptoUnit: PropTypes.string.isRequired,
@@ -208,7 +208,7 @@ class Pay extends React.Component {
       routes,
       sendCoins,
       setRedirectPayReq,
-      changeFilter,
+      addFilter,
       closeModal,
     } = this.props
     const { isOnchain } = this.state
@@ -237,8 +237,9 @@ class Pay extends React.Component {
       setRedirectPayReq(null)
     }
 
-    // Change the transaction filter to ALL transactions
-    changeFilter('SENT_ACTIVITY')
+    // Change the transaction filter to include sent and pending transactions
+    // to ensure user sees freshly added payment
+    addFilter('SENT_ACTIVITY', 'PENDING_ACTIVITY')
     // Close the form modal once the transaction has been sent
     closeModal()
   }
@@ -338,7 +339,7 @@ class Pay extends React.Component {
     const {
       chain,
       chainName,
-      changeFilter,
+      addFilter,
       channelBalance,
       closeModal,
       cryptoUnit,
