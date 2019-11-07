@@ -10,6 +10,7 @@ import reducer, {
   OPEN_ERROR_DETAILS_DIALOG,
   CLOSE_ERROR_DETAILS_DIALOG,
   SET_HAS_NEXT_PAGE,
+  ADD_FILTER,
 } from 'reducers/activity'
 
 describe('reducers', () => {
@@ -34,7 +35,7 @@ describe('reducers', () => {
     it('should handle CHANGE_FILTER', () => {
       const action = {
         type: CHANGE_FILTER,
-        filter: 'SENT_ACTIVITY',
+        filterList: ['SENT_ACTIVITY'],
       }
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
@@ -87,6 +88,14 @@ describe('reducers', () => {
     it('should handle SET_HAS_NEXT_PAGE', () => {
       const action = {
         type: SET_HAS_NEXT_PAGE,
+      }
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
+    })
+
+    it('should handle ADD_FILTER', () => {
+      const action = {
+        type: ADD_FILTER,
+        filterList: ['SENT_ACTIVITY'],
       }
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })

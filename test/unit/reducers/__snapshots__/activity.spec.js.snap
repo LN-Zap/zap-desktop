@@ -1,5 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`reducers activityReducer should handle ADD_FILTER 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
+`;
+
 exports[`reducers activityReducer should handle CHANGE_FILTER 1`] = `
 Snapshot Diff:
 - First value
