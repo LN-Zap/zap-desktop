@@ -107,8 +107,17 @@ export const lightningPaymentUri = (event, { address }) => (dispatch, getState) 
  * @param  {{ address, options }} options Decoded bip21 payment url
  * @returns {Function} Thunk
  */
-export const bitcoinPaymentUri = (event, { address, options: { amount } }) => dispatch => {
-  dispatch(setRedirectPayReq({ address, amount }))
+export const bitcoinPaymentUri = (event, { address, options = {} }) => dispatch => {
+  // If the bip21 data includes a bolt11 invoice in the `lightning` key handle as a lightning payment.
+  const { lightning } = options
+  if (lightning) {
+    dispatch(lightningPaymentUri(event, { address: lightning }))
+  }
+  // Otherwise, use the bitcoin address for on-chain payment.
+  else {
+    const { amount } = options
+    dispatch(setRedirectPayReq({ address, amount }))
+  }
 }
 
 /**
