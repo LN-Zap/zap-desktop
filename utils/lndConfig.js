@@ -66,10 +66,16 @@ class LndConfig {
           return isReadyStore.get(this)
         },
       },
+      isTemporary: {
+        enumerable: true,
+        get() {
+          return this.id === TEMP_WALLET_ID
+        },
+      },
       lndDir: {
         enumerable: true,
         get() {
-          if (this.id === TEMP_WALLET_ID) {
+          if (this.isTemporary) {
             const cache = tmpDirStore.get(this)
             if (cache) {
               return cache
@@ -232,6 +238,12 @@ class LndConfig {
    * @returns {string} Embedded lndconnect uri.
    */
   async generateLndconnectQRCode() {
+    // Temporary wallets are only used for the purpose of generating a new seed and will not support QR code generation
+    // as they will never be running long enough to have a certificate or macaroon generated.
+    if (this.isTemporary) {
+      return null
+    }
+
     const { decoder, lndconnectUri } = this
     switch (decoder) {
       case 'lnd.lndconnect.v1':
