@@ -523,14 +523,10 @@ const addDate = entry => {
 
 // Sent activity: pre-search
 const sentActivityRaw = createSelector(
-  paymentsSendingSelector,
-  transactionsSending,
   paymentsSelector,
   transactionsSelector,
-  (paymentsSending, transactionsSending, payments, transactions) => {
+  (payments, transactions) => {
     return [
-      ...paymentsSending,
-      ...transactionsSending,
       ...payments,
       ...transactions.filter(
         transaction =>
