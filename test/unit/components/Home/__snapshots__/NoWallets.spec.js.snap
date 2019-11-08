@@ -73,7 +73,7 @@ exports[`component.NoWallets should render correctly (no selected wallet) 1`] = 
   opacity: 1;
 }
 
-.c3:focus {
+.c3.focus-visible {
   opacity: 1;
 }
 
@@ -303,7 +303,7 @@ exports[`component.NoWallets should render correctly (no wallets) 1`] = `
   opacity: 1;
 }
 
-.c3:focus {
+.c3.focus-visible {
   opacity: 1;
 }
 
