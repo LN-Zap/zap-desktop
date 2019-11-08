@@ -34,7 +34,7 @@
   "components.Activity.PaymentModal.current_value": "",
   "components.Activity.PaymentModal.date_sent": "",
   "components.Activity.PaymentModal.fee": "עמלה",
-  "components.Activity.PaymentModal.memo": "תזכיר",
+  "components.Activity.PaymentModal.memo": "",
   "components.Activity.PaymentModal.preimage": "",
   "components.Activity.PaymentModal.subtitle": "",
   "components.Activity.PaymentModal.title_sent": "",
