@@ -56,6 +56,7 @@ const initialState = {
 export const SHOW_ACTIVITY_MODAL = 'SHOW_ACTIVITY_MODAL'
 export const HIDE_ACTIVITY_MODAL = 'HIDE_ACTIVITY_MODAL'
 export const CHANGE_FILTER = 'CHANGE_FILTER'
+export const ADD_FILTER = 'ADD_FILTER'
 export const UPDATE_SEARCH_TEXT = 'UPDATE_SEARCH_TEXT'
 export const FETCH_ACTIVITY_HISTORY = 'FETCH_ACTIVITY_HISTORY'
 export const FETCH_ACTIVITY_HISTORY_SUCCESS = 'FETCH_ACTIVITY_HISTORY_SUCCESS'
@@ -269,15 +270,27 @@ export const hideActivityModal = () => dispatch => {
 }
 
 /**
- * changeFilter - Set the current activity filter.
+ * changeFilter - Toggle specified activity filter.
  *
- * @param {string} filter Filter to apply
+ * @param {...string} filterList Filter to apply
  * @returns {object} Action
  */
-export function changeFilter(filter) {
+export function changeFilter(...filterList) {
   return {
     type: CHANGE_FILTER,
-    filter,
+    filterList,
+  }
+}
+/**
+ * addFilter - Enable specified activity filters.
+ *
+ * @param {...string} filterList Filters to apply
+ * @returns {object} Action
+ */
+export function addFilter(...filterList) {
+  return {
+    type: ADD_FILTER,
+    filterList,
   }
 }
 
@@ -397,12 +410,21 @@ const ACTION_HANDLERS = {
   [HIDE_ACTIVITY_MODAL]: state => {
     state.modal = { itemType: null, itemId: null }
   },
-  [CHANGE_FILTER]: (state, { filter }) => {
-    const { filter: allFilters } = state
-    if (allFilters.has(filter)) {
-      allFilters.delete(filter)
-    } else {
-      allFilters.add(filter)
+  [CHANGE_FILTER]: (state, { filterList }) => {
+    const { filter } = state
+    filterList.forEach(item => {
+      if (filter.has(item)) {
+        filter.delete(item)
+      } else {
+        filter.add(item)
+      }
+    })
+  },
+  [ADD_FILTER]: (state, { filterList }) => {
+    const { filter } = state
+    // No filters means all filters are active so no need to add anything
+    if (filter.size > 0) {
+      filterList.forEach(item => filter.add(item))
     }
   },
   [UPDATE_SEARCH_TEXT]: (state, { searchText }) => {
@@ -501,14 +523,10 @@ const addDate = entry => {
 
 // Sent activity: pre-search
 const sentActivityRaw = createSelector(
-  paymentsSendingSelector,
-  transactionsSending,
   paymentsSelector,
   transactionsSelector,
-  (paymentsSending, transactionsSending, payments, transactions) => {
+  (payments, transactions) => {
     return [
-      ...paymentsSending,
-      ...transactionsSending,
       ...payments,
       ...transactions.filter(
         transaction =>
