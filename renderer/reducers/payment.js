@@ -1,11 +1,13 @@
 import config from 'config'
 import { createSelector } from 'reselect'
 import uniqBy from 'lodash/uniqBy'
+import find from 'lodash/find'
 import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
 import { getIntl } from '@zap/i18n'
 import { decodePayReq, getNodeAlias } from '@zap/utils/crypto'
 import { convert } from '@zap/utils/btc'
 import delay from '@zap/utils/delay'
+import genId from '@zap/utils/genId'
 import { grpc } from 'workers'
 import createReducer from './utils/createReducer'
 import { fetchBalance } from './balance'
@@ -91,18 +93,6 @@ const decoratePayment = (payment, nodes = []) => {
   }
 }
 
-/**
- * getLastSendingEntry - Find the latest temporary paymentsSending entry for the payment.
- *
- * @param  {object} state Redux state
- * @param  {string} paymentRequest Payment request
- * @returns {object} sendingPayments entry
- */
-const getLastSendingEntry = (state, paymentRequest) =>
-  [...state.payment.paymentsSending]
-    .sort((a, b) => b.creation_date - a.creation_date)
-    .find(p => p.paymentRequest === paymentRequest)
-
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -171,12 +161,12 @@ export const receivePayments = payments => dispatch => {
 /**
  * decPaymentRetry - Decrement payment request retry count.
  *
- * @param {object} paymentRequest Lightning payment request.
- * @returns {Function} Thunk
+ * @param {string} paymentId Internal id of payment whose retry count to decrease
+ * @returns {object} Action
  */
-const decPaymentRetry = paymentRequest => ({
+const decPaymentRetry = paymentId => ({
   type: DECREASE_PAYMENT_RETRIES,
-  paymentRequest,
+  paymentId,
 })
 
 /**
@@ -187,25 +177,32 @@ const decPaymentRetry = paymentRequest => ({
  * @param {string} options.payReq Payment request
  * @param {number} options.amt Payment amount (in sats)
  * @param {number} options.feeLimit The max fee to apply
- * @param {boolean} options.isRetry Boolean indicating whether this is a retry attempt
  * @param {number} options.retries Number of remaining retries
+ * @param {string} options.originalPaymentId Id of the original payment if (required if this is a payment retry)
  * @returns {Function} Thunk
  */
 export const payInvoice = ({
   payReq,
   amt,
   feeLimit,
-  isRetry = false,
   retries = 0,
+  originalPaymentId,
 }) => async dispatch => {
-  // if it's a retry - only decrease number of retries left
-  if (isRetry) {
-    dispatch(decPaymentRetry(payReq))
+  let paymentId = originalPaymentId
+
+  // If we already have an id then this is a retry. Decrease the retry count.
+  if (originalPaymentId) {
+    dispatch(decPaymentRetry(originalPaymentId))
   }
-  // Otherwise, add to sendingPayments in the state.
+
+  // Otherwise, add to paymentsSending in the state.
   else {
+    // Generate a unique id for the payment that we will use to track the payment across retry attempts.
+    paymentId = genId()
+
     dispatch(
       sendPayment({
+        paymentId,
         paymentRequest: payReq,
         feeLimit,
         value: amt,
@@ -218,18 +215,15 @@ export const payInvoice = ({
   // Submit the payment to LND.
   try {
     const data = await grpc.services.Lightning.sendPayment({
+      paymentId,
       payment_request: payReq,
       amt,
       fee_limit: { fixed: feeLimit },
     })
     dispatch(paymentSuccessful(data))
   } catch (e) {
-    dispatch(
-      paymentFailed({
-        error: e.message,
-        payment_request: e.payload.payment_request,
-      })
-    )
+    const { details: data, message: error } = e
+    dispatch(paymentFailed(error, data))
   }
 }
 
@@ -253,9 +247,9 @@ export const updatePayment = paymentRequest => async dispatch => {
  * @param {{payment_request}} payment_request Payment request
  * @returns {Function} Thunk
  */
-export const paymentSuccessful = ({ payment_request }) => async (dispatch, getState) => {
-  const state = getState()
-  const paymentSending = getLastSendingEntry(state, payment_request)
+export const paymentSuccessful = ({ paymentId }) => async (dispatch, getState) => {
+  const paymentSending = find(paymentsSendingSelector(getState()), { paymentId })
+
   // If we found a related entry in paymentsSending, gracefully remove it and handle as success case.
   if (paymentSending) {
     const { creation_date, paymentRequest } = paymentSending
@@ -264,7 +258,7 @@ export const paymentSuccessful = ({ payment_request }) => async (dispatch, getSt
     await delay(2000 - (Date.now() - creation_date * 1000))
 
     // Mark the payment as successful.
-    dispatch({ type: PAYMENT_SUCCESSFUL, paymentRequest })
+    dispatch({ type: PAYMENT_SUCCESSFUL, paymentId })
 
     // Wait for another second.
     await delay(1500)
@@ -282,14 +276,14 @@ export const paymentSuccessful = ({ payment_request }) => async (dispatch, getSt
 /**
  * paymentFailed - Error handler for payInvoice.
  *
- * @param {object} details Details
- * @param {string} details.payment_request Payment request
- * @param {string} details.error Error message
+ * @param {Error} error Error
+ * @param {object} details Failed payment details
+ *
  * @returns {Function} Thunk
  */
-export const paymentFailed = ({ payment_request, error }) => async (dispatch, getState) => {
-  const state = getState()
-  const paymentSending = getLastSendingEntry(state, payment_request)
+export const paymentFailed = (error, { paymentId }) => async (dispatch, getState) => {
+  const paymentSending = find(paymentsSendingSelector(getState()), { paymentId })
+
   // errors that trigger retry mechanism
   const RETRIABLE_ERRORS = [
     'payment attempt not completed before timeout', // ErrPaymentAttemptTimeout
@@ -305,7 +299,7 @@ export const paymentFailed = ({ payment_request, error }) => async (dispatch, ge
       const data = {
         ...paymentSending,
         payReq: paymentRequest,
-        isRetry: true,
+        originalPaymentId: paymentId,
       }
       const retryIndex = maxRetries - remainingRetries + 1
       // add increasing delay
@@ -316,7 +310,7 @@ export const paymentFailed = ({ payment_request, error }) => async (dispatch, ge
       await delay(2000 - (Date.now() - creation_date * 1000))
 
       // Mark the payment as failed.
-      dispatch({ type: PAYMENT_FAILED, paymentRequest, error: errorToUserFriendly(error) })
+      dispatch({ type: PAYMENT_FAILED, paymentId, error: errorToUserFriendly(error) })
     }
   }
 }
@@ -340,11 +334,9 @@ const ACTION_HANDLERS = {
     state.paymentsSending.push(payment)
   },
 
-  [DECREASE_PAYMENT_RETRIES]: (state, { paymentRequest }) => {
+  [DECREASE_PAYMENT_RETRIES]: (state, { paymentId }) => {
     const { paymentsSending } = state
-    const item = paymentsSending.find(
-      i => i.paymentRequest === paymentRequest && i.status === PAYMENT_STATUS_SENDING
-    )
+    const item = find(paymentsSending, { paymentId })
     if (item) {
       item.remainingRetries -= 1
       if (item.feeLimit) {
@@ -352,16 +344,16 @@ const ACTION_HANDLERS = {
       }
     }
   },
-  [PAYMENT_SUCCESSFUL]: (state, { paymentRequest }) => {
+  [PAYMENT_SUCCESSFUL]: (state, { paymentId }) => {
     const { paymentsSending } = state
-    const item = paymentsSending.find(i => i.paymentRequest === paymentRequest)
+    const item = find(paymentsSending, { paymentId })
     if (item) {
       item.status = PAYMENT_STATUS_SUCCESSFUL
     }
   },
-  [PAYMENT_FAILED]: (state, { paymentRequest, error }) => {
+  [PAYMENT_FAILED]: (state, { paymentId, error }) => {
     const { paymentsSending } = state
-    const item = paymentsSending.find(i => i.paymentRequest === paymentRequest)
+    const item = find(paymentsSending, { paymentId })
     if (item) {
       item.status = PAYMENT_STATUS_FAILED
       item.error = error

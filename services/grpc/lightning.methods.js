@@ -260,56 +260,52 @@ async function closeChannel(payload = {}) {
  * sendPayment - Call lnd grpc sendPayment method.
  *
  * @param {object} payload Payload
- * @returns {Promise} SendResponse
+ * @returns {Promise} Original payload augmented with lnd sendPayment response data.
  */
 async function sendPayment(payload = {}) {
+  // Our response will always include the original payload.
+  const res = { ...payload }
+
   return new Promise((resolve, reject) => {
     try {
       const call = this.service.sendPayment(payload)
 
       call.on('data', data => {
-        const isSuccess = !data.payment_error
-        if (isSuccess) {
-          grpcLog.debug('PAYMENT SUCCESS', data)
-
-          // Convert payment_hash to hex string.
-          let paymentHash = data.payment_hash
-          if (paymentHash) {
-            paymentHash = paymentHash.toString('hex')
-          }
-
-          // In some cases lnd does not return the payment_hash. If this happens, retrieve it from the invoice.
-          else {
-            const invoice = bolt11DecodePayReq(payload.payment_request)
-            const paymentHashTag = invoice.tags
-              ? invoice.tags.find(t => t.tagName === 'payment_hash')
-              : null
-            paymentHash = paymentHashTag ? paymentHashTag.data : null
-          }
-
-          // Convert the preimage to a hex string.
-          const paymentPreimage = data.payment_preimage
-            ? data.payment_preimage.toString('hex')
+        // Convert payment_hash to hex string.
+        if (data.payment_hash) {
+          data.payment_hash = data.payment_hash.toString('hex')
+        }
+        // In some cases lnd does not return the payment_hash. If this happens, retrieve it from the invoice.
+        else {
+          const invoice = bolt11DecodePayReq(payload.payment_request)
+          const paymentHashTag = invoice.tags
+            ? invoice.tags.find(t => t.tagName === 'payment_hash')
             : null
+          data.payment_hash = paymentHashTag ? paymentHashTag.data : null
+        }
 
-          // Notify the client of a successful payment.
-          const res = {
-            ...payload,
-            data,
-            payment_preimage: paymentPreimage,
-            payment_hash: paymentHash,
-          }
+        // Convert the preimage to a hex string.
+        data.payment_preimage = data.payment_preimage && data.payment_preimage.toString('hex')
+
+        // Add lnd return data, as well as payment preimage and hash as hex strings to the response.
+        Object.assign(res, data)
+
+        // Payment success is determined by the absense of a payment error.
+        const isSuccess = !res.payment_error
+        if (isSuccess) {
+          grpcLog.debug('PAYMENT SUCCESS', res)
           this.emit('sendPayment.data', res)
           resolve(res)
-        } else {
-          // Notify the client if there was a problem sending the payment
-          grpcLog.error('PAYMENT ERROR', data)
-          const error = new Error(data.payment_error)
-          error.payload = payload
+        }
+
+        // In case of an error, notify the client if there was a problem sending the payment.
+        else {
+          grpcLog.error('PAYMENT ERROR', res)
+          const error = new Error(res.payment_error)
+          error.details = res
           this.emit('sendPayment.error', error)
           reject(error)
         }
-
         call.end()
       })
 
@@ -326,7 +322,7 @@ async function sendPayment(payload = {}) {
       call.write(payload)
     } catch (e) {
       const error = new Error(e.message)
-      error.payload = payload
+      error.details = res
       throw error
     }
   })
