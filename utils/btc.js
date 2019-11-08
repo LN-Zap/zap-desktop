@@ -150,94 +150,70 @@ export function fiatToMilliSatoshis(fiat, price) {
 export function convert(from, to, amount, price) {
   switch (from) {
     case 'btc':
-    case 'ltc':
       switch (to) {
         case 'bits':
-        case 'phots':
           return btcToBits(amount)
         case 'sats':
-        case 'lits':
           return btcToSatoshis(amount)
         case 'msats':
-        case 'mlits':
           return btcToMillisatoshis(amount)
         case 'fiat':
           return btcToFiat(amount, price)
         case 'btc':
-        case 'ltc':
           return Number(amount)
       }
       break
     case 'bits':
-    case 'phots':
       switch (to) {
         case 'btc':
-        case 'ltc':
           return bitsToBtc(amount)
         case 'sats':
-        case 'lits':
           return bitsToSatoshis(amount)
         case 'msats':
-        case 'mlits':
           return bitsToMillisatoshis(amount)
         case 'fiat':
           return bitsToFiat(amount, price)
         case 'bits':
-        case 'phots':
           return Number(amount)
       }
       break
     case 'sats':
-    case 'lits':
       switch (to) {
         case 'btc':
-        case 'ltc':
           return satoshisToBtc(amount)
         case 'bits':
-        case 'phots':
           return satoshisToBits(amount)
         case 'msats':
-        case 'mlits':
           return satoshisToMillisatoshis(amount)
         case 'fiat':
           return satoshisToFiat(amount, price)
         case 'sats':
-        case 'lits':
           return Number(amount)
       }
       break
     case 'msats':
-    case 'mlits':
       switch (to) {
         case 'btc':
-        case 'ltc':
           return millisatoshisToBtc(amount)
         case 'bits':
-        case 'phots':
           return millisatoshisToBits(amount)
         case 'sats':
-        case 'lits':
           return millisatoshisToSatoshis(amount)
         case 'fiat':
           return millisatoshisToFiat(amount, price)
         case 'msats':
-        case 'mlits':
           return Number(amount)
       }
       break
     case 'fiat':
       switch (to) {
         case 'btc':
-        case 'ltc':
           return fiatToBtc(amount, price)
         case 'bits':
-        case 'phots':
           return fiatToBits(amount, price)
         case 'sats':
-        case 'lits':
           return fiatToSatoshis(amount, price)
         case 'msats':
-        case 'mlits':
           return fiatToMilliSatoshis(amount, price)
         case 'fiat':
           return Number(amount)

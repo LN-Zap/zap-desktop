@@ -65,59 +65,10 @@ const initialState = {
         unitPrefix: 's',
       },
     },
-    litecoin: {
-      mainnet: {
-        id: 'mainnet',
-        name: 'Mainnet',
-        explorerUrls: {
-          blockstream: 'https://insight.litecore.io', // not supported, default to insight.
-          blockcypher: 'https://live.blockcypher.com/ltc',
-          smartbit: 'https://insight.litecore.io', // not supported, default to insight.
-        },
-        bitcoinJsNetwork: networks.litecoin.mainnet,
-        unitPrefix: '',
-      },
-      testnet: {
-        id: 'testnet',
-        name: 'Testnet',
-        explorerUrls: {
-          blockstream: 'https://testnet.litecore.io', // not supported, default to insight.
-          blockcypher: 'https://testnet.litecore.io', // not supported, default to insight.
-          smartbit: 'https://testnet.litecore.io', // not supported, default to insight.
-        },
-        bitcoinJsNetwork: networks.litecoin.testnet,
-        unitPrefix: 't',
-      },
-      regtest: {
-        id: 'regtest',
-        name: 'Regtest',
-        explorerUrls: {
-          blockstream: 'https://insight.litecore.io',
-          blockcypher: 'https://live.blockcypher.com/ltc',
-          smartbit: 'https://insight.litecore.io',
-        },
-        bitcoinJsNetwork: networks.litecoin.regtest,
-        unitPrefix: 'r',
-      },
-      simnet: {
-        id: 'simnet',
-        name: 'Simnet',
-        explorerUrls: {
-          blockstream: 'https://insight.litecore.io',
-          blockcypher: 'https://live.blockcypher.com/ltc',
-          smartbit: 'https://insight.litecore.io',
-        },
-        bitcoinJsNetwork: networks.litecoin.simnet,
-        unitPrefix: 's',
-      },
-    },
   },
   chains: {
     bitcoin: {
       name: 'Bitcoin',
-    },
-    litecoin: {
-      name: 'Litecoin',
     },
   },
 }

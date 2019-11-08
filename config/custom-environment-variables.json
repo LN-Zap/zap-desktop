@@ -60,23 +60,12 @@
           "__name": "NEUTRINO_BITCOIN_MAINNET",
           "__format": "json"
         }
-      },
-      "litecoin": {
-        "testnet": {
-          "__name": "NEUTRINO_LITECOIN_TESTNET",
-          "__format": "json"
-        },
-        "mainnet": {
-          "__name": "NEUTRINO_LITECOIN_MAINNET",
-          "__format": "json"
-        }
       }
     }
   },
 
   "units": {
-    "bitcoin": "UNITS_BITCOIN",
-    "litecoin": "UNITS_LITECOIN"
+    "bitcoin": "UNITS_BITCOIN"
   },
 
   "invoices": {

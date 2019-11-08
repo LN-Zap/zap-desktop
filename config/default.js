@@ -27,7 +27,7 @@ module.exports = {
     interval: 60 * 60 * 1000,
   },
 
-  // Default chain for new wallets (bitcoin|litecoin).
+  // Default chain for new wallets (bitcoin).
   chain: 'bitcoin',
 
   // Default network for new wallets (mainnet|testnet|regtest|simnet).
@@ -74,10 +74,6 @@ module.exports = {
         testnet: ['testnet3-btcd.zaphq.io', 'testnet4-btcd.zaphq.io'],
         mainnet: ['mainnet3-btcd.zaphq.io', 'mainnet4-btcd.zaphq.io'],
       },
-      litecoin: {
-        testnet: [],
-        mainnet: [],
-      },
     },
 
     assumechanvalid: true,
@@ -88,7 +84,6 @@ module.exports = {
   // Default currency units.
   units: {
     bitcoin: 'sats',
-    litecoin: 'lits',
   },
 
   // Default block explorer (blockstream|blockcypher|smartbit|insight)
@@ -133,7 +128,6 @@ module.exports = {
   },
 
   // number of onchain confirmations for the specified periods
-  // potentially needs multiple chain support (LTC)
   lndTargetConfirmations: {
     fast: 1,
     medium: 6,

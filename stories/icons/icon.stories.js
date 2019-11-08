@@ -44,7 +44,6 @@ import LayoutList from 'components/Icon/LayoutList'
 import Lightning from 'components/Icon/Lightning'
 import LightningBolt from 'components/Icon/LightningBolt'
 import LightningChannel from 'components/Icon/LightningChannel'
-import Litecoin from 'components/Icon/Litecoin'
 import LockSafe from 'components/Icon/LockSafe'
 import Logout from 'components/Icon/Logout'
 import Medium from 'components/Icon/Medium'
@@ -120,7 +119,6 @@ const zapIconsList = {
   Lightning,
   LightningBolt,
   LightningChannel,
-  Litecoin,
   LockSafe,
   Logout,
   Medium,

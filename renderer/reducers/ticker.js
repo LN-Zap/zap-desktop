@@ -30,20 +30,6 @@ const initialState = {
         value: 'satoshis',
       },
     ],
-    litecoin: [
-      {
-        key: 'ltc',
-        value: 'LTC',
-      },
-      {
-        key: 'phots',
-        value: 'photons',
-      },
-      {
-        key: 'lits',
-        value: 'litoshis',
-      },
-    ],
   },
 }
 
@@ -124,7 +110,7 @@ export const setFiatTicker = fiatTicker => async dispatch => {
  */
 export const fetchTickers = () => async (dispatch, getState) => {
   const state = getState()
-  const chain = infoSelectors.chainSelector(state) === 'bitcoin' ? 'BTC' : 'LTC'
+  const chain = infoSelectors.chainSelector(state) === 'bitcoin' ? 'BTC'
   const currentConfig = settingsSelectors.currentConfig(state)
   const currency = fiatTickerSelector(state)
   dispatch({ type: GET_TICKERS })
@@ -204,7 +190,7 @@ tickerSelectors.cryptoAddressName = createSelector(
   chainSelector,
   tickerSelectors.cryptoUnits,
   (chain, cryptoUnits = []) => {
-    // assume first entry is as a currency ticker name (e.g BTC, LTC etc)
+    // assume first entry is as a currency ticker name (e.g BTC)
     const [selectedUnit] = cryptoUnits
     if (selectedUnit) {
       return selectedUnit.name
