@@ -399,7 +399,7 @@
   "components.Onboarding.Steps.passphrase_placeholder": "Gebe deinen Chiffre Seed Passphrase ein",
   "components.Onboarding.Steps.password_confirm_label": "Passwort bestätigen",
   "components.Onboarding.Steps.password_confirm_placeholder": "Bestätige dein Passwort",
-  "components.Onboarding.Steps.password_description": "Sie hätten Ihr Passwort beim Erstellen Ihres Wallets gesetzt. Dies ist von Ihrem 24-Wort-Seed getrennt.",
+  "components.Onboarding.Steps.password_description": "Du hattest dein Passwort beim Erstellen deines Wallets gesetzt. Dies ist von deinem 24-Wort-Seed getrennt.",
   "components.Onboarding.Steps.password_error_length": "Das Passwort muss mindestens {passwordMinLength} Zeichen lang sein",
   "components.Onboarding.Steps.password_error_match": "Die Passworte stimmen nicht überein",
   "components.Onboarding.Steps.password_label": "Passwort",
