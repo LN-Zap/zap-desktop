@@ -70,7 +70,7 @@ const LightningInvoiceInput = props => {
 LightningInvoiceInput.displayName = 'LightningInvoiceInput'
 
 LightningInvoiceInput.propTypes = {
-  chain: PropTypes.oneOf(['bitcoin', 'litecoin']),
+  chain: PropTypes.oneOf(['bitcoin']),
   field: PropTypes.string.isRequired,
   isRequired: PropTypes.bool,
   network: PropTypes.oneOf(['mainnet', 'testnet', 'regtest', 'simnet']),

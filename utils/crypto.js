@@ -12,10 +12,6 @@ export const networks = {
     regtest: coininfo.bitcoin.regtest.toBitcoinJS(),
     simnet: coininfo.bitcoin.simnet.toBitcoinJS(),
   },
-  litecoin: {
-    mainnet: coininfo.litecoin.main.toBitcoinJS(),
-    testnet: coininfo.litecoin.test.toBitcoinJS(),
-  },
 }
 
 export const coinTypes = {
@@ -24,10 +20,6 @@ export const coinTypes = {
     testnet: 'testnet',
     regtest: 'regtest',
     simnet: 'simnet',
-  },
-  litecoin: {
-    mainnet: 'litecoin',
-    testnet: 'litecoin_testnet',
   },
 }
 

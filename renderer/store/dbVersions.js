@@ -84,11 +84,6 @@ const dbVersions = db => {
         settingsPath: 'value.unit',
         configPath: 'units.bitcoin',
       },
-      {
-        settingsKey: 'chain.litecoin',
-        settingsPath: 'value.unit',
-        configPath: 'units.litecoin',
-      },
     ]
     const newConfig = {}
     await tx.settings.toCollection().modify((setting, ref) => {

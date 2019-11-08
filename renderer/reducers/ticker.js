@@ -30,20 +30,6 @@ const initialState = {
         value: 'satoshis',
       },
     ],
-    litecoin: [
-      {
-        key: 'ltc',
-        value: 'LTC',
-      },
-      {
-        key: 'phots',
-        value: 'photons',
-      },
-      {
-        key: 'lits',
-        value: 'litoshis',
-      },
-    ],
   },
 }
 

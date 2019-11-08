@@ -33,24 +33,6 @@ const fetchBlockHeight = (chain, network) => {
         },
       ],
     },
-    litecoin: {
-      mainnet: [
-        {
-          baseUrl: `https://chain.so/api/v2/get_info/LTC`,
-          path: 'data.blocks',
-        },
-        {
-          baseUrl: `https://api.blockcypher.com/v1/ltc/main`,
-          path: 'height',
-        },
-      ],
-      testnet: [
-        {
-          baseUrl: `https://chain.so/api/v2/get_info/LTCTEST`,
-          path: 'data.blocks',
-        },
-      ],
-    },
   }
   const fetchData = (baseUrl, path) => {
     mainLog.info(`Fetching current block height from ${baseUrl}`)
