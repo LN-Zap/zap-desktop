@@ -294,7 +294,6 @@ async function sendPayment(payload = {}) {
         const isSuccess = !res.payment_error
         if (isSuccess) {
           grpcLog.debug('PAYMENT SUCCESS', res)
-          this.emit('sendPayment.data', res)
           resolve(res)
         }
 
@@ -303,7 +302,6 @@ async function sendPayment(payload = {}) {
           grpcLog.error('PAYMENT ERROR', res)
           const error = new Error(res.payment_error)
           error.details = res
-          this.emit('sendPayment.error', error)
           reject(error)
         }
         call.end()
@@ -311,12 +309,10 @@ async function sendPayment(payload = {}) {
 
       call.on('status', status => {
         grpcLog.debug('PAYMENT STATUS', status)
-        this.emit('sendPayment.status', status)
       })
 
       call.on('end', () => {
         grpcLog.debug('PAYMENT END')
-        this.emit('sendPayment.end')
       })
 
       call.write(payload)
