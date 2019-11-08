@@ -39,4 +39,4 @@ on_failure:
   - ps: $root = Resolve-Path .\screenshots; [IO.Directory]::GetFiles($root.Path, '*.*', 'AllDirectories') | % { Push-AppveyorArtifact $_ -FileName $_.Substring($root.Path.Length + 1) -DeploymentName to-publish }
 
 deploy_script:
-  - cmd: powershell if (($env:appveyor_repo_name -eq 'LN-Zap/zap-desktop') -and (($env:appveyor_repo_branch -eq 'master') -or ($env:appveyor_repo_branch -eq 'next'))) { yarn release --win }
+  - cmd: powershell if (($env:appveyor_repo_name -eq 'LN-Zap/zap-desktop') -and (($env:appveyor_repo_branch -eq 'master') -or ($env:appveyor_repo_branch -eq 'next') -or ($env:appveyor_repo_branch -eq 'build'))) { yarn release --win }

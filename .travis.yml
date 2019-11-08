@@ -1,9 +1,9 @@
 dist: xenial
 sudo: required
-osx_image: xcode11
+osx_image: xcode11.2
 env:
   global:
-    - DEBUG=electron-builder
+    - DEBUG=electron-builder,electron-notarize
     - ARTIFACTS_BUCKET=zap-travis
     - ARTIFACTS_REGION=us-east-1
     - ARTIFACTS_DEBUG=1
@@ -41,30 +41,33 @@ branches:
   only:
     - master
     - next
+    - build
     - "/^feat\\//"
 jobs:
   include:
     - stage: deploy
       name: Deploy to Github
-      if: '(NOT type IN (pull_request)) AND (branch IN (master,next))'
+      if: (NOT type IN (pull_request)) AND (branch IN (master,next,build))
       script: skip
       deploy:
         skip_cleanup: true
         provider: script
-        script: yarn release --linux
+        script:
+          - yarn release --linux
         on:
           repo: LN-Zap/zap-desktop
           all_branches: true
-          condition: '$TRAVIS_BRANCH =~ ^master|next$'
+          condition: '$TRAVIS_BRANCH =~ ^master|next|build$'
     - os: osx
       name: Deploy to Github
-      if: '(NOT type IN (pull_request)) AND (branch IN (master,next))'
+      if: (NOT type IN (pull_request)) AND (branch IN (master,next,build))
       script: skip
       deploy:
         skip_cleanup: true
         provider: script
-        script: yarn release --mac
+        script:
+          - yarn release --mac
         on:
           repo: LN-Zap/zap-desktop
           all_branches: true
-          condition: '$TRAVIS_BRANCH =~ ^master|next$'
+          condition: '$TRAVIS_BRANCH =~ ^master|next|build$'
