@@ -2,7 +2,7 @@ import getPackageDetails from '../utils/getPackageDetails'
 import isStableVersion from '../utils/isStableVersion'
 // The current stable base version.
 // If the current version is in the same range asd this, the default database domain will be used.
-const STABLE_VERSION = '0.5.x'
+const STABLE_VERSION = '0.6.x'
 
 const IS_STABLE_VERSION = isStableVersion(getPackageDetails().version, STABLE_VERSION)
 
