@@ -115,7 +115,7 @@ exports[`component.UI.Dialog should render correctly with custom content 1`] = `
   opacity: 1;
 }
 
-.c13:focus {
+.c13.focus-visible {
   opacity: 1;
 }
 
@@ -748,7 +748,7 @@ exports[`component.UI.Dialog should render correctly with two buttons 1`] = `
   background-color: #353745;
 }
 
-.c10:focus {
+.c10.focus-visible {
   background-color: #353745;
 }
 

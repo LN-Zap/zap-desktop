@@ -41,7 +41,7 @@ exports[`component.CreateWalletButton should render correctly 1`] = `
   opacity: 1;
 }
 
-.c0:focus {
+.c0.focus-visible {
   opacity: 1;
 }
 

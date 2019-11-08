@@ -2,7 +2,7 @@
  * @file Defines core theme elements shared across all themes.
  * These items can be overriden on a per theme basis.
  */
-
+import 'focus-visible/dist/focus-visible'
 /**
  * Colour palette
  *
@@ -96,7 +96,7 @@ const buttons = {
     '&:hover:enabled': {
       bg: 'highlight',
     },
-    '&:focus': {
+    '&.focus-visible': {
       bg: 'highlight',
     },
   },
@@ -118,7 +118,7 @@ const buttons = {
     '&.active': {
       opacity: 1,
     },
-    '&:focus': {
+    '&.focus-visible': {
       opacity: 1,
     },
   },
@@ -134,7 +134,7 @@ const buttons = {
     '&:hover:enabled': {
       bg: 'highlight',
     },
-    '&:focus': {
+    '&.focus-visible': {
       bg: 'highlight',
     },
   },

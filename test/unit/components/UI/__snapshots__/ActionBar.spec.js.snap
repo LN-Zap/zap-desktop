@@ -42,7 +42,7 @@ exports[`component.UI.ActionBar should render correctly 1`] = `
   opacity: 1;
 }
 
-.c1:focus {
+.c1.focus-visible {
   opacity: 1;
 }
 
@@ -90,7 +90,7 @@ exports[`component.UI.ActionBar should render correctly 1`] = `
   background-color: #353745;
 }
 
-.c4:focus {
+.c4.focus-visible {
   background-color: #353745;
 }
 
