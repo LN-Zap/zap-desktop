@@ -213,8 +213,8 @@ infoSelectors.infoLoaded = state => state.info.infoLoaded
 infoSelectors.hasSynced = state => state.info.hasSynced
 infoSelectors.isSyncedToChain = state => get(state, 'info.data.syncedToChain', false)
 infoSelectors.version = state => get(state, 'info.data.version')
-infoSelectors.identityPubkey = state => get(state, 'info.data.identityPubkey')
-infoSelectors.nodeUri = state => get(state, 'info.data.uris[0]')
+infoSelectors.identityPubkey = state => get(state, 'info.data.identity_pubkey')
+infoSelectors.nodeUris = state => get(state, 'info.data.uris')
 infoSelectors.grpcProtoVersion = state => get(state, 'info.data.grpcProtoVersion')
 
 // Extract the version string from the version.
@@ -242,19 +242,19 @@ infoSelectors.hasRouterSupport = createSelector(infoSelectors.grpcProtoVersion, 
 
 // Get the node pubkey. If not set, try to extract it from the node uri.
 infoSelectors.nodePubkey = createSelector(
-  infoSelectors.nodeUri,
+  infoSelectors.nodeUris,
   infoSelectors.identityPubkey,
-  (nodeUri, identityPubkey) => {
-    const parseFromDataUri = () => nodeUri && nodeUri.split('@')[0]
+  (nodeUris, identityPubkey) => {
+    const parseFromDataUri = () => nodeUris && nodeUris[0].split('@')[0]
     return identityPubkey || parseFromDataUri()
   }
 )
 
 // Get the node uri or pubkey.
-infoSelectors.nodeUriOrPubkey = createSelector(
-  infoSelectors.nodeUri,
+infoSelectors.nodeUrisOrPubkey = createSelector(
+  infoSelectors.nodeUris,
   infoSelectors.nodePubkey,
-  (nodeUri, nodePubkey) => nodeUri || nodePubkey
+  (nodeUris, nodePubkey) => nodeUris || [nodePubkey]
 )
 
 infoSelectors.networkInfo = createSelector(

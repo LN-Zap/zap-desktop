@@ -7,7 +7,7 @@ import ProfilePaneNodeInfo from 'components/Profile/ProfilePaneNodeInfo'
 
 const mapStateToProps = state => ({
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
-  nodeUriOrPubkey: infoSelectors.nodeUriOrPubkey(state),
+  nodeUrisOrPubkey: infoSelectors.nodeUrisOrPubkey(state),
   versionString: infoSelectors.versionString(state),
   commitString: infoSelectors.commitString(state),
   backupProvider: backupSelectors.providerSelector(state),
