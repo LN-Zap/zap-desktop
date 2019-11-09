@@ -76,7 +76,7 @@ class PaySummaryLightning extends React.Component {
     let feeMessage = messages.fee_unknown
 
     // If thex max fee is 0 or 1 then show a message like "less than 1".
-    if (maxFee === 0 || maxFee === 1) {
+    if (maxFee >= 0 && maxFee < 1) {
       feeMessage = messages.fee_less_than_1
     }
     // Otherwise, if we have both a min and max fee that are different, present the fee range.

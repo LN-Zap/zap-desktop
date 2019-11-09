@@ -203,7 +203,7 @@ export const queryFees = (address, amountInSats) => async (dispatch, getState) =
 
     dispatch({ type: QUERY_FEES_SUCCESS, onchainFees })
   } catch (e) {
-    const error = get(e, 'response.statusText', e)
+    const error = get(e, 'response.statusText', e.message)
     dispatch({ type: QUERY_FEES_FAILURE, error })
   }
 }
@@ -225,7 +225,7 @@ export const queryRoutes = (pubKey, amount) => async dispatch => {
     })
     dispatch({ type: QUERY_ROUTES_SUCCESS, routes })
   } catch (e) {
-    dispatch({ type: QUERY_ROUTES_FAILURE })
+    dispatch({ type: QUERY_ROUTES_FAILURE, error: e.message })
   }
 }
 

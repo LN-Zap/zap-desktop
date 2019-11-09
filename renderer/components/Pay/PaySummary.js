@@ -8,29 +8,16 @@ import { PAY_FORM_STEPS } from './constants'
 import { getFeeRate } from './utils'
 
 const PaySummary = props => {
-  const { amountInSats, formApi, isOnchain, lndTargetConfirmations } = props
+  const { amountInSats, formApi, isOnchain, lndTargetConfirmations, onchainFees, routes } = props
   const formState = formApi.getState()
   const { speed, payReq, isCoinSweep } = formState.values
-
-  /**
-   * getFee - Get the current per byte fee based on the form values.
-   *
-   * @returns {number} Fee rate for currently selected conf speed
-   */
-  const getFee = () => {
-    const { formApi, onchainFees } = props
-    const formState = formApi.getState()
-    const { speed } = formState.values
-
-    return getFeeRate(onchainFees, speed)
-  }
 
   if (isOnchain) {
     return (
       <PaySummaryOnChain
         address={payReq}
         amount={amountInSats}
-        fee={getFee()}
+        fee={getFeeRate(onchainFees, speed)}
         isCoinSweep={isCoinSweep}
         lndTargetConfirmations={lndTargetConfirmations}
         mt={-3}
@@ -39,19 +26,11 @@ const PaySummary = props => {
     )
   }
 
-  const { routes } = props
-  let minFee = 0
-  let maxFeeInclusive = 0
-  if (routes.length) {
-    minFee = getMinFee(routes)
-    maxFeeInclusive = getMaxFeeInclusive(routes)
-  }
-
   return (
     <PaySummaryLightning
       amount={amountInSats}
-      maxFee={maxFeeInclusive}
-      minFee={minFee}
+      maxFee={getMaxFeeInclusive(routes)}
+      minFee={getMinFee(routes)}
       mt={-3}
       payReq={payReq}
     />
