@@ -338,7 +338,7 @@ const ACTION_HANDLERS = {
     const { paymentsSending } = state
     const item = find(paymentsSending, { paymentId })
     if (item) {
-      item.remainingRetries -= 1
+      item.remainingRetries = Math.max(item.remainingRetries - 1, 0)
       if (item.feeLimit) {
         item.feeLimit = Math.ceil(item.feeLimit * config.invoices.feeIncrementExponent)
       }
