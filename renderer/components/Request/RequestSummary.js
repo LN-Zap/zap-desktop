@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage, FormattedTime, injectIntl } from 'react-intl'
 import copy from 'copy-to-clipboard'
-import { decodePayReq } from '@zap/utils/crypto'
+import { decodePayReq, getTag } from '@zap/utils/crypto'
 import getUnixTime from '@zap/utils/time'
 import { Bar, DataRow, Button, QRCode, Text, Countdown } from 'components/UI'
 import { CryptoSelector, CryptoValue, FiatSelector, FiatValue } from 'containers/UI'
@@ -31,13 +31,12 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
     showNotification(notifBody)
   }
 
-  const { satoshis: invoiceAmount, tags, timestampString } = decodedInvoice
+  const { satoshis: invoiceAmount, timestampString } = decodedInvoice
   const satoshis = invoice.finalAmount || invoiceAmount || 0
-  const descriptionTag = tags.find(tag => tag.tagName === 'description') || {}
-  const memo = descriptionTag.data
+  const memo = getTag(decodedInvoice, 'description')
 
-  const fallbackTag = tags.find(tag => tag.tagName === 'fallback_address')
-  const fallback = fallbackTag && fallbackTag.data.address
+  const fallbackTag = getTag(decodedInvoice, 'fallback_address')
+  const fallback = fallbackTag && fallbackTag.address
 
   const getStatusColor = () => {
     if (invoice.settled) {

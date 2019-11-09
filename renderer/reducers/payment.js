@@ -4,7 +4,7 @@ import uniqBy from 'lodash/uniqBy'
 import find from 'lodash/find'
 import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
 import { getIntl } from '@zap/i18n'
-import { decodePayReq, getNodeAlias } from '@zap/utils/crypto'
+import { decodePayReq, getNodeAlias, getTag } from '@zap/utils/crypto'
 import { convert } from '@zap/utils/btc'
 import delay from '@zap/utils/delay'
 import genId from '@zap/utils/genId'
@@ -116,9 +116,9 @@ export function getPayments() {
  */
 export const sendPayment = data => dispatch => {
   const invoice = decodePayReq(data.paymentRequest)
-  const paymentHashTag = invoice.tags ? invoice.tags.find(t => t.tagName === 'payment_hash') : null
+  const paymentHash = getTag(invoice, 'payment_hash')
 
-  if (!paymentHashTag || !paymentHashTag.data) {
+  if (!paymentHash) {
     dispatch(showError(getIntl().formatMessage(messages.payment_send_error)))
     return
   }
@@ -128,7 +128,7 @@ export const sendPayment = data => dispatch => {
     status: PAYMENT_STATUS_SENDING,
     isSending: true,
     creation_date: Math.round(new Date() / 1000),
-    payment_hash: paymentHashTag.data,
+    payment_hash: paymentHash,
   }
 
   dispatch({

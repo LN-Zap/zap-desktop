@@ -2,6 +2,7 @@ import { createSelector } from 'reselect'
 import { isAutopayEnabled } from '@zap/utils/featureFlag'
 import { showSystemNotification } from '@zap/utils/notifications'
 import { getIntl } from '@zap/i18n'
+import { getTag } from '@zap/utils/crypto'
 import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
 import { contactFormSelectors } from './contactsform'
 import { tickerSelectors } from './ticker'
@@ -232,7 +233,7 @@ function setAutopayListFromArray(state, { list }) {
 export const showAutopayNotification = invoice => async (dispatch, getState) => {
   const nodes = networkSelectors.nodes(getState())
 
-  const descriptionTag = invoice.tags.find(tag => tag.tagName === 'description') || {}
+  const memo = getTag(invoice, 'description')
   const node = nodes.find(n => n.pub_key === invoice.payeeNodeKey)
   const nodeName = node ? getNodeDisplayName(node) : truncateNodePubkey(invoice.payeeNodeKey)
 
@@ -247,9 +248,9 @@ export const showAutopayNotification = invoice => async (dispatch, getState) => 
   })
 
   let body = message
-  if (descriptionTag.data) {
+  if (memo) {
     const detail = intl.formatMessage(messages.autopay_notification_detail, {
-      reason: descriptionTag.data,
+      reason: memo,
     })
     body += ` ${detail}`
   }

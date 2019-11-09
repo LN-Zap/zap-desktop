@@ -1,5 +1,5 @@
 import promisifiedCall from '@zap/utils/promisifiedCall'
-import { decodePayReq as bolt11DecodePayReq } from '@zap/utils/crypto'
+import { decodePayReq as bolt11DecodePayReq, getTag } from '@zap/utils/crypto'
 import { grpcLog } from '@zap/utils/log'
 import { logGrpcCmd } from './helpers'
 
@@ -278,10 +278,7 @@ async function sendPayment(payload = {}) {
         // In some cases lnd does not return the payment_hash. If this happens, retrieve it from the invoice.
         else {
           const invoice = bolt11DecodePayReq(payload.payment_request)
-          const paymentHashTag = invoice.tags
-            ? invoice.tags.find(t => t.tagName === 'payment_hash')
-            : null
-          data.payment_hash = paymentHashTag ? paymentHashTag.data : null
+          data.payment_hash = getTag(invoice, 'payment_hash')
         }
 
         // Convert the preimage to a hex string.
