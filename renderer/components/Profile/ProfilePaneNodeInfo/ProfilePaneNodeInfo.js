@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { clean } from 'semver'
-import { Box } from 'rebass/styled-components'
+import { Box, Flex } from 'rebass/styled-components'
 import { Bar, CopyBox, DataRow, QRCode, Text } from 'components/UI'
 import messages from './messages'
 import { intlShape } from '@zap/i18n'
@@ -27,7 +27,7 @@ const ProfilePaneNodeInfo = ({
   intl,
   activeWalletSettings,
   commitString,
-  nodeUriOrPubkey,
+  nodeUrisOrPubkey,
   showNotification,
   backupProvider,
   versionString,
@@ -37,36 +37,68 @@ const ProfilePaneNodeInfo = ({
     showNotification(intl.formatMessage({ ...messages.pubkey_copied_notification_description }))
   const isLocalWallet = activeWalletSettings.type === 'local'
 
+  const renderMultipleNodeUris = () => (
+    <>
+      <Box mb={4}>
+        <Text fontWeight="normal" mb={2}>
+          <FormattedMessage {...messages.node_pubkey_title} />
+        </Text>
+        <Text color="gray" fontWeight="light">
+          <FormattedMessage {...messages.node_pubkey_description} />
+        </Text>
+      </Box>
+      {nodeUrisOrPubkey.map(uriOrPubkey => (
+        <Box key={uriOrPubkey} mb={6}>
+          {!isLocalWallet && (
+            <Flex justifyContent="center">
+              <QRCode size="xxlarge" value={uriOrPubkey} />
+            </Flex>
+          )}
+          <CopyBox
+            hint={intl.formatMessage({ ...messages.copy_pubkey })}
+            my={3}
+            onCopy={notifyOfCopy}
+            value={uriOrPubkey}
+          />
+        </Box>
+      ))}
+    </>
+  )
+
+  const renderSingleNodeUri = () => (
+    <>
+      <DataRow
+        left={
+          <Box mr={3}>
+            <Text fontWeight="normal" mb={2}>
+              <FormattedMessage {...messages.node_pubkey_title} />
+            </Text>
+            <Text color="gray" fontWeight="light">
+              <FormattedMessage {...messages.node_pubkey_description} />
+            </Text>
+          </Box>
+        }
+        py={2}
+        right={!isLocalWallet && <QRCode size="xxlarge" value={nodeUrisOrPubkey[0]} />}
+      />
+      <CopyBox
+        hint={intl.formatMessage({ ...messages.copy_pubkey })}
+        my={3}
+        onCopy={notifyOfCopy}
+        value={nodeUrisOrPubkey[0]}
+      />
+    </>
+  )
+
   return (
     <Box as="section" {...rest}>
       <Text fontWeight="normal">
         <FormattedMessage {...messages.nodeinfo_pane_title} />
       </Text>
       <Bar mb={4} mt={2} />
-      {nodeUriOrPubkey && (
-        <>
-          <DataRow
-            left={
-              <Box mr={3}>
-                <Text fontWeight="normal" mb={2}>
-                  <FormattedMessage {...messages.node_pubkey_title} />
-                </Text>
-                <Text color="gray" fontWeight="light">
-                  <FormattedMessage {...messages.node_pubkey_description} />
-                </Text>
-              </Box>
-            }
-            py={2}
-            right={!isLocalWallet && <QRCode size="xxlarge" value={nodeUriOrPubkey} />}
-          />
-          <CopyBox
-            hint={intl.formatMessage({ ...messages.copy_pubkey })}
-            my={3}
-            onCopy={notifyOfCopy}
-            value={nodeUriOrPubkey}
-          />
-        </>
-      )}
+      {nodeUrisOrPubkey && nodeUrisOrPubkey.length > 0 && nodeUrisOrPubkey.length > 1
+        ? renderMultipleNodeUris()
+        : renderSingleNodeUri()}
       <DataRow
         left={
           <Text fontWeight="normal">
@@ -105,7 +137,7 @@ ProfilePaneNodeInfo.propTypes = {
   backupProvider: PropTypes.string,
   commitString: PropTypes.string,
   intl: intlShape.isRequired,
-  nodeUriOrPubkey: PropTypes.string.isRequired,
+  nodeUrisOrPubkey: PropTypes.arrayOf(PropTypes.string).isRequired,
   showNotification: PropTypes.func.isRequired,
   versionString: PropTypes.string.isRequired,
 }

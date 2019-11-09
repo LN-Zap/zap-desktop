@@ -262,7 +262,7 @@ infoSelectors.hasSynced = state => state.info.hasSynced
 infoSelectors.isSyncedToChain = state => get(state, 'info.data.synced_to_chain', false)
 infoSelectors.version = state => get(state, 'info.data.version')
 infoSelectors.identityPubkey = state => get(state, 'info.data.identity_pubkey')
-infoSelectors.nodeUri = state => get(state, 'info.data.uris[0]')
+infoSelectors.nodeUris = state => get(state, 'info.data.uris')
 
 // Extract the version string from the version.
 infoSelectors.versionString = createSelector(
@@ -284,19 +284,19 @@ infoSelectors.commitString = createSelector(
 
 // Get the node pubkey. If not set, try to extract it from the node uri.
 infoSelectors.nodePubkey = createSelector(
-  infoSelectors.nodeUri,
+  infoSelectors.nodeUris,
   infoSelectors.identityPubkey,
-  (nodeUri, identityPubkey) => {
-    const parseFromDataUri = () => nodeUri && nodeUri.split('@')[0]
+  (nodeUris, identityPubkey) => {
+    const parseFromDataUri = () => nodeUris && nodeUris[0].split('@')[0]
     return identityPubkey || parseFromDataUri()
   }
 )
 
 // Get the node uri or pubkey.
-infoSelectors.nodeUriOrPubkey = createSelector(
-  infoSelectors.nodeUri,
+infoSelectors.nodeUrisOrPubkey = createSelector(
+  infoSelectors.nodeUris,
   infoSelectors.nodePubkey,
-  (nodeUri, nodePubkey) => nodeUri || nodePubkey
+  (nodeUris, nodePubkey) => nodeUris || [nodePubkey]
 )
 
 infoSelectors.networkInfo = createSelector(
