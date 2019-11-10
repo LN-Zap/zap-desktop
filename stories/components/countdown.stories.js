@@ -15,6 +15,10 @@ storiesOf('Components', module).addWithChapters('Countdown', {
           sectionFn: () => <Countdown isContinual={false} offset={5} />,
         },
         {
+          title: 'Far future expire',
+          sectionFn: () => <Countdown isContinual={false} offset={31556952} />,
+        },
+        {
           title: 'Custom colors',
           sectionFn: () => (
             <Countdown colorActive="primaryAccent" colorExpired="yellow" offset={5} />
