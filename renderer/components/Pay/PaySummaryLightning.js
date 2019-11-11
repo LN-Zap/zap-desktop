@@ -13,21 +13,13 @@ import messages from './messages'
 
 class PaySummaryLightning extends React.Component {
   static propTypes = {
-    /** Amount to send (in satoshis). */
     amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    /** Boolean indicating whether payment is to pubkey (or bolt11) */
-    isPubkey: PropTypes.bool,
-    /** Boolean indicating whether routing information is currently being fetched. */
     exactFee: PropTypes.number,
-    /** Maximum fee for the payment */
+    isPubkey: PropTypes.bool,
     isQueryingRoutes: PropTypes.bool,
-    /** Minimumfee for the payment */
     maxFee: PropTypes.string,
-    /** Minimumfee for the payment */
     minFee: PropTypes.string,
-    /** List of nodes as returned by lnd */
     nodes: PropTypes.array,
-    /** Lightning Payment request */
     payReq: PropTypes.string.isRequired,
   }
 
