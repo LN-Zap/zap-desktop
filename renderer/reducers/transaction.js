@@ -1,10 +1,12 @@
 import { createSelector } from 'reselect'
 import uniqBy from 'lodash/uniqBy'
 import last from 'lodash/last'
+import find from 'lodash'
 import { showSystemNotification } from '@zap/utils/notifications'
 import { convert } from '@zap/utils/btc'
 import { getIntl } from '@zap/i18n'
 import delay from '@zap/utils/delay'
+import genId from '@zap/utils/genId'
 import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
 import { grpc } from 'workers'
 import { addressSelectors, newAddress } from './address'
@@ -49,7 +51,7 @@ export const ADD_TRANSACTION = 'ADD_TRANSACTION'
 const decorateTransaction = transaction => {
   const decoration = {
     type: 'transaction',
-    received: transaction.amount > 0,
+    isReceived: !transaction.isSending && transaction.amount > 0,
   }
   return {
     ...transaction,
@@ -73,6 +75,7 @@ export function sendTransaction(data) {
     status: 'sending',
     isSending: true,
     time_stamp: Math.round(new Date() / 1000),
+    num_confirmations: 0,
   }
   return {
     type: SEND_TRANSACTION,
@@ -161,10 +164,14 @@ export const sendCoins = ({
   // backend needs amount in satoshis no matter what currency we are using
   const amount = convert(cryptoUnit, 'sats', value)
 
+  // Generate a unique id for the transaction attempt.
+  const transactionId = genId()
+
   // Add to sendingPayments in the state.
   const payload = {
-    amount: isCoinSweep ? null : amount,
+    transactionId,
     addr,
+    amount: isCoinSweep ? null : amount,
     target_conf: targetConf,
     sat_per_byte: satPerByte,
     send_all: isCoinSweep,
@@ -173,15 +180,10 @@ export const sendCoins = ({
 
   // Submit the transaction to LND.
   try {
-    const { txid } = await grpc.services.Lightning.sendCoins(payload)
-    dispatch(transactionSuccessful({ ...payload, txid }))
+    await grpc.services.Lightning.sendCoins(payload)
+    dispatch(transactionSuccessful({ ...payload, transactionId }))
   } catch (e) {
-    dispatch(
-      transactionFailed({
-        error: e.message,
-        addr: payload.addr,
-      })
-    )
+    dispatch(transactionFailed({ error: e.message, transactionId }))
   }
 }
 
@@ -191,21 +193,20 @@ export const sendCoins = ({
  * @param  {{ string }} addr Destination address
  * @returns {Function} Thunk
  */
-export const transactionSuccessful = ({ addr }) => async (dispatch, getState) => {
-  const state = getState()
-  const { timestamp } = state.transaction.transactionsSending.find(t => t.addr === addr)
+export const transactionSuccessful = ({ transactionId }) => async (dispatch, getState) => {
+  const { timestamp } = find(transactionsSendingSelector(getState(), { transactionId }))
 
   // Ensure payment stays in sending state for at least 2 seconds.
   await delay(2000 - (Date.now() - timestamp * 1000))
 
   // Mark the payment as successful.
-  dispatch({ type: TRANSACTION_SUCCESSFUL, addr })
+  dispatch({ type: TRANSACTION_SUCCESSFUL, transactionId })
 
   // Wait for another second.
   await delay(1000)
 
   // Mark the payment as successful.
-  dispatch({ type: TRANSACTION_COMPLETE, addr })
+  dispatch({ type: TRANSACTION_COMPLETE, transactionId })
 }
 
 /**
@@ -216,15 +217,14 @@ export const transactionSuccessful = ({ addr }) => async (dispatch, getState) =>
  * @param  {{ string }} details.error Error message
  * @returns {Function} Thunk
  */
-export const transactionFailed = ({ addr, error }) => async (dispatch, getState) => {
-  const state = getState()
-  const { timestamp } = state.transaction.transactionsSending.find(t => t.addr === addr)
+export const transactionFailed = ({ transactionId, error }) => async (dispatch, getState) => {
+  const { timestamp } = find(transactionsSendingSelector(getState(), { transactionId }))
 
   // Ensure payment stays in sending state for at least 2 seconds.
   await delay(2000 - (Date.now() - timestamp * 1000))
 
   // Mark the payment as failed.
-  dispatch({ type: TRANSACTION_FAILED, addr, error: errorToUserFriendly(error) })
+  dispatch({ type: TRANSACTION_FAILED, transactionId, error: errorToUserFriendly(error) })
 }
 
 /**
@@ -247,7 +247,7 @@ export const receiveTransactionData = transaction => (dispatch, getState) => {
     dispatch(fetchChannels())
     const intl = getIntl()
     // HTML 5 desktop notification for the new transaction
-    if (transaction.received) {
+    if (transaction.isReceived) {
       showSystemNotification(intl.formatMessage(messages.transaction_received_title), {
         body: intl.formatMessage(messages.transaction_received_body),
       })
@@ -279,21 +279,27 @@ const ACTION_HANDLERS = {
   [ADD_TRANSACTION]: (state, { transaction }) => {
     state.transactions.unshift(transaction)
   },
-  [TRANSACTION_SUCCESSFUL]: (state, { addr }) => {
-    const txIndex = state.transactionsSending.findIndex(item => item.addr === addr)
+  [TRANSACTION_SUCCESSFUL]: (state, { transactionId }) => {
+    const txIndex = state.transactionsSending.findIndex(
+      item => item.transactionId === transactionId
+    )
     if (txIndex >= 0) {
       state.transactionsSending[txIndex].status = 'successful'
     }
   },
-  [TRANSACTION_FAILED]: (state, { addr, error }) => {
-    const txIndex = state.transactionsSending.findIndex(item => item.addr === addr)
+  [TRANSACTION_FAILED]: (state, { transactionId, error }) => {
+    const txIndex = state.transactionsSending.findIndex(
+      item => item.transactionId === transactionId
+    )
     if (txIndex >= 0) {
       state.transactionsSending[txIndex].status = 'failed'
       state.transactionsSending[txIndex].error = error
     }
   },
-  [TRANSACTION_COMPLETE]: (state, { addr }) => {
-    state.transactionsSending = state.transactionsSending.filter(item => item.addr !== addr)
+  [TRANSACTION_COMPLETE]: (state, { transactionId }) => {
+    state.transactionsSending = state.transactionsSending.filter(
+      item => item.transactionId !== transactionId
+    )
   },
 }
 
