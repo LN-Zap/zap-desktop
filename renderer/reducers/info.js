@@ -214,6 +214,7 @@ infoSelectors.isSyncedToChain = state => get(state, 'info.data.syncedToChain', f
 infoSelectors.version = state => get(state, 'info.data.version')
 infoSelectors.identityPubkey = state => get(state, 'info.data.identityPubkey')
 infoSelectors.nodeUri = state => get(state, 'info.data.uris[0]')
+infoSelectors.grpcProtoVersion = state => get(state, 'info.data.grpcProtoVersion')
 
 // Extract the version string from the version.
 infoSelectors.versionString = createSelector(
