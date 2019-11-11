@@ -85,17 +85,6 @@ const propMatches = function propMatches(prop) {
 }
 
 /**
- * invoiceExpired - Check whether an invoice is expired.
- *
- * @param  {object}  invoice Invoice
- * @returns {boolean} Boolean indicating if the invoice has expired
- */
-const invoiceExpired = invoice => {
-  const expiresAt = parseInt(invoice.creation_date, 10) + parseInt(invoice.expiry, 10)
-  return expiresAt < Math.round(new Date() / 1000)
-}
-
-/**
  * returnTimestamp - Returns invoice, payment or transaction timestamp.
  *
  * @param  {object} activity Activity item
@@ -568,7 +557,7 @@ const pendingActivityRaw = createSelector(
       ...paymentsSending,
       ...transactionsSending,
       ...transactions.filter(transaction => transaction.isPending),
-      ...invoices.filter(invoice => !invoice.settled && !invoiceExpired(invoice)),
+      ...invoices.filter(invoice => !invoice.settled && !invoice.isExpired),
     ].map(addDate)
   }
 )
@@ -577,7 +566,7 @@ const pendingActivityRaw = createSelector(
 const expiredActivityRaw = createSelector(
   invoicesSelector,
   invoices => {
-    return invoices.filter(invoice => !invoice.settled && invoiceExpired(invoice)).map(addDate)
+    return invoices.filter(invoice => !invoice.settled && invoice.isExpired).map(addDate)
   }
 )
 

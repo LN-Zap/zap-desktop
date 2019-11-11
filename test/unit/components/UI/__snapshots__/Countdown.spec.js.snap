@@ -1,6 +1,52 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`component.UI.Countdown should render correctly with default props 1`] = `
+exports[`component.UI.Countdown should render correctly with expiry in 60 seconds 1`] = `
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  color: #39e673;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+<div
+  className="c0"
+  color="superGreen"
+  fontSize="m"
+>
+  Expires
+  <i>
+     
+  </i>
+  in 1 minute
+</div>
+`;
+
+exports[`component.UI.Countdown should render correctly with expiry in 365 days 1`] = `
+.c0 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  color: #39e673;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+<div
+  className="c0"
+  color="superGreen"
+  fontSize="m"
+>
+  Expires
+  <i>
+     
+  </i>
+  in 365 days
+</div>
+`;
+
+exports[`component.UI.Countdown should render correctly with expiry set to a date in the past 1`] = `
 .c0 {
   box-sizing: border-box;
   margin: 0;
@@ -16,7 +62,9 @@ exports[`component.UI.Countdown should render correctly with default props 1`] =
   fontSize="m"
 >
   Expired
-   
-  in 0 seconds
+  <i>
+     
+  </i>
+  3,963 days ago
 </div>
 `;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage } from 'react-intl'
 import { convert } from '@zap/utils/btc'
-import { decodePayReq, getNodeAlias } from '@zap/utils/crypto'
+import { decodePayReq, getNodeAlias, getTag } from '@zap/utils/crypto'
 import BigArrowRight from 'components/Icon/BigArrowRight'
 import { Bar, DataRow, Spinner, Text } from 'components/UI'
 import { CryptoSelector, CryptoValue, FiatValue } from 'containers/UI'
@@ -63,8 +63,7 @@ class PaySummaryLightning extends React.Component {
     }
 
     const { satoshis, millisatoshis, payeeNodeKey } = invoice
-    const descriptionTag = invoice.tags.find(tag => tag.tagName === 'description') || {}
-    const memo = descriptionTag.data
+    const memo = getTag(invoice, 'description')
     const amountInSatoshis = satoshis || convert('msats', 'sats', millisatoshis) || amount
 
     const nodeAlias = getNodeAlias(payeeNodeKey, nodes)
@@ -76,7 +75,7 @@ class PaySummaryLightning extends React.Component {
     let feeMessage = messages.fee_unknown
 
     // If thex max fee is 0 or 1 then show a message like "less than 1".
-    if (maxFee === 0 || maxFee === 1) {
+    if (maxFee >= 0 && maxFee < 1) {
       feeMessage = messages.fee_less_than_1
     }
     // Otherwise, if we have both a min and max fee that are different, present the fee range.

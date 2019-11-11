@@ -398,7 +398,7 @@
   "components.Onboarding.Steps.passphrase_label": "",
   "components.Onboarding.Steps.passphrase_placeholder": "",
   "components.Onboarding.Steps.password_confirm_label": "",
-  "components.Onboarding.Steps.password_confirm_placeholder": "",
+  "components.Onboarding.Steps.password_confirm_placeholder": "Подтвердите пароль",
   "components.Onboarding.Steps.password_description": "",
   "components.Onboarding.Steps.password_error_length": "",
   "components.Onboarding.Steps.password_error_match": "",
