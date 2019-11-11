@@ -1,7 +1,6 @@
 import get from 'lodash/get'
 import { createSelector } from 'reselect'
 import { send } from 'redux-electron-ipc'
-import semver from 'semver'
 import { grpc } from 'workers'
 import { getIntl } from '@zap/i18n'
 import { convert } from '@zap/utils/btc'
@@ -223,9 +222,8 @@ export const queryRoutes = (pubKey, amount) => async (dispatch, getState) => {
   try {
     let routes = []
 
-    // For lnd 0.7.1-beta and later, use payment probing.
-    const lndVersion = infoSelectors.grpcProtoVersion(getState())
-    if (semver.gte(lndVersion, '0.7.1-beta', { includePrerelease: true })) {
+    // Use payment probing if lnd version supports the Router service.
+    if (infoSelectors.hasRouterSupport(getState())) {
       // First probe with a small amount for check for a valid route.
       await grpc.services.Router.probePayment(pubKey, 1)
       // Then probe with the full amount to check whether the channels contain enough balance for the payment.

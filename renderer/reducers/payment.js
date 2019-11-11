@@ -1,7 +1,6 @@
 import config from 'config'
 import { randomBytes, createHash } from 'crypto'
 import { createSelector } from 'reselect'
-import semver from 'semver'
 import uniqBy from 'lodash/uniqBy'
 import find from 'lodash/find'
 import createReducer from '@zap/utils/createReducer'
@@ -270,9 +269,8 @@ export const payInvoice = ({ payReq, amt, feeLimit, retries = 0, originalPayment
   try {
     let data
 
-    // For lnd 0.7.1-beta and later, use the Router API.
-    const lndVersion = infoSelectors.grpcProtoVersion(getState())
-    if (semver.gte(lndVersion, '0.7.1-beta', { includePrerelease: true })) {
+    // Use Router service if lnd version supports it.
+    if (infoSelectors.hasRouterSupport(getState())()) {
       data = await grpc.services.Router.sendPayment({
         ...payload,
         timeoutSeconds: PAYMENT_TIMEOUT,
