@@ -3,6 +3,7 @@
 exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
 <styled.div
   cryptoUnit="btc"
+  cryptoUnitName="BTC"
   cryptoUnits={
     Array [
       Object {

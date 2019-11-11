@@ -240,6 +240,20 @@ export const getMaxFee = routes => {
 }
 
 /**
+ * getMaxFee - Given a list of routes, find the exact fee from the first route.
+ *
+ * @param {Array} routes List of routes
+ * @returns {number} exact fee
+ */
+export const getExactFee = routes => {
+  if (!routes || !routes.length) {
+    return null
+  }
+  const route = routes.find(r => r.isExact)
+  return route ? route.total_fees : null
+}
+
+/**
  * getMaxFee - Given a list of routes, find the maximum fee factoring in all possible payment retry attempts.
  *
  * @param {Array} routes List of routes
