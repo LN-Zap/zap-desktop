@@ -1,5 +1,6 @@
 import { randomBytes } from 'crypto'
 import config from 'config'
+import get from 'lodash/get'
 import { grpcLog } from '@zap/utils/log'
 import { logGrpcCmd } from './helpers'
 
@@ -12,21 +13,18 @@ const PAYMENT_PROBE_TIMEOUT = config.invoices.probeTimeout
 /**
  * probePayment - Call lnd grpc sendPayment method with a fake payment hash in order to probe for a route.
  *
- * @param {string} dest Identity pubkey of the payment recipient
- * @param {number} amt Number of satoshis to send
- * @param {number} timeout Upper limit on the amount of time spent attempting to fulfill the payment
- * @returns {Promise} The taken route when state is SUCCEEDED.
+ * @param {object} options Options
+ * @returns {Promise} The route route when state is SUCCEEDED
  */
-async function probePayment(dest, amt, timeout = PAYMENT_PROBE_TIMEOUT) {
-  logGrpcCmd('Router.probePayment', { dest, amt, timeout })
+async function probePayment(options) {
+  logGrpcCmd('Router.probePayment', options)
 
   // Use a payload that has the payment hash set to some random bytes.
   // This will cause the payment to fail at the final destination.
   const payload = {
+    ...options,
     payment_hash: new Uint8Array(randomBytes(32)),
-    dest: Buffer.from(dest, 'hex'),
-    amt,
-    timeout_seconds: timeout,
+    timeout_seconds: get(options, 'timeout_seconds', PAYMENT_PROBE_TIMEOUT),
   }
 
   return new Promise((resolve, reject) => {
@@ -58,7 +56,7 @@ async function probePayment(dest, amt, timeout = PAYMENT_PROBE_TIMEOUT) {
  * sendPayment - Call lnd grpc sendPayment method.
  *
  * @param {object} payload Payload
- * @returns {Promise} Original payload augmented with lnd sendPayment response data.
+ * @returns {Promise} Original payload augmented with lnd sendPayment response data
  */
 async function sendPayment(payload = {}) {
   logGrpcCmd('Router.sendPayment', payload)

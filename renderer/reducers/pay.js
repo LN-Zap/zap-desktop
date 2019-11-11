@@ -8,7 +8,7 @@ import { CoinBig } from '@zap/utils/coin'
 import createReducer from '@zap/utils/createReducer'
 import { estimateFeeRange } from '@zap/utils/fee'
 import { isAutopayEnabled } from '@zap/utils/featureFlag'
-import { decodePayReq } from '@zap/utils/crypto'
+import { decodePayReq, getTag } from '@zap/utils/crypto'
 import { showError } from './notification'
 import { settingsSelectors } from './settings'
 import { walletSelectors } from './wallet'
@@ -56,6 +56,7 @@ export const SET_LNURL = 'SET_LNURL'
 export const DECLINE_LNURL_WITHDRAWAL = 'DECLINE_LNURL_WITHDRAWAL'
 
 export const LNURL_WITHDRAWAL_PROMPT_DIALOG_ID = 'LNURL_WITHDRAWAL_PROMPT_DIALOG_ID'
+
 // ------------------------------------
 // IPC
 // ------------------------------------
@@ -213,18 +214,24 @@ export const queryFees = (address, amountInSats) => async (dispatch, getState) =
 /**
  * queryRoutes - Find valid routes to make a payment to a node.
  *
- * @param {string} pubKey Destination node pubkey
- * @param {number} amount Desired amount in satoshis
+ * @param {object} invoice Decoded bolt11 invoice
  * @returns {Function} Thunk
  */
-export const queryRoutes = (pubKey, amount) => async (dispatch, getState) => {
-  dispatch({ type: QUERY_ROUTES, pubKey })
+export const queryRoutes = invoice => async (dispatch, getState) => {
+  const { payeeNodeKey, millisatoshis } = invoice
+  const amountInSats = millisatoshis / 1000
+
+  dispatch({ type: QUERY_ROUTES, pubKey: payeeNodeKey })
   try {
     let routes = []
 
     // Use payment probing if lnd version supports the Router service.
     if (infoSelectors.hasRouterSupport(getState())) {
-      const route = await grpc.services.Router.probePayment(pubKey, amount)
+      const route = await grpc.services.Router.probePayment({
+        dest: Buffer.from(payeeNodeKey, 'hex'),
+        amt: amountInSats,
+        finalCltvDelta: getTag(invoice, 'min_final_cltv_expiry'),
+      })
       // Flag this as an exact route. This can be used as a hint for whether to use sendToRoute to fulfil the payment.
       route.isExact = true
       routes.push(route)
@@ -233,8 +240,8 @@ export const queryRoutes = (pubKey, amount) => async (dispatch, getState) => {
     // For older versions use queryRoutes.
     else {
       const { routes: result } = await grpc.services.Lightning.queryRoutes({
-        pubKey,
-        amt: amount,
+        pubKey: payeeNodeKey,
+        amt: amountInSats,
         useMissionControl: true,
       })
       routes = result
