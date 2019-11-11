@@ -9,6 +9,7 @@ import promiseTimeout from '@zap/utils/promiseTimeout'
 import isObject from '@zap/utils/isObject'
 import { forwardAll, unforwardAll } from '@zap/utils/events'
 import lightningMethods from './lightning.methods'
+import routerMethods from './router.methods'
 import lightningSubscriptions from './lightning.subscriptions'
 
 const GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE = 'GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE'
@@ -70,6 +71,8 @@ class ZapGrpc extends EventEmitter {
     // Inject helper methods.
     Object.assign(this.services.Lightning, lightningMethods)
     Object.assign(this.services.Lightning, lightningSubscriptions)
+    Object.assign(this.services.Router, routerMethods)
+
     // Setup gRPC event handlers.
     this.grpc.on('locked', () => {
       this.emit(GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE)
