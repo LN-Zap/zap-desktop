@@ -27,6 +27,14 @@ async function probePayment(options) {
     timeout_seconds: get(options, 'timeout_seconds', PAYMENT_PROBE_TIMEOUT),
   }
 
+  let result
+  let error
+
+  const decorateError = e => {
+    e.details = result
+    return e
+  }
+
   return new Promise((resolve, reject) => {
     const call = this.service.sendPayment(payload)
 
@@ -35,19 +43,38 @@ async function probePayment(options) {
 
       switch (data.state) {
         case 'IN_FLIGHT':
-          // Payment is still in progress, do nothing.
-          grpcLog.debug('PROBE IN_FLIGHT...')
+          grpcLog.info('PROBE IN_FLIGHT...')
           break
 
         case 'FAILED_INCORRECT_PAYMENT_DETAILS':
           grpcLog.info('PROBE SUCCESS: %o', data)
-          resolve(data.route)
+          result = data.route
           break
 
         default:
           grpcLog.warn('PROBE FAILED: %o', data)
-          reject(new Error(data.state))
+          error = new Error(data.state)
       }
+    })
+
+    call.on('status', status => {
+      grpcLog.info('PROBE STATUS :%o', status)
+    })
+
+    call.on('error', e => {
+      grpcLog.warn('PROBE ERROR :%o', e)
+      error = e
+    })
+
+    call.on('end', () => {
+      grpcLog.info('PROBE END')
+      if (error) {
+        return reject(decorateError(error))
+      }
+      if (!result) {
+        return reject(decorateError(new Error('TERMINATED_EARLY')))
+      }
+      return resolve(result)
     })
   })
 }
@@ -62,12 +89,12 @@ async function sendPayment(payload = {}) {
   logGrpcCmd('Router.sendPayment', payload)
 
   // Our response will always include the original payload.
-  const res = { ...payload }
+  const result = { ...payload }
+  let error
 
-  const handleError = data => {
-    const error = new Error(data.state)
-    error.details = res
-    return error
+  const decorateError = e => {
+    e.details = result
+    return e
   }
 
   return new Promise((resolve, reject) => {
@@ -78,8 +105,7 @@ async function sendPayment(payload = {}) {
 
       switch (data.state) {
         case 'IN_FLIGHT':
-          // Payment is still in progress, do nothing.
-          grpcLog.debug('IN_FLIGHT...')
+          grpcLog.info('IN_FLIGHT...')
           break
 
         case 'SUCCEEDED':
@@ -89,15 +115,33 @@ async function sendPayment(payload = {}) {
           data.preimage = data.preimage && data.preimage.toString('hex')
 
           // Add lnd return data, as well as payment preimage and hash as hex strings to the response.
-          Object.assign(res, data)
-
-          resolve(res)
+          Object.assign(result, data)
           break
 
         default:
           grpcLog.warn('PAYMENT FAILED: %o', data)
-          reject(handleError(data))
+          error = new Error(data.state)
       }
+    })
+
+    call.on('status', status => {
+      grpcLog.info('PAYMENT STATUS :%o', status)
+    })
+
+    call.on('error', e => {
+      grpcLog.warn('PAYMENT ERROR :%o', e)
+      error = e
+    })
+
+    call.on('end', () => {
+      grpcLog.info('PAYMENT END')
+      if (error) {
+        return reject(decorateError(error))
+      }
+      if (!result.preimage) {
+        return reject(decorateError(new Error('TERMINATED_EARLY')))
+      }
+      return resolve(result)
     })
   })
 }

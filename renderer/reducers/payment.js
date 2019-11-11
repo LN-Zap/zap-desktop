@@ -390,6 +390,10 @@ export const paymentFailed = (error, { paymentId }) => async (dispatch, getState
     'payment attempt not completed before timeout', // ErrPaymentAttemptTimeout
     'unable to find a path to destination', // ErrNoPathFound
     'target not found', // ErrTargetNotInNetwork
+    'FAILED_NO_ROUTE',
+    'FAILED_ERROR',
+    'FAILED_TIMEOUT',
+    'TERMINATED_EARLY', // Triggered if sendPayment aborts without giveing a proper response.
   ]
 
   // If we found a related entery in paymentsSending, gracefully remove it and handle as error case.

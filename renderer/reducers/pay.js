@@ -253,8 +253,13 @@ export const queryRoutes = invoice => async (dispatch, getState) => {
       try {
         routes = await callProbePayment()
       } catch (error) {
+        // If the probe didn't find a route trigger a failure.
+        if (['FAILED_TIMEOUT', 'FAILED_NO_ROUTE', 'FAILED_ERROR'].includes(error.message)) {
+          throw error
+        }
+
         // There is no guarentee that the lnd node has the Router service enabled.
-        // If we didn't get a route from probing fall back to using queryRoutes.
+        // Fall back to using queryRoutes if we got some other type of error.
         routes = await callQueryRoutes()
       }
     }
