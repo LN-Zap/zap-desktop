@@ -3,11 +3,23 @@ import { IntlProvider } from 'react-intl'
 import { renderWithTheme } from '@zap/test/unit/__helpers__/renderWithTheme'
 import { Countdown } from 'components/UI'
 
+const CURRENT_DATE = 1573466266762
+
 describe('component.UI.Countdown', () => {
-  it('should render correctly with expiry set to a date in the past', () => {
+  let dateNowMockFn
+
+  beforeEach(() => {
+    dateNowMockFn = jest.spyOn(Date, 'now').mockImplementation(() => CURRENT_DATE)
+  })
+
+  afterEach(() => {
+    dateNowMockFn.mockRestore()
+  })
+
+  it('should render correctly with expiry set to a date 1 hour in the past', () => {
     const tree = renderWithTheme(
       <IntlProvider locale="en">
-        <Countdown offset={new Date('2009-01-03T18:15:05+00:00')} />
+        <Countdown offset={new Date(1573466266762 - 3600000)} />
       </IntlProvider>
     ).toJSON()
     expect(tree).toMatchSnapshot()
