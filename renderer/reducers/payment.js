@@ -189,13 +189,18 @@ const decPaymentRetry = paymentId => ({
  * @param {number} options.amt Payment amount (in sats)
  * @param {number} options.feeLimit The max fee to apply
  * @param {number} options.retries Number of remaining retries
+ * @param {number} options.route Specific route to use.
  * @param {string} options.originalPaymentId Id of the original payment if (required if this is a payment retry)
  * @returns {Function} Thunk
  */
-export const payInvoice = ({ payReq, amt, feeLimit, retries = 0, originalPaymentId }) => async (
-  dispatch,
-  getState
-) => {
+export const payInvoice = ({
+  payReq,
+  amt,
+  feeLimit,
+  route,
+  retries = 0,
+  originalPaymentId,
+}) => async (dispatch, getState) => {
   const paymentId = originalPaymentId || genId()
   const isKeysend = isPubkey(payReq)
   let pubkey
@@ -267,14 +272,39 @@ export const payInvoice = ({ payReq, amt, feeLimit, retries = 0, originalPayment
 
   // Submit the payment to LND.
   try {
-    let data
+    let data = { paymentId }
 
     // Use Router service if lnd version supports it.
-    if (infoSelectors.hasRouterSupport(getState())()) {
-      data = await grpc.services.Router.sendPayment({
+    if (infoSelectors.hasRouterSupport(getState())) {
+      payload = {
         ...payload,
         timeoutSeconds: PAYMENT_TIMEOUT,
-      })
+      }
+
+      // If this is the first payment attempt and we have been supplied with exact route, attempt to use route.
+      if (route && !originalPaymentId) {
+        try {
+          const routeToUse = { ...route }
+          delete routeToUse.isExact
+          const { failure } = await grpc.services.Router.sendToRoute({
+            paymentHash: Buffer.from(paymentHash, 'hex'),
+            route: routeToUse,
+          })
+          if (failure) {
+            const error = new Error(failure.code)
+            error.details = data
+            throw error
+          }
+        } catch (error) {
+          // If sendToRoute didn't work then try sendPayment.
+          data = await grpc.services.Router.sendPayment(payload)
+        }
+      }
+
+      // Otherwise, just use sendPayment.
+      else {
+        data = await grpc.services.Router.sendPayment(payload)
+      }
     }
 
     // For older versions use the legacy Lightning.sendPayment method.

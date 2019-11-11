@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import config from 'config'
+import get from 'lodash/get'
 import { injectIntl } from 'react-intl'
 import { decodePayReq, getMaxFee, isOnchain, isBolt11, isPubkey } from '@zap/utils/crypto'
 import { Panel } from 'components/UI'
@@ -245,6 +246,7 @@ class Pay extends React.Component {
         payReq: values.payReq,
         amt: this.amountInSats(),
         feeLimit: getMaxFee(routes),
+        route: get(routes, '[0].isExact') && routes[0],
         retries: config.invoices.retryCount,
       })
       // Clear payment request

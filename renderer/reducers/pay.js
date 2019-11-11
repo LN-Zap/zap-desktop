@@ -224,10 +224,10 @@ export const queryRoutes = (pubKey, amount) => async (dispatch, getState) => {
 
     // Use payment probing if lnd version supports the Router service.
     if (infoSelectors.hasRouterSupport(getState())) {
-      // First probe with a small amount for check for a valid route.
-      await grpc.services.Router.probePayment(pubKey, 1)
-      // Then probe with the full amount to check whether the channels contain enough balance for the payment.
-      routes.push(await grpc.services.Router.probePayment(pubKey, amount))
+      const route = await grpc.services.Router.probePayment(pubKey, amount)
+      // Flag this as an exact route. This can be used as a hint for whether to use sendToRoute to fulfil the payment.
+      route.isExact = true
+      routes.push(route)
     }
 
     // For older versions use queryRoutes.
@@ -239,6 +239,7 @@ export const queryRoutes = (pubKey, amount) => async (dispatch, getState) => {
       })
       routes = result
     }
+
     dispatch({ type: QUERY_ROUTES_SUCCESS, routes })
   } catch (e) {
     dispatch({ type: QUERY_ROUTES_FAILURE, error: e.message })
