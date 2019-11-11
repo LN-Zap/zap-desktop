@@ -1,6 +1,7 @@
 import config from 'config'
 import { randomBytes, createHash } from 'crypto'
 import { createSelector } from 'reselect'
+import semver from 'semver'
 import uniqBy from 'lodash/uniqBy'
 import find from 'lodash/find'
 import createReducer from '@zap/utils/createReducer'
@@ -13,6 +14,7 @@ import genId from '@zap/utils/genId'
 import { grpc } from 'workers'
 import { fetchBalance } from './balance'
 import { fetchChannels } from './channels'
+import { infoSelectors } from './info'
 import { networkSelectors } from './network'
 import { showError } from './notification'
 import messages from './messages'
@@ -42,6 +44,8 @@ export const DECREASE_PAYMENT_RETRIES = 'DECREASE_PAYMENT_RETRIES'
 const PAYMENT_STATUS_SENDING = 'sending'
 const PAYMENT_STATUS_SUCCESSFUL = 'successful'
 const PAYMENT_STATUS_FAILED = 'failed'
+
+const PAYMENT_TIMEOUT = 15
 
 // ------------------------------------
 // Helpers
@@ -189,13 +193,10 @@ const decPaymentRetry = paymentId => ({
  * @param {string} options.originalPaymentId Id of the original payment if (required if this is a payment retry)
  * @returns {Function} Thunk
  */
-export const payInvoice = ({
-  payReq,
-  amt,
-  feeLimit,
-  retries = 0,
-  originalPaymentId,
-}) => async dispatch => {
+export const payInvoice = ({ payReq, amt, feeLimit, retries = 0, originalPaymentId }) => async (
+  dispatch,
+  getState
+) => {
   const paymentId = originalPaymentId || genId()
   const isKeysend = isPubkey(payReq)
   let pubkey
@@ -204,11 +205,9 @@ export const payInvoice = ({
 
   let payload = {
     paymentId,
-    amt,
     feeLimit: feeLimit ? { fixed: feeLimit } : null,
     allowSelfPayment: true,
   }
-
   // Keysend payment.
   if (isKeysend) {
     const defaultCltvDelta = 43
@@ -224,8 +223,8 @@ export const payInvoice = ({
     payload = {
       ...payload,
       paymentHash,
+      amt,
       finalCltvDelta: defaultCltvDelta,
-      feeLimitSat: feeLimit ? { fixed: feeLimit } : null,
       dest: Buffer.from(payReq, 'hex'),
       destCustomRecords: {
         [keySendPreimageType]: preimage,
@@ -236,11 +235,13 @@ export const payInvoice = ({
   // Bolt11 invoice payment.
   else {
     const invoice = decodePayReq(payReq)
+    const { millisatoshis } = invoice
     paymentHash = getTag(invoice, 'payment_hash')
     pubkey = invoice.payeeNodeKey
     paymentRequest = invoice.paymentRequest // eslint-disable-line prefer-destructuring
     payload = {
       ...payload,
+      amt: !millisatoshis && amt,
       paymentRequest,
     }
   }
@@ -267,7 +268,22 @@ export const payInvoice = ({
 
   // Submit the payment to LND.
   try {
-    const data = await grpc.services.Lightning.sendPayment(payload)
+    let data
+
+    // For lnd 0.7.1-beta and later, use the Router API.
+    const lndVersion = infoSelectors.grpcProtoVersion(getState())
+    if (semver.gte(lndVersion, '0.7.1-beta', { includePrerelease: true })) {
+      data = await grpc.services.Router.sendPayment({
+        ...payload,
+        timeoutSeconds: PAYMENT_TIMEOUT,
+      })
+    }
+
+    // For older versions use the legacy Lightning.sendPayment method.
+    else {
+      data = await grpc.services.Lightning.sendPayment(payload)
+    }
+
     dispatch(paymentSuccessful(data))
   } catch (e) {
     const { payload: data, message: error } = e
