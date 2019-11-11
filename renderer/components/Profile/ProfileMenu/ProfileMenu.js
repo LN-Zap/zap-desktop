@@ -19,7 +19,7 @@ const ProfileMenu = ({ group, setGroup, isLocalWallet, ...rest }) => {
   const verifyMessageLink = menuLink(PANE_VERIFYMESSAGE, messages.verify_message_title)
 
   // Get set of menu links based on wallet type.
-  const getLocalLinks = () => [nodeInfoLink, signMessageLink, verifyMessageLink]
+  const getLocalLinks = () => [nodeInfoLink, verifyMessageLink]
   const getRemoteLinks = () => [nodeInfoLink, connectLink, signMessageLink, verifyMessageLink]
   const items = isLocalWallet ? getLocalLinks() : getRemoteLinks()
 

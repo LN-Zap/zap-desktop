@@ -22,7 +22,7 @@ const ProfilePage = ({ activeWalletSettings }) => {
   const isLocalWallet = activeWalletSettings.type === 'local'
 
   const hasNodeInfoPane = group === PANE_NODEINFO
-  const hasSignMessagePane = group === PANE_SIGNMESSAGE
+  const hasSignMessagePane = group === PANE_SIGNMESSAGE && !isLocalWallet
   const hasVerifyMessagePane = group === PANE_VERIFYMESSAGE
   const hasConnectPane = group === PANE_LNDCONNECT && !isLocalWallet
 
