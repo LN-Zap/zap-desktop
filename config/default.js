@@ -103,6 +103,8 @@ module.exports = {
     useAddressFallback: false,
     retryCount: 2, // Number of retries for pay invoice failure
     feeIncrementExponent: 1.1, // Exponent applied to fee limit on payment retry attempts
+    probeTimeout: 30, // Upper limit on the amount of time (s) we should spend when attempting to probe the payment
+    paymentTimeout: 30, // Upper limit on the amount of time (s) we should spend when attempting to fulfill the payment
   },
 
   autopay: {

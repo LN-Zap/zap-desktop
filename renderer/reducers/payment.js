@@ -45,7 +45,7 @@ const PAYMENT_STATUS_SENDING = 'sending'
 const PAYMENT_STATUS_SUCCESSFUL = 'successful'
 const PAYMENT_STATUS_FAILED = 'failed'
 
-const PAYMENT_TIMEOUT = 15
+const PAYMENT_TIMEOUT = config.invoices.paymentTimeout
 
 // ------------------------------------
 // Helpers

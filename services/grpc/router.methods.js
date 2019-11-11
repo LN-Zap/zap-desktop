@@ -1,8 +1,9 @@
 import { randomBytes } from 'crypto'
+import config from 'config'
 import { grpcLog } from '@zap/utils/log'
 import { logGrpcCmd } from './helpers'
 
-const PAYMENT_PROBE_TIMEOUT = 15
+const PAYMENT_PROBE_TIMEOUT = config.invoices.probeTimeout
 
 // ------------------------------------
 // Wrappers / Overrides
