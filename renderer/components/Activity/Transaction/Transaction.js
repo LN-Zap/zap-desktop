@@ -19,10 +19,15 @@ const DISPLAY_PARAMS = [
   { finality: confirmed, msg: messages.confirmed, color: 'superGreen' },
 ]
 
-const Transaction = ({ activity, showActivityModal, cryptoUnitName, intl, ...rest }) => {
-  const amount = activity.amount || activity.limboAmount || 0
-  const isIncoming = activity.received || activity.limboAmount > 0
-  let type = isIncoming ? 'received' : 'sent'
+const Transaction = ({
+  activity,
+  showActivityModal,
+  showErrorDetailsDialog,
+  cryptoUnitName,
+  intl,
+  ...rest
+}) => {
+  let type = activity.isReceived ? 'received' : 'sent'
   if (activity.isFunding) {
     type = 'funding'
   } else if (activity.isClosing) {
@@ -54,7 +59,7 @@ const Transaction = ({ activity, showActivityModal, cryptoUnitName, intl, ...res
     <Flex
       alignItems="center"
       justifyContent="space-between"
-      onClick={activity.sending ? null : () => showActivityModal('TRANSACTION', activity.tx_hash)}
+      onClick={activity.isSending ? null : () => showActivityModal('TRANSACTION', activity.tx_hash)}
       py={2}
       {...rest}
     >
@@ -74,7 +79,7 @@ const Transaction = ({ activity, showActivityModal, cryptoUnitName, intl, ...res
           )}
         </Text>
 
-        {activity.sending ? (
+        {activity.isSending ? (
           <>
             {activity.status === 'sending' && (
               <Message variant="processing">
@@ -87,7 +92,7 @@ const Transaction = ({ activity, showActivityModal, cryptoUnitName, intl, ...res
               </Message>
             )}
             {activity.status === 'failed' && (
-              <ErrorLink>
+              <ErrorLink onClick={() => showErrorDetailsDialog({ details: activity.error })}>
                 <FormattedMessage {...messages.status_error} />
               </ErrorLink>
             )}
@@ -103,13 +108,13 @@ const Transaction = ({ activity, showActivityModal, cryptoUnitName, intl, ...res
         width={1 / 4}
       >
         <Box opactiy={activity.status === 'failed' ? 0.2 : null}>
-          <Text color={isIncoming ? 'superGreen' : null} mb={1} textAlign="right">
-            {isIncoming ? `+ ` : `- `}
-            <CryptoValue value={amount} />
+          <Text color={activity.isReceived ? 'superGreen' : null} mb={1} textAlign="right">
+            {activity.isReceived ? `+ ` : `- `}
+            <CryptoValue value={activity.amount} />
             <i> {cryptoUnitName}</i>
           </Text>
           <Text color="gray" fontSize="xs" fontWeight="normal" textAlign="right">
-            <FiatValue style="currency" value={amount} />
+            <FiatValue style="currency" value={activity.amount} />
           </Text>
         </Box>
       </Box>
@@ -124,6 +129,7 @@ Transaction.propTypes = {
   cryptoUnitName: PropTypes.string.isRequired,
   intl: intlShape.isRequired,
   showActivityModal: PropTypes.func.isRequired,
+  showErrorDetailsDialog: PropTypes.func.isRequired,
 }
 
 export default injectIntl(Transaction)
