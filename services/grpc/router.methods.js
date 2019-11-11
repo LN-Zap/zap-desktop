@@ -1,3 +1,4 @@
+import { randomBytes } from 'crypto'
 import { grpcLog } from '@zap/utils/log'
 import { logGrpcCmd } from './helpers'
 
@@ -18,8 +19,10 @@ const PAYMENT_PROBE_TIMEOUT = 15
 async function probePayment(dest, amt, timeout = PAYMENT_PROBE_TIMEOUT) {
   logGrpcCmd('Router.probePayment', { dest, amt, timeout })
 
+  // Use a payload that has the payment hash set to some random bytes.
+  // This will cause the payment to fail at the final destination.
   const payload = {
-    payment_hash: Buffer.from('0'),
+    payment_hash: new Uint8Array(randomBytes(32)),
     dest: Buffer.from(dest, 'hex'),
     amt,
     timeout_seconds: timeout,
