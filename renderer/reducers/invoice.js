@@ -65,6 +65,10 @@ const decorateInvoice = invoice => {
   // Add a `finalAmount` prop which shows the amount paid if set, or the invoice value if not.
   decoration.finalAmount = invoice.amt_paid_sat ? invoice.amt_paid_sat : invoice.value
 
+  // Add an `isExpired` prop which shows whether the invoice is expired or not.
+  const expiresAt = parseInt(invoice.creation_date, 10) + parseInt(invoice.expiry, 10)
+  decoration.isExpired = expiresAt < Math.round(new Date() / 1000)
+
   return {
     ...invoice,
     ...decoration,

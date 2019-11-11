@@ -1,8 +1,8 @@
 /**
- * isFieldValid - Check wether a field is valid or not.
+ * isFieldValid - Check whether a field is valid or not.
  *
  * @param  {{value, error, asyncError, touched}} fieldState Informed field state.
- * @returns {boolean} Boolean indicating wether field is valie.
+ * @returns {boolean} Boolean indicating whether field is valie.
  */
 export const isFieldValid = ({ value, error, asyncError, touched }) => {
   return value && !error && !asyncError && touched

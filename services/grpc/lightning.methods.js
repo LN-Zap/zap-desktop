@@ -1,5 +1,5 @@
 import promisifiedCall from '@zap/utils/promisifiedCall'
-import { decodePayReq as bolt11DecodePayReq } from '@zap/utils/crypto'
+import { decodePayReq as bolt11DecodePayReq, getTag } from '@zap/utils/crypto'
 import { grpcLog } from '@zap/utils/log'
 import { logGrpcCmd } from './helpers'
 
@@ -260,73 +260,62 @@ async function closeChannel(payload = {}) {
  * sendPayment - Call lnd grpc sendPayment method.
  *
  * @param {object} payload Payload
- * @returns {Promise} SendResponse
+ * @returns {Promise} Original payload augmented with lnd sendPayment response data.
  */
 async function sendPayment(payload = {}) {
+  // Our response will always include the original payload.
+  const res = { ...payload }
+
   return new Promise((resolve, reject) => {
     try {
       const call = this.service.sendPayment(payload)
 
       call.on('data', data => {
-        const isSuccess = !data.payment_error
-        if (isSuccess) {
-          grpcLog.debug('PAYMENT SUCCESS', data)
-
-          // Convert payment_hash to hex string.
-          let paymentHash = data.payment_hash
-          if (paymentHash) {
-            paymentHash = paymentHash.toString('hex')
-          }
-
-          // In some cases lnd does not return the payment_hash. If this happens, retrieve it from the invoice.
-          else {
-            const invoice = bolt11DecodePayReq(payload.payment_request)
-            const paymentHashTag = invoice.tags
-              ? invoice.tags.find(t => t.tagName === 'payment_hash')
-              : null
-            paymentHash = paymentHashTag ? paymentHashTag.data : null
-          }
-
-          // Convert the preimage to a hex string.
-          const paymentPreimage = data.payment_preimage
-            ? data.payment_preimage.toString('hex')
-            : null
-
-          // Notify the client of a successful payment.
-          const res = {
-            ...payload,
-            data,
-            payment_preimage: paymentPreimage,
-            payment_hash: paymentHash,
-          }
-          this.emit('sendPayment.data', res)
-          resolve(res)
-        } else {
-          // Notify the client if there was a problem sending the payment
-          grpcLog.error('PAYMENT ERROR', data)
-          const error = new Error(data.payment_error)
-          error.payload = payload
-          this.emit('sendPayment.error', error)
-          reject(error)
+        // Convert payment_hash to hex string.
+        if (data.payment_hash) {
+          data.payment_hash = data.payment_hash.toString('hex')
+        }
+        // In some cases lnd does not return the payment_hash. If this happens, retrieve it from the invoice.
+        else {
+          const invoice = bolt11DecodePayReq(payload.payment_request)
+          data.payment_hash = getTag(invoice, 'payment_hash')
         }
 
+        // Convert the preimage to a hex string.
+        data.payment_preimage = data.payment_preimage && data.payment_preimage.toString('hex')
+
+        // Add lnd return data, as well as payment preimage and hash as hex strings to the response.
+        Object.assign(res, data)
+
+        // Payment success is determined by the absense of a payment error.
+        const isSuccess = !res.payment_error
+        if (isSuccess) {
+          grpcLog.debug('PAYMENT SUCCESS', res)
+          resolve(res)
+        }
+
+        // In case of an error, notify the client if there was a problem sending the payment.
+        else {
+          grpcLog.error('PAYMENT ERROR', res)
+          const error = new Error(res.payment_error)
+          error.details = res
+          reject(error)
+        }
         call.end()
       })
 
       call.on('status', status => {
         grpcLog.debug('PAYMENT STATUS', status)
-        this.emit('sendPayment.status', status)
       })
 
       call.on('end', () => {
         grpcLog.debug('PAYMENT END')
-        this.emit('sendPayment.end')
       })
 
       call.write(payload)
     } catch (e) {
       const error = new Error(e.message)
-      error.payload = payload
+      error.details = res
       throw error
     }
   })

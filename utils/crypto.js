@@ -32,6 +32,21 @@ export const coinTypes = {
 }
 
 /**
+ * getTag = Get tag data for `tagName` from a decoded bolt11 invoice.
+ *
+ * @param  {object} invoice Decoded bolt11 invoice
+ * @param  {string} tagName Tag to fetch
+ * @returns {*|null} Tag data or null if not found
+ */
+export const getTag = (invoice, tagName) => {
+  try {
+    return invoice.tags.find(t => t.tagName === tagName).data
+  } catch (e) {
+    return null
+  }
+}
+
+/**
  * decodePayReq - Decodes a payment request.
  *
  * @param {string} payReq Payment request
@@ -40,7 +55,7 @@ export const coinTypes = {
  */
 export const decodePayReq = (payReq, addDefaults = true) => {
   const data = lightningRequestReq.decode(payReq)
-  const expiry = data.tags.find(t => t.tagName === 'expire_time')
+  const expiry = getTag(data, 'expire_time')
   if (addDefaults && !expiry) {
     data.tags.push({
       tagName: 'expire_time',
