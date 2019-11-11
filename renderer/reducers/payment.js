@@ -10,6 +10,7 @@ import { decodePayReq, getNodeAlias, getTag, isPubkey } from '@zap/utils/crypto'
 import { convert } from '@zap/utils/btc'
 import delay from '@zap/utils/delay'
 import genId from '@zap/utils/genId'
+import { mainLog } from '@zap/utils/log'
 import { grpc } from 'workers'
 import { fetchBalance } from './balance'
 import { fetchChannels } from './channels'
@@ -281,23 +282,31 @@ export const payInvoice = ({
         timeoutSeconds: PAYMENT_TIMEOUT,
       }
 
-      // If this is the first payment attempt and we have been supplied with exact route, attempt to use route.
-      if (route && !originalPaymentId) {
+      // If we have been supplied with exact route, attempt to use that route.
+      if (route && route.isExact) {
+        let result = {}
         try {
           const routeToUse = { ...route }
           delete routeToUse.isExact
-          const { failure } = await grpc.services.Router.sendToRoute({
+          result = await grpc.services.Router.sendToRoute({
             paymentHash: Buffer.from(paymentHash, 'hex'),
             route: routeToUse,
           })
-          if (failure) {
-            const error = new Error(failure.code)
+        } catch (error) {
+          if (error.message === 'unknown service routerrpc.Router') {
+            // We don't know for sure that the node has been compiled with the Router service.
+            // Fall bak to using sendPayment in the event of an error.
+            mainLog.warn('Unable to pay invoice using sendToRoute: %s', error.message)
+            data = await grpc.services.Router.sendPayment(payload)
+          } else {
             error.details = data
             throw error
           }
-        } catch (error) {
-          // If sendToRoute didn't work then try sendPayment.
-          data = await grpc.services.Router.sendPayment(payload)
+        }
+        if (result.failure) {
+          const error = new Error(result.failure.code)
+          error.details = data
+          throw error
         }
       }
 

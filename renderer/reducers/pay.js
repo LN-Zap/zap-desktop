@@ -221,30 +221,47 @@ export const queryRoutes = invoice => async (dispatch, getState) => {
   const { payeeNodeKey, millisatoshis } = invoice
   const amountInSats = millisatoshis / 1000
 
+  const callQueryRoutes = async () => {
+    const { routes } = await grpc.services.Lightning.queryRoutes({
+      pubKey: payeeNodeKey,
+      amt: amountInSats,
+      useMissionControl: true,
+    })
+    return routes
+  }
+
+  const callProbePayment = async () => {
+    const routes = []
+    const route = await grpc.services.Router.probePayment({
+      dest: Buffer.from(payeeNodeKey, 'hex'),
+      amt: amountInSats,
+      finalCltvDelta: getTag(invoice, 'min_final_cltv_expiry'),
+    })
+    // Flag this as an exact route. This can be used as a hint for whether to use sendToRoute to fulfil the payment.
+    route.isExact = true
+    routes.push(route)
+    return routes
+  }
+
   dispatch({ type: QUERY_ROUTES, pubKey: payeeNodeKey })
+
   try {
     let routes = []
 
-    // Use payment probing if lnd version supports the Router service.
+    // Try to use payment probing if lnd version supports the Router service.
     if (infoSelectors.hasRouterSupport(getState())) {
-      const route = await grpc.services.Router.probePayment({
-        dest: Buffer.from(payeeNodeKey, 'hex'),
-        amt: amountInSats,
-        finalCltvDelta: getTag(invoice, 'min_final_cltv_expiry'),
-      })
-      // Flag this as an exact route. This can be used as a hint for whether to use sendToRoute to fulfil the payment.
-      route.isExact = true
-      routes.push(route)
+      try {
+        routes = await callProbePayment()
+      } catch (error) {
+        // There is no guarentee that the lnd node has the Router service enabled.
+        // If we didn't get a route from probing fall back to using queryRoutes.
+        routes = await callQueryRoutes()
+      }
     }
 
     // For older versions use queryRoutes.
     else {
-      const { routes: result } = await grpc.services.Lightning.queryRoutes({
-        pubKey: payeeNodeKey,
-        amt: amountInSats,
-        useMissionControl: true,
-      })
-      routes = result
+      routes = await callQueryRoutes()
     }
 
     dispatch({ type: QUERY_ROUTES_SUCCESS, routes })
