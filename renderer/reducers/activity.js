@@ -462,26 +462,6 @@ activitySelectors.filter = filterSelector
 activitySelectors.filters = filtersSelector
 activitySelectors.searchText = searchTextSelector
 
-/**
- * Map sending transactions to something that looks like normal transactions.
- */
-const transactionsSending = createSelector(
-  transactionsSendingSelector,
-  transactionsSending => {
-    const transactions = transactionsSending.map(transaction => {
-      return {
-        type: 'transaction',
-        time_stamp: transaction.timestamp,
-        amount: transaction.amount,
-        sending: true,
-        status: transaction.status,
-        error: transaction.error,
-      }
-    })
-    return transactions
-  }
-)
-
 activitySelectors.activityModalItem = createSelector(
   paymentsSelector,
   invoicesSelector,
@@ -519,7 +499,7 @@ const sentActivityRaw = createSelector(
       ...payments,
       ...transactions.filter(
         transaction =>
-          !transaction.received &&
+          !transaction.isReceived &&
           !transaction.isFunding &&
           !transaction.isClosing &&
           !transaction.isPending
@@ -537,7 +517,7 @@ const receivedActivityRaw = createSelector(
       ...invoices.filter(invoice => invoice.settled),
       ...transactions.filter(
         transaction =>
-          transaction.received &&
+          transaction.isReceived &&
           !transaction.isFunding &&
           !transaction.isClosing &&
           !transaction.isPending
@@ -549,7 +529,7 @@ const receivedActivityRaw = createSelector(
 // Pending activity: pre-search
 const pendingActivityRaw = createSelector(
   paymentsSendingSelector,
-  transactionsSending,
+  transactionsSendingSelector,
   transactionsSelector,
   invoicesSelector,
   (paymentsSending, transactionsSending, transactions, invoices) => {

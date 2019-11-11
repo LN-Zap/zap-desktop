@@ -11,7 +11,7 @@ export default defineMessages({
   type: 'On-chain transaction',
   status_processing: 'Processing your transaction...',
   status_success: 'Your transaction was successful.',
-  status_error: 'There was a problem sending your transaction.',
+  status_error: 'There was a problem sending your transaction. Click for more details.',
   closetype_cooperative_close: 'Cooperative close',
   closetype_local_force_close: 'Local force close',
   closetype_remote_force_close: 'Remote force close',
