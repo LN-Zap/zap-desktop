@@ -1,6 +1,7 @@
 import get from 'lodash/get'
 import { createSelector } from 'reselect'
 import { send } from 'redux-electron-ipc'
+import semver from 'semver'
 import { grpc } from 'workers'
 import { getIntl } from '@zap/i18n'
 import { convert } from '@zap/utils/btc'
@@ -12,6 +13,7 @@ import { decodePayReq } from '@zap/utils/crypto'
 import { showError } from './notification'
 import { settingsSelectors } from './settings'
 import { walletSelectors } from './wallet'
+import { infoSelectors } from './info'
 import { showAutopayNotification, autopaySelectors } from './autopay'
 import { payInvoice } from './payment'
 import { createInvoice } from './invoice'
@@ -216,14 +218,29 @@ export const queryFees = (address, amountInSats) => async (dispatch, getState) =
  * @param {number} amount Desired amount in satoshis
  * @returns {Function} Thunk
  */
-export const queryRoutes = (pubKey, amount) => async dispatch => {
+export const queryRoutes = (pubKey, amount) => async (dispatch, getState) => {
   dispatch({ type: QUERY_ROUTES, pubKey })
   try {
-    const { routes } = await grpc.services.Lightning.queryRoutes({
-      pubKey,
-      amt: amount,
-      useMissionControl: true,
-    })
+    let routes = []
+
+    // For lnd 0.7.1-beta and later, use payment probing.
+    const lndVersion = infoSelectors.grpcProtoVersion(getState())
+    if (semver.gte(lndVersion, '0.7.1-beta', { includePrerelease: true })) {
+      // First probe with a small amount for check for a valid route.
+      await grpc.services.Router.probePayment(pubKey, 1)
+      // Then probe with the full amount to check whether the channels contain enough balance for the payment.
+      routes.push(await grpc.services.Router.probePayment(pubKey, amount))
+    }
+
+    // For older versions use queryRoutes.
+    else {
+      const { routes: result } = await grpc.services.Lightning.queryRoutes({
+        pubKey,
+        amt: amount,
+        useMissionControl: true,
+      })
+      routes = result
+    }
     dispatch({ type: QUERY_ROUTES_SUCCESS, routes })
   } catch (e) {
     dispatch({ type: QUERY_ROUTES_FAILURE, error: e.message })
