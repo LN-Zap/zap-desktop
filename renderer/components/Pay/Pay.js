@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import config from 'config'
 import get from 'lodash/get'
 import { injectIntl } from 'react-intl'
-import { decodePayReq, getMaxFee, isOnchain, isBolt11, isPubkey } from '@zap/utils/crypto'
+import { decodePayReq, getMaxFeeInclusive, isOnchain, isBolt11, isPubkey } from '@zap/utils/crypto'
 import { Panel } from 'components/UI'
 import { Form } from 'components/Form'
 import { getAmountInSats, getFeeRate } from './utils'
@@ -245,7 +245,7 @@ class Pay extends React.Component {
       payInvoice({
         payReq: values.payReq,
         amt: this.amountInSats(),
-        feeLimit: getMaxFee(routes),
+        feeLimit: getMaxFeeInclusive(routes),
         route: get(routes, '[0].isExact') && routes[0],
         retries: config.invoices.retryCount,
       })
