@@ -36,6 +36,7 @@ async function probePayment(options) {
   }
 
   return new Promise((resolve, reject) => {
+    grpcLog.time('probePayment')
     const call = this.service.sendPayment(payload)
 
     call.on('data', data => {
@@ -67,6 +68,7 @@ async function probePayment(options) {
     })
 
     call.on('end', () => {
+      grpcLog.timeEnd('probePayment')
       grpcLog.info('PROBE END')
       if (error) {
         return reject(decorateError(error))
@@ -98,6 +100,7 @@ async function sendPayment(payload = {}) {
   }
 
   return new Promise((resolve, reject) => {
+    grpcLog.time('sendPayment')
     const call = this.service.sendPayment(payload)
 
     call.on('data', data => {
@@ -134,6 +137,7 @@ async function sendPayment(payload = {}) {
     })
 
     call.on('end', () => {
+      grpcLog.timeEnd('sendPayment')
       grpcLog.info('PAYMENT END')
       if (error) {
         return reject(decorateError(error))
