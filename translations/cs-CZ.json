@@ -34,7 +34,7 @@
   "components.Activity.PaymentModal.current_value": "Aktuální hodnota",
   "components.Activity.PaymentModal.date_sent": "Datum odeslání",
   "components.Activity.PaymentModal.fee": "Poplatek",
-  "components.Activity.PaymentModal.memo": "",
+  "components.Activity.PaymentModal.memo": "Poznámka",
   "components.Activity.PaymentModal.preimage": "Předběžná platba",
   "components.Activity.PaymentModal.subtitle": "Lightning platba",
   "components.Activity.PaymentModal.title_sent": "Odesláno",
