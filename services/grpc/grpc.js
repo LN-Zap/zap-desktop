@@ -157,20 +157,33 @@ class ZapGrpc extends EventEmitter {
   /**
    * subscribeAll - Subscribe to all gRPC streams.
    */
-  subscribeAll() {
-    this.subscribe('invoices', 'transactions', 'info', 'backups')
+  async subscribeAll() {
+    this.subscribe('invoices', 'transactions', 'backups')
 
-    // Subscribe to graph updates only after sync is complete. This is needed because LND chanRouter waits for chain
-    // sync to complete before accepting subscriptions.
-    this.on('subscribeGetInfo.data', async data => {
-      const { synced_to_chain } = data
-      if (synced_to_chain && !this.activeSubscriptions.channelgraph) {
-        // reduce poll interval to once a minute after synced_to_chain is true
-        await this.unsubscribe('info')
-        this.subscribe({ name: 'info', params: { pollInterval: 60000 } })
-        this.subscribeChannelGraph()
-      }
-    })
+    const finalizeSubscriptions = () => {
+      this.subscribe({ name: 'info', params: { pollInterval: 60000 } })
+      this.subscribeChannelGraph()
+    }
+
+    // If we are already fully synced set up finalize the subscriptions right away.
+    const info = await this.services.Lightning.getInfo()
+    if (info.synced_to_chain) {
+      finalizeSubscriptions()
+    }
+
+    // Otherwise, set up a fast poling subscription to the info stream and finalise once the chain sync has completed.
+    // This is needed because LND chanRouter waits for chain sync to complete before accepting subscriptions.
+    else {
+      this.subscribe('info')
+      this.on('subscribeGetInfo.data', async data => {
+        const { synced_to_chain } = data
+        if (synced_to_chain && !this.activeSubscriptions.channelgraph) {
+          // Once chain sync is complete cancael the fast polling and finalise the subscriptions.
+          await this.unsubscribe('info')
+          finalizeSubscriptions()
+        }
+      })
+    }
   }
 
   /**
