@@ -154,4 +154,16 @@ describe('createScheduler tasks execution', () => {
     const promise = Promise.race([originalTask, replacedTask])
     return expect(promiseTimeout(200, promise)).resolves.toBe(undefined)
   })
+
+  test('handles runImmediately correctly', () => {
+    const scheduler = createScheduler()
+
+    const promise = new Promise(resolve => {
+      scheduler.addTask({ task: () => resolve(true), baseDelay: 10, runImmediately: true })
+    })
+
+    scheduler.removeAllTasks()
+
+    return expect(promiseTimeout(5, promise)).resolves.toBe(true)
+  })
 })

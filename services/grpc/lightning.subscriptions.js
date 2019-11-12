@@ -129,12 +129,13 @@ function subscribeChannelBackups(payload = {}) {
  * @param {{pollInterval}} options Subscription options
  * @returns {object} polling stream for the LND getInfo command
  */
-function subscribeGetInfo({ pollInterval = 5000 } = {}) {
+function subscribeGetInfo({ pollInterval = 5000, pollImmediately = false } = {}) {
   const stream = streamify({
     command: methods.getInfo.bind(this),
     dataEventName: 'subscribeGetInfo.data',
     errorEventName: 'subscribeGetInfo.error',
     pollInterval,
+    pollImmediately,
   })
   // Setup subscription event forwarders.
   forwardAll(stream, 'subscribeGetInfo', this)
