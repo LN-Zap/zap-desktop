@@ -279,6 +279,7 @@ export const payInvoice = ({
     if (infoSelectors.hasRouterSupport(getState())) {
       payload = {
         ...payload,
+        feeLimit,
         timeoutSeconds: PAYMENT_TIMEOUT,
       }
 

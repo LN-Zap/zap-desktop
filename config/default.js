@@ -103,8 +103,13 @@ module.exports = {
     useAddressFallback: false,
     retryCount: 2, // Number of retries for pay invoice failure
     feeIncrementExponent: 1.1, // Exponent applied to fee limit on payment retry attempts
-    probeTimeout: 30, // Upper limit on the amount of time (s) we should spend when attempting to probe the payment
-    paymentTimeout: 30, // Upper limit on the amount of time (s) we should spend when attempting to fulfill the payment
+  },
+
+  payments: {
+    timeout: 30, // Upper limit on the amount of time (s) we should spend when attempting to probe a payment
+    feeLimit: 1000, // Upper limit on the routing fees we should accept when sending payment without a limit
+    probeTimeout: 30, // Upper limit on the amount of time (s) we should spend when attempting to send a payment
+    probeFeeLimit: 1000, // Upper limit on the routing fees we want to consider in payment probes
   },
 
   autopay: {

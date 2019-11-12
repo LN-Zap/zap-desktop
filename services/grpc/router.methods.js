@@ -1,10 +1,16 @@
 import { randomBytes } from 'crypto'
 import config from 'config'
-import get from 'lodash/get'
+import defaults from 'lodash/defaults'
+import omitBy from 'lodash/omitBy'
+import isNil from 'lodash/isNil'
 import { grpcLog } from '@zap/utils/log'
 import { logGrpcCmd } from './helpers'
 
-const PAYMENT_PROBE_TIMEOUT = config.invoices.probeTimeout
+const PAYMENT_TIMEOUT = config.payments.timeout
+const PAYMENT_FEE_LIMIT = config.payments.feeLimit
+
+const PAYMENT_PROBE_TIMEOUT = config.payments.probeTimeout
+const PAYMENT_PROBE_FEE_LIMIT = config.payments.probeFeeLimit
 
 // ------------------------------------
 // Wrappers / Overrides
@@ -17,15 +23,15 @@ const PAYMENT_PROBE_TIMEOUT = config.invoices.probeTimeout
  * @returns {Promise} The route route when state is SUCCEEDED
  */
 async function probePayment(options) {
-  logGrpcCmd('Router.probePayment', options)
-
   // Use a payload that has the payment hash set to some random bytes.
   // This will cause the payment to fail at the final destination.
-  const payload = {
-    ...options,
+  const payload = defaults(omitBy(options, isNil), {
     payment_hash: new Uint8Array(randomBytes(32)),
-    timeout_seconds: get(options, 'timeout_seconds', PAYMENT_PROBE_TIMEOUT),
-  }
+    timeout_seconds: PAYMENT_PROBE_TIMEOUT,
+    fee_limit_sat: PAYMENT_PROBE_FEE_LIMIT,
+  })
+
+  logGrpcCmd('Router.probePayment', payload)
 
   let result
   let error
@@ -84,10 +90,17 @@ async function probePayment(options) {
 /**
  * sendPayment - Call lnd grpc sendPayment method.
  *
- * @param {object} payload Payload
+ * @param {object} options Options
  * @returns {Promise} Original payload augmented with lnd sendPayment response data
  */
-async function sendPayment(payload = {}) {
+async function sendPayment(options = {}) {
+  // Use a payload that has the payment hash set to some random bytes.
+  // This will cause the payment to fail at the final destination.
+  const payload = defaults(omitBy(options, isNil), {
+    timeout_seconds: PAYMENT_TIMEOUT,
+    fee_limit: PAYMENT_FEE_LIMIT,
+  })
+
   logGrpcCmd('Router.sendPayment', payload)
 
   // Our response will always include the original payload.
