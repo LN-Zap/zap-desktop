@@ -23,6 +23,6 @@ export default function useTimeout(callback, delay) {
       const id = setTimeout(tick, delay)
       return () => clearTimeout(id)
     }
-    return null
+    return undefined
   }, [delay])
 }
