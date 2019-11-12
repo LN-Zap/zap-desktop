@@ -190,7 +190,7 @@ export const sendCoins = ({
 /**
  * transactionSuccessful - Success handler for sendCoins.
  *
- * @param  {{ string }} addr Destination address
+ * @param  {{ string }} internalId transaction internal id
  * @returns {Function} Thunk
  */
 export const transactionSuccessful = ({ internalId }) => async (dispatch, getState) => {
@@ -210,10 +210,10 @@ export const transactionSuccessful = ({ internalId }) => async (dispatch, getSta
 }
 
 /**
- * transactionSuccessful - Error handler for sendCoins.
+ * transactionFailed - Error handler for sendCoins.
  *
  * @param  {object} details Details
- * @param  {{ string }} details.addr Destination address
+ * @param  {{ string }} details.internalId transaction internal id
  * @param  {{ string }} details.error Error message
  * @returns {Function} Thunk
  */
