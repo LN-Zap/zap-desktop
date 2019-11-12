@@ -154,35 +154,39 @@ class ZapGrpc extends EventEmitter {
     return proxyValue(this.grpc.waitForState(args))
   }
 
+  isSubscribed(subscription) {
+    return Boolean(this.activeSubscriptions[subscription])
+  }
+
   /**
    * subscribeAll - Subscribe to all gRPC streams.
    */
   async subscribeAll() {
     this.subscribe('invoices', 'transactions', 'backups')
 
-    const finalizeSubscriptions = () => {
-      this.subscribe({ name: 'info', params: { pollInterval: 60000 } })
-      this.subscribeChannelGraph()
+    // Finalize subscriptions if `data.synced_to_chain` is true.
+    // Returns true if subscriptions were finalized and false otherwise
+    const finalizeSubscriptions = async data => {
+      if (data && data.synced_to_chain) {
+        if (this.isSubscribed('info')) {
+          await this.unsubscribe('info')
+        }
+        this.subscribe({ name: 'info', params: { pollInterval: 60000 } })
+        this.subscribeChannelGraph()
+        return true
+      }
+      return false
     }
+
+    const data = await this.services.Lightning.getInfo()
 
     // If we are already fully synced set up finalize the subscriptions right away.
-    const info = await this.services.Lightning.getInfo()
-    if (info.synced_to_chain) {
-      finalizeSubscriptions()
-    }
+    if (!(await finalizeSubscriptions(data))) {
+      // Otherwise, set up a fast poling subscription to the info stream and finalize once the chain sync has completed.
+      // This is needed because LND chanRouter waits for chain sync to complete before accepting subscriptions.
 
-    // Otherwise, set up a fast poling subscription to the info stream and finalise once the chain sync has completed.
-    // This is needed because LND chanRouter waits for chain sync to complete before accepting subscriptions.
-    else {
-      this.subscribe('info')
-      this.on('subscribeGetInfo.data', async data => {
-        const { synced_to_chain } = data
-        if (synced_to_chain && !this.activeSubscriptions.channelgraph) {
-          // Once chain sync is complete cancael the fast polling and finalise the subscriptions.
-          await this.unsubscribe('info')
-          finalizeSubscriptions()
-        }
-      })
+      this.subscribe({ name: 'info', params: { pollImmediately: true } })
+      this.on('subscribeGetInfo.data', finalizeSubscriptions)
     }
   }
 
@@ -225,7 +229,7 @@ class ZapGrpc extends EventEmitter {
 
     // Close and clear subscriptions when they emit an end event.
     activeSubKeys.forEach(key => {
-      if (this.activeSubscriptions[key]) {
+      if (this.isSubscribed(key)) {
         grpcLog.warn(`Unable to subscribe to gRPC streams: %s (already active)`, key)
         return
       }
