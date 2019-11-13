@@ -130,45 +130,51 @@ class PayAmountFields extends React.Component {
 
     return (
       <ShowHideAmount context={this} state={amountFieldsDisplayState}>
-        {styles => (
-          <Box style={styles}>
-            <Bar my={3} variant="light" />
+        {styles =>
+          styles.display !== 'none' && (
+            <Box style={styles}>
+              <Bar my={3} variant="light" />
 
-            <CurrencyFieldGroup
-              formApi={formApi}
-              forwardedRef={this.amountInput}
-              initialAmountCrypto={initialAmountCrypto}
-              initialAmountFiat={initialAmountFiat}
-              isDisabled={currentStep !== PAY_FORM_STEPS.amount || isCoinSweep}
-              isRequired
-              onChange={this.updateFees}
-            />
+              <CurrencyFieldGroup
+                formApi={formApi}
+                forwardedRef={this.amountInput}
+                initialAmountCrypto={initialAmountCrypto}
+                initialAmountFiat={initialAmountFiat}
+                isDisabled={currentStep !== PAY_FORM_STEPS.amount || isCoinSweep}
+                isRequired
+                onChange={this.updateFees}
+              />
 
-            {isOnchain && (
-              <>
-                <Bar my={3} variant="light" />
+              {isOnchain && (
+                <>
+                  <Bar my={3} variant="light" />
 
-                <Flex alignItems="center" justifyContent="space-between">
-                  <Label htmlFor="isCoinSweep">
-                    <FormattedMessage {...messages.sweep_funds} />
-                  </Label>
-                  <Toggle field="isCoinSweep" id="isCoinSweep" onValueChange={this.setCoinSweep} />
-                </Flex>
+                  <Flex alignItems="center" justifyContent="space-between">
+                    <Label htmlFor="isCoinSweep">
+                      <FormattedMessage {...messages.sweep_funds} />
+                    </Label>
+                    <Toggle
+                      field="isCoinSweep"
+                      id="isCoinSweep"
+                      onValueChange={this.setCoinSweep}
+                    />
+                  </Flex>
 
-                <Bar my={3} variant="light" />
+                  <Bar my={3} variant="light" />
 
-                <TransactionFeeInput
-                  fee={this.getFee()}
-                  field="speed"
-                  isQueryingFees={isQueryingFees}
-                  label={intl.formatMessage({ ...messages.fee })}
-                  lndTargetConfirmations={lndTargetConfirmations}
-                  required
-                />
-              </>
-            )}
-          </Box>
-        )}
+                  <TransactionFeeInput
+                    fee={this.getFee()}
+                    field="speed"
+                    isQueryingFees={isQueryingFees}
+                    label={intl.formatMessage({ ...messages.fee })}
+                    lndTargetConfirmations={lndTargetConfirmations}
+                    required
+                  />
+                </>
+              )}
+            </Box>
+          )
+        }
       </ShowHideAmount>
     )
   }

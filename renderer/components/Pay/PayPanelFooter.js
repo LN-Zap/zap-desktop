@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass/styled-components'
 import { FormattedMessage, injectIntl } from 'react-intl'
+import { usePrevious } from 'hooks'
 import { intlShape } from '@zap/i18n'
 import { convert } from '@zap/utils/btc'
 import { CryptoValue } from 'containers/UI'
@@ -58,13 +59,20 @@ const PayPanelFooter = props => {
     cryptoUnitName,
     currentStep,
     formState,
-    isLn,
-    isOnchain,
     isProcessing,
     previousStep,
     walletBalanceConfirmed,
     intl,
   } = props
+  const prevStep = usePrevious(currentStep)
+  const [hasSubmitButton, setHasSubmitButton] = useState(false)
+
+  // Enable submit button if user has navigated between screens previously
+  // this is needed to hide submit button when form is pristine so the only
+  // available option for a user is pasting an invoice/address
+  if (!hasSubmitButton && prevStep && currentStep !== prevStep) {
+    setHasSubmitButton(true)
+  }
 
   const renderLiquidityWarning = props => {
     const { currentStep, maxOneTimeSend, cryptoUnit, isLn, amountInSats } = props
@@ -100,7 +108,6 @@ const PayPanelFooter = props => {
 
   // Determine which buttons should be visible.
   const hasBackButton = currentStep !== PAY_FORM_STEPS.address
-  const hasSubmitButton = currentStep !== PAY_FORM_STEPS.address || (isOnchain || isLn)
 
   return (
     <Flex flexDirection="column">
@@ -158,7 +165,6 @@ PayPanelFooter.propTypes = {
   intl: intlShape.isRequired,
   invoice: PropTypes.object,
   isLn: PropTypes.bool,
-  isOnchain: PropTypes.bool,
   isProcessing: PropTypes.bool,
   maxOneTimeSend: PropTypes.number.isRequired,
   previousStep: PropTypes.func.isRequired,

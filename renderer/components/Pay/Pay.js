@@ -416,7 +416,6 @@ class Pay extends React.Component {
                 formState={formState}
                 invoice={invoice}
                 isLn={isLn}
-                isOnchain={isOnchain}
                 isProcessing={isProcessing}
                 maxOneTimeSend={maxOneTimeSend}
                 previousStep={this.goToPreviousStep}
