@@ -7,6 +7,8 @@ import { Message } from 'components/UI'
 import TextArea from './TextArea'
 import messages from './messages'
 
+const mask = value => (value ? value.trim() : value)
+
 const validate = (intl, network, chain, value) => {
   if (value) {
     let chainName = `${chain}/lightning`
@@ -52,7 +54,7 @@ const LightningInvoiceInput = props => {
 
   return (
     <>
-      <TextArea validate={doValidate} {...props} validateOnBlur validateOnChange />
+      <TextArea mask={mask} validate={doValidate} {...props} validateOnBlur validateOnChange />
       {value && !fieldState.error && (
         <Message mt={2} variant="success">
           <FormattedMessage
