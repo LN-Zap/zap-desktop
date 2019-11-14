@@ -1,6 +1,6 @@
 import { send } from 'redux-electron-ipc'
 import { createSelector } from 'reselect'
-import { proxyValue } from 'comlinkjs'
+import { proxy } from 'comlink'
 import { neutrino } from 'workers'
 import createReducer from '@zap/utils/createReducer'
 import { getIntl } from '@zap/i18n'
@@ -156,13 +156,13 @@ export const neutrinoReset = () => {
 export const initNeutrino = () => async (dispatch, getState) => {
   neutrino.on(
     'NEUTRINO_WALLET_UNLOCKER_GRPC_ACTIVE',
-    proxyValue(() => {
+    proxy(() => {
       dispatch(setGrpcActiveInterface('walletUnlocker'))
     })
   )
   neutrino.on(
     'NEUTRINO_LIGHTNING_GRPC_ACTIVE',
-    proxyValue(() => {
+    proxy(() => {
       dispatch(setGrpcActiveInterface('lightning'))
     })
   )
@@ -170,7 +170,7 @@ export const initNeutrino = () => async (dispatch, getState) => {
   // Hook up event listeners for process termination.
   neutrino.on(
     'NEUTRINO_EXIT',
-    proxyValue(data => {
+    proxy(data => {
       // Notify the main process that the process has terminated.
       dispatch(send('processExit', { name: 'neutrino', ...data }))
 
@@ -185,41 +185,41 @@ export const initNeutrino = () => async (dispatch, getState) => {
   // Hook up event listeners for sync progress updates.
   neutrino.on(
     'NEUTRINO_GOT_CURRENT_BLOCK_HEIGHT',
-    proxyValue(height => dispatch(currentBlockHeight(height)))
+    proxy(height => dispatch(currentBlockHeight(height)))
   )
   neutrino.on(
     'NEUTRINO_GOT_LND_BLOCK_HEIGHT',
-    proxyValue(height => dispatch(neutrinoBlockHeight(height)))
+    proxy(height => dispatch(neutrinoBlockHeight(height)))
   )
   neutrino.on(
     'NEUTRINO_GOT_LND_CFILTER_HEIGHT',
-    proxyValue(height => dispatch(neutrinoCfilterHeight(height)))
+    proxy(height => dispatch(neutrinoCfilterHeight(height)))
   )
   neutrino.on(
     'NEUTRINO_GOT_WALLET_RECOVERY_HEIGHT',
-    proxyValue(height => dispatch(neutrinoRecoveryHeight(height)))
+    proxy(height => dispatch(neutrinoRecoveryHeight(height)))
   )
 
   // Hook up event listeners for sync status updates.
   neutrino.on(
     'NEUTRINO_CHAIN_SYNC_PENDING',
-    proxyValue(() => dispatch(neutrinoSyncStatus('NEUTRINO_CHAIN_SYNC_PENDING')))
+    proxy(() => dispatch(neutrinoSyncStatus('NEUTRINO_CHAIN_SYNC_PENDING')))
   )
   neutrino.on(
     'NEUTRINO_CHAIN_SYNC_WAITING',
-    proxyValue(() => dispatch(neutrinoSyncStatus('NEUTRINO_CHAIN_SYNC_WAITING')))
+    proxy(() => dispatch(neutrinoSyncStatus('NEUTRINO_CHAIN_SYNC_WAITING')))
   )
   neutrino.on(
     'NEUTRINO_CHAIN_SYNC_IN_PROGRESS',
-    proxyValue(() => dispatch(neutrinoSyncStatus('NEUTRINO_CHAIN_SYNC_IN_PROGRESS')))
+    proxy(() => dispatch(neutrinoSyncStatus('NEUTRINO_CHAIN_SYNC_IN_PROGRESS')))
   )
   neutrino.on(
     'NEUTRINO_WALLET_RECOVERY_IN_PROGRESS',
-    proxyValue(() => dispatch(neutrinoSyncStatus('NEUTRINO_WALLET_RECOVERY_IN_PROGRESS')))
+    proxy(() => dispatch(neutrinoSyncStatus('NEUTRINO_WALLET_RECOVERY_IN_PROGRESS')))
   )
   neutrino.on(
     'NEUTRINO_CHAIN_SYNC_COMPLETE',
-    proxyValue(() => dispatch(neutrinoSyncStatus('NEUTRINO_CHAIN_SYNC_COMPLETE')))
+    proxy(() => dispatch(neutrinoSyncStatus('NEUTRINO_CHAIN_SYNC_COMPLETE')))
   )
 }
 
@@ -244,7 +244,7 @@ export const startNeutrino = lndConfig => async (dispatch, getState) => {
       // If the services shuts down in the middle of starting up, abort the start process.
       neutrino.on(
         'NEUTRINO_SHUTDOWN',
-        proxyValue(() => {
+        proxy(() => {
           neutrino.removeAllListeners('NEUTRINO_SHUTDOWN')
           reject(new Error('Nuetrino was shut down mid-startup.'))
         })
@@ -252,7 +252,7 @@ export const startNeutrino = lndConfig => async (dispatch, getState) => {
       // Resolve as soon as the wallet unlocker interfave is active.
       neutrino.on(
         'NEUTRINO_WALLET_UNLOCKER_GRPC_ACTIVE',
-        proxyValue(() => {
+        proxy(() => {
           neutrino.removeAllListeners('NEUTRINO_SHUTDOWN')
           resolve()
         })

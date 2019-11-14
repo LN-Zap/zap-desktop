@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-globals */
 
-import { expose } from 'comlinkjs'
+import { expose } from 'comlink'
 import * as Protobuf from 'protobufjs'
 import Long from 'long'
 import ZapGrpc from '@zap/services/grpc/grpc'
