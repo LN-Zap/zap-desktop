@@ -353,6 +353,7 @@ class Wizard extends React.Component {
             canSkip: this.canSkip,
             getState: () => this.state,
           },
+          formApi: this.formApi,
           wizardState: this.state,
           steps,
         }}
