@@ -1,9 +1,10 @@
 /* eslint-disable react/no-multi-comp */
 
-import React, { createContext } from 'react'
+import React, { createContext, useRef, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { Transition, config } from 'react-spring/renderprops.cjs'
 import { Box, Flex } from 'rebass/styled-components'
+import { useOnKeydown } from 'hooks'
 import ArrowLeft from 'components/Icon/ArrowLeft'
 import ArrowRight from 'components/Icon/ArrowRight'
 import Button from './Button'
@@ -75,49 +76,55 @@ SkipButton.propTypes = {
   children: PropTypes.node,
 }
 
-class NextButton extends React.Component {
-  static propTypes = {
-    children: PropTypes.node,
-    navigateTo: PropTypes.number,
-  }
+const NextButton = props => {
+  const { children, navigateTo } = props
+  const formApiRef = useRef(null)
+  const onEnter = useCallback(() => {
+    const { current: formApi } = formApiRef
+    if (formApi) {
+      formApi.submitForm()
+    }
+  }, [formApiRef])
+  useOnKeydown('Enter', onEnter, true)
+  return (
+    <WizardContext.Consumer>
+      {({ wizardApi, wizardState, formApi }) => {
+        const { formState } = wizardState
+        formApiRef.current = formApi
+        return (
+          <Button
+            isDisabled={wizardState.isSubmitting || (formState && formState.invalid)}
+            isProcessing={wizardState.isSubmitting}
+            onClick={() => {
+              if (navigateTo === null) {
+                wizardApi.next()
+              } else {
+                wizardApi.navigateTo(navigateTo)
+              }
+            }}
+            type="submit"
+          >
+            <Flex>
+              <Box mr={1}>{children}</Box>
+              <Box>
+                <ArrowRight />
+              </Box>
+            </Flex>
+          </Button>
+        )
+      }}
+    </WizardContext.Consumer>
+  )
+}
 
-  static defaultProps = {
-    children: 'Next',
-    navigateTo: null,
-  }
+NextButton.propTypes = {
+  children: PropTypes.node,
+  navigateTo: PropTypes.number,
+}
 
-  render() {
-    const { children, navigateTo } = this.props
-
-    return (
-      <WizardContext.Consumer>
-        {({ wizardApi, wizardState }) => {
-          const { formState } = wizardState
-          return (
-            <Button
-              isDisabled={wizardState.isSubmitting || (formState && formState.invalid)}
-              isProcessing={wizardState.isSubmitting}
-              onClick={() => {
-                if (navigateTo === null) {
-                  wizardApi.next()
-                } else {
-                  wizardApi.navigateTo(navigateTo)
-                }
-              }}
-              type="submit"
-            >
-              <Flex>
-                <Box mr={1}>{children}</Box>
-                <Box>
-                  <ArrowRight />
-                </Box>
-              </Flex>
-            </Button>
-          )
-        }}
-      </WizardContext.Consumer>
-    )
-  }
+NextButton.defaultProps = {
+  children: 'Next',
+  navigateTo: null,
 }
 
 class BackButton extends React.Component {
@@ -353,6 +360,7 @@ class Wizard extends React.Component {
             canSkip: this.canSkip,
             getState: () => this.state,
           },
+          formApi: this.formApi,
           wizardState: this.state,
           steps,
         }}
