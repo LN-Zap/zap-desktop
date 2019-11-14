@@ -1,152 +1,306 @@
-/* eslint-disable */
-
-import sb from 'satoshi-bitcoin'
+/* eslint-disable curly */
+import Coin, { CoinBig } from '@zap/utils/coin'
 
 const isEmptyAmount = amount => amount === undefined || amount === null || amount === ''
 
-//////////////////////
-// BTC to things /////
-/////////////////////
+// ------------------------------------
+// BTC to things
+// ------------------------------------
+
+/**
+ * btcToBits - Convert btc to bits.
+ *
+ * @param  {string|number} btc Amount in btc
+ * @returns {string} Amount in bits
+ */
 export function btcToBits(btc) {
   if (isEmptyAmount(btc)) return null
 
-  return satoshisToBits(Number(sb.toSatoshi(btc))) || 0
+  return Coin(btc)
+    .multiply(1000000)
+    .toString()
 }
 
+/**
+ * btcToSatoshis - Convert btc to satoshis.
+ *
+ * @param  {string|number} btc Amount in btc
+ * @returns {string} Amount in satoshis
+ */
 export function btcToSatoshis(btc) {
   if (isEmptyAmount(btc)) return null
 
-  return Number(sb.toSatoshi(btc)) || 0
+  return Coin(btc)
+    .multiply(100000000)
+    .toString()
 }
 
+/**
+ * btcToMillisatoshis - Convert btc to millisatoshis.
+ *
+ * @param  {string|number} btc Amount in btc
+ * @returns {string} Amount in millisatoshis
+ */
 export function btcToMillisatoshis(btc) {
   if (isEmptyAmount(btc)) return null
 
-  const satoshiAmount = Number(sb.toSatoshi(btc))
-  return satoshisToMillisatoshis(satoshiAmount) || 0
+  return Coin(btc, 11)
+    .multiply(100000000000)
+    .toString()
 }
 
+/**
+ * btcToFiat - Convert btc to fiat.
+ *
+ * @param  {string|number} btc Amount in btc
+ * @param  {string|number} price Exchange rate
+ * @returns {string} Amount in fiat
+ */
 export function btcToFiat(btc, price) {
   if (isEmptyAmount(btc)) return null
 
-  return Math.round(btc * price * 100) / 100
+  return Coin(btc)
+    .multiply(price)
+    .toPrecision(2)
+    .toString()
 }
 
-////////////////////////////
-// bits to things /////////
-//////////////////////////
+// ------------------------------------
+// Bits to things
+// ------------------------------------
 
-export function bitsToBtc(bits, price) {
+/**
+ * bitsToBtc - Convert bits to btc.
+ *
+ * @param  {string|number} bits Amount in bits
+ * @returns {string} Amount in btc
+ */
+export function bitsToBtc(bits) {
   if (isEmptyAmount(bits)) return null
-  const sats = bits * 100
 
-  return satoshisToBtc(sats) || 0
+  const btc = CoinBig(bits).dividedBy(1000000)
+  return Coin(btc).toString()
 }
 
+/**
+ * bitsToSatoshis - Convert bits to satoshis.
+ *
+ * @param  {string|number} bits Amount in bits
+ * @returns {string} Amount in satoshis
+ */
 export function bitsToSatoshis(bits) {
   if (isEmptyAmount(bits)) return null
 
-  return bits * 100 || 0
+  const btc = bitsToBtc(bits)
+  return btcToSatoshis(btc)
 }
 
+/**
+ * bitsToMillisatoshis - Convert bits to msats.
+ *
+ * @param  {string|number} bits Amount in msats
+ * @returns {string} Amount in msats
+ */
 export function bitsToMillisatoshis(bits) {
   if (isEmptyAmount(bits)) return null
 
-  return bits * 100 * 1000 || 0
+  return CoinBig(bits)
+    .multipliedBy(100000)
+    .toString()
 }
 
+/**
+ * bitsToFiat - Convert bits to fiat.
+ *
+ * @param  {string|number} bits Amount in bits
+ * @param  {string|number} price Exchange rate
+ * @returns {string} Amount in fiat
+ */
 export function bitsToFiat(bits, price) {
   if (isEmptyAmount(bits)) return null
-  const sats = bits * 100
 
-  return satoshisToFiat(sats, price) || 0
+  const btc = bitsToBtc(bits)
+  return btcToFiat(btc, price)
 }
 
-////////////////////////////
-// satoshis to things /////
-//////////////////////////
+// ------------------------------------
+// Satoshi to things
+// ------------------------------------
 
+/**
+ * satoshisToBtc - Convert satoshis to btc.
+ *
+ * @param  {string|number} satoshis Amount in satoshis
+ * @returns {string} Amount in btc
+ */
 export function satoshisToBtc(satoshis) {
   if (isEmptyAmount(satoshis)) return null
 
-  // Make sure we are not passing a non-whole number to sb.toBitcoin(). If the number isn't whole we round up
-  const numSats = satoshis % 1 === 0 ? satoshis : Math.ceil(satoshis)
-
-  return sb.toBitcoin(numSats) || 0
+  const btc = CoinBig(satoshis).dividedBy(100000000)
+  return Coin(btc).toString()
 }
 
+/**
+ * satoshisToBits - Convert satoshis to bits.
+ *
+ * @param  {string|number} satoshis Amount in satoshis
+ * @returns {string} Amount in bits
+ */
 export function satoshisToBits(satoshis) {
   if (isEmptyAmount(satoshis)) return null
 
-  return satoshis / 100 || 0
+  const btc = satoshisToBtc(satoshis)
+  return btcToBits(btc)
 }
 
+/**
+ * satoshisToMillisatoshis - Convert satoshis to msats.
+ *
+ * @param  {string|number} satoshis Amount in satoshis
+ * @returns {string} Amount in msats
+ */
 export function satoshisToMillisatoshis(satoshis) {
   if (isEmptyAmount(satoshis)) return null
 
-  return satoshis * 1000 || 0
+  const btc = satoshisToBtc(satoshis)
+  return btcToMillisatoshis(btc)
 }
 
+/**
+ * satoshisToFiat - convert satoshis to fiat.
+ *
+ * @param  {string|number} satoshis Amount in satoshis
+ * @param  {string|number} price Exchange rate
+ * @returns {string} Amount in fiat
+ */
 export function satoshisToFiat(satoshis, price) {
   if (isEmptyAmount(satoshis)) return null
 
-  return btcToFiat(satoshisToBtc(satoshis), price) || 0
+  const btc = satoshisToBtc(satoshis)
+  return btcToFiat(btc, price) || 0
 }
 
-///////////////////////////////
-// millisatoshis to things ////
-///////////////////////////////
+// ------------------------------------
+// Millisatoshi to things
+// ------------------------------------
 
+/**
+ * millisatoshisToBtc - Convert msats to btc.
+ *
+ * @param  {string|number} msats Amount in msats
+ * @returns {string} Amount in btc
+ */
 export function millisatoshisToBtc(msats) {
   if (isEmptyAmount(msats)) return null
 
-  const satoshis = millisatoshisToSatoshis(msats)
-  return sb.toBitcoin(satoshis) || 0
+  const btc = CoinBig(msats).dividedBy(100000000000)
+  return Coin(btc).toString()
 }
 
+/**
+ * millisatoshisToBits - Convert msats to bits.
+ *
+ * @param  {string|number} msats Amount in msats
+ * @returns {string} Amount in bits
+ */
 export function millisatoshisToBits(msats) {
   if (isEmptyAmount(msats)) return null
 
-  const satsAmount = millisatoshisToSatoshis(msats)
-  return satoshisToBits(satsAmount) || 0
+  const btc = millisatoshisToBtc(msats)
+  return btcToBits(btc)
 }
 
+/**
+ * millisatoshisToSatoshis - Convert msats to satoshis.
+ *
+ * @param  {string|number} msats Amount in msats
+ * @returns {string} Amount in satoshis
+ */
 export function millisatoshisToSatoshis(msats) {
   if (isEmptyAmount(msats)) return null
 
-  return msats / 1000 || 0
+  const btc = millisatoshisToBtc(msats)
+  return btcToSatoshis(btc)
 }
 
+/**
+ * millisatoshisToFiat - convert msats to fiat.
+ *
+ * @param  {string|number} msats Amount in msats
+ * @param  {string|number} price Exchange rate
+ * @returns {string} Amount in fiat
+ */
 export function millisatoshisToFiat(msats, price) {
   if (isEmptyAmount(msats)) return null
 
-  return btcToFiat(millisatoshisToBtc(msats), price) || 0
+  const btc = millisatoshisToBtc(msats)
+  return btcToFiat(btc, price) || 0
 }
 
-////////////////////////////
-// fiat to things /////
-//////////////////////////
-//////////////////////////
+// ------------------------------------
+// Fiat to things
+// ------------------------------------
+
+/**
+ * fiatToBtc - Convert fiat to btc.
+ *
+ * @param  {string|number} fiat Amount in fiat
+ * @param  {string|number} price Exchange rate
+ * @returns {string} Amount in btc
+ */
 export function fiatToBtc(fiat, price) {
   if (isEmptyAmount(fiat) || !price) return null
 
-  return Number(fiat / price)
+  return CoinBig(fiat)
+    .dividedBy(CoinBig(price))
+    .toString()
 }
 
+/**
+ * fiatToBtc - Convert fiat to bits.
+ *
+ * @param  {string|number} fiat Amount in fiat
+ * @param  {string|number} price Exchange rate
+ * @returns {string} Amount in bits
+ */
 export function fiatToBits(fiat, price) {
-  return btcToBits(fiatToBtc(fiat, price))
+  const btc = fiatToBtc(fiat, price)
+  return btcToBits(btc)
 }
 
+/**
+ * fiatToBtc - Convert fiat to satoshis.
+ *
+ * @param  {string|number} fiat Amount in fiat
+ * @param  {string|number} price Exchange rate
+ * @returns {string} Amount in satoshis
+ */
 export function fiatToSatoshis(fiat, price) {
-  const btcAmount = fiatToBtc(fiat, price)
-  return btcToSatoshis(btcAmount)
+  const btc = fiatToBtc(fiat, price)
+  return btcToSatoshis(btc)
 }
 
+/**
+ * fiatToBtc - Convert fiat to msats.
+ *
+ * @param  {string|number} fiat Amount in fiat
+ * @param  {string|number} price Exchange rate
+ * @returns {string} Amount in msats
+ */
 export function fiatToMilliSatoshis(fiat, price) {
-  const btcAmount = fiatToBtc(fiat, price)
-  return btcToMillisatoshis(btcAmount)
+  const btc = fiatToBtc(fiat, price)
+  return btcToMillisatoshis(btc)
 }
 
+/**
+ * convert - Convert between units.
+ *
+ * @param  {'btc|bits|sats|msats|fiat'} from Base unit
+ * @param  {'btc|bits|sats|msats|fiat'} to Target unit
+ * @param  {string|number} amount Amount in base unit
+ * @param  {string|number} price Exchange rate (used for fiat conversions)
+ * @returns {string} Amount in target unit
+ */
 export function convert(from, to, amount, price) {
   switch (from) {
     case 'btc':
@@ -160,9 +314,11 @@ export function convert(from, to, amount, price) {
         case 'fiat':
           return btcToFiat(amount, price)
         case 'btc':
-          return Number(amount)
+          return CoinBig(amount).toString()
+        default:
+          return undefined
       }
-      break
+
     case 'bits':
       switch (to) {
         case 'btc':
@@ -174,9 +330,11 @@ export function convert(from, to, amount, price) {
         case 'fiat':
           return bitsToFiat(amount, price)
         case 'bits':
-          return Number(amount)
+          return CoinBig(amount).toString()
+        default:
+          return undefined
       }
-      break
+
     case 'sats':
       switch (to) {
         case 'btc':
@@ -188,9 +346,11 @@ export function convert(from, to, amount, price) {
         case 'fiat':
           return satoshisToFiat(amount, price)
         case 'sats':
-          return Number(amount)
+          return CoinBig(amount).toString()
+        default:
+          return undefined
       }
-      break
+
     case 'msats':
       switch (to) {
         case 'btc':
@@ -202,9 +362,11 @@ export function convert(from, to, amount, price) {
         case 'fiat':
           return millisatoshisToFiat(amount, price)
         case 'msats':
-          return Number(amount)
+          return CoinBig(amount).toString()
+        default:
+          return undefined
       }
-      break
+
     case 'fiat':
       switch (to) {
         case 'btc':
@@ -216,10 +378,13 @@ export function convert(from, to, amount, price) {
         case 'msats':
           return fiatToMilliSatoshis(amount, price)
         case 'fiat':
-          return Number(amount)
+          return CoinBig(amount).toString()
+        default:
+          return undefined
       }
+
     default:
-      return ''
+      return undefined
   }
 }
 
@@ -239,5 +404,10 @@ export default {
   satoshisToMillisatoshis,
   satoshisToFiat,
 
-  convert
+  millisatoshisToBtc,
+  millisatoshisToBits,
+  millisatoshisToSatoshis,
+  millisatoshisToFiat,
+
+  convert,
 }
