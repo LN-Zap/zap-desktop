@@ -11,6 +11,7 @@ import createScheduler from '@zap/utils/scheduler'
  * @param {string} streamDefinition.dataEventName - event name to that it used to dispatch `data` event,
  * @param {string} streamDefinition.errorEventName - event name to that it used to dispatch `error` event,
  * @param {number} streamDefinition.pollInterval - how frequent to execute `command`,
+ * @param {number} streamDefinition.pollImmediately - execute `command` immediately after stream construction,
  * @param {boolean} streamDefinition.cancelOnError - if `cancel` should be called when `command` throws an exception,
  * @returns {*} - returns stream-like object that has `on` and `cancel` methods
  */
@@ -19,6 +20,7 @@ export default function streamify({
   dataEventName,
   errorEventName,
   pollInterval,
+  pollImmediately,
   cancelOnError,
 }) {
   // internal emitter to create stream-like behavior
@@ -47,7 +49,7 @@ export default function streamify({
     }
   }
 
-  scheduler.addTask({ task, baseDelay: pollInterval })
+  scheduler.addTask({ task, baseDelay: pollInterval, runImmediately: pollImmediately })
 
   return emitter
 }

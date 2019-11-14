@@ -23,7 +23,7 @@ async function retry({
       const task = getTask()
       task && task()
     } finally {
-      // re-schedule next execution regardless of task result
+      // Re-schedule next execution regardless of task result.
       const nextDelay = baseDelay * backoff
       retry({
         getTask,
@@ -46,7 +46,7 @@ async function retry({
 export default function createScheduler() {
   const taskList = {}
   const cancelledTasks = {}
-  // internal task id generator
+  // Internal task id generator.
   let taskIdGen = 0
 
   /**
@@ -76,13 +76,13 @@ export default function createScheduler() {
    * @returns {*} Task definition
    */
   const findTask = task => {
-    // search by taskId first
+    // Search by taskId first.
     const { [task]: taskDesc } = taskList
     if (taskDesc) {
       return taskDesc
     }
 
-    // else try to find by task callback
+    // Else try to find by task callback.
     return Object.values(taskList).find(entry => entry.taskId === task || entry.task === task)
   }
 
@@ -107,16 +107,18 @@ export default function createScheduler() {
    * @param {number} taskDefinition.backoff delay multiplier. Is multiplies `baseDelay` to
    * produce next iteration delay. Use 1 for constant delay
    * @param {number} taskDefinition.maxDelay maximum delay. Only useful if `@backoff` is set
+   * @param {number} taskDefinition.runImmediately execute `task` immediately after it's added
+   * without waiting `baseDelay` to lapse
    */
-  const addTask = ({ task, taskId, baseDelay, maxDelay, backoff = 1 }) => {
-    // if we are scheduling under the existing `taskId` cancel prev one first
+  const addTask = ({ task, taskId, baseDelay, maxDelay, backoff = 1, runImmediately = false }) => {
+    // If we are scheduling under the existing `taskId` cancel prev one first.
     if (taskId && isScheduled(taskId)) {
       removeTask(taskId)
     }
 
-    // general unique task id so we can keep
+    // General unique task id so we can keep
     // track of its state even after it's removed from
-    // the processing queue
+    // the processing queue.
     const internalId = genInternalId()
 
     const checkIsCancelled = () => isCancelled(internalId) || !isScheduled(internalId)
@@ -127,6 +129,9 @@ export default function createScheduler() {
       const taskDesc = findTask(internalId)
       return taskDesc && taskDesc.task
     }
+
+    // Immediate execution if requested.
+    runImmediately && task && task()
 
     retry({
       getTask,

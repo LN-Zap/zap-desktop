@@ -154,23 +154,40 @@ class ZapGrpc extends EventEmitter {
     return proxyValue(this.grpc.waitForState(args))
   }
 
+  isSubscribed(subscription) {
+    return Boolean(this.activeSubscriptions[subscription])
+  }
+
   /**
    * subscribeAll - Subscribe to all gRPC streams.
    */
-  subscribeAll() {
-    this.subscribe('invoices', 'transactions', 'info', 'backups')
+  async subscribeAll() {
+    this.subscribe('invoices', 'transactions', 'backups')
 
-    // Subscribe to graph updates only after sync is complete. This is needed because LND chanRouter waits for chain
-    // sync to complete before accepting subscriptions.
-    this.on('subscribeGetInfo.data', async data => {
-      const { synced_to_chain } = data
-      if (synced_to_chain && !this.activeSubscriptions.channelgraph) {
-        // reduce poll interval to once a minute after synced_to_chain is true
-        await this.unsubscribe('info')
+    // Finalize subscriptions if `data.synced_to_chain` is true.
+    // Returns true if subscriptions were finalized and false otherwise
+    const finalizeSubscriptions = async data => {
+      if (data && data.synced_to_chain) {
+        if (this.isSubscribed('info')) {
+          await this.unsubscribe('info')
+        }
         this.subscribe({ name: 'info', params: { pollInterval: 60000 } })
         this.subscribeChannelGraph()
+        return true
       }
-    })
+      return false
+    }
+
+    const data = await this.services.Lightning.getInfo()
+
+    // If we are already fully synced set up finalize the subscriptions right away.
+    if (!(await finalizeSubscriptions(data))) {
+      // Otherwise, set up a fast poling subscription to the info stream and finalize once the chain sync has completed.
+      // This is needed because LND chanRouter waits for chain sync to complete before accepting subscriptions.
+
+      this.subscribe({ name: 'info', params: { pollImmediately: true } })
+      this.on('subscribeGetInfo.data', finalizeSubscriptions)
+    }
   }
 
   /**
@@ -212,7 +229,7 @@ class ZapGrpc extends EventEmitter {
 
     // Close and clear subscriptions when they emit an end event.
     activeSubKeys.forEach(key => {
-      if (this.activeSubscriptions[key]) {
+      if (this.isSubscribed(key)) {
         grpcLog.warn(`Unable to subscribe to gRPC streams: %s (already active)`, key)
         return
       }
