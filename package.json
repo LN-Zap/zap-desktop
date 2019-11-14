@@ -367,7 +367,6 @@
     "redux-electron-ipc": "https://github.com/LN-Zap/redux-electron-ipc#b513220d085ad3e96e459d7efcdfc37bf75417b6",
     "redux-thunk": "2.3.0",
     "reselect": "4.0.0",
-    "satoshi-bitcoin": "1.0.4",
     "semver": "6.3.0",
     "source-map-support": "0.5.16",
     "split2": "3.1.1",

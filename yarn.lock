@@ -15399,13 +15399,6 @@ sanitize-filename@^1.6.0, sanitize-filename@^1.6.2, sanitize-filename@^1.6.3:
   dependencies:
     truncate-utf8-bytes "^1.0.0"
 
-satoshi-bitcoin@1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/satoshi-bitcoin/-/satoshi-bitcoin-1.0.4.tgz#d002b677075d5cbbf2c211a8df3254bcdf50b1e4"
-  integrity sha1-0AK2dwddXLvywhGo3zJUvN9QseQ=
-  dependencies:
-    big.js "^3.1.3"
-
 sax@^1.2.4, sax@~1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
