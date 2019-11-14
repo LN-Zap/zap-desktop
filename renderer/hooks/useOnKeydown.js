@@ -5,10 +5,12 @@ import { useEffect } from 'react'
  *
  * @param {string} key Key pressed
  * @param {Function} action Action to perform on keydown
+ * @param {boolean} preventDefault Whether event default should be prevented when hook triggers `action`
  */
-export default function useOnKeydown(key, action) {
+export default function useOnKeydown(key, action, preventDefault = false) {
   const onKeyDown = e => {
     if (e.key === key && action) {
+      preventDefault && e.preventDefault()
       action()
     }
   }
