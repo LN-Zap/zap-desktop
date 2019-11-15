@@ -135,7 +135,7 @@
   "components.Channels.channel_sort_name": "",
   "components.Channels.channel_sort_open_date": "",
   "components.Channels.channel_sort_remote_balance": "",
-  "components.Channels.channels": "",
+  "components.Channels.channels": "Canali",
   "components.Channels.channels_filter_hint": "",
   "components.Channels.close_button": "Chiudi Canale",
   "components.Channels.close_channel_dialog_acknowledgement": "",
