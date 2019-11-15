@@ -4,6 +4,7 @@ import range from 'lodash/range'
 import { address } from 'bitcoinjs-lib'
 import lightningRequestReq from 'bolt11'
 import coininfo from 'coininfo'
+import { CoinBig } from '@zap/utils/coin'
 
 export const networks = {
   bitcoin: {
@@ -113,7 +114,7 @@ export const parseNumber = (_value, precision) => {
   }
   let integer = null
   let fractional = null
-  if (value * 1.0 < 0) {
+  if (CoinBig(value).lt(0)) {
     value = '0.0'
   }
   // parse integer and fractional value so that we can reproduce the same string value afterwards

@@ -52,19 +52,19 @@ const decorateInvoice = invoice => {
     type: 'invoice',
   }
 
+  const { amt_paid, amt_paid_sat, value, amt_paid_msat } = invoice
+
   // Older versions of lnd provided the sat amount in `value`.
   // This is now deprecated in favor of `value_sat` and `value_msat`.
   // Patch data returned from older clients to match the current format for consistency.
-  const { amt_paid } = invoice
-  if (amt_paid && (!invoice.amt_paid_sat || !invoice.amt_paid_msat)) {
+  if (amt_paid && (!amt_paid_sat || !amt_paid_msat)) {
     Object.assign(decoration, {
       amt_paid_sat: amt_paid,
       amt_paid_msat: convert('sats', 'msats', amt_paid),
     })
   }
 
-  // Add a `finalAmount` prop which shows the amount paid if set, or the invoice value if not.
-  decoration.finalAmount = invoice.amt_paid_sat ? invoice.amt_paid_sat : invoice.value
+  decoration.finalAmount = amt_paid_sat && amt_paid_sat !== '0' ? amt_paid_sat : value
 
   // Add an `isExpired` prop which shows whether the invoice is expired or not.
   const expiresAt = parseInt(invoice.creation_date, 10) + parseInt(invoice.expiry, 10)

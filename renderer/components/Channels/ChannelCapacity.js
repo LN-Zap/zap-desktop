@@ -4,6 +4,7 @@ import { opacity } from 'styled-system'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Card, Box, Flex as BaseFlex } from 'rebass/styled-components'
+import { CoinBig } from '@zap/utils/coin'
 import { Heading, ProgressBar, Text as BaseText } from 'components/UI'
 import { CryptoSelector, CryptoValue } from 'containers/UI'
 import ZapSolid from 'components/Icon/ZapSolid'
@@ -13,9 +14,13 @@ const Flex = styled(BaseFlex)(opacity)
 const Text = styled(BaseText)(opacity)
 
 const ChannelCapacity = ({ localBalance, remoteBalance, opacity, ...rest }) => {
-  const totalBalance = localBalance + remoteBalance
-  const localBalancePercent = localBalance / totalBalance
-  const remoteBalancePercent = remoteBalance / totalBalance
+  const local = CoinBig(localBalance)
+  const remote = CoinBig(remoteBalance)
+  const total = CoinBig.sum(local, remote)
+
+  const totalBalance = total.toString()
+  const localBalancePercent = local.dividedBy(total).toNumber()
+  const remoteBalancePercent = remote.dividedBy(total).toNumber()
 
   return (
     <Card as="article" {...rest}>
