@@ -22,13 +22,13 @@ describe('reducers', () => {
       const action = {
         type: FETCH_BALANCE_SUCCESS,
         walletBalance: {
-          total_balance: 1,
-          confirmed_balance: 1,
-          unconfirmed_balance: 1,
+          total_balance: '1',
+          confirmed_balance: '1',
+          unconfirmed_balance: '1',
         },
         channelBalance: {
-          balance: 1,
-          pending_open_balance: 1,
+          balance: '1',
+          pending_open_balance: '1',
         },
       }
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()

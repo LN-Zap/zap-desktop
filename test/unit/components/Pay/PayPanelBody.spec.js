@@ -5,12 +5,13 @@ import { PayPanelBody } from 'components/Pay'
 import { PAY_FORM_STEPS } from 'components/Pay/constants'
 
 const props = {
-  amountInSats: 1,
+  amountInSats: '1',
   chain: 'testnet',
   chainName: 'Bitcoin',
   cryptoUnit: 'sats',
   cryptoUnitName: 'satoshi',
   formApi: {},
+  formState: {},
   handlePayReqChange: () => {},
   intl: {},
   lndTargetConfirmations: {
@@ -20,7 +21,7 @@ const props = {
   },
   network: '',
   queryFees: () => {},
-  walletBalanceConfirmed: 1,
+  walletBalanceConfirmed: '1',
 }
 
 describe('component.Pay.PayPanelBody', () => {

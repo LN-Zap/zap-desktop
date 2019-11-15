@@ -45,17 +45,17 @@ Snapshot Diff:
 -   "channelBalance": null,
 -   "channelBalanceConfirmed": null,
 -   "channelBalancePending": null,
-+   "channelBalance": 2,
-+   "channelBalanceConfirmed": 1,
-+   "channelBalancePending": 1,
++   "channelBalance": "2",
++   "channelBalanceConfirmed": "1",
++   "channelBalancePending": "1",
     "fetchBalanceError": null,
     "isBalanceLoading": false,
 -   "walletBalance": null,
 -   "walletBalanceConfirmed": null,
 -   "walletBalanceUnconfirmed": null,
-+   "walletBalance": 1,
-+   "walletBalanceConfirmed": 1,
-+   "walletBalanceUnconfirmed": 1,
++   "walletBalance": "1",
++   "walletBalanceConfirmed": "1",
++   "walletBalanceUnconfirmed": "1",
   }
 `;
 
