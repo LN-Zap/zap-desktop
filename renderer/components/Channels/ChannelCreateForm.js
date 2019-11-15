@@ -67,7 +67,7 @@ const FormFooter = ({ walletBalance, cryptoUnitName }) => (
 
 FormFooter.propTypes = {
   cryptoUnitName: PropTypes.string.isRequired,
-  walletBalance: PropTypes.number.isRequired,
+  walletBalance: PropTypes.string.isRequired,
 }
 
 class ChannelCreateForm extends React.Component {
@@ -103,7 +103,7 @@ class ChannelCreateForm extends React.Component {
     searchQuery: PropTypes.string,
     selectedNodeDisplayName: PropTypes.string,
     updateContactFormSearchQuery: PropTypes.func.isRequired,
-    walletBalance: PropTypes.number.isRequired,
+    walletBalance: PropTypes.string.isRequired,
   }
 
   static defaultProps = {

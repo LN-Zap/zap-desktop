@@ -38,8 +38,8 @@ const ChannelsSummaryDonut = ({ sendCapacity, receiveCapacity, ...rest }) => {
 }
 
 ChannelsSummaryDonut.propTypes = {
-  receiveCapacity: PropTypes.number.isRequired,
-  sendCapacity: PropTypes.number.isRequired,
+  receiveCapacity: PropTypes.string.isRequired,
+  sendCapacity: PropTypes.string.isRequired,
 }
 
 export default ChannelsSummaryDonut

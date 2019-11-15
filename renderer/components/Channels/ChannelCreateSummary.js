@@ -99,8 +99,8 @@ const ChannelCreateSummary = ({
 }
 
 ChannelCreateSummary.propTypes = {
-  amount: PropTypes.number,
-  fee: PropTypes.number.isRequired,
+  amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  fee: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   lndTargetConfirmations: PropTypes.object.isRequired,
   nodeDisplayName: PropTypes.string,
   nodePubkey: PropTypes.string.isRequired,

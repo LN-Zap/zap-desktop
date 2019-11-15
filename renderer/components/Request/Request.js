@@ -33,7 +33,7 @@ class Request extends React.Component {
     invoice: PropTypes.object,
     isAnimating: PropTypes.bool,
     isProcessing: PropTypes.bool,
-    maxOneTimeReceive: PropTypes.number.isRequired,
+    maxOneTimeReceive: PropTypes.string.isRequired,
     payReq: PropTypes.string,
     showError: PropTypes.func.isRequired,
     showNotification: PropTypes.func.isRequired,

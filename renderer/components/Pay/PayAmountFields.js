@@ -64,7 +64,7 @@ class PayAmountFields extends React.Component {
       slow: PropTypes.number,
     }),
     queryFees: PropTypes.func.isRequired,
-    walletBalanceConfirmed: PropTypes.number.isRequired,
+    walletBalanceConfirmed: PropTypes.string.isRequired,
   }
 
   static defaultProps = {

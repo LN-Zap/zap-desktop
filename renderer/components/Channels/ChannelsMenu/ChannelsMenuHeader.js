@@ -32,9 +32,9 @@ const ChannelsMenuHeader = ({
 
 ChannelsMenuHeader.propTypes = {
   channelCount: PropTypes.number.isRequired,
-  lightningBalance: PropTypes.number.isRequired,
-  onchainBalance: PropTypes.number.isRequired,
-  pendingBalance: PropTypes.number.isRequired,
+  lightningBalance: PropTypes.string.isRequired,
+  onchainBalance: PropTypes.string.isRequired,
+  pendingBalance: PropTypes.string.isRequired,
 }
 
 export default ChannelsMenuHeader

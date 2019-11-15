@@ -74,9 +74,9 @@ const ChannelCapacity = ({ localBalance, remoteBalance, opacity, ...rest }) => {
 }
 
 ChannelCapacity.propTypes = {
-  localBalance: PropTypes.number.isRequired,
+  localBalance: PropTypes.string.isRequired,
   opacity: PropTypes.number,
-  remoteBalance: PropTypes.number.isRequired,
+  remoteBalance: PropTypes.string.isRequired,
 }
 
 export default ChannelCapacity

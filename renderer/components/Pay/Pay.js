@@ -17,7 +17,7 @@ class Pay extends React.Component {
     addFilter: PropTypes.func.isRequired,
     chain: PropTypes.string.isRequired,
     chainName: PropTypes.string.isRequired,
-    channelBalance: PropTypes.number.isRequired,
+    channelBalance: PropTypes.string.isRequired,
     closeModal: PropTypes.func.isRequired,
     cryptoUnit: PropTypes.string.isRequired,
     cryptoUnitName: PropTypes.string.isRequired,
@@ -33,7 +33,7 @@ class Pay extends React.Component {
       medium: PropTypes.number.isRequired,
       slow: PropTypes.number.isRequired,
     }).isRequired,
-    maxOneTimeSend: PropTypes.number.isRequired,
+    maxOneTimeSend: PropTypes.string.isRequired,
     mx: PropTypes.string,
     network: PropTypes.string.isRequired,
     onchainFees: PropTypes.shape({
@@ -48,7 +48,7 @@ class Pay extends React.Component {
     routes: PropTypes.array,
     sendCoins: PropTypes.func.isRequired,
     setRedirectPayReq: PropTypes.func.isRequired,
-    walletBalanceConfirmed: PropTypes.number.isRequired,
+    walletBalanceConfirmed: PropTypes.string.isRequired,
     width: PropTypes.number,
   }
 

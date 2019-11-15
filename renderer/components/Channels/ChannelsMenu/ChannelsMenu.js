@@ -69,10 +69,10 @@ const ChannelsMenu = ({
 ChannelsMenu.propTypes = {
   channelCount: PropTypes.number.isRequired,
   cryptoUnitName: PropTypes.string.isRequired,
-  lightningBalance: PropTypes.number.isRequired,
-  onchainBalance: PropTypes.number.isRequired,
+  lightningBalance: PropTypes.string.isRequired,
+  onchainBalance: PropTypes.string.isRequired,
   openModal: PropTypes.func.isRequired,
-  pendingBalance: PropTypes.number.isRequired,
+  pendingBalance: PropTypes.string.isRequired,
 }
 
 export default ChannelsMenu
