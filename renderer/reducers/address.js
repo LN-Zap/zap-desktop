@@ -67,15 +67,19 @@ export const initAddresses = () => async (dispatch, getState) => {
     const addresses = get(node, 'addresses', {})
 
     // Ensure that we have an address for all supported address types.
-    await Promise.all(
-      Object.keys(ADDRESS_TYPES).map(async type => {
-        if (!addresses[type]) {
-          return dispatch(newAddress(type))
-        }
-        return null
-      })
-    )
-    dispatch({ type: FETCH_ADDRESSES_SUCCESS, addresses })
+    const fetchAddresses = async types => {
+      const data = {}
+      await Promise.all(
+        types.map(async type => {
+          data[type] = addresses[type] || (await dispatch(newAddress(type)))
+        })
+      )
+      return data
+    }
+
+    const allAddresses = await fetchAddresses(Object.keys(ADDRESS_TYPES))
+
+    dispatch({ type: FETCH_ADDRESSES_SUCCESS, addresses: allAddresses })
   } catch (error) {
     dispatch({ type: FETCH_ADDRESSES_FAILURE, error: error.message })
   }
@@ -92,8 +96,10 @@ export const newAddress = addressType => async dispatch => {
   try {
     const address = await dispatch(createNewAddress(addressType))
     await dispatch(newAddressSuccess(addressType, address))
+    return address
   } catch (error) {
     dispatch(newAddressFailure(addressType, error.message))
+    return null
   }
 }
 
