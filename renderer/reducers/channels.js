@@ -216,8 +216,18 @@ const decorateChannel = (channelObj, nodes, closingChannelIds, loadingChannelPub
   const status = getStatus(channelObj, closingChannelIds, loadingChannelPubKeys)
 
   const getActivity = c => {
+    // Get the overall channel capacity.
     const capacity = getChannelEffectiveCapacity(c)
-    return capacity ? (c.total_satoshis_sent || 0 + c.total_satoshis_received || 0) / capacity : 0
+
+    if (capacity && capacity > 0) {
+      // Calculate channel flow (sum of amounts sent and received).
+      const flow = get(c, 'total_satoshis_sent', 0) + get(c, 'total_satoshis_received', 0)
+
+      // Calculate capacity as flow / capacity.
+      return flow / capacity
+    }
+
+    return 0
   }
 
   const updatedChannelData = {
