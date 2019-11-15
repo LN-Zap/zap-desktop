@@ -418,7 +418,7 @@
   "components.Onboarding.Steps.unlock": "Lås upp",
   "components.Onboarding.Steps.unlocking": "",
   "components.Onboarding.Steps.verify_host_description": "Vänligen kontrollera hostname noggrant.",
-  "components.Onboarding.Steps.verify_host_title": "",
+  "components.Onboarding.Steps.verify_host_title": "Är du säker på att du vill ansluta till {hostname}",
   "components.Onboarding.Steps.wallet_name_description": "",
   "components.Onboarding.Steps.wallet_name_label": "",
   "components.Onboarding.Steps.wallet_name_title": "",
