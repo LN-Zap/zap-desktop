@@ -76,6 +76,7 @@ const Activity = props => {
             isOpen={isErrorDialogOpen}
             onClose={hideErrorDetailsDialog}
             onCopy={onErrorDetailsCopy}
+            position="fixed"
           />
         </>
       </Panel.Body>
