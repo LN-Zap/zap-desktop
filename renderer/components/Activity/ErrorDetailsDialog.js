@@ -5,7 +5,7 @@ import copy from 'copy-to-clipboard'
 import { Dialog, Text, DialogOverlay, Heading, Button } from 'components/UI'
 import messages from './messages'
 
-const ErrorDetailsDialog = ({ error, isOpen, onCopy, onClose, ...rest }) => {
+const ErrorDetailsDialog = ({ error, isOpen, onCopy, onClose, position, ...rest }) => {
   if (!isOpen) {
     return null
   }
@@ -23,7 +23,7 @@ const ErrorDetailsDialog = ({ error, isOpen, onCopy, onClose, ...rest }) => {
   }
 
   return (
-    <DialogOverlay alignItems="center" justifyContent="center">
+    <DialogOverlay alignItems="center" justifyContent="center" position={position}>
       <Dialog
         header={headerEl}
         {...rest}
@@ -47,6 +47,7 @@ ErrorDetailsDialog.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onCopy: PropTypes.func.isRequired,
+  position: PropTypes.string,
 }
 
 export default ErrorDetailsDialog
