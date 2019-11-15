@@ -1,7 +1,7 @@
 {
   "name": "zap-desktop",
   "productName": "Zap",
-  "version": "0.6.1-beta",
+  "version": "0.6.2-beta",
   "description": "desktop application for the lightning network",
   "scripts": {
     "build": "cross-env NODE_CONFIG_ENV=production webpack -r @babel/register --config webpack/webpack.config.prod.js",
