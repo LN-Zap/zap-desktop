@@ -135,7 +135,7 @@
   "components.Channels.channel_sort_name": "",
   "components.Channels.channel_sort_open_date": "",
   "components.Channels.channel_sort_remote_balance": "",
-  "components.Channels.channels": "",
+  "components.Channels.channels": "Kanaler",
   "components.Channels.channels_filter_hint": "",
   "components.Channels.close_button": "Lukk kanal",
   "components.Channels.close_channel_dialog_acknowledgement": "Jeg forstår at dette er en handling som ikke kan angres",
