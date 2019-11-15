@@ -165,11 +165,11 @@ export const sendCoins = ({
   const amount = convert(cryptoUnit, 'sats', value)
 
   // Generate a unique id for the transaction attempt.
-  const transactionId = genId()
+  const internalId = genId()
 
   // Add to sendingPayments in the state.
   const payload = {
-    transactionId,
+    internalId,
     addr,
     amount: isCoinSweep ? null : amount,
     target_conf: targetConf,
@@ -181,50 +181,50 @@ export const sendCoins = ({
   // Submit the transaction to LND.
   try {
     await grpc.services.Lightning.sendCoins(payload)
-    dispatch(transactionSuccessful({ ...payload, transactionId }))
+    dispatch(transactionSuccessful({ ...payload, internalId }))
   } catch (e) {
-    dispatch(transactionFailed({ error: e.message, transactionId }))
+    dispatch(transactionFailed({ error: e.message, internalId }))
   }
 }
 
 /**
  * transactionSuccessful - Success handler for sendCoins.
  *
- * @param  {{ string }} addr Destination address
+ * @param  {{ string }} internalId transaction internal id
  * @returns {Function} Thunk
  */
-export const transactionSuccessful = ({ transactionId }) => async (dispatch, getState) => {
-  const { timestamp } = find(transactionsSendingSelector(getState(), { transactionId }))
+export const transactionSuccessful = ({ internalId }) => async (dispatch, getState) => {
+  const { timestamp } = find(transactionsSendingSelector(getState(), { internalId }))
 
   // Ensure payment stays in sending state for at least 2 seconds.
   await delay(2000 - (Date.now() - timestamp * 1000))
 
   // Mark the payment as successful.
-  dispatch({ type: TRANSACTION_SUCCESSFUL, transactionId })
+  dispatch({ type: TRANSACTION_SUCCESSFUL, internalId })
 
   // Wait for another second.
   await delay(1000)
 
   // Mark the payment as successful.
-  dispatch({ type: TRANSACTION_COMPLETE, transactionId })
+  dispatch({ type: TRANSACTION_COMPLETE, internalId })
 }
 
 /**
- * transactionSuccessful - Error handler for sendCoins.
+ * transactionFailed - Error handler for sendCoins.
  *
  * @param  {object} details Details
- * @param  {{ string }} details.addr Destination address
+ * @param  {{ string }} details.internalId transaction internal id
  * @param  {{ string }} details.error Error message
  * @returns {Function} Thunk
  */
-export const transactionFailed = ({ transactionId, error }) => async (dispatch, getState) => {
-  const { timestamp } = find(transactionsSendingSelector(getState(), { transactionId }))
+export const transactionFailed = ({ internalId, error }) => async (dispatch, getState) => {
+  const { timestamp } = find(transactionsSendingSelector(getState(), { internalId }))
 
   // Ensure payment stays in sending state for at least 2 seconds.
   await delay(2000 - (Date.now() - timestamp * 1000))
 
   // Mark the payment as failed.
-  dispatch({ type: TRANSACTION_FAILED, transactionId, error: errorToUserFriendly(error) })
+  dispatch({ type: TRANSACTION_FAILED, internalId, error: errorToUserFriendly(error) })
 }
 
 /**
@@ -279,26 +279,22 @@ const ACTION_HANDLERS = {
   [ADD_TRANSACTION]: (state, { transaction }) => {
     state.transactions.unshift(transaction)
   },
-  [TRANSACTION_SUCCESSFUL]: (state, { transactionId }) => {
-    const txIndex = state.transactionsSending.findIndex(
-      item => item.transactionId === transactionId
-    )
+  [TRANSACTION_SUCCESSFUL]: (state, { internalId }) => {
+    const txIndex = state.transactionsSending.findIndex(item => item.internalId === internalId)
     if (txIndex >= 0) {
       state.transactionsSending[txIndex].status = 'successful'
     }
   },
-  [TRANSACTION_FAILED]: (state, { transactionId, error }) => {
-    const txIndex = state.transactionsSending.findIndex(
-      item => item.transactionId === transactionId
-    )
+  [TRANSACTION_FAILED]: (state, { internalId, error }) => {
+    const txIndex = state.transactionsSending.findIndex(item => item.internalId === internalId)
     if (txIndex >= 0) {
       state.transactionsSending[txIndex].status = 'failed'
       state.transactionsSending[txIndex].error = error
     }
   },
-  [TRANSACTION_COMPLETE]: (state, { transactionId }) => {
+  [TRANSACTION_COMPLETE]: (state, { internalId }) => {
     state.transactionsSending = state.transactionsSending.filter(
-      item => item.transactionId !== transactionId
+      item => item.internalId !== internalId
     )
   },
 }
