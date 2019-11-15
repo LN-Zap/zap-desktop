@@ -1,4 +1,4 @@
 {
-  "mainWindowUrl": "http://localhost:3100/index.html",
+  "mainWindowUrl": "./dist/index.html",
   "appPath": "."
 }
