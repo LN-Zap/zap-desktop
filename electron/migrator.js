@@ -33,6 +33,10 @@ class ZapMigrator {
         id: 3,
         up: deleteTmpWallets,
       },
+      {
+        id: 4,
+        up: deleteTmpWallets,
+      },
     ]
   }
 
