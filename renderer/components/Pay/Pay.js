@@ -68,12 +68,13 @@ class Pay extends React.Component {
 
   // Set a flag so that we can trigger form submission in componentDidUpdate once the form is loaded.
   componentDidMount() {
-    const { fetchTickers } = this.props
+    const { fetchTickers, queryFees } = this.props
     fetchTickers()
+    queryFees()
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { redirectPayReq, queryRoutes, setRedirectPayReq, queryFees } = this.props
+    const { redirectPayReq, queryRoutes, setRedirectPayReq } = this.props
     const { currentStep, invoice, isOnchain } = this.state
     const { address, amount } = redirectPayReq || {}
     const { payReq: prevPayReq } = prevProps || {}
@@ -106,7 +107,6 @@ class Pay extends React.Component {
     // If we now have a valid onchain address, trigger the form submit to move to the amount step.
     const isNowOnchain = isOnchain && isOnchain !== prevState.isOnchain
     if (currentStep === PAY_FORM_STEPS.address && isNowOnchain) {
-      queryFees()
       this.formApi.submitForm()
       return
     }
@@ -416,6 +416,7 @@ class Pay extends React.Component {
                 formState={formState}
                 invoice={invoice}
                 isLn={isLn}
+                isOnchain={isOnchain}
                 isProcessing={isProcessing}
                 maxOneTimeSend={maxOneTimeSend}
                 previousStep={this.goToPreviousStep}
