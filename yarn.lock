@@ -8597,10 +8597,10 @@ eslint-plugin-react@7.16.0:
     prop-types "^15.7.2"
     resolve "^1.12.0"
 
-eslint-plugin-shopify@32.0.0:
-  version "32.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-shopify/-/eslint-plugin-shopify-32.0.0.tgz#39922fbe712906a6b1a4e23c44827523dd7baf7f"
-  integrity sha512-lwKMsWcg7RHxvt/FgWGfeefj3JfodvsCbKP2FzF3Zrr0aS4fr2tsw0h88sW2Lx9c0VWVf5kN/fy2xtBia6zjIQ==
+eslint-plugin-shopify@33.0.0:
+  version "33.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-shopify/-/eslint-plugin-shopify-33.0.0.tgz#ccf9ad912ef1c4e03de30219951f23700560ce58"
+  integrity sha512-+vT2tXAfLNn4mpN/7GczlKTSe4dYcAWEo36fcZKg/bK6j8g9DhOVBDwrtTtV3Xk2QTn+fuXk0DVy2l9qNNA4SQ==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^2.5.0"
     "@typescript-eslint/parser" "^2.5.0"

@@ -272,7 +272,7 @@
     "eslint-plugin-promise": "4.2.1",
     "eslint-plugin-react": "7.16.0",
     "eslint-plugin-react-hooks": "2.3.0",
-    "eslint-plugin-shopify": "32.0.0",
+    "eslint-plugin-shopify": "33.0.0",
     "eslint-plugin-testcafe": "0.2.1",
     "extract-react-intl-messages": "2.3.3",
     "fake-indexeddb": "3.0.0",
