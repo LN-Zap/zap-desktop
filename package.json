@@ -281,7 +281,7 @@
     "html-webpack-plugin": "3.2.0",
     "husky": "3.0.9",
     "jest": "24.9.0",
-    "jest-styled-components": "6.3.3",
+    "jest-styled-components": "6.3.4",
     "lnd-binary": "0.3.14",
     "minimist": "1.2.0",
     "mock-spawn": "0.2.6",
