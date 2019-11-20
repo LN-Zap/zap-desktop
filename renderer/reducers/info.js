@@ -1,11 +1,11 @@
 import { createSelector } from 'reselect'
 import get from 'lodash/get'
+import createReducer from '@zap/utils/createReducer'
 import { networks } from '@zap/utils/crypto'
 import { grpc } from 'workers'
 import { initAddresses } from './address'
 import { putWallet, walletSelectors } from './wallet'
 import { settingsSelectors } from './settings'
-import createReducer from './utils/createReducer'
 
 // ------------------------------------
 // Initial State

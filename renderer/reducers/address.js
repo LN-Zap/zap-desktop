@@ -1,12 +1,13 @@
 import get from 'lodash/get'
 import { createSelector } from 'reselect'
 import { grpc } from 'workers'
+import createReducer from '@zap/utils/createReducer'
 import { getIntl } from '@zap/i18n'
 import { openModal, closeModal } from './modal'
 import { settingsSelectors } from './settings'
 import { showError } from './notification'
-import createReducer from './utils/createReducer'
 import messages from './messages'
+
 // ------------------------------------
 // Initial State
 // ------------------------------------

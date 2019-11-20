@@ -1,5 +1,5 @@
 import { grpc } from 'workers'
-import createReducer from './utils/createReducer'
+import createReducer from '@zap/utils/createReducer'
 
 // ------------------------------------
 // Initial State

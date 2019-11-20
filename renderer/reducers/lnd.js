@@ -2,6 +2,7 @@ import config from 'config'
 import { createSelector } from 'reselect'
 import { proxyValue } from 'comlinkjs'
 import { grpc } from 'workers'
+import createReducer from '@zap/utils/createReducer'
 import { fetchInfo, setInfo } from './info'
 import { startNeutrino, stopNeutrino } from './neutrino'
 import { putWallet, removeWallet, setActiveWallet, walletSelectors } from './wallet'
@@ -11,7 +12,6 @@ import { receiveInvoiceData } from './invoice'
 import { receiveChannelGraphData } from './channels'
 import { receiveTransactionData } from './transaction'
 import { backupCurrentWallet, setupBackupService } from './backup'
-import createReducer from './utils/createReducer'
 
 // ------------------------------------
 // Initial State

@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { grpc } from 'workers'
+import createReducer from '@zap/utils/createReducer'
 import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
-import createReducer from './utils/createReducer'
 
 // ------------------------------------
 // Initial State

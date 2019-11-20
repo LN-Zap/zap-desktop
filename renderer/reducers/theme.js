@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { dark, light } from 'themes'
+import createReducer from '@zap/utils/createReducer'
 import { putConfig, settingsSelectors } from './settings'
-import createReducer from './utils/createReducer'
 
 // ------------------------------------
 // Initial State
