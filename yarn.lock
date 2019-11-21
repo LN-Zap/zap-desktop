@@ -4651,17 +4651,17 @@ babel-plugin-react-intl-auto@3.0.1:
     "@babel/types" "^7.5.5"
     murmurhash3js "^3.0.1"
 
-babel-plugin-react-intl@5.1.2:
-  version "5.1.2"
-  resolved "https://registry.yarnpkg.com/babel-plugin-react-intl/-/babel-plugin-react-intl-5.1.2.tgz#64319e17b7e75fc687ec2aa7a99c0d13ff8cc021"
-  integrity sha512-PlgNqOJQNAbFKUQZ3Lwl4WfRnp9HmpVjlpi+XW7GirpFs+0KFGMBpk8bTe6GpwH9WNjpxB65YyxXrh1NTNp+Ug==
+babel-plugin-react-intl@5.1.3:
+  version "5.1.3"
+  resolved "https://registry.yarnpkg.com/babel-plugin-react-intl/-/babel-plugin-react-intl-5.1.3.tgz#fc5227b33b43e73e643a42879c7ebd7b3dca46dd"
+  integrity sha512-jhxUm5shxBynGJO5LDh3V24H18sFamX7Upek73n3Next4k1+qme3r5e/WODvT7tdyBk1/5uQaQ7BLED6IkqWiA==
   dependencies:
     "@babel/core" "^7.7.2"
     "@babel/helper-plugin-utils" "^7.0.0"
     "@types/babel__core" "^7.1.2"
     "@types/schema-utils" "^1.0.0"
     fs-extra "^8.0.1"
-    intl-messageformat-parser "^3.2.2"
+    intl-messageformat-parser "^3.2.3"
     schema-utils "^2.2.0"
 
 babel-plugin-react-intl@^4.1.16:
@@ -10934,6 +10934,11 @@ intl-messageformat-parser@^3.2.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/intl-messageformat-parser/-/intl-messageformat-parser-3.2.2.tgz#28cacc80a53823a28b5ecaf16b3b35d0a1d5f9d2"
   integrity sha512-ax9639ST77YimAddTH/0Q9qhXuYS8ZVsoqOZinqnS90MbXaNuIq+KIdifaIndwI+lMEv3o+qNaGycXYvlh17rw==
+
+intl-messageformat-parser@^3.2.3:
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/intl-messageformat-parser/-/intl-messageformat-parser-3.2.3.tgz#64f0e4258767cac507499438a6edf0f47af64746"
+  integrity sha512-lL2Z3+UyeSxzb+nsBTwEPRJKXbp3MqEO1mOjafbt18OPfTaVMUfsOJCxaldD2t9lF3JyUJr2mFM3XYWSOaPEIg==
 
 intl-messageformat@^7.5.2:
   version "7.5.2"
