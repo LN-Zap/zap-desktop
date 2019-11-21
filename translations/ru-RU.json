@@ -135,7 +135,7 @@
   "components.Channels.channel_sort_name": "",
   "components.Channels.channel_sort_open_date": "",
   "components.Channels.channel_sort_remote_balance": "",
-  "components.Channels.channels": "Каналы",
+  "components.Channels.channels": "{totalCount, plural, one {} few {Показано {count} из {totalCount} каналов} many {Показано {count} из {totalCount} каналов} =0 {Нет каналов} other {Показано {count} из {totalCount} каналов}}",
   "components.Channels.channels_filter_hint": "",
   "components.Channels.close_button": "Закрыть канал",
   "components.Channels.close_channel_dialog_acknowledgement": "Я понимаю, что это необратимое действие",
