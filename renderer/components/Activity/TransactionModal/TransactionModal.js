@@ -35,7 +35,7 @@ class TransactionModal extends React.PureComponent {
     const { saveInvoice, item, intl } = this.props
     const destAddress = get(item, 'dest_addresses[0]')
     const amount = item.amount || item.limboAmount || 0
-    const isIncoming = item.received || item.limboAmount > 0
+    const isIncoming = item.isReceived || item.limboAmount > 0
     const { tx_hash, time_stamp, num_confirmations } = item
     saveInvoice({
       defaultFilename: tx_hash && `zap-tx-${tx_hash.substring(0, 7)}`,
@@ -80,7 +80,7 @@ class TransactionModal extends React.PureComponent {
     const { intl, item, showNotification, ...rest } = this.props
     const destAddress = get(item, 'dest_addresses[0]')
     const amount = item.amount || item.limboAmount || 0
-    const isIncoming = item.received || item.limboAmount > 0
+    const isIncoming = item.isReceived || item.limboAmount > 0
 
     return (
       <Panel {...rest}>
