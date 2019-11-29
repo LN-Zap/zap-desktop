@@ -250,7 +250,7 @@
     "cross-spawn": "7.0.1",
     "csp-html-webpack-plugin": "3.0.4",
     "electron": "6.1.5",
-    "electron-builder": "22.1.0",
+    "electron-builder": "22.2.0",
     "electron-devtools-installer": "2.2.4",
     "electron-notarize": "0.2.1",
     "electron-updater": "4.2.0",
