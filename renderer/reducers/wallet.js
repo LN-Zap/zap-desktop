@@ -3,6 +3,7 @@ import { createSelector } from 'reselect'
 import createReducer from '@zap/utils/createReducer'
 import { showError } from './notification'
 import { putSetting } from './settings'
+import { closeDialog } from './modal'
 
 // ------------------------------------
 // Initial State
@@ -22,12 +23,11 @@ const initialState = {
 export const SET_WALLETS = 'SET_WALLETS'
 export const SET_WALLETS_LOADED = 'SET_WALLETS_LOADED'
 export const DELETE_WALLET = 'DELETE_WALLET'
-export const OPEN_DELETE_WALLET_DIALOG = 'OPEN_DELETE_WALLET_DIALOG'
-export const CLOSE_DELETE_WALLET_DIALOG = 'CLOSE_DELETE_WALLET_DIALOG'
 export const DELETE_WALLET_SUCCESS = 'DELETE_WALLET_SUCCESS'
 export const DELETE_WALLET_FAILURE = 'DELETE_WALLET_FAILURE'
 export const PUT_WALLET = 'PUT_WALLET'
 
+export const DELETE_WALLET_DIALOG_ID = 'DELETE_WALLET_DIALOG_ID'
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -46,7 +46,7 @@ export function setWallets(wallets) {
 }
 
 /**
- * setWalletsLoaded - Set wallts loaded state.
+ * setWalletsLoaded - Set wallets loaded state.
  *
  * @returns {object} Action
  */
@@ -110,24 +110,6 @@ export const putWallet = wallet => async dispatch => {
 }
 
 /**
- * showDeleteWalletDialog - Show the delete wallet dialog.
- *
- * @returns {object} Action
- */
-export const showDeleteWalletDialog = () => ({
-  type: OPEN_DELETE_WALLET_DIALOG,
-})
-
-/**
- * hideDeleteWalletDialog - Hide the delete wallet dialog.
- *
- * @returns {object} Action
- */
-export const hideDeleteWalletDialog = () => ({
-  type: CLOSE_DELETE_WALLET_DIALOG,
-})
-
-/**
  * removeWallet - Remove a wallet config.
  *
  * @param  {object} wallet Wallet config.
@@ -158,7 +140,7 @@ export const deleteWallet = () => async (dispatch, getState) => {
     const walletId = activeWalletSelector(getState())
     if (walletId) {
       dispatch({ type: DELETE_WALLET, walletId })
-      dispatch(hideDeleteWalletDialog())
+      dispatch(closeDialog(DELETE_WALLET_DIALOG_ID))
       const state = getState().wallet
       const wallet = state.wallets.find(w => w.id === walletId)
 
@@ -221,12 +203,6 @@ const ACTION_HANDLERS = {
   },
   [SET_WALLETS_LOADED]: state => {
     state.isWalletsLoaded = true
-  },
-  [OPEN_DELETE_WALLET_DIALOG]: state => {
-    state.isDeleteDialogOpen = true
-  },
-  [CLOSE_DELETE_WALLET_DIALOG]: state => {
-    state.isDeleteDialogOpen = false
   },
   [DELETE_WALLET_FAILURE]: (state, { error }) => {
     state.deleteWalletError = error

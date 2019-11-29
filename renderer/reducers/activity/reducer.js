@@ -25,10 +25,9 @@ const {
   FETCH_ACTIVITY_HISTORY,
   FETCH_ACTIVITY_HISTORY_SUCCESS,
   FETCH_ACTIVITY_HISTORY_FAILURE,
-  OPEN_ERROR_DETAILS_DIALOG,
-  CLOSE_ERROR_DETAILS_DIALOG,
   ADD_FILTER,
   SET_HAS_NEXT_PAGE,
+  SET_ERROR_DIALOG_DETAILS,
 } = constants
 
 // ------------------------------------
@@ -61,6 +60,19 @@ const initialState = {
 // ------------------------------------
 // Actions
 // ------------------------------------
+
+/**
+ * setErorDialogDetails - Set the error dialog details.
+ *
+ * @param {string} details Error details
+ * @returns {object} Action
+ */
+export const setErorDialogDetails = details => {
+  return {
+    type: SET_ERROR_DIALOG_DETAILS,
+    details,
+  }
+}
 
 /**
  * saveInvoice - Initiates saving of invoice pdf.
@@ -97,30 +109,6 @@ export const saveInvoiceFailure = () => dispatch => {
  */
 export const saveInvoiceSuccess = () => dispatch => {
   dispatch(showNotification(getIntl().formatMessage(messages.activity_invoice_download_success)))
-}
-
-/**
- * showErrorDetailsDialog - Show the activity error detail dialog.
- *
- * @param {object} error Error description
- * @returns {object} Action
- */
-export function showErrorDetailsDialog(error) {
-  return {
-    type: OPEN_ERROR_DETAILS_DIALOG,
-    error,
-  }
-}
-
-/**
- * hideErrorDetailsDialog - Hide the activity error detail dialog.
- *
- * @returns {object} Action
- */
-export function hideErrorDetailsDialog() {
-  return {
-    type: CLOSE_ERROR_DETAILS_DIALOG,
-  }
 }
 
 /**
@@ -316,14 +304,11 @@ const ACTION_HANDLERS = {
     state.isActivityLoading = false
     state.activityLoadingError = error
   },
-  [OPEN_ERROR_DETAILS_DIALOG]: (state, { error }) => {
-    state.errorDialogDetails = error
-  },
-  [CLOSE_ERROR_DETAILS_DIALOG]: state => {
-    state.errorDialogDetails = null
-  },
   [SET_HAS_NEXT_PAGE]: (state, { value }) => {
     state.hasNextPage = value
+  },
+  [SET_ERROR_DIALOG_DETAILS]: (state, { details }) => {
+    state.errorDialogDetails = details
   },
 }
 

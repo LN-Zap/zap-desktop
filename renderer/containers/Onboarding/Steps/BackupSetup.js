@@ -1,11 +1,15 @@
 import { connect } from 'react-redux'
 import { BackupSetup } from 'components/Onboarding/Steps'
-import { hideSkipBackupDialog, showSkipBackupDialog } from 'reducers/onboarding'
+import { SKIP_BACKUP_DIALOG_ID } from 'reducers/onboarding'
 import { showError } from 'reducers/notification'
+import { modalSelectors, openDialog, closeDialog } from 'reducers/modal'
 import { setBackupProvider } from 'reducers/backup'
 
+const hideSkipBackupDialog = closeDialog.bind(null, SKIP_BACKUP_DIALOG_ID)
+const showSkipBackupDialog = openDialog.bind(null, SKIP_BACKUP_DIALOG_ID)
+
 const mapStateToProps = state => ({
-  isSkipBackupDialogOpen: state.onboarding.isSkipBackupDialogOpen,
+  isSkipBackupDialogOpen: modalSelectors.isDialogOpen(state, SKIP_BACKUP_DIALOG_ID),
 })
 
 const mapDispatchToProps = {

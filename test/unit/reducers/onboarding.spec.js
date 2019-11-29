@@ -18,8 +18,6 @@ import reducer, {
   VALIDATING_MACAROON,
   RESET_ONBOARDING,
   SET_LNDCONNECT,
-  OPEN_SKIP_BACKUP_DIALOG,
-  CLOSE_SKIP_BACKUP_DIALOG,
 } from 'reducers/onboarding'
 
 describe('reducers', () => {
@@ -167,20 +165,6 @@ describe('reducers', () => {
       const action = {
         type: SET_LNDCONNECT,
         lndConnect: 'lndconnect://localhost:10009?cert=/path/to/cert&macaroon=/path/to/macaroon',
-      }
-      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
-    })
-
-    it('should handle OPEN_SKIP_BACKUP_DIALOG', () => {
-      const action = {
-        type: OPEN_SKIP_BACKUP_DIALOG,
-      }
-      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
-    })
-
-    it('should handle CLOSE_SKIP_BACKUP_DIALOG', () => {
-      const action = {
-        type: CLOSE_SKIP_BACKUP_DIALOG,
       }
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })

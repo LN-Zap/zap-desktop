@@ -6,7 +6,6 @@ import {
   changeFilter,
   channelsSelectors,
   fetchChannels,
-  showCloseChannelDialog,
   setSelectedChannel,
   setChannelViewMode,
   switchSortOrder,
@@ -35,7 +34,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   changeFilter,
   changeSort,
-  closeChannel: showCloseChannelDialog,
   setSelectedChannel,
   setChannelViewMode,
   openModal,

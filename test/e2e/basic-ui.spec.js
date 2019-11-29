@@ -129,8 +129,8 @@ test('provide access to basic wallet functionality', async t => {
     .ok()
     .click(wallet.preferences.closeButton)
 
-    // test activity modal (sent payments details)
-    .doubleClick(wallet.txHistoryItem)
+    // test activity modal (sent transaction details)
+    .click(wallet.txHistoryItem)
     .expect(wallet.activityModal.modal.exists)
     .ok()
     .click(wallet.activityModal.closeButton)
