@@ -1,9 +1,20 @@
 import config from 'config'
-import { createSelector } from 'reselect'
 import createReducer from '@zap/utils/createReducer'
-import { showError } from './notification'
-import { putSetting } from './settings'
-import { closeDialog } from './modal'
+import { closeDialog } from 'reducers/modal'
+import { showError } from 'reducers/notification'
+import { putSetting } from 'reducers/settings'
+import walletSelectors from './selectors'
+import * as constants from './constants'
+
+const {
+  SET_WALLETS,
+  SET_WALLETS_LOADED,
+  DELETE_WALLET,
+  DELETE_WALLET_SUCCESS,
+  DELETE_WALLET_FAILURE,
+  PUT_WALLET,
+  DELETE_WALLET_DIALOG_ID,
+} = constants
 
 // ------------------------------------
 // Initial State
@@ -16,18 +27,6 @@ const initialState = {
   wallets: [],
 }
 
-// ------------------------------------
-// Constants
-// ------------------------------------
-
-export const SET_WALLETS = 'SET_WALLETS'
-export const SET_WALLETS_LOADED = 'SET_WALLETS_LOADED'
-export const DELETE_WALLET = 'DELETE_WALLET'
-export const DELETE_WALLET_SUCCESS = 'DELETE_WALLET_SUCCESS'
-export const DELETE_WALLET_FAILURE = 'DELETE_WALLET_FAILURE'
-export const PUT_WALLET = 'PUT_WALLET'
-
-export const DELETE_WALLET_DIALOG_ID = 'DELETE_WALLET_DIALOG_ID'
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -137,7 +136,7 @@ export const removeWallet = wallet => async dispatch => {
  */
 export const deleteWallet = () => async (dispatch, getState) => {
   try {
-    const walletId = activeWalletSelector(getState())
+    const walletId = walletSelectors.activeWalletSelector(getState())
     if (walletId) {
       dispatch({ type: DELETE_WALLET, walletId })
       dispatch(closeDialog(DELETE_WALLET_DIALOG_ID))
@@ -208,57 +207,5 @@ const ACTION_HANDLERS = {
     state.deleteWalletError = error
   },
 }
-
-// ------------------------------------
-// Selectors
-// ------------------------------------
-
-const walletSelectors = {}
-const walletsSelector = state => state.wallet.wallets
-const activeWalletSelector = state => state.settings.activeWallet
-const isWalletsLoadedSelector = state => state.wallet.isWalletsLoaded
-const isWalletOpenSelector = state => state.settings.isWalletOpen
-
-walletSelectors.isWalletsLoaded = isWalletsLoadedSelector
-
-walletSelectors.activeWalletDir = createSelector(
-  activeWalletSelector,
-  walletsSelector,
-  (activeWallet, wallets) => {
-    const wallet = wallets.find(w => w.id === activeWallet)
-    if (wallet && wallet.type === 'local') {
-      return window.Zap.getWalletDir(wallet.chain, wallet.network, wallet.wallet)
-    }
-    return null
-  }
-)
-
-walletSelectors.wallets = createSelector(
-  walletsSelector,
-  wallets => wallets
-)
-walletSelectors.activeWallet = createSelector(
-  activeWalletSelector,
-  activeWallet => activeWallet
-)
-walletSelectors.activeWalletSettings = createSelector(
-  walletsSelector,
-  activeWalletSelector,
-  (wallets, activeWallet) => wallets.find(wallet => wallet.id === activeWallet)
-)
-walletSelectors.hasWallets = createSelector(
-  walletSelectors.wallets,
-  wallets => wallets.length > 0
-)
-walletSelectors.isWalletOpen = createSelector(
-  isWalletOpenSelector,
-  isOpen => isOpen
-)
-walletSelectors.lndconnectQRCode = createSelector(
-  walletSelectors.activeWalletSettings,
-  activeWallet => activeWallet.lndconnectQRCode
-)
-
-export { walletSelectors }
 
 export default createReducer(initialState, ACTION_HANDLERS)
