@@ -3340,7 +3340,7 @@
   resolved "https://registry.yarnpkg.com/@types/anymatch/-/anymatch-1.3.1.tgz#336badc1beecb9dacc38bea2cf32adf627a8421a"
   integrity sha512-/+CRPXpBDpo2RK9C68N3b2cOvO0Cf5B9aPijHsoDQTHivnGSObdOF2BRQOYjojWTDy6nQvMjmqRXIxH55VjxxA==
 
-"@types/babel__core@^7.1.0", "@types/babel__core@^7.1.2":
+"@types/babel__core@^7.1.0", "@types/babel__core@^7.1.2", "@types/babel__core@^7.1.3":
   version "7.1.3"
   resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.1.3.tgz#e441ea7df63cd080dfcd02ab199e6d16a735fc30"
   integrity sha512-8fBo0UR2CcwWxeX7WIIgJ7lXjasFxoYgRnFHUj+hRvKkpiBJbxhdAPTCY6/ZKM0uxANFVzt4yObSLuTiTnazDA==
@@ -5008,17 +5008,17 @@ babel-plugin-react-intl-auto@3.1.0:
     "@babel/types" "^7.5.5"
     murmurhash3js "^3.0.1"
 
-babel-plugin-react-intl@5.1.3:
-  version "5.1.3"
-  resolved "https://registry.yarnpkg.com/babel-plugin-react-intl/-/babel-plugin-react-intl-5.1.3.tgz#fc5227b33b43e73e643a42879c7ebd7b3dca46dd"
-  integrity sha512-jhxUm5shxBynGJO5LDh3V24H18sFamX7Upek73n3Next4k1+qme3r5e/WODvT7tdyBk1/5uQaQ7BLED6IkqWiA==
+babel-plugin-react-intl@5.1.8:
+  version "5.1.8"
+  resolved "https://registry.yarnpkg.com/babel-plugin-react-intl/-/babel-plugin-react-intl-5.1.8.tgz#1eeee69f9b05a752dcda00d04795be2a7cae7b58"
+  integrity sha512-v5SIQlM1Yu22DmVy1GpkV187QdprXWtdY5iOG+t1t7/zw9FKfadO/dNXXjUt+gHZHUjrrkqG/ma9ZokqoVGyhg==
   dependencies:
     "@babel/core" "^7.7.2"
     "@babel/helper-plugin-utils" "^7.0.0"
-    "@types/babel__core" "^7.1.2"
+    "@types/babel__core" "^7.1.3"
     "@types/schema-utils" "^1.0.0"
     fs-extra "^8.0.1"
-    intl-messageformat-parser "^3.2.3"
+    intl-messageformat-parser "^3.3.1"
     schema-utils "^2.2.0"
 
 babel-plugin-react-intl@^4.1.16:
@@ -11238,10 +11238,10 @@ intl-messageformat-parser@^3.2.2:
   resolved "https://registry.yarnpkg.com/intl-messageformat-parser/-/intl-messageformat-parser-3.2.2.tgz#28cacc80a53823a28b5ecaf16b3b35d0a1d5f9d2"
   integrity sha512-ax9639ST77YimAddTH/0Q9qhXuYS8ZVsoqOZinqnS90MbXaNuIq+KIdifaIndwI+lMEv3o+qNaGycXYvlh17rw==
 
-intl-messageformat-parser@^3.2.3:
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/intl-messageformat-parser/-/intl-messageformat-parser-3.2.3.tgz#64f0e4258767cac507499438a6edf0f47af64746"
-  integrity sha512-lL2Z3+UyeSxzb+nsBTwEPRJKXbp3MqEO1mOjafbt18OPfTaVMUfsOJCxaldD2t9lF3JyUJr2mFM3XYWSOaPEIg==
+intl-messageformat-parser@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/intl-messageformat-parser/-/intl-messageformat-parser-3.3.1.tgz#2140b2072149ae8639645823a3a895d515d251a4"
+  integrity sha512-H+t27dpxi8r51GD9km0huyy5UJET3YF3AT2mvXRc0PRioKPFNexxhMUSagPNrMqGhb+/7p7RPcmsv7tcgCdWWQ==
 
 intl-messageformat@^7.5.2:
   version "7.5.2"
