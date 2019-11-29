@@ -1,5 +1,6 @@
 {
   "rules": {
-    "jest/no-test-callback": 0
+    "jest/no-test-callback": 0,
+    "jest/expect-expect": 0
   }
 }

@@ -40,17 +40,19 @@ test('should create a new wallet', async t => {
     .expect(onboarding.nextButton.hasAttribute('disabled'))
     .notOk('ready to be clicked')
     .click(onboarding.nextButton)
-
-    // Ensure we navigate to the SeedConfirm step next.
     .expect(onboarding.seedConfirm.exists)
     .ok()
 
-  // Select the relevant seed words.
-  const seedConfirmState = await onboarding.seedConfirm.getReact()
-  const { seed } = seedConfirmState.props
-  const word1 = seed[seedConfirmState.state.seedWordIndexes[0] - 1]
-  const word2 = seed[seedConfirmState.state.seedWordIndexes[1] - 1]
-  const word3 = seed[seedConfirmState.state.seedWordIndexes[2] - 1]
+  const seed = await onboarding.seedConfirm.getReact(({ props }) => props.seed)
+
+  const seedWordIndexes = await onboarding.seedConfirm.getReact(
+    ({ state }) => state.seedWordIndexes
+  )
+
+  const word1 = seed[seedWordIndexes[0] - 1]
+  const word2 = seed[seedWordIndexes[1] - 1]
+  const word3 = seed[seedWordIndexes[2] - 1]
+
   const password = 'password'
 
   // Fill out and submit SeedConfirm form.

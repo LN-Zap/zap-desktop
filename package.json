@@ -40,7 +40,7 @@
     "test-unit": "jest --coverage ./test/unit",
     "test-ci": "yarn test-e2e && yarn test-unit",
     "pretest-e2e": "yarn build-e2e",
-    "test-e2e": "cross-env DISABLE_INIT=1 ELECTRON_USER_DIR_TEMP=1 testcafe --selector-timeout 60000 --assertion-timeout 60000 --screenshots ./screenshots --screenshots-on-fails electron:./ ./test/e2e"
+    "test-e2e": "cross-env DISABLE_INIT=1 ELECTRON_USER_DIR_TEMP=1 testcafe --selector-timeout 60000 --assertion-timeout 60000 --screenshots ./screenshots --screenshots-on-fails electron:'./' ./test/e2e"
   },
   "config": {
     "lnd-binary": {
@@ -302,7 +302,7 @@
     "stylelint-config-styled-components": "0.1.1",
     "stylelint-formatter-pretty": "1.1.3",
     "stylelint-processor-styled-components": "1.8.0",
-    "testcafe": "1.6.1",
+    "testcafe": "1.7.0",
     "testcafe-browser-provider-electron": "0.0.12",
     "testcafe-react-selectors": "3.3.0",
     "url-loader": "3.0.0",
