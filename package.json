@@ -289,7 +289,7 @@
     "nock": "11.7.0",
     "prettier": "1.18.2",
     "ps-node": "0.1.6",
-    "react-storybook-addon-chapters": "3.1.6",
+    "react-storybook-addon-chapters": "3.1.7",
     "react-test-renderer": "16.12.0",
     "redux-logger": "3.0.6",
     "rimraf": "3.0.0",
