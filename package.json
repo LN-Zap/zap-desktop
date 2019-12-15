@@ -274,7 +274,7 @@
     "eslint-plugin-react-hooks": "2.3.0",
     "eslint-plugin-shopify": "33.0.0",
     "eslint-plugin-testcafe": "0.2.1",
-    "extract-react-intl-messages": "2.3.3",
+    "extract-react-intl-messages": "2.3.5",
     "fake-indexeddb": "3.0.0",
     "file-loader": "5.0.2",
     "gh-pages": "2.1.1",
