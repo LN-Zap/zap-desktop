@@ -7,7 +7,7 @@ import requestTicker from './requestTicker'
  * falls back to `fallback` if operation was unsuccessful.
  *
  * @param {string} provider Provider of interest
- * @param {('BTC'|'LTC')} coin Crypto currency of interest
+ * @param {'BTC'} coin Crypto currency of interest
  * @param {string} currency Fiat currency of interest
  * @returns {Promise} Promise that resolves to {[currency]:rate} Object. Or empty object if something went wrong
  */
