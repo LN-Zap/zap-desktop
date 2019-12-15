@@ -287,7 +287,7 @@
     "mock-spawn": "0.2.6",
     "native-ext-loader": "2.3.0",
     "nock": "11.7.0",
-    "prettier": "1.18.2",
+    "prettier": "1.19.1",
     "ps-node": "0.1.6",
     "react-storybook-addon-chapters": "3.1.7",
     "react-test-renderer": "16.12.0",
