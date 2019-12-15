@@ -6981,10 +6981,10 @@ commander@~2.19.0:
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.19.0.tgz#f6198aa84e5b83c46054b94ddedbfed5ee9ff12a"
   integrity sha512-6tvAOO+D6OENvRAh524Dh9jcfKTYDQAqvqezbCW82xj5X0pSrcpxtvRKHLG0yBY6SD7PSDrJaj+0AiOcKVd1Xg==
 
-comment-parser@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/comment-parser/-/comment-parser-0.7.0.tgz#9dc1f689a60d81fbcaf867d3c9eba3eb061ccfc1"
-  integrity sha512-m0SGP0RFO4P3hIBlIor4sBFPe5Y4HUeGgo/UZK/1Zdea5eUiqxroQ3lFqBDDSfWo9z9Q6LLnt2u0JqwacVEd/A==
+comment-parser@^0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/comment-parser/-/comment-parser-0.7.1.tgz#99607706e369305f89b0268f138fca7e795a60fc"
+  integrity sha512-YLgOoek/4xgO9wDbNi54wwnzpWseqz4ju2qbezDOv6PIf72w8Z7YajwVfEmd6dhnuRrEmo0vCIuG8B6gKz2d8A==
 
 common-tags@^1.8.0:
   version "1.8.0"
@@ -8952,14 +8952,14 @@ eslint-plugin-jest@23.0.5:
   dependencies:
     "@typescript-eslint/experimental-utils" "^2.5.0"
 
-eslint-plugin-jsdoc@18.1.5:
-  version "18.1.5"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jsdoc/-/eslint-plugin-jsdoc-18.1.5.tgz#bdab6f2ae1ee37b4acdb997d1ad24c3023881dd1"
-  integrity sha512-dfq1YA0z2WaosgbEX3QPf37TDUcrfcRRjJ0HBgJYuA4XIV2ICe7dFxhJ8halIlKL4VNhUZ5GMKO1r0CPRvBN0g==
+eslint-plugin-jsdoc@18.4.3:
+  version "18.4.3"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jsdoc/-/eslint-plugin-jsdoc-18.4.3.tgz#69d45213d5eb3e5e7a80abcbc979602c7cfcfa6b"
+  integrity sha512-RcavGWoxukmq7ZQHJ3zDYUHQugJ+uAaoLSCueQjWIHq8xLoIINRo4yKLd03DKWVuoGNY3R+3xpmNjOpwlkOtnQ==
   dependencies:
-    comment-parser "^0.7.0"
+    comment-parser "^0.7.1"
     debug "^4.1.1"
-    jsdoctypeparser "^6.0.0"
+    jsdoctypeparser "^6.1.0"
     lodash "^4.17.15"
     object.entries-ponyfill "^1.0.1"
     regextras "^0.6.1"
@@ -12350,10 +12350,10 @@ jsbn@~0.1.0:
   resolved "https://registry.yarnpkg.com/jsbn/-/jsbn-0.1.1.tgz#a5e654c2e5a2deb5f201d96cefbca80c0ef2f513"
   integrity sha1-peZUwuWi3rXyAdls77yoDA7y9RM=
 
-jsdoctypeparser@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/jsdoctypeparser/-/jsdoctypeparser-6.0.0.tgz#b6778772339138cbddb6c7b0d182d105afe1d8ae"
-  integrity sha512-61VtBXLkHfOFSIdp/VDVNMksxK0ID0cPTNvxDR92tPA6K7r2AX0OcJegYxhJIwtpWKU4p3D9L3U02hhlP1kQLQ==
+jsdoctypeparser@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/jsdoctypeparser/-/jsdoctypeparser-6.1.0.tgz#acfb936c26300d98f1405cb03e20b06748e512a8"
+  integrity sha512-UCQBZ3xCUBv/PLfwKAJhp6jmGOSLFNKzrotXGNgbKhWvz27wPsCsVeP7gIcHPElQw2agBmynAitXqhxR58XAmA==
 
 jsdom@^11.5.1:
   version "11.12.0"
