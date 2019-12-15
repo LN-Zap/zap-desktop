@@ -125,7 +125,7 @@ export const backupServiceInitialized = (event, { walletId }) => async (dispatch
  * @returns {Function} Thunk
  */
 export const saveBackupSuccess = (event, { provider, locationHint, walletId }) => async () => {
-  await updateLocationHint({ provider, locationHint, walletId })
+  return updateLocationHint({ provider, locationHint, walletId })
 }
 
 /**
@@ -221,13 +221,15 @@ export const setupBackupService = (walletId, isRestoreMode) => async (dispatch, 
   if (isRestoreMode) {
     await setRestoreState(walletId, RESTORE_STATE_STARTED)
   }
+
   await updateBackupProvider(walletId, provider)
+
   if (isLocalStrategy) {
     const dir = localPathSelector(getState())
     // we have backup dir setup in redux, use it to initialize db backup setup
     if (dir) {
       const nodePub = infoSelectors.nodePubkey(getState())
-      updateLocationHint({
+      await updateLocationHint({
         provider,
         locationHint: window.Zap.normalizeBackupDir(nodePub, dir),
         walletId,
@@ -316,6 +318,7 @@ export const backupCurrentWallet = (walletId, backup) => async (dispatch, getSta
 
     const nodePub = infoSelectors.nodePubkey(state)
     const { activeProviders, ...rest } = (await dbGet(walletId)) || {}
+
     if (activeProviders) {
       const [firstProvider] = activeProviders
       const backupData = backup || (await getFreshBackup())
@@ -361,7 +364,7 @@ export const updateLocationHint = async ({ provider, locationHint, walletId }) =
  * @returns {Function} Thunk
  */
 async function updateBackupProvider(walletId, provider) {
-  await dbTransaction(async () => {
+  return dbTransaction(async () => {
     const backupDesc = (await dbGet(walletId)) || {}
     const { activeProviders = [] } = backupDesc
 
@@ -369,7 +372,7 @@ async function updateBackupProvider(walletId, provider) {
       backupDesc.activeProviders = [...activeProviders, provider]
     }
 
-    await dbUpdate(walletId, backupDesc)
+    return dbUpdate(walletId, backupDesc)
   })
 }
 
