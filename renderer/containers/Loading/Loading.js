@@ -64,7 +64,4 @@ const mapDispatchToProps = {
   onCancel: () => {},
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LoadingContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(LoadingContainer)

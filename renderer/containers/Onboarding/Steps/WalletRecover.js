@@ -15,7 +15,4 @@ const mapDispatchToProps = {
   setPassphrase,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WalletRecover)
+export default connect(mapStateToProps, mapDispatchToProps)(WalletRecover)

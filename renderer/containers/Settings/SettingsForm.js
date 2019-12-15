@@ -15,7 +15,4 @@ const mapDispatchToProps = {
   fetchTickers,
 }
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(SettingsForm)
+export default connect(null, mapDispatchToProps)(SettingsForm)

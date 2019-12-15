@@ -38,7 +38,4 @@ ChannelDetailModal.propTypes = {
   type: PropTypes.string.isRequired,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ChannelDetailModal)
+export default connect(mapStateToProps, mapDispatchToProps)(ChannelDetailModal)

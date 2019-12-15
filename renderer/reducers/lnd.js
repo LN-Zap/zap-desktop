@@ -682,18 +682,15 @@ const startLndErrorSelector = state => state.lnd.startLndError
 const isStartingLndSelector = state => state.lnd.isStartingLnd
 const isUnlockingWalletSelector = state => state.lnd.isUnlockingWallet
 
-lndSelectors.startLndHostError = createSelector(
-  startLndErrorSelector,
-  error => (error ? error.host : null)
-)
-lndSelectors.startLndCertError = createSelector(
-  startLndErrorSelector,
-  error => (error ? error.cert : null)
-)
-lndSelectors.startLndMacaroonError = createSelector(
-  startLndErrorSelector,
-  error => (error ? error.macaroon : null)
-)
+lndSelectors.startLndHostError = createSelector(startLndErrorSelector, error => {
+  return error ? error.host : null
+})
+lndSelectors.startLndCertError = createSelector(startLndErrorSelector, error => {
+  return error ? error.cert : null
+})
+lndSelectors.startLndMacaroonError = createSelector(startLndErrorSelector, error => {
+  return error ? error.macaroon : null
+})
 lndSelectors.isStartingLnd = isStartingLndSelector
 lndSelectors.isUnlockingWallet = isUnlockingWalletSelector
 

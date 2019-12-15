@@ -17,7 +17,4 @@ const mapDispatchToProps = {
   showNotification,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ReceiveModal)
+export default connect(mapStateToProps, mapDispatchToProps)(ReceiveModal)

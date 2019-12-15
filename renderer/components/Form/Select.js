@@ -281,10 +281,7 @@ Select.defaultProps = {
   iconSize: 8,
 }
 
-const BasicSelect = compose(
-  injectIntl,
-  withTheme
-)(Select)
+const BasicSelect = compose(injectIntl, withTheme)(Select)
 
 export { BasicSelect }
 

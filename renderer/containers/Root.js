@@ -157,9 +157,4 @@ const mapDispatchToProps = {
   setMounted,
 }
 
-export default hot(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Root)
-)
+export default hot(connect(mapStateToProps, mapDispatchToProps)(Root))

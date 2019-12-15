@@ -5,7 +5,4 @@ const mapStateToProps = () => ({})
 
 const mapDispatchToProps = {}
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Autopay)
+export default connect(mapStateToProps, mapDispatchToProps)(Autopay)

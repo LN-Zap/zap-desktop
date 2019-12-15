@@ -15,7 +15,4 @@ const mapDispatchToProps = {
   queryFees,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PaySummaryOnChain)
+export default connect(mapStateToProps, mapDispatchToProps)(PaySummaryOnChain)

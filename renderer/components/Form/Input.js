@@ -167,7 +167,4 @@ const BasicInput = Input
 
 export { BasicInput }
 
-export default compose(
-  withInputValidation,
-  asField
-)(BasicInput)
+export default compose(withInputValidation, asField)(BasicInput)

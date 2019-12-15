@@ -50,6 +50,7 @@ exports[`component.Pay.PayAmountFields current step is "address" should render c
             "useCallback": [Function],
             "useContext": [Function],
             "useDebugValue": [Function],
+            "useDeferredValue": [Function],
             "useEffect": [Function],
             "useImperativeHandle": [Function],
             "useLayoutEffect": [Function],
@@ -58,6 +59,7 @@ exports[`component.Pay.PayAmountFields current step is "address" should render c
             "useRef": [Function],
             "useResponder": [Function],
             "useState": [Function],
+            "useTransition": [Function],
           },
           "_element": <PayAmountFields
             cryptoUnit="sats"
@@ -165,6 +167,7 @@ exports[`component.Pay.PayAmountFields current step is "amount" should render co
             "useCallback": [Function],
             "useContext": [Function],
             "useDebugValue": [Function],
+            "useDeferredValue": [Function],
             "useEffect": [Function],
             "useImperativeHandle": [Function],
             "useLayoutEffect": [Function],
@@ -173,6 +176,7 @@ exports[`component.Pay.PayAmountFields current step is "amount" should render co
             "useRef": [Function],
             "useResponder": [Function],
             "useState": [Function],
+            "useTransition": [Function],
           },
           "_element": <PayAmountFields
             cryptoUnit="sats"
@@ -280,6 +284,7 @@ exports[`component.Pay.PayAmountFields current step is "summary" should render c
             "useCallback": [Function],
             "useContext": [Function],
             "useDebugValue": [Function],
+            "useDeferredValue": [Function],
             "useEffect": [Function],
             "useImperativeHandle": [Function],
             "useLayoutEffect": [Function],
@@ -288,6 +293,7 @@ exports[`component.Pay.PayAmountFields current step is "summary" should render c
             "useRef": [Function],
             "useResponder": [Function],
             "useState": [Function],
+            "useTransition": [Function],
           },
           "_element": <PayAmountFields
             cryptoUnit="sats"

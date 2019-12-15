@@ -19,7 +19,4 @@ const mapDispatchToProps = {
   showSkipBackupDialog,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(BackupSetup)
+export default connect(mapStateToProps, mapDispatchToProps)(BackupSetup)

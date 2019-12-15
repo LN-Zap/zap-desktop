@@ -318,10 +318,7 @@ paySelectors.willShowLnurlWithdrawalPrompt = createSelector(
     return Boolean(promptEnabled && params)
   }
 )
-paySelectors.lnurlWithdrawParams = createSelector(
-  getLnurlWithdrawParamsSelector,
-  params => params
-)
+paySelectors.lnurlWithdrawParams = createSelector(getLnurlWithdrawParamsSelector, params => params)
 export { paySelectors }
 
 export default createReducer(initialState, ACTION_HANDLERS)

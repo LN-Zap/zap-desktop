@@ -6,7 +6,10 @@ describe('component.UI.ActionBar', () => {
   it('should render correctly', () => {
     const tree = renderWithTheme(
       <ActionBar
-        buttons={[{ name: 'Save', onClick: () => {} }, { name: 'Cancel', onClick: () => {} }]}
+        buttons={[
+          { name: 'Save', onClick: () => {} },
+          { name: 'Cancel', onClick: () => {} },
+        ]}
       />
     ).toJSON()
     expect(tree).toMatchSnapshot()

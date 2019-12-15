@@ -10,7 +10,4 @@ const mapDispatchToProps = {
   setAutopilot,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Autopilot)
+export default connect(mapStateToProps, mapDispatchToProps)(Autopilot)

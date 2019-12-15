@@ -36,10 +36,7 @@ const mapDispatchToProps = {
   finishLnurlWithdrawal,
 }
 
-const ConnectedApp = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App)
+const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App)
 
 const AppWithErrorBoundaries = props => (
   <AppErrorBoundary>

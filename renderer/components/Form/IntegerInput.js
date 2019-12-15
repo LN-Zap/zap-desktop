@@ -75,10 +75,7 @@ class IntegerInput extends React.Component {
   }
 }
 
-const IntegerInputAsField = compose(
-  withInputValidation,
-  asField
-)(IntegerInput)
+const IntegerInputAsField = compose(withInputValidation, asField)(IntegerInput)
 
 class WrappedIntegerInputAsField extends React.Component {
   static propTypes = {

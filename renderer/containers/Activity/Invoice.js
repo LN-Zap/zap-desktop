@@ -11,7 +11,4 @@ const mapStateToProps = state => ({
   cryptoUnitName: tickerSelectors.cryptoUnitName(state),
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Invoice)
+export default connect(mapStateToProps, mapDispatchToProps)(Invoice)

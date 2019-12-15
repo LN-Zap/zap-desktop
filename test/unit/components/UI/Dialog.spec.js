@@ -8,7 +8,10 @@ describe('component.UI.Dialog', () => {
   it('should render correctly with two buttons', () => {
     const tree = renderWithTheme(
       <Dialog
-        buttons={[{ name: 'Delete', onClick: () => {} }, { name: 'Cancel', onClick: () => {} }]}
+        buttons={[
+          { name: 'Delete', onClick: () => {} },
+          { name: 'Cancel', onClick: () => {} },
+        ]}
         header="Title"
         onClose={() => {}}
       />

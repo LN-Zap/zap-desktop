@@ -827,9 +827,8 @@ const channelSortSelector = state => state.channels.sort
 const channelSortOrderSelector = state => state.channels.sortOrder
 const filterSelector = state => state.channels.filter
 const nodesSelector = state => networkSelectors.nodes(state)
-const viewModeSelector = createSelector(
-  settingsSelectors.currentConfig,
-  currentConfig => get(currentConfig, 'channels.viewMode')
+const viewModeSelector = createSelector(settingsSelectors.currentConfig, currentConfig =>
+  get(currentConfig, 'channels.viewMode')
 )
 
 channelsSelectors.viewMode = viewModeSelector
@@ -860,9 +859,8 @@ channelsSelectors.totalLimboBalance = createSelector(
   totalLimboBalance => totalLimboBalance
 )
 
-channelsSelectors.loadingChannelPubKeys = createSelector(
-  loadingChannelsSelector,
-  loadingChannels => loadingChannels.map(loadingChannel => loadingChannel.node_pubkey)
+channelsSelectors.loadingChannelPubKeys = createSelector(loadingChannelsSelector, loadingChannels =>
+  loadingChannels.map(loadingChannel => loadingChannel.node_pubkey)
 )
 
 channelsSelectors.loadingChannels = createSelector(
@@ -1103,27 +1101,24 @@ channelsSelectors.selectedChannel = createSelector(
   }
 )
 
-channelsSelectors.capacity = createSelector(
-  channelsSelectors.allChannelsRaw,
-  allChannels => {
-    let maxOneTimeSend = 0
-    let maxOneTimeReceive = 0
-    let send = 0
-    let receive = 0
-    allChannels.forEach(channel => {
-      const channelData = getChannelData(channel)
-      if (channelData.local_balance) {
-        send += channelData.local_balance
-        maxOneTimeSend = Math.max(maxOneTimeSend, channelData.local_balance)
-      }
-      if (channelData.remote_balance) {
-        receive += channelData.remote_balance
-        maxOneTimeReceive = Math.max(maxOneTimeReceive, channelData.remote_balance)
-      }
-    })
-    return { send, receive, maxOneTimeReceive, maxOneTimeSend }
-  }
-)
+channelsSelectors.capacity = createSelector(channelsSelectors.allChannelsRaw, allChannels => {
+  let maxOneTimeSend = 0
+  let maxOneTimeReceive = 0
+  let send = 0
+  let receive = 0
+  allChannels.forEach(channel => {
+    const channelData = getChannelData(channel)
+    if (channelData.local_balance) {
+      send += channelData.local_balance
+      maxOneTimeSend = Math.max(maxOneTimeSend, channelData.local_balance)
+    }
+    if (channelData.remote_balance) {
+      receive += channelData.remote_balance
+      maxOneTimeReceive = Math.max(maxOneTimeReceive, channelData.remote_balance)
+    }
+  })
+  return { send, receive, maxOneTimeReceive, maxOneTimeSend }
+})
 
 channelsSelectors.sendCapacity = createSelector(
   channelsSelectors.capacity,
@@ -1144,16 +1139,13 @@ channelsSelectors.maxOneTimeReceive = createSelector(
   capacity => capacity.maxOneTimeReceive
 )
 
-channelsSelectors.isCustomFilter = createSelector(
-  filterSelector,
-  filters => {
-    if (filters.size && filters.size !== defaultFilter.size) {
-      return true
-    }
-    const difference = new Set([...filters].filter(x => !defaultFilter.has(x)))
-    return difference.size > 0
+channelsSelectors.isCustomFilter = createSelector(filterSelector, filters => {
+  if (filters.size && filters.size !== defaultFilter.size) {
+    return true
   }
-)
+  const difference = new Set([...filters].filter(x => !defaultFilter.has(x)))
+  return difference.size > 0
+})
 
 export { channelsSelectors }
 

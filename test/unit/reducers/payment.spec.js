@@ -24,7 +24,10 @@ describe('reducers', () => {
     it('should handle RECEIVE_PAYMENTS', () => {
       const action = {
         type: RECEIVE_PAYMENTS,
-        payments: [{ some: 'data', payment_hash: '1' }, { some: 'data', payment_hash: '2' }],
+        payments: [
+          { some: 'data', payment_hash: '1' },
+          { some: 'data', payment_hash: '2' },
+        ],
       }
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })

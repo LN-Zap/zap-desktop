@@ -19,7 +19,4 @@ const mapDispatchToProps = {
   onCancel,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DeleteWalletDialog)
+export default connect(mapStateToProps, mapDispatchToProps)(DeleteWalletDialog)

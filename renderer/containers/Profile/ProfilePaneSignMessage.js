@@ -8,7 +8,4 @@ const mapDispatchToProps = {
   signMessage,
 }
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(ProfilePaneSignMessage)
+export default connect(null, mapDispatchToProps)(ProfilePaneSignMessage)

@@ -20,7 +20,4 @@ const mapStateToProps = state => ({
   isCustomFilter: activitySelectors.isCustomFilter(state),
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ActivityActions)
+export default connect(mapStateToProps, mapDispatchToProps)(ActivityActions)

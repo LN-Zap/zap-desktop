@@ -10,7 +10,4 @@ const mapDispatchToProps = {
   setNetwork,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Network)
+export default connect(mapStateToProps, mapDispatchToProps)(Network)

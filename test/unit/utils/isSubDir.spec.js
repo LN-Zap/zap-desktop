@@ -5,7 +5,11 @@ describe('isSubDir', () => {
   const mapSamples = samples => samples.map(([parent, dir]) => isSubDir(parent, dir))
 
   if (os.platform() === 'win32') {
-    const tests = [['C:\\Foo', 'C:\\Foo\\Bar'], ['C:\\Foo', 'C:\\Bar'], ['C:\\Foo', 'D:\\Foo\\Bar']]
+    const tests = [
+      ['C:\\Foo', 'C:\\Foo\\Bar'],
+      ['C:\\Foo', 'C:\\Bar'],
+      ['C:\\Foo', 'D:\\Foo\\Bar'],
+    ]
     const result = mapSamples(tests)
     it('should correctly detect subdirs on windows', () => {
       expect(result).toEqual([true, false, false])

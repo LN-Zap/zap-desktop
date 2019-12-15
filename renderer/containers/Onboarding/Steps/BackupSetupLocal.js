@@ -6,7 +6,4 @@ const mapDispatchToProps = {
   setBackupPathLocal,
 }
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(BackupSetupLocal)
+export default connect(null, mapDispatchToProps)(BackupSetupLocal)

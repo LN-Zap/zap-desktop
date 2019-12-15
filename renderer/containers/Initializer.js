@@ -67,7 +67,4 @@ const mapStateToProps = state => ({
   isWalletsLoaded: walletSelectors.isWalletsLoaded(state),
 })
 
-export default connect(
-  mapStateToProps,
-  null
-)(Initializer)
+export default connect(mapStateToProps, null)(Initializer)

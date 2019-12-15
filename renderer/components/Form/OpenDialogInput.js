@@ -54,7 +54,4 @@ OpenDialogInput.propTypes = {
 
 export { OpenDialogInput as BasicOpenDialogInput }
 
-export default compose(
-  withInputValidation,
-  asField
-)(OpenDialogInput)
+export default compose(withInputValidation, asField)(OpenDialogInput)

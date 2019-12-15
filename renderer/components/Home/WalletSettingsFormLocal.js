@@ -40,7 +40,10 @@ export const validateNeutrinoNodes = async formApi => {
     formApi.setError(field, undefined)
   } else {
     // display first error
-    formApi.setError(field, result.find(v => v !== true))
+    formApi.setError(
+      field,
+      result.find(v => v !== true)
+    )
   }
 }
 
@@ -317,8 +320,4 @@ class WalletSettingsFormLocal extends React.Component {
   }
 }
 
-export default compose(
-  withFormApi,
-  withFormState,
-  injectIntl
-)(WalletSettingsFormLocal)
+export default compose(withFormApi, withFormState, injectIntl)(WalletSettingsFormLocal)

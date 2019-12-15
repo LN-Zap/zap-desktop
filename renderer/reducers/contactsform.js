@@ -135,16 +135,13 @@ contactFormSelectors.filteredNetworkNodes = createSelector(
   }
 )
 
-contactFormSelectors.isSearchValidNodeAddress = createSelector(
-  searchQuerySelector,
-  searchQuery => {
-    if (!searchQuery || searchQuery.length < 3) {
-      return false
-    }
-    const [pubkey, host] = searchQuery.split('@')
-    return Boolean(pubkey && host)
+contactFormSelectors.isSearchValidNodeAddress = createSelector(searchQuerySelector, searchQuery => {
+  if (!searchQuery || searchQuery.length < 3) {
+    return false
   }
-)
+  const [pubkey, host] = searchQuery.split('@')
+  return Boolean(pubkey && host)
+})
 
 contactFormSelectors.selectedNodeDisplayName = createSelector(
   searchQuerySelector,

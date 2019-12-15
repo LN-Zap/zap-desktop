@@ -122,9 +122,8 @@ const isSettingsLoadedSelector = state => state.settings.isSettingsLoaded
 const configSelector = state => state.settings.config
 const settingsSelectors = {}
 settingsSelectors.isSettingsLoaded = isSettingsLoadedSelector
-settingsSelectors.currentConfig = createSelector(
-  configSelector,
-  overrides => merge({}, config, overrides)
+settingsSelectors.currentConfig = createSelector(configSelector, overrides =>
+  merge({}, config, overrides)
 )
 export { settingsSelectors }
 

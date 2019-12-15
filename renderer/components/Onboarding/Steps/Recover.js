@@ -76,7 +76,12 @@ const Recover = ({ wizardApi, wizardState, setSeed, intl, ...rest }) => {
       <Bar my={4} />
 
       <Flex justifyContent="space-between">
-        {[[0, 6], [6, 12], [12, 18], [18, 24]].map((slice, sliceIndex) => (
+        {[
+          [0, 6],
+          [6, 12],
+          [12, 18],
+          [18, 24],
+        ].map((slice, sliceIndex) => (
           <Flex
             key={sliceIndex}
             as="ul"

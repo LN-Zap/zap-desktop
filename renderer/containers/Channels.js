@@ -41,7 +41,4 @@ const mapDispatchToProps = {
   fetchChannels,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Channels)
+export default connect(mapStateToProps, mapDispatchToProps)(Channels)

@@ -32,10 +32,7 @@ const mapDispatchToProps = {
   showNotification,
 }
 
-const SyncingContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Syncing)
+const SyncingContainer = connect(mapStateToProps, mapDispatchToProps)(Syncing)
 
 const ModalOverlay = styled.div`
   ${ModalOverlayStyles}

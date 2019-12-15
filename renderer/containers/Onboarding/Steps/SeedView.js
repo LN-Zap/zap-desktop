@@ -11,7 +11,4 @@ const mapDispatchToProps = {
   fetchSeed,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SeedView)
+export default connect(mapStateToProps, mapDispatchToProps)(SeedView)

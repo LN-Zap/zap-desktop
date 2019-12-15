@@ -35,7 +35,4 @@ const mapDispatchToProps = {
   closeModal,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(RootAppModalStack)
+export default connect(mapStateToProps, mapDispatchToProps)(RootAppModalStack)

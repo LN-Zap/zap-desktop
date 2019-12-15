@@ -34,9 +34,6 @@ const mapDispatchToProps = {
   showNotification,
 }
 
-const ConnectedCopyButton = connect(
-  null,
-  mapDispatchToProps
-)(WrappedCopyButton)
+const ConnectedCopyButton = connect(null, mapDispatchToProps)(WrappedCopyButton)
 
 export default injectIntl(ConnectedCopyButton)
