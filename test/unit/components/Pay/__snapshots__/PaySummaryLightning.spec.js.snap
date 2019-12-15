@@ -134,7 +134,7 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
       <ForwardRef(Styled(styled.div))
         alignItems="baseline"
       >
-        <Memo(Connect(Dropdown))
+        <UNDEFINED
           mr={2}
         />
         <CryptoValue

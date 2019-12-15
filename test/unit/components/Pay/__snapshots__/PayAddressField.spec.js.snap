@@ -39,6 +39,7 @@ exports[`component.Pay.PayAddressField current step is "address" should render c
               "useCallback": [Function],
               "useContext": [Function],
               "useDebugValue": [Function],
+              "useDeferredValue": [Function],
               "useEffect": [Function],
               "useImperativeHandle": [Function],
               "useLayoutEffect": [Function],
@@ -47,6 +48,7 @@ exports[`component.Pay.PayAddressField current step is "address" should render c
               "useRef": [Function],
               "useResponder": [Function],
               "useState": [Function],
+              "useTransition": [Function],
             },
             "_element": <PayAddressField
               chain="Bitcoin"
@@ -133,6 +135,7 @@ exports[`component.Pay.PayAddressField current step is "summary" and it is an LN
               "useCallback": [Function],
               "useContext": [Function],
               "useDebugValue": [Function],
+              "useDeferredValue": [Function],
               "useEffect": [Function],
               "useImperativeHandle": [Function],
               "useLayoutEffect": [Function],
@@ -141,6 +144,7 @@ exports[`component.Pay.PayAddressField current step is "summary" and it is an LN
               "useRef": [Function],
               "useResponder": [Function],
               "useState": [Function],
+              "useTransition": [Function],
             },
             "_element": <PayAddressField
               chain="Bitcoin"
@@ -227,6 +231,7 @@ exports[`component.Pay.PayAddressField current step is "summary" and it is an on
               "useCallback": [Function],
               "useContext": [Function],
               "useDebugValue": [Function],
+              "useDeferredValue": [Function],
               "useEffect": [Function],
               "useImperativeHandle": [Function],
               "useLayoutEffect": [Function],
@@ -235,6 +240,7 @@ exports[`component.Pay.PayAddressField current step is "summary" and it is an on
               "useRef": [Function],
               "useResponder": [Function],
               "useState": [Function],
+              "useTransition": [Function],
             },
             "_element": <PayAddressField
               chain="Bitcoin"
