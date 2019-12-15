@@ -209,12 +209,12 @@
     }
   },
   "devDependencies": {
-    "@babel/core": "7.7.4",
+    "@babel/core": "7.7.5",
     "@babel/plugin-proposal-class-properties": "7.7.4",
     "@babel/plugin-proposal-export-default-from": "7.7.4",
     "@babel/plugin-transform-react-constant-elements": "7.7.4",
     "@babel/plugin-transform-react-inline-elements": "7.7.4",
-    "@babel/preset-env": "7.7.4",
+    "@babel/preset-env": "7.7.6",
     "@babel/preset-react": "7.7.4",
     "@babel/register": "7.7.4",
     "@commitlint/cli": "8.2.0",
