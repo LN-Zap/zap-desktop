@@ -36,7 +36,7 @@ class CryptoAmountInput extends React.Component {
       const [integer, fractional] = parseNumber(valueAfter, this.getRules().precision)
       // Handle a corner case for the satoshis. sat number must be integer so
       // explicitly getting rid of fractional part (to avoid things like "1000." )
-      const isSats = ['sats', 'lits'].includes(cryptoUnit)
+      const isSats = cryptoUnit === 'sats'
       const formattedValue = formatValue(integer, isSats ? null : fractional)
       if (formattedValue !== valueAfter) {
         fieldApi.setValue(formattedValue)
@@ -48,7 +48,6 @@ class CryptoAmountInput extends React.Component {
     const { cryptoUnit } = this.props
     switch (cryptoUnit) {
       case 'btc':
-      case 'ltc':
         return {
           precision: 8,
           step: '0.00000001',
@@ -56,7 +55,6 @@ class CryptoAmountInput extends React.Component {
           pattern: '[0-9]*.?[0-9]{0,8}?',
         }
       case 'bits':
-      case 'phots':
         return {
           precision: 2,
           step: '0.01',
@@ -64,7 +62,6 @@ class CryptoAmountInput extends React.Component {
           pattern: '[0-9]*.?[0-9]{0,2}?',
         }
       case 'sats':
-      case 'lits':
         return {
           precision: 0,
           step: '1',

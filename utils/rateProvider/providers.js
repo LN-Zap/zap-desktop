@@ -60,7 +60,7 @@ function bitfinexParser(currency, data) {
 /**
  * createConfig - Creates provider config for the specified `coin` and `currency`.
  *
- * @param {('BTC'|'LTC')} coin Crypto currency of interest
+ * @param {'BTC'} coin Crypto currency of interest
  * @param {string} currency Fiat currency of interest
  * @returns {object} Config object
  */
@@ -72,11 +72,10 @@ export function createConfig(coin, currency) {
 
   const KRAKEN_FORMAT = {
     BTC: 'XBT',
-    LTC: 'LTC',
   }
   const config = {
     coinbase: {
-      coins: ['BTC', 'LTC'],
+      coins: ['BTC'],
       name: 'Coinbase',
       id: 'coinbase',
       apiUrl: formatUrl(`api.coinbase.com/v2/exchange-rates?currency=${coin}`),
@@ -85,7 +84,7 @@ export function createConfig(coin, currency) {
     bitstamp: {
       name: 'Bitstamp',
       id: 'bitstamp',
-      coins: ['BTC', 'LTC'],
+      coins: ['BTC'],
       currencies: ['USD', 'EUR'],
       apiUrl: formatUrl(`www.bitstamp.net/api/v2/ticker/${coin}${currency}/`),
       parser: bitstampParser.bind(null, currency),
@@ -93,7 +92,7 @@ export function createConfig(coin, currency) {
     kraken: {
       name: 'Kraken',
       id: 'kraken',
-      coins: ['BTC', 'LTC'],
+      coins: ['BTC'],
       currencies: ['EUR', 'USD', 'CAD', 'GBP', 'JPY'],
       apiUrl: formatUrl(`api.kraken.com/0/public/Ticker?pair=${KRAKEN_FORMAT[coin]}${currency}`),
       parser: krakenParser.bind(null, currency),
@@ -128,7 +127,7 @@ export function createConfig(coin, currency) {
  * getSupportedProviders - Get list of supported providers for the specified `coin` and `currency`
  * if called with undefined `coin` and/or `currency` - returns all enabled providers.
  *
- * @param {('BTC'|'LTC')} coin Crypto currency of interest
+ * @param {'BTC'} coin Crypto currency of interest
  * @param {string} currency Fiat currency of interest
  * @returns {object} Details of supported rate providers
  */

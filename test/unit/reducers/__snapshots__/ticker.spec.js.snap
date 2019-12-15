@@ -21,20 +21,6 @@ Snapshot Diff:
           "value": "satoshis",
         },
       ],
-      "litecoin": Array [
-        Object {
-          "key": "ltc",
-          "value": "LTC",
-        },
-        Object {
-          "key": "phots",
-          "value": "photons",
-        },
-        Object {
-          "key": "lits",
-          "value": "litoshis",
-        },
-      ],
     },
     "fiatTicker": "USD",
     "fiatTickers": Array [
@@ -89,20 +75,6 @@ Snapshot Diff:
           "value": "satoshis",
         },
       ],
-      "litecoin": Array [
-        Object {
-          "key": "ltc",
-          "value": "LTC",
-        },
-        Object {
-          "key": "phots",
-          "value": "photons",
-        },
-        Object {
-          "key": "lits",
-          "value": "litoshis",
-        },
-      ],
     },
     "fiatTicker": "USD",
     "fiatTickers": Array [
@@ -153,20 +125,6 @@ Object {
       Object {
         "key": "sats",
         "value": "satoshis",
-      },
-    ],
-    "litecoin": Array [
-      Object {
-        "key": "ltc",
-        "value": "LTC",
-      },
-      Object {
-        "key": "phots",
-        "value": "photons",
-      },
-      Object {
-        "key": "lits",
-        "value": "litoshis",
       },
     ],
   },

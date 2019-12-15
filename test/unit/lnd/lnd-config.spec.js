@@ -31,25 +31,6 @@ describe('LndConfig', function testLndConfig() {
   }
 
   describe('"local" type', () => {
-    describe('New config with provided options', () => {
-      beforeAll(() => {
-        this.wallet = 'wallet-1'
-        this.type = 'local'
-        this.chain = 'litecoin'
-        this.network = 'mainnet'
-
-        this.lndConfig = new LndConfig({
-          ...lndOptions,
-          id: 1,
-          type: this.type,
-          chain: this.chain,
-          network: this.network,
-        })
-      })
-
-      checkForConfigProperties('provided')
-    })
-
     describe('New config with provided options and initial configuration', () => {
       beforeAll(() => {
         this.wallet = 'wallet-1'

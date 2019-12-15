@@ -3,7 +3,6 @@ import get from 'lodash/get'
 import createReducer from '@zap/utils/createReducer'
 import { currencies, getDefaultCurrency } from '@zap/i18n'
 import { requestTickerWithFallback } from '@zap/utils/rateProvider'
-import { infoSelectors } from './info'
 import { putConfig, settingsSelectors } from './settings'
 
 // ------------------------------------
@@ -28,20 +27,6 @@ const initialState = {
       {
         key: 'sats',
         value: 'satoshis',
-      },
-    ],
-    litecoin: [
-      {
-        key: 'ltc',
-        value: 'LTC',
-      },
-      {
-        key: 'phots',
-        value: 'photons',
-      },
-      {
-        key: 'lits',
-        value: 'litoshis',
       },
     ],
   },
@@ -124,7 +109,7 @@ export const setFiatTicker = fiatTicker => async dispatch => {
  */
 export const fetchTickers = () => async (dispatch, getState) => {
   const state = getState()
-  const chain = infoSelectors.chainSelector(state) === 'bitcoin' ? 'BTC' : 'LTC'
+  const chain = 'BTC'
   const currentConfig = settingsSelectors.currentConfig(state)
   const currency = fiatTickerSelector(state)
   dispatch({ type: GET_TICKERS })
@@ -201,7 +186,7 @@ tickerSelectors.cryptoAddressName = createSelector(
   chainSelector,
   tickerSelectors.cryptoUnits,
   (chain, cryptoUnits = []) => {
-    // assume first entry is as a currency ticker name (e.g BTC, LTC etc)
+    // assume first entry is as a currency ticker name (e.g BTC)
     const [selectedUnit] = cryptoUnits
     if (selectedUnit) {
       return selectedUnit.name
