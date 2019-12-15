@@ -3,7 +3,7 @@ import createReducer from '@zap/utils/createReducer'
 import { closeDialog } from 'reducers/modal'
 import { showError } from 'reducers/notification'
 import { putSetting } from 'reducers/settings'
-import walletSelectors from './selectors'
+import { activeWallet } from './selectors'
 import * as constants from './constants'
 
 const {
@@ -136,7 +136,7 @@ export const removeWallet = wallet => async dispatch => {
  */
 export const deleteWallet = () => async (dispatch, getState) => {
   try {
-    const walletId = walletSelectors.activeWalletSelector(getState())
+    const walletId = activeWallet(getState())
     if (walletId) {
       dispatch({ type: DELETE_WALLET, walletId })
       dispatch(closeDialog(DELETE_WALLET_DIALOG_ID))
