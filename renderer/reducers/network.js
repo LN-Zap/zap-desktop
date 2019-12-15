@@ -138,10 +138,7 @@ const ACTION_HANDLERS = {
 const networkSelectors = {}
 const nodesSelector = state => state.network.nodes
 
-networkSelectors.nodes = createSelector(
-  nodesSelector,
-  nodes => nodes
-)
+networkSelectors.nodes = createSelector(nodesSelector, nodes => nodes)
 
 export { networkSelectors }
 

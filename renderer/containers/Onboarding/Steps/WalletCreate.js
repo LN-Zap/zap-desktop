@@ -12,7 +12,4 @@ const mapDispatchToProps = {
   clearCreateWalletError,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WalletCreate)
+export default connect(mapStateToProps, mapDispatchToProps)(WalletCreate)

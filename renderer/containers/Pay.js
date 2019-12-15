@@ -38,7 +38,4 @@ const mapDispatchToProps = {
   queryRoutes,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Pay)
+export default connect(mapStateToProps, mapDispatchToProps)(Pay)

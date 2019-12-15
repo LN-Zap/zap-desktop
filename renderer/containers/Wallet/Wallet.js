@@ -18,7 +18,4 @@ const mapStateToProps = state => ({
   currentTicker: tickerSelectors.currentTicker(state),
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Wallet)
+export default connect(mapStateToProps, mapDispatchToProps)(Wallet)

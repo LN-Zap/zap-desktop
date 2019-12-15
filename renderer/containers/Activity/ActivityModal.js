@@ -16,7 +16,4 @@ const mapDispatchToProps = {
   saveInvoice,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ActivityModal)
+export default connect(mapStateToProps, mapDispatchToProps)(ActivityModal)

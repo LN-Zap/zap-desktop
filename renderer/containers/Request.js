@@ -29,7 +29,4 @@ const mapDispatchToProps = {
   showError,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Request)
+export default connect(mapStateToProps, mapDispatchToProps)(Request)

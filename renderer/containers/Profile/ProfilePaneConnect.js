@@ -11,7 +11,4 @@ const mapDispatchToProps = {
   showNotification,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProfilePaneConnect)
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePaneConnect)

@@ -497,7 +497,4 @@ class WalletLauncher extends React.Component {
   }
 }
 
-export default compose(
-  withRouter,
-  injectIntl
-)(WalletLauncher)
+export default compose(withRouter, injectIntl)(WalletLauncher)

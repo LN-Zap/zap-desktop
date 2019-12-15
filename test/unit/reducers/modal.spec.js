@@ -44,7 +44,10 @@ describe('reducers', () => {
     it('should handle SET_MODALS', () => {
       const action = {
         type: SET_MODALS,
-        modals: [{ id: 'modala', some: 'data' }, { id: 'modalb', some: 'data' }],
+        modals: [
+          { id: 'modala', some: 'data' },
+          { id: 'modalb', some: 'data' },
+        ],
       }
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })

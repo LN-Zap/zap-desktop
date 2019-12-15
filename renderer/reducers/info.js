@@ -271,16 +271,13 @@ infoSelectors.versionString = createSelector(
 )
 
 // Extract the commit string from the version.
-infoSelectors.commitString = createSelector(
-  infoSelectors.version,
-  version => {
-    if (!version) {
-      return undefined
-    }
-    const commitString = version.split(' ')[1]
-    return commitString ? commitString.replace('commit=', '') : undefined
+infoSelectors.commitString = createSelector(infoSelectors.version, version => {
+  if (!version) {
+    return undefined
   }
-)
+  const commitString = version.split(' ')[1]
+  return commitString ? commitString.replace('commit=', '') : undefined
+})
 
 // Get the node pubkey. If not set, try to extract it from the node uri.
 infoSelectors.nodePubkey = createSelector(

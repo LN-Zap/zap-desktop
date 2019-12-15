@@ -20,7 +20,4 @@ const mapDispatchToProps = {
   startLnd,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ConnectionConfirm)
+export default connect(mapStateToProps, mapDispatchToProps)(ConnectionConfirm)

@@ -10,7 +10,4 @@ const mapDispatchToProps = {
   setName,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Name)
+export default connect(mapStateToProps, mapDispatchToProps)(Name)

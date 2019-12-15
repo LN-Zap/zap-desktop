@@ -35,7 +35,4 @@ const mapDispatchToProps = dispatch => ({
   },
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AutopayCreateModal)
+export default connect(mapStateToProps, mapDispatchToProps)(AutopayCreateModal)

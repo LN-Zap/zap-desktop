@@ -6,7 +6,4 @@ const mapDispatchToProps = {
   setSeed,
 }
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(Recover)
+export default connect(null, mapDispatchToProps)(Recover)

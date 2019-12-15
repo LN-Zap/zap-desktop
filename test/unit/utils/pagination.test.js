@@ -118,7 +118,10 @@ describe('sample paginator', () => {
   test(`tests sample paginator`, async () => {
     const paginator = paginator1()
     const { items, offset } = await paginator(2, 0)
-    expect(items).toEqual([{ data: 1, timestamp: 1569840844 }, { data: 2, timestamp: 1569840744 }])
+    expect(items).toEqual([
+      { data: 1, timestamp: 1569840844 },
+      { data: 2, timestamp: 1569840744 },
+    ])
 
     expect((await paginator(3, offset)).items).toEqual([
       { data: 3, timestamp: 1569840644 },
@@ -132,7 +135,10 @@ describe('basic pagination', () => {
   test(`basic combined pagination`, async () => {
     const paginator = combinePaginators((a, b) => b.timestamp - a.timestamp, paginator1())
     const { items } = await paginator(2)
-    expect(items).toEqual([{ data: 1, timestamp: 1569840844 }, { data: 2, timestamp: 1569840744 }])
+    expect(items).toEqual([
+      { data: 1, timestamp: 1569840844 },
+      { data: 2, timestamp: 1569840744 },
+    ])
   })
 })
 
@@ -174,7 +180,10 @@ describe('combined multiple paginators', () => {
 
     expect(await paginator(19)).toEqual({
       hasNextPage: false,
-      items: [{ data: 34, timestamp: 1559840544 }, { data: 35, timestamp: 1559840444 }],
+      items: [
+        { data: 34, timestamp: 1559840544 },
+        { data: 35, timestamp: 1559840444 },
+      ],
     })
   })
 

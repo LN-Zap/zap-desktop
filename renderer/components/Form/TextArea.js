@@ -143,7 +143,4 @@ const BasicTextArea = TextArea
 
 export { BasicTextArea }
 
-export default compose(
-  withInputValidation,
-  asField
-)(BasicTextArea)
+export default compose(withInputValidation, asField)(BasicTextArea)

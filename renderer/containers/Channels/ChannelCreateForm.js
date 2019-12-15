@@ -27,7 +27,4 @@ const mapDispatchToProps = {
   updateContactFormSearchQuery,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ChannelCreateForm)
+export default connect(mapStateToProps, mapDispatchToProps)(ChannelCreateForm)

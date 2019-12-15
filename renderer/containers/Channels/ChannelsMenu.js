@@ -17,7 +17,4 @@ const mapDispatchToProps = {
   openModal,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ChannelsMenu)
+export default connect(mapStateToProps, mapDispatchToProps)(ChannelsMenu)

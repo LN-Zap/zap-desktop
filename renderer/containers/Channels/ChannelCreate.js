@@ -15,7 +15,4 @@ const mapDispatchToProps = {
   onSubmit,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ChannelCreate)
+export default connect(mapStateToProps, mapDispatchToProps)(ChannelCreate)

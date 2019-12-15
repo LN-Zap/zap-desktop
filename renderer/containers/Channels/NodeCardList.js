@@ -10,7 +10,4 @@ const mapDispatchToProps = {
   updateContactFormSearchQuery,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(NodeCardList)
+export default connect(mapStateToProps, mapDispatchToProps)(NodeCardList)

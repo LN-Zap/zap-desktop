@@ -10,7 +10,4 @@ const mapDispatchToProps = {
   openAutopayCreateModal,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AutopayMerchantList)
+export default connect(mapStateToProps, mapDispatchToProps)(AutopayMerchantList)

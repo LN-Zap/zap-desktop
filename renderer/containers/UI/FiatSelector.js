@@ -11,7 +11,4 @@ const mapDispatchToProps = {
   onChange: setFiatTicker,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Dropdown)
+export default connect(mapStateToProps, mapDispatchToProps)(Dropdown)

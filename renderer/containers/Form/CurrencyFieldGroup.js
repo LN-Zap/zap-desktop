@@ -15,7 +15,4 @@ const mapDispatchToProps = {
   setFiatCurrency: setFiatTicker,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CurrencyFieldGroup)
+export default connect(mapStateToProps, mapDispatchToProps)(CurrencyFieldGroup)

@@ -12,7 +12,4 @@ const mapDispatchToProps = {
   onChange: setCryptoUnit,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Dropdown)
+export default connect(mapStateToProps, mapDispatchToProps)(Dropdown)

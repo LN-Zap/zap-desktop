@@ -5,13 +5,7 @@ import { space, layout, color, compose } from 'styled-system'
 import { Form as InformedForm } from 'informed'
 
 // Create an html input element that accepts all style props from styled-system.
-const FormInner = styled(InformedForm)(
-  compose(
-    space,
-    layout,
-    color
-  )
-)
+const FormInner = styled(InformedForm)(compose(space, layout, color))
 
 const Form = ({ asyncValidators, onSubmit, onSubmitFailure, getApi, ...rest }) => {
   const formApi = useRef(null)

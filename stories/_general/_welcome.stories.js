@@ -123,7 +123,10 @@ storiesOf('General', module)
                     <Element>
                       <Dropdown
                         activeKey="key1"
-                        items={[{ key: 'key1', value: 'Key 1' }, { key: 'key2', value: 'Key 2' }]}
+                        items={[
+                          { key: 'key1', value: 'Key 1' },
+                          { key: 'key2', value: 'Key 2' },
+                        ]}
                       />
                     </Element>
                   </Group>

@@ -283,15 +283,11 @@ const invoiceSelectors = {}
 const invoiceSelector = state => state.invoice.invoice
 const invoicesSelector = state => state.invoice.invoices
 
-invoiceSelectors.invoices = createSelector(
-  invoicesSelector,
-  invoices => invoices.map(decorateInvoice)
+invoiceSelectors.invoices = createSelector(invoicesSelector, invoices =>
+  invoices.map(decorateInvoice)
 )
 
-invoiceSelectors.invoiceModalOpen = createSelector(
-  invoiceSelector,
-  invoice => Boolean(invoice)
-)
+invoiceSelectors.invoiceModalOpen = createSelector(invoiceSelector, invoice => Boolean(invoice))
 invoiceSelectors.invoice = createSelector(
   invoiceSelectors.invoices,
   invoiceSelector,

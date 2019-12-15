@@ -47,7 +47,4 @@ const mapDispatchToProps = {
   clearLoginError,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WrappedLogin)
+export default connect(mapStateToProps, mapDispatchToProps)(WrappedLogin)

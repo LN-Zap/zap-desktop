@@ -14,7 +14,4 @@ const mapDispatchToProps = {
   resetOnboarding,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ConnectionType)
+export default connect(mapStateToProps, mapDispatchToProps)(ConnectionType)

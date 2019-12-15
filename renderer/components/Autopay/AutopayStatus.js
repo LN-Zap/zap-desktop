@@ -20,7 +20,4 @@ AutopayStatus.propTypes = {
   fieldState: PropTypes.object.isRequired,
 }
 
-export default compose(
-  withFieldState('isEnabled'),
-  injectIntl
-)(AutopayStatus)
+export default compose(withFieldState('isEnabled'), injectIntl)(AutopayStatus)

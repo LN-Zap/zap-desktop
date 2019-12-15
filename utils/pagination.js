@@ -46,7 +46,10 @@ export default function combinePaginators(itemSorter, ...paginators) {
       const { offset } = current[index]
       offsets.set(p, offset)
     })
-    const [result, rest] = splitResult(cache, current.flatMap(({ items }) => items))
+    const [result, rest] = splitResult(
+      cache,
+      current.flatMap(({ items }) => items)
+    )
     cache = rest
     return createResult(result)
   }

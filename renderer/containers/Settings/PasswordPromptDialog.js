@@ -20,7 +20,4 @@ const mapDispatchToProps = {
   clearLoginError,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PasswordPromptDialog)
+export default connect(mapStateToProps, mapDispatchToProps)(PasswordPromptDialog)

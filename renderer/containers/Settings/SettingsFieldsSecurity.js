@@ -24,7 +24,4 @@ const mapDispatchToProps = {
   disablePassword,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SettingsFieldsSecurity)
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsFieldsSecurity)

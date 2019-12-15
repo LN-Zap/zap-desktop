@@ -371,10 +371,8 @@ const paymentsSelector = state => state.payment.payments
 const paymentsSendingSelector = state => state.payment.paymentsSending
 const nodesSelector = state => networkSelectors.nodes(state)
 
-paymentSelectors.payments = createSelector(
-  paymentsSelector,
-  nodesSelector,
-  (payments, nodes) => payments.map(payment => decoratePayment(payment, nodes))
+paymentSelectors.payments = createSelector(paymentsSelector, nodesSelector, (payments, nodes) =>
+  payments.map(payment => decoratePayment(payment, nodes))
 )
 
 paymentSelectors.paymentsSending = createSelector(
@@ -383,10 +381,7 @@ paymentSelectors.paymentsSending = createSelector(
   (paymentsSending, nodes) => paymentsSending.map(payment => decoratePayment(payment, nodes))
 )
 
-paymentSelectors.paymentModalOpen = createSelector(
-  modalPaymentSelector,
-  payment => !!payment
-)
+paymentSelectors.paymentModalOpen = createSelector(modalPaymentSelector, payment => !!payment)
 
 export { paymentSelectors }
 

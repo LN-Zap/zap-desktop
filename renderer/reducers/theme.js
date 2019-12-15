@@ -66,14 +66,8 @@ const themeSelectors = {}
 const currentThemeSelector = state => settingsSelectors.currentConfig(state).theme
 const themesSelector = state => state.theme.themes
 
-themeSelectors.themes = createSelector(
-  themesSelector,
-  themes => themes
-)
-themeSelectors.currentTheme = createSelector(
-  currentThemeSelector,
-  currentTheme => currentTheme
-)
+themeSelectors.themes = createSelector(themesSelector, themes => themes)
+themeSelectors.currentTheme = createSelector(currentThemeSelector, currentTheme => currentTheme)
 themeSelectors.currentThemeSettings = createSelector(
   themesSelector,
   currentThemeSelector,

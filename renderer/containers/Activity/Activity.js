@@ -18,7 +18,4 @@ const mapDispatchToProps = {
   loadNextPage,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Activity)
+export default connect(mapStateToProps, mapDispatchToProps)(Activity)

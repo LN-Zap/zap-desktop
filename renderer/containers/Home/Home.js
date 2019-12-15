@@ -60,10 +60,7 @@ const mapDispatchToProps = {
   generateLndConfigFromWallet,
 }
 
-const ConnectedHome = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(HomeWrapper)
+const ConnectedHome = connect(mapStateToProps, mapDispatchToProps)(HomeWrapper)
 
 const HomeWithErrorBoundaries = props => (
   <AppErrorBoundary>

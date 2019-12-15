@@ -36,7 +36,4 @@ const mapDispatchToProps = {
   clearStartLndError,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ConnectionDetails)
+export default connect(mapStateToProps, mapDispatchToProps)(ConnectionDetails)

@@ -50,7 +50,10 @@ const items = [
   {
     id: 'parent1',
     title: 'Item with submenu',
-    submenu: [{ id: 'child1', title: 'Child item 1' }, { id: 'child2', title: 'Child item 2' }],
+    submenu: [
+      { id: 'child1', title: 'Child item 1' },
+      { id: 'child2', title: 'Child item 2' },
+    ],
   },
   {
     id: 'parent2',

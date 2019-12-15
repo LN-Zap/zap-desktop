@@ -8,7 +8,4 @@ const mapDispatchToProps = {
   verifyMessage,
 }
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(ProfilePaneVerifyMessage)
+export default connect(null, mapDispatchToProps)(ProfilePaneVerifyMessage)

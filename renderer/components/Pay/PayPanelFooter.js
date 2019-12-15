@@ -100,7 +100,7 @@ const PayPanelFooter = props => {
 
   // Determine which buttons should be visible.
   const hasBackButton = currentStep !== PAY_FORM_STEPS.address
-  const hasSubmitButton = currentStep !== PAY_FORM_STEPS.address || (isOnchain || isLn)
+  const hasSubmitButton = currentStep !== PAY_FORM_STEPS.address || isOnchain || isLn
 
   return (
     <Flex flexDirection="column">

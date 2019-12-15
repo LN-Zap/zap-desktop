@@ -73,7 +73,4 @@ const mapDispatchToProps = {
   startActiveWallet,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WalletStarter)
+export default connect(mapStateToProps, mapDispatchToProps)(WalletStarter)

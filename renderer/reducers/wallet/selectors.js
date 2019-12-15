@@ -70,10 +70,7 @@ export const activeWalletSettings = createSelector(
  *
  * @returns {boolean} Boolean indicating wether there is at kleast one wallet.
  */
-export const hasWallets = createSelector(
-  wallets,
-  allWallets => allWallets.length > 0
-)
+export const hasWallets = createSelector(wallets, allWallets => allWallets.length > 0)
 
 /**
  * lndconnectQRCode - LndConnect QR code for currently active wallet.

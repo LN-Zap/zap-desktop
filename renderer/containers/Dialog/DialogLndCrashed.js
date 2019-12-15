@@ -11,7 +11,4 @@ const mapDispatchToProps = {
   onCancel: neutrinoReset,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DialogLndCrashed)
+export default connect(mapStateToProps, mapDispatchToProps)(DialogLndCrashed)

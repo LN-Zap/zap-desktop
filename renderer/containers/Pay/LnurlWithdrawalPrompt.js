@@ -11,7 +11,4 @@ const mapDispatchToProps = {
   onCancel: declineLnurlWithdrawal,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LnurlWithdrawalPrompt)
+export default connect(mapStateToProps, mapDispatchToProps)(LnurlWithdrawalPrompt)

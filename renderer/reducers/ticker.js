@@ -179,10 +179,7 @@ tickerSelectors.cryptoUnit = createSelector(
   }
 )
 
-tickerSelectors.currentTicker = createSelector(
-  ratesSelector,
-  rates => rates || {}
-)
+tickerSelectors.currentTicker = createSelector(ratesSelector, rates => rates || {})
 
 tickerSelectors.cryptoUnits = createSelector(
   chainSelector,

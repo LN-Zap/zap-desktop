@@ -70,10 +70,7 @@ export const errorDialogDetails = state => state.activity.errorDialogDetails
 /**
  * isErrorDialogOpen - Activity error dialog open state.
  */
-export const isErrorDialogOpen = createSelector(
-  errorDialogDetails,
-  Boolean
-)
+export const isErrorDialogOpen = createSelector(errorDialogDetails, Boolean)
 
 /**
  * activityModalItem - Currently active activity modal item.
@@ -101,22 +98,19 @@ export const activityModalItem = createSelector(
 /**
  * Map sending transactions to something that looks like normal transactions.
  */
-export const transactionsSending = createSelector(
-  transactionsSendingSelector,
-  ts => {
-    const transactions = ts.map(transaction => {
-      return {
-        type: 'transaction',
-        time_stamp: transaction.timestamp,
-        amount: transaction.amount,
-        sending: true,
-        status: transaction.status,
-        error: transaction.error,
-      }
-    })
-    return transactions
-  }
-)
+export const transactionsSending = createSelector(transactionsSendingSelector, ts => {
+  const transactions = ts.map(transaction => {
+    return {
+      type: 'transaction',
+      time_stamp: transaction.timestamp,
+      amount: transaction.amount,
+      sending: true,
+      status: transaction.status,
+      error: transaction.error,
+    }
+  })
+  return transactions
+})
 
 /**
  * sentActivityRaw - Sent activity: pre-search.
@@ -179,35 +173,25 @@ export const pendingActivityRaw = createSelector(
 /**
  * expiredActivityRaw - Expired activity: pre-search.
  */
-export const expiredActivityRaw = createSelector(
-  invoicesSelector,
-  invoices => {
-    return invoices.filter(invoice => !invoice.settled && invoice.isExpired).map(addDate)
-  }
-)
+export const expiredActivityRaw = createSelector(invoicesSelector, invoices => {
+  return invoices.filter(invoice => !invoice.settled && invoice.isExpired).map(addDate)
+})
 
 /**
  * internalActivityRaw - Internal activity: pre-search.
  */
-export const internalActivityRaw = createSelector(
-  transactionsSelector,
-  transactions => {
-    return transactions
-      .filter(
-        transaction => transaction.isFunding || (transaction.isClosing && !transaction.isPending)
-      )
-      .map(addDate)
-  }
-)
+export const internalActivityRaw = createSelector(transactionsSelector, transactions => {
+  return transactions
+    .filter(
+      transaction => transaction.isFunding || (transaction.isClosing && !transaction.isPending)
+    )
+    .map(addDate)
+})
 
 /**
  * internalActivity - Internal activity: post-search.
  */
-export const internalActivity = createSelector(
-  internalActivityRaw,
-  searchText,
-  prepareData
-)
+export const internalActivity = createSelector(internalActivityRaw, searchText, prepareData)
 
 /**
  * currentActivity - Filtered activity list.
@@ -234,16 +218,13 @@ export const currentActivity = createSelector(
   }
 )
 
-export const isCustomFilter = createSelector(
-  filter,
-  filters => {
-    if (filters.size && filters.size !== defaultFilter.size) {
-      return true
-    }
-    const difference = new Set([...filters].filter(x => !defaultFilter.has(x)))
-    return difference.size > 0
+export const isCustomFilter = createSelector(filter, filters => {
+  if (filters.size && filters.size !== defaultFilter.size) {
+    return true
   }
-)
+  const difference = new Set([...filters].filter(x => !defaultFilter.has(x)))
+  return difference.size > 0
+})
 
 /**
  * All selectors to export.

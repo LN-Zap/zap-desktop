@@ -6,7 +6,4 @@ const mapDispatchToProps = {
   setPassword,
 }
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(Password)
+export default connect(null, mapDispatchToProps)(Password)

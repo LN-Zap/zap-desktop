@@ -10,7 +10,4 @@ const mapDispatchToProps = {
   updateAutopaySearchQuery,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AutopaySearch)
+export default connect(mapStateToProps, mapDispatchToProps)(AutopaySearch)
