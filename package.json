@@ -341,7 +341,7 @@
     "informed": "2.11.16",
     "is-electron-renderer": "2.0.1",
     "jstimezonedetect": "1.0.7",
-    "keytar": "4.13.0",
+    "keytar": "5.0.0",
     "lnd-grpc": "0.3.3",
     "lndconnect": "0.2.10",
     "lodash": "4.17.15",
