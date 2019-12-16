@@ -131,9 +131,9 @@ describe('satoshi to..', () => {
       expect(satoshisToBtc('1')).toEqual('0.00000001')
     })
 
-    it('should return 0.00000002 when a between 1 and 2 satoshi value is passed in', () => {
-      expect(satoshisToBtc(1.5)).toEqual('0.00000002')
-      expect(satoshisToBtc('1.5')).toEqual('0.00000002')
+    it('should return 0.000000015 when 1.5 satoshi value is passed in', () => {
+      expect(satoshisToBtc(1.5)).toEqual('0.000000015')
+      expect(satoshisToBtc('1.5')).toEqual('0.000000015')
     })
   })
 
@@ -178,9 +178,9 @@ describe('millisatoshis to..', () => {
       expect(millisatoshisToBits('100000')).toEqual('1')
     })
 
-    it('should return 1.23 when 123,456 millisatoshis are passed in', () => {
-      expect(millisatoshisToBits(123456)).toEqual('1.23')
-      expect(millisatoshisToBits('123456')).toEqual('1.23')
+    it('should return 1.23 when 123,45678 millisatoshis are passed in', () => {
+      expect(millisatoshisToBits(123456)).toEqual('1.23456')
+      expect(millisatoshisToBits('123456')).toEqual('1.23456')
     })
   })
 
@@ -188,6 +188,11 @@ describe('millisatoshis to..', () => {
     it('should return 1 when 1000 millisatoshis are passed in', () => {
       expect(millisatoshisToSatoshis(1000)).toEqual('1')
       expect(millisatoshisToSatoshis('1000')).toEqual('1')
+    })
+
+    it('should return 0.001 when 1 millisatoshis are passed in', () => {
+      expect(millisatoshisToSatoshis(1)).toEqual('0.001')
+      expect(millisatoshisToSatoshis('1')).toEqual('0.001')
     })
   })
 
