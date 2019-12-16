@@ -17,8 +17,8 @@ exports[`component.Pay.PayAmountFields current step is "address" should render c
         "formApi": Object {
           "getState": [Function],
         },
-        "initialAmountCrypto": 1,
-        "initialAmountFiat": 1,
+        "initialAmountCrypto": "1",
+        "initialAmountFiat": "1",
         "intl": Object {},
         "isOnchain": false,
         "isQueryingFees": true,
@@ -33,7 +33,7 @@ exports[`component.Pay.PayAmountFields current step is "address" should render c
           "slow": 1,
         },
         "queryFees": [Function],
-        "walletBalanceConfirmed": 1,
+        "walletBalanceConfirmed": "1",
       },
       "refs": Object {},
       "setCoinSweep": [Function],
@@ -69,8 +69,8 @@ exports[`component.Pay.PayAmountFields current step is "address" should render c
                 "getState": [Function],
               }
             }
-            initialAmountCrypto={1}
-            initialAmountFiat={1}
+            initialAmountCrypto="1"
+            initialAmountFiat="1"
             intl={Object {}}
             isOnchain={false}
             isQueryingFees={true}
@@ -89,7 +89,7 @@ exports[`component.Pay.PayAmountFields current step is "address" should render c
               }
             }
             queryFees={[Function]}
-            walletBalanceConfirmed={1}
+            walletBalanceConfirmed="1"
           />,
           "_firstWorkInProgressHook": null,
           "_forcedUpdate": false,
@@ -134,8 +134,8 @@ exports[`component.Pay.PayAmountFields current step is "amount" should render co
         "formApi": Object {
           "getState": [Function],
         },
-        "initialAmountCrypto": 1,
-        "initialAmountFiat": 1,
+        "initialAmountCrypto": "1",
+        "initialAmountFiat": "1",
         "intl": Object {},
         "isOnchain": false,
         "isQueryingFees": true,
@@ -150,7 +150,7 @@ exports[`component.Pay.PayAmountFields current step is "amount" should render co
           "slow": 1,
         },
         "queryFees": [Function],
-        "walletBalanceConfirmed": 1,
+        "walletBalanceConfirmed": "1",
       },
       "refs": Object {},
       "setCoinSweep": [Function],
@@ -186,8 +186,8 @@ exports[`component.Pay.PayAmountFields current step is "amount" should render co
                 "getState": [Function],
               }
             }
-            initialAmountCrypto={1}
-            initialAmountFiat={1}
+            initialAmountCrypto="1"
+            initialAmountFiat="1"
             intl={Object {}}
             isOnchain={false}
             isQueryingFees={true}
@@ -206,7 +206,7 @@ exports[`component.Pay.PayAmountFields current step is "amount" should render co
               }
             }
             queryFees={[Function]}
-            walletBalanceConfirmed={1}
+            walletBalanceConfirmed="1"
           />,
           "_firstWorkInProgressHook": null,
           "_forcedUpdate": false,
@@ -251,8 +251,8 @@ exports[`component.Pay.PayAmountFields current step is "summary" should render c
         "formApi": Object {
           "getState": [Function],
         },
-        "initialAmountCrypto": 1,
-        "initialAmountFiat": 1,
+        "initialAmountCrypto": "1",
+        "initialAmountFiat": "1",
         "intl": Object {},
         "isOnchain": false,
         "isQueryingFees": true,
@@ -267,7 +267,7 @@ exports[`component.Pay.PayAmountFields current step is "summary" should render c
           "slow": 1,
         },
         "queryFees": [Function],
-        "walletBalanceConfirmed": 1,
+        "walletBalanceConfirmed": "1",
       },
       "refs": Object {},
       "setCoinSweep": [Function],
@@ -303,8 +303,8 @@ exports[`component.Pay.PayAmountFields current step is "summary" should render c
                 "getState": [Function],
               }
             }
-            initialAmountCrypto={1}
-            initialAmountFiat={1}
+            initialAmountCrypto="1"
+            initialAmountFiat="1"
             intl={Object {}}
             isOnchain={false}
             isQueryingFees={true}
@@ -323,7 +323,7 @@ exports[`component.Pay.PayAmountFields current step is "summary" should render c
               }
             }
             queryFees={[Function]}
-            walletBalanceConfirmed={1}
+            walletBalanceConfirmed="1"
           />,
           "_firstWorkInProgressHook": null,
           "_forcedUpdate": false,

@@ -40,7 +40,7 @@ const WalletBalance = ({ totalBalance, openWalletModal }) => {
 
 WalletBalance.propTypes = {
   openWalletModal: PropTypes.func.isRequired,
-  totalBalance: PropTypes.number,
+  totalBalance: PropTypes.string,
 }
 
 export default WalletBalance

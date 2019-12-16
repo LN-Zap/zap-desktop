@@ -82,7 +82,7 @@ const PayPanelBody = props => {
 }
 
 PayPanelBody.propTypes = {
-  amountInSats: PropTypes.number.isRequired,
+  amountInSats: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   chain: PropTypes.string.isRequired,
   chainName: PropTypes.string.isRequired,
   cryptoUnit: PropTypes.string.isRequired,
@@ -113,7 +113,7 @@ PayPanelBody.propTypes = {
   queryFees: PropTypes.func.isRequired,
   redirectPayReq: PropTypes.object,
   routes: PropTypes.array,
-  walletBalanceConfirmed: PropTypes.number.isRequired,
+  walletBalanceConfirmed: PropTypes.string.isRequired,
 }
 
 PayPanelBody.defaultProps = {

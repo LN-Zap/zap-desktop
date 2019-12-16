@@ -28,7 +28,7 @@ Wallet.propTypes = {
   }).isRequired,
   openModal: PropTypes.func.isRequired,
   openWalletModal: PropTypes.func.isRequired,
-  totalBalance: PropTypes.number,
+  totalBalance: PropTypes.string,
 }
 
 export default Wallet

@@ -20,14 +20,14 @@ const isNumericRegex = /^\d+$/
 const isNumeric = value => isNumericRegex.test(value)
 
 /**
- * convertToNumber - Convert value to number.
+ * convertToInteger - Convert value to an integer number.
  *
  * @param  {string} value Value
- * @returns {number} Value as number
+ * @returns {number} Value as integer number
  */
-const convertToNumber = value => {
-  const valueAsNumber = Number(value)
-  return Number.isNaN(valueAsNumber) ? undefined : valueAsNumber
+const convertToInteger = value => {
+  const valueAsNumber = Math.round(value)
+  return Number.isFinite(valueAsNumber) ? valueAsNumber : undefined
 }
 
 /**
@@ -120,7 +120,7 @@ class WrappedIntegerInputAsField extends React.Component {
     return (
       <IntegerInputAsField
         {...this.props}
-        mask={convertToNumber}
+        mask={convertToInteger}
         onKeyDown={preventNonNumeric}
         onPaste={preventNonNumericOnPaste}
         validate={this.validate}

@@ -1,12 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Box } from 'rebass/styled-components'
+import { CoinBig } from '@zap/utils/coin'
 import { Donut } from 'components/UI'
 
 const ChannelsSummaryDonut = ({ sendCapacity, receiveCapacity, ...rest }) => {
-  const total = sendCapacity + receiveCapacity
-  const sendCapacityPercent = sendCapacity / total
-  const receiveCapacityPercent = receiveCapacity / total
+  const total = CoinBig.sum(sendCapacity, receiveCapacity)
+  const sendCapacityPercent = CoinBig(sendCapacity)
+    .dividedBy(total)
+    .toNumber()
+  const receiveCapacityPercent = CoinBig(receiveCapacity)
+    .dividedBy(total)
+    .toNumber()
 
   return (
     <Box {...rest}>
@@ -33,8 +38,8 @@ const ChannelsSummaryDonut = ({ sendCapacity, receiveCapacity, ...rest }) => {
 }
 
 ChannelsSummaryDonut.propTypes = {
-  receiveCapacity: PropTypes.number.isRequired,
-  sendCapacity: PropTypes.number.isRequired,
+  receiveCapacity: PropTypes.string.isRequired,
+  sendCapacity: PropTypes.string.isRequired,
 }
 
 export default ChannelsSummaryDonut

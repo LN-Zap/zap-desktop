@@ -4,7 +4,7 @@ import { FormattedDate, FormattedTime, FormattedMessage, injectIntl } from 'reac
 import { Flex } from 'rebass/styled-components'
 import { intlShape } from '@zap/i18n'
 import { Bar, DataRow, Header, Panel, Text } from 'components/UI'
-import { extractMemo } from '@zap/utils/crypto'
+import { getTag } from '@zap/utils/crypto'
 import { CopyButton, CryptoSelector, CryptoValue, FiatSelector, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
 import Lightning from 'components/Icon/Lightning'
@@ -18,7 +18,7 @@ class PaymentModal extends React.PureComponent {
 
   render() {
     const { item, intl, ...rest } = this.props
-    const memo = item && extractMemo(item.payment_request)
+    const memo = item && getTag(item.payment_request, 'description')
     return (
       <Panel {...rest}>
         <Panel.Header>

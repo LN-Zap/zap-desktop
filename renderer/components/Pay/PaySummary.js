@@ -40,7 +40,7 @@ const PaySummary = props => {
 PaySummary.displayName = 'PaySummary'
 
 PaySummary.propTypes = {
-  amountInSats: PropTypes.number.isRequired,
+  amountInSats: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   formApi: PropTypes.object.isRequired,
   isOnchain: PropTypes.bool,
   lndTargetConfirmations: PropTypes.shape({

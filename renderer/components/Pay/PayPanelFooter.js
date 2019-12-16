@@ -149,8 +149,8 @@ const PayPanelFooter = props => {
 }
 
 PayPanelFooter.propTypes = {
-  amountInSats: PropTypes.number.isRequired,
-  channelBalance: PropTypes.number.isRequired,
+  amountInSats: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  channelBalance: PropTypes.string.isRequired,
   cryptoUnit: PropTypes.string.isRequired,
   cryptoUnitName: PropTypes.string.isRequired,
   currentStep: PropTypes.string.isRequired,
@@ -160,9 +160,9 @@ PayPanelFooter.propTypes = {
   isLn: PropTypes.bool,
   isOnchain: PropTypes.bool,
   isProcessing: PropTypes.bool,
-  maxOneTimeSend: PropTypes.number.isRequired,
+  maxOneTimeSend: PropTypes.string.isRequired,
   previousStep: PropTypes.func.isRequired,
-  walletBalanceConfirmed: PropTypes.number.isRequired,
+  walletBalanceConfirmed: PropTypes.string.isRequired,
 }
 
 export default injectIntl(PayPanelFooter)

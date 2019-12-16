@@ -23,7 +23,7 @@ const ChannelsCapacity = ({ message, capacity, color, ...rest }) => {
 }
 
 ChannelsCapacity.propTypes = {
-  capacity: PropTypes.number.isRequired,
+  capacity: PropTypes.string.isRequired,
   color: PropTypes.string,
   message: PropTypes.node,
 }

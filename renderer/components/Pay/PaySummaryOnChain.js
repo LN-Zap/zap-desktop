@@ -18,7 +18,7 @@ class PaySummaryOnChain extends React.Component {
     /** Ticker symbol of the currently selected cryptocurrency. */
     cryptoUnitName: PropTypes.string.isRequired,
     /** Fee in sats per byte */
-    fee: PropTypes.number,
+    fee: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     /** Boolean indicating whether transaction is a coin sweep. */
     isCoinSweep: PropTypes.bool,
     /** Boolean indicating whether routing information is currently being fetched. */

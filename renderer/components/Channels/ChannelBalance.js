@@ -19,7 +19,7 @@ const ChannelBalance = ({ channelBalance, ...rest }) => {
 }
 
 ChannelBalance.propTypes = {
-  channelBalance: PropTypes.number.isRequired,
+  channelBalance: PropTypes.string.isRequired,
 }
 
 export default ChannelBalance

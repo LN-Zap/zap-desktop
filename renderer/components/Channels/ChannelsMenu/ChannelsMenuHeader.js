@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Donut, Heading } from 'components/UI'
+import { Heading } from 'components/UI'
+import ChannelsCapacityDonut from '../ChannelsCapacityDonut'
 import messages from './messages'
 
 const ChannelsMenuHeader = ({
@@ -12,40 +13,17 @@ const ChannelsMenuHeader = ({
   pendingBalance,
   ...rest
 }) => {
-  const total = lightningBalance + onchainBalance + pendingBalance
-  const lightningBalancePercent = lightningBalance / total
-  const onchainBalancePercent = onchainBalance / total
-  const pendingBalancePercent = pendingBalance / total
-
   return (
     <Flex justifyContent="space-between" {...rest}>
       <Heading.h1>
         <FormattedMessage {...messages.title} />
       </Heading.h1>
       <Box width={80}>
-        <Donut
-          data={[
-            {
-              key: 'lightning',
-              amount: lightningBalancePercent || 0,
-              color: 'primaryAccent',
-              withGlow: true,
-              withTint: true,
-            },
-            {
-              key: 'pending',
-              amount: pendingBalancePercent || 0,
-              color: 'gray',
-              withTint: true,
-            },
-            {
-              key: 'onchain',
-              amount: onchainBalancePercent || 0,
-              color: 'secondaryColor',
-              withTint: true,
-            },
-          ]}
-          text={channelCount}
+        <ChannelsCapacityDonut
+          channelCount={channelCount}
+          lightningBalance={lightningBalance}
+          onchainBalance={onchainBalance}
+          pendingBalance={pendingBalance}
         />
       </Box>
     </Flex>
@@ -54,9 +32,9 @@ const ChannelsMenuHeader = ({
 
 ChannelsMenuHeader.propTypes = {
   channelCount: PropTypes.number.isRequired,
-  lightningBalance: PropTypes.number.isRequired,
-  onchainBalance: PropTypes.number.isRequired,
-  pendingBalance: PropTypes.number.isRequired,
+  lightningBalance: PropTypes.string.isRequired,
+  onchainBalance: PropTypes.string.isRequired,
+  pendingBalance: PropTypes.string.isRequired,
 }
 
 export default ChannelsMenuHeader

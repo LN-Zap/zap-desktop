@@ -3,8 +3,10 @@ import get from 'lodash/get'
 import orderBy from 'lodash/orderBy'
 import throttle from 'lodash/throttle'
 import createReducer from '@zap/utils/createReducer'
+import { CoinBig } from '@zap/utils/coin'
 import { getIntl } from '@zap/i18n'
 import { requestSuggestedNodes } from '@zap/utils/api'
+import { convert } from '@zap/utils/btc'
 import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
 import { grpc } from 'workers'
 import { updateNotification, showWarning, showError } from './notification'
@@ -13,6 +15,7 @@ import { walletSelectors } from './wallet'
 import { getNodeDisplayName, updateNodeData, networkSelectors } from './network'
 import { putConfig, settingsSelectors } from './settings'
 import messages from './messages'
+
 // ------------------------------------
 // Initial State
 // ------------------------------------
@@ -27,7 +30,7 @@ const initialState = {
   loadingChannels: [],
   channels: [],
   pendingChannels: {
-    total_limbo_balance: null,
+    total_limbo_balance: '0',
     pending_open_channels: [],
     pending_closing_channels: [],
     pending_force_closing_channels: [],
@@ -109,7 +112,7 @@ const CAPACITY = 'CAPACITY'
 // ------------------------------------
 
 /**
- * getChannelData - Get the channel data from aq channel object.
+ * getChannelData - Get the channel data from a channel object.
  * If this is a pending channel, the channel data will be stored under the `channel` key.
  *
  * @param  {object} channelObj Channel object
@@ -198,7 +201,10 @@ const getStatus = (channelObj, closingChannelIds = [], loadingChannelPubKeys = [
  * @param  {object} channel Channel object
  * @returns {number} Effective capacity
  */
-const getChannelEffectiveCapacity = channel => channel.local_balance + channel.remote_balance || 0
+const getChannelEffectiveCapacity = channel =>
+  CoinBig(get(channel, 'local_balance', 0))
+    .plus(CoinBig(get(channel, 'remote_balance', 0)))
+    .toString()
 
 /**
  * decorateChannel - Decorate a channel object with additional calculated properties.
@@ -220,10 +226,15 @@ const decorateChannel = (channelObj, nodes, closingChannelIds, loadingChannelPub
 
     if (capacity && capacity > 0) {
       // Calculate channel flow (sum of amounts sent and received).
-      const flow = get(c, 'total_satoshis_sent', 0) + get(c, 'total_satoshis_received', 0)
+      const sent = CoinBig(get(c, 'total_satoshis_sent', 0))
+      const received = CoinBig(get(c, 'total_satoshis_received', 0))
+      const flow = CoinBig.sum(sent, received)
 
       // Calculate capacity as flow / capacity.
-      return flow / capacity
+      return flow
+        .dividedBy(CoinBig(capacity))
+        .multipliedBy(100)
+        .toFixed(0)
     }
 
     return 0
@@ -530,10 +541,9 @@ export const openChannel = data => async (dispatch, getState) => {
   // Add channel loading state.
   const loadingChannel = {
     node_pubkey: pubkey,
-    local_balance: Number(localamt),
-    remote_balance: 0,
+    local_balance: CoinBig(localamt || 0).toString(),
+    remote_balance: '0',
     private: channelIsPrivate,
-    sat_per_byte: satPerByte,
   }
   dispatch(addLoadingChannel(loadingChannel))
 
@@ -1032,8 +1042,8 @@ channelsSelectors.allChannelsRaw = createSelector(
 const applyChannelSort = (channels, sort, sortOrder) => {
   const SORTERS = {
     [OPEN_DATE]: c => c.index,
-    [REMOTE_BALANCE]: c => c.remote_balance || 0,
-    [LOCAL_BALANCE]: c => c.local_balance || 0,
+    [REMOTE_BALANCE]: c => Number(convert('sats', 'btc', get(c, 'remote_balance', 0))) || 0,
+    [LOCAL_BALANCE]: c => Number(convert('sats', 'btc', get(c, 'local_balance', 0))) || 0,
     [ACTIVITY]: c => c.activity,
     [NAME]: c => c.display_name || '',
     [CAPACITY]: getChannelEffectiveCapacity,
@@ -1106,18 +1116,29 @@ channelsSelectors.capacity = createSelector(channelsSelectors.allChannelsRaw, al
   let maxOneTimeReceive = 0
   let send = 0
   let receive = 0
+
   allChannels.forEach(channel => {
     const channelData = getChannelData(channel)
-    if (channelData.local_balance) {
-      send += channelData.local_balance
-      maxOneTimeSend = Math.max(maxOneTimeSend, channelData.local_balance)
+    const local = CoinBig(get(channelData, 'local_balance', 0))
+    const remote = CoinBig(get(channelData, 'remote_balance', 0))
+
+    if (local) {
+      send = CoinBig.sum(send, local)
+      maxOneTimeSend = CoinBig.max(maxOneTimeSend, local)
     }
-    if (channelData.remote_balance) {
-      receive += channelData.remote_balance
-      maxOneTimeReceive = Math.max(maxOneTimeReceive, channelData.remote_balance)
+
+    if (remote) {
+      receive = CoinBig.sum(receive, remote)
+      maxOneTimeReceive = CoinBig.max(maxOneTimeReceive, remote)
     }
   })
-  return { send, receive, maxOneTimeReceive, maxOneTimeSend }
+
+  return {
+    send: CoinBig(send).toString(),
+    receive: CoinBig(receive).toString(),
+    maxOneTimeReceive: CoinBig(maxOneTimeReceive).toString(),
+    maxOneTimeSend: CoinBig(maxOneTimeSend).toString(),
+  }
 })
 
 channelsSelectors.sendCapacity = createSelector(

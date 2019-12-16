@@ -23,5 +23,5 @@ export default function CryptoValueSelector({ fontSize, value, ...rest }) {
 
 CryptoValueSelector.propTypes = {
   fontSize: PropTypes.string,
-  value: PropTypes.number.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 }

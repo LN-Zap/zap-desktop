@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import Coin, { CoinBig } from '@zap/utils/coin'
 import { grpc } from 'workers'
 import createReducer from '@zap/utils/createReducer'
 
@@ -57,7 +58,9 @@ const ACTION_HANDLERS = {
     state.walletBalance = walletBalance.total_balance
     state.walletBalanceConfirmed = walletBalance.confirmed_balance
     state.walletBalanceUnconfirmed = walletBalance.unconfirmed_balance
-    state.channelBalance = channelBalance.balance + channelBalance.pending_open_balance
+    state.channelBalance = Coin(channelBalance.balance)
+      .add(Coin(channelBalance.pending_open_balance))
+      .toString()
     state.channelBalanceConfirmed = channelBalance.balance
     state.channelBalancePending = channelBalance.pending_open_balance
   },
@@ -85,7 +88,7 @@ balanceSelectors.totalBalance = createSelector(
   balanceSelectors.walletBalance,
   balanceSelectors.limboBalance,
   (channelBalance = 0, walletBalance = 0, limboBalance = 0) =>
-    channelBalance + walletBalance + limboBalance
+    CoinBig.sum(channelBalance, walletBalance, limboBalance).toString()
 )
 
 export { balanceSelectors }

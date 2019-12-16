@@ -4,6 +4,7 @@ import range from 'lodash/range'
 import { address } from 'bitcoinjs-lib'
 import lightningRequestReq from 'bolt11'
 import coininfo from 'coininfo'
+import { CoinBig } from '@zap/utils/coin'
 
 export const networks = {
   bitcoin: {
@@ -24,21 +25,6 @@ export const coinTypes = {
 }
 
 /**
- * getTag = Get tag data for `tagName` from a decoded bolt11 invoice.
- *
- * @param  {object} invoice Decoded bolt11 invoice
- * @param  {string} tagName Tag to fetch
- * @returns {*|null} Tag data or null if not found
- */
-export const getTag = (invoice, tagName) => {
-  try {
-    return invoice.tags.find(t => t.tagName === tagName).data
-  } catch (e) {
-    return null
-  }
-}
-
-/**
  * decodePayReq - Decodes a payment request.
  *
  * @param {string} payReq Payment request
@@ -47,7 +33,8 @@ export const getTag = (invoice, tagName) => {
  */
 export const decodePayReq = (payReq, addDefaults = true) => {
   const data = lightningRequestReq.decode(payReq)
-  const expiry = getTag(data, 'expire_time')
+  const expiryTag = data.tags.find(t => t.tagName === 'expire_time') || {}
+  const expiry = expiryTag.data
   if (addDefaults && !expiry) {
     data.tags.push({
       tagName: 'expire_time',
@@ -60,19 +47,16 @@ export const decodePayReq = (payReq, addDefaults = true) => {
 }
 
 /**
- * extractMemo - Extracts memo from a payment request.
+ * getTag = Get tag data for `tagName` from a decoded bolt11 invoice.
  *
- * @param {string} payReq Payment request
- * @returns {string|null} Memo
+ * @param  {string|object} invoice Payment request or decoded bolt11 invoice
+ * @param  {string} tagName Tag to fetch
+ * @returns {*|null} Tag data or null if not found
  */
-export const extractMemo = payReq => {
+export const getTag = (invoice, tagName) => {
   try {
-    if (payReq) {
-      const request = decodePayReq(payReq)
-      const descriptionTag = request.tags.find(tag => tag.tagName === 'description') || {}
-      return descriptionTag.data
-    }
-    return null
+    const decodedInvoice = typeof invoice === 'string' ? decodePayReq.decode(invoice) : invoice
+    return decodedInvoice.tags.find(t => t.tagName === tagName).data
   } catch (e) {
     return null
   }
@@ -113,7 +97,7 @@ export const parseNumber = (_value, precision) => {
   }
   let integer = null
   let fractional = null
-  if (value * 1.0 < 0) {
+  if (CoinBig(value).lt(0)) {
     value = '0.0'
   }
   // parse integer and fractional value so that we can reproduce the same string value afterwards

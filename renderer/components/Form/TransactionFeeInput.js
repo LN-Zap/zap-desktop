@@ -121,7 +121,7 @@ TransactionSpeedDesc.propTypes = {
 }
 
 TransactionFeeInput.propTypes = {
-  fee: PropTypes.number,
+  fee: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   field: PropTypes.string.isRequired,
   formApi: PropTypes.object.isRequired,
   initialValue: PropTypes.string,

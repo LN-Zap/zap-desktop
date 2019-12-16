@@ -343,13 +343,29 @@ class ZapGrpc extends EventEmitter {
    */
   getConnectionSettings() {
     const { id, type, host, cert, macaroon, protoDir } = this.options
+
     // Don't use macaroons when connecting to the local tmp instance.
     const useMacaroon = this.useMacaroon && id !== 'tmp'
+
     // If connecting to a local instance, wait for the macaroon file to exist.
     const waitForMacaroon = type === 'local'
     const waitForCert = type === 'local'
 
-    return { host, cert, macaroon, waitForMacaroon, waitForCert, useMacaroon, protoDir }
+    // Convert longs to strings to prevent floating point precidion issues.
+    const grpcOptions = {
+      longs: String,
+    }
+
+    return {
+      host,
+      cert,
+      macaroon,
+      waitForMacaroon,
+      waitForCert,
+      useMacaroon,
+      protoDir,
+      grpcOptions,
+    }
   }
 
   /**

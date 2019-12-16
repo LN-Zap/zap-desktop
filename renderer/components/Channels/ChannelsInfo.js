@@ -41,8 +41,8 @@ const ChannelsInfo = ({ channels, receiveCapacity, sendCapacity, ...rest }) => {
 
 ChannelsInfo.propTypes = {
   channels: PropTypes.array,
-  receiveCapacity: PropTypes.number.isRequired,
-  sendCapacity: PropTypes.number.isRequired,
+  receiveCapacity: PropTypes.string.isRequired,
+  sendCapacity: PropTypes.string.isRequired,
 }
 
 ChannelsInfo.defaultProps = {

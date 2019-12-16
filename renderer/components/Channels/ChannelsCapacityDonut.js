@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Box } from 'rebass/styled-components'
+import { CoinBig } from '@zap/utils/coin'
 import { Donut } from 'components/UI'
 
 const ChannelsCapacityDonut = ({
@@ -10,10 +11,16 @@ const ChannelsCapacityDonut = ({
   pendingBalance,
   ...rest
 }) => {
-  const total = lightningBalance + onchainBalance + pendingBalance
-  const lightningBalancePercent = lightningBalance / total
-  const onchainBalancePercent = onchainBalance / total
-  const pendingBalancePercent = pendingBalance / total
+  const total = CoinBig.sum(lightningBalance, onchainBalance, pendingBalance)
+  const lightningBalancePercent = CoinBig(lightningBalance)
+    .dividedBy(total)
+    .toNumber()
+  const onchainBalancePercent = CoinBig(onchainBalance)
+    .dividedBy(total)
+    .toNumber()
+  const pendingBalancePercent = CoinBig(pendingBalance)
+    .dividedBy(total)
+    .toNumber()
 
   return (
     <Box {...rest}>
@@ -47,9 +54,9 @@ const ChannelsCapacityDonut = ({
 
 ChannelsCapacityDonut.propTypes = {
   channelCount: PropTypes.number.isRequired,
-  lightningBalance: PropTypes.number.isRequired,
-  onchainBalance: PropTypes.number.isRequired,
-  pendingBalance: PropTypes.number.isRequired,
+  lightningBalance: PropTypes.string.isRequired,
+  onchainBalance: PropTypes.string.isRequired,
+  pendingBalance: PropTypes.string.isRequired,
 }
 
 export default ChannelsCapacityDonut

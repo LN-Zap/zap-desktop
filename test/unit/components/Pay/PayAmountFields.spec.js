@@ -17,8 +17,8 @@ const getFormApi = values => {
 const props = {
   cryptoUnit: 'sats',
   formApi: getFormApi({ isCoinSweep: false }),
-  initialAmountCrypto: 1,
-  initialAmountFiat: 1,
+  initialAmountCrypto: '1',
+  initialAmountFiat: '1',
   intl: {},
   isOnchain: false,
   isQueryingFees: true,
@@ -33,7 +33,7 @@ const props = {
     slow: 1,
   },
   queryFees: () => {},
-  walletBalanceConfirmed: 1,
+  walletBalanceConfirmed: '1',
 }
 
 describe('component.Pay.PayAmountFields', () => {
