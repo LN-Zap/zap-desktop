@@ -233,15 +233,12 @@ infoSelectors.commitString = createSelector(infoSelectors.version, version => {
 })
 
 // Check whether node has support for Router service
-infoSelectors.hasRouterSupport = createSelector(
-  infoSelectors.grpcProtoVersion,
-  version => {
-    if (!version) {
-      return false
-    }
-    return semver.gte(version, '0.7.1-beta', { includePrerelease: true })
+infoSelectors.hasRouterSupport = createSelector(infoSelectors.grpcProtoVersion, version => {
+  if (!version) {
+    return false
   }
-)
+  return semver.gte(version, '0.7.1-beta', { includePrerelease: true })
+})
 
 // Get the node pubkey. If not set, try to extract it from the node uri.
 infoSelectors.nodePubkey = createSelector(
