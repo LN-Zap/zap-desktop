@@ -5,6 +5,7 @@ import { address } from 'bitcoinjs-lib'
 import lightningRequestReq from 'bolt11'
 import coininfo from 'coininfo'
 import { CoinBig } from '@zap/utils/coin'
+import { convert } from '@zap/utils/btc'
 
 export const networks = {
   bitcoin: {
@@ -207,15 +208,8 @@ export const getMinFee = (routes = []) => {
   if (!routes || !routes.length) {
     return null
   }
-  const fee = routes.reduce(
-    (min, b) => CoinBig.min(min, b.totalFees).toString(),
-    routes[0].totalFees
-  )
-
-  // Add one to the fee to add room for accuracy error when using as a fee limit.
-  return CoinBig(fee)
-    .plus(1)
-    .toString()
+  const fee = routes.reduce((min, b) => CoinBig.min(min, b.totalFeesMsat), routes[0].totalFeesMsat)
+  return convert('msats', 'sats', fee)
 }
 
 /**
@@ -228,15 +222,8 @@ export const getMaxFee = routes => {
   if (!routes || !routes.length) {
     return null
   }
-  const fee = routes.reduce(
-    (max, b) => CoinBig.max(max, b.totalFees).toString(),
-    routes[0].totalFees
-  )
-
-  // Add one to the fee to add room for accuracy error when using as a fee limit.
-  return CoinBig(fee)
-    .plus(1)
-    .toString()
+  const fee = routes.reduce((max, b) => CoinBig.max(max, b.totalFeesMsat), routes[0].totalFeesMsat)
+  return convert('msats', 'sats', fee)
 }
 
 /**
@@ -250,7 +237,7 @@ export const getExactFee = routes => {
     return null
   }
   const route = routes.find(r => r.isExact)
-  return route ? route.total_fees : null
+  return route ? convert('msats', 'sats', route.totalFeesMsat) : null
 }
 
 /**
@@ -269,9 +256,8 @@ export const getMaxFeeInclusive = routes => {
   } = config
 
   let fee = getMaxFee(routes)
-  fee = range(retryCount).reduce(max => Math.ceil(max * feeIncrementExponent), fee)
-
-  return CoinBig(fee).toString()
+  fee = range(retryCount).reduce(max => CoinBig(max).times(feeIncrementExponent), fee)
+  return fee.toString()
 }
 
 /**

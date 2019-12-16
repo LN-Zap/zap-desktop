@@ -44,7 +44,7 @@ export function btcToSatoshis(btc) {
 export function btcToMillisatoshis(btc) {
   if (isEmptyAmount(btc)) return null
 
-  return Coin(btc, 11)
+  return Coin(btc)
     .multiply(100000000000)
     .toString()
 }

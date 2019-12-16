@@ -40,9 +40,9 @@ class PaySummaryLightning extends React.Component {
 
   renderFee() {
     const { exactFee, maxFee, minFee } = this.props
-    const hasExactFee = Number.isFinite(exactFee)
-    const hasMinFee = Number.isFinite(minFee)
-    const hasMaxFee = Number.isFinite(maxFee)
+    const hasExactFee = CoinBig(exactFee).isFinite()
+    const hasMinFee = CoinBig(minFee).isFinite()
+    const hasMaxFee = CoinBig(maxFee).isFinite()
 
     if (hasExactFee) {
       return (
@@ -111,10 +111,9 @@ class PaySummaryLightning extends React.Component {
     }
 
     const nodeAlias = getNodeAlias(payeeNodeKey, nodes)
-
-    const totalAmountInSatoshis = Number.isFinite(exactFee)
-      ? CoinBig.sum(amountInSatoshis, exactFee).toString()
-      : CoinBig.sum(amountInSatoshis, maxFee || 0).toString()
+    const totalAmountInSatoshis = CoinBig(exactFee).isFinite()
+      ? CoinBig.sum(amountInSatoshis, convert('msats', 'sats', exactFee)).toString()
+      : CoinBig.sum(amountInSatoshis, convert('msats', 'sats', maxFee)).toString()
 
     return (
       <Box {...rest}>
