@@ -126,7 +126,7 @@ const ChannelData = ({ channel, cryptoUnitName, intl, networkInfo, viewMode, ...
     activity: () => ({
       label: <FormattedMessage {...messages.channel_activity} />,
       body: <FormattedMessage {...messages.channel_activity_description} />,
-      value: `${activity * 100}%`,
+      value: `${activity}%`,
     }),
 
     csv_delay: () => ({

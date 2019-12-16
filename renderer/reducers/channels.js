@@ -233,8 +233,8 @@ const decorateChannel = (channelObj, nodes, closingChannelIds, loadingChannelPub
       // Calculate capacity as flow / capacity.
       return flow
         .dividedBy(CoinBig(capacity))
-        .decimalPlaces(2)
-        .toNumber()
+        .multipliedBy(100)
+        .toFixed(0)
     }
 
     return 0
