@@ -60,9 +60,9 @@ PaySummary.propTypes = {
     slow: PropTypes.number.isRequired,
   }).isRequired,
   onchainFees: PropTypes.shape({
-    fast: PropTypes.number,
-    medium: PropTypes.number,
-    slow: PropTypes.number,
+    fast: PropTypes.string,
+    medium: PropTypes.string,
+    slow: PropTypes.string,
   }),
   routes: PropTypes.array,
 }

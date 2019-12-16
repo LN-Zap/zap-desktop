@@ -38,9 +38,9 @@ class Pay extends React.Component {
     mx: PropTypes.string,
     network: PropTypes.string.isRequired,
     onchainFees: PropTypes.shape({
-      fast: PropTypes.number,
-      medium: PropTypes.number,
-      slow: PropTypes.number,
+      fast: PropTypes.string,
+      medium: PropTypes.string,
+      slow: PropTypes.string,
     }),
     payInvoice: PropTypes.func.isRequired,
     queryFees: PropTypes.func.isRequired,

@@ -14,7 +14,7 @@ import messages from './messages'
 class PaySummaryLightning extends React.Component {
   static propTypes = {
     amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    exactFee: PropTypes.number,
+    exactFee: PropTypes.string,
     isPubkey: PropTypes.bool,
     isQueryingRoutes: PropTypes.bool,
     maxFee: PropTypes.string,
