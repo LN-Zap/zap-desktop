@@ -166,10 +166,19 @@ class PaySummaryLightning extends React.Component {
         <DataRow
           left={<FormattedMessage {...messages.total} />}
           right={
-            <Flex alignItems="baseline">
-              <CryptoSelector mr={2} />
-              <CryptoValue value={totalAmountInSatoshis} />
-            </Flex>
+            isQueryingRoutes ? (
+              <Flex alignItems="center" justifyContent="flex-end" ml="auto">
+                <Text mr={2}>
+                  <FormattedMessage {...messages.searching_routes} />
+                </Text>
+                <Spinner color="primaryAccent" />
+              </Flex>
+            ) : (
+              <Flex alignItems="baseline">
+                <CryptoSelector mr={2} />
+                <CryptoValue value={totalAmountInSatoshis} />
+              </Flex>
+            )
           }
         />
 
