@@ -363,7 +363,7 @@
     "react-textfit": "1.1.0",
     "react-virtualized": "9.21.2",
     "rebass": "4.0.7",
-    "redux": "4.0.4",
+    "redux": "4.0.5",
     "redux-electron-ipc": "https://github.com/LN-Zap/redux-electron-ipc#b513220d085ad3e96e459d7efcdfc37bf75417b6",
     "redux-thunk": "2.3.0",
     "reselect": "4.0.0",
