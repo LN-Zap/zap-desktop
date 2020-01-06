@@ -62,7 +62,7 @@ function openExternal(urlString) {
  * openHelpPage - Open the help page in a new browser window.
  */
 function openHelpPage() {
-  openExternal('https://ln-zap.github.io/zap-tutorials/zap-desktop-getting-started')
+  openExternal('https://docs.zaphq.io/docs-desktop-getting-started')
 }
 
 /**
