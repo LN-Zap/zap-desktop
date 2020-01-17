@@ -7583,6 +7583,15 @@ detective@^4.3.1:
     acorn "^5.2.1"
     defined "^1.0.0"
 
+dexie-encrypted@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/dexie-encrypted/-/dexie-encrypted-1.2.0.tgz#952801fd020989a2e70388933159b8e98a7b77e6"
+  integrity sha512-6bdl4AI0J1KYx86Su8Gi8ch+wULmzPg+RK3G0MGQghmv8vp1DH8jDAp0Ipxpnle3sB6sK0wVRZD9su0Eg2DdFQ==
+  dependencies:
+    tweetnacl "^1.0.1"
+    typeson "^5.13.0"
+    typeson-registry "^1.0.0-alpha.28"
+
 dexie@3.0.0-rc.1:
   version "3.0.0-rc.1"
   resolved "https://registry.yarnpkg.com/dexie/-/dexie-3.0.0-rc.1.tgz#3f7fe711b8d8ad27b69370696d9dbf5817f849d4"
@@ -18137,6 +18146,11 @@ tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
   integrity sha1-WuaBd/GS1EViadEIr6k/+HQ/T2Q=
 
+tweetnacl@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-1.0.1.tgz#2594d42da73cd036bd0d2a54683dd35a6b55ca17"
+  integrity sha512-kcoMoKTPYnoeS50tzoqjPY3Uv9axeuuFAZY9M/9zFnhoVvRfxz9K29IMPD7jGmt2c8SW7i3gT9WqDl2+nV7p4A==
+
 type-check@~0.3.2:
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/type-check/-/type-check-0.3.2.tgz#5884cab512cf1d355e3fb784f30804b2b520db72"
@@ -18209,7 +18223,7 @@ typescript@^3.3.3:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.3.tgz#b36840668a16458a7025b9eabfad11b66ab85c69"
   integrity sha512-Mcr/Qk7hXqFBXMN7p7Lusj1ktCBydylfQM/FZCk5glCNQJrCUKPkMHdo9R0MTFWsC/4kPFvDS0fDPvukfCkFsw==
 
-typeson-registry@^1.0.0-alpha.20:
+typeson-registry@^1.0.0-alpha.20, typeson-registry@^1.0.0-alpha.28:
   version "1.0.0-alpha.32"
   resolved "https://registry.yarnpkg.com/typeson-registry/-/typeson-registry-1.0.0-alpha.32.tgz#65b5e7d90d3473f8f6b6d0bce17843295fbcac9f"
   integrity sha512-31UV18bIXxshkUDTMFWC+yySLugTsAXVO0mgZRsIiHY/qppW963yY+8q+DN/C390xuu0K8spOdEWoaTSNtb4bw==
@@ -18222,6 +18236,11 @@ typeson@5.16.0, typeson@^5.8.2:
   version "5.16.0"
   resolved "https://registry.yarnpkg.com/typeson/-/typeson-5.16.0.tgz#e421b58e6553b5a39f6ebf47fecac5550d30d196"
   integrity sha512-JhBY6cpysD8upTUksDwtBhSPnmmroowbQ022AWyk0XtihmAlVhzseKbAIIqD92tBN7l5/8F+NMtP04kyarQxCw==
+
+typeson@^5.13.0:
+  version "5.18.1"
+  resolved "https://registry.yarnpkg.com/typeson/-/typeson-5.18.1.tgz#fafa2dfd6ef26448ff635a3c97dd39a4bd3cf742"
+  integrity sha512-4cVDwf4tT+9hpeQk22/ioQJXL8lN3AYlzJfJLBpB0MDPG7CGpbvxR0HBkQ6qp9T72/yzryP6k2HSVdxd3jF5qg==
 
 ua-parser-js@^0.7.18, ua-parser-js@^0.7.9:
   version "0.7.20"

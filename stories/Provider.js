@@ -7,13 +7,13 @@ import jstz from 'jstimezonedetect'
 import translations from '@zap/i18n/translation'
 import { configureStore } from '@zap/renderer/store/configureStore'
 import { getDefaultLocale } from '@zap/i18n'
-import { getDb } from '@zap/renderer/store/db'
+import { getDatabase } from '@zap/renderer/store/db'
 import sha256digest from '@zap/utils/sha256'
 import getDbName from '@zap/utils/db'
 import { setTheme } from 'reducers/theme'
 import { setCryptoUnit } from 'reducers/ticker'
 
-export const db = getDb(getDbName(config))
+export const db = getDatabase(getDbName(config))
 db.open()
 
 window.db = db

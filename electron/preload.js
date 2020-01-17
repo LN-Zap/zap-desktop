@@ -5,6 +5,7 @@
 import { ipcRenderer, remote, shell } from 'electron'
 import url from 'url'
 import os from 'os'
+import { randomBytes } from 'crypto'
 import defaults from 'lodash/defaults'
 import fileExists from '@zap/utils/fileExists'
 import dirExists from '@zap/utils/dirExists'
@@ -146,6 +147,7 @@ window.Zap = {
   normalizeBackupDir,
   getPackageDetails,
   sha256digest,
+  randomBytes,
   getPlatform: () => os.platform(),
 }
 
