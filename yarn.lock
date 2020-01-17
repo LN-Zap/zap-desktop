@@ -17603,13 +17603,14 @@ test-exclude@^5.2.3:
     read-pkg-up "^4.0.0"
     require-main-filename "^2.0.0"
 
-testcafe-browser-provider-electron@0.0.13:
-  version "0.0.13"
-  resolved "https://registry.yarnpkg.com/testcafe-browser-provider-electron/-/testcafe-browser-provider-electron-0.0.13.tgz#df1936500f535fb40abe426b6263c9982ada190a"
-  integrity sha512-lvvhkGd3TL4gleNqaghc+u84QUyqQ0PSvishbvGHA9f6YLqgeN7TYK+ZOhh6IDeBCswwEyzPZJUexgSLVDOLhQ==
+testcafe-browser-provider-electron@0.0.14:
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/testcafe-browser-provider-electron/-/testcafe-browser-provider-electron-0.0.14.tgz#093d4173084947858a255114f3442076b582b8a9"
+  integrity sha512-FcnOm1GMKPC0SWn5IFRitBJ6xSLWuLyzaZopZ+MH+Pp95hy4atVWbImDTJzTr4aHtPqs3GNdF1H7Ff2t7CmuNw==
   dependencies:
     babel-runtime "^6.25.0"
     chrome-remote-interface "^0.27.0"
+    debug "4.1.1"
     dedent "^0.7.0"
     endpoint-utils "^1.0.2"
     lodash "^4.17.4"
