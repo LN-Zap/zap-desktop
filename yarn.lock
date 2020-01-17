@@ -3784,7 +3784,7 @@ ansi-escapes@^3.0.0, ansi-escapes@^3.2.0:
   resolved "https://registry.yarnpkg.com/ansi-escapes/-/ansi-escapes-3.2.0.tgz#8780b98ff9dbf5638152d1f1fe5c1d7b4442976b"
   integrity sha512-cBhpre4ma+U0T1oM5fXg7Dy1Jw7zzwv7lt/GoCpr+hDQJoYnKVPLL4dCvSEFMmQurOQvSrwT7SL/DAlhBI97RQ==
 
-ansi-escapes@^4.2.1:
+ansi-escapes@^4.2.1, ansi-escapes@^4.3.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/ansi-escapes/-/ansi-escapes-4.3.0.tgz#a4ce2b33d6b214b7950d8595c212f12ac9cc569d"
   integrity sha512-EiYhwo0v255HUL6eDyuLrXEkTi7WwVCLAw+SeOQ7M7qdun1z1pum4DEm/nuqIVbPvi9RPPc9k9LbyBv6H0DwVg==
@@ -17300,16 +17300,16 @@ stylelint-config-styled-components@0.1.1:
   resolved "https://registry.yarnpkg.com/stylelint-config-styled-components/-/stylelint-config-styled-components-0.1.1.tgz#b408388d7c687833ab4be4c4e6522d97d2827ede"
   integrity sha512-z5Xz/9GmvxO6e/DLzBMwkB85zHxEEjN6K7Cj80Bi+o/9vR9eS3GX3E9VuMnX9WLFYulqbqLtTapGGY28JBiy9Q==
 
-stylelint-formatter-pretty@1.1.3:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/stylelint-formatter-pretty/-/stylelint-formatter-pretty-1.1.3.tgz#9eef206a39a86041bdcc73b3bd8e1352b07a63e7"
-  integrity sha512-EjbM00ZOVzONHtxl40GylxQSbNEDOSlteIxt7zRp4li525ey5IEEpA3tGS6DnvW21v4BNnfEYQu3ZoE9BCo6eQ==
+stylelint-formatter-pretty@1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/stylelint-formatter-pretty/-/stylelint-formatter-pretty-1.1.4.tgz#f88ac72b5a1e279a54470c7b973dc7272a11252a"
+  integrity sha512-wgPu7UaWJO8ISiSXelp46jhtM8J/CIsrndgpUOow80v0GvyrmLrRURCFV16oKddkH0NcjlO91C7c+ef2U+siNw==
   dependencies:
-    ansi-escapes "^4.2.1"
-    chalk "^2.4.2"
+    ansi-escapes "^4.3.0"
+    chalk "^3.0.0"
     log-symbols "^3.0.0"
     plur "^3.1.1"
-    string-width "^4.1.0"
+    string-width "^4.2.0"
 
 stylelint-processor-styled-components@1.9.0:
   version "1.9.0"
