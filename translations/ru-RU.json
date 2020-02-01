@@ -77,7 +77,7 @@
   "components.Activity.TransactionModal.unconfirmed": "Не подтверждено",
   "components.Activity.all": "Все",
   "components.Activity.error_copied": "",
-  "components.Activity.error_dialog_copy": "",
+  "components.Activity.error_dialog_copy": "Копировать",
   "components.Activity.error_dialog_header": "",
   "components.Activity.expired": "Истeкший",
   "components.Activity.internal": "Внутренние",
