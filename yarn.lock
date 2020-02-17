@@ -5653,10 +5653,10 @@ bowser@1.6.0:
   resolved "https://registry.yarnpkg.com/bowser/-/bowser-1.6.0.tgz#37fc387b616cb6aef370dab4d6bd402b74c5c54d"
   integrity sha1-N/w4e2Fstq7zcNq01r1AK3TFxU0=
 
-bowser@^2.7.0:
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/bowser/-/bowser-2.7.0.tgz#96eab1fa07fab08c1ec4c75977a7c8ddf8e0fe1f"
-  integrity sha512-aIlMvstvu8x+34KEiOHD3AsBgdrzg6sxALYiukOWhFvGMbQI6TRP/iY0LMhUrHs56aD6P1G0Z7h45PUJaa5m9w==
+bowser@^2.8.1:
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/bowser/-/bowser-2.9.0.tgz#3bed854233b419b9a7422d9ee3e85504373821c9"
+  integrity sha512-2ld76tuLBNFekRgmJfT2+3j5MIrP6bFict8WAIT3beq+srz1gcKNAdNKMqHqauQt63NmAa88HfP1/Ypa9Er3HA==
 
 boxen@^3.0.0:
   version "3.2.0"
@@ -6312,11 +6312,6 @@ chownr@^1.1.1:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/chownr/-/chownr-1.1.3.tgz#42d837d5239688d55f303003a508230fa6727142"
   integrity sha512-i70fVHhmV3DtTl6nqvZOnIjbY0Pe4kAUjwHj8z0zAdgBtYrJyYwLKCCuRBQ5ppkyL0AkN7HKRnETdmdp1zqNXw==
-
-chrome-emulated-devices-list@^0.1.0:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/chrome-emulated-devices-list/-/chrome-emulated-devices-list-0.1.1.tgz#9ee030c21aa6d065fbe562f3ce41ee257585fd60"
-  integrity sha512-wQu6YKNTNGaUXovpkvXLnfeumVK47r2TKpOuCTwOKv/5SmRzfHual+E+oDIwS3KFWAcJPAhoNRAOLvXwzC6/pw==
 
 chrome-remote-interface@^0.25.3:
   version "0.25.7"
@@ -7577,6 +7572,11 @@ detective@^4.3.1:
   dependencies:
     acorn "^5.2.1"
     defined "^1.0.0"
+
+device-specs@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/device-specs/-/device-specs-1.0.0.tgz#47b54577b9b159118bbb0a175177d0aa9c50a9c9"
+  integrity sha512-fYXbFSeilT7bnKWFi4OERSPHdtaEoDGn4aUhV5Nly6/I+Tp6JZ/6Icmd7LVIF5euyodGpxz2e/bfUmDnIdSIDw==
 
 dexie@3.0.0-rc.1:
   version "3.0.0-rc.1"
@@ -17599,10 +17599,10 @@ testcafe-browser-provider-electron@0.0.14:
     promisify-event "^1.0.0"
     proxyquire "^1.7.10"
 
-testcafe-browser-tools@2.0.5:
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/testcafe-browser-tools/-/testcafe-browser-tools-2.0.5.tgz#b5101b3738a973f3682109c691be4d4f747ca475"
-  integrity sha512-zc2c+X0BnzF6F13URFelevD0oU4X6oj7W3fSJOZ8jThjuXopx7R4PZ4EZeswgdijygNJfObguTJfhd6zJLTJFQ==
+testcafe-browser-tools@2.0.8:
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/testcafe-browser-tools/-/testcafe-browser-tools-2.0.8.tgz#a27e7e290ce3d8bdaa85bef87bbc435a80eb32b8"
+  integrity sha512-L09Hs8ZG+5KTz5zjBPJQVTrcHCmgBBrTrivU1q5e/WXGIFnISqlxmeimuD2r9Eifv7p2xFDRJJ5UBs96tlIpZg==
   dependencies:
     array-find "^1.0.0"
     babel-runtime "^5.6.15"
@@ -17621,10 +17621,10 @@ testcafe-browser-tools@2.0.5:
     read-file-relative "^1.2.0"
     which-promise "^1.0.0"
 
-testcafe-hammerhead@15.0.0:
-  version "15.0.0"
-  resolved "https://registry.yarnpkg.com/testcafe-hammerhead/-/testcafe-hammerhead-15.0.0.tgz#265605ea4e45393c07943115acb5f481da260c93"
-  integrity sha512-jgj38U+fERbe/X7D2JOPsej7ywxYza8lCQt5rjCirTx6WawKxxI0GUchRU0SSgQVMzhszt+evtf3Z4cigbZ3gQ==
+testcafe-hammerhead@16.1.2:
+  version "16.1.2"
+  resolved "https://registry.yarnpkg.com/testcafe-hammerhead/-/testcafe-hammerhead-16.1.2.tgz#f9601652e67960bcb7f63bd8ad38b35f7e56fe37"
+  integrity sha512-+e0AeHIGDIY/1TdHJE0l2Gyv77Bjcb0ZTHYiIiY49t0R9+PV4fYmHxy+SoJJuhKWRv5/gVggta9DOBToQmWong==
   dependencies:
     acorn-hammerhead "^0.3.0"
     asar "^2.0.1"
@@ -17699,10 +17699,10 @@ testcafe-reporter-xunit@^2.1.0:
   resolved "https://registry.yarnpkg.com/testcafe-reporter-xunit/-/testcafe-reporter-xunit-2.1.0.tgz#e6d66c572ce15af266706af0fd610b2a841dd443"
   integrity sha1-5tZsVyzhWvJmcGrw/WELKoQd1EM=
 
-testcafe@1.7.1:
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/testcafe/-/testcafe-1.7.1.tgz#10112f3bfdab0d3c3088273e3ccedb63ec5754e1"
-  integrity sha512-mLouX1NkfbOsFuXL4gCTpK06qfuoYyVLWc5ZuvRaXT+UyzG39uLL6QqoxZlCA/2e9xHerrGCr9qOLitvxuk08Q==
+testcafe@1.8.2:
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/testcafe/-/testcafe-1.8.2.tgz#1c558c1ef014ef2df5db120f769f568ae5c59a5a"
+  integrity sha512-bMUF+O9hGVsQPonUkiSVSPs9TiyeWT3IAM/GHLfEhUP2yXgbjneuUg6YmG/+jrCbgZ9AuB4nDKcaZIVaQJyeSA==
   dependencies:
     "@types/node" "^10.12.19"
     async-exit-hook "^1.1.2"
@@ -17715,18 +17715,18 @@ testcafe@1.7.1:
     babel-preset-stage-2 "^6.22.0"
     babel-runtime "^6.22.0"
     bin-v8-flags-filter "^1.1.2"
-    bowser "^2.7.0"
+    bowser "^2.8.1"
     callsite "^1.0.0"
     callsite-record "^4.0.0"
     chai "^4.1.2"
     chalk "^2.3.0"
-    chrome-emulated-devices-list "^0.1.0"
     chrome-remote-interface "^0.25.3"
     coffeescript "^2.3.1"
     commander "^2.8.1"
     debug "^2.2.0"
     dedent "^0.4.0"
     del "^3.0.0"
+    device-specs "^1.0.0"
     elegant-spinner "^1.0.1"
     emittery "^0.4.1"
     endpoint-utils "^1.0.2"
@@ -17765,8 +17765,8 @@ testcafe@1.7.1:
     sanitize-filename "^1.6.0"
     source-map-support "^0.5.16"
     strip-bom "^2.0.0"
-    testcafe-browser-tools "2.0.5"
-    testcafe-hammerhead "15.0.0"
+    testcafe-browser-tools "2.0.8"
+    testcafe-hammerhead "16.1.2"
     testcafe-legacy-api "3.1.11"
     testcafe-reporter-json "^2.1.0"
     testcafe-reporter-list "^2.1.0"
