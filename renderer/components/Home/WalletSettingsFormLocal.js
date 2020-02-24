@@ -7,7 +7,7 @@ import { FormattedMessage, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass/styled-components'
 import uniq from 'lodash/uniq'
 import { intlShape } from '@zap/i18n'
-import { Bar, Button, DataRow, Text } from 'components/UI'
+import { Bar, Button, DataRow, Text, Tooltip } from 'components/UI'
 import { Input, Label, Toggle, TextArea, FieldLabelFactory } from 'components/Form'
 import messages from './messages'
 import AutopilotAllocation from './AutopilotAllocation'
@@ -207,9 +207,14 @@ class WalletSettingsFormLocal extends React.Component {
         <Box as="section" mb={4}>
           <DataRow
             left={
-              <Label htmlFor="autopilot">
-                <FormattedMessage {...messages.section_autopilot_title} />
-              </Label>
+              <Flex>
+                <Label htmlFor="autopilot">
+                  <FormattedMessage {...messages.section_autopilot_title} />
+                </Label>
+                <Tooltip ml={1} mt="2px">
+                  <FormattedMessage {...messages.section_autopilot_tooltip} />
+                </Tooltip>
+              </Flex>
             }
             mt={4}
             py={2}

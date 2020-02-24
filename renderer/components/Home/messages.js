@@ -7,6 +7,8 @@ export default defineMessages({
   host: 'Host',
   section_basic_title: 'Basic',
   section_autopilot_title: 'Autopilot',
+  section_autopilot_tooltip:
+    'Autopilot automates the process of finding, funding and establishing payment channels with other nodes.',
   section_naming_title: 'Naming',
   section_naming_connections: 'Connections',
   section_delete_title: 'Delete',

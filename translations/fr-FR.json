@@ -279,6 +279,7 @@
   "components.Home.saved_error": "Une erreur s'est produite",
   "components.Home.saved_notification": "Les réglages ont été mis à jour",
   "components.Home.section_autopilot_title": "Autopilot",
+  "components.Home.section_autopilot_tooltip": "",
   "components.Home.section_basic_title": "Informations",
   "components.Home.section_connection_details": "Détails de connexion",
   "components.Home.section_delete_title": "Supprimer",
