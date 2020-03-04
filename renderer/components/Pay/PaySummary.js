@@ -8,7 +8,15 @@ import { PAY_FORM_STEPS } from './constants'
 import { getFeeRate } from './utils'
 
 const PaySummary = props => {
-  const { amountInSats, formApi, isOnchain, lndTargetConfirmations, onchainFees, routes } = props
+  const {
+    amountInSats,
+    formApi,
+    isOnchain,
+    isPubkey,
+    lndTargetConfirmations,
+    onchainFees,
+    routes,
+  } = props
   const formState = formApi.getState()
   const { speed, payReq, isCoinSweep } = formState.values
 
@@ -29,6 +37,7 @@ const PaySummary = props => {
   return (
     <PaySummaryLightning
       amount={amountInSats}
+      isPubkey={isPubkey}
       maxFee={getMaxFeeInclusive(routes)}
       minFee={getMinFee(routes)}
       mt={-3}
@@ -43,6 +52,7 @@ PaySummary.propTypes = {
   amountInSats: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   formApi: PropTypes.object.isRequired,
   isOnchain: PropTypes.bool,
+  isPubkey: PropTypes.bool,
   lndTargetConfirmations: PropTypes.shape({
     fast: PropTypes.number.isRequired,
     medium: PropTypes.number.isRequired,

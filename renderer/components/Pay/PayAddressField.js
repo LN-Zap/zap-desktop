@@ -27,7 +27,7 @@ class PayAddressField extends React.Component {
     formState: PropTypes.object,
     handlePayReqChange: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    isLn: PropTypes.bool,
+    isBolt11: PropTypes.bool,
     network: PropTypes.string.isRequired,
     redirectPayReq: PropTypes.object,
   }
@@ -48,11 +48,11 @@ class PayAddressField extends React.Component {
   }
 
   getPaymentRequestLabel = () => {
-    const { currentStep, isLn } = this.props
+    const { currentStep, isBolt11 } = this.props
     let payReqLabel = 'request_label_onchain'
     if (currentStep === PAY_FORM_STEPS.address) {
       payReqLabel = 'request_label_combined'
-    } else if (isLn) {
+    } else if (isBolt11) {
       payReqLabel = 'request_label_offchain'
     }
 
@@ -66,11 +66,11 @@ class PayAddressField extends React.Component {
       currentStep,
       formState,
       handlePayReqChange,
-      isLn,
+      isBolt11,
       network,
       redirectPayReq,
     } = this.props
-    const addressFieldState = currentStep === PAY_FORM_STEPS.address || isLn ? 'big' : 'small'
+    const addressFieldState = currentStep === PAY_FORM_STEPS.address || isBolt11 ? 'big' : 'small'
 
     const { payReq } = formState.values
     const { submits } = formState

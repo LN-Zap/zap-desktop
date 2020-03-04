@@ -11,7 +11,7 @@ const props = {
 describe('component.Pay.PayPanelHeader', () => {
   describe('is an LN transaction', () => {
     it('should render correctly', () => {
-      const wrapper = shallow(<PayPanelHeader {...props} isLn />)
+      const wrapper = shallow(<PayPanelHeader {...props} isBolt11 />)
       expect(toJSON(wrapper)).toMatchSnapshot()
     })
   })

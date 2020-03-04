@@ -142,14 +142,14 @@ export const isOnchain = (input, chain, network) => {
 }
 
 /**
- * isLn - Test to see if a string is a valid lightning address.
+ * isBolt11 - Test to see if a string is a valid lightning address.
  *
  * @param {string} input Value to check
  * @param {string} chain Chain name
  * @param {string} network Network name
  * @returns {boolean} Boolean indicating whether the address is a lightning address
  */
-export const isLn = (input, chain = 'bitcoin', network = 'mainnet') => {
+export const isBolt11 = (input, chain = 'bitcoin', network = 'mainnet') => {
   if (!input || typeof input !== 'string') {
     return false
   }
@@ -162,6 +162,20 @@ export const isLn = (input, chain = 'bitcoin', network = 'mainnet') => {
   } catch (e) {
     return false
   }
+}
+
+/**
+ * isPubkey - Test to see if a string is a valid pubkey.
+ *
+ * @param {string} input Value to check
+ * @returns {boolean} Boolean indicating whether the address is a pubkey
+ */
+export const isPubkey = input => {
+  if (!input || typeof input !== 'string') {
+    return false
+  }
+  const isHex = /^[0-9a-fA-F]+$/.test(input)
+  return isHex && input.length === 66
 }
 
 /**

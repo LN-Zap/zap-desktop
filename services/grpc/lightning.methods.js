@@ -268,6 +268,7 @@ async function sendPayment(payload = {}) {
 
   return new Promise((resolve, reject) => {
     try {
+      logGrpcCmd('Lightning.sendPayment', payload)
       const call = this.service.sendPayment(payload)
 
       call.on('data', data => {

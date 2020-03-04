@@ -22,7 +22,7 @@ exports[`component.Pay.PayAddressField current step is "address" should render c
           },
           "handlePayReqChange": [Function],
           "intl": Object {},
-          "isLn": null,
+          "isBolt11": null,
           "network": "testnet",
           "redirectPayReq": Object {},
         },
@@ -61,7 +61,7 @@ exports[`component.Pay.PayAddressField current step is "address" should render c
               }
               handlePayReqChange={[Function]}
               intl={Object {}}
-              isLn={null}
+              isBolt11={null}
               network="testnet"
               redirectPayReq={Object {}}
             />,
@@ -118,7 +118,7 @@ exports[`component.Pay.PayAddressField current step is "summary" and it is an LN
           },
           "handlePayReqChange": [Function],
           "intl": Object {},
-          "isLn": true,
+          "isBolt11": true,
           "network": "testnet",
           "redirectPayReq": Object {},
         },
@@ -157,7 +157,7 @@ exports[`component.Pay.PayAddressField current step is "summary" and it is an LN
               }
               handlePayReqChange={[Function]}
               intl={Object {}}
-              isLn={true}
+              isBolt11={true}
               network="testnet"
               redirectPayReq={Object {}}
             />,
@@ -214,7 +214,7 @@ exports[`component.Pay.PayAddressField current step is "summary" and it is an on
           },
           "handlePayReqChange": [Function],
           "intl": Object {},
-          "isLn": false,
+          "isBolt11": false,
           "network": "testnet",
           "redirectPayReq": Object {},
         },
@@ -253,7 +253,7 @@ exports[`component.Pay.PayAddressField current step is "summary" and it is an on
               }
               handlePayReqChange={[Function]}
               intl={Object {}}
-              isLn={false}
+              isBolt11={false}
               network="testnet"
               redirectPayReq={Object {}}
             />,

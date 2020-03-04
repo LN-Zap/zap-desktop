@@ -12,11 +12,19 @@ import { PAY_FORM_STEPS } from './constants'
 
 const isEnoughFunds = props => {
   // convert entered amount to satoshis
-  const { amountInSats, channelBalance, invoice, isLn, isOnchain, walletBalanceConfirmed } = props
+  const {
+    amountInSats,
+    channelBalance,
+    invoice,
+    isBolt11,
+    isOnchain,
+    isPubkey,
+    walletBalanceConfirmed,
+  } = props
 
   // Determine whether we have enough funds available.
   let hasEnoughFunds = true
-  if (isLn && invoice) {
+  if ((isBolt11 && invoice) || isPubkey) {
     hasEnoughFunds = amountInSats <= channelBalance
   } else if (isOnchain) {
     hasEnoughFunds = amountInSats <= walletBalanceConfirmed
@@ -58,8 +66,9 @@ const PayPanelFooter = props => {
     cryptoUnitName,
     currentStep,
     formState,
-    isLn,
+    isBolt11,
     isOnchain,
+    isPubkey,
     isProcessing,
     previousStep,
     walletBalanceConfirmed,
@@ -67,14 +76,14 @@ const PayPanelFooter = props => {
   } = props
 
   const renderLiquidityWarning = props => {
-    const { currentStep, maxOneTimeSend, cryptoUnit, isLn, amountInSats } = props
+    const { currentStep, maxOneTimeSend, cryptoUnit, isBolt11, isPubkey, amountInSats } = props
 
     if (currentStep !== PAY_FORM_STEPS.summary) {
       return null
     }
 
     const isNotEnoughFunds = !isEnoughFunds(props)
-    const isAboveMax = isLn && amountInSats > maxOneTimeSend
+    const isAboveMax = (isBolt11 || isPubkey) && amountInSats > maxOneTimeSend
     const formattedMax = intl.formatNumber(convert('sats', cryptoUnit, maxOneTimeSend), {
       maximumFractionDigits: 8,
     })
@@ -100,7 +109,8 @@ const PayPanelFooter = props => {
 
   // Determine which buttons should be visible.
   const hasBackButton = currentStep !== PAY_FORM_STEPS.address
-  const hasSubmitButton = currentStep !== PAY_FORM_STEPS.address || isOnchain || isLn
+  const hasSubmitButton =
+    currentStep !== PAY_FORM_STEPS.address || isOnchain || isBolt11 || isPubkey
 
   return (
     <Flex flexDirection="column">
@@ -157,9 +167,10 @@ PayPanelFooter.propTypes = {
   formState: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
   invoice: PropTypes.object,
-  isLn: PropTypes.bool,
+  isBolt11: PropTypes.bool,
   isOnchain: PropTypes.bool,
   isProcessing: PropTypes.bool,
+  isPubkey: PropTypes.bool,
   maxOneTimeSend: PropTypes.string.isRequired,
   previousStep: PropTypes.func.isRequired,
   walletBalanceConfirmed: PropTypes.string.isRequired,

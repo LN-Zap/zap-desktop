@@ -8,7 +8,7 @@ const props = {
   chain: 'Bitcoin',
   handlePayReqChange: () => {},
   intl: {},
-  isLn: null,
+  isBolt11: null,
   network: 'testnet',
   redirectPayReq: {},
   formState: { values: {}, submits: 0 },
@@ -26,7 +26,7 @@ describe('component.Pay.PayAddressField', () => {
     describe('and it is an LN transaction', () => {
       it('should render correctly', () => {
         const wrapper = shallow(
-          <PayAddressField {...props} currentStep={PAY_FORM_STEPS.summary} isLn />
+          <PayAddressField {...props} currentStep={PAY_FORM_STEPS.summary} isBolt11 />
         )
         expect(toJSON(wrapper)).toMatchSnapshot()
       })
@@ -35,7 +35,7 @@ describe('component.Pay.PayAddressField', () => {
     describe('and it is an on-chain transaction', () => {
       it('should render correctly', () => {
         const wrapper = shallow(
-          <PayAddressField {...props} currentStep={PAY_FORM_STEPS.summary} isLn={false} />
+          <PayAddressField {...props} currentStep={PAY_FORM_STEPS.summary} isBolt11={false} />
         )
         expect(toJSON(wrapper)).toMatchSnapshot()
       })

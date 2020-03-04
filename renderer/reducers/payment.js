@@ -1,11 +1,12 @@
 import config from 'config'
+import { randomBytes, createHash } from 'crypto'
 import { createSelector } from 'reselect'
 import uniqBy from 'lodash/uniqBy'
 import find from 'lodash/find'
 import createReducer from '@zap/utils/createReducer'
 import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
 import { getIntl } from '@zap/i18n'
-import { decodePayReq, getNodeAlias, getTag } from '@zap/utils/crypto'
+import { decodePayReq, getNodeAlias, getTag, isPubkey } from '@zap/utils/crypto'
 import { convert } from '@zap/utils/btc'
 import delay from '@zap/utils/delay'
 import genId from '@zap/utils/genId'
@@ -115,10 +116,7 @@ export function getPayments() {
  * @returns {Function} Thunk
  */
 export const sendPayment = data => dispatch => {
-  const invoice = decodePayReq(data.paymentRequest)
-  const paymentHash = getTag(invoice, 'payment_hash')
-
-  if (!paymentHash) {
+  if (!data.paymentHash) {
     dispatch(showError(getIntl().formatMessage(messages.payment_send_error)))
     return
   }
@@ -128,7 +126,7 @@ export const sendPayment = data => dispatch => {
     status: PAYMENT_STATUS_SENDING,
     isSending: true,
     creation_date: Math.round(new Date() / 1000),
-    payment_hash: paymentHash,
+    payment_hash: data.paymentHash,
   }
 
   dispatch({
@@ -188,38 +186,71 @@ export const payInvoice = ({
   retries = 0,
   originalPaymentId,
 }) => async dispatch => {
-  let paymentId = originalPaymentId
+  let paymentHash
+  const paymentId = originalPaymentId || genId()
+  const isKeysend = isPubkey(payReq)
 
-  // If we already have an id then this is a retry. Decrease the retry count.
-  if (originalPaymentId) {
-    dispatch(decPaymentRetry(originalPaymentId))
+  let payload = {
+    paymentId,
+    amt,
+    fee_limit: { fixed: feeLimit },
+    allow_self_payment: true,
   }
 
-  // Otherwise, add to paymentsSending in the state.
-  else {
-    // Generate a unique id for the payment that we will use to track the payment across retry attempts.
-    paymentId = genId()
+  // Keysend payment.
+  if (isKeysend) {
+    const defaultCltvDelta = 43
+    const keySendPreimageType = '5482373484'
+    const preimageByteLength = 32
+    const preimage = randomBytes(preimageByteLength)
+    const secret = preimage.toString('hex')
+    paymentHash = createHash('sha256')
+      .update(preimage)
+      .digest()
 
+    payload = {
+      ...payload,
+      payment_hash: paymentHash,
+      final_cltv_delta: defaultCltvDelta,
+      dest: Buffer.from(payReq, 'hex'),
+      dest_custom_records: {
+        [keySendPreimageType]: Buffer.from(secret, 'hex'),
+      },
+    }
+  }
+
+  // Bolt11 invoice payent.
+  else {
+    const invoice = decodePayReq(payReq)
+    paymentHash = getTag(invoice, 'payment_hash')
+
+    payload = {
+      ...payload,
+      payment_request: payReq,
+    }
+  }
+
+  // If we already have an id then this is a retry. Decrease the retry count.
+  // Otherwise, add to paymentsSending in the state.
+  if (originalPaymentId) {
+    dispatch(decPaymentRetry(originalPaymentId))
+  } else {
     dispatch(
       sendPayment({
         paymentId,
-        paymentRequest: payReq,
+        paymentHash,
         feeLimit,
         value: amt,
         remainingRetries: retries,
         maxRetries: retries,
+        isKeysend,
       })
     )
   }
 
   // Submit the payment to LND.
   try {
-    const data = await grpc.services.Lightning.sendPayment({
-      paymentId,
-      payment_request: payReq,
-      amt,
-      fee_limit: { fixed: feeLimit },
-    })
+    const data = await grpc.services.Lightning.sendPayment(payload)
     dispatch(paymentSuccessful(data))
   } catch (e) {
     const { details: data, message: error } = e

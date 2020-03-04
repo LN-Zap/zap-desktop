@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import config from 'config'
 import { injectIntl } from 'react-intl'
-import { decodePayReq, getMaxFee, isOnchain, isLn } from '@zap/utils/crypto'
+import { decodePayReq, getMaxFee, isOnchain, isBolt11, isPubkey } from '@zap/utils/crypto'
 import { Panel } from 'components/UI'
 import { Form } from 'components/Form'
 import { getAmountInSats, getFeeRate } from './utils'
@@ -62,7 +62,8 @@ class Pay extends React.Component {
   state = {
     currentStep: PAY_FORM_STEPS.address,
     previousStep: null,
-    isLn: null,
+    isPubkey: null,
+    isBolt11: null,
     isOnchain: null,
   }
 
@@ -75,7 +76,7 @@ class Pay extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { redirectPayReq, queryRoutes, setRedirectPayReq } = this.props
-    const { currentStep, invoice, isOnchain } = this.state
+    const { currentStep, invoice, isOnchain, isPubkey } = this.state
     const { address, amount } = redirectPayReq || {}
     const { payReq: prevPayReq } = prevProps || {}
     const { address: prevAddress, amount: prevAmount } = prevPayReq || {}
@@ -111,6 +112,13 @@ class Pay extends React.Component {
       return
     }
 
+    // If we now have a valid onchain address, trigger the form submit to move to the amount step.
+    const isNowPubkey = isPubkey && isPubkey !== prevState.isPubkey
+    if (currentStep === PAY_FORM_STEPS.address && isNowPubkey) {
+      this.formApi.submitForm()
+      return
+    }
+
     // If we now have a valid lightning invoice submit the form.
     const isNowLightning = invoice && invoice !== prevState.invoice
     if (currentStep === PAY_FORM_STEPS.address && isNowLightning) {
@@ -118,14 +126,20 @@ class Pay extends React.Component {
       return
     }
 
-    // update route.
-    if (
-      invoice &&
-      prevState.currentStep === PAY_FORM_STEPS.address &&
-      currentStep === PAY_FORM_STEPS.summary
-    ) {
-      const { payeeNodeKey } = invoice
-      queryRoutes(payeeNodeKey, this.amountInSats())
+    // Query routes when moving to LN summary screen.
+    const isNowSummary =
+      currentStep === PAY_FORM_STEPS.summary && prevState.currentStep !== PAY_FORM_STEPS.summary
+    if (isNowSummary) {
+      let payeeNodeKey
+      if (invoice) {
+        payeeNodeKey = invoice.payeeNodeKey // eslint-disable-line prefer-destructuring
+      } else if (isPubkey) {
+        const {
+          values: { payReq },
+        } = this.formApi.getState()
+        payeeNodeKey = payReq
+      }
+      payeeNodeKey && queryRoutes(payeeNodeKey, this.amountInSats())
     }
   }
 
@@ -259,9 +273,9 @@ class Pay extends React.Component {
    * @returns {string[]} List of enabled form steps
    */
   steps = () => {
-    const { isLn, isOnchain, invoice } = this.state
+    const { isBolt11, isPubkey, isOnchain, invoice } = this.state
     let steps = [PAY_FORM_STEPS.address]
-    if (isLn) {
+    if (isBolt11) {
       // If we have an invoice and the invoice has an amount, this is a 2 step form.
       if (invoice && (invoice.satoshis || invoice.millisatoshis)) {
         steps.push(PAY_FORM_STEPS.summary)
@@ -270,7 +284,7 @@ class Pay extends React.Component {
       else {
         steps = [PAY_FORM_STEPS.address, PAY_FORM_STEPS.amount, PAY_FORM_STEPS.summary]
       }
-    } else if (isOnchain) {
+    } else if (isOnchain || isPubkey) {
       steps = [PAY_FORM_STEPS.address, PAY_FORM_STEPS.amount, PAY_FORM_STEPS.summary]
     }
     return steps
@@ -301,7 +315,7 @@ class Pay extends React.Component {
   }
 
   /**
-   * handlePayReqChange - Set isLn/isOnchain state based on payReq value.
+   * handlePayReqChange - Set isBolt11/isOnchain/isPubkey state based on payReq value.
    *
    * @param {string} payReq Payment request
    */
@@ -309,20 +323,21 @@ class Pay extends React.Component {
     const { chain, network } = this.props
     const state = {
       currentStep: PAY_FORM_STEPS.address,
-      isLn: null,
+      isBolt11: null,
+      isPubkey: null,
       isOnchain: null,
       invoice: null,
     }
 
     // See if the user has entered a valid lightning payment request.
-    if (isLn(payReq, chain, network)) {
+    if (isBolt11(payReq, chain, network)) {
       try {
         const invoice = decodePayReq(payReq)
         state.invoice = invoice
       } catch (e) {
         return
       }
-      state.isLn = true
+      state.isBolt11 = true
     }
 
     // Otherwise, see if we have a valid onchain address.
@@ -330,12 +345,17 @@ class Pay extends React.Component {
       state.isOnchain = true
     }
 
+    // Or a valid pubkey.
+    else if (isPubkey(payReq)) {
+      state.isPubkey = true
+    }
+
     // Update the state with our findings.
     this.setState(state)
   }
 
   render() {
-    const { currentStep, invoice, isLn, isOnchain, previousStep } = this.state
+    const { currentStep, invoice, isBolt11, isOnchain, isPubkey, previousStep } = this.state
     const {
       chain,
       chainName,
@@ -374,8 +394,9 @@ class Pay extends React.Component {
               <PayPanelHeader
                 chainName={chainName}
                 cryptoUnitName={cryptoUnitName}
-                isLn={isLn}
+                isBolt11={isBolt11}
                 isOnchain={isOnchain}
+                isPubkey={isPubkey}
               />
             </Panel.Header>
             <Panel.Body py={3}>
@@ -393,8 +414,9 @@ class Pay extends React.Component {
                 initialAmountFiat={initialAmountFiat}
                 intl={intl}
                 invoice={invoice}
-                isLn={isLn}
+                isBolt11={isBolt11}
                 isOnchain={isOnchain}
+                isPubkey={isPubkey}
                 isQueryingFees={isQueryingFees}
                 lndTargetConfirmations={lndTargetConfirmations}
                 network={network}
@@ -415,9 +437,10 @@ class Pay extends React.Component {
                 currentStep={currentStep}
                 formState={formState}
                 invoice={invoice}
-                isLn={isLn}
+                isBolt11={isBolt11}
                 isOnchain={isOnchain}
                 isProcessing={isProcessing}
+                isPubkey={isPubkey}
                 maxOneTimeSend={maxOneTimeSend}
                 previousStep={this.goToPreviousStep}
                 walletBalanceConfirmed={walletBalanceConfirmed}

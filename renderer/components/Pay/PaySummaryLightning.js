@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage } from 'react-intl'
+import { CoinBig } from '@zap/utils/coin'
 import { convert } from '@zap/utils/btc'
 import { decodePayReq, getNodeAlias, getTag } from '@zap/utils/crypto'
 import BigArrowRight from 'components/Icon/BigArrowRight'
@@ -16,6 +17,8 @@ class PaySummaryLightning extends React.Component {
     amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     /** Ticker symbol of the currently selected cryptocurrency. */
     cryptoUnitName: PropTypes.string.isRequired,
+    /** Boolean indicating whether payment is to pubkey (or bolt11) */
+    isPubkey: PropTypes.bool,
     /** Boolean indicating whether routing information is currently being fetched. */
     isQueryingRoutes: PropTypes.bool,
     /** Maximum fee for the payment */
@@ -47,6 +50,7 @@ class PaySummaryLightning extends React.Component {
     const {
       amount,
       cryptoUnitName,
+      isPubkey,
       isQueryingRoutes,
       maxFee,
       minFee,
@@ -55,16 +59,23 @@ class PaySummaryLightning extends React.Component {
       ...rest
     } = this.props
 
-    let invoice
-    try {
-      invoice = decodePayReq(payReq)
-    } catch (e) {
-      return null
+    let payeeNodeKey
+    let memo
+    let amountInSatoshis = amount
+    if (isPubkey) {
+      payeeNodeKey = payReq
+    } else {
+      let invoice
+      try {
+        invoice = decodePayReq(payReq)
+      } catch (e) {
+        return null
+      }
+      payeeNodeKey = invoice.payeeNodeKey // eslint-disable-line prefer-destructuring
+      memo = getTag(invoice, 'description')
+      const { satoshis, millisatoshis } = invoice
+      amountInSatoshis = satoshis || convert('msats', 'sats', millisatoshis) || amount
     }
-
-    const { satoshis, millisatoshis, payeeNodeKey } = invoice
-    const memo = getTag(invoice, 'description')
-    const amountInSatoshis = satoshis || convert('msats', 'sats', millisatoshis) || amount
 
     const nodeAlias = getNodeAlias(payeeNodeKey, nodes)
     const hasMinFee = minFee || minFee === 0
@@ -75,7 +86,7 @@ class PaySummaryLightning extends React.Component {
     let feeMessage = messages.fee_unknown
 
     // If thex max fee is 0 or 1 then show a message like "less than 1".
-    if (maxFee >= 0 && maxFee < 1) {
+    if (CoinBig(maxFee).gte(0) && CoinBig(maxFee).lt(1)) {
       feeMessage = messages.fee_less_than_1
     }
     // Otherwise, if we have both a min and max fee that are different, present the fee range.
@@ -86,6 +97,10 @@ class PaySummaryLightning extends React.Component {
     else if (hasMaxFee) {
       feeMessage = messages.fee_upto
     }
+
+    const totalAmountInSatoshis = hasMaxFee
+      ? CoinBig.sum(amountInSatoshis, maxFee).toString()
+      : amountInSatoshis
 
     return (
       <Box {...rest}>
@@ -140,7 +155,7 @@ class PaySummaryLightning extends React.Component {
           right={
             <Flex alignItems="baseline">
               <CryptoSelector mr={2} />
-              <CryptoValue value={amountInSatoshis + maxFee} />
+              <CryptoValue value={totalAmountInSatoshis} />
             </Flex>
           }
         />
