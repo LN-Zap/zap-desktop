@@ -8510,10 +8510,10 @@ eslint-formatter-pretty@3.0.1:
     string-width "^4.2.0"
     supports-hyperlinks "^2.0.0"
 
-eslint-import-resolver-babel-module@5.1.1:
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/eslint-import-resolver-babel-module/-/eslint-import-resolver-babel-module-5.1.1.tgz#eee0b9f96aa1a27547aefdfdd44fdc54b086a8b1"
-  integrity sha512-qCZ52O5RmPLrR/e9SrLTtFET+6+5Pbpqn7R0WI6cCfMoDEWFh0mF++fGdOmPSVH7NqWzVKXRx2AdSGfFr/Uz0Q==
+eslint-import-resolver-babel-module@5.1.2:
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/eslint-import-resolver-babel-module/-/eslint-import-resolver-babel-module-5.1.2.tgz#3d5599d49f641f9c832f001ccf7087a70a3c8c1b"
+  integrity sha512-pzKE6UzXgT1Opp4N2P2yoE7OY29+LX3FNX6bqAjmGV+btR/ZYnE/oQFoGzL2/3RkLYRTBYRFwvrphRy5wEAUwg==
   dependencies:
     pkg-up "^2.0.0"
     resolve "^1.10.0"
