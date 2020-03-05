@@ -279,6 +279,7 @@
   "components.Home.saved_error": "Ha ocurrido un error",
   "components.Home.saved_notification": "Configuraciónes actualizadas",
   "components.Home.section_autopilot_title": "Piloto automático",
+  "components.Home.section_autopilot_tooltip": "",
   "components.Home.section_basic_title": "Básico",
   "components.Home.section_connection_details": "Detalles de conexión",
   "components.Home.section_delete_title": "Borrar",

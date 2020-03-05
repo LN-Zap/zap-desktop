@@ -279,6 +279,7 @@
   "components.Home.saved_error": "Da ist was schiefgelaufen",
   "components.Home.saved_notification": "Einstellungen aktualisiert",
   "components.Home.section_autopilot_title": "Autopilot",
+  "components.Home.section_autopilot_tooltip": "",
   "components.Home.section_basic_title": "Basis",
   "components.Home.section_connection_details": "Verbindungsdetails",
   "components.Home.section_delete_title": "Löschen",

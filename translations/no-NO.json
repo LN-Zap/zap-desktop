@@ -279,6 +279,7 @@
   "components.Home.saved_error": "Noe gikk galt",
   "components.Home.saved_notification": "Innstillingene er oppdatert",
   "components.Home.section_autopilot_title": "Autopilot",
+  "components.Home.section_autopilot_tooltip": "",
   "components.Home.section_basic_title": "",
   "components.Home.section_connection_details": "Forbindelses-detaljer",
   "components.Home.section_delete_title": "Slett",

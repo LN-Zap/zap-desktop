@@ -279,6 +279,7 @@
   "components.Home.saved_error": "Something went wrong",
   "components.Home.saved_notification": "Settings have been updated",
   "components.Home.section_autopilot_title": "Autopilot",
+  "components.Home.section_autopilot_tooltip": "Autopilot automates the process of finding, funding and establishing payment channels with other nodes.",
   "components.Home.section_basic_title": "Basic",
   "components.Home.section_connection_details": "Connection details",
   "components.Home.section_delete_title": "Delete",

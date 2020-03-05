@@ -279,6 +279,7 @@
   "components.Home.saved_error": "Виникла помилка",
   "components.Home.saved_notification": "Налаштування збережені",
   "components.Home.section_autopilot_title": "",
+  "components.Home.section_autopilot_tooltip": "",
   "components.Home.section_basic_title": "",
   "components.Home.section_connection_details": "",
   "components.Home.section_delete_title": "",

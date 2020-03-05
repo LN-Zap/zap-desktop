@@ -279,6 +279,7 @@
   "components.Home.saved_error": "Něco se pokazilo",
   "components.Home.saved_notification": "Nastavení bylo aktualizováno",
   "components.Home.section_autopilot_title": "Autopilot",
+  "components.Home.section_autopilot_tooltip": "",
   "components.Home.section_basic_title": "Základní",
   "components.Home.section_connection_details": "Podrobnosti o připojení",
   "components.Home.section_delete_title": "Smazat",
