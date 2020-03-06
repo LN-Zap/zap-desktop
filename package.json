@@ -209,14 +209,14 @@
     }
   },
   "devDependencies": {
-    "@babel/core": "7.8.3",
+    "@babel/core": "7.8.7",
     "@babel/plugin-proposal-class-properties": "7.8.3",
     "@babel/plugin-proposal-export-default-from": "7.8.3",
     "@babel/plugin-transform-react-constant-elements": "7.8.3",
     "@babel/plugin-transform-react-inline-elements": "7.8.3",
-    "@babel/preset-env": "7.8.3",
+    "@babel/preset-env": "7.8.7",
     "@babel/preset-react": "7.8.3",
-    "@babel/register": "7.8.3",
+    "@babel/register": "7.8.6",
     "@commitlint/cli": "8.3.5",
     "@commitlint/config-conventional": "8.3.4",
     "@ln-zap/eslint-config": "0.3.2",
