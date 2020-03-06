@@ -435,7 +435,7 @@
   "components.Pay.error_not_enough_funds": "Du hast nicht genügend Mittel zur Verfügung, um diese Zahlung zu tätigen.",
   "components.Pay.error_not_onetime_send_capacity": "Du versuchst, mehr als dein aktuelles Sendevermögen von {capacity} {unit} zu senden",
   "components.Pay.fee": "Gebühr",
-  "components.Pay.fee_addition": "Zum Gesamtbetrag hinzugefügt",
+  "components.Pay.fee_addition": "Zum Gesamtbetrag hinzugefüg",
   "components.Pay.fee_less_than_1": "weniger als 1 Satoshi",
   "components.Pay.fee_per_byte": "pro Byte",
   "components.Pay.fee_range": "zwischen {minFee} und {maxFee} Satoshi",
