@@ -1,5 +1,5 @@
 {
-  "extends": ["config:js-app"],
+  "extends": ["config:js-app", "group:linters"],
   "baseBranches": ["next"],
   "labels": ["dependencies"]
 }
