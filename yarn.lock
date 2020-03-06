@@ -12516,10 +12516,10 @@ linux-platform-info@^0.0.3:
   dependencies:
     os-family "^1.0.0"
 
-lnd-binary@0.3.14:
-  version "0.3.14"
-  resolved "https://registry.yarnpkg.com/lnd-binary/-/lnd-binary-0.3.14.tgz#e4b719667b5e99cb91081d8828f868477310ca15"
-  integrity sha512-S4+e7eBmtQWmTO3+dgMJhnb+/Hx6QLboP07vQ5luwPu3Snoj3H4TR2xX3wXHZxBhE/McIEkhtISGuZPxAlU/rQ==
+lnd-binary@0.3.15:
+  version "0.3.15"
+  resolved "https://registry.yarnpkg.com/lnd-binary/-/lnd-binary-0.3.15.tgz#68c81537aa10162e95a9bd29db23c8ff7db61319"
+  integrity sha512-IefIMCNEM+WU34AGVg2I/6ZSvcb99d3C2l4pnnhEJ6XJc4IxEYduTjionfHTWH+3kjGfLHG+E44C7WsxyzkwfQ==
   dependencies:
     axios "^0.19.0"
     cacache "^11.3.3"

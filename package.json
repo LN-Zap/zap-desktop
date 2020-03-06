@@ -282,7 +282,7 @@
     "husky": "4.2.3",
     "jest": "24.9.0",
     "jest-styled-components": "6.3.4",
-    "lnd-binary": "0.3.14",
+    "lnd-binary": "0.3.15",
     "minimist": "1.2.0",
     "mock-spawn": "0.2.6",
     "native-ext-loader": "2.3.0",
