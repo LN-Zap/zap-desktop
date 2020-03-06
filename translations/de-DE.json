@@ -138,7 +138,7 @@
   "components.Channels.channels": "{totalCount, plural, =0 {Keine Kanäle} other {Zeige {count} von {totalCount} Kanälen}}",
   "components.Channels.channels_filter_hint": "Kanälefilter",
   "components.Channels.close_button": "Kanal schließen",
-  "components.Channels.close_channel_dialog_acknowledgement": "Ich verstehe, dass dies eine unumkehrbare Aktion ist",
+  "components.Channels.close_channel_dialog_acknowledgement": "Ich bin mir bewusst, dass dies eine unumkehrbare Aktion ist",
   "components.Channels.close_channel_dialog_cancel_text": "Abbrechen",
   "components.Channels.close_channel_dialog_close_text": "Schließen",
   "components.Channels.close_channel_dialog_force_close_text": "Erzwinge Schließung",
