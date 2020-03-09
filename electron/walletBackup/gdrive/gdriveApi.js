@@ -209,7 +209,7 @@ export function createAuthWindow(oAuthClient, scope, windowParams = { width: 500
       handleNavigation(newUrl)
     })
 
-    authWindow.loadURL(authUrl)
+    authWindow.loadURL(authUrl, { userAgent: 'Chrome' })
   })
 }
 
