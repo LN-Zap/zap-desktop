@@ -375,7 +375,7 @@
     "tildify": "2.0.0",
     "untildify": "4.0.0",
     "validator": "12.1.0",
-    "yup": "0.28.0"
+    "yup": "0.28.3"
   },
   "main": "./dist/main.js"
 }
