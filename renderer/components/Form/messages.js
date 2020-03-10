@@ -24,4 +24,6 @@ export default defineMessages({
   transaction_speed_description_medium: 'less than 3 hours',
   transaction_speed_description_slow: 'up to 24 hours',
   transaction_speed_description_slowest: 'more than 24 hours',
+  zero_amount_request:
+    'Unsupported lightning payment request: payment requests must include a non-zero amount.',
 })

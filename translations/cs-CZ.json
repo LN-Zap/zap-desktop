@@ -248,6 +248,7 @@
   "components.Form.transaction_speed_slow": "Pomalu",
   "components.Form.valid_pubkey": "Validní PubKey",
   "components.Form.valid_request": "Validní {chain} požadavek",
+  "components.Form.zero_amount_request": "",
   "components.Home.button_cancel": "Zrušit",
   "components.Home.button_save": "Uložit",
   "components.Home.cert_description": "Cesta k lnd tls certifikátu.",
