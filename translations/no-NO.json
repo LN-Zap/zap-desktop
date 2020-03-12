@@ -248,6 +248,7 @@
   "components.Form.transaction_speed_slow": "Sakte",
   "components.Form.valid_pubkey": "Gyldig PubKey",
   "components.Form.valid_request": "Gyldig {chain} forespørsel",
+  "components.Form.zero_amount_request": "",
   "components.Home.button_cancel": "Avbryt",
   "components.Home.button_save": "Lagre",
   "components.Home.cert_description": "",
