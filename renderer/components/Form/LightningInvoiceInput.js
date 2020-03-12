@@ -23,8 +23,12 @@ const validate = (intl, network, chain, value) => {
     if (isLn(value, chain, network)) {
       try {
         const invoice = decodePayReq(value)
-        if (!invoice || (!invoice.satoshis && !invoice.millisatoshis)) {
+        if (!invoice) {
           throw new Error('Invalid invoice')
+        }
+
+        if (!invoice.satoshis && !invoice.millisatoshis) {
+          return intl.formatMessage({ ...messages.zero_amount_request })
         }
       } catch (e) {
         return invalidRequestMessage

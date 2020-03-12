@@ -248,6 +248,7 @@
   "components.Form.transaction_speed_slow": "Lento",
   "components.Form.valid_pubkey": "Pubkey Valida",
   "components.Form.valid_request": "Solicitud valida de {chain}",
+  "components.Form.zero_amount_request": "",
   "components.Home.button_cancel": "Cancelar",
   "components.Home.button_save": "Guardar",
   "components.Home.cert_description": "La ruta al certificado tls de lnd.",
