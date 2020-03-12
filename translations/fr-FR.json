@@ -248,6 +248,7 @@
   "components.Form.transaction_speed_slow": "Lente",
   "components.Form.valid_pubkey": "PubKey valide",
   "components.Form.valid_request": "Requête {chain} valide",
+  "components.Form.zero_amount_request": "",
   "components.Home.button_cancel": "Annuler",
   "components.Home.button_save": "Enregistrer",
   "components.Home.cert_description": "Le chemin d'accès au certificat TLS de lnd.",
