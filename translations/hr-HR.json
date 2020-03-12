@@ -248,6 +248,7 @@
   "components.Form.transaction_speed_slow": "Sporo",
   "components.Form.valid_pubkey": "Valjan PubKey",
   "components.Form.valid_request": "Valjan {chain} zahtijev",
+  "components.Form.zero_amount_request": "",
   "components.Home.button_cancel": "Odustani",
   "components.Home.button_save": "Spremi",
   "components.Home.cert_description": "Staza do lnd tls cert.",
