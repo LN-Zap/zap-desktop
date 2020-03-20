@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass/styled-components'
 import { FormattedMessage, injectIntl } from 'react-intl'
+import { CoinBig } from '@zap/utils/coin'
 import { intlShape } from '@zap/i18n'
 import { convert } from '@zap/utils/btc'
 import { CryptoValue } from 'containers/UI'
@@ -25,9 +26,9 @@ const isEnoughFunds = props => {
   // Determine whether we have enough funds available.
   let hasEnoughFunds = true
   if ((isBolt11 && invoice) || isPubkey) {
-    hasEnoughFunds = amountInSats <= channelBalance
+    hasEnoughFunds = CoinBig(amountInSats).lte(CoinBig(channelBalance))
   } else if (isOnchain) {
-    hasEnoughFunds = amountInSats <= walletBalanceConfirmed
+    hasEnoughFunds = CoinBig(amountInSats).lte(CoinBig(walletBalanceConfirmed))
   }
 
   return hasEnoughFunds
@@ -83,7 +84,7 @@ const PayPanelFooter = props => {
     }
 
     const isNotEnoughFunds = !isEnoughFunds(props)
-    const isAboveMax = (isBolt11 || isPubkey) && amountInSats > maxOneTimeSend
+    const isAboveMax = (isBolt11 || isPubkey) && CoinBig(amountInSats).gt(CoinBig(maxOneTimeSend))
     const formattedMax = intl.formatNumber(convert('sats', cryptoUnit, maxOneTimeSend), {
       maximumFractionDigits: 8,
     })
