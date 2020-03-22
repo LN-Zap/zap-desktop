@@ -660,6 +660,7 @@
   "reducers.messages.channels_open_warning": "Iniciando apertura de canal",
   "reducers.messages.invoice_receive_body": "Felicidades, alguien acaba de pagar una de tus facturas",
   "reducers.messages.invoice_receive_title": "Has sido Zapeado",
+  "reducers.messages.keysend_receive_body": "",
   "reducers.messages.neutrtino_synced_body": "Visa ni que Visa? Ahora tu mismo eres tu propio procesador de pago!",
   "reducers.messages.neutrtino_synced_title": "Nodo de Lightning Sincronizado",
   "reducers.messages.pay_lnurl_withdraw_error": "No se puede procesar la solicitud de retiro de {service}: {reason}",

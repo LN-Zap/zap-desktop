@@ -660,6 +660,7 @@
   "reducers.messages.channels_open_warning": "Kanalöffnung gestartet",
   "reducers.messages.invoice_receive_body": "Gratuliere, jemand hat eine deiner Zahlungsanfragen bezahlt",
   "reducers.messages.invoice_receive_title": "Du wurdest geZappt",
+  "reducers.messages.keysend_receive_body": "",
   "reducers.messages.neutrtino_synced_body": "Visa wer? Du bist jetzt dein eigener Zahlungsabwickler!",
   "reducers.messages.neutrtino_synced_title": "Lightning Node synchronisiert",
   "reducers.messages.pay_lnurl_withdraw_error": "Abhebungsanfrage von {service} konnte nicht verarbeitet werden: {reason}",

@@ -660,6 +660,7 @@
   "reducers.messages.channels_open_warning": "",
   "reducers.messages.invoice_receive_body": "",
   "reducers.messages.invoice_receive_title": "",
+  "reducers.messages.keysend_receive_body": "",
   "reducers.messages.neutrtino_synced_body": "",
   "reducers.messages.neutrtino_synced_title": "",
   "reducers.messages.pay_lnurl_withdraw_error": "",

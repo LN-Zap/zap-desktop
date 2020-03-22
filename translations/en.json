@@ -660,6 +660,7 @@
   "reducers.messages.channels_open_warning": "Channel opening initiated",
   "reducers.messages.invoice_receive_body": "Congrats, someone just paid an invoice of yours",
   "reducers.messages.invoice_receive_title": "You've been Zapped",
+  "reducers.messages.keysend_receive_body": "Congrats, someone just paid you",
   "reducers.messages.neutrtino_synced_body": "Visa who? You're your own payment processor now!",
   "reducers.messages.neutrtino_synced_title": "Lightning Node Synced",
   "reducers.messages.pay_lnurl_withdraw_error": "Unable to process withdraw request from {service}: {reason}",

@@ -660,6 +660,7 @@
   "reducers.messages.channels_open_warning": "Ouverture du canal initiée",
   "reducers.messages.invoice_receive_body": "Félicitations ! Quelqu'un vient de payer votre demande",
   "reducers.messages.invoice_receive_title": "Zap ! Vous avez été foudroyé",
+  "reducers.messages.keysend_receive_body": "",
   "reducers.messages.neutrtino_synced_body": "Visa, vous dites ? Vous êtes désormais votre propre système de paiement !",
   "reducers.messages.neutrtino_synced_title": "Nœud Lightning synchronisé",
   "reducers.messages.pay_lnurl_withdraw_error": "",
