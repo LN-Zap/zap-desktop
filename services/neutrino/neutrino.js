@@ -299,6 +299,7 @@ class Neutrino extends EventEmitter {
       `--rpclisten=${this.lndConfig.host}`,
       `--listen=${listen}`,
       `--restlisten=${restlisten}`,
+      '--accept-keysend',
       `${this.lndConfig.assumechanvalid ? '--routing.assumechanvalid' : ''}`,
       `${this.lndConfig.alias ? `--alias=${this.lndConfig.alias}` : ''}`,
       ...autopilotArgs,
