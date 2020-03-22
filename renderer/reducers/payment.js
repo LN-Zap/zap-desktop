@@ -186,9 +186,10 @@ export const payInvoice = ({
   retries = 0,
   originalPaymentId,
 }) => async dispatch => {
-  let paymentHash
   const paymentId = originalPaymentId || genId()
   const isKeysend = isPubkey(payReq)
+  let pubkey
+  let paymentHash
 
   let payload = {
     paymentId,
@@ -202,11 +203,12 @@ export const payInvoice = ({
     const defaultCltvDelta = 43
     const keySendPreimageType = '5482373484'
     const preimageByteLength = 32
+
     const preimage = randomBytes(preimageByteLength)
-    const secret = preimage.toString('hex')
     paymentHash = createHash('sha256')
       .update(preimage)
       .digest()
+    pubkey = payReq
 
     payload = {
       ...payload,
@@ -214,7 +216,7 @@ export const payInvoice = ({
       final_cltv_delta: defaultCltvDelta,
       dest: Buffer.from(payReq, 'hex'),
       dest_custom_records: {
-        [keySendPreimageType]: Buffer.from(secret, 'hex'),
+        [keySendPreimageType]: preimage,
       },
     }
   }
@@ -223,10 +225,11 @@ export const payInvoice = ({
   else {
     const invoice = decodePayReq(payReq)
     paymentHash = getTag(invoice, 'payment_hash')
+    pubkey = invoice.payeeNodeKey
 
     payload = {
       ...payload,
-      payment_request: payReq,
+      payment_request: invoice.payeeNodeKey,
     }
   }
 
@@ -237,8 +240,9 @@ export const payInvoice = ({
   } else {
     dispatch(
       sendPayment({
-        paymentId,
+        path: [pubkey],
         paymentHash,
+        paymentId,
         feeLimit,
         value: amt,
         remainingRetries: retries,
