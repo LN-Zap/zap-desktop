@@ -248,6 +248,7 @@
   "components.Form.transaction_speed_slow": "",
   "components.Form.valid_pubkey": "",
   "components.Form.valid_request": "",
+  "components.Form.zero_amount_request": "",
   "components.Home.button_cancel": "Отмена",
   "components.Home.button_save": "Сохранить",
   "components.Home.cert_description": "",
