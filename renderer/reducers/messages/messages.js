@@ -16,6 +16,7 @@ export default defineMessages({
   channels_open_warning: 'Channel opening initiated',
   invoice_receive_title: `You've been Zapped`,
   invoice_receive_body: 'Congrats, someone just paid an invoice of yours',
+  keysend_receive_body: 'Congrats, someone just paid you',
   app_init_db_error: 'Unable to initialize database: {error}',
   transaction_received_title: 'On-chain Transaction Received!',
   transaction_received_body: `Lucky you, you just received a new on-chain transaction. I'm jealous.`,
