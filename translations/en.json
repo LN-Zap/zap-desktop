@@ -248,6 +248,7 @@
   "components.Form.transaction_speed_slow": "Slow",
   "components.Form.valid_pubkey": "Valid PubKey",
   "components.Form.valid_request": "Valid {chain} request",
+  "components.Form.zero_amount_request": "Unsupported lightning payment request: payment requests must include a non-zero amount.",
   "components.Home.button_cancel": "Cancel",
   "components.Home.button_save": "Save",
   "components.Home.cert_description": "Path to the lnd tls cert.",

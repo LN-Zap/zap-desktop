@@ -248,6 +248,7 @@
   "components.Form.transaction_speed_slow": "Langsam",
   "components.Form.valid_pubkey": "Gültiger PubKey",
   "components.Form.valid_request": "Gültige {chain} -Anfrage",
+  "components.Form.zero_amount_request": "",
   "components.Home.button_cancel": "Abbrechen",
   "components.Home.button_save": "Speichern",
   "components.Home.cert_description": "Pfad zum Lnd TLS-Zertifikat.",
