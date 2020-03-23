@@ -38,7 +38,7 @@ const Transaction = ({
 
     // returns color for the current number of confirmations
     const getDisplayParams = () =>
-      findLast(DISPLAY_PARAMS, ({ finality }) => num_confirmations >= finality)
+      findLast(DISPLAY_PARAMS, ({ finality }) => num_confirmations >= finality) || DISPLAY_PARAMS[0]
 
     if (num_confirmations > confirmed) {
       return (
