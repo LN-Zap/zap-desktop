@@ -313,7 +313,7 @@
     "webpack-merge": "4.2.2"
   },
   "dependencies": {
-    "@hot-loader/react-dom": "16.12.0",
+    "@hot-loader/react-dom": "16.13.0",
     "@rebass/forms": "4.0.6",
     "@styled-system/theme-get": "5.1.2",
     "axios": "0.19.2",
