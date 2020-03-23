@@ -245,7 +245,7 @@
     "circular-dependency-plugin": "5.2.0",
     "clean-webpack-plugin": "3.0.0",
     "copy-webpack-plugin": "5.1.1",
-    "coveralls": "3.0.9",
+    "coveralls": "3.0.11",
     "cross-env": "6.0.3",
     "cross-spawn": "7.0.1",
     "csp-html-webpack-plugin": "3.0.4",
