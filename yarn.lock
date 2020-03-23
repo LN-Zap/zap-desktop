@@ -6146,14 +6146,6 @@ buffers@~0.1.1:
   resolved "https://registry.yarnpkg.com/buffers/-/buffers-0.1.1.tgz#b24579c3bed4d6d396aeee6d9a8ae7f5482ab7bb"
   integrity sha1-skV5w77U1tOWru5tmorn9Ugqt7s=
 
-builder-util-runtime@8.6.1:
-  version "8.6.1"
-  resolved "https://registry.yarnpkg.com/builder-util-runtime/-/builder-util-runtime-8.6.1.tgz#cf9a268fa51704de24f3c085aa8d1d1b3767d9ea"
-  integrity sha512-gwIUtMaICmc+e2EC3u3byXcwCyfhtG40LJRNnGfs8AYqacKl4ZLP50ab+uDttn7QAXe0LfMAuKz9v8bCODV0yg==
-  dependencies:
-    debug "^4.1.1"
-    sax "^1.2.4"
-
 builder-util-runtime@8.6.2:
   version "8.6.2"
   resolved "https://registry.yarnpkg.com/builder-util-runtime/-/builder-util-runtime-8.6.2.tgz#8270e15b012d8d3b110f3e327b0fd8b0e07b1686"
@@ -8213,13 +8205,13 @@ electron-to-chromium@^1.3.363:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.363.tgz#08756873e49446a92e0cee6c3cd9eb3c52043826"
   integrity sha512-4w19wPBkeunBjOA53lNFT36IdOD3Tk1OoIDtTX+VToJUUDX42QfuhtsNKXv25wmSnoBOExM3kTbj7/WDNBwHuQ==
 
-electron-updater@4.2.4:
-  version "4.2.4"
-  resolved "https://registry.yarnpkg.com/electron-updater/-/electron-updater-4.2.4.tgz#9015bb8f85b24d6f8a620a90dd0fe128335c902b"
-  integrity sha512-iqN0uoP2+Nkiljp/o4DzZVeSpOOCMtP8+pqL5/qDI+1/ARW99T2TFcpRrPwX4dntowNV7X5T19aKFLK3+9AdkA==
+electron-updater@4.2.5:
+  version "4.2.5"
+  resolved "https://registry.yarnpkg.com/electron-updater/-/electron-updater-4.2.5.tgz#dbced8da6f8c6fc2dc662f2776131f5a49ce018d"
+  integrity sha512-ir8SI3capF5pN4LTQY79bP7oqiBKjgtdDW378xVId5VcGUZ+Toei2j+fgx1mq3y4Qg19z4HqLxEZ9FqMD0T0RA==
   dependencies:
     "@types/semver" "^7.1.0"
-    builder-util-runtime "8.6.1"
+    builder-util-runtime "8.6.2"
     fs-extra "^8.1.0"
     js-yaml "^3.13.1"
     lazy-val "^1.0.4"
@@ -13646,11 +13638,6 @@ minimist@1.1.x:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.1.3.tgz#3bedfd91a92d39016fcfaa1c681e8faa1a1efda8"
   integrity sha1-O+39kaktOQFvz6ocaB6Pqhoe/ag=
-
-minimist@1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.0.tgz#a35008b20f41383eec1fb914f4cd5df79a264284"
-  integrity sha1-o1AIsg9BOD7sH7kU9M1d95omQoQ=
 
 minimist@1.2.2, minimist@^1.1.0, minimist@^1.1.1, minimist@^1.1.3, minimist@^1.2.0:
   version "1.2.2"
