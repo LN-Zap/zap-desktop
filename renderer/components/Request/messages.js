@@ -10,6 +10,7 @@ export default defineMessages({
   address_copied_notification_title: 'Address copied',
   address_copied_notification_description: 'Payment request has been copied to your clipboard',
   payment_request: 'Payment request',
+  payment_request_keysend: 'Received via pubkey (keysend)',
   total: 'Total',
   memo: 'Memo',
   fallback_address: 'Fallback address',

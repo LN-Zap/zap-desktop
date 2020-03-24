@@ -92,33 +92,39 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
 
       <Bar variant="light" />
 
-      {payReq && (
-        <DataRow
-          left={
-            <>
-              <FormattedMessage {...messages.payment_request} />
-              <Text
-                className="hint--bottom-left"
-                css="word-wrap: break-word;"
-                data-hint={payReq}
-                fontSize="xs"
-                fontWeight="light"
-                mb={2}
-              >
-                <Truncate maxlen={40} text={payReq} />
-              </Text>
-              <Button onClick={() => copyToClipboard(payReq)} size="small" type="button">
-                <FormattedMessage {...messages.copy_button_text} />
-              </Button>
-            </>
-          }
-          right={
-            <Text>
+      <DataRow
+        left={
+          <>
+            <FormattedMessage {...messages.payment_request} />
+            {payReq && (
+              <>
+                <Text
+                  className="hint--bottom-left"
+                  css="word-wrap: break-word;"
+                  data-hint={payReq}
+                  fontSize="xs"
+                  fontWeight="light"
+                  mb={2}
+                >
+                  <Truncate maxlen={40} text={payReq} />
+                </Text>
+                <Button onClick={() => copyToClipboard(payReq)} size="small" type="button">
+                  <FormattedMessage {...messages.copy_button_text} />
+                </Button>
+              </>
+            )}
+          </>
+        }
+        right={
+          <Text>
+            {payReq ? (
               <QRCode value={payReq} />
-            </Text>
-          }
-        />
-      )}
+            ) : (
+              <FormattedMessage {...messages.payment_request_keysend} />
+            )}
+          </Text>
+        }
+      />
 
       <Bar variant="light" />
 
