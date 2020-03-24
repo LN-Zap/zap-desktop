@@ -11,6 +11,7 @@ import { convert } from '@zap/utils/btc'
 import delay from '@zap/utils/delay'
 import genId from '@zap/utils/genId'
 import { mainLog } from '@zap/utils/log'
+import { CoinBig } from '@zap/utils/coin'
 import { grpc } from 'workers'
 import { fetchBalance } from './balance'
 import { fetchChannels } from './channels'
@@ -448,10 +449,14 @@ const ACTION_HANDLERS = {
     if (item) {
       item.remainingRetries = Math.max(item.remainingRetries - 1, 0)
       if (item.feeLimit) {
-        item.feeLimit = Math.ceil(item.feeLimit * config.invoices.feeIncrementExponent)
+        item.feeLimit = CoinBig(item.feeLimit)
+          .times(config.invoices.feeIncrementExponent)
+          .decimalPlaces(0)
+          .toString()
       }
     }
   },
+
   [PAYMENT_SUCCESSFUL]: (state, { paymentId }) => {
     const { paymentsSending } = state
     const item = find(paymentsSending, { paymentId })

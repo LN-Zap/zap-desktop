@@ -26,7 +26,7 @@ export const CoinBig = BigNumber.clone()
 
 CoinBig.config({
   DECIMAL_PLACES: PRECISION,
-  ROUNDING_MODE: BigNumber.ROUND_HALF_UP,
+  ROUNDING_MODE: BigNumber.ROUND_UP,
   EXPONENTIAL_AT: 1e+9 // prettier-ignore
 })
 

@@ -117,9 +117,9 @@ describe('bits to..', () => {
       expect(bitsToFiat('1', '10000')).toEqual('0.01')
     })
 
-    it('should return 0.01 when 1 bit is passed in at a price of 14,999', () => {
-      expect(bitsToFiat(1, 14999)).toEqual('0.01')
-      expect(bitsToFiat('1', '14999')).toEqual('0.01')
+    it('should return 0.02 when 1 bit is passed in at a price of 14,999', () => {
+      expect(bitsToFiat(1, 14999)).toEqual('0.02')
+      expect(bitsToFiat('1', '14999')).toEqual('0.02')
     })
   })
 })
