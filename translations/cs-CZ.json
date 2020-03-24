@@ -449,7 +449,7 @@
   "components.Pay.next": "Další",
   "components.Pay.next_block_confirmation": "další potvrzení bloku",
   "components.Pay.onchain_balance": "{amount} {cryptoUnitName} (on-chain)",
-  "components.Pay.request_label_combined": "Žádost o platbu nebo adresa",
+  "components.Pay.request_label_combined": "",
   "components.Pay.request_label_offchain": "Žádost o platbu",
   "components.Pay.request_label_onchain": "Adresa",
   "components.Pay.request_label_pubkey": "",
