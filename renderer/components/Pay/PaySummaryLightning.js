@@ -71,7 +71,7 @@ class PaySummaryLightning extends React.Component {
       } catch (e) {
         return null
       }
-      payeeNodeKey = invoice.payeeNodeKey // eslint-disable-line prefer-destructuring
+      ;({ payeeNodeKey } = invoice)
       memo = getTag(invoice, 'description')
       const { satoshis, millisatoshis } = invoice
       amountInSatoshis = satoshis || convert('msats', 'sats', millisatoshis) || amount

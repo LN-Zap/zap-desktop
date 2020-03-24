@@ -132,7 +132,7 @@ class Pay extends React.Component {
     if (isNowSummary) {
       let payeeNodeKey
       if (invoice) {
-        payeeNodeKey = invoice.payeeNodeKey // eslint-disable-line prefer-destructuring
+        ;({ payeeNodeKey } = invoice)
       } else if (isPubkey) {
         const {
           values: { payReq },
