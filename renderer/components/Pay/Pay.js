@@ -131,16 +131,15 @@ class Pay extends React.Component {
     const isNowSummary =
       currentStep === PAY_FORM_STEPS.summary && prevState.currentStep !== PAY_FORM_STEPS.summary
     if (isNowSummary) {
-      let payeeNodeKey
       if (invoice) {
-        ;({ payeeNodeKey } = invoice)
+        const { paymentRequest } = invoice
+        queryRoutes(paymentRequest, this.amountInSats())
       } else if (isPubkey) {
         const {
           values: { payReq },
         } = this.formApi.getState()
-        payeeNodeKey = payReq
+        queryRoutes(payReq, this.amountInSats())
       }
-      payeeNodeKey && queryRoutes(payeeNodeKey, this.amountInSats())
     }
   }
 

@@ -12,6 +12,8 @@ const PAYMENT_FEE_LIMIT = config.payments.feeLimit
 const PAYMENT_PROBE_TIMEOUT = config.payments.probeTimeout
 const PAYMENT_PROBE_FEE_LIMIT = config.payments.probeFeeLimit
 
+export const KEYSEND_PREIMAGE_TYPE = '5482373484'
+
 // ------------------------------------
 // Wrappers / Overrides
 // ------------------------------------
@@ -23,13 +25,15 @@ const PAYMENT_PROBE_FEE_LIMIT = config.payments.probeFeeLimit
  * @returns {Promise} The route route when state is SUCCEEDED
  */
 async function probePayment(options) {
-  // Use a payload that has the payment hash set to some random bytes.
-  // This will cause the payment to fail at the final destination.
   const payload = defaults(omitBy(options, isNil), {
-    payment_hash: new Uint8Array(randomBytes(32)),
     timeout_seconds: PAYMENT_PROBE_TIMEOUT,
     fee_limit_sat: PAYMENT_PROBE_FEE_LIMIT,
+    allow_self_payment: true,
   })
+
+  // Use a payload that has the payment hash set to some random bytes.
+  // This will cause the payment to fail at the final destination.
+  payload.payment_hash = new Uint8Array(randomBytes(32))
 
   logGrpcCmd('Router.probePayment', payload)
 
@@ -55,6 +59,15 @@ async function probePayment(options) {
 
         case 'FAILED_INCORRECT_PAYMENT_DETAILS':
           grpcLog.info('PROBE SUCCESS: %o', data)
+          // FIXME: For some reason the custom_records key is corrupt in the grpc response object.
+          // For now, assume that if a custom_record key is set that it is a keysend record and fix it accordingly.
+          data.route.hops = data.route.hops.map(hop => {
+            Object.keys(hop.custom_records).forEach(key => {
+              hop.custom_records[KEYSEND_PREIMAGE_TYPE] = hop.custom_records[key]
+              delete hop.custom_records[key]
+            })
+            return hop
+          })
           result = data.route
           break
 

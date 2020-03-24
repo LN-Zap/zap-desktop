@@ -19,6 +19,10 @@ import { networkSelectors } from './network'
 import { showError } from './notification'
 import messages from './messages'
 
+export const DEFAULT_CLTV_DELTA = 43
+export const KEYSEND_PREIMAGE_TYPE = '5482373484'
+export const PREIMAGE_BYTE_LENGTH = 32
+
 // ------------------------------------
 // Initial State
 // ------------------------------------
@@ -186,7 +190,7 @@ const decPaymentRetry = paymentId => ({
  * Controller code that wraps the send action and schedules automatic retries in the case of a failure.
  *
  * @param {object} options Options
- * @param {string} options.payReq Payment request
+ * @param {string} options.payReq Payment request or node pubkey
  * @param {number} options.amt Payment amount (in sats)
  * @param {number} options.feeLimit The max fee to apply
  * @param {number} options.retries Number of remaining retries
@@ -213,26 +217,23 @@ export const payInvoice = ({
     feeLimit: feeLimit ? { fixed: feeLimit } : null,
     allowSelfPayment: true,
   }
+
   // Keysend payment.
   if (isKeysend) {
-    const defaultCltvDelta = 43
-    const keySendPreimageType = '5482373484'
-    const preimageByteLength = 32
-
-    const preimage = randomBytes(preimageByteLength)
+    pubkey = payReq
+    const preimage = randomBytes(PREIMAGE_BYTE_LENGTH)
     paymentHash = createHash('sha256')
       .update(preimage)
       .digest()
-    pubkey = payReq
 
     payload = {
       ...payload,
       paymentHash,
       amt,
-      finalCltvDelta: defaultCltvDelta,
-      dest: Buffer.from(payReq, 'hex'),
+      finalCltvDelta: DEFAULT_CLTV_DELTA,
+      dest: Buffer.from(pubkey, 'hex'),
       destCustomRecords: {
-        [keySendPreimageType]: preimage,
+        [KEYSEND_PREIMAGE_TYPE]: preimage,
       },
     }
   }
@@ -246,7 +247,7 @@ export const payInvoice = ({
     paymentRequest = invoice.paymentRequest // eslint-disable-line prefer-destructuring
     payload = {
       ...payload,
-      amt: !millisatoshis && amt,
+      amt: millisatoshis ? null : amt,
       paymentRequest,
     }
   }
@@ -289,8 +290,9 @@ export const payInvoice = ({
         try {
           const routeToUse = { ...route }
           delete routeToUse.isExact
+          delete routeToUse.paymentHash
           result = await grpc.services.Router.sendToRoute({
-            paymentHash: Buffer.from(paymentHash, 'hex'),
+            paymentHash: route.paymentHash ? Buffer.from(route.paymentHash, 'hex') : null,
             route: routeToUse,
           })
         } catch (error) {
