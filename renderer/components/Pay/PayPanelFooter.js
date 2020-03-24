@@ -26,9 +26,9 @@ const isEnoughFunds = props => {
   // Determine whether we have enough funds available.
   let hasEnoughFunds = true
   if ((isBolt11 && invoice) || isPubkey) {
-    hasEnoughFunds = CoinBig(amountInSats).lte(CoinBig(channelBalance))
+    hasEnoughFunds = CoinBig(amountInSats).lte(channelBalance)
   } else if (isOnchain) {
-    hasEnoughFunds = CoinBig(amountInSats).lte(CoinBig(walletBalanceConfirmed))
+    hasEnoughFunds = CoinBig(amountInSats).lte(walletBalanceConfirmed)
   }
 
   return hasEnoughFunds
@@ -84,7 +84,7 @@ const PayPanelFooter = props => {
     }
 
     const isNotEnoughFunds = !isEnoughFunds(props)
-    const isAboveMax = (isBolt11 || isPubkey) && CoinBig(amountInSats).gt(CoinBig(maxOneTimeSend))
+    const isAboveMax = (isBolt11 || isPubkey) && CoinBig(amountInSats).gt(maxOneTimeSend)
     const formattedMax = intl.formatNumber(convert('sats', cryptoUnit, maxOneTimeSend), {
       maximumFractionDigits: 8,
     })

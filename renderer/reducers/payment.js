@@ -221,7 +221,7 @@ export const payInvoice = ({
     }
   }
 
-  // Bolt11 invoice payent.
+  // Bolt11 invoice payment.
   else {
     const invoice = decodePayReq(payReq)
     paymentHash = getTag(invoice, 'payment_hash')
