@@ -174,8 +174,7 @@ export const isPubkey = input => {
   if (!input || typeof input !== 'string') {
     return false
   }
-  const isHex = /^[0-9a-fA-F]+$/.test(input)
-  return isHex && input.length === 66
+  return input.length === 66 && /^[0-9a-fA-F]+$/.test(input)
 }
 
 /**
