@@ -27,7 +27,8 @@ class PayAddressField extends React.Component {
     formState: PropTypes.object,
     handlePayReqChange: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    isLn: PropTypes.bool,
+    isBolt11: PropTypes.bool,
+    isPubkey: PropTypes.bool,
     network: PropTypes.string.isRequired,
     redirectPayReq: PropTypes.object,
   }
@@ -48,16 +49,20 @@ class PayAddressField extends React.Component {
   }
 
   getPaymentRequestLabel = () => {
-    const { currentStep, isLn } = this.props
-    let payReqLabel = 'request_label_onchain'
+    const { currentStep, isPubkey, isBolt11 } = this.props
+    let payReqLabel
     if (currentStep === PAY_FORM_STEPS.address) {
       payReqLabel = 'request_label_combined'
-    } else if (isLn) {
+    } else if (isPubkey) {
+      payReqLabel = 'request_label_pubkey'
+    } else if (isBolt11) {
       payReqLabel = 'request_label_offchain'
+    } else {
+      payReqLabel = 'request_label_onchain'
     }
 
     const { intl } = this.props
-    return intl.formatMessage({ ...messages[payReqLabel] })
+    return payReqLabel && intl.formatMessage({ ...messages[payReqLabel] })
   }
 
   render() {
@@ -66,11 +71,11 @@ class PayAddressField extends React.Component {
       currentStep,
       formState,
       handlePayReqChange,
-      isLn,
+      isBolt11,
       network,
       redirectPayReq,
     } = this.props
-    const addressFieldState = currentStep === PAY_FORM_STEPS.address || isLn ? 'big' : 'small'
+    const addressFieldState = currentStep === PAY_FORM_STEPS.address || isBolt11 ? 'big' : 'small'
 
     const { payReq } = formState.values
     const { submits } = formState

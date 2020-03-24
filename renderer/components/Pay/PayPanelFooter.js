@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass/styled-components'
 import { FormattedMessage, injectIntl } from 'react-intl'
+import { CoinBig } from '@zap/utils/coin'
 import { intlShape } from '@zap/i18n'
 import { convert } from '@zap/utils/btc'
 import { CryptoValue } from 'containers/UI'
@@ -12,14 +13,22 @@ import { PAY_FORM_STEPS } from './constants'
 
 const isEnoughFunds = props => {
   // convert entered amount to satoshis
-  const { amountInSats, channelBalance, invoice, isLn, isOnchain, walletBalanceConfirmed } = props
+  const {
+    amountInSats,
+    channelBalance,
+    invoice,
+    isBolt11,
+    isOnchain,
+    isPubkey,
+    walletBalanceConfirmed,
+  } = props
 
   // Determine whether we have enough funds available.
   let hasEnoughFunds = true
-  if (isLn && invoice) {
-    hasEnoughFunds = amountInSats <= channelBalance
+  if ((isBolt11 && invoice) || isPubkey) {
+    hasEnoughFunds = CoinBig(amountInSats).lte(channelBalance)
   } else if (isOnchain) {
-    hasEnoughFunds = amountInSats <= walletBalanceConfirmed
+    hasEnoughFunds = CoinBig(amountInSats).lte(walletBalanceConfirmed)
   }
 
   return hasEnoughFunds
@@ -58,8 +67,9 @@ const PayPanelFooter = props => {
     cryptoUnitName,
     currentStep,
     formState,
-    isLn,
+    isBolt11,
     isOnchain,
+    isPubkey,
     isProcessing,
     previousStep,
     walletBalanceConfirmed,
@@ -67,14 +77,14 @@ const PayPanelFooter = props => {
   } = props
 
   const renderLiquidityWarning = props => {
-    const { currentStep, maxOneTimeSend, cryptoUnit, isLn, amountInSats } = props
+    const { currentStep, maxOneTimeSend, cryptoUnit, isBolt11, isPubkey, amountInSats } = props
 
     if (currentStep !== PAY_FORM_STEPS.summary) {
       return null
     }
 
     const isNotEnoughFunds = !isEnoughFunds(props)
-    const isAboveMax = isLn && amountInSats > maxOneTimeSend
+    const isAboveMax = (isBolt11 || isPubkey) && CoinBig(amountInSats).gt(maxOneTimeSend)
     const formattedMax = intl.formatNumber(convert('sats', cryptoUnit, maxOneTimeSend), {
       maximumFractionDigits: 8,
     })
@@ -100,7 +110,8 @@ const PayPanelFooter = props => {
 
   // Determine which buttons should be visible.
   const hasBackButton = currentStep !== PAY_FORM_STEPS.address
-  const hasSubmitButton = currentStep !== PAY_FORM_STEPS.address || isOnchain || isLn
+  const hasSubmitButton =
+    currentStep !== PAY_FORM_STEPS.address || isOnchain || isBolt11 || isPubkey
 
   return (
     <Flex flexDirection="column">
@@ -157,9 +168,10 @@ PayPanelFooter.propTypes = {
   formState: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
   invoice: PropTypes.object,
-  isLn: PropTypes.bool,
+  isBolt11: PropTypes.bool,
   isOnchain: PropTypes.bool,
   isProcessing: PropTypes.bool,
+  isPubkey: PropTypes.bool,
   maxOneTimeSend: PropTypes.string.isRequired,
   previousStep: PropTypes.func.isRequired,
   walletBalanceConfirmed: PropTypes.string.isRequired,

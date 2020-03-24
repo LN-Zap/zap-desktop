@@ -12,7 +12,7 @@ import { intlShape } from '@zap/i18n'
 import messages from './messages'
 
 const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest }) => {
-  const decodedInvoice = useMemo(() => decodePayReq(payReq), [payReq])
+  const decodedInvoice = useMemo(() => (payReq ? decodePayReq(payReq) : {}), [payReq])
   const [isExpired, setIsExpired] = useState(false)
   const [expiryDelta, setExpiryDelta] = useState(
     decodedInvoice.timeExpireDate - getUnixTime() / 1000
@@ -96,24 +96,32 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
         left={
           <>
             <FormattedMessage {...messages.payment_request} />
-            <Text
-              className="hint--bottom-left"
-              css="word-wrap: break-word;"
-              data-hint={payReq}
-              fontSize="xs"
-              fontWeight="light"
-              mb={2}
-            >
-              <Truncate maxlen={40} text={payReq} />
-            </Text>
-            <Button onClick={() => copyToClipboard(payReq)} size="small" type="button">
-              <FormattedMessage {...messages.copy_button_text} />
-            </Button>
+            {payReq && (
+              <>
+                <Text
+                  className="hint--bottom-left"
+                  css="word-wrap: break-word;"
+                  data-hint={payReq}
+                  fontSize="xs"
+                  fontWeight="light"
+                  mb={2}
+                >
+                  <Truncate maxlen={40} text={payReq} />
+                </Text>
+                <Button onClick={() => copyToClipboard(payReq)} size="small" type="button">
+                  <FormattedMessage {...messages.copy_button_text} />
+                </Button>
+              </>
+            )}
           </>
         }
         right={
           <Text>
-            <QRCode value={payReq} />
+            {payReq ? (
+              <QRCode value={payReq} />
+            ) : (
+              <FormattedMessage {...messages.payment_request_keysend} />
+            )}
           </Text>
         }
       />
@@ -162,8 +170,8 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
 
 RequestSummary.propTypes = {
   intl: intlShape.isRequired,
-  invoice: PropTypes.object,
-  payReq: PropTypes.string.isRequired,
+  invoice: PropTypes.object.isRequired,
+  payReq: PropTypes.string,
   showNotification: PropTypes.func.isRequired,
 }
 

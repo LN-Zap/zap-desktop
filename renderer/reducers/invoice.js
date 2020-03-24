@@ -229,7 +229,9 @@ export const receiveInvoiceData = invoice => dispatch => {
     const intl = getIntl()
     // HTML 5 desktop notification for the invoice update
     const notifTitle = intl.formatMessage(messages.invoice_receive_title)
-    const notifBody = intl.formatMessage(messages.invoice_receive_body)
+    const notifBody = intl.formatMessage(
+      invoice.is_keysend ? messages.keysend_receive_body : messages.invoice_receive_body
+    )
 
     showSystemNotification(notifTitle, { body: notifBody })
   }

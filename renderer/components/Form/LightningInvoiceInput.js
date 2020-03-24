@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { useFieldState } from 'informed'
-import { isOnchain, isLn, decodePayReq } from '@zap/utils/crypto'
+import { isOnchain, isBolt11, isPubkey, decodePayReq } from '@zap/utils/crypto'
 import { Message } from 'components/UI'
 import TextArea from './TextArea'
 import messages from './messages'
@@ -20,7 +20,7 @@ const validate = (intl, network, chain, value) => {
       { chain: chainName }
     )
     // If we have a LN invoice, ensure the invoice has an amount.
-    if (isLn(value, chain, network)) {
+    if (isBolt11(value, chain, network)) {
       try {
         const invoice = decodePayReq(value)
         if (!invoice) {
@@ -33,7 +33,7 @@ const validate = (intl, network, chain, value) => {
       } catch (e) {
         return invalidRequestMessage
       }
-    } else if (!isOnchain(value, chain, network)) {
+    } else if (!isOnchain(value, chain, network) && !isPubkey(value)) {
       return invalidRequestMessage
     }
   }
@@ -45,7 +45,7 @@ const LightningInvoiceInput = props => {
   const intl = useIntl()
   const fieldState = useFieldState(field)
   const { value } = fieldState
-  let chainName = isLn(value, chain, network) ? 'lightning' : chain
+  let chainName = isBolt11(value, chain, network) || isPubkey(value) ? 'lightning' : chain
   if (network !== 'mainnet') {
     chainName += ` (${network})`
   }
@@ -62,7 +62,7 @@ const LightningInvoiceInput = props => {
       {value && !fieldState.error && (
         <Message mt={2} variant="success">
           <FormattedMessage
-            {...messages.valid_request}
+            {...messages[isPubkey(value) ? 'valid_pubkey' : 'valid_request']}
             values={{
               chain: chainName,
             }}

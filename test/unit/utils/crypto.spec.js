@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import {
   formatValue,
-  isLn,
+  isBolt11,
   isOnchain,
   getMinFee,
   getMaxFee,
@@ -13,22 +13,22 @@ const VALID_BITCOIN_MAINNET_LN =
 const VALID_BITCOIN_TESTNET_LN =
   'lntb10u1pdue0gxpp5uljstna5aenp3yku3ft4wn8y63qfqdgqfh4cqqxz8z58undqp8hqdqqcqzysxqyz5vqqwaeuuh0fy52tqx6rrq6kya4lwm6v523wyqe9nesd5a3mszcq7j4e9mv8rd2vhmp7ycxswtktvs8gqq8lu5awjwfevnvfc4rzp8fmacpp4h27e'
 
-describe('Crypto.isLn', () => {
+describe('Crypto.isBolt11', () => {
   describe('Bitcoin', () => {
     describe('Mainnet', () => {
       it('should pass with a valid invoice ', () => {
-        expect(isLn(VALID_BITCOIN_MAINNET_LN, 'bitcoin', 'mainnet')).toBeTruthy()
+        expect(isBolt11(VALID_BITCOIN_MAINNET_LN, 'bitcoin', 'mainnet')).toBeTruthy()
       })
       it('should fail with an invalid invoice ', () => {
-        expect(isLn(VALID_BITCOIN_TESTNET_LN, 'bitcoin', 'mainnet')).toBeFalsy()
+        expect(isBolt11(VALID_BITCOIN_TESTNET_LN, 'bitcoin', 'mainnet')).toBeFalsy()
       })
     })
     describe('Testnet', () => {
       it('should pass with a valid invoice', () => {
-        expect(isLn(VALID_BITCOIN_TESTNET_LN, 'bitcoin', 'testnet')).toBeTruthy()
+        expect(isBolt11(VALID_BITCOIN_TESTNET_LN, 'bitcoin', 'testnet')).toBeTruthy()
       })
       it('should fail with an invalid invoice ', () => {
-        expect(isLn(VALID_BITCOIN_MAINNET_LN, 'bitcoin', 'testnet')).toBeFalsy()
+        expect(isBolt11(VALID_BITCOIN_MAINNET_LN, 'bitcoin', 'testnet')).toBeFalsy()
       })
     })
   })

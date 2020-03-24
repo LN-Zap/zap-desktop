@@ -11,7 +11,7 @@ builds:
     ldflags:
       - -X github.com/lightningnetwork/lnd/build.Commit={{.Tag}}
     flags:
-      - -tags=experimental autopilotrpc signrpc walletrpc chainrpc invoicesrpc routerrpc
+      - -tags=experimental monitoring autopilotrpc chainrpc invoicesrpc routerrpc signrpc walletrpc watchtowerrpc wtclientrpc
   - id: lncli
     goos:
       - linux
@@ -24,7 +24,7 @@ builds:
     ldflags:
       - -X github.com/lightningnetwork/lnd/build.Commit={{.Tag}}
     flags:
-      - -tags=experimental autopilotrpc signrpc walletrpc chainrpc invoicesrpc routerrpc
+      - -tags=experimental monitoring autopilotrpc chainrpc invoicesrpc routerrpc signrpc walletrpc watchtowerrpc wtclientrpc
 archives:
   - name_template: '{{ .ProjectName }}-{{ .Os }}-{{ .Arch }}{{ .Arm }}-v{{ .Version }}'
     format: tar.gz

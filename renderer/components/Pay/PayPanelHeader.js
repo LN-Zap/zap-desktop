@@ -7,9 +7,9 @@ import messages from './messages'
 import { PAY_HEADER_TYPES } from './constants'
 
 const PayPanelHeader = props => {
-  const { chainName, cryptoUnitName, isLn, isOnchain } = props
+  const { chainName, cryptoUnitName, isBolt11, isOnchain, isPubkey } = props
   let headerType = null
-  if (isLn) {
+  if (isBolt11 || isPubkey) {
     headerType = PAY_HEADER_TYPES.offchain
   } else if (isOnchain) {
     headerType = PAY_HEADER_TYPES.onchain
@@ -33,8 +33,9 @@ const PayPanelHeader = props => {
 PayPanelHeader.propTypes = {
   chainName: PropTypes.string.isRequired,
   cryptoUnitName: PropTypes.string.isRequired,
-  isLn: PropTypes.bool,
+  isBolt11: PropTypes.bool,
   isOnchain: PropTypes.bool,
+  isPubkey: PropTypes.bool,
 }
 
 export default PayPanelHeader

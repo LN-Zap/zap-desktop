@@ -21,8 +21,9 @@ const PayPanelBody = props => {
     initialAmountFiat,
     intl,
     invoice,
-    isLn,
+    isBolt11,
     isOnchain,
+    isPubkey,
     isQueryingFees,
     lndTargetConfirmations,
     network,
@@ -49,7 +50,9 @@ const PayPanelBody = props => {
         formApi={formState}
         handlePayReqChange={handlePayReqChange}
         intl={intl}
-        isLn={isLn}
+        isBolt11={isBolt11}
+        isOnchain={isOnchain}
+        isPubkey={isPubkey}
         network={network}
         redirectPayReq={redirectPayReq}
       />
@@ -62,6 +65,7 @@ const PayPanelBody = props => {
         intl={intl}
         invoice={invoice}
         isOnchain={isOnchain}
+        isPubkey={isPubkey}
         isQueryingFees={isQueryingFees}
         lndTargetConfirmations={lndTargetConfirmations}
         onchainFees={onchainFees}
@@ -73,6 +77,7 @@ const PayPanelBody = props => {
         currentStep={currentStep}
         formApi={formApi}
         isOnchain={isOnchain}
+        isPubkey={isPubkey}
         lndTargetConfirmations={lndTargetConfirmations}
         onchainFees={onchainFees}
         routes={routes}
@@ -95,8 +100,9 @@ PayPanelBody.propTypes = {
   initialAmountFiat: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   intl: intlShape.isRequired,
   invoice: PropTypes.object,
-  isLn: PropTypes.bool,
+  isBolt11: PropTypes.bool,
   isOnchain: PropTypes.bool,
+  isPubkey: PropTypes.bool,
   isQueryingFees: PropTypes.bool,
   lndTargetConfirmations: PropTypes.shape({
     fast: PropTypes.number.isRequired,
