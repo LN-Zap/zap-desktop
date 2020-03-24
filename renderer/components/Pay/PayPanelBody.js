@@ -51,6 +51,8 @@ const PayPanelBody = props => {
         handlePayReqChange={handlePayReqChange}
         intl={intl}
         isBolt11={isBolt11}
+        isOnchain={isOnchain}
+        isPubkey={isPubkey}
         network={network}
         redirectPayReq={redirectPayReq}
       />
