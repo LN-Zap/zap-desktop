@@ -449,7 +449,7 @@
   "components.Pay.next": "Weiter",
   "components.Pay.next_block_confirmation": "nächste Blockbestätigung",
   "components.Pay.onchain_balance": "{amount} {cryptoUnitName} (Onchain)",
-  "components.Pay.request_label_combined": "Zahlungsanforderung oder Adresse",
+  "components.Pay.request_label_combined": "",
   "components.Pay.request_label_offchain": "Zahlungsanfrage",
   "components.Pay.request_label_onchain": "Adresse",
   "components.Pay.request_label_pubkey": "",
