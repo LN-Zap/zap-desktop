@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-globals */
 
-import { expose } from 'comlinkjs'
+import { expose } from 'comlink'
 import Neutrino from '@zap/services/neutrino'
 
 expose(Neutrino, self)
