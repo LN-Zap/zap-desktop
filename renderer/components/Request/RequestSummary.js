@@ -92,31 +92,33 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
 
       <Bar variant="light" />
 
-      <DataRow
-        left={
-          <>
-            <FormattedMessage {...messages.payment_request} />
-            <Text
-              className="hint--bottom-left"
-              css="word-wrap: break-word;"
-              data-hint={payReq}
-              fontSize="xs"
-              fontWeight="light"
-              mb={2}
-            >
-              <Truncate maxlen={40} text={payReq} />
+      {payReq && (
+        <DataRow
+          left={
+            <>
+              <FormattedMessage {...messages.payment_request} />
+              <Text
+                className="hint--bottom-left"
+                css="word-wrap: break-word;"
+                data-hint={payReq}
+                fontSize="xs"
+                fontWeight="light"
+                mb={2}
+              >
+                <Truncate maxlen={40} text={payReq} />
+              </Text>
+              <Button onClick={() => copyToClipboard(payReq)} size="small" type="button">
+                <FormattedMessage {...messages.copy_button_text} />
+              </Button>
+            </>
+          }
+          right={
+            <Text>
+              <QRCode value={payReq} />
             </Text>
-            <Button onClick={() => copyToClipboard(payReq)} size="small" type="button">
-              <FormattedMessage {...messages.copy_button_text} />
-            </Button>
-          </>
-        }
-        right={
-          <Text>
-            <QRCode value={payReq} />
-          </Text>
-        }
-      />
+          }
+        />
+      )}
 
       <Bar variant="light" />
 
@@ -162,8 +164,8 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
 
 RequestSummary.propTypes = {
   intl: intlShape.isRequired,
-  invoice: PropTypes.object,
-  payReq: PropTypes.string.isRequired,
+  invoice: PropTypes.object.isRequired,
+  payReq: PropTypes.string,
   showNotification: PropTypes.func.isRequired,
 }
 
