@@ -104,7 +104,6 @@ exports[`component.UI.Checkbox should render correctly 1`] = `
 >
   <div
     className="c0"
-    onClick={[Function]}
   >
     <input
       checked={false}
@@ -131,7 +130,6 @@ exports[`component.UI.Checkbox should render correctly 1`] = `
   </div>
   <div
     className="c0"
-    onClick={[Function]}
   >
     <input
       checked={false}
