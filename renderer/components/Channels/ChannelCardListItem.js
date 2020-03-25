@@ -12,6 +12,7 @@ import ChannelData from './ChannelData'
 import ChannelCapacity from './ChannelCapacity'
 import ChannelMoreButton from './ChannelMoreButton'
 import ChannelStatus from './ChannelStatus'
+import Padlock from 'components/Icon/Padlock'
 import messages from './messages'
 
 const ClippedHeading = withEllipsis(Heading.h1)
@@ -31,6 +32,7 @@ const ChannelCardListItem = React.memo(
       remote_balance,
       display_status,
       active,
+      private: isPrivate,
     } = channel
     const opacity = active ? 1 : 0.3
 
@@ -43,7 +45,14 @@ const ChannelCardListItem = React.memo(
                 {display_name}
               </ClippedHeading>
 
-              <ChannelStatus mb="auto" status={display_status} />
+              <Flex>
+                {isPrivate && (
+                  <Box color="gray" fontSize="s" mr={1}>
+                    <Padlock />
+                  </Box>
+                )}
+                <ChannelStatus mb="auto" status={display_status} />
+              </Flex>
             </Flex>
             <Flex justifyContent="space-between" opacity={opacity}>
               <Text fontWeight="normal">

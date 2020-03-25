@@ -7,6 +7,7 @@ import { withEllipsis } from 'hocs'
 import ChannelCapacity from './ChannelCapacity'
 import ChannelMoreButton from './ChannelMoreButton'
 import ChannelStatus from './ChannelStatus'
+import Padlock from 'components/Icon/Padlock'
 
 const ClippedHeading = withEllipsis(Heading.h1)
 const ClippedText = withEllipsis(Text)
@@ -24,6 +25,7 @@ const ChannelSummaryListItem = React.memo(props => {
     remote_balance,
     display_status,
     active,
+    private: isPrivate,
   } = channel
   const opacity = active ? 1 : 0.3
 
@@ -31,7 +33,14 @@ const ChannelSummaryListItem = React.memo(props => {
     <Card {...rest}>
       <Flex alignItems="center">
         <Box width={8 / 20}>
-          <ChannelStatus status={display_status} />
+          <Flex>
+            <ChannelStatus status={display_status} />
+            {isPrivate && (
+              <Box color="gray" fontSize="s" ml={1}>
+                <Padlock />
+              </Box>
+            )}
+          </Flex>
           <ClippedHeading my={1} opacity={opacity}>
             {display_name}
           </ClippedHeading>
