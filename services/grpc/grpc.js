@@ -1,6 +1,6 @@
 import EventEmitter from 'events'
 import intersection from 'lodash/intersection'
-import { proxy } from 'comlink'
+import { proxyValue } from 'comlinkjs'
 import { status } from '@grpc/grpc-js'
 import LndGrpc from 'lnd-grpc'
 import { grpcLog } from '@zap/utils/log'
@@ -151,7 +151,7 @@ class ZapGrpc extends EventEmitter {
    * @returns {object} LndGrpc.waitForState
    */
   waitForState(...args) {
-    return proxy(this.grpc.waitForState(args))
+    return proxyValue(this.grpc.waitForState(args))
   }
 
   isSubscribed(subscription) {

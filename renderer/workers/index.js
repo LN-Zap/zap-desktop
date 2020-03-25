@@ -1,8 +1,8 @@
-import { wrap } from 'comlink'
+import { proxy } from 'comlinkjs'
 import proxymise from './proxymise'
 
-const Neutrino = wrap(new Worker(`./neutrino.worker.js`))
-const ZapGrpc = wrap(new Worker('./grpc.worker.js'))
+const Neutrino = proxy(new Worker(`./neutrino.worker.js`))
+const ZapGrpc = proxy(new Worker('./grpc.worker.js'))
 
 /**
  * [LightningInstance description]

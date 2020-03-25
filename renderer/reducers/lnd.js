@@ -1,6 +1,6 @@
 import config from 'config'
 import { createSelector } from 'reselect'
-import { proxy } from 'comlink'
+import { proxyValue } from 'comlinkjs'
 import { grpc } from 'workers'
 import createReducer from '@zap/utils/createReducer'
 import { fetchInfo, setInfo } from './info'
@@ -139,13 +139,15 @@ function unsubFromGrpcEvents(lndGrpc) {
 export const connectGrpcService = lndConfig => async dispatch => {
   dispatch({ type: CONNECT_GRPC })
 
-  const handleInvoiceSubscription = proxy(data => dispatch(receiveInvoiceData(data)))
-  const handleGetInfoSubscription = proxy(data => dispatch(setInfo(data)))
-  const handleTransactionSubscription = proxy(data => dispatch(receiveTransactionData(data)))
-  const handleChannelGraphSubscription = proxy(data => dispatch(receiveChannelGraphData(data)))
-  const handleBackupsSubscription = proxy(data => dispatch(backupCurrentWallet(lndConfig.id, data)))
-  const handleWalletUnlockerActive = proxy(() => dispatch(setWalletUnlockerGrpcActive()))
-  const handleLightningActive = proxy(() => dispatch(setLightningGrpcActive()))
+  const handleInvoiceSubscription = proxyValue(data => dispatch(receiveInvoiceData(data)))
+  const handleGetInfoSubscription = proxyValue(data => dispatch(setInfo(data)))
+  const handleTransactionSubscription = proxyValue(data => dispatch(receiveTransactionData(data)))
+  const handleChannelGraphSubscription = proxyValue(data => dispatch(receiveChannelGraphData(data)))
+  const handleBackupsSubscription = proxyValue(data =>
+    dispatch(backupCurrentWallet(lndConfig.id, data))
+  )
+  const handleWalletUnlockerActive = proxyValue(() => dispatch(setWalletUnlockerGrpcActive()))
+  const handleLightningActive = proxyValue(() => dispatch(setLightningGrpcActive()))
 
   try {
     // Hook up event listeners for stream subscriptions.
