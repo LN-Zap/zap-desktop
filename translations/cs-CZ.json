@@ -662,7 +662,7 @@
   "reducers.messages.channels_open_warning": "Otevření kanálu bylo zahájeno",
   "reducers.messages.invoice_receive_body": "Gratulujeme, někdo právě zaplatil vaši fakturu",
   "reducers.messages.invoice_receive_title": "Byl jsi Zappován",
-  "reducers.messages.keysend_receive_body": "",
+  "reducers.messages.keysend_receive_body": "Gratulujeme, někdo vám právě zaplatil",
   "reducers.messages.neutrtino_synced_body": "Visa kdo? Jste nyní svým vlastním zpracovatelem plateb!",
   "reducers.messages.neutrtino_synced_title": "Lightning uzel synchronizován",
   "reducers.messages.pay_lnurl_withdraw_error": "Nelze zpracovat žádost o výběr z {service}: {reason}",
