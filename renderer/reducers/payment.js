@@ -229,7 +229,7 @@ export const payInvoice = ({
 
     payload = {
       ...payload,
-      payment_request: invoice.payeeNodeKey,
+      payment_request: invoice.paymentRequest,
     }
   }
 
