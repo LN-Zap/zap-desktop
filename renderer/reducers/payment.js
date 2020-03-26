@@ -190,11 +190,12 @@ export const payInvoice = ({
   const isKeysend = isPubkey(payReq)
   let pubkey
   let paymentHash
+  let paymentRequest
 
   let payload = {
     paymentId,
     amt,
-    fee_limit: { fixed: feeLimit },
+    fee_limit: feeLimit ? { fixed: feeLimit } : null,
     allow_self_payment: true,
   }
 
@@ -214,6 +215,7 @@ export const payInvoice = ({
       ...payload,
       payment_hash: paymentHash,
       final_cltv_delta: defaultCltvDelta,
+      fee_limit_sat: feeLimit ? { fixed: feeLimit } : null,
       dest: Buffer.from(payReq, 'hex'),
       dest_custom_records: {
         [keySendPreimageType]: preimage,
@@ -226,10 +228,10 @@ export const payInvoice = ({
     const invoice = decodePayReq(payReq)
     paymentHash = getTag(invoice, 'payment_hash')
     pubkey = invoice.payeeNodeKey
-
+    paymentRequest = invoice.paymentRequest // eslint-disable-line prefer-destructuring
     payload = {
       ...payload,
-      payment_request: invoice.paymentRequest,
+      payment_request: paymentRequest,
     }
   }
 
@@ -246,6 +248,7 @@ export const payInvoice = ({
         feeLimit,
         value: amt,
         remainingRetries: retries,
+        paymentRequest,
         maxRetries: retries,
         isKeysend,
       })
@@ -257,7 +260,7 @@ export const payInvoice = ({
     const data = await grpc.services.Lightning.sendPayment(payload)
     dispatch(paymentSuccessful(data))
   } catch (e) {
-    const { details: data, message: error } = e
+    const { payload: data, message: error } = e
     dispatch(paymentFailed(error, data))
   }
 }
