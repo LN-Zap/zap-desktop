@@ -137,7 +137,7 @@ const WrappedCheckboxAsField = ({ fieldState, fieldApi, ...rest }) => {
     setValue(!value)
   }
 
-  return <Checkbox isChecked={value} onChange={onChange} {...rest} />
+  return <Checkbox {...rest} isChecked={value} onChange={onChange} />
 }
 
 WrappedCheckboxAsField.propTypes = {
