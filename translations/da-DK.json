@@ -449,7 +449,7 @@
   "components.Pay.next": "Næste",
   "components.Pay.next_block_confirmation": "næste blok bekæftelse",
   "components.Pay.onchain_balance": "",
-  "components.Pay.request_label_combined": "Betalings Anmodning eller Adresse",
+  "components.Pay.request_label_combined": "",
   "components.Pay.request_label_offchain": "Betalings Anmodning",
   "components.Pay.request_label_onchain": "Adresse",
   "components.Pay.request_label_pubkey": "",
