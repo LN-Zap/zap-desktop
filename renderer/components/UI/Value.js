@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedNumber } from 'react-intl'
 import { convert } from '@zap/utils/btc'
+import { CoinBig } from '@zap/utils/coin'
 
 /**
  * Value - Renders a satoshi amount into a specific currency/unit.
@@ -18,6 +19,10 @@ const Value = ({ value, currency, currentTicker, fiatTicker, style }) => {
 
   // Convert the satoshi amount to the requested currency.
   const convertedAmount = convert('sats', currency, value, price)
+
+  const absAmount = CoinBig(convertedAmount)
+    .abs()
+    .toString()
 
   // Truncate the amount to the most relevant number of decimal places.
   let dp
@@ -46,7 +51,7 @@ const Value = ({ value, currency, currentTicker, fiatTicker, style }) => {
       currency={fiatTicker}
       maximumFractionDigits={dp}
       style={style}
-      value={convertedAmount}
+      value={absAmount}
     />
   )
 }
