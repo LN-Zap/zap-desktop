@@ -5,6 +5,7 @@ import { FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass/styled-components'
 import config from 'config'
 import { intlShape } from '@zap/i18n'
+import { CoinBig } from '@zap/utils/coin'
 import { Message, Text } from 'components/UI'
 import ChainLink from 'components/Icon/ChainLink'
 import { CryptoValue, FiatValue } from 'containers/UI'
@@ -38,9 +39,10 @@ const Transaction = ({
 
     // returns color for the current number of confirmations
     const getDisplayParams = () =>
-      findLast(DISPLAY_PARAMS, ({ finality }) => numConfirmations >= finality) || DISPLAY_PARAMS[0]
+      findLast(DISPLAY_PARAMS, ({ finality }) => CoinBig(numConfirmations).gte(finality)) ||
+      DISPLAY_PARAMS[0]
 
-    if (numConfirmations > confirmed) {
+    if (CoinBig(numConfirmations).gt(confirmed)) {
       return (
         <Text color="gray" fontSize="xs" fontWeight="normal">
           <FormattedTime value={activity.timeStamp * 1000} />

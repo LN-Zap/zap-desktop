@@ -6,6 +6,7 @@ import get from 'lodash/get'
 import { Box, Flex } from 'rebass/styled-components'
 import { intlShape } from '@zap/i18n'
 import { convert } from '@zap/utils/btc'
+import { CoinBig } from '@zap/utils/coin'
 import { Bar, Button, Panel, Span, Text } from 'components/UI'
 import { Form, NodePubkeyInput, Label, Toggle, TransactionFeeInput } from 'components/Form'
 import { CryptoValue } from 'containers/UI'
@@ -218,7 +219,7 @@ class ChannelCreateForm extends React.Component {
     // This is not currently available in lnd, but will be in it's upcoming fee estimation API.
     const totalAmount = amount + fee
 
-    if (totalAmount > walletBalance) {
+    if (CoinBig(totalAmount).gt(walletBalance)) {
       intl.formatMessage({ ...messages.error_not_enough_funds })
     }
   }

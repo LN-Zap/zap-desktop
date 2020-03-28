@@ -19,7 +19,7 @@ class PaymentModal extends React.PureComponent {
   render() {
     const { item, intl, ...rest } = this.props
     const memo = item && getTag(item.paymentRequest, 'description')
-    console.log(item)
+
     return (
       <Panel {...rest}>
         <Panel.Header>

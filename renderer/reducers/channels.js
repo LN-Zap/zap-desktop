@@ -224,7 +224,7 @@ const decorateChannel = (channelObj, nodes, closingChannelIds, loadingChannelPub
     // Get the overall channel capacity.
     const capacity = getChannelEffectiveCapacity(c)
 
-    if (capacity && capacity > 0) {
+    if (capacity && CoinBig(capacity).gt(0)) {
       // Calculate channel flow (sum of amounts sent and received).
       const sent = CoinBig(get(c, 'totalSatoshisSent', 0))
       const received = CoinBig(get(c, 'totalSatoshisReceived', 0))

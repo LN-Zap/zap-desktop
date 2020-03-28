@@ -4,6 +4,7 @@ import { send } from 'redux-electron-ipc'
 import { grpc } from 'workers'
 import { getIntl } from '@zap/i18n'
 import { convert } from '@zap/utils/btc'
+import { CoinBig } from '@zap/utils/coin'
 import createReducer from '@zap/utils/createReducer'
 import { estimateFeeRange } from '@zap/utils/fee'
 import { isAutopayEnabled } from '@zap/utils/featureFlag'
@@ -88,7 +89,7 @@ export const lightningPaymentUri = (event, { address }) => (dispatch, getState) 
 
     // If autopay is enabled for the node pubkey we got from the invoice and the amount of the invoice is less
     // than the autopay's configured limit, pay the invoice silently in the background.
-    if (autopayEntry && amountInSats <= autopayEntry.limit) {
+    if (autopayEntry && CoinBig(amountInSats).lte(autopayEntry.limit)) {
       dispatch(showAutopayNotification(invoice))
       return dispatch(payInvoice({ payReq: address, amt: amountInSats }))
     }

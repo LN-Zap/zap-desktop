@@ -9,6 +9,7 @@ import {
   injectIntl,
 } from 'react-intl'
 import { Flex } from 'rebass/styled-components'
+import { CoinBig } from '@zap/utils/coin'
 import { intlShape } from '@zap/i18n'
 import blockExplorer from '@zap/utils/blockExplorer'
 import { Bar, DataRow, Header, Link, Panel, Span, Text, Button } from 'components/UI'
@@ -35,7 +36,7 @@ class TransactionModal extends React.PureComponent {
     const { saveInvoice, item, intl } = this.props
     const destAddress = get(item, 'destAddresses[0]')
     const amount = item.amount || item.limboAmount || 0
-    const isIncoming = item.isReceived || item.limboAmount > 0
+    const isIncoming = item.isReceived || (item.limboAmount && CoinBig(item.limboAmount).gt(0))
     const { txHash, timeStamp, numConfirmations } = item
     saveInvoice({
       defaultFilename: txHash && `zap-tx-${txHash.substring(0, 7)}`,
@@ -80,9 +81,8 @@ class TransactionModal extends React.PureComponent {
     const { intl, item, showNotification, ...rest } = this.props
     const destAddress = get(item, 'destAddresses[0]')
     const amount = item.amount || item.limboAmount || 0
-    const isIncoming = item.isReceived || item.limboAmount > 0
-    console.log(item)
-    console.log('item.numConfirmations', item.numConfirmations)
+    const isIncoming = item.isReceived || (item.limboAmount && CoinBig(item.limboAmount).gt(0))
+
     return (
       <Panel {...rest}>
         <Panel.Header>
@@ -117,7 +117,7 @@ class TransactionModal extends React.PureComponent {
             }
           />
 
-          {item.numConfirmations > 0 && (
+          {CoinBig(item.numConfirmations).gte(0) && (
             <>
               <Bar variant="light" />
 

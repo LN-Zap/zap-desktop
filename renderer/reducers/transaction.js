@@ -5,6 +5,7 @@ import find from 'lodash'
 import createReducer from '@zap/utils/createReducer'
 import { showSystemNotification } from '@zap/utils/notifications'
 import { convert } from '@zap/utils/btc'
+import { CoinBig } from '@zap/utils/coin'
 import { getIntl } from '@zap/i18n'
 import delay from '@zap/utils/delay'
 import genId from '@zap/utils/genId'
@@ -51,7 +52,7 @@ export const ADD_TRANSACTION = 'ADD_TRANSACTION'
 const decorateTransaction = transaction => {
   const decoration = {
     type: 'transaction',
-    isReceived: !transaction.isSending && transaction.amount > 0,
+    isReceived: !transaction.isSending && CoinBig(transaction.amount).gt(0),
   }
   return {
     ...transaction,

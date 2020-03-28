@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage } from 'react-intl'
+import { CoinBig } from '@zap/utils/coin'
 import BigArrowRight from 'components/Icon/BigArrowRight'
 import { Bar, DataRow, Text } from 'components/UI'
 import { TransactionSpeedDesc } from 'components/Form'
@@ -69,7 +70,7 @@ const ChannelCreateSummary = ({
         </Flex>
       </Box>
 
-      {fee > 0 && (
+      {CoinBig(fee).gt(0) && (
         <>
           <Bar variant="light" />
 
