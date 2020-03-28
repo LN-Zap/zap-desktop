@@ -35,7 +35,7 @@ export default class InvoiceModal extends React.PureComponent {
         <Panel.Body>
           <RequestSummary
             invoice={item}
-            payReq={item.payment_request}
+            payReq={item.paymentRequest}
             showNotification={showNotification}
           />
         </Panel.Body>

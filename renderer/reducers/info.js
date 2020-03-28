@@ -106,7 +106,7 @@ export const setHasSynced = hasSynced => async (dispatch, getState) => {
   dispatch({ type: SET_HAS_SYNCED, hasSynced })
 
   const state = getState()
-  const pubKey = get(state, 'info.data.identity_pubkey')
+  const pubKey = get(state, 'info.data.identityPubkey')
 
   if (pubKey) {
     const updated = await window.db.nodes.update(pubKey, { hasSynced })
@@ -156,7 +156,7 @@ export const receiveInfo = data => async (dispatch, getState) => {
   const state = getState()
 
   // Now that we have the node info, load it's sync state.
-  const node = await window.db.nodes.get({ id: data.identity_pubkey })
+  const node = await window.db.nodes.get({ id: data.identityPubkey })
   if (node) {
     dispatch(setHasSynced(node.hasSynced))
   }
@@ -210,9 +210,9 @@ infoSelectors.networksSelector = state => state.info.networks
 infoSelectors.infoLoading = state => state.info.infoLoading
 infoSelectors.infoLoaded = state => state.info.infoLoaded
 infoSelectors.hasSynced = state => state.info.hasSynced
-infoSelectors.isSyncedToChain = state => get(state, 'info.data.synced_to_chain', false)
+infoSelectors.isSyncedToChain = state => get(state, 'info.data.syncedToChain', false)
 infoSelectors.version = state => get(state, 'info.data.version')
-infoSelectors.identityPubkey = state => get(state, 'info.data.identity_pubkey')
+infoSelectors.identityPubkey = state => get(state, 'info.data.identityPubkey')
 infoSelectors.nodeUri = state => get(state, 'info.data.uris[0]')
 
 // Extract the version string from the version.

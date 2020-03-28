@@ -143,7 +143,7 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
               <FormattedTime
                 day="2-digit"
                 month="long"
-                value={invoice.settle_date * 1000}
+                value={invoice.settleDate * 1000}
                 year="numeric"
               />
             </Text>

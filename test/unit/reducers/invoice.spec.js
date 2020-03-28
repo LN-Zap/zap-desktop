@@ -18,7 +18,7 @@ describe('reducers', () => {
     it('should handle SET_INVOICE', () => {
       const action = {
         type: SET_INVOICE,
-        invoice: { r_hash: '123' },
+        invoice: { rHash: '123' },
       }
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
@@ -34,8 +34,8 @@ describe('reducers', () => {
       const action = {
         type: RECEIVE_INVOICES,
         invoices: [
-          { r_hash: '123', add_index: 1 },
-          { r_hash: '456', add_index: 2 },
+          { rHash: '123', addIndex: 1 },
+          { rHash: '456', addIndex: 2 },
         ],
       }
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
@@ -67,7 +67,7 @@ describe('reducers', () => {
       const action = {
         type: UPDATE_INVOICE,
         invoice: {
-          r_hash: '123',
+          rHash: '123',
         },
       }
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()

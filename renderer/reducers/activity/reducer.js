@@ -178,12 +178,12 @@ export function updateSearchText(searchText = null) {
  */
 function createActivityPaginator() {
   const fetchInvoices = async (pageSize, offset) => {
-    const { invoices, first_index_offset } = await grpc.services.Lightning.listInvoices({
-      num_max_invoices: pageSize,
-      index_offset: offset,
+    const { invoices, firstIndexOffset } = await grpc.services.Lightning.listInvoices({
+      numMaxInvoices: pageSize,
+      indexOffset: offset,
       reversed: true,
     })
-    return { items: invoices, offset: first_index_offset }
+    return { items: invoices, offset: firstIndexOffset }
   }
 
   const fetchPayments = async () => {
@@ -195,7 +195,7 @@ function createActivityPaginator() {
     const { transactions } = await grpc.services.Lightning.getTransactions()
     return { items: transactions, offset: 0 }
   }
-  const getTimestamp = item => item.time_stamp || item.settle_date || item.creation_date
+  const getTimestamp = item => item.timeStamp || item.settleDate || item.creationDate
   const itemSorter = (a, b) => getTimestamp(b) - getTimestamp(a)
   return combinePaginators(itemSorter, fetchInvoices, fetchPayments, fetchTransactions)
 }
@@ -224,10 +224,10 @@ export const loadNextPage = () => async (dispatch, getState) => {
     const { items, hasNextPage } = await thisPaginator(config.activity.pageSize)
 
     const getItemType = item => {
-      if (item.dest_addresses) {
+      if (item.destAddresses) {
         return 'transactions'
       }
-      if ('add_index' in item) {
+      if ('addIndex' in item) {
         return 'invoices'
       }
       return 'payments'

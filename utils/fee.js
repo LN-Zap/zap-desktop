@@ -19,7 +19,7 @@ const sanitizeFeeRange = fees => mapValues(fees, fee => Math.max(1, fee))
  * @param {string} address Address
  * @param {number} amount Amount in satoshis
  * @param {number} targetConf Desired confirmation time
- * @returns {{fee_sat, feerate_sat_per_byte}|null} Fee data if success or null in case of any error
+ * @returns {{feeSat, feerateSatPerByte}|null} Fee data if success or null in case of any error
  */
 export async function estimateLndFee(address, amount, targetConf) {
   // lnd fee estimator requires this params
@@ -36,7 +36,7 @@ export async function estimateLndFee(address, amount, targetConf) {
     const fees = await grpc.services.Lightning.estimateFee(address, amount, targetConf)
 
     // check if we actually got a meaningful response
-    if (fees && fees.fee_sat) {
+    if (fees && fees.feeSat) {
       return sanitizeFeeRange(fees)
     }
 
@@ -87,7 +87,7 @@ export async function estimateFeeRange({
   // extracts fee from a lnd grpc response
   const getFee = feeObj => {
     if (feeObj) {
-      return asRate ? feeObj.feerate_sat_per_byte : feeObj.fee_sat
+      return asRate ? feeObj.feerateSatPerByte : feeObj.feeSat
     }
     return undefined
   }

@@ -22,10 +22,10 @@ const ChannelDetail = ({
       </Panel.Header>
       <Panel.Body sx={{ overflowY: 'overlay', overflowX: 'hidden' }}>
         <ChannelCapacity
-          localBalance={channel.local_balance}
+          localBalance={channel.localBalance}
           mx="auto"
           my={4}
-          remoteBalance={channel.remote_balance}
+          remoteBalance={channel.remoteBalance}
           width={9 / 16}
         />
         <ChannelData

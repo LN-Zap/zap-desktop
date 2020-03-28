@@ -90,12 +90,12 @@ export const decoratedSelectedChannel = createSelector(
   transactionsSelectors.transactions,
   channelsSelectors.selectedChannel,
   (transactions, channelData) => {
-    if (channelData && channelData.channel_point) {
-      const [funding_txid] = channelData.channel_point.split(':')
+    if (channelData && channelData.channelPoint) {
+      const [fundingTxid] = channelData.channelPoint.split(':')
       // cross reference funding tx
-      const fundingTx = funding_txid && transactions.find(tx => tx.tx_hash === funding_txid)
+      const fundingTx = fundingTxid && transactions.find(tx => tx.txHash === fundingTxid)
       if (fundingTx) {
-        return { ...channelData, fundingTxTimestamp: fundingTx.time_stamp }
+        return { ...channelData, fundingTxTimestamp: fundingTx.timeStamp }
       }
     }
     return channelData

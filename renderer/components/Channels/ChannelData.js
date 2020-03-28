@@ -16,24 +16,24 @@ const Box = styled(BaseBox)(opacity)
 
 const ChannelData = ({ channel, cryptoUnitName, intl, networkInfo, viewMode, ...rest }) => {
   const {
-    channel_point,
-    closing_txid,
-    commit_fee,
-    fee_per_kw,
-    local_chan_reserve_sat,
-    total_satoshis_sent,
-    total_satoshis_received,
-    csv_delay,
+    channelPoint,
+    closingTxid,
+    commitFee,
+    feePerKw,
+    localChanReserveSat,
+    totalSatoshisSent,
+    totalSatoshisReceived,
+    csvDelay,
     activity,
-    num_updates,
+    numUpdates,
     fundingTxTimestamp,
-    remote_chan_reserve_sat,
+    remoteChanReserveSat,
   } = channel
 
   // Define output for each data property that we might want to display.
   const data = {
-    channel_point: () => {
-      const [fundingTxid] = channel_point ? channel_point.split(':') : []
+    channelPoint: () => {
+      const [fundingTxid] = channelPoint ? channelPoint.split(':') : []
       return {
         label: <FormattedMessage {...messages.funding_transaction_id_label} />,
         body: <FormattedMessage {...messages.funding_transaction_id_description} />,
@@ -71,7 +71,7 @@ const ChannelData = ({ channel, cryptoUnitName, intl, networkInfo, viewMode, ...
       ),
     }),
 
-    closing_txid: () => ({
+    closingTxid: () => ({
       label: <FormattedMessage {...messages.closing_transaction_id_label} />,
       body: <FormattedMessage {...messages.closing_transaction_id_description} />,
       value: (
@@ -80,47 +80,47 @@ const ChannelData = ({ channel, cryptoUnitName, intl, networkInfo, viewMode, ...
             mr={2}
             name={intl.formatMessage({ ...messages.transaction_id })}
             size="0.7em"
-            value={closing_txid}
+            value={closingTxid}
           />
           <Link
-            onClick={() => networkInfo && blockExplorer.showTransaction(networkInfo, closing_txid)}
+            onClick={() => networkInfo && blockExplorer.showTransaction(networkInfo, closingTxid)}
           >
-            <Truncate maxlen={25} text={closing_txid} />
+            <Truncate maxlen={25} text={closingTxid} />
           </Link>
         </Flex>
       ),
     }),
 
-    local_chan_reserve_sat: () => ({
+    localChanReserveSat: () => ({
       label: <FormattedMessage {...messages.local_chan_reserve_sat_label} />,
       body: <FormattedMessage {...messages.local_chan_reserve_sat_description} />,
       value: (
         <Text>
           <FormattedMessage
             {...messages.crypto_amount_with_unit}
-            values={{ amount: <CryptoValue value={local_chan_reserve_sat} />, cryptoUnitName }}
+            values={{ amount: <CryptoValue value={localChanReserveSat} />, cryptoUnitName }}
           />
         </Text>
       ),
     }),
 
-    remote_chan_reserve_sat: () => ({
+    remoteChanReserveSat: () => ({
       label: <FormattedMessage {...messages.remote_chan_reserve_sat_label} />,
       body: <FormattedMessage {...messages.remote_chan_reserve_sat_description} />,
       value: (
         <Text>
           <FormattedMessage
             {...messages.crypto_amount_with_unit}
-            values={{ amount: <CryptoValue value={remote_chan_reserve_sat} />, cryptoUnitName }}
+            values={{ amount: <CryptoValue value={remoteChanReserveSat} />, cryptoUnitName }}
           />
         </Text>
       ),
     }),
 
-    num_updates: () => ({
+    numUpdates: () => ({
       label: <FormattedMessage {...messages.num_updates_label} />,
       body: <FormattedMessage {...messages.num_updates_description} />,
-      value: <Text>{num_updates}</Text>,
+      value: <Text>{numUpdates}</Text>,
     }),
 
     activity: () => ({
@@ -129,83 +129,83 @@ const ChannelData = ({ channel, cryptoUnitName, intl, networkInfo, viewMode, ...
       value: `${activity}%`,
     }),
 
-    csv_delay: () => ({
+    csvDelay: () => ({
       label: <FormattedMessage {...messages.csv_delay_label} />,
       body: <FormattedMessage {...messages.csv_delay_description} />,
-      value: <Text>{csv_delay}</Text>,
+      value: <Text>{csvDelay}</Text>,
     }),
 
-    total_satoshis_sent: () => ({
+    totalSatoshisSent: () => ({
       label: <FormattedMessage {...messages.total_sent_label} />,
       body: <FormattedMessage {...messages.total_sent_description} />,
       value: (
         <Text>
           <FormattedMessage
             {...messages.crypto_amount_with_unit}
-            values={{ amount: <CryptoValue value={total_satoshis_sent} />, cryptoUnitName }}
+            values={{ amount: <CryptoValue value={totalSatoshisSent} />, cryptoUnitName }}
           />
         </Text>
       ),
     }),
 
-    total_satoshis_received: () => ({
+    totalSatoshisReceived: () => ({
       label: <FormattedMessage {...messages.total_received_label} />,
       body: <FormattedMessage {...messages.total_received_description} />,
       value: (
         <Text>
           <FormattedMessage
             {...messages.crypto_amount_with_unit}
-            values={{ amount: <CryptoValue value={total_satoshis_received} />, cryptoUnitName }}
+            values={{ amount: <CryptoValue value={totalSatoshisReceived} />, cryptoUnitName }}
           />
         </Text>
       ),
     }),
 
-    commit_fee: () => ({
+    commitFee: () => ({
       label: <FormattedMessage {...messages.commit_fee_label} />,
       body: <FormattedMessage {...messages.commit_fee_description} />,
       value: (
         <Text>
           <FormattedMessage
             {...messages.crypto_amount_with_unit}
-            values={{ amount: <CryptoValue value={commit_fee} />, cryptoUnitName }}
+            values={{ amount: <CryptoValue value={commitFee} />, cryptoUnitName }}
           />
         </Text>
       ),
     }),
 
-    fee_per_kw: () => ({
+    feePerKw: () => ({
       label: <FormattedMessage {...messages.base_fee_label} />,
       body: <FormattedMessage {...messages.base_fee_description} values={{ cryptoUnitName }} />,
       value: (
         <Text>
           <FormattedMessage
             {...messages.crypto_amount_with_unit}
-            values={{ amount: <CryptoValue value={fee_per_kw} />, cryptoUnitName }}
+            values={{ amount: <CryptoValue value={feePerKw} />, cryptoUnitName }}
           />
         </Text>
       ),
     }),
   }
   // Channel is closing
-  const isClosing = Boolean(closing_txid)
+  const isClosing = Boolean(closingTxid)
   // Determine which of the properties we will display based on the active view mode.
   const candidateProps =
     viewMode === CHANNEL_DATA_VIEW_MODE_BASIC
-      ? [isClosing ? 'closing_txid' : 'channel_point', 'num_updates', 'csv_delay', 'activity']
+      ? [isClosing ? 'closingTxid' : 'channelPoint', 'numUpdates', 'csvDelay', 'activity']
       : [
-          'channel_point',
+          'channelPoint',
           'fundingTxTimestamp',
-          'closing_txid',
-          'num_updates',
-          'csv_delay',
+          'closingTxid',
+          'numUpdates',
+          'csvDelay',
           'activity',
-          'total_satoshis_sent',
-          'total_satoshis_received',
-          'commit_fee',
-          'fee_per_kw',
-          'local_chan_reserve_sat',
-          'remote_chan_reserve_sat',
+          'totalSatoshisSent',
+          'totalSatoshisReceived',
+          'commitFee',
+          'feePerKw',
+          'localChanReserveSat',
+          'remoteChanReserveSat',
         ]
 
   // filter out keys where the value is null or undefined so that we don't render rows where we have no data.

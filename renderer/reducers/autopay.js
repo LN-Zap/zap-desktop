@@ -234,7 +234,7 @@ export const showAutopayNotification = invoice => async (dispatch, getState) => 
   const nodes = networkSelectors.nodes(getState())
 
   const memo = getTag(invoice, 'description')
-  const node = nodes.find(n => n.pub_key === invoice.payeeNodeKey)
+  const node = nodes.find(n => n.pubKey === invoice.payeeNodeKey)
   const nodeName = node ? getNodeDisplayName(node) : truncateNodePubkey(invoice.payeeNodeKey)
 
   const intl = getIntl()

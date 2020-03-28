@@ -34,16 +34,16 @@ const Transaction = ({
     type = 'closing'
   }
   const renderConfirmations = () => {
-    const { num_confirmations } = activity
+    const { numConfirmations } = activity
 
     // returns color for the current number of confirmations
     const getDisplayParams = () =>
-      findLast(DISPLAY_PARAMS, ({ finality }) => num_confirmations >= finality) || DISPLAY_PARAMS[0]
+      findLast(DISPLAY_PARAMS, ({ finality }) => numConfirmations >= finality) || DISPLAY_PARAMS[0]
 
-    if (num_confirmations > confirmed) {
+    if (numConfirmations > confirmed) {
       return (
         <Text color="gray" fontSize="xs" fontWeight="normal">
-          <FormattedTime value={activity.time_stamp * 1000} />
+          <FormattedTime value={activity.timeStamp * 1000} />
         </Text>
       )
     }
@@ -59,7 +59,7 @@ const Transaction = ({
     <Flex
       alignItems="center"
       justifyContent="space-between"
-      onClick={activity.isSending ? null : () => showActivityModal('TRANSACTION', activity.tx_hash)}
+      onClick={activity.isSending ? null : () => showActivityModal('TRANSACTION', activity.txHash)}
       py={2}
       {...rest}
     >

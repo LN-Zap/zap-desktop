@@ -52,7 +52,7 @@ function hasMethod(method) {
  * @returns {Promise} EstimateFeeResponse
  */
 async function estimateFee(address, amount, targetConf) {
-  const payload = { AddrToAmount: { [address]: amount }, target_conf: targetConf }
+  const payload = { AddrToAmount: { [address]: amount }, targetConf }
   logGrpcCmd('Lightning.estimateFee', payload)
   return promisifiedCall(this.service, this.service.estimateFee, payload)
 }
@@ -105,15 +105,15 @@ async function getChannels() {
  */
 async function createInvoice(payload = {}) {
   const invoice = await this.addInvoice(payload)
-  const decodedInvoice = await this.decodePayReq({ pay_req: invoice.payment_request })
+  const decodedInvoice = await this.decodePayReq({ payReq: invoice.paymentRequest })
   return {
     ...decodedInvoice,
     memo: payload.memo,
     value: payload.value,
     private: payload.private,
-    r_hash: Buffer.from(invoice.r_hash, 'hex').toString('hex'),
-    payment_request: invoice.payment_request,
-    creation_date: Date.now() / 1000,
+    rHash: Buffer.from(invoice.rHash, 'hex').toString('hex'),
+    paymentRequest: invoice.paymentRequest,
+    creationDate: Date.now() / 1000,
   }
 }
 
@@ -125,7 +125,7 @@ async function createInvoice(payload = {}) {
  */
 async function ensurePeerConnected(payload = {}) {
   const { peers } = await this.listPeers()
-  const peer = peers.find(candidatePeer => candidatePeer.pub_key === payload.pubkey)
+  const peer = peers.find(candidatePeer => candidatePeer.pubKey === payload.pubkey)
   if (peer) {
     return peer
   }
@@ -141,17 +141,17 @@ async function ensurePeerConnected(payload = {}) {
 async function connectAndOpen(payload = {}) {
   const { pubkey, host, localamt, private: privateChannel, satPerByte, spendUnconfirmed } = payload
   const req = {
-    node_pubkey: Buffer.from(pubkey, 'hex'),
-    local_funding_amount: Number(localamt),
+    nodePubkey: Buffer.from(pubkey, 'hex'),
+    localFundingAmount: Number(localamt),
     private: privateChannel,
-    sat_per_byte: satPerByte,
-    spend_unconfirmed: spendUnconfirmed,
+    satPerByte,
+    spendUnconfirmed,
   }
   try {
     await this.ensurePeerConnected({ pubkey, host })
   } catch (e) {
     const error = new Error(e.message)
-    error.payload = { ...req, node_pubkey: pubkey }
+    error.payload = { ...req, nodePubkey: pubkey }
     return Promise.reject(error)
   }
   return this.openChannel(req)
@@ -166,7 +166,7 @@ async function connectAndOpen(payload = {}) {
 async function openChannel(payload = {}) {
   const parsePayload = () => ({
     ...payload,
-    node_pubkey: Buffer.from(payload.node_pubkey).toString('hex'),
+    nodePubkey: Buffer.from(payload.nodePubkey).toString('hex'),
   })
   return new Promise((resolve, reject) => {
     try {
@@ -210,19 +210,19 @@ async function closeChannel(payload = {}) {
   return new Promise((resolve, reject) => {
     try {
       const {
-        channel_point: { funding_txid, output_index },
-        chan_id,
+        channelPoint: { fundingTxid, outputIndex },
+        chanId,
         force,
       } = payload
-      const tx = funding_txid
+      const tx = fundingTxid
         .match(/.{2}/g)
         .reverse()
         .join('')
 
       const req = {
-        channel_point: {
-          funding_txid_bytes: Buffer.from(tx, 'hex'),
-          output_index: Number(output_index),
+        channelPoint: {
+          fundingTxidBytes: Buffer.from(tx, 'hex'),
+          outputIndex: Number(outputIndex),
         },
         force,
       }
@@ -230,14 +230,14 @@ async function closeChannel(payload = {}) {
 
       call.on('data', data => {
         grpcLog.debug('CLOSE_CHANNEL DATA', data)
-        const response = { data, chan_id }
+        const response = { data, chanId }
         resolve(response)
       })
 
       call.on('error', data => {
         grpcLog.error('CLOSE_CHANNEL ERROR', data)
         const error = new Error(data.message)
-        error.payload = { chan_id }
+        error.payload = { chanId }
         reject(error)
       })
 
@@ -272,24 +272,24 @@ async function sendPayment(payload = {}) {
       const call = this.service.sendPayment(payload)
 
       call.on('data', data => {
-        // Convert payment_hash to hex string.
-        if (data.payment_hash) {
-          data.payment_hash = data.payment_hash.toString('hex')
+        // Convert paymentHash to hex string.
+        if (data.paymentHash) {
+          data.paymentHash = data.paymentHash.toString('hex')
         }
-        // In some cases lnd does not return the payment_hash. If this happens, retrieve it from the invoice.
+        // In some cases lnd does not return the paymentHash. If this happens, retrieve it from the invoice.
         else {
-          const invoice = bolt11DecodePayReq(payload.payment_request)
-          data.payment_hash = getTag(invoice, 'payment_hash')
+          const invoice = bolt11DecodePayReq(payload.paymentRequest)
+          data.paymentHash = getTag(invoice, 'payment_hash')
         }
 
         // Convert the preimage to a hex string.
-        data.payment_preimage = data.payment_preimage && data.payment_preimage.toString('hex')
+        data.paymentPreimage = data.paymentPreimage && data.paymentPreimage.toString('hex')
 
         // Add lnd return data, as well as payment preimage and hash as hex strings to the response.
         Object.assign(res, data)
 
         // Payment success is determined by the absense of a payment error.
-        const isSuccess = !res.payment_error
+        const isSuccess = !res.paymentError
         if (isSuccess) {
           grpcLog.debug('PAYMENT SUCCESS', res)
           resolve(res)
@@ -298,7 +298,7 @@ async function sendPayment(payload = {}) {
         // In case of an error, notify the client if there was a problem sending the payment.
         else {
           grpcLog.error('PAYMENT ERROR', res)
-          const error = new Error(res.payment_error)
+          const error = new Error(res.paymentError)
           error.payload = res
           reject(error)
         }

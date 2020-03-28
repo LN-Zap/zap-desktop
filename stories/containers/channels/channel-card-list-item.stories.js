@@ -20,24 +20,23 @@ storiesOf('Containers.Channels', module)
             options: { allowPropTablesToggling: false },
             sectionFn: () => {
               const channel = {
-                chan_id: 1,
-                display_name: 'lnd1.zaphq.io',
-                display_pubkey:
-                  '03cf5a37ed661e3c61c7943941834771631cd880985340ed7543ad79a968cea454',
-                channel_point: '83c2839a4831c71d501ea41bdb0c3e01284bdb5302b1d16c9c52a876bd3ea6a7:1',
-                csv_delay: 2016,
-                num_updates: 12,
-                local_balance: number('Local Balance', 150400),
-                remote_balance: number('Remote Balance', 80044),
-                display_status: select(
+                chanId: 1,
+                displayName: 'lnd1.zaphq.io',
+                displayPubkey: '03cf5a37ed661e3c61c7943941834771631cd880985340ed7543ad79a968cea454',
+                channelPoint: '83c2839a4831c71d501ea41bdb0c3e01284bdb5302b1d16c9c52a876bd3ea6a7:1',
+                csvDelay: 2016,
+                numUpdates: 12,
+                localBalance: number('Local Balance', 150400),
+                remoteBalance: number('Remote Balance', 80044),
+                displayStatus: select(
                   'Status',
                   [
                     'open',
-                    'pending_open',
+                    'pendingOpen',
                     'open',
-                    'pending_close',
-                    'pending_force_close',
-                    'waiting_close',
+                    'pendingClose',
+                    'pendingForceClose',
+                    'waitingClose',
                     'offline',
                   ],
                   'open'

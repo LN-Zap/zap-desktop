@@ -15,7 +15,7 @@ const Invoice = ({ activity, showActivityModal, cryptoUnitName, intl, ...rest })
   <Flex
     alignItems="center"
     justifyContent="space-between"
-    onClick={() => showActivityModal('INVOICE', activity.payment_request)}
+    onClick={() => showActivityModal('INVOICE', activity.paymentRequest)}
     py={2}
     {...rest}
   >
@@ -34,7 +34,7 @@ const Invoice = ({ activity, showActivityModal, cryptoUnitName, intl, ...rest })
       </Text>
       <Text color="gray" fontSize="xs" fontWeight="normal">
         <FormattedTime
-          value={activity.settled ? activity.settle_date * 1000 : activity.creation_date * 1000}
+          value={activity.settled ? activity.settleDate * 1000 : activity.creationDate * 1000}
         />
       </Text>
     </Box>

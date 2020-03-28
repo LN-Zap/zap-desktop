@@ -189,7 +189,7 @@ export const getNodeAlias = (pubkey, nodes = []) => {
     return null
   }
 
-  const node = nodes.find(n => n.pub_key === pubkey)
+  const node = nodes.find(n => n.pubKey === pubkey)
   if (node && node.alias.length) {
     return node.alias
   }
@@ -207,7 +207,7 @@ export const getMinFee = (routes = []) => {
   if (!routes || !routes.length) {
     return null
   }
-  const fee = routes.reduce((min, b) => Math.min(min, b.total_fees), routes[0].total_fees)
+  const fee = routes.reduce((min, b) => Math.min(min, b.totalFees), routes[0].totalFees)
 
   // Add one to the fee to add room for accuracy error when using as a fee limit.
   return fee + 1
@@ -223,7 +223,7 @@ export const getMaxFee = routes => {
   if (!routes || !routes.length) {
     return null
   }
-  const fee = routes.reduce((max, b) => Math.max(max, b.total_fees), routes[0].total_fees)
+  const fee = routes.reduce((max, b) => Math.max(max, b.totalFees), routes[0].totalFees)
 
   // Add one to the fee to add room for accuracy error when using as a fee limit.
   return fee + 1

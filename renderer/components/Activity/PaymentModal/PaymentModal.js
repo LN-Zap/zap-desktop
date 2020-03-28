@@ -18,7 +18,8 @@ class PaymentModal extends React.PureComponent {
 
   render() {
     const { item, intl, ...rest } = this.props
-    const memo = item && getTag(item.payment_request, 'description')
+    const memo = item && getTag(item.paymentRequest, 'description')
+    console.log(item)
     return (
       <Panel {...rest}>
         <Panel.Header>
@@ -36,7 +37,7 @@ class PaymentModal extends React.PureComponent {
             right={
               <Flex alignItems="center">
                 <CryptoSelector mr={2} />
-                <CryptoValue fontSize="xxl" value={item.value_sat} />
+                <CryptoValue fontSize="xxl" value={item.valueSat} />
               </Flex>
             }
           />
@@ -47,7 +48,7 @@ class PaymentModal extends React.PureComponent {
             right={
               <Flex alignItems="center">
                 <FiatSelector mr={2} />
-                <FiatValue value={item.value_sat} />
+                <FiatValue value={item.valueSat} />
               </Flex>
             }
           />
@@ -68,12 +69,12 @@ class PaymentModal extends React.PureComponent {
                   <FormattedDate
                     day="2-digit"
                     month="long"
-                    value={item.creation_date * 1000}
+                    value={item.creationDate * 1000}
                     year="numeric"
                   />
                 </Text>
                 <Text>
-                  <FormattedTime value={item.creation_date * 1000} />
+                  <FormattedTime value={item.creationDate * 1000} />
                 </Text>
               </>
             }
@@ -89,10 +90,10 @@ class PaymentModal extends React.PureComponent {
                   mr={2}
                   name={intl.formatMessage({ ...messages.preimage })}
                   size="0.7em"
-                  value={item.payment_preimage}
+                  value={item.paymentPreimage}
                 />
-                <Text className="hint--bottom-left" data-hint={item.payment_preimage}>
-                  <Truncate text={item.payment_preimage} />
+                <Text className="hint--bottom-left" data-hint={item.paymentPreimage}>
+                  <Truncate text={item.paymentPreimage} />
                 </Text>
               </Flex>
             }

@@ -107,8 +107,8 @@ contactFormSelectors.filteredNetworkNodes = createSelector(
     // If there is no search query default to showing the first 50 nodes from the nodes array
     // (performance hit to render the entire thing by default)
     if (!searchQuery) {
-      const peerPubKeys = peers.map(peer => peer.pub_key)
-      const [peerNodes, nonPeerNodes] = partition(nodes, node => peerPubKeys.includes(node.pub_key))
+      const peerPubKeys = peers.map(peer => peer.pubKey)
+      const [peerNodes, nonPeerNodes] = partition(nodes, node => peerPubKeys.includes(node.pubKey))
       return peerNodes
         .concat(nonPeerNodes)
         .sort(contactableFirst)
@@ -123,10 +123,10 @@ contactFormSelectors.filteredNetworkNodes = createSelector(
     return nodes
       .concat(fromSuggestedToRegular(suggestedNodes) || [])
       .filter(node => {
-        const { alias, pub_key, addresses } = node
+        const { alias, pubKey, addresses } = node
         const matchesSearch =
           (alias && alias.toLowerCase().includes(queryLowerCase)) ||
-          (pub_key && pub_key.includes(queryLowerCase))
+          (pubKey && pubKey.includes(queryLowerCase))
         const hasAddress = addresses.length > 0
         return matchesSearch && hasAddress
       })
@@ -150,7 +150,7 @@ contactFormSelectors.selectedNodeDisplayName = createSelector(
   (searchQuery, isSearchValidNodeAddress, nodes) => {
     if (isSearchValidNodeAddress) {
       const pubkey = searchQuery.split('@')[0]
-      const node = nodes.find(n => n.pub_key === pubkey)
+      const node = nodes.find(n => n.pubKey === pubkey)
       return node ? getNodeDisplayName(node) : truncateNodePubkey(pubkey)
     }
     return null

@@ -20,12 +20,12 @@ const ZapIcon = () => <Zap height="1.6em" width="1.6em" />
  * @returns {string} Display name
  */
 const getDisplayNodeName = (payment, intl) => {
-  const { dest_node_alias, dest_node_pubkey } = payment
-  if (dest_node_alias) {
-    return dest_node_alias
+  const { destNodeAlias, destNodePubkey } = payment
+  if (destNodeAlias) {
+    return destNodeAlias
   }
-  if (dest_node_pubkey) {
-    return truncateNodePubkey(dest_node_pubkey)
+  if (destNodePubkey) {
+    return truncateNodePubkey(destNodePubkey)
   }
 
   // If all else fails, return the string 'unknown'.
@@ -44,9 +44,7 @@ const Payment = ({
     <Flex
       alignItems="center"
       justifyContent="space-between"
-      onClick={
-        activity.isSending ? null : () => showActivityModal('PAYMENT', activity.payment_hash)
-      }
+      onClick={activity.isSending ? null : () => showActivityModal('PAYMENT', activity.paymentHash)}
       py={2}
       {...rest}
     >
@@ -79,7 +77,7 @@ const Payment = ({
           </>
         ) : (
           <Text color="gray" fontSize="xs" fontWeight="normal">
-            <FormattedTime value={activity.creation_date * 1000} />
+            <FormattedTime value={activity.creationDate * 1000} />
           </Text>
         )}
       </Box>
@@ -94,13 +92,13 @@ const Payment = ({
             /* eslint-disable shopify/jsx-no-hardcoded-content */
             <Text mb={1} textAlign="right">
               -&nbsp;
-              <CryptoValue value={activity.value_sat} />
+              <CryptoValue value={activity.valueSat} />
               <i> {cryptoUnitName}</i>
             </Text>
             /* eslint-enable shopify/jsx-no-hardcoded-content */
           ))()}
           <Text color="gray" fontSize="xs" fontWeight="normal" textAlign="right">
-            <FiatValue style="currency" value={activity.value_sat} />
+            <FiatValue style="currency" value={activity.valueSat} />
           </Text>
         </Box>
       </Box>

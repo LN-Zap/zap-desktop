@@ -42,11 +42,11 @@ storiesOf('Containers.Activity', module)
     const invoice = {
       finalAmount: 15000,
       settled: boolean('Settled', false),
-      creation_date: Math.round(new Date().getTime() / 1000),
-      settle_date: Math.round(new Date().getTime() / 1000),
-      payment_request: signed.paymentRequest,
+      creationDate: Math.round(new Date().getTime() / 1000),
+      settleDate: Math.round(new Date().getTime() / 1000),
+      paymentRequest: signed.paymentRequest,
       memo: signed.tags.find(t => t.tagName === 'description').data,
-      tx_hash: '1ae44a23c141a2892c55eb3fe9de45195d88e89b36b5070e10df92d4130e4028',
+      txHash: '1ae44a23c141a2892c55eb3fe9de45195d88e89b36b5070e10df92d4130e4028',
     }
     return (
       <Modal p={4}>
@@ -63,21 +63,21 @@ storiesOf('Containers.Activity', module)
     const payment = {
       /* eslint-disable max-len */
       path: ['027455aef8453d92f4706b560b61527cc217ddf14da41770e8ed6607190a1851b8'],
-      payment_hash: '31b4220da61c55bd350cb6d2c1a80af8fa0db53e93da56b0517788e343d85a48',
+      paymentHash: '31b4220da61c55bd350cb6d2c1a80af8fa0db53e93da56b0517788e343d85a48',
       value: 150,
-      creation_date: 1564242488,
+      creationDate: 1564242488,
       fee: 0,
-      payment_preimage: '1430c6f29ebe6d6e9ab17c45b87851f815fafb6f4d2f5e3047ed5d97872867aa',
-      value_sat: 150,
-      value_msat: 150000,
-      payment_request:
+      paymentPreimage: '1430c6f29ebe6d6e9ab17c45b87851f815fafb6f4d2f5e3047ed5d97872867aa',
+      valueSat: 150,
+      valueMsat: 150000,
+      paymentRequest:
         'lntb1500n1pwncu3npp5xx6zyrdxr32m6dgvkmfvr2q2lraqmdf7j0d9dvz3w7ywxs7ctfyqdqa2fjkzep6yp6x2um5ypc82unsdaek2cqzpgxqr23sgdyj3pdv2v8qqx9zhgcg7e6g3j5pxqpuzcawxvaayjsvakjuqnghn9pepax34djtnu9u3ham9qzdsal0vh0fpju9m9mpdx40sf9hqzcpzad5wg',
       status: 'SUCCEEDED',
-      fee_sat: 0,
-      fee_msat: 0,
+      feeSat: 0,
+      feeMsat: 0,
       type: 'payment',
-      dest_node_pubkey: '027455aef8453d92f4706b560b61527cc217ddf14da41770e8ed6607190a1851b8',
-      dest_node_alias: 'testnet.yalls.org',
+      destNodePubkey: '027455aef8453d92f4706b560b61527cc217ddf14da41770e8ed6607190a1851b8',
+      destNodeAlias: 'testnet.yalls.org',
     }
 
     return (
@@ -89,13 +89,13 @@ storiesOf('Containers.Activity', module)
   .add('TransactionModal', () => {
     const transaction = {
       amount: 15000,
-      total_fees: 1000,
+      totalFees: 1000,
       received: boolean('Received', true),
-      time_stamp: Math.round(new Date().getTime() / 1000),
-      dest_addresses: ['2NEEBwPWMQ2CDurRzWgCETwuXvzgZ6pqzY8'],
-      block_height: 555466,
-      block_hash: '000000000012ac9338c1b53499dfcd6c44c4b96b40e038f4536639d3c3852169',
-      tx_hash: '1ae44a23c141a2892c55eb3fe9de45195d88e89b36b5070e10df92d4130e4028',
+      timeStamp: Math.round(new Date().getTime() / 1000),
+      destAddresses: ['2NEEBwPWMQ2CDurRzWgCETwuXvzgZ6pqzY8'],
+      blockHeight: 555466,
+      blockHash: '000000000012ac9338c1b53499dfcd6c44c4b96b40e038f4536639d3c3852169',
+      txHash: '1ae44a23c141a2892c55eb3fe9de45195d88e89b36b5070e10df92d4130e4028',
     }
     return (
       <Modal p={4}>

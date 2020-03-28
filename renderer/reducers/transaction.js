@@ -74,8 +74,8 @@ export function sendTransaction(data) {
     ...data,
     status: 'sending',
     isSending: true,
-    time_stamp: Math.round(new Date() / 1000),
-    num_confirmations: 0,
+    timeStamp: Math.round(new Date() / 1000),
+    numConfirmations: 0,
   }
   return {
     type: SEND_TRANSACTION,
@@ -117,12 +117,12 @@ export const receiveTransactions = (transactions, updateOnly = false) => (dispat
   let lastKnownTxIndex = 0
   const lastTx = last(transactionsSelector(state))
   transactions.forEach((transaction, index) => {
-    const { time_stamp, dest_addresses } = transaction
-    if (updateOnly && !lastKnownTxIndex && lastTx && time_stamp >= lastTx.time_stamp) {
+    const { timeStamp, destAddresses } = transaction
+    if (updateOnly && !lastKnownTxIndex && lastTx && timeStamp >= lastTx.timeStamp) {
       lastKnownTxIndex = index
     }
     // Keep track of used addresses.
-    usedAddresses = usedAddresses.concat(dest_addresses)
+    usedAddresses = usedAddresses.concat(destAddresses)
   })
 
   dispatch({
@@ -172,9 +172,9 @@ export const sendCoins = ({
     internalId,
     addr,
     amount: isCoinSweep ? null : amount,
-    target_conf: targetConf,
-    sat_per_byte: satPerByte,
-    send_all: isCoinSweep,
+    targetConf,
+    satPerByte,
+    sendAll: isCoinSweep,
   }
   dispatch(sendTransaction(payload))
 
@@ -239,7 +239,7 @@ export const receiveTransactionData = transaction => (dispatch, getState) => {
   if (
     !state.transaction ||
     !state.transaction.transactions ||
-    !state.transaction.transactions.find(tx => tx.tx_hash === transaction.tx_hash)
+    !state.transaction.transactions.find(tx => tx.txHash === transaction.txHash)
   ) {
     dispatch({ type: ADD_TRANSACTION, transaction })
 
@@ -274,7 +274,7 @@ const ACTION_HANDLERS = {
   },
   [RECEIVE_TRANSACTIONS]: (state, { transactions }) => {
     state.transactionLoading = false
-    state.transactions = uniqBy(state.transactions.concat(transactions), 'tx_hash')
+    state.transactions = uniqBy(state.transactions.concat(transactions), 'txHash')
   },
   [ADD_TRANSACTION]: (state, { transaction }) => {
     state.transactions.unshift(transaction)
@@ -323,28 +323,26 @@ transactionsSelectors.transactions = createSelector(
       .map(transaction => {
         const fundedChannel = allChannelsRaw.find(channelObj => {
           const channelData = getChannelData(channelObj)
-          const channelPoint = channelData.channel_point
-          return channelPoint ? transaction.tx_hash === channelPoint.split(':')[0] : null
+          const { channelPoint } = channelData
+          return channelPoint ? transaction.txHash === channelPoint.split(':')[0] : null
         })
         const closedChannel = allChannelsRaw.find(channelObj => {
           const channelData = getChannelData(channelObj)
-          return [channelData.closing_tx_hash, channelObj.closing_txid].includes(
-            transaction.tx_hash
-          )
+          return [channelData.closingTxHash, channelObj.closingTxid].includes(transaction.txHash)
         })
         const pendingChannel = [...closingPendingChannelsRaw, ...pendingOpenChannelsRaw].find(
           channelObj => {
-            return channelObj.closing_txid === transaction.tx_hash
+            return channelObj.closingTxid === transaction.txHash
           }
         )
         return {
           ...transaction,
-          closeType: closedChannel ? closedChannel.close_type : null,
+          closeType: closedChannel ? closedChannel.closeType : null,
           isFunding: Boolean(fundedChannel),
           isClosing: Boolean(closedChannel),
           isPending: Boolean(pendingChannel),
-          limboAmount: pendingChannel && pendingChannel.limbo_balance,
-          maturityHeight: pendingChannel && pendingChannel.maturity_height,
+          limboAmount: pendingChannel && pendingChannel.limboBalance,
+          maturityHeight: pendingChannel && pendingChannel.maturityHeight,
         }
       })
   }

@@ -84,11 +84,11 @@ export const activityModalItem = createSelector(
   (payments, invoices, transactions, itemType, itemId) => {
     switch (itemType) {
       case 'INVOICE':
-        return invoices.find(invoice => invoice.payment_request === itemId)
+        return invoices.find(invoice => invoice.paymentRequest === itemId)
       case 'TRANSACTION':
-        return transactions.find(transaction => transaction.tx_hash === itemId)
+        return transactions.find(transaction => transaction.txHash === itemId)
       case 'PAYMENT':
-        return payments.find(payment => payment.payment_hash === itemId)
+        return payments.find(payment => payment.paymentHash === itemId)
       default:
         return null
     }
@@ -102,7 +102,7 @@ export const transactionsSending = createSelector(transactionsSendingSelector, t
   const transactions = ts.map(transaction => {
     return {
       type: 'transaction',
-      time_stamp: transaction.timestamp,
+      timeStamp: transaction.timestamp,
       amount: transaction.amount,
       sending: true,
       status: transaction.status,

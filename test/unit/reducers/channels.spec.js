@@ -84,11 +84,11 @@ describe('reducers', () => {
         type: RECEIVE_CHANNELS,
         channels: [1, 2],
         pendingChannels: {
-          pending_closing_channels: [1],
-          pending_force_closing_channels: [2],
-          pending_open_channels: [3],
-          total_limbo_balance: 4,
-          waiting_close_channels: [5],
+          pendingClosingChannels: [1],
+          pendingForceClosingChannels: [2],
+          pendingOpenChannels: [3],
+          totalLimboBalance: 4,
+          waitingCloseChannels: [5],
         },
         closedChannels: [5, 6],
       }
@@ -106,7 +106,7 @@ describe('reducers', () => {
       const action = {
         type: ADD_LOADING_PUBKEY,
         data: {
-          node_pubkey: '123',
+          nodePubkey: '123',
         },
       }
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()

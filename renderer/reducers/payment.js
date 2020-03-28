@@ -61,14 +61,25 @@ const decoratePayment = (payment, nodes = []) => {
   }
 
   // Older versions of lnd provided the sat amount in `value`.
-  // This is now deprecated in favor of `value_sat` and `value_msat`.
+  // This is now deprecated in favor of `valueSat` and `valueMsat`.
   // Patch data returned from older clients to match the current format for consistency.
   const { value } = payment
-  if (value && (!payment.value_sat || !payment.value_msat)) {
+  if (value && (!payment.valueSat || !payment.valueMsat)) {
     Object.assign(decoration, {
-      value_sat: value,
-      value_msat: convert('sats', 'msats', value),
+      valueSat: value,
+      valueMsat: convert('sats', 'msats', value),
     })
+  }
+
+  // Convert the preimage to a hex string.
+  if (!payment.paymentPreimage) {
+    decoration.paymentPreimage =
+      payment.rPreimage && Buffer.from(payment.rPreimage, 'hex').toString('hex')
+  }
+
+  // Convert the preimage to a hex string.
+  if (!payment.paymentHash) {
+    decoration.paymentHash = payment.rHash && Buffer.from(payment.rHash, 'hex').toString('hex')
   }
 
   // First try to get the pubkey from payment.path
@@ -83,8 +94,8 @@ const decoratePayment = (payment, nodes = []) => {
   // Try to add some info about the destination of the payment.
   if (pubkey) {
     Object.assign(decoration, {
-      dest_node_pubkey: pubkey,
-      dest_node_alias: getNodeAlias(pubkey, nodes),
+      destNodePubkey: pubkey,
+      destNodeAlias: getNodeAlias(pubkey, nodes),
     })
   }
 
@@ -125,8 +136,7 @@ export const sendPayment = data => dispatch => {
     ...data,
     status: PAYMENT_STATUS_SENDING,
     isSending: true,
-    creation_date: Math.round(new Date() / 1000),
-    payment_hash: data.paymentHash,
+    creationDate: Math.round(new Date() / 1000),
   }
 
   dispatch({
@@ -195,8 +205,8 @@ export const payInvoice = ({
   let payload = {
     paymentId,
     amt,
-    fee_limit: feeLimit ? { fixed: feeLimit } : null,
-    allow_self_payment: true,
+    feeLimit: feeLimit ? { fixed: feeLimit } : null,
+    allowSelfPayment: true,
   }
 
   // Keysend payment.
@@ -213,11 +223,11 @@ export const payInvoice = ({
 
     payload = {
       ...payload,
-      payment_hash: paymentHash,
-      final_cltv_delta: defaultCltvDelta,
-      fee_limit_sat: feeLimit ? { fixed: feeLimit } : null,
+      paymentHash,
+      finalCltvDelta: defaultCltvDelta,
+      feeLimitSat: feeLimit ? { fixed: feeLimit } : null,
       dest: Buffer.from(payReq, 'hex'),
-      dest_custom_records: {
+      destCustomRecords: {
         [keySendPreimageType]: preimage,
       },
     }
@@ -231,7 +241,7 @@ export const payInvoice = ({
     paymentRequest = invoice.paymentRequest // eslint-disable-line prefer-destructuring
     payload = {
       ...payload,
-      payment_request: paymentRequest,
+      paymentRequest,
     }
   }
 
@@ -273,7 +283,7 @@ export const payInvoice = ({
  */
 export const updatePayment = paymentRequest => async dispatch => {
   const { payments } = await grpc.services.Lightning.listPayments()
-  const payment = payments.find(p => p.payment_request === paymentRequest)
+  const payment = payments.find(p => p.paymentRequest === paymentRequest)
   if (payment) {
     dispatch(receivePayments([payment]))
   }
@@ -282,7 +292,7 @@ export const updatePayment = paymentRequest => async dispatch => {
 /**
  * paymentSuccessful - Success handler for payInvoice.
  *
- * @param {{payment_request}} payment_request Payment request
+ * @param {{paymentRequest}} paymentRequest Payment request
  * @returns {Function} Thunk
  */
 export const paymentSuccessful = ({ paymentId }) => async (dispatch, getState) => {
@@ -290,10 +300,10 @@ export const paymentSuccessful = ({ paymentId }) => async (dispatch, getState) =
 
   // If we found a related entry in paymentsSending, gracefully remove it and handle as success case.
   if (paymentSending) {
-    const { creation_date, paymentRequest } = paymentSending
+    const { creationDate, paymentRequest } = paymentSending
 
     // Ensure payment stays in sending state for at least 2 seconds.
-    await delay(2000 - (Date.now() - creation_date * 1000))
+    await delay(2000 - (Date.now() - creationDate * 1000))
 
     // Mark the payment as successful.
     dispatch({ type: PAYMENT_SUCCESSFUL, paymentId })
@@ -331,7 +341,7 @@ export const paymentFailed = (error, { paymentId }) => async (dispatch, getState
 
   // If we found a related entery in paymentsSending, gracefully remove it and handle as error case.
   if (paymentSending) {
-    const { creation_date, paymentRequest, remainingRetries, maxRetries } = paymentSending
+    const { creationDate, paymentRequest, remainingRetries, maxRetries } = paymentSending
     // if we have retries left and error is eligible for retry - rebroadcast payment
     if (remainingRetries && RETRIABLE_ERRORS.includes(error)) {
       const data = {
@@ -345,7 +355,7 @@ export const paymentFailed = (error, { paymentId }) => async (dispatch, getState
       dispatch(payInvoice(data))
     } else {
       // Ensure payment stays in sending state for at least 2 seconds.
-      await delay(2000 - (Date.now() - creation_date * 1000))
+      await delay(2000 - (Date.now() - creationDate * 1000))
 
       // Mark the payment as failed.
       dispatch({ type: PAYMENT_FAILED, paymentId, error: errorToUserFriendly(error) })
@@ -363,9 +373,9 @@ const ACTION_HANDLERS = {
   },
   [RECEIVE_PAYMENTS]: (state, { payments }) => {
     state.paymentLoading = false
-    state.payments = uniqBy(state.payments.concat(payments), 'payment_hash')
+    state.payments = uniqBy(state.payments.concat(payments), 'paymentHash')
     state.paymentsSending = state.paymentsSending.filter(
-      item => !payments.find(p => p.payment_hash === item.payment_hash)
+      item => !payments.find(p => p.paymentHash === item.paymentHash)
     )
   },
   [SEND_PAYMENT]: (state, { payment }) => {

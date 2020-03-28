@@ -158,7 +158,7 @@ export const finishLnurlWithdrawal = () => async (dispatch, getState) => {
   if (state.pay.lnurlWithdrawParams) {
     const { amount, memo } = getState().pay.lnurlWithdrawParams
     dispatch(setLnurlWithdrawalParams(null))
-    const { payment_request: paymentRequest } = await dispatch(
+    const { paymentRequest } = await dispatch(
       createInvoice({
         amount,
         memo,
@@ -219,9 +219,9 @@ export const queryRoutes = (pubKey, amount) => async dispatch => {
   dispatch({ type: QUERY_ROUTES, pubKey })
   try {
     const { routes } = await grpc.services.Lightning.queryRoutes({
-      pub_key: pubKey,
+      pubKey,
       amt: amount,
-      use_mission_control: true,
+      useMissionControl: true,
     })
     dispatch({ type: QUERY_ROUTES_SUCCESS, routes })
   } catch (e) {

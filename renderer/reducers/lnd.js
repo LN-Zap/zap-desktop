@@ -406,7 +406,7 @@ export const fetchSeed = () => async dispatch => {
 
     // Call genSeed method.
     const data = await grpc.services.WalletUnlocker.genSeed()
-    dispatch(fetchSeedSuccess(data.cipher_seed_mnemonic))
+    dispatch(fetchSeedSuccess(data.cipherSeedMnemonic))
   } catch (error) {
     dispatch(fetchSeedError(error.message))
   }
@@ -415,12 +415,12 @@ export const fetchSeed = () => async dispatch => {
 /**
  * fetchSeedSuccess - Fetch seed success callback.
  *
- * @param {Array} cipher_seed_mnemonic Mnemonic seed
+ * @param {Array} cipherSeedMnemonic Mnemonic seed
  * @returns {Function} Thunk
  */
-export const fetchSeedSuccess = cipher_seed_mnemonic => dispatch => {
-  dispatch({ type: FETCH_SEED_SUCCESS, seed: cipher_seed_mnemonic })
-  dispatch(setSeed(cipher_seed_mnemonic))
+export const fetchSeedSuccess = cipherSeedMnemonic => dispatch => {
+  dispatch({ type: FETCH_SEED_SUCCESS, seed: cipherSeedMnemonic })
+  dispatch(setSeed(cipherSeedMnemonic))
   dispatch(stopLnd())
 }
 
@@ -494,11 +494,11 @@ export const createWallet = ({ recover } = {}) => async (dispatch, getState) => 
 
     // Call initWallet method.
     await grpc.initWallet({
-      wallet_password: Buffer.from(state.onboarding.password),
+      walletPassword: Buffer.from(state.onboarding.password),
       aezeed_passphrase: state.onboarding.passphrase
         ? Buffer.from(state.onboarding.passphrase)
         : null,
-      cipher_seed_mnemonic: state.onboarding.seed,
+      cipherSeedMnemonic: state.onboarding.seed,
       recovery_window: recover ? config.lnd.recoveryWindow : 0,
     })
 

@@ -52,22 +52,22 @@ const decorateInvoice = invoice => {
     type: 'invoice',
   }
 
-  const { amt_paid, amt_paid_sat, value, amt_paid_msat } = invoice
+  const { amtPaid, amtPaidSat, value, amtPaidMsat } = invoice
 
   // Older versions of lnd provided the sat amount in `value`.
-  // This is now deprecated in favor of `value_sat` and `value_msat`.
+  // This is now deprecated in favor of `valueSat` and `valueMsat`.
   // Patch data returned from older clients to match the current format for consistency.
-  if (amt_paid && (!amt_paid_sat || !amt_paid_msat)) {
+  if (amtPaid && (!amtPaidSat || !amtPaidMsat)) {
     Object.assign(decoration, {
-      amt_paid_sat: amt_paid,
-      amt_paid_msat: convert('sats', 'msats', amt_paid),
+      amtPaidSat: amtPaid,
+      amtPaidMsat: convert('sats', 'msats', amtPaid),
     })
   }
 
-  decoration.finalAmount = amt_paid_sat && amt_paid_sat !== '0' ? amt_paid_sat : value
+  decoration.finalAmount = amtPaidSat && amtPaidSat !== '0' ? amtPaidSat : value
 
   // Add an `isExpired` prop which shows whether the invoice is expired or not.
-  const expiresAt = parseInt(invoice.creation_date, 10) + parseInt(invoice.expiry, 10)
+  const expiresAt = parseInt(invoice.creationDate, 10) + parseInt(invoice.expiry, 10)
   decoration.isExpired = expiresAt < Math.round(new Date() / 1000)
 
   return {
@@ -125,7 +125,7 @@ export const fetchInvoices = ({
 } = {}) => async dispatch => {
   dispatch(getInvoices())
   const { invoices } = await grpc.services.Lightning.listInvoices({
-    num_max_invoices: maxInvoices,
+    numMaxInvoices: maxInvoices,
   })
   dispatch(receiveInvoices(invoices))
 }
@@ -175,7 +175,7 @@ export const createInvoice = ({ amount, cryptoUnit, memo, isPrivate, fallbackAdd
       memo,
       private: isPrivate || activeWalletSettings.type === 'local',
       expiry: currentConfig.invoices.expire,
-      fallback_addr: fallbackAddress,
+      fallbackAddress,
     })
     dispatch(createInvoiceSuccess(invoice))
     return invoice
@@ -196,7 +196,7 @@ export const createInvoiceSuccess = invoice => dispatch => {
   dispatch({ type: INVOICE_SUCCESSFUL, invoice })
 
   // Set current invoice to newly created invoice.
-  dispatch(setInvoice(invoice.payment_request))
+  dispatch(setInvoice(invoice.paymentRequest))
 }
 
 /**
@@ -230,7 +230,7 @@ export const receiveInvoiceData = invoice => dispatch => {
     // HTML 5 desktop notification for the invoice update
     const notifTitle = intl.formatMessage(messages.invoice_receive_title)
     const notifBody = intl.formatMessage(
-      invoice.is_keysend ? messages.keysend_receive_body : messages.invoice_receive_body
+      invoice.isKeysend ? messages.keysend_receive_body : messages.invoice_receive_body
     )
 
     showSystemNotification(notifTitle, { body: notifBody })
@@ -249,7 +249,7 @@ const ACTION_HANDLERS = {
   },
   [RECEIVE_INVOICES]: (state, { invoices }) => {
     state.isInvoicesLoading = false
-    state.invoices = uniqBy(state.invoices.concat(invoices), 'add_index')
+    state.invoices = uniqBy(state.invoices.concat(invoices), 'addIndex')
   },
   [SEND_INVOICE]: state => {
     state.isInvoicesLoading = true
@@ -265,7 +265,7 @@ const ACTION_HANDLERS = {
   },
   [UPDATE_INVOICE]: (state, { invoice }) => {
     const invoiceIndex = state.invoices.findIndex(
-      inv => inv.r_hash.toString('hex') === invoice.r_hash.toString('hex')
+      inv => inv.rHash.toString('hex') === invoice.rHash.toString('hex')
     )
 
     // update if exists or add new otherwise
@@ -293,7 +293,7 @@ invoiceSelectors.invoiceModalOpen = createSelector(invoiceSelector, invoice => B
 invoiceSelectors.invoice = createSelector(
   invoiceSelectors.invoices,
   invoiceSelector,
-  (invoices, invoice) => invoices.find(item => item.payment_request === invoice)
+  (invoices, invoice) => invoices.find(item => item.paymentRequest === invoice)
 )
 
 export { invoiceSelectors }

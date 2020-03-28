@@ -25,12 +25,12 @@ const areEqual = (prevProps, nextProps) => isEqual(prevProps, nextProps)
 const ChannelCardListItem = React.memo(
   ({ channel, cryptoUnitName, openModal, setSelectedChannel, networkInfo, ...rest }) => {
     const {
-      channel_point,
-      display_name,
-      display_pubkey,
-      local_balance,
-      remote_balance,
-      display_status,
+      channelPoint,
+      displayName,
+      displayPubkey,
+      localBalance,
+      remoteBalance,
+      displayStatus,
       active,
       private: isPrivate,
     } = channel
@@ -42,7 +42,7 @@ const ChannelCardListItem = React.memo(
           <Panel.Header>
             <Flex justifyContent="space-between">
               <ClippedHeading my={1} opacity={opacity}>
-                {display_name}
+                {displayName}
               </ClippedHeading>
 
               <Flex>
@@ -51,14 +51,14 @@ const ChannelCardListItem = React.memo(
                     <Padlock />
                   </Box>
                 )}
-                <ChannelStatus mb="auto" status={display_status} />
+                <ChannelStatus mb="auto" status={displayStatus} />
               </Flex>
             </Flex>
             <Flex justifyContent="space-between" opacity={opacity}>
               <Text fontWeight="normal">
                 <FormattedMessage {...messages.remote_pubkey} />
               </Text>
-              <ClippedText width={2 / 3}>{display_pubkey}</ClippedText>
+              <ClippedText width={2 / 3}>{displayPubkey}</ClippedText>
             </Flex>
             <Box opacity={opacity}>
               <Bar my={2} variant="light" />
@@ -67,10 +67,10 @@ const ChannelCardListItem = React.memo(
 
           <Panel.Body>
             <ChannelCapacity
-              localBalance={local_balance}
+              localBalance={localBalance}
               my={4}
               opacity={opacity}
-              remoteBalance={remote_balance}
+              remoteBalance={remoteBalance}
             />
 
             <ChannelData
@@ -85,9 +85,9 @@ const ChannelCardListItem = React.memo(
           <Panel.Footer>
             <Flex alignItems="flex-end" as="footer" justifyContent="center">
               <ChannelMoreButton
-                isDisabled={!channel_point}
+                isDisabled={!channelPoint}
                 onClick={() => {
-                  setSelectedChannel(channel_point)
+                  setSelectedChannel(channelPoint)
                   openModal('CHANNEL_DETAIL')
                 }}
               />

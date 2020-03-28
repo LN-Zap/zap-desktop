@@ -3,16 +3,17 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Flex } from 'rebass/styled-components'
+import snakeCase from 'lodash/snakeCase'
 import { StatusIndicator, Text } from 'components/UI'
 import messages from './messages'
 
 const variantMap = {
   loading: 'loading',
-  pending_open: 'pending',
+  pendingOpen: 'pending',
   open: 'online',
-  pending_close: 'closing',
-  pending_force_close: 'closing',
-  waiting_close: 'closing',
+  pendingClose: 'closing',
+  pendingForceClose: 'closing',
+  waitingClose: 'closing',
   offline: 'offline',
 }
 
@@ -28,7 +29,7 @@ const ChannelStatus = ({ status, ...rest }) => (
       <StatusIndicator variant={variantMap[status]} />
     </Text>
     <StatusText>
-      <FormattedMessage {...messages[status]} />
+      <FormattedMessage {...messages[snakeCase(status)]} />
     </StatusText>
   </Flex>
 )

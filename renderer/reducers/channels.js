@@ -30,11 +30,11 @@ const initialState = {
   loadingChannels: [],
   channels: [],
   pendingChannels: {
-    total_limbo_balance: '0',
-    pending_open_channels: [],
-    pending_closing_channels: [],
-    pending_force_closing_channels: [],
-    waiting_close_channels: [],
+    totalLimboBalance: '0',
+    pendingOpenChannels: [],
+    pendingClosingChannels: [],
+    pendingForceClosingChannels: [],
+    waitingCloseChannels: [],
   },
   closedChannels: [],
   closingChannelIds: [],
@@ -133,7 +133,7 @@ export const getChannelData = channelObj => channelObj.channel || channelObj
  */
 const getDisplayName = (channel, nodes) => {
   const remoteNodePubkey = getRemoteNodePubKey(channel)
-  const node = nodes.find(n => n.pub_key === remoteNodePubkey)
+  const node = nodes.find(n => n.pubKey === remoteNodePubkey)
 
   return node ? getNodeDisplayName(node) : truncateNodePubkey(remoteNodePubkey)
 }
@@ -141,14 +141,14 @@ const getDisplayName = (channel, nodes) => {
 /**
  * getRemoteNodePubKey - Get the remote pubkey depending on what type of channel.
  *
- * due to inconsistent API vals the remote nodes pubkey will be under remote_pubkey for active channels and
- * remote_node_pub for pending channels we have.
+ * due to inconsistent API vals the remote nodes pubkey will be under remotePubkey for active channels and
+ * remoteNodePub for pending channels we have.
  *
  * @param  {object} channel Channel object
  * @returns {string} Channel remote pubKey
  */
 const getRemoteNodePubKey = channel => {
-  return channel.node_pubkey || channel.remote_pubkey || channel.remote_node_pub
+  return channel.nodePubkey || channel.remotePubkey || channel.remoteNodePub
 }
 
 /**
@@ -164,28 +164,28 @@ const getStatus = (channelObj, closingChannelIds = [], loadingChannelPubKeys = [
   const pubKey = getRemoteNodePubKey(channelData)
 
   // if the channel pubkey is in loadingChabnnels, set status as loading.
-  if (loadingChannelPubKeys.includes(pubKey) && !channelData.channel_point) {
+  if (loadingChannelPubKeys.includes(pubKey) && !channelData.channelPoint) {
     return 'loading'
   }
-  // if the channel has a confirmation_height property that means it's pending.
-  if ('confirmation_height' in channelObj) {
-    return 'pending_open'
+  // if the channel has a confirmationHeight property that means it's pending.
+  if ('confirmationHeight' in channelObj) {
+    return 'pendingOpen'
   }
-  // if the channel has a closing txid and a limbo balance, that means it's force_closing.
-  if ('closing_txid' in channelObj && 'limbo_balance' in channelObj) {
-    return 'pending_force_close'
+  // if the channel has a closing txid and a limbo balance, that means it's force closing.
+  if ('closingTxid' in channelObj && 'limboBalance' in channelObj) {
+    return 'pendingForceClose'
   }
   // if the channel has a closing txid but no limbo balance or it's in our internal list of closing transactions,
   // that means it is pending closing.
   if (
-    ('closing_txid' in channelObj && !('limbo_balance' in channelObj)) ||
-    closingChannelIds.includes(channelObj.chan_id)
+    ('closingTxid' in channelObj && !('limboBalance' in channelObj)) ||
+    closingChannelIds.includes(channelObj.chanId)
   ) {
-    return 'pending_close'
+    return 'pendingClose'
   }
   // If the channel has a limbo balance but no closing txid, it is waiting to close.
-  if (!('closing_txid' in channelObj) && 'limbo_balance' in channelObj) {
-    return 'waiting_close'
+  if (!('closingTxid' in channelObj) && 'limboBalance' in channelObj) {
+    return 'waitingClose'
   }
   // if the channel isn't active that means the remote peer isn't online.
   if (!channelObj.active) {
@@ -202,8 +202,8 @@ const getStatus = (channelObj, closingChannelIds = [], loadingChannelPubKeys = [
  * @returns {number} Effective capacity
  */
 const getChannelEffectiveCapacity = channel =>
-  CoinBig(get(channel, 'local_balance', 0))
-    .plus(CoinBig(get(channel, 'remote_balance', 0)))
+  CoinBig(get(channel, 'localBalance', 0))
+    .plus(CoinBig(get(channel, 'remoteBalance', 0)))
     .toString()
 
 /**
@@ -226,8 +226,8 @@ const decorateChannel = (channelObj, nodes, closingChannelIds, loadingChannelPub
 
     if (capacity && capacity > 0) {
       // Calculate channel flow (sum of amounts sent and received).
-      const sent = CoinBig(get(c, 'total_satoshis_sent', 0))
-      const received = CoinBig(get(c, 'total_satoshis_received', 0))
+      const sent = CoinBig(get(c, 'totalSatoshisSent', 0))
+      const received = CoinBig(get(c, 'totalSatoshisReceived', 0))
       const flow = CoinBig.sum(sent, received)
 
       // Calculate capacity as flow / capacity.
@@ -242,16 +242,16 @@ const decorateChannel = (channelObj, nodes, closingChannelIds, loadingChannelPub
 
   const updatedChannelData = {
     ...channelData,
-    display_pubkey: getRemoteNodePubKey(channelData),
-    display_name: getDisplayName(channelData, nodes),
-    display_status: status,
+    displayPubkey: getRemoteNodePubKey(channelData),
+    displayName: getDisplayName(channelData, nodes),
+    displayStatus: status,
     activity: getActivity(channelData),
-    can_close:
-      ['open', 'offline'].includes(status) && !closingChannelIds.includes(channelData.chan_id),
+    canClose:
+      ['open', 'offline'].includes(status) && !closingChannelIds.includes(channelData.chanId),
   }
 
-  if (channelObj.closing_txid) {
-    updatedChannelData.closing_txid = channelObj.closing_txid
+  if (channelObj.closingTxid) {
+    updatedChannelData.closingTxid = channelObj.closingTxid
   }
 
   if (channelObj.channel) {
@@ -540,9 +540,9 @@ export const openChannel = data => async (dispatch, getState) => {
 
   // Add channel loading state.
   const loadingChannel = {
-    node_pubkey: pubkey,
-    local_balance: CoinBig(localamt || 0).toString(),
-    remote_balance: '0',
+    nodePubkey: pubkey,
+    localBalance: CoinBig(localamt || 0).toString(),
+    remoteBalance: '0',
     private: channelIsPrivate,
   }
   dispatch(addLoadingChannel(loadingChannel))
@@ -570,7 +570,7 @@ export const openChannel = data => async (dispatch, getState) => {
     dispatch(
       pushchannelerror({
         error: e.message,
-        node_pubkey: e.payload.node_pubkey,
+        nodePubkey: e.payload.nodePubkey,
       })
     )
   }
@@ -582,13 +582,13 @@ export const openChannel = data => async (dispatch, getState) => {
  * @param {object} data Channel update notification
  * @returns {Function} Thunk
  */
-export const pushchannelupdated = ({ node_pubkey, data }) => dispatch => {
+export const pushchannelupdated = ({ nodePubkey, data }) => dispatch => {
   dispatch(fetchChannels())
-  if (data.update === 'chan_pending') {
-    dispatch(removeLoadingChannel(node_pubkey))
+  if (data.update === 'chanPending') {
+    dispatch(removeLoadingChannel(nodePubkey))
     dispatch(
       updateNotification(
-        { payload: { pubkey: node_pubkey } },
+        { payload: { pubkey: nodePubkey } },
         {
           variant: 'success',
           message: 'Channel successfully created',
@@ -605,11 +605,11 @@ export const pushchannelupdated = ({ node_pubkey, data }) => dispatch => {
  * @param {object} data Channel error notification
  * @returns {Function} Thunk
  */
-export const pushchannelerror = ({ node_pubkey, error }) => dispatch => {
-  dispatch(removeLoadingChannel(node_pubkey))
+export const pushchannelerror = ({ nodePubkey, error }) => dispatch => {
+  dispatch(removeLoadingChannel(nodePubkey))
   dispatch(
     updateNotification(
-      { payload: { pubkey: node_pubkey } },
+      { payload: { pubkey: nodePubkey } },
       {
         variant: 'error',
         message: `Unable to open channel: ${error}`,
@@ -628,20 +628,20 @@ export const closeChannel = () => async (dispatch, getState) => {
   const selectedChannel = channelsSelectors.selectedChannel(getState())
 
   if (selectedChannel) {
-    const { channel_point, chan_id, active } = selectedChannel
+    const { channelPoint, chanId, active } = selectedChannel
     dispatch(closingChannel())
-    dispatch(addClosingChanId(chan_id))
+    dispatch(addClosingChanId(chanId))
 
-    const [funding_txid, output_index] = channel_point.split(':')
+    const [fundingTxid, outputIndex] = channelPoint.split(':')
 
     // Attempt to open the channel.
     try {
       const data = await grpc.services.Lightning.closeChannel({
-        channel_point: {
-          funding_txid,
-          output_index,
+        channelPoint: {
+          fundingTxid,
+          outputIndex,
         },
-        chan_id,
+        chanId,
         force: !active,
       })
       dispatch(pushclosechannelupdated(data))
@@ -649,7 +649,7 @@ export const closeChannel = () => async (dispatch, getState) => {
       dispatch(
         pushchannelerror({
           error: e.message,
-          node_pubkey: e.payload.node_pubkey,
+          nodePubkey: e.payload.nodePubkey,
         })
       )
     }
@@ -662,9 +662,9 @@ export const closeChannel = () => async (dispatch, getState) => {
  * @param {object} data Channel close update notification
  * @returns {Function} Thunk
  */
-export const pushclosechannelupdated = ({ chan_id }) => dispatch => {
+export const pushclosechannelupdated = ({ chanId }) => dispatch => {
   dispatch(fetchChannels())
-  dispatch(removeClosingChanId(chan_id))
+  dispatch(removeClosingChanId(chanId))
 }
 
 /**
@@ -673,9 +673,9 @@ export const pushclosechannelupdated = ({ chan_id }) => dispatch => {
  * @param {object} data Channel close error notification
  * @returns {Function} Thunk
  */
-export const pushclosechannelerror = ({ error, chan_id }) => dispatch => {
+export const pushclosechannelerror = ({ error, chanId }) => dispatch => {
   dispatch(showError(error))
-  dispatch(removeClosingChanId(chan_id))
+  dispatch(removeClosingChanId(chanId))
 }
 
 /**
@@ -692,30 +692,30 @@ const throttledFetchChannels = throttle(dispatch => dispatch(fetchChannels()), 1
  * @param {object} data Channel graph
  * @returns {Function} Thunk
  */
-export const receiveChannelGraphData = ({ channel_updates, node_updates }) => (
+export const receiveChannelGraphData = ({ channelUpdates, nodeUpdates }) => (
   dispatch,
   getState
 ) => {
   const { info, channels } = getState()
   // Process node updates.
-  if (node_updates.length) {
-    dispatch(updateNodeData(node_updates))
+  if (nodeUpdates.length) {
+    dispatch(updateNodeData(nodeUpdates))
   }
 
   // if there are any new channel updates
   let hasUpdates = false
-  if (channel_updates.length) {
+  if (channelUpdates.length) {
     // loop through the channel updates
-    for (let i = 0; i < channel_updates.length; i += 1) {
-      const channel_update = channel_updates[i]
-      const { advertising_node, connecting_node } = channel_update
+    for (let i = 0; i < channelUpdates.length; i += 1) {
+      const channelUpdate = channelUpdates[i]
+      const { advertisingNode, connectingNode } = channelUpdate
 
       // Determine whether this update affected our node or any of our channels.
       if (
-        info.data.identity_pubkey === advertising_node ||
-        info.data.identity_pubkey === connecting_node ||
+        info.data.identityPubkey === advertisingNode ||
+        info.data.identityPubkey === connectingNode ||
         channels.channels.find(channel => {
-          return [advertising_node, connecting_node].includes(channel.remote_pubkey)
+          return [advertisingNode, connectingNode].includes(channel.remotePubkey)
         })
       ) {
         hasUpdates = true
@@ -780,7 +780,7 @@ const ACTION_HANDLERS = {
     state.loadingChannels.unshift(data)
   },
   [REMOVE_LOADING_PUBKEY]: (state, { pubkey }) => {
-    state.loadingChannels = state.loadingChannels.filter(data => data.node_pubkey !== pubkey)
+    state.loadingChannels = state.loadingChannels.filter(data => data.nodePubkey !== pubkey)
   },
 
   [ADD_CLOSING_CHAN_ID]: (state, { chanId }) => {
@@ -824,13 +824,12 @@ const channelsSelector = state => state.channels.channels
 const closedChannelsSelector = state => state.channels.closedChannels
 const loadingChannelsSelector = state => state.channels.loadingChannels
 const selectedChannelIdSelector = state => state.channels.selectedChannelId
-const pendingOpenChannelsSelector = state => state.channels.pendingChannels.pending_open_channels
-const pendingClosedChannelsSelector = state =>
-  state.channels.pendingChannels.pending_closing_channels
+const pendingOpenChannelsSelector = state => state.channels.pendingChannels.pendingOpenChannels
+const pendingClosedChannelsSelector = state => state.channels.pendingChannels.pendingClosingChannels
 const pendingForceClosedChannelsSelector = state =>
-  state.channels.pendingChannels.pending_force_closing_channels
-const waitingCloseChannelsSelector = state => state.channels.pendingChannels.waiting_close_channels
-const totalLimboBalanceSelector = state => state.channels.pendingChannels.total_limbo_balance
+  state.channels.pendingChannels.pendingForceClosingChannels
+const waitingCloseChannelsSelector = state => state.channels.pendingChannels.waitingCloseChannels
+const totalLimboBalanceSelector = state => state.channels.pendingChannels.totalLimboBalance
 const closingChannelIdsSelector = state => state.channels.closingChannelIds
 const channelSearchQuerySelector = state => state.channels.searchQuery
 const channelSortSelector = state => state.channels.sort
@@ -851,10 +850,10 @@ const channelMatchesQuery = (channelObj, searchQuery) => {
   const channel = getChannelData(channelObj)
   const query = searchQuery.toLowerCase()
 
-  const nodePubkey = (channel.node_pubkey || '').toLowerCase()
-  const remoteNodePub = (channel.remote_node_pub || '').toLowerCase()
-  const remotePubkey = (channel.remote_pubkey || '').toLowerCase()
-  const displayName = (channel.display_name || '').toLowerCase()
+  const nodePubkey = (channel.nodePubkey || '').toLowerCase()
+  const remoteNodePub = (channel.remoteNodePub || '').toLowerCase()
+  const remotePubkey = (channel.remotePubkey || '').toLowerCase()
+  const displayName = (channel.displayName || '').toLowerCase()
 
   return (
     nodePubkey.includes(query) ||
@@ -870,7 +869,7 @@ channelsSelectors.totalLimboBalance = createSelector(
 )
 
 channelsSelectors.loadingChannelPubKeys = createSelector(loadingChannelsSelector, loadingChannels =>
-  loadingChannels.map(loadingChannel => loadingChannel.node_pubkey)
+  loadingChannels.map(loadingChannel => loadingChannel.nodePubkey)
 )
 
 channelsSelectors.loadingChannels = createSelector(
@@ -902,7 +901,7 @@ channelsSelectors.activeChannels = createSelector(
 
 channelsSelectors.activeChannelPubkeys = createSelector(
   channelsSelectors.activeChannels,
-  openChannels => openChannels.map(c => c.remote_pubkey)
+  openChannels => openChannels.map(c => c.remotePubkey)
 )
 
 channelsSelectors.nonActiveChannels = createSelector(
@@ -912,7 +911,7 @@ channelsSelectors.nonActiveChannels = createSelector(
 
 channelsSelectors.nonActiveChannelPubkeys = createSelector(
   channelsSelectors.nonActiveChannels,
-  openChannels => openChannels.map(c => c.remote_pubkey)
+  openChannels => openChannels.map(c => c.remotePubkey)
 )
 
 channelsSelectors.pendingOpenChannelsRaw = createSelector(
@@ -935,14 +934,14 @@ channelsSelectors.pendingOpenChannels = createSelector(
       // it is now in the pending state.
       .filter(channel => {
         const channelData = getChannelData(channel)
-        return !loadingChannelPubKeys.includes(channelData.display_pubkey)
+        return !loadingChannelPubKeys.includes(channelData.displayPubkey)
       })
 )
 
 channelsSelectors.pendingOpenChannelPubkeys = createSelector(
   channelsSelectors.pendingOpenChannels,
   pendingOpenChannels =>
-    pendingOpenChannels.map(pendingChannel => pendingChannel.channel.remote_node_pub)
+    pendingOpenChannels.map(pendingChannel => pendingChannel.channel.remoteNodePub)
 )
 
 channelsSelectors.closingPendingChannelsRaw = createSelector(
@@ -972,7 +971,7 @@ channelsSelectors.closingChannelIds = createSelector(
   channelsSelectors.closingPendingChannels,
   (closingChannelIds, closingPendingChannels) => [
     ...closingChannelIds,
-    ...closingPendingChannels.map(pendingChannel => pendingChannel.channel.chan_id),
+    ...closingPendingChannels.map(pendingChannel => pendingChannel.channel.chanId),
   ]
 )
 
@@ -1042,10 +1041,10 @@ channelsSelectors.allChannelsRaw = createSelector(
 const applyChannelSort = (channels, sort, sortOrder) => {
   const SORTERS = {
     [OPEN_DATE]: c => c.index,
-    [REMOTE_BALANCE]: c => Number(convert('sats', 'btc', get(c, 'remote_balance', 0))) || 0,
-    [LOCAL_BALANCE]: c => Number(convert('sats', 'btc', get(c, 'local_balance', 0))) || 0,
+    [REMOTE_BALANCE]: c => Number(convert('sats', 'btc', get(c, 'remoteBalance', 0))) || 0,
+    [LOCAL_BALANCE]: c => Number(convert('sats', 'btc', get(c, 'localBalance', 0))) || 0,
     [ACTIVITY]: c => c.activity,
-    [NAME]: c => c.display_name || '',
+    [NAME]: c => c.displayName || '',
     [CAPACITY]: getChannelEffectiveCapacity,
   }
   const sorter = SORTERS[sort]
@@ -1105,7 +1104,7 @@ channelsSelectors.selectedChannel = createSelector(
   (selectedChannelId, allChannels) => {
     const channel = allChannels.find(channel => {
       const channelData = getChannelData(channel)
-      return channelData.channel_point === selectedChannelId
+      return channelData.channelPoint === selectedChannelId
     })
     return channel && getChannelData(channel)
   }
@@ -1119,8 +1118,8 @@ channelsSelectors.capacity = createSelector(channelsSelectors.allChannelsRaw, al
 
   allChannels.forEach(channel => {
     const channelData = getChannelData(channel)
-    const local = CoinBig(get(channelData, 'local_balance', 0))
-    const remote = CoinBig(get(channelData, 'remote_balance', 0))
+    const local = CoinBig(get(channelData, 'localBalance', 0))
+    const remote = CoinBig(get(channelData, 'remoteBalance', 0))
 
     if (local) {
       send = CoinBig.sum(send, local)

@@ -22,11 +22,11 @@ export const months = [
 export const returnTimestamp = activity => {
   switch (activity.type) {
     case 'transaction':
-      return activity.time_stamp
+      return activity.timeStamp
     case 'invoice':
-      return activity.settled ? activity.settle_date : activity.creation_date
+      return activity.settled ? activity.settleDate : activity.creationDate
     case 'payment':
-      return activity.creation_date
+      return activity.creationDate
     default:
       return null
   }
@@ -103,17 +103,17 @@ export const applySearch = (data, searchTextSelector) => {
       'date',
       'type',
       'memo',
-      'tx_hash',
-      'payment_hash',
-      'payment_preimage',
-      'payment_request',
-      'dest_node_pubkey',
-      'dest_node_alias',
+      'txHash',
+      'paymentHash',
+      'paymentPreimage',
+      'paymentRequest',
+      'destNodePubkey',
+      'destNodeAlias',
     ].some(propMatches, { item, searchTextSelector })
 
     // Check every destination address.
     const hasAddressMatch =
-      item.dest_addresses && item.dest_addresses.find(addr => addr.includes(searchTextSelector))
+      item.destAddresses && item.destAddresses.find(addr => addr.includes(searchTextSelector))
 
     // Include the item if at least one search criteria matches.
     return hasPropMatch || hasAddressMatch

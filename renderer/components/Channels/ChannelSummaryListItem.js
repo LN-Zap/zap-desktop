@@ -18,12 +18,12 @@ const ChannelSummaryListItem = React.memo(props => {
   const { channel, openModal, setSelectedChannel, ...rest } = props
 
   const {
-    channel_point,
-    display_name,
-    display_pubkey,
-    local_balance,
-    remote_balance,
-    display_status,
+    channelPoint,
+    displayName,
+    displayPubkey,
+    localBalance,
+    remoteBalance,
+    displayStatus,
     active,
     private: isPrivate,
   } = channel
@@ -34,7 +34,7 @@ const ChannelSummaryListItem = React.memo(props => {
       <Flex alignItems="center">
         <Box width={8 / 20}>
           <Flex>
-            <ChannelStatus status={display_status} />
+            <ChannelStatus status={displayStatus} />
             {isPrivate && (
               <Box color="gray" fontSize="s" ml={1}>
                 <Padlock />
@@ -42,27 +42,27 @@ const ChannelSummaryListItem = React.memo(props => {
             )}
           </Flex>
           <ClippedHeading my={1} opacity={opacity}>
-            {display_name}
+            {displayName}
           </ClippedHeading>
           <ClippedText fontSize="xs" opacity={opacity}>
-            {display_pubkey}
+            {displayPubkey}
           </ClippedText>
         </Box>
 
         <ChannelCapacity
-          localBalance={local_balance}
+          localBalance={localBalance}
           opacity={opacity}
           pl={4}
           pr={4}
-          remoteBalance={remote_balance}
+          remoteBalance={remoteBalance}
           width={1 / 2}
         />
 
         <Flex alignItems="center" flexDirection="column" width={2 / 20}>
           <ChannelMoreButton
-            isDisabled={!channel_point}
+            isDisabled={!channelPoint}
             onClick={() => {
-              setSelectedChannel(channel_point)
+              setSelectedChannel(channelPoint)
               openModal('CHANNEL_DETAIL')
             }}
           />

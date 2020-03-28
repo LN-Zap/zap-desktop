@@ -22,7 +22,7 @@ const data = {
 
   nodes: [
     {
-      pub_key: '03c856d2dbec7454c48f311031f06bb99e3ca1ab15a9b9b35de14e139aa663b463',
+      pubKey: '03c856d2dbec7454c48f311031f06bb99e3ca1ab15a9b9b35de14e139aa663b463',
       alias: 'htlc.me',
     },
   ],

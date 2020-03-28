@@ -94,7 +94,7 @@ class ZapGrpc extends EventEmitter {
       const { grpc } = this
       await promiseTimeout(
         WALLET_UNLOCKER_TIMEOUT,
-        grpc.services.WalletUnlocker.unlockWallet({ wallet_password: Buffer.from(password) })
+        grpc.services.WalletUnlocker.unlockWallet({ walletPassword: Buffer.from(password) })
       )
       return await promiseTimeout(WALLET_UNLOCKER_TIMEOUT, grpc.activateLightning())
     } catch (e) {
@@ -164,10 +164,10 @@ class ZapGrpc extends EventEmitter {
   async subscribeAll() {
     this.subscribe('invoices', 'transactions', 'backups')
 
-    // Finalize subscriptions if `data.synced_to_chain` is true.
+    // Finalize subscriptions if `data.syncedToChain` is true.
     // Returns true if subscriptions were finalized and false otherwise
     const finalizeSubscriptions = async data => {
-      if (data && data.synced_to_chain) {
+      if (data && data.syncedToChain) {
         if (this.isSubscribed('info')) {
           await this.unsubscribe('info')
         }
@@ -354,6 +354,7 @@ class ZapGrpc extends EventEmitter {
     // Convert longs to strings to prevent floating point precidion issues.
     const grpcOptions = {
       longs: String,
+      keepCase: false,
     }
 
     return {
