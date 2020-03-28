@@ -24,7 +24,7 @@ export const returnTimestamp = activity => {
     case 'transaction':
       return activity.timeStamp
     case 'invoice':
-      return activity.settled ? activity.settleDate : activity.creationDate
+      return activity.isSettled ? activity.settleDate : activity.creationDate
     case 'payment':
       return activity.creationDate
     default:

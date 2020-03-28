@@ -41,7 +41,7 @@ storiesOf('Containers.Activity', module)
     const signed = lightningPayReq.sign(encoded, privateKeyHex)
     const invoice = {
       finalAmount: 15000,
-      settled: boolean('Settled', false),
+      isSettled: boolean('Settled', false),
       creationDate: Math.round(new Date().getTime() / 1000),
       settleDate: Math.round(new Date().getTime() / 1000),
       paymentRequest: signed.paymentRequest,

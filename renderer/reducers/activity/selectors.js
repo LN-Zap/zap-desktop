@@ -140,7 +140,7 @@ export const receivedActivityRaw = createSelector(
   transactionsSelector,
   (invoices, transactions) => {
     return [
-      ...invoices.filter(invoice => invoice.settled),
+      ...invoices.filter(invoice => invoice.isSettled),
       ...transactions.filter(
         transaction =>
           transaction.received &&
@@ -165,7 +165,7 @@ export const pendingActivityRaw = createSelector(
       ...paymentsSending,
       ...ts,
       ...transactions.filter(transaction => transaction.isPending),
-      ...invoices.filter(invoice => !invoice.settled && !invoice.isExpired),
+      ...invoices.filter(invoice => !invoice.isSettled && !invoice.isExpired),
     ].map(addDate)
   }
 )
@@ -174,7 +174,7 @@ export const pendingActivityRaw = createSelector(
  * expiredActivityRaw - Expired activity: pre-search.
  */
 export const expiredActivityRaw = createSelector(invoicesSelector, invoices => {
-  return invoices.filter(invoice => !invoice.settled && invoice.isExpired).map(addDate)
+  return invoices.filter(invoice => !invoice.isSettled && invoice.isExpired).map(addDate)
 })
 
 /**

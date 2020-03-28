@@ -70,6 +70,11 @@ const decorateInvoice = invoice => {
   const expiresAt = parseInt(invoice.creationDate, 10) + parseInt(invoice.expiry, 10)
   decoration.isExpired = expiresAt < Math.round(new Date() / 1000)
 
+  // Older versions of lnd provided the settled state in `settled`
+  // This is now deprecated in favor of `state=SETTLED
+  // Add an `isSettled` prop which shows whether the invoice is settled or not.
+  decoration.isSettled = invoice.state ? invoice.state === 'SETTLED' : invoice.settled
+
   return {
     ...invoice,
     ...decoration,
@@ -225,7 +230,7 @@ export const receiveInvoiceData = invoice => dispatch => {
   // Fetch updated channels.
   dispatch(fetchChannels())
 
-  if (invoice.settled) {
+  if (invoice.isSettled) {
     const intl = getIntl()
     // HTML 5 desktop notification for the invoice update
     const notifTitle = intl.formatMessage(messages.invoice_receive_title)
