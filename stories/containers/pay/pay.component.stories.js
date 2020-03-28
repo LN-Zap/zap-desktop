@@ -76,8 +76,8 @@ storiesOf('Containers.Pay', module)
                   // State
                   cryptoUnit={tickerSelectors.cryptoUnit(state)}
                   cryptoUnitName={tickerSelectors.cryptoUnitName(state)}
-                  maxFee={18}
-                  minFee={12}
+                  maxFee="18"
+                  minFee="12"
                   nodes={data.nodes}
                   payReq={text(
                     'Payment Request',

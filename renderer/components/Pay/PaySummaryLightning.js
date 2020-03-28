@@ -22,9 +22,9 @@ class PaySummaryLightning extends React.Component {
     /** Boolean indicating whether routing information is currently being fetched. */
     isQueryingRoutes: PropTypes.bool,
     /** Maximum fee for the payment */
-    maxFee: PropTypes.number,
+    maxFee: PropTypes.string,
     /** Minimumfee for the payment */
-    minFee: PropTypes.number,
+    minFee: PropTypes.string,
     /** List of nodes as returned by lnd */
     nodes: PropTypes.array,
     /** Lightning Payment request */
@@ -33,8 +33,8 @@ class PaySummaryLightning extends React.Component {
 
   static defaultProps = {
     nodes: [],
-    maxFee: 0,
-    minFee: 0,
+    maxFee: '0',
+    minFee: '0',
   }
 
   renderApproximateFiatAmount = amountInSatoshis => (

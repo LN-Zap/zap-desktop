@@ -207,10 +207,15 @@ export const getMinFee = (routes = []) => {
   if (!routes || !routes.length) {
     return null
   }
-  const fee = routes.reduce((min, b) => Math.min(min, b.totalFees), routes[0].totalFees)
+  const fee = routes.reduce(
+    (min, b) => CoinBig.min(min, b.totalFees).toString(),
+    routes[0].totalFees
+  )
 
   // Add one to the fee to add room for accuracy error when using as a fee limit.
-  return fee + 1
+  return CoinBig(fee)
+    .plus(1)
+    .toString()
 }
 
 /**
@@ -223,10 +228,15 @@ export const getMaxFee = routes => {
   if (!routes || !routes.length) {
     return null
   }
-  const fee = routes.reduce((max, b) => Math.max(max, b.totalFees), routes[0].totalFees)
+  const fee = routes.reduce(
+    (max, b) => CoinBig.max(max, b.totalFees).toString(),
+    routes[0].totalFees
+  )
 
   // Add one to the fee to add room for accuracy error when using as a fee limit.
-  return fee + 1
+  return CoinBig(fee)
+    .plus(1)
+    .toString()
 }
 
 /**
@@ -244,8 +254,10 @@ export const getMaxFeeInclusive = routes => {
     invoices: { retryCount, feeIncrementExponent },
   } = config
 
-  const fee = getMaxFee(routes)
-  return range(retryCount).reduce(max => Math.ceil(max * feeIncrementExponent), fee)
+  let fee = getMaxFee(routes)
+  fee = range(retryCount).reduce(max => Math.ceil(max * feeIncrementExponent), fee)
+
+  return CoinBig(fee).toString()
 }
 
 /**
