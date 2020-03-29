@@ -271,7 +271,6 @@ const ACTION_HANDLERS = {
   [SET_REDIRECT_PAY_REQ]: (state, { redirectPayReq }) => {
     state.redirectPayReq = redirectPayReq
   },
-
   [SET_REDIRECT_LN_URL]: (state, { params }) => {
     state.lnurlWithdrawParams = params
   },

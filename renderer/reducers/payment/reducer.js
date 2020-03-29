@@ -4,10 +4,9 @@ import find from 'lodash/find'
 import createReducer from '@zap/utils/createReducer'
 import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
 import { getIntl } from '@zap/i18n'
-import { decodePayReq, getTag, isPubkey, generatePreimage } from '@zap/utils/crypto'
+import { isPubkey } from '@zap/utils/crypto'
 import delay from '@zap/utils/delay'
 import genId from '@zap/utils/genId'
-import { sha256digest } from '@zap/utils/sha256'
 import { mainLog } from '@zap/utils/log'
 import { CoinBig } from '@zap/utils/coin'
 import { grpc } from 'workers'
@@ -17,6 +16,7 @@ import { infoSelectors } from 'reducers/info'
 import { showError } from 'reducers/notification'
 import messages from './messages'
 import { paymentsSending } from './selectors'
+import { prepareKeysendPayload, prepareBolt11Payload } from './utils'
 import * as constants from './constants'
 
 const {
@@ -29,15 +29,7 @@ const {
   PAYMENT_STATUS_SENDING,
   PAYMENT_STATUS_SUCCESSFUL,
   PAYMENT_STATUS_FAILED,
-  DEFAULT_CLTV_DELTA,
-  KEYSEND_PREIMAGE_TYPE,
 } = constants
-
-// ------------------------------------
-// Constants
-// ------------------------------------
-
-const PAYMENT_TIMEOUT = config.invoices.paymentTimeout
 
 // ------------------------------------
 // Initial State
@@ -194,42 +186,6 @@ export const paymentFailed = (error, { paymentId }) => async (dispatch, getState
   }
 }
 
-const getPaymentConfig = () => {
-  return {
-    allowSelfPayment: true,
-    timeoutSeconds: PAYMENT_TIMEOUT,
-  }
-}
-
-const prepareKeysendPayload = (pubkey, amt, feeLimit) => {
-  const preimage = generatePreimage()
-
-  return {
-    ...getPaymentConfig(),
-    dest: Buffer.from(pubkey, 'hex'),
-    feeLimit: feeLimit ? { fixed: feeLimit } : null,
-    paymentHash: sha256digest(preimage),
-    amt,
-    finalCltvDelta: DEFAULT_CLTV_DELTA,
-    destCustomRecords: {
-      [KEYSEND_PREIMAGE_TYPE]: preimage,
-    },
-  }
-}
-
-const prepareBolt11Payload = (payReq, amt, feeLimit) => {
-  const invoice = decodePayReq(payReq)
-  const { millisatoshis } = invoice
-
-  return {
-    ...getPaymentConfig(),
-    paymentRequest: invoice.paymentRequest,
-    paymentHash: getTag(invoice, 'payment_hash'), // hash is not needed in the payload but store for convienience.
-    feeLimit: feeLimit ? { fixed: feeLimit } : null,
-    amt: millisatoshis ? null : amt,
-  }
-}
-
 /**
  * payInvoice - Pay a lightniung invoice.
  * Controller code that wraps the send action and schedules automatic retries in the case of a failure.
@@ -360,8 +316,7 @@ const ACTION_HANDLERS = {
     state.paymentsSending.push(payment)
   },
   [DECREASE_PAYMENT_RETRIES]: (state, { paymentId }) => {
-    const { paymentsSending } = state
-    const item = find(paymentsSending, { paymentId })
+    const item = find(state.paymentsSending, { paymentId })
     if (item) {
       item.remainingRetries = Math.max(item.remainingRetries - 1, 0)
       if (item.feeLimit) {
@@ -373,15 +328,13 @@ const ACTION_HANDLERS = {
     }
   },
   [PAYMENT_SUCCESSFUL]: (state, { paymentId }) => {
-    const { paymentsSending } = state
-    const item = find(paymentsSending, { paymentId })
+    const item = find(state.paymentsSending, { paymentId })
     if (item) {
       item.status = PAYMENT_STATUS_SUCCESSFUL
     }
   },
   [PAYMENT_FAILED]: (state, { paymentId, error }) => {
-    const { paymentsSending } = state
-    const item = find(paymentsSending, { paymentId })
+    const item = find(state.paymentsSending, { paymentId })
     if (item) {
       item.status = PAYMENT_STATUS_FAILED
       item.error = error
