@@ -54,16 +54,6 @@ const initialState = {
 // ------------------------------------
 
 /**
- * getPayments - Initiate fetching all payments.
- *
- * @returns {object} Action
- */
-export function getPayments() {
-  return {
-    type: GET_PAYMENTS,
-  }
-}
-/**
  * receivePayments - Fetch payments success callback.
  *
  * @param {Array} payments list of payments.
@@ -110,17 +100,6 @@ export const sendPayment = data => dispatch => {
     type: SEND_PAYMENT,
     payment,
   })
-}
-
-/**
- * fetchPayments - Fetch details of all lightning payments.
- *
- * @returns {Function} Thunk
- */
-export const fetchPayments = () => async dispatch => {
-  dispatch(getPayments())
-  const { payments } = await grpc.services.Lightning.listPayments()
-  dispatch(receivePayments(payments))
 }
 
 /**

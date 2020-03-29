@@ -195,7 +195,8 @@ function createActivityPaginator() {
     const { transactions } = await grpc.services.Lightning.getTransactions()
     return { items: transactions, offset: 0 }
   }
-  const getTimestamp = item => item.timeStamp || item.settleDate || item.creationDate
+  const getTimestamp = item =>
+    parseInt(item.timeStamp, 10) || parseInt(item.settleDate, 10) || parseInt(item.creationDate, 10)
   const itemSorter = (a, b) => getTimestamp(b) - getTimestamp(a)
   return combinePaginators(itemSorter, fetchInvoices, fetchPayments, fetchTransactions)
 }
@@ -222,7 +223,6 @@ export const loadNextPage = () => async (dispatch, getState) => {
   const thisPaginator = getPaginator()
   if (activitySelectors.hasNextPage(getState())) {
     const { items, hasNextPage } = await thisPaginator(config.activity.pageSize)
-
     const getItemType = item => {
       if (item.destAddresses) {
         return 'transactions'
