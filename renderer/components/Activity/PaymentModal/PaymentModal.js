@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { FormattedDate, FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
 import { Flex } from 'rebass/styled-components'
 import { intlShape } from '@zap/i18n'
+import { getDisplayNodeName } from 'reducers/payment/utils'
 import { Bar, DataRow, Header, Panel, Text } from 'components/UI'
 import { getTag } from '@zap/utils/crypto'
 import { CopyButton, CryptoSelector, CryptoValue, FiatSelector, FiatValue } from 'containers/UI'
@@ -52,6 +53,13 @@ class PaymentModal extends React.PureComponent {
               </Flex>
             }
           />
+
+          <Bar variant="light" />
+          <DataRow
+            left={<FormattedMessage {...messages.destination} />}
+            right={getDisplayNodeName(item) || <FormattedMessage {...messages.unknown} />}
+          />
+
           {memo && (
             <>
               <Bar variant="light" />
