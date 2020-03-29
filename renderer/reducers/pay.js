@@ -220,7 +220,7 @@ export const queryFees = (address, amountInSats) => async (dispatch, getState) =
 /**
  * queryRoutes - Find valid routes to make a payment to a node.
  *
- * @param {object} payReq Payment request or node pubkey
+ * @param {object|string} payReq Payment request or node pubkey
  * @param {number} amt Payment amount (in sats)
  * @param {number} finalCltvDelta The number of blocks the last hop has to reveal the preimage
  * @returns {Function} Thunk
