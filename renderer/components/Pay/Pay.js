@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import config from 'config'
+import get from 'lodash/get'
 import { injectIntl } from 'react-intl'
-import { decodePayReq, getMaxFee, isOnchain, isBolt11, isPubkey } from '@zap/utils/crypto'
+import { decodePayReq, getMaxFeeInclusive, isOnchain, isBolt11, isPubkey } from '@zap/utils/crypto'
 import { Panel } from 'components/UI'
 import { Form } from 'components/Form'
 import { getAmountInSats, getFeeRate } from './utils'
@@ -37,9 +38,9 @@ class Pay extends React.Component {
     mx: PropTypes.string,
     network: PropTypes.string.isRequired,
     onchainFees: PropTypes.shape({
-      fast: PropTypes.number,
-      medium: PropTypes.number,
-      slow: PropTypes.number,
+      fast: PropTypes.string,
+      medium: PropTypes.string,
+      slow: PropTypes.string,
     }),
     payInvoice: PropTypes.func.isRequired,
     queryFees: PropTypes.func.isRequired,
@@ -130,16 +131,15 @@ class Pay extends React.Component {
     const isNowSummary =
       currentStep === PAY_FORM_STEPS.summary && prevState.currentStep !== PAY_FORM_STEPS.summary
     if (isNowSummary) {
-      let payeeNodeKey
       if (invoice) {
-        ;({ payeeNodeKey } = invoice)
+        const { paymentRequest } = invoice
+        queryRoutes(paymentRequest, this.amountInSats())
       } else if (isPubkey) {
         const {
           values: { payReq },
         } = this.formApi.getState()
-        payeeNodeKey = payReq
+        queryRoutes(payReq, this.amountInSats())
       }
-      payeeNodeKey && queryRoutes(payeeNodeKey, this.amountInSats())
     }
   }
 
@@ -244,7 +244,8 @@ class Pay extends React.Component {
       payInvoice({
         payReq: values.payReq,
         amt: this.amountInSats(),
-        feeLimit: getMaxFee(routes),
+        feeLimit: getMaxFeeInclusive(routes),
+        route: get(routes, '[0].isExact') && routes[0],
         retries: config.invoices.retryCount,
       })
       // Clear payment request

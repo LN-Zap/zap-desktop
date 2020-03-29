@@ -5,6 +5,7 @@ import { address } from 'bitcoinjs-lib'
 import lightningRequestReq from 'bolt11'
 import coininfo from 'coininfo'
 import { CoinBig } from '@zap/utils/coin'
+import { convert } from '@zap/utils/btc'
 
 export const networks = {
   bitcoin: {
@@ -201,49 +202,57 @@ export const getNodeAlias = (pubkey, nodes = []) => {
  * getMinFee - Given a list of routes, find the minimum fee.
  *
  * @param {Array} routes List of routes
- * @returns {number} minimum fee rounded up to the nearest satoshi
+ * @returns {number} minimum fee (satoshi)
  */
 export const getMinFee = (routes = []) => {
   if (!routes || !routes.length) {
     return null
   }
-  const fee = routes.reduce(
-    (min, b) => CoinBig.min(min, b.totalFees).toString(),
-    routes[0].totalFees
-  )
+  let fee = routes.reduce((min, b) => CoinBig.min(min, b.totalFeesMsat), routes[0].totalFeesMsat)
 
   // Add one to the fee to add room for accuracy error when using as a fee limit.
-  return CoinBig(fee)
-    .plus(1)
-    .toString()
+  fee = CoinBig.sum(fee, 1000)
+
+  return convert('msats', 'sats', fee)
 }
 
 /**
  * getMaxFee - Given a list of routes, find the maximum fee.
  *
  * @param {Array} routes List of routes
- * @returns {number} maximum fee
+ * @returns {number} maximum fee (satoshi)
  */
 export const getMaxFee = routes => {
   if (!routes || !routes.length) {
     return null
   }
-  const fee = routes.reduce(
-    (max, b) => CoinBig.max(max, b.totalFees).toString(),
-    routes[0].totalFees
-  )
+  let fee = routes.reduce((max, b) => CoinBig.max(max, b.totalFeesMsat), routes[0].totalFeesMsat)
 
   // Add one to the fee to add room for accuracy error when using as a fee limit.
-  return CoinBig(fee)
-    .plus(1)
-    .toString()
+  fee = CoinBig.sum(fee, 1000)
+
+  return convert('msats', 'sats', fee)
+}
+
+/**
+ * getMaxFee - Given a list of routes, find the exact fee from the first route.
+ *
+ * @param {Array} routes List of routes
+ * @returns {number} exact fee (msats)
+ */
+export const getExactFee = routes => {
+  if (!routes || !routes.length) {
+    return null
+  }
+  const route = routes.find(r => r.isExact)
+  return route ? route.totalFeesMsat : null
 }
 
 /**
  * getMaxFee - Given a list of routes, find the maximum fee factoring in all possible payment retry attempts.
  *
  * @param {Array} routes List of routes
- * @returns {number} maximum fee
+ * @returns {number} maximum fee (satoshi)
  */
 export const getMaxFeeInclusive = routes => {
   if (!routes || !routes.length) {
@@ -255,9 +264,15 @@ export const getMaxFeeInclusive = routes => {
   } = config
 
   let fee = getMaxFee(routes)
-  fee = range(retryCount).reduce(max => Math.ceil(max * feeIncrementExponent), fee)
 
-  return CoinBig(fee).toString()
+  fee = range(retryCount).reduce(
+    max =>
+      CoinBig(max)
+        .times(feeIncrementExponent)
+        .decimalPlaces(0),
+    fee
+  )
+  return fee.toString()
 }
 
 /**

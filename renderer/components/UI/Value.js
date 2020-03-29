@@ -28,7 +28,7 @@ const Value = ({ value, currency, currentTicker, fiatTicker, style }) => {
   let dp
   switch (currency) {
     case 'btc':
-      dp = 8
+      dp = 11
       break
     case 'bits':
       dp = 5

@@ -87,11 +87,23 @@ describe('getMinFee', () => {
   const test = (from, to) => expect(getMinFee(from)).toEqual(to)
   it('returns the minimum fee (1 above the lowest value)', () => {
     test([], null)
-    test([{ totalFees: 2 }], '3')
-    test([{ totalFees: 2 }, { totalFees: 5 }], '3')
-    test([{ totalFees: 4 }], '5')
-    test([{ totalFees: 0 }], '1')
-    test([{ totalFees: 85 }, { totalFees: 95 }], '86')
+    test([{ totalFees: 2, totalFeesMsat: 2000 }], '3')
+    test(
+      [
+        { totalFees: 2, totalFeesMsat: 2000 },
+        { totalFees: 5, totalFeesMsat: 5000 },
+      ],
+      '3'
+    )
+    test([{ totalFees: 4, totalFeesMsat: 4000 }], '5')
+    test([{ totalFees: 0, totalFeesMsat: 0 }], '1')
+    test(
+      [
+        { totalFees: 85, totalFeesMsat: 85000 },
+        { totalFees: 95, totalFeesMsat: 95000 },
+      ],
+      '86'
+    )
   })
 })
 
@@ -99,11 +111,23 @@ describe('getMaxFee', () => {
   const test = (from, to) => expect(getMaxFee(from)).toEqual(to)
   it('returns the maximum fee (1 above the highest value)', () => {
     test([], null)
-    test([{ totalFees: 2 }], '3')
-    test([{ totalFees: 2 }, { totalFees: 5 }], '6')
-    test([{ totalFees: 4 }], '5')
-    test([{ totalFees: 0 }], '1')
-    test([{ totalFees: 85 }, { totalFees: 95 }], '96')
+    test([{ totalFees: 2, totalFeesMsat: 2000 }], '3')
+    test(
+      [
+        { totalFees: 2, totalFeesMsat: 2000 },
+        { totalFees: 5, totalFeesMsat: 5000 },
+      ],
+      '6'
+    )
+    test([{ totalFees: 4, totalFeesMsat: 4000 }], '5')
+    test([{ totalFees: 0, totalFeesMsat: 0 }], '1')
+    test(
+      [
+        { totalFees: 85, totalFeesMsat: 85000 },
+        { totalFees: 95, totalFeesMsat: 95000 },
+      ],
+      '96'
+    )
   })
 })
 
@@ -111,10 +135,22 @@ describe('getMaxFeeInclusive', () => {
   const test = (from, to) => expect(getMaxFeeInclusive(from)).toEqual(to)
   it('returns the minimum fee includding increases after all retry attempts', () => {
     test([], null)
-    test([{ totalFees: 2 }], '5')
-    test([{ totalFees: 2 }, { totalFees: 5 }], '8')
-    test([{ totalFees: 4 }], '7')
-    test([{ totalFees: 0 }], '3')
-    test([{ totalFees: 85 }, { totalFees: 95 }], '117')
+    test([{ totalFees: 2, totalFeesMsat: 2000 }], '5')
+    test(
+      [
+        { totalFees: 2, totalFeesMsat: 2000 },
+        { totalFees: 5, totalFeesMsat: 5000 },
+      ],
+      '8'
+    )
+    test([{ totalFees: 4, totalFeesMsat: 4000 }], '7')
+    test([{ totalFees: 0, totalFeesMsat: 0 }], '3')
+    test(
+      [
+        { totalFees: 85, totalFeesMsat: 85000 },
+        { totalFees: 95, totalFeesMsat: 95000 },
+      ],
+      '117'
+    )
   })
 })

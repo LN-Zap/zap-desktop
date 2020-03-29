@@ -13,21 +13,13 @@ import messages from './messages'
 
 class PaySummaryLightning extends React.Component {
   static propTypes = {
-    /** Amount to send (in satoshis). */
     amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    /** Ticker symbol of the currently selected cryptocurrency. */
-    cryptoUnitName: PropTypes.string.isRequired,
-    /** Boolean indicating whether payment is to pubkey (or bolt11) */
+    exactFee: PropTypes.string,
     isPubkey: PropTypes.bool,
-    /** Boolean indicating whether routing information is currently being fetched. */
     isQueryingRoutes: PropTypes.bool,
-    /** Maximum fee for the payment */
     maxFee: PropTypes.string,
-    /** Minimumfee for the payment */
     minFee: PropTypes.string,
-    /** List of nodes as returned by lnd */
     nodes: PropTypes.array,
-    /** Lightning Payment request */
     payReq: PropTypes.string.isRequired,
   }
 
@@ -46,10 +38,51 @@ class PaySummaryLightning extends React.Component {
     /* eslint-enable shopify/jsx-no-hardcoded-content */
   )
 
+  renderFee() {
+    const { exactFee, maxFee, minFee } = this.props
+    const hasExactFee = CoinBig(exactFee).isFinite()
+    const hasMinFee = CoinBig(minFee).isFinite()
+    const hasMaxFee = CoinBig(maxFee).isFinite()
+
+    if (hasExactFee) {
+      return (
+        <Text>
+          <CryptoSelector mr={2} />
+          <CryptoValue value={exactFee} />
+        </Text>
+      )
+    }
+
+    // Select an appropriate fee message...
+    // Default to unknown.
+    let feeMessage = messages.fee_unknown
+
+    if (hasMinFee || hasMaxFee) {
+      // If thex max fee is 0 or 1 then show a message like "less than 1".
+      if (hasMaxFee && maxFee >= 0 && maxFee < 1) {
+        feeMessage = messages.fee_less_than_1
+      }
+      // Otherwise, if we have both a min and max fee that are different, present the fee range.
+      else if (hasMinFee && hasMaxFee && minFee !== maxFee) {
+        feeMessage = messages.fee_range
+      }
+      // Finally, if we at least have a max fee then present it as upto that amount.
+      else if (hasMaxFee) {
+        feeMessage = messages.fee_upto
+      }
+    }
+
+    if (feeMessage) {
+      return <FormattedMessage {...feeMessage} values={{ minFee, maxFee }} />
+    }
+
+    return null
+  }
+
   render() {
     const {
       amount,
-      cryptoUnitName,
+      exactFee,
       isPubkey,
       isQueryingRoutes,
       maxFee,
@@ -78,29 +111,9 @@ class PaySummaryLightning extends React.Component {
     }
 
     const nodeAlias = getNodeAlias(payeeNodeKey, nodes)
-    const hasMinFee = minFee || minFee === 0
-    const hasMaxFee = maxFee || maxFee === 0
-
-    // Select an appropriate fee message...
-    // Default to unknown.
-    let feeMessage = messages.fee_unknown
-
-    // If thex max fee is 0 or 1 then show a message like "less than 1".
-    if (CoinBig(maxFee).gte(0) && CoinBig(maxFee).lt(1)) {
-      feeMessage = messages.fee_less_than_1
-    }
-    // Otherwise, if we have both a min and max fee that are different, present the fee range.
-    else if (hasMinFee && hasMaxFee && minFee !== maxFee) {
-      feeMessage = messages.fee_range
-    }
-    // Finally, if we at least have a max fee then present it as upto that amount.
-    else if (hasMaxFee) {
-      feeMessage = messages.fee_upto
-    }
-
-    const totalAmountInSatoshis = hasMaxFee
-      ? CoinBig.sum(amountInSatoshis, maxFee).toString()
-      : amountInSatoshis
+    const totalAmountInSatoshis = CoinBig(exactFee).isFinite()
+      ? CoinBig.sum(amountInSatoshis, convert('msats', 'sats', exactFee)).toString()
+      : CoinBig.sum(amountInSatoshis, convert('msats', 'sats', maxFee)).toString()
 
     return (
       <Box {...rest}>
@@ -143,7 +156,7 @@ class PaySummaryLightning extends React.Component {
                 <Spinner color="primaryAccent" />
               </Flex>
             ) : (
-              feeMessage && <FormattedMessage {...feeMessage} values={{ minFee, maxFee }} />
+              this.renderFee()
             )
           }
         />
@@ -153,10 +166,19 @@ class PaySummaryLightning extends React.Component {
         <DataRow
           left={<FormattedMessage {...messages.total} />}
           right={
-            <Flex alignItems="baseline">
-              <CryptoSelector mr={2} />
-              <CryptoValue value={totalAmountInSatoshis} />
-            </Flex>
+            isQueryingRoutes ? (
+              <Flex alignItems="center" justifyContent="flex-end" ml="auto">
+                <Text mr={2}>
+                  <FormattedMessage {...messages.searching_routes} />
+                </Text>
+                <Spinner color="primaryAccent" />
+              </Flex>
+            ) : (
+              <Flex alignItems="baseline">
+                <CryptoSelector mr={2} />
+                <CryptoValue value={totalAmountInSatoshis} />
+              </Flex>
+            )
           }
         />
 

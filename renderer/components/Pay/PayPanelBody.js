@@ -111,9 +111,9 @@ PayPanelBody.propTypes = {
   }).isRequired,
   network: PropTypes.string.isRequired,
   onchainFees: PropTypes.shape({
-    fast: PropTypes.number,
-    medium: PropTypes.number,
-    slow: PropTypes.number,
+    fast: PropTypes.string,
+    medium: PropTypes.string,
+    slow: PropTypes.string,
   }),
   previousStep: PropTypes.string,
   queryFees: PropTypes.func.isRequired,

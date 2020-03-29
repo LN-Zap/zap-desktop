@@ -1,3 +1,4 @@
+import { randomBytes, createHash } from 'crypto'
 import get from 'lodash/get'
 import { createSelector } from 'reselect'
 import { send } from 'redux-electron-ipc'
@@ -8,12 +9,18 @@ import { CoinBig } from '@zap/utils/coin'
 import createReducer from '@zap/utils/createReducer'
 import { estimateFeeRange } from '@zap/utils/fee'
 import { isAutopayEnabled } from '@zap/utils/featureFlag'
-import { decodePayReq } from '@zap/utils/crypto'
+import { decodePayReq, isPubkey, getTag } from '@zap/utils/crypto'
 import { showError } from './notification'
 import { settingsSelectors } from './settings'
 import { walletSelectors } from './wallet'
+import { infoSelectors } from './info'
 import { showAutopayNotification, autopaySelectors } from './autopay'
-import { payInvoice } from './payment'
+import {
+  payInvoice,
+  DEFAULT_CLTV_DELTA,
+  PREIMAGE_BYTE_LENGTH,
+  KEYSEND_PREIMAGE_TYPE,
+} from './payment'
 import { createInvoice } from './invoice'
 import messages from './messages'
 
@@ -55,6 +62,7 @@ export const SET_LNURL = 'SET_LNURL'
 export const DECLINE_LNURL_WITHDRAWAL = 'DECLINE_LNURL_WITHDRAWAL'
 
 export const LNURL_WITHDRAWAL_PROMPT_DIALOG_ID = 'LNURL_WITHDRAWAL_PROMPT_DIALOG_ID'
+
 // ------------------------------------
 // IPC
 // ------------------------------------
@@ -212,18 +220,102 @@ export const queryFees = (address, amountInSats) => async (dispatch, getState) =
 /**
  * queryRoutes - Find valid routes to make a payment to a node.
  *
- * @param {string} pubKey Destination node pubkey
- * @param {number} amount Desired amount in satoshis
+ * @param {object} payReq Payment request or node pubkey
+ * @param {number} amt Payment amount (in sats)
+ * @param {number} finalCltvDelta The number of blocks the last hop has to reveal the preimage
  * @returns {Function} Thunk
  */
-export const queryRoutes = (pubKey, amount) => async dispatch => {
-  dispatch({ type: QUERY_ROUTES, pubKey })
-  try {
+export const queryRoutes = (payReq, amt, finalCltvDelta = DEFAULT_CLTV_DELTA) => async (
+  dispatch,
+  getState
+) => {
+  const isKeysend = isPubkey(payReq)
+  let pubkey
+  let paymentHash
+
+  let payload = {
+    useMissionControl: true,
+    finalCltvDelta,
+  }
+
+  // Keysend payment.
+  if (isKeysend) {
+    pubkey = payReq
+    const preimage = randomBytes(PREIMAGE_BYTE_LENGTH)
+    paymentHash = createHash('sha256')
+      .update(preimage)
+      .digest()
+
+    payload = {
+      ...payload,
+      amt,
+      dest: Buffer.from(payReq, 'hex'),
+      destCustomRecords: {
+        [KEYSEND_PREIMAGE_TYPE]: preimage,
+      },
+    }
+  }
+
+  // Bolt11 invoice payment.
+  else {
+    const invoice = decodePayReq(payReq)
+    const { millisatoshis } = invoice
+    const amountInSats = millisatoshis / 1000
+    paymentHash = getTag(invoice, 'payment_hash')
+    pubkey = invoice.payeeNodeKey
+
+    payload = {
+      ...payload,
+      amt: amountInSats,
+      dest: Buffer.from(pubkey, 'hex'),
+    }
+  }
+
+  const callQueryRoutes = async () => {
     const { routes } = await grpc.services.Lightning.queryRoutes({
-      pubKey,
-      amt: amount,
-      useMissionControl: true,
+      ...payload,
+      pubKey: pubkey,
     })
+    return routes
+  }
+
+  const callProbePayment = async () => {
+    const routes = []
+    const route = await grpc.services.Router.probePayment(payload)
+    // Flag this as an exact route. This can be used as a hint for whether to use sendToRoute to fulfil the payment.
+    route.isExact = true
+    // Store the payment hash for use with keysnd.
+    route.paymentHash = paymentHash
+    routes.push(route)
+    return routes
+  }
+
+  dispatch({ type: QUERY_ROUTES, pubKey: pubkey })
+
+  try {
+    let routes = []
+
+    // Try to use payment probing if lnd version supports the Router service.
+    if (infoSelectors.hasRouterSupport(getState())) {
+      try {
+        routes = await callProbePayment()
+      } catch (error) {
+        // If the probe didn't find a route trigger a failure.
+        if (['FAILED_TIMEOUT', 'FAILED_NO_ROUTE', 'FAILED_ERROR'].includes(error.message)) {
+          throw error
+        }
+
+        // There is no guarentee that the lnd node has the Router service enabled.
+        // Fall back to using queryRoutes if we got some other type of error.
+        routes = await callQueryRoutes()
+      }
+    }
+
+    // For older versions use queryRoutes.
+    else {
+      routes = await callQueryRoutes()
+    }
+
     dispatch({ type: QUERY_ROUTES_SUCCESS, routes })
   } catch (e) {
     dispatch({ type: QUERY_ROUTES_FAILURE, error: e.message })

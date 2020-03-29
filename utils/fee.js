@@ -3,6 +3,7 @@ import mapValues from 'lodash/mapValues'
 import { grpc } from 'workers'
 import { requestFees } from '@zap/utils/api'
 import { mainLog } from '@zap/utils/log'
+import { CoinBig } from '@zap/utils/coin'
 import { createError, UNSUPPORTED } from '@zap/utils/error'
 
 /**
@@ -11,7 +12,7 @@ import { createError, UNSUPPORTED } from '@zap/utils/error'
  * @param  {object} fees Fee rate object
  * @returns {object} Sanitized fee rate object
  */
-const sanitizeFeeRange = fees => mapValues(fees, fee => Math.max(1, fee))
+const sanitizeFeeRange = fees => mapValues(fees, fee => CoinBig.max(1, fee).toString())
 
 /**
  * estimateLndFee - Returns fee estimation for the specified @address @amount & @targetConf using LND gRPC API.

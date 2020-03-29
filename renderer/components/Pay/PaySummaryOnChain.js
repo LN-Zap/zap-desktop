@@ -26,9 +26,9 @@ class PaySummaryOnChain extends React.Component {
     lndTargetConfirmations: PropTypes.object.isRequired,
     /** Current fee information as provided by bitcoinfees.earn.com */
     onchainFees: PropTypes.shape({
-      fast: PropTypes.number,
-      medium: PropTypes.number,
-      slow: PropTypes.number,
+      fast: PropTypes.string,
+      medium: PropTypes.string,
+      slow: PropTypes.string,
     }),
     /** Method to fetch fee information for onchain transactions. */
     queryFees: PropTypes.func.isRequired,

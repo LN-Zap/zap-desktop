@@ -10,12 +10,19 @@ import { decodePayReq, getNodeAlias, getTag, isPubkey } from '@zap/utils/crypto'
 import { convert } from '@zap/utils/btc'
 import delay from '@zap/utils/delay'
 import genId from '@zap/utils/genId'
+import { mainLog } from '@zap/utils/log'
+import { CoinBig } from '@zap/utils/coin'
 import { grpc } from 'workers'
 import { fetchBalance } from './balance'
 import { fetchChannels } from './channels'
+import { infoSelectors } from './info'
 import { networkSelectors } from './network'
 import { showError } from './notification'
 import messages from './messages'
+
+export const DEFAULT_CLTV_DELTA = 43
+export const KEYSEND_PREIMAGE_TYPE = '5482373484'
+export const PREIMAGE_BYTE_LENGTH = 32
 
 // ------------------------------------
 // Initial State
@@ -42,6 +49,8 @@ export const DECREASE_PAYMENT_RETRIES = 'DECREASE_PAYMENT_RETRIES'
 const PAYMENT_STATUS_SENDING = 'sending'
 const PAYMENT_STATUS_SUCCESSFUL = 'successful'
 const PAYMENT_STATUS_FAILED = 'failed'
+
+const PAYMENT_TIMEOUT = config.invoices.paymentTimeout
 
 // ------------------------------------
 // Helpers
@@ -182,10 +191,11 @@ const decPaymentRetry = paymentId => ({
  * Controller code that wraps the send action and schedules automatic retries in the case of a failure.
  *
  * @param {object} options Options
- * @param {string} options.payReq Payment request
+ * @param {string} options.payReq Payment request or node pubkey
  * @param {number} options.amt Payment amount (in sats)
  * @param {number} options.feeLimit The max fee to apply
  * @param {number} options.retries Number of remaining retries
+ * @param {number} options.route Specific route to use.
  * @param {string} options.originalPaymentId Id of the original payment if (required if this is a payment retry)
  * @returns {Function} Thunk
  */
@@ -193,9 +203,10 @@ export const payInvoice = ({
   payReq,
   amt,
   feeLimit,
+  route,
   retries = 0,
   originalPaymentId,
-}) => async dispatch => {
+}) => async (dispatch, getState) => {
   const paymentId = originalPaymentId || genId()
   const isKeysend = isPubkey(payReq)
   let pubkey
@@ -204,31 +215,26 @@ export const payInvoice = ({
 
   let payload = {
     paymentId,
-    amt,
     feeLimit: feeLimit ? { fixed: feeLimit } : null,
     allowSelfPayment: true,
   }
 
   // Keysend payment.
   if (isKeysend) {
-    const defaultCltvDelta = 43
-    const keySendPreimageType = '5482373484'
-    const preimageByteLength = 32
-
-    const preimage = randomBytes(preimageByteLength)
+    pubkey = payReq
+    const preimage = randomBytes(PREIMAGE_BYTE_LENGTH)
     paymentHash = createHash('sha256')
       .update(preimage)
       .digest()
-    pubkey = payReq
 
     payload = {
       ...payload,
       paymentHash,
-      finalCltvDelta: defaultCltvDelta,
-      feeLimitSat: feeLimit ? { fixed: feeLimit } : null,
-      dest: Buffer.from(payReq, 'hex'),
+      amt,
+      finalCltvDelta: DEFAULT_CLTV_DELTA,
+      dest: Buffer.from(pubkey, 'hex'),
       destCustomRecords: {
-        [keySendPreimageType]: preimage,
+        [KEYSEND_PREIMAGE_TYPE]: preimage,
       },
     }
   }
@@ -236,11 +242,13 @@ export const payInvoice = ({
   // Bolt11 invoice payment.
   else {
     const invoice = decodePayReq(payReq)
+    const { millisatoshis } = invoice
     paymentHash = getTag(invoice, 'payment_hash')
     pubkey = invoice.payeeNodeKey
     paymentRequest = invoice.paymentRequest // eslint-disable-line prefer-destructuring
     payload = {
       ...payload,
+      amt: millisatoshis ? null : amt,
       paymentRequest,
     }
   }
@@ -267,7 +275,56 @@ export const payInvoice = ({
 
   // Submit the payment to LND.
   try {
-    const data = await grpc.services.Lightning.sendPayment(payload)
+    let data = { paymentId }
+
+    // Use Router service if lnd version supports it.
+    if (infoSelectors.hasRouterSupport(getState())) {
+      payload = {
+        ...payload,
+        feeLimit,
+        timeoutSeconds: PAYMENT_TIMEOUT,
+      }
+
+      // If we have been supplied with exact route, attempt to use that route.
+      if (route && route.isExact) {
+        let result = {}
+        try {
+          const routeToUse = { ...route }
+          delete routeToUse.isExact
+          delete routeToUse.paymentHash
+          result = await grpc.services.Router.sendToRoute({
+            paymentHash: route.paymentHash ? Buffer.from(route.paymentHash, 'hex') : null,
+            route: routeToUse,
+          })
+        } catch (error) {
+          if (error.message === 'unknown service routerrpc.Router') {
+            // We don't know for sure that the node has been compiled with the Router service.
+            // Fall bak to using sendPayment in the event of an error.
+            mainLog.warn('Unable to pay invoice using sendToRoute: %s', error.message)
+            data = await grpc.services.Router.sendPayment(payload)
+          } else {
+            error.details = data
+            throw error
+          }
+        }
+        if (result.failure) {
+          const error = new Error(result.failure.code)
+          error.details = data
+          throw error
+        }
+      }
+
+      // Otherwise, just use sendPayment.
+      else {
+        data = await grpc.services.Router.sendPayment(payload)
+      }
+    }
+
+    // For older versions use the legacy Lightning.sendPayment method.
+    else {
+      data = await grpc.services.Lightning.sendPayment(payload)
+    }
+
     dispatch(paymentSuccessful(data))
   } catch (e) {
     const { payload: data, message: error } = e
@@ -337,6 +394,10 @@ export const paymentFailed = (error, { paymentId }) => async (dispatch, getState
     'payment attempt not completed before timeout', // ErrPaymentAttemptTimeout
     'unable to find a path to destination', // ErrNoPathFound
     'target not found', // ErrTargetNotInNetwork
+    'FAILED_NO_ROUTE',
+    'FAILED_ERROR',
+    'FAILED_TIMEOUT',
+    'TERMINATED_EARLY', // Triggered if sendPayment aborts without giveing a proper response.
   ]
 
   // If we found a related entery in paymentsSending, gracefully remove it and handle as error case.
@@ -388,10 +449,14 @@ const ACTION_HANDLERS = {
     if (item) {
       item.remainingRetries = Math.max(item.remainingRetries - 1, 0)
       if (item.feeLimit) {
-        item.feeLimit = Math.ceil(item.feeLimit * config.invoices.feeIncrementExponent)
+        item.feeLimit = CoinBig(item.feeLimit)
+          .times(config.invoices.feeIncrementExponent)
+          .decimalPlaces(0)
+          .toString()
       }
     }
   },
+
   [PAYMENT_SUCCESSFUL]: (state, { paymentId }) => {
     const { paymentsSending } = state
     const item = find(paymentsSending, { paymentId })

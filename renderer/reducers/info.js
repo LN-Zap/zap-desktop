@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import semver from 'semver'
 import get from 'lodash/get'
 import createReducer from '@zap/utils/createReducer'
 import { networks } from '@zap/utils/crypto'
@@ -214,6 +215,7 @@ infoSelectors.isSyncedToChain = state => get(state, 'info.data.syncedToChain', f
 infoSelectors.version = state => get(state, 'info.data.version')
 infoSelectors.identityPubkey = state => get(state, 'info.data.identityPubkey')
 infoSelectors.nodeUri = state => get(state, 'info.data.uris[0]')
+infoSelectors.grpcProtoVersion = state => get(state, 'info.data.grpcProtoVersion')
 
 // Extract the version string from the version.
 infoSelectors.versionString = createSelector(
@@ -228,6 +230,14 @@ infoSelectors.commitString = createSelector(infoSelectors.version, version => {
   }
   const commitString = version.split(' ')[1]
   return commitString ? commitString.replace('commit=', '') : undefined
+})
+
+// Check whether node has support for Router service
+infoSelectors.hasRouterSupport = createSelector(infoSelectors.grpcProtoVersion, version => {
+  if (!version) {
+    return false
+  }
+  return semver.gte(version, '0.7.1-beta', { includePrerelease: true })
 })
 
 // Get the node pubkey. If not set, try to extract it from the node uri.

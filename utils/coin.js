@@ -2,7 +2,7 @@
 
 import BigNumber from 'bignumber.js'
 
-const PRECISION = 8
+const PRECISION = 11
 const getCurrencyPrecision = code => {
   switch (code) {
     case 'CHF':
@@ -26,22 +26,20 @@ export const CoinBig = BigNumber.clone()
 
 CoinBig.config({
   DECIMAL_PLACES: PRECISION,
-  ROUNDING_MODE: BigNumber.ROUND_HALF_UP,
+  ROUNDING_MODE: BigNumber.ROUND_UP,
   EXPONENTIAL_AT: 1e+9 // prettier-ignore
 })
 
 /**
  * @param {number|string|Coin|BigNumber} value Value
- * @param {number} precision Decimal precision
  * @returns {Coin} Coin instance
  * @class
  */
-function Coin(value, precision) {
+function Coin(value) {
   if (!(this instanceof Coin)) {
-    return new Coin(value, precision)
+    return new Coin(value)
   }
-  const p = precision || PRECISION
-  const big = CoinBig(value).decimalPlaces(p)
+  const big = CoinBig(value).decimalPlaces(PRECISION)
 
   /**
    *
@@ -74,7 +72,7 @@ function Coin(value, precision) {
   /**
    * @returns {string} String representation of value
    */
-  this.toString = () => big.decimalPlaces(p).toPrecision()
+  this.toString = () => big.decimalPlaces(PRECISION).toPrecision()
 
   /**
    * returns a string that represents value, truncated to the specified precision
@@ -82,7 +80,8 @@ function Coin(value, precision) {
    * @param {number} digits Digits
    * @returns {string} String representation of value
    */
-  this.toPrecision = digits => big.decimalPlaces(Math.min(Math.max(0, digits), p)).toPrecision()
+  this.toPrecision = digits =>
+    big.decimalPlaces(Math.min(Math.max(0, digits), PRECISION)).toPrecision()
 
   /**
    * returns a string that represents value, truncated to the specified precision per given code of currency

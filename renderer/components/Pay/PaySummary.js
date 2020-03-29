@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { animated, Transition } from 'react-spring/renderprops.cjs'
 import PaySummaryLightning from 'containers/Pay/PaySummaryLightning'
 import PaySummaryOnChain from 'containers/Pay/PaySummaryOnChain'
-import { getMaxFeeInclusive, getMinFee } from '@zap/utils/crypto'
+import { getMaxFeeInclusive, getMinFee, getExactFee } from '@zap/utils/crypto'
 import { PAY_FORM_STEPS } from './constants'
 import { getFeeRate } from './utils'
 
@@ -37,6 +37,7 @@ const PaySummary = props => {
   return (
     <PaySummaryLightning
       amount={amountInSats}
+      exactFee={getExactFee(routes)}
       isPubkey={isPubkey}
       maxFee={getMaxFeeInclusive(routes)}
       minFee={getMinFee(routes)}
@@ -59,9 +60,9 @@ PaySummary.propTypes = {
     slow: PropTypes.number.isRequired,
   }).isRequired,
   onchainFees: PropTypes.shape({
-    fast: PropTypes.number,
-    medium: PropTypes.number,
-    slow: PropTypes.number,
+    fast: PropTypes.string,
+    medium: PropTypes.string,
+    slow: PropTypes.string,
   }),
   routes: PropTypes.array,
 }

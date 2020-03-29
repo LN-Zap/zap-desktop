@@ -94,9 +94,9 @@ class ChannelCreateForm extends React.Component {
       slow: PropTypes.number.isRequired,
     }).isRequired,
     onchainFees: PropTypes.shape({
-      fast: PropTypes.number,
-      medium: PropTypes.number,
-      slow: PropTypes.number,
+      fast: PropTypes.string,
+      medium: PropTypes.string,
+      slow: PropTypes.string,
     }),
     onSubmit: PropTypes.func.isRequired,
     openChannel: PropTypes.func.isRequired,
