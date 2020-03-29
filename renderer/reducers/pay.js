@@ -250,7 +250,7 @@ export const queryRoutes = (payReq, amt, finalCltvDelta = DEFAULT_CLTV_DELTA) =>
       ...payload,
       amt,
       dest: Buffer.from(payReq, 'hex'),
-      dest_custom_records: {
+      destCustomRecords: {
         [KEYSEND_PREIMAGE_TYPE]: preimage,
       },
     }

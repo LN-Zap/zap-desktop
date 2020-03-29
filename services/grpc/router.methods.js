@@ -26,14 +26,14 @@ export const KEYSEND_PREIMAGE_TYPE = '5482373484'
  */
 async function probePayment(options) {
   const payload = defaults(omitBy(options, isNil), {
-    timeout_seconds: PAYMENT_PROBE_TIMEOUT,
-    fee_limit_sat: PAYMENT_PROBE_FEE_LIMIT,
-    allow_self_payment: true,
+    timeoutSeconds: PAYMENT_PROBE_TIMEOUT,
+    feeLimitSat: PAYMENT_PROBE_FEE_LIMIT,
+    allowSelfPayment: true,
   })
 
   // Use a payload that has the payment hash set to some random bytes.
   // This will cause the payment to fail at the final destination.
-  payload.payment_hash = new Uint8Array(randomBytes(32))
+  payload.paymentHash = new Uint8Array(randomBytes(32))
 
   logGrpcCmd('Router.probePayment', payload)
 
@@ -59,12 +59,12 @@ async function probePayment(options) {
 
         case 'FAILED_INCORRECT_PAYMENT_DETAILS':
           grpcLog.info('PROBE SUCCESS: %o', data)
-          // FIXME: For some reason the custom_records key is corrupt in the grpc response object.
+          // FIXME: For some reason the customRecords key is corrupt in the grpc response object.
           // For now, assume that if a custom_record key is set that it is a keysend record and fix it accordingly.
           data.route.hops = data.route.hops.map(hop => {
-            Object.keys(hop.custom_records).forEach(key => {
-              hop.custom_records[KEYSEND_PREIMAGE_TYPE] = hop.custom_records[key]
-              delete hop.custom_records[key]
+            Object.keys(hop.customRecords).forEach(key => {
+              hop.customRecords[KEYSEND_PREIMAGE_TYPE] = hop.customRecords[key]
+              delete hop.customRecords[key]
             })
             return hop
           })
@@ -110,8 +110,8 @@ async function sendPayment(options = {}) {
   // Use a payload that has the payment hash set to some random bytes.
   // This will cause the payment to fail at the final destination.
   const payload = defaults(omitBy(options, isNil), {
-    timeout_seconds: PAYMENT_TIMEOUT,
-    fee_limit: PAYMENT_FEE_LIMIT,
+    timeoutSeconds: PAYMENT_TIMEOUT,
+    feeLimit: PAYMENT_FEE_LIMIT,
   })
 
   logGrpcCmd('Router.sendPayment', payload)
