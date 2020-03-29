@@ -12,7 +12,6 @@ export default defineMessages({
   backup_not_found_error: 'Unable to find backup file ',
   address_new_address_error: 'Unable to get {addressType} address: {error}',
   settings_init_error: 'Unable to load settings: {error}',
-  payment_send_error: 'Unable to send payment: Invalid invoice (no payment hash)',
   channels_open_warning: 'Channel opening initiated',
   invoice_receive_title: `You've been Zapped`,
   invoice_receive_body: 'Congrats, someone just paid an invoice of yours',
