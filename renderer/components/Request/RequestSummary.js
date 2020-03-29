@@ -39,7 +39,7 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
   const fallback = fallbackTag && fallbackTag.address
 
   const getStatusColor = () => {
-    if (invoice.settled) {
+    if (invoice.isSettled) {
       return 'superGreen'
     }
     return isExpired ? 'superRed' : 'primaryAccent'
@@ -131,7 +131,7 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
       <DataRow
         left={<FormattedMessage {...messages.status} />}
         right={
-          invoice.settled ? (
+          invoice.isSettled ? (
             <Text
               color={getStatusColor()}
               css="word-break: break-all; text-transform: capitalize;"
@@ -143,7 +143,7 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
               <FormattedTime
                 day="2-digit"
                 month="long"
-                value={invoice.settle_date * 1000}
+                value={invoice.settleDate * 1000}
                 year="numeric"
               />
             </Text>

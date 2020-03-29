@@ -55,14 +55,14 @@ const ACTION_HANDLERS = {
   },
   [FETCH_BALANCE_SUCCESS]: (state, { walletBalance, channelBalance }) => {
     state.isBalanceLoading = false
-    state.walletBalance = walletBalance.total_balance
-    state.walletBalanceConfirmed = walletBalance.confirmed_balance
-    state.walletBalanceUnconfirmed = walletBalance.unconfirmed_balance
+    state.walletBalance = walletBalance.totalBalance
+    state.walletBalanceConfirmed = walletBalance.confirmedBalance
+    state.walletBalanceUnconfirmed = walletBalance.unconfirmedBalance
     state.channelBalance = Coin(channelBalance.balance)
-      .add(Coin(channelBalance.pending_open_balance))
+      .add(Coin(channelBalance.pendingOpenBalance))
       .toString()
     state.channelBalanceConfirmed = channelBalance.balance
-    state.channelBalancePending = channelBalance.pending_open_balance
+    state.channelBalancePending = channelBalance.pendingOpenBalance
   },
   [FETCH_BALANCE_FAILURE]: (state, { error }) => {
     state.isBalanceLoading = false
@@ -81,7 +81,7 @@ balanceSelectors.channelBalancePending = state => state.balance.channelBalancePe
 balanceSelectors.walletBalance = state => state.balance.walletBalance
 balanceSelectors.walletBalanceConfirmed = state => state.balance.walletBalanceConfirmed
 balanceSelectors.walletBalanceUnconfirmed = state => state.balance.walletBalanceUnconfirmed
-balanceSelectors.limboBalance = state => state.channels.pendingChannels.total_limbo_balance
+balanceSelectors.limboBalance = state => state.channels.pendingChannels.totalLimboBalance
 
 balanceSelectors.totalBalance = createSelector(
   balanceSelectors.channelBalance,

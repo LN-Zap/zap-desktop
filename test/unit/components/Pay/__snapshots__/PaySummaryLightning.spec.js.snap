@@ -112,8 +112,8 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
         id="components.Pay.fee_less_than_1"
         values={
           Object {
-            "maxFee": 0,
-            "minFee": 0,
+            "maxFee": "0",
+            "minFee": "0",
           }
         }
       />

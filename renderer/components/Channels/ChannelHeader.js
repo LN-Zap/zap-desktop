@@ -15,14 +15,14 @@ const Box = styled(BaseBox)(opacity)
 const Flex = styled(BaseFlex)(opacity, height)
 
 const ChannelHeader = ({ intl, channel, ...rest }) => {
-  const { display_name, display_pubkey, display_status } = channel
+  const { displayName, displayPubkey, displayStatus } = channel
   return (
     <Box {...rest}>
       <Flex justifyContent="space-between">
-        <ClippedHeading my={1}>{display_name}</ClippedHeading>
-        <ChannelStatus mb="auto" status={display_status} />
+        <ClippedHeading my={1}>{displayName}</ClippedHeading>
+        <ChannelStatus mb="auto" status={displayStatus} />
       </Flex>
-      <ClippedText>{display_pubkey}</ClippedText>
+      <ClippedText>{displayPubkey}</ClippedText>
       <Box>
         <Bar my={3} />
       </Box>

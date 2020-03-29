@@ -5,6 +5,7 @@ import { FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass/styled-components'
 import config from 'config'
 import { intlShape } from '@zap/i18n'
+import { CoinBig } from '@zap/utils/coin'
 import { Message, Text } from 'components/UI'
 import ChainLink from 'components/Icon/ChainLink'
 import { CryptoValue, FiatValue } from 'containers/UI'
@@ -34,16 +35,17 @@ const Transaction = ({
     type = 'closing'
   }
   const renderConfirmations = () => {
-    const { num_confirmations } = activity
+    const { numConfirmations } = activity
 
     // returns color for the current number of confirmations
     const getDisplayParams = () =>
-      findLast(DISPLAY_PARAMS, ({ finality }) => num_confirmations >= finality) || DISPLAY_PARAMS[0]
+      findLast(DISPLAY_PARAMS, ({ finality }) => CoinBig(numConfirmations).gte(finality)) ||
+      DISPLAY_PARAMS[0]
 
-    if (num_confirmations > confirmed) {
+    if (CoinBig(numConfirmations).gt(confirmed)) {
       return (
         <Text color="gray" fontSize="xs" fontWeight="normal">
-          <FormattedTime value={activity.time_stamp * 1000} />
+          <FormattedTime value={activity.timeStamp * 1000} />
         </Text>
       )
     }
@@ -59,7 +61,7 @@ const Transaction = ({
     <Flex
       alignItems="center"
       justifyContent="space-between"
-      onClick={activity.isSending ? null : () => showActivityModal('TRANSACTION', activity.tx_hash)}
+      onClick={activity.isSending ? null : () => showActivityModal('TRANSACTION', activity.txHash)}
       py={2}
       {...rest}
     >

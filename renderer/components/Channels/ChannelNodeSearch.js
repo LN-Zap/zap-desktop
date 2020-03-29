@@ -21,18 +21,18 @@ const SearchResults = ({ filteredNetworkNodes, onClickConnect, ...rest }) => (
   <Box {...rest}>
     {filteredNetworkNodes.map(node => {
       return (
-        <React.Fragment key={node.pub_key}>
+        <React.Fragment key={node.pubKey}>
           <Flex alignItems="center" justifyContent="space-between" pr={2} py={2}>
             <NodeNameContainer mr={3}>
               {node.alias.length > 0 ? (
                 <>
                   <ClippedText>{node.alias.trim()}</ClippedText>
                   <Text color="gray" fontSize="s">
-                    <Truncate maxlen={25} text={node.pub_key} />
+                    <Truncate maxlen={25} text={node.pubKey} />
                   </Text>
                 </>
               ) : (
-                <ClippedText>{node.pub_key}</ClippedText>
+                <ClippedText>{node.pubKey}</ClippedText>
               )}
             </NodeNameContainer>
             <Button onClick={() => onClickConnect(node)} size="small" type="button">
@@ -72,7 +72,7 @@ const ChannelNodeSearch = ({
    * @param {object} node Node
    */
   const handleClickConnect = node => {
-    updateContactFormSearchQuery(`${node.pub_key}@${node.addresses[0].addr}`)
+    updateContactFormSearchQuery(`${node.pubKey}@${node.addresses[0].addr}`)
   }
 
   /**

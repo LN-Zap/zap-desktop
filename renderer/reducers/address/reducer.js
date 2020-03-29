@@ -56,7 +56,7 @@ export const closeWalletModal = () => dispatch => dispatch(closeModal('RECEIVE_M
  */
 export const newAddressSuccess = (addressType, address) => async (dispatch, getState) => {
   const state = getState()
-  const pubKey = state.info.data.identity_pubkey
+  const pubKey = state.info.data.identityPubkey
 
   // If we know the node's public key, store the address for reuse.
   if (pubKey) {
@@ -137,7 +137,7 @@ export const initAddresses = () => async (dispatch, getState) => {
     const state = getState()
 
     // Get node information (addresses are keyed under the node pubkey).
-    const pubKey = state.info.data.identity_pubkey
+    const pubKey = state.info.data.identityPubkey
     const node = await window.db.nodes.get({ id: pubKey })
 
     // Get existing addresses for the node.

@@ -8,7 +8,7 @@ import messages from './messages'
 const ChannelFooter = ({ channel, closeChannel }) => {
   return (
     <Flex alignItems="center" justifyContent="center">
-      {channel.can_close && (
+      {channel.canClose && (
         <Button onClick={closeChannel} variant="danger">
           <FormattedMessage {...messages[channel.active ? 'close_button' : 'force_close_button']} />
         </Button>

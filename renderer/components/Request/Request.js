@@ -4,6 +4,7 @@ import { Flex } from 'rebass/styled-components'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { intlShape } from '@zap/i18n'
 import { convert } from '@zap/utils/btc'
+import { CoinBig } from '@zap/utils/coin'
 import { Bar, Button, Header, Panel, Span, Text, Tooltip, Message } from 'components/UI'
 import { Form, Label, TextArea, Toggle } from 'components/Form'
 import { CurrencyFieldGroup } from 'containers/Form'
@@ -145,7 +146,7 @@ class Request extends React.Component {
     const { values } = this.formApi.getState()
     const { cryptoUnit, maxOneTimeReceive } = this.props
     const amountInSats = convert(cryptoUnit, 'sats', values.amountCrypto)
-    return amountInSats > maxOneTimeReceive
+    return CoinBig(amountInSats).gt(maxOneTimeReceive)
   }
 
   renderHelpText = () => {

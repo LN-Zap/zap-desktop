@@ -84,11 +84,11 @@ export const activityModalItem = createSelector(
   (payments, invoices, transactions, itemType, itemId) => {
     switch (itemType) {
       case 'INVOICE':
-        return invoices.find(invoice => invoice.payment_request === itemId)
+        return invoices.find(invoice => invoice.paymentRequest === itemId)
       case 'TRANSACTION':
-        return transactions.find(transaction => transaction.tx_hash === itemId)
+        return transactions.find(transaction => transaction.txHash === itemId)
       case 'PAYMENT':
-        return payments.find(payment => payment.payment_hash === itemId)
+        return payments.find(payment => payment.paymentHash === itemId)
       default:
         return null
     }
@@ -102,7 +102,7 @@ export const transactionsSending = createSelector(transactionsSendingSelector, t
   const transactions = ts.map(transaction => {
     return {
       type: 'transaction',
-      time_stamp: transaction.timestamp,
+      timeStamp: transaction.timestamp,
       amount: transaction.amount,
       sending: true,
       status: transaction.status,
@@ -140,7 +140,7 @@ export const receivedActivityRaw = createSelector(
   transactionsSelector,
   (invoices, transactions) => {
     return [
-      ...invoices.filter(invoice => invoice.settled),
+      ...invoices.filter(invoice => invoice.isSettled),
       ...transactions.filter(
         transaction =>
           transaction.received &&
@@ -165,7 +165,7 @@ export const pendingActivityRaw = createSelector(
       ...paymentsSending,
       ...ts,
       ...transactions.filter(transaction => transaction.isPending),
-      ...invoices.filter(invoice => !invoice.settled && !invoice.isExpired),
+      ...invoices.filter(invoice => !invoice.isSettled && !invoice.isExpired),
     ].map(addDate)
   }
 )
@@ -174,7 +174,7 @@ export const pendingActivityRaw = createSelector(
  * expiredActivityRaw - Expired activity: pre-search.
  */
 export const expiredActivityRaw = createSelector(invoicesSelector, invoices => {
-  return invoices.filter(invoice => !invoice.settled && invoice.isExpired).map(addDate)
+  return invoices.filter(invoice => !invoice.isSettled && invoice.isExpired).map(addDate)
 })
 
 /**

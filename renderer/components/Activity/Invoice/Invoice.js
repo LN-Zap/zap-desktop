@@ -15,26 +15,26 @@ const Invoice = ({ activity, showActivityModal, cryptoUnitName, intl, ...rest })
   <Flex
     alignItems="center"
     justifyContent="space-between"
-    onClick={() => showActivityModal('INVOICE', activity.payment_request)}
+    onClick={() => showActivityModal('INVOICE', activity.paymentRequest)}
     py={2}
     {...rest}
   >
     <Text color="gray" mr={10} textAlign="center" width={24}>
-      {activity.settled ? <ZapIcon /> : <Clock />}
+      {activity.isSettled ? <ZapIcon /> : <Clock />}
     </Text>
     <Box
       className="hint--top-right"
       data-hint={intl.formatMessage({
-        ...messages[activity.settled ? 'type_paid' : 'type_unpaid'],
+        ...messages[activity.isSettled ? 'type_paid' : 'type_unpaid'],
       })}
       width={3 / 4}
     >
       <Text mb={1}>
-        <FormattedMessage {...messages[activity.settled ? 'received' : 'requested']} />
+        <FormattedMessage {...messages[activity.isSettled ? 'received' : 'requested']} />
       </Text>
       <Text color="gray" fontSize="xs" fontWeight="normal">
         <FormattedTime
-          value={activity.settled ? activity.settle_date * 1000 : activity.creation_date * 1000}
+          value={activity.isSettled ? activity.settleDate * 1000 : activity.creationDate * 1000}
         />
       </Text>
     </Box>

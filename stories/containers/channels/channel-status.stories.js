@@ -16,19 +16,19 @@ storiesOf('Containers.Channels', module)
             sectionFn: () => <ChannelStatus status="loading" />,
           },
           {
-            sectionFn: () => <ChannelStatus status="pending_open" />,
+            sectionFn: () => <ChannelStatus status="pendingOpen" />,
           },
           {
             sectionFn: () => <ChannelStatus status="open" />,
           },
           {
-            sectionFn: () => <ChannelStatus status="pending_close" />,
+            sectionFn: () => <ChannelStatus status="pendingClose" />,
           },
           {
-            sectionFn: () => <ChannelStatus status="pending_force_close" />,
+            sectionFn: () => <ChannelStatus status="pendingForceClose" />,
           },
           {
-            sectionFn: () => <ChannelStatus status="waiting_close" />,
+            sectionFn: () => <ChannelStatus status="waitingClose" />,
           },
           {
             sectionFn: () => <ChannelStatus status="offline" />,

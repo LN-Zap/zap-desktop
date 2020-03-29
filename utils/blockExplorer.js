@@ -32,19 +32,19 @@ const showBlock = (network, blockHash) => {
 /**
  * showChannelClosing - Open a channel's closing transaction on an external block explorer.
  *
- * @param  {{closing_txid:string}} channel Channel info
+ * @param  {{closingTxid:string}} channel Channel info
  */
 const showChannelClosing = channel => {
-  showTransaction(channel.closing_txid)
+  showTransaction(channel.closingTxid)
 }
 
 /**
  * showChannelPoint - Open a channel's funding transaction on an external block explorer.
  *
- * @param  {{closing_txid:string}} channel Channel info
+ * @param  {{closingTxid:string}} channel Channel info
  */
 const showChannelPoint = channel => {
-  showTransaction(channel.channel.channel_point.split(':')[0])
+  showTransaction(channel.channel.channelPoint.split(':')[0])
 }
 
 export default {

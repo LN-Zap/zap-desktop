@@ -44,12 +44,12 @@ Snapshot Diff:
 -   "invoices": Array [],
 +   "invoices": Array [
 +     Object {
-+       "add_index": 1,
-+       "r_hash": "123",
++       "addIndex": 1,
++       "rHash": "123",
 +     },
 +     Object {
-+       "add_index": 2,
-+       "r_hash": "456",
++       "addIndex": 2,
++       "rHash": "456",
 +     },
 +   ],
     "isInvoicesLoading": false,
@@ -79,7 +79,7 @@ Snapshot Diff:
     "createInvoiceError": null,
 -   "invoice": null,
 +   "invoice": Object {
-+     "r_hash": "123",
++     "rHash": "123",
 +   },
     "invoices": Array [],
     "isInvoicesLoading": false,
@@ -97,7 +97,7 @@ Snapshot Diff:
 -   "invoices": Array [],
 +   "invoices": Array [
 +     Object {
-+       "r_hash": "123",
++       "rHash": "123",
 +     },
 +   ],
     "isInvoicesLoading": false,

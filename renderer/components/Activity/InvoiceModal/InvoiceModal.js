@@ -25,7 +25,7 @@ export default class InvoiceModal extends React.PureComponent {
             subtitle={<FormattedMessage {...messages.subtitle} />}
             title={
               <FormattedMessage
-                {...messages[item.settled ? 'title_received' : 'title_requested']}
+                {...messages[item.isSettled ? 'title_received' : 'title_requested']}
               />
             }
           />
@@ -35,7 +35,7 @@ export default class InvoiceModal extends React.PureComponent {
         <Panel.Body>
           <RequestSummary
             invoice={item}
-            payReq={item.payment_request}
+            payReq={item.paymentRequest}
             showNotification={showNotification}
           />
         </Panel.Body>

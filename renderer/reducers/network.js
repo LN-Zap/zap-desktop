@@ -35,13 +35,13 @@ export const UPDATE_NODE_DATA = 'UPDATE_NODE_DATA'
 const mergeNodeUpdates = (state, nodeData) => {
   const { nodes } = state
   // Check if this is an existing node
-  const index = nodes.findIndex(item => item.pub_key === nodeData.identity_key)
+  const index = nodes.findIndex(item => item.pubKey === nodeData.identityKey)
   // If we didn't find the node, add it to the end of the nodes list.
   // Otherwise update existing.
   if (index < 0) {
     nodes.push(nodeData)
   } else {
-    nodes[index] = { ...nodes[index], ...nodeData, last_update: Math.round(new Date() / 1000) }
+    nodes[index] = { ...nodes[index], ...nodeData, lastUpdate: Math.round(new Date() / 1000) }
   }
 
   return state
@@ -59,7 +59,7 @@ export const getNodeDisplayName = node => {
     return node.alias
   }
 
-  return truncateNodePubkey(node.pub_key)
+  return truncateNodePubkey(node.pubKey)
 }
 
 // ------------------------------------

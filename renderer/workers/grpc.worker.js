@@ -11,7 +11,7 @@ import ZapGrpc from '@zap/services/grpc/grpc'
 //
 // See https://github.com/protobufjs/protobuf.js#browserify-integration
 //
-// This ensures that large numbers (such as those returned from chan_id props) can be properly handled without rounding.
+// This ensures that large numbers (such as those returned from chanId props) can be properly handled without rounding.
 Protobuf.util.Long = Long
 Protobuf.configure()
 

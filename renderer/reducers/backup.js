@@ -259,7 +259,7 @@ const setRestoreState = async (walletId, state) => {
 /**
  * initBackupService - Initializes backup service for the specified wallet. Backup provider must be either set in db
  * or in `state.backup.provider` before calling this routine. Also starts SCB recovery if there is one pending.
- * Should be called after sync is complete e.g `synced_to_chain` is true.
+ * Should be called after sync is complete e.g `syncedToChain` is true.
  *
  * @param {string} walletId Wallet identifier. if not specified uses current active wallet
  * @returns {Function} Thunk
@@ -307,7 +307,7 @@ export const backupCurrentWallet = (walletId, backup) => async (dispatch, getSta
 
   // returns binary representation of channel backups as a buffer
   const getBackupBuff = backupData =>
-    backupData && backupData.multi_chan_backup && backupData.multi_chan_backup.multi_chan_backup
+    backupData && backupData.multiChanBackup && backupData.multiChanBackup.multiChanBackup
 
   try {
     const state = getState()
@@ -403,7 +403,7 @@ export const restoreWallet = backup => async dispatch => {
   const intl = getIntl()
   try {
     const result = await grpc.services.Lightning.restoreChannelBackups({
-      multi_chan_backup: backup,
+      multiChanBackup: backup,
     })
     dispatch(showNotification(intl.formatMessage(messages.backup_import_success)))
     return result

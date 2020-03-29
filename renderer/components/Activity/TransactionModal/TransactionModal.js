@@ -9,6 +9,7 @@ import {
   injectIntl,
 } from 'react-intl'
 import { Flex } from 'rebass/styled-components'
+import { CoinBig } from '@zap/utils/coin'
 import { intlShape } from '@zap/i18n'
 import blockExplorer from '@zap/utils/blockExplorer'
 import { Bar, DataRow, Header, Link, Panel, Span, Text, Button } from 'components/UI'
@@ -33,26 +34,26 @@ class TransactionModal extends React.PureComponent {
 
   saveInvoice = () => {
     const { saveInvoice, item, intl } = this.props
-    const destAddress = get(item, 'dest_addresses[0]')
+    const destAddress = get(item, 'destAddresses[0]')
     const amount = item.amount || item.limboAmount || 0
-    const isIncoming = item.isReceived || item.limboAmount > 0
-    const { tx_hash, time_stamp, num_confirmations } = item
+    const isIncoming = item.isReceived || (item.limboAmount && CoinBig(item.limboAmount).gt(0))
+    const { txHash, timeStamp, numConfirmations } = item
     saveInvoice({
-      defaultFilename: tx_hash && `zap-tx-${tx_hash.substring(0, 7)}`,
+      defaultFilename: txHash && `zap-tx-${txHash.substring(0, 7)}`,
       title: intl.formatMessage(messages[isIncoming ? 'receipt' : 'outgoing_payment_notification']),
       subtitle: intl.formatMessage(messages.receipt_subtitle),
       invoiceData: [
-        num_confirmations
+        numConfirmations
           ? [
               intl.formatMessage({ ...messages.date_confirmed }),
-              `${intl.formatDate(time_stamp * 1000)} ${intl.formatTime(time_stamp * 1000)}`,
+              `${intl.formatDate(timeStamp * 1000)} ${intl.formatTime(timeStamp * 1000)}`,
             ]
           : [
               intl.formatMessage({ ...messages.date_confirmed }),
               intl.formatMessage({ ...messages.unconfirmed }),
             ],
         [intl.formatMessage({ ...messages.address }), destAddress, {}, { fontSize: 10 }],
-        tx_hash && [intl.formatMessage({ ...messages.tx_hash }), tx_hash, {}, { fontSize: 10 }],
+        txHash && [intl.formatMessage({ ...messages.tx_hash }), txHash, {}, { fontSize: 10 }],
         [
           intl.formatMessage({ ...messages.amount }),
           `${intl.formatNumber(Math.abs(amount))} satoshis`,
@@ -78,9 +79,9 @@ class TransactionModal extends React.PureComponent {
 
   render() {
     const { intl, item, showNotification, ...rest } = this.props
-    const destAddress = get(item, 'dest_addresses[0]')
+    const destAddress = get(item, 'destAddresses[0]')
     const amount = item.amount || item.limboAmount || 0
-    const isIncoming = item.isReceived || item.limboAmount > 0
+    const isIncoming = item.isReceived || (item.limboAmount && CoinBig(item.limboAmount).gt(0))
 
     return (
       <Panel {...rest}>
@@ -116,25 +117,25 @@ class TransactionModal extends React.PureComponent {
             }
           />
 
-          {item.num_confirmations > 0 && (
+          {CoinBig(item.numConfirmations).gte(0) && (
             <>
               <Bar variant="light" />
 
               <DataRow
                 left={<FormattedMessage {...messages.date_confirmed} />}
                 right={
-                  item.num_confirmations ? (
+                  item.numConfirmations ? (
                     <>
                       <Text>
                         <FormattedDate
                           day="2-digit"
                           month="long"
-                          value={item.time_stamp * 1000}
+                          value={item.timeStamp * 1000}
                           year="numeric"
                         />
                       </Text>
                       <Text>
-                        <FormattedTime value={item.time_stamp * 1000} />
+                        <FormattedTime value={item.timeStamp * 1000} />
                       </Text>
                     </>
                   ) : (
@@ -147,7 +148,7 @@ class TransactionModal extends React.PureComponent {
 
               <DataRow
                 left={<FormattedMessage {...messages.num_confirmations} />}
-                right={<FormattedNumber value={item.num_confirmations} />}
+                right={<FormattedNumber value={item.numConfirmations} />}
               />
 
               <Bar variant="light" />
@@ -184,7 +185,7 @@ class TransactionModal extends React.PureComponent {
                 right={
                   <Flex alignItems="center">
                     <FiatSelector mr={2} />
-                    <FiatValue value={item.total_fees} />
+                    <FiatValue value={item.totalFees} />
                   </Flex>
                 }
               />
@@ -195,23 +196,23 @@ class TransactionModal extends React.PureComponent {
           <DataRow
             left={<FormattedMessage {...messages.status} />}
             right={
-              item.block_height ? (
+              item.blockHeight ? (
                 <>
                   <Flex>
                     <CopyButton
                       mr={2}
                       name={intl.formatMessage({ ...messages.block_id })}
                       size="0.7em"
-                      value={item.block_hash}
+                      value={item.blockHash}
                     />
                     <Link
                       className="hint--bottom-left"
-                      data-hint={item.block_hash}
-                      onClick={() => this.showBlock(item.block_hash)}
+                      data-hint={item.blockHash}
+                      onClick={() => this.showBlock(item.blockHash)}
                     >
                       <FormattedMessage
                         {...messages.block_height}
-                        values={{ height: item.block_height }}
+                        values={{ height: item.blockHeight }}
                       />
                     </Link>
                   </Flex>
@@ -246,14 +247,14 @@ class TransactionModal extends React.PureComponent {
                   mr={2}
                   name={intl.formatMessage({ ...messages.tx_hash })}
                   size="0.7em"
-                  value={item.tx_hash}
+                  value={item.txHash}
                 />
                 <Link
                   className="hint--bottom-left"
-                  data-hint={item.tx_hash}
-                  onClick={() => this.showTransaction(item.tx_hash)}
+                  data-hint={item.txHash}
+                  onClick={() => this.showTransaction(item.txHash)}
                 >
-                  <Truncate text={item.tx_hash} />
+                  <Truncate text={item.txHash} />
                 </Link>
               </Flex>
             }

@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage } from 'react-intl'
+import { CoinBig } from '@zap/utils/coin'
 import { Bar, Text } from 'components/UI'
 import { CryptoValue } from 'containers/UI'
 import messages from './messages'
@@ -39,7 +40,7 @@ const ChannelsMenuSummary = ({
       color="primaryAccent"
       title={<FormattedMessage {...messages.summary_row_lightning_title} />}
     />
-    {pendingBalance > 0 && (
+    {CoinBig(pendingBalance).gt(0) && (
       <SummaryRow
         body={
           <>
