@@ -1,8 +1,11 @@
 import config from 'config'
 import { decodePayReq, getNodeAlias, getTag, generatePreimage } from '@zap/utils/crypto'
 import { convert } from '@zap/utils/btc'
+import { getIntl } from '@zap/i18n'
 import { sha256digest } from '@zap/utils/sha256'
+import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
 import { DEFAULT_CLTV_DELTA, KEYSEND_PREIMAGE_TYPE } from './constants'
+import messages from './messages'
 
 const PAYMENT_TIMEOUT = config.invoices.paymentTimeout
 
@@ -119,4 +122,24 @@ export const prepareBolt11Payload = (payReq, amt, feeLimit) => {
     feeLimit: feeLimit ? { fixed: feeLimit } : null,
     amt: millisatoshis ? null : amt,
   }
+}
+
+/**
+ * getDisplayNodeName - Given a payment object devise the most appropriate display name.
+ *
+ * @param  {object} payment Payment
+ * @returns {string} Display name
+ */
+export const getDisplayNodeName = payment => {
+  const { destNodeAlias, destNodePubkey } = payment
+  if (destNodeAlias) {
+    return destNodeAlias
+  }
+  if (destNodePubkey) {
+    return truncateNodePubkey(destNodePubkey)
+  }
+
+  // If all else fails, return the string 'unknown'.
+  const intl = getIntl()
+  return intl.formatMessage({ ...messages.unknown })
 }
