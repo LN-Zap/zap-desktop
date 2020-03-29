@@ -1,32 +1,32 @@
 import { randomBytes, createHash } from 'crypto'
 import get from 'lodash/get'
-import { createSelector } from 'reselect'
 import { send } from 'redux-electron-ipc'
 import { grpc } from 'workers'
-import { getIntl } from '@zap/i18n'
-import { convert } from '@zap/utils/btc'
-import { CoinBig } from '@zap/utils/coin'
 import createReducer from '@zap/utils/createReducer'
 import { estimateFeeRange } from '@zap/utils/fee'
-import { isAutopayEnabled } from '@zap/utils/featureFlag'
 import { decodePayReq, isPubkey, getTag } from '@zap/utils/crypto'
-import { showError } from './notification'
-import { settingsSelectors } from './settings'
-import { walletSelectors } from './wallet'
-import { infoSelectors } from './info'
-import { showAutopayNotification, autopaySelectors } from './autopay'
-import {
-  payInvoice,
-  DEFAULT_CLTV_DELTA,
-  PREIMAGE_BYTE_LENGTH,
-  KEYSEND_PREIMAGE_TYPE,
-} from './payment'
-import { createInvoice } from './invoice'
-import messages from './messages'
+import { settingsSelectors } from 'reducers/settings'
+import { infoSelectors } from 'reducers/info'
+import { DEFAULT_CLTV_DELTA, PREIMAGE_BYTE_LENGTH, KEYSEND_PREIMAGE_TYPE } from 'reducers/payment'
+import { createInvoice } from 'reducers/invoice'
+import * as constants from './constants'
+
+const {
+  QUERY_FEES,
+  QUERY_FEES_SUCCESS,
+  QUERY_FEES_FAILURE,
+  QUERY_ROUTES,
+  QUERY_ROUTES_SUCCESS,
+  QUERY_ROUTES_FAILURE,
+  SET_REDIRECT_PAY_REQ,
+  SET_REDIRECT_LN_URL,
+  DECLINE_LNURL_WITHDRAWAL,
+} = constants
 
 // ------------------------------------
 // Initial State
 // ------------------------------------
+
 const initialState = {
   isQueryingRoutes: false,
   isQueryingFees: false,
@@ -44,117 +44,43 @@ const initialState = {
 }
 
 // ------------------------------------
-// Constants
-// ------------------------------------
-export const QUERY_FEES = 'QUERY_FEES'
-export const QUERY_FEES_SUCCESS = 'QUERY_FEES_SUCCESS'
-export const QUERY_FEES_FAILURE = 'QUERY_FEES_FAILURE'
-
-export const QUERY_ROUTES = 'QUERY_ROUTES'
-export const QUERY_ROUTES_SUCCESS = 'QUERY_ROUTES_SUCCESS'
-export const QUERY_ROUTES_FAILURE = 'QUERY_ROUTES_FAILURE'
-
-export const SET_REDIRECT_PAY_REQ = 'SET_REDIRECT_PAY_REQ'
-
-export const SET_REDIRECT_LN_URL = 'SET_REDIRECT_LN_URL'
-
-export const SET_LNURL = 'SET_LNURL'
-export const DECLINE_LNURL_WITHDRAWAL = 'DECLINE_LNURL_WITHDRAWAL'
-
-export const LNURL_WITHDRAWAL_PROMPT_DIALOG_ID = 'LNURL_WITHDRAWAL_PROMPT_DIALOG_ID'
-
-// ------------------------------------
-// IPC
+// Actions
 // ------------------------------------
 
 /**
- * lightningPaymentUri - Initiate lightning payment flow.
+ * declineLnurlWithdrawal - Cancels lnurl withdrawal and clears params cache.
  *
- * @param  {event} event Event
- * @param  {{ address }} address Address (payment request)
- * @returns {Function} Thunk
+ * @returns {object} Action
  */
-export const lightningPaymentUri = (event, { address }) => (dispatch, getState) => {
-  const state = getState()
-
-  const forwardToMainWindow = () => {
-    dispatch(setRedirectPayReq({ address }))
-  }
-
-  // If the user is not logged into a wallet or autopay is not enabled just forward the payment request to the main
-  // window and return early.
-  if (!isAutopayEnabled || !walletSelectors.isWalletOpen(state)) {
-    return forwardToMainWindow()
-  }
-
-  // Otherwise check if this payment request qualifies for autopay.
-  try {
-    const autopayList = autopaySelectors.autopayList(state)
-    const invoice = decodePayReq(address)
-    const { payeeNodeKey, satoshis, millisatoshis } = invoice
-    const amountInSats = satoshis || convert('msats', 'sats', millisatoshis)
-    const autopayEntry = autopayList[payeeNodeKey]
-
-    // If autopay is enabled for the node pubkey we got from the invoice and the amount of the invoice is less
-    // than the autopay's configured limit, pay the invoice silently in the background.
-    if (autopayEntry && CoinBig(amountInSats).lte(autopayEntry.limit)) {
-      dispatch(showAutopayNotification(invoice))
-      return dispatch(payInvoice({ payReq: address, amt: amountInSats }))
-    }
-
-    // If it wasn't handled with autopay or there was an error, open in the pay form and focus the app.
-    return forwardToMainWindow()
-  } catch (e) {
-    return forwardToMainWindow()
+export const declineLnurlWithdrawal = () => {
+  return {
+    type: DECLINE_LNURL_WITHDRAWAL,
   }
 }
 
 /**
- * bitcoinPaymentUri - Initiate bitcoin payment flow.
+ * setRedirectPayReq - Set payment request to initiate payment flow to a specific address / payment request.
  *
- * @param  {event} event Event
- * @param  {{ address, options }} options Decoded bip21 payment url
- * @returns {Function} Thunk
+ * @param {{address, amount}} redirectPayReq Payment request details
+ * @returns {object} Action
  */
-export const bitcoinPaymentUri = (event, { address, options = {} }) => dispatch => {
-  // If the bip21 data includes a bolt11 invoice in the `lightning` key handle as a lightning payment.
-  const { lightning } = options
-  if (lightning) {
-    dispatch(lightningPaymentUri(event, { address: lightning }))
-  }
-  // Otherwise, use the bitcoin address for on-chain payment.
-  else {
-    const { amount } = options
-    dispatch(setRedirectPayReq({ address, amount }))
+export function setRedirectPayReq(redirectPayReq) {
+  return {
+    type: SET_REDIRECT_PAY_REQ,
+    redirectPayReq,
   }
 }
-
 /**
- * lnurlError - IPC handler for lnurlError event.
+ * setLnurlWithdrawalParams - Set request details.
  *
- * @param  {event} event Event ipc event
- * @param  {object} params { service, reason }
- * @param  {string} params.service lnurl
- * @param  {string} params.reason error reason
- * @returns {Function} Thunk
+ * @param {object} params lnurl request details or null to clear
+ * @returns {object} Action
  */
-export const lnurlError = (event, { service, reason }) => dispatch => {
-  const intl = getIntl()
-  dispatch(showError(intl.formatMessage(messages.pay_lnurl_withdraw_error, { reason, service })))
-}
-
-/**
- * lnurlRequest - IPC handler for lnurlRequest event.
- *
- * @param  {event} event Event ipc event
- * @param  {object} params { service, amount, memo }
- * @param  {string} params.service lnurl
- * @param  {number} params.amount ln pr amount
- * @param  {string} params.memo ln pr memo
- * @returns {Function} Thunk
- */
-export const lnurlRequest = (event, { service, amount, memo }) => dispatch => {
-  dispatch(setLnurlWithdrawalParams({ amount, service, memo }))
+export function setLnurlWithdrawalParams(params) {
+  return {
+    type: SET_REDIRECT_LN_URL,
+    params,
+  }
 }
 
 /**
@@ -178,21 +104,6 @@ export const finishLnurlWithdrawal = () => async (dispatch, getState) => {
     dispatch(send('lnurlCreateInvoice', { paymentRequest }))
   }
 }
-
-/**
- * declineLnurlWithdrawal - Cancels lnurl withdrawal and clears params cache.
- *
- * @returns {object} Action
- */
-export const declineLnurlWithdrawal = () => {
-  return {
-    type: DECLINE_LNURL_WITHDRAWAL,
-  }
-}
-
-// ------------------------------------
-// Actions
-// ------------------------------------
 
 /**
  * queryFees - Estimates on-chain fee.
@@ -322,31 +233,6 @@ export const queryRoutes = (payReq, amt, finalCltvDelta = DEFAULT_CLTV_DELTA) =>
   }
 }
 
-/**
- * setRedirectPayReq - Set payment request to initiate payment flow to a specific address / payment request.
- *
- * @param {{address, amount}} redirectPayReq Payment request details
- * @returns {object} Action
- */
-export function setRedirectPayReq(redirectPayReq) {
-  return {
-    type: SET_REDIRECT_PAY_REQ,
-    redirectPayReq,
-  }
-}
-/**
- * setLnurlWithdrawalParams - Set request details.
- *
- * @param {object} params lnurl request details or null to clear
- * @returns {object} Action
- */
-export function setLnurlWithdrawalParams(params) {
-  return {
-    type: SET_REDIRECT_LN_URL,
-    params,
-  }
-}
-
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
@@ -395,23 +281,5 @@ const ACTION_HANDLERS = {
     state.lnurlWithdrawParams = null
   },
 }
-
-// ------------------------------------
-// Selectors
-// ------------------------------------
-
-const paySelectors = {}
-const getLnurlWithdrawParamsSelector = state => state.pay.lnurlWithdrawParams
-
-paySelectors.willShowLnurlWithdrawalPrompt = createSelector(
-  getLnurlWithdrawParamsSelector,
-  settingsSelectors.currentConfig,
-  (params, config) => {
-    const promptEnabled = config.lnurl.requirePrompt
-    return Boolean(promptEnabled && params)
-  }
-)
-paySelectors.lnurlWithdrawParams = createSelector(getLnurlWithdrawParamsSelector, params => params)
-export { paySelectors }
 
 export default createReducer(initialState, ACTION_HANDLERS)
