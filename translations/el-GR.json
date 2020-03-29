@@ -665,11 +665,11 @@
   "reducers.messages.keysend_receive_body": "",
   "reducers.messages.neutrtino_synced_body": "",
   "reducers.messages.neutrtino_synced_title": "",
-  "reducers.messages.pay_lnurl_withdraw_error": "",
-  "reducers.messages.payment_send_error": "",
   "reducers.messages.settings_init_error": "",
   "reducers.messages.transaction_received_body": "",
   "reducers.messages.transaction_received_title": "",
   "reducers.messages.transaction_sent_body": "",
-  "reducers.messages.transaction_sent_title": ""
+  "reducers.messages.transaction_sent_title": "",
+  "reducers.pay.pay_lnurl_withdraw_error": "",
+  "reducers.payment.payment_send_error": ""
 }
