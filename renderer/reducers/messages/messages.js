@@ -23,5 +23,4 @@ export default defineMessages({
   transaction_sent_body: `Hate to see 'em go but love to watch 'em leave. Your on-chain transaction successfully sent.`,
   neutrtino_synced_title: 'Lightning Node Synced',
   neutrtino_synced_body: "Visa who? You're your own payment processor now!",
-  pay_lnurl_withdraw_error: 'Unable to process withdraw request from {service}: {reason}',
 })
