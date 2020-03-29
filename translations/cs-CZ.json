@@ -665,11 +665,11 @@
   "reducers.messages.keysend_receive_body": "Gratulujeme, někdo vám právě zaplatil",
   "reducers.messages.neutrtino_synced_body": "Visa kdo? Jste nyní svým vlastním zpracovatelem plateb!",
   "reducers.messages.neutrtino_synced_title": "Lightning uzel synchronizován",
-  "reducers.messages.pay_lnurl_withdraw_error": "Nelze zpracovat žádost o výběr z {service}: {reason}",
-  "reducers.messages.payment_send_error": "Nelze odeslat platbu: Neplatná faktura (bez hashe platby)",
   "reducers.messages.settings_init_error": "Nastavení nelze načíst: {error}",
   "reducers.messages.transaction_received_body": "Máte štěstí, právě jste obdrželi novou on-chain transakci. Žárlím.",
   "reducers.messages.transaction_received_title": "On-chain transakce přijata!",
   "reducers.messages.transaction_sent_body": "Nerad je vidím mizet, ale rád je vidím odcházet. Vaše on-chain transakce byla úspěšně odeslána.",
-  "reducers.messages.transaction_sent_title": "On-chain transakce odeslána!"
+  "reducers.messages.transaction_sent_title": "On-chain transakce odeslána!",
+  "reducers.pay.pay_lnurl_withdraw_error": "Nelze zpracovat žádost o výběr z {service}: {reason}",
+  "reducers.payment.payment_send_error": "Nelze odeslat platbu: Neplatná faktura (bez hashe platby)"
 }

@@ -12,7 +12,6 @@ export default defineMessages({
   backup_not_found_error: 'Unable to find backup file ',
   address_new_address_error: 'Unable to get {addressType} address: {error}',
   settings_init_error: 'Unable to load settings: {error}',
-  payment_send_error: 'Unable to send payment: Invalid invoice (no payment hash)',
   channels_open_warning: 'Channel opening initiated',
   invoice_receive_title: `You've been Zapped`,
   invoice_receive_body: 'Congrats, someone just paid an invoice of yours',
@@ -24,5 +23,4 @@ export default defineMessages({
   transaction_sent_body: `Hate to see 'em go but love to watch 'em leave. Your on-chain transaction successfully sent.`,
   neutrtino_synced_title: 'Lightning Node Synced',
   neutrtino_synced_body: "Visa who? You're your own payment processor now!",
-  pay_lnurl_withdraw_error: 'Unable to process withdraw request from {service}: {reason}',
 })
