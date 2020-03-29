@@ -10,4 +10,5 @@ export default defineMessages({
   current_value: 'Current value',
   preimage: 'Payment preimage',
   memo: 'Memo',
+  unknown: 'Unknown',
 })
