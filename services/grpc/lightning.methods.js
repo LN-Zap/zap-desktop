@@ -299,7 +299,7 @@ async function sendPayment(payload = {}) {
         else {
           grpcLog.error('PAYMENT ERROR', res)
           const error = new Error(res.paymentError)
-          error.payload = res
+          error.details = res
           reject(error)
         }
         call.end()
@@ -316,7 +316,7 @@ async function sendPayment(payload = {}) {
       call.write(payload)
     } catch (e) {
       const error = new Error(e.message)
-      error.payload = res
+      error.details = res
       throw error
     }
   })
