@@ -1,13 +1,13 @@
-import { randomBytes, createHash } from 'crypto'
 import get from 'lodash/get'
 import { send } from 'redux-electron-ipc'
 import { grpc } from 'workers'
 import createReducer from '@zap/utils/createReducer'
 import { estimateFeeRange } from '@zap/utils/fee'
-import { decodePayReq, isPubkey, getTag } from '@zap/utils/crypto'
+import { sha256digest } from '@zap/utils/sha256'
+import { decodePayReq, isPubkey, getTag, generatePreimage } from '@zap/utils/crypto'
 import { settingsSelectors } from 'reducers/settings'
 import { infoSelectors } from 'reducers/info'
-import { DEFAULT_CLTV_DELTA, PREIMAGE_BYTE_LENGTH, KEYSEND_PREIMAGE_TYPE } from 'reducers/payment'
+import { DEFAULT_CLTV_DELTA, KEYSEND_PREIMAGE_TYPE } from 'reducers/payment'
 import { createInvoice } from 'reducers/invoice'
 import * as constants from './constants'
 
@@ -152,10 +152,8 @@ export const queryRoutes = (payReq, amt, finalCltvDelta = DEFAULT_CLTV_DELTA) =>
   // Keysend payment.
   if (isKeysend) {
     pubkey = payReq
-    const preimage = randomBytes(PREIMAGE_BYTE_LENGTH)
-    paymentHash = createHash('sha256')
-      .update(preimage)
-      .digest()
+    const preimage = generatePreimage()
+    paymentHash = sha256digest(preimage)
 
     payload = {
       ...payload,
@@ -273,7 +271,6 @@ const ACTION_HANDLERS = {
   [SET_REDIRECT_PAY_REQ]: (state, { redirectPayReq }) => {
     state.redirectPayReq = redirectPayReq
   },
-
   [SET_REDIRECT_LN_URL]: (state, { params }) => {
     state.lnurlWithdrawParams = params
   },

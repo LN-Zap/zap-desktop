@@ -29,10 +29,10 @@
   "components.Activity.Payment.status_processing": "Procesando su pago...",
   "components.Activity.Payment.status_success": "Su pago ha sido exitoso.",
   "components.Activity.Payment.type": "Pago de Lightning",
-  "components.Activity.Payment.unknown": "Desconocido",
   "components.Activity.PaymentModal.amount": "Cantidad",
   "components.Activity.PaymentModal.current_value": "Valor actual",
   "components.Activity.PaymentModal.date_sent": "Fecha de envío",
+  "components.Activity.PaymentModal.destination": "",
   "components.Activity.PaymentModal.fee": "Total de comisión",
   "components.Activity.PaymentModal.memo": "Memorándum",
   "components.Activity.PaymentModal.preimage": "Preimagen de Pago",
@@ -671,5 +671,6 @@
   "reducers.messages.transaction_sent_body": "Me duele que se vayan pero me encanta verlos ir. Tu transacción on-chain se ha enviado con éxito.",
   "reducers.messages.transaction_sent_title": "¡Transacción en cadena enviada!",
   "reducers.pay.pay_lnurl_withdraw_error": "No se puede procesar la solicitud de retiro de {service}: {reason}",
-  "reducers.payment.payment_send_error": "No se puede enviar el pago: factura no válida (sin hash de pago)"
+  "reducers.payment.payment_send_error": "No se puede enviar el pago: factura no válida (sin hash de pago)",
+  "reducers.payment.unknown": ""
 }

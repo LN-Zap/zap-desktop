@@ -29,10 +29,10 @@
   "components.Activity.Payment.status_processing": "Tá Zap ag próiseáil d'íocaíochta. Is féidir é seo a dhéanamh go dtí 01:00 nóiméad.",
   "components.Activity.Payment.status_success": "D'éirigh le d'íocaíocht.",
   "components.Activity.Payment.type": "Íocaíocht lightning",
-  "components.Activity.Payment.unknown": "",
   "components.Activity.PaymentModal.amount": "Méid",
   "components.Activity.PaymentModal.current_value": "Luach reatha",
   "components.Activity.PaymentModal.date_sent": "Dáta a seoladh",
+  "components.Activity.PaymentModal.destination": "",
   "components.Activity.PaymentModal.fee": "Táille",
   "components.Activity.PaymentModal.memo": "",
   "components.Activity.PaymentModal.preimage": "Preimage Íocaíochta",
@@ -671,5 +671,6 @@
   "reducers.messages.transaction_sent_body": "",
   "reducers.messages.transaction_sent_title": "",
   "reducers.pay.pay_lnurl_withdraw_error": "",
-  "reducers.payment.payment_send_error": ""
+  "reducers.payment.payment_send_error": "",
+  "reducers.payment.unknown": ""
 }

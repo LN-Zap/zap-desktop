@@ -29,10 +29,10 @@
   "components.Activity.Payment.status_processing": "",
   "components.Activity.Payment.status_success": "",
   "components.Activity.Payment.type": "",
-  "components.Activity.Payment.unknown": "",
   "components.Activity.PaymentModal.amount": "",
   "components.Activity.PaymentModal.current_value": "",
   "components.Activity.PaymentModal.date_sent": "",
+  "components.Activity.PaymentModal.destination": "",
   "components.Activity.PaymentModal.fee": "Плата",
   "components.Activity.PaymentModal.memo": "",
   "components.Activity.PaymentModal.preimage": "",
@@ -671,5 +671,6 @@
   "reducers.messages.transaction_sent_body": "",
   "reducers.messages.transaction_sent_title": "",
   "reducers.pay.pay_lnurl_withdraw_error": "",
-  "reducers.payment.payment_send_error": ""
+  "reducers.payment.payment_send_error": "",
+  "reducers.payment.unknown": ""
 }

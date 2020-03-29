@@ -29,10 +29,10 @@
   "components.Activity.Payment.status_processing": "Происходит обработка платежа...",
   "components.Activity.Payment.status_success": "Ваш платеж был успешным.",
   "components.Activity.Payment.type": "Lightning перевод",
-  "components.Activity.Payment.unknown": "Неизвестно",
   "components.Activity.PaymentModal.amount": "Сумма",
   "components.Activity.PaymentModal.current_value": "Текущее значение",
   "components.Activity.PaymentModal.date_sent": "Дата отправления",
+  "components.Activity.PaymentModal.destination": "",
   "components.Activity.PaymentModal.fee": "Комиссия",
   "components.Activity.PaymentModal.memo": "",
   "components.Activity.PaymentModal.preimage": "Преимидж платежа",
@@ -671,5 +671,6 @@
   "reducers.messages.transaction_sent_body": "",
   "reducers.messages.transaction_sent_title": "",
   "reducers.pay.pay_lnurl_withdraw_error": "",
-  "reducers.payment.payment_send_error": ""
+  "reducers.payment.payment_send_error": "",
+  "reducers.payment.unknown": ""
 }

@@ -29,10 +29,10 @@
   "components.Activity.Payment.status_processing": "お支払い処理中･･･",
   "components.Activity.Payment.status_success": "お支払いは成功した ！",
   "components.Activity.Payment.type": "ライトニングペイメンツ",
-  "components.Activity.Payment.unknown": "",
   "components.Activity.PaymentModal.amount": "数量",
   "components.Activity.PaymentModal.current_value": "現在値",
   "components.Activity.PaymentModal.date_sent": "送信日",
+  "components.Activity.PaymentModal.destination": "",
   "components.Activity.PaymentModal.fee": "フィー",
   "components.Activity.PaymentModal.memo": "",
   "components.Activity.PaymentModal.preimage": "支払いプレイメージ",
@@ -671,5 +671,6 @@
   "reducers.messages.transaction_sent_body": "",
   "reducers.messages.transaction_sent_title": "",
   "reducers.pay.pay_lnurl_withdraw_error": "",
-  "reducers.payment.payment_send_error": ""
+  "reducers.payment.payment_send_error": "",
+  "reducers.payment.unknown": ""
 }

@@ -1,3 +1,4 @@
+import { randomBytes } from 'crypto'
 import get from 'lodash/get'
 import config from 'config'
 import range from 'lodash/range'
@@ -6,6 +7,8 @@ import lightningRequestReq from 'bolt11'
 import coininfo from 'coininfo'
 import { CoinBig } from '@zap/utils/coin'
 import { convert } from '@zap/utils/btc'
+
+export const PREIMAGE_BYTE_LENGTH = 32
 
 export const networks = {
   bitcoin: {
@@ -285,3 +288,10 @@ export const getFeeRange = (routes = []) => ({
   min: getMinFee(routes),
   max: getMaxFee(routes),
 })
+
+/**
+ * generateHash - Generates 32 random bytes suitible for use as a preimage.
+ *
+ * @returns {Uint8Array} hash bytes
+ */
+export const generatePreimage = () => randomBytes(PREIMAGE_BYTE_LENGTH)

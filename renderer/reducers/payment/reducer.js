@@ -1,11 +1,10 @@
 import config from 'config'
-import { randomBytes, createHash } from 'crypto'
 import uniqBy from 'lodash/uniqBy'
 import find from 'lodash/find'
 import createReducer from '@zap/utils/createReducer'
 import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
 import { getIntl } from '@zap/i18n'
-import { decodePayReq, getTag, isPubkey } from '@zap/utils/crypto'
+import { isPubkey } from '@zap/utils/crypto'
 import delay from '@zap/utils/delay'
 import genId from '@zap/utils/genId'
 import { mainLog } from '@zap/utils/log'
@@ -16,7 +15,8 @@ import { fetchChannels } from 'reducers/channels'
 import { infoSelectors } from 'reducers/info'
 import { showError } from 'reducers/notification'
 import messages from './messages'
-import paymentSelectors from './selectors'
+import { paymentsSending } from './selectors'
+import { prepareKeysendPayload, prepareBolt11Payload } from './utils'
 import * as constants from './constants'
 
 const {
@@ -29,16 +29,7 @@ const {
   PAYMENT_STATUS_SENDING,
   PAYMENT_STATUS_SUCCESSFUL,
   PAYMENT_STATUS_FAILED,
-  DEFAULT_CLTV_DELTA,
-  KEYSEND_PREIMAGE_TYPE,
-  PREIMAGE_BYTE_LENGTH,
 } = constants
-
-// ------------------------------------
-// Constants
-// ------------------------------------
-
-const PAYMENT_TIMEOUT = config.invoices.paymentTimeout
 
 // ------------------------------------
 // Initial State
@@ -54,16 +45,6 @@ const initialState = {
 // Actions
 // ------------------------------------
 
-/**
- * getPayments - Initiate fetching all payments.
- *
- * @returns {object} Action
- */
-export function getPayments() {
-  return {
-    type: GET_PAYMENTS,
-  }
-}
 /**
  * receivePayments - Fetch payments success callback.
  *
@@ -114,25 +95,14 @@ export const sendPayment = data => dispatch => {
 }
 
 /**
- * fetchPayments - Fetch details of all lightning payments.
- *
- * @returns {Function} Thunk
- */
-export const fetchPayments = () => async dispatch => {
-  dispatch(getPayments())
-  const { payments } = await grpc.services.Lightning.listPayments()
-  dispatch(receivePayments(payments))
-}
-
-/**
  * updatePayment - Updates specified payment request.
  *
- * @param {string} paymentRequest Payment request
+ * @param {string} paymentHash Payment hash
  * @returns {Function} Thunk
  */
-export const updatePayment = paymentRequest => async dispatch => {
+export const updatePayment = paymentHash => async dispatch => {
   const { payments } = await grpc.services.Lightning.listPayments()
-  const payment = payments.find(p => p.paymentRequest === paymentRequest)
+  const payment = payments.find(p => p.paymentHash === paymentHash)
   if (payment) {
     dispatch(receivePayments([payment]))
   }
@@ -141,26 +111,26 @@ export const updatePayment = paymentRequest => async dispatch => {
 /**
  * paymentSuccessful - Success handler for payInvoice.
  *
- * @param {{paymentRequest}} paymentRequest Payment request
+ * @param {{paymentId}} paymentId Payment id (internal)
  * @returns {Function} Thunk
  */
 export const paymentSuccessful = ({ paymentId }) => async (dispatch, getState) => {
-  const paymentSending = find(paymentSelectors.paymentsSendingSelector(getState()), { paymentId })
+  const paymentSending = find(paymentsSending(getState()), { paymentId })
 
   // If we found a related entry in paymentsSending, gracefully remove it and handle as success case.
   if (paymentSending) {
-    const { creationDate, paymentRequest } = paymentSending
+    const { creationDate, paymentHash } = paymentSending
 
-    // Ensure payment stays in sending state for at least 2 seconds.
-    await delay(2000 - (Date.now() - creationDate * 1000))
+    // Ensure payment stays in sending state for at least 1 second.
+    await delay(1000 - (Date.now() - creationDate * 1000))
 
     // Mark the payment as successful.
     dispatch({ type: PAYMENT_SUCCESSFUL, paymentId })
 
-    // Wait for another second.
-    await delay(1500)
+    // Wait for another 3 seconds.
+    await delay(3000)
 
-    dispatch(updatePayment(paymentRequest))
+    dispatch(updatePayment(paymentHash))
   }
 
   // Fetch new balance.
@@ -179,7 +149,7 @@ export const paymentSuccessful = ({ paymentId }) => async (dispatch, getState) =
  * @returns {Function} Thunk
  */
 export const paymentFailed = (error, { paymentId }) => async (dispatch, getState) => {
-  const paymentSending = find(paymentSelectors.paymentsSendingSelector(getState()), { paymentId })
+  const paymentSending = find(paymentsSending(getState()), { paymentId })
 
   // errors that trigger retry mechanism
   const RETRIABLE_ERRORS = [
@@ -196,7 +166,7 @@ export const paymentFailed = (error, { paymentId }) => async (dispatch, getState
   if (paymentSending) {
     const { creationDate, paymentRequest, remainingRetries, maxRetries } = paymentSending
     // if we have retries left and error is eligible for retry - rebroadcast payment
-    if (remainingRetries && RETRIABLE_ERRORS.includes(error)) {
+    if (paymentRequest && remainingRetries && RETRIABLE_ERRORS.includes(error)) {
       const data = {
         ...paymentSending,
         payReq: paymentRequest,
@@ -224,8 +194,8 @@ export const paymentFailed = (error, { paymentId }) => async (dispatch, getState
  * @param {string} options.payReq Payment request or node pubkey
  * @param {number} options.amt Payment amount (in sats)
  * @param {number} options.feeLimit The max fee to apply
- * @param {number} options.retries Number of remaining retries
  * @param {number} options.route Specific route to use.
+ * @param {number} options.retries Number of remaining retries
  * @param {string} options.originalPaymentId Id of the original payment if (required if this is a payment retry)
  * @returns {Function} Thunk
  */
@@ -239,49 +209,17 @@ export const payInvoice = ({
 }) => async (dispatch, getState) => {
   const paymentId = originalPaymentId || genId()
   const isKeysend = isPubkey(payReq)
-  let pubkey
-  let paymentHash
-  let paymentRequest
+  let payload
 
-  let payload = {
-    paymentId,
-    feeLimit: feeLimit ? { fixed: feeLimit } : null,
-    allowSelfPayment: true,
-  }
-
-  // Keysend payment.
+  // Prepare payload for lnd.
   if (isKeysend) {
-    pubkey = payReq
-    const preimage = randomBytes(PREIMAGE_BYTE_LENGTH)
-    paymentHash = createHash('sha256')
-      .update(preimage)
-      .digest()
-
-    payload = {
-      ...payload,
-      paymentHash,
-      amt,
-      finalCltvDelta: DEFAULT_CLTV_DELTA,
-      dest: Buffer.from(pubkey, 'hex'),
-      destCustomRecords: {
-        [KEYSEND_PREIMAGE_TYPE]: preimage,
-      },
-    }
+    payload = prepareKeysendPayload(payReq, amt, feeLimit)
+  } else {
+    payload = prepareBolt11Payload(payReq, amt, feeLimit)
   }
 
-  // Bolt11 invoice payment.
-  else {
-    const invoice = decodePayReq(payReq)
-    const { millisatoshis } = invoice
-    paymentHash = getTag(invoice, 'payment_hash')
-    pubkey = invoice.payeeNodeKey
-    paymentRequest = invoice.paymentRequest // eslint-disable-line prefer-destructuring
-    payload = {
-      ...payload,
-      amt: millisatoshis ? null : amt,
-      paymentRequest,
-    }
-  }
+  // Add id into the payload as a way to allow identification later.
+  payload.paymentId = paymentId
 
   // If we already have an id then this is a retry. Decrease the retry count.
   // Otherwise, add to paymentsSending in the state.
@@ -290,13 +228,16 @@ export const payInvoice = ({
   } else {
     dispatch(
       sendPayment({
-        path: [pubkey],
-        paymentHash,
+        // path: [pubkey],
+        paymentHash:
+          route && route.isExact
+            ? route.paymentHash.toString('hex')
+            : payload.paymentHash.toString('hex'),
         paymentId,
         feeLimit,
         value: amt,
         remainingRetries: retries,
-        paymentRequest,
+        paymentRequest: payload.paymentRequest,
         maxRetries: retries,
         isKeysend,
       })
@@ -309,12 +250,6 @@ export const payInvoice = ({
 
     // Use Router service if lnd version supports it.
     if (infoSelectors.hasRouterSupport(getState())) {
-      payload = {
-        ...payload,
-        feeLimit,
-        timeoutSeconds: PAYMENT_TIMEOUT,
-      }
-
       // If we have been supplied with exact route, attempt to use that route.
       if (route && route.isExact) {
         let result = {}
@@ -357,8 +292,8 @@ export const payInvoice = ({
 
     dispatch(paymentSuccessful(data))
   } catch (e) {
-    const { payload: data, message: error } = e
-    dispatch(paymentFailed(error, data))
+    const { details, message } = e
+    dispatch(paymentFailed(message, details))
   }
 }
 
@@ -381,8 +316,7 @@ const ACTION_HANDLERS = {
     state.paymentsSending.push(payment)
   },
   [DECREASE_PAYMENT_RETRIES]: (state, { paymentId }) => {
-    const { paymentsSending } = state
-    const item = find(paymentsSending, { paymentId })
+    const item = find(state.paymentsSending, { paymentId })
     if (item) {
       item.remainingRetries = Math.max(item.remainingRetries - 1, 0)
       if (item.feeLimit) {
@@ -394,15 +328,13 @@ const ACTION_HANDLERS = {
     }
   },
   [PAYMENT_SUCCESSFUL]: (state, { paymentId }) => {
-    const { paymentsSending } = state
-    const item = find(paymentsSending, { paymentId })
+    const item = find(state.paymentsSending, { paymentId })
     if (item) {
       item.status = PAYMENT_STATUS_SUCCESSFUL
     }
   },
   [PAYMENT_FAILED]: (state, { paymentId, error }) => {
-    const { paymentsSending } = state
-    const item = find(paymentsSending, { paymentId })
+    const item = find(state.paymentsSending, { paymentId })
     if (item) {
       item.status = PAYMENT_STATUS_FAILED
       item.error = error

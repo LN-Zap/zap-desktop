@@ -5,4 +5,5 @@ import { defineMessages } from 'react-intl'
 /* eslint-disable max-len */
 export default defineMessages({
   payment_send_error: 'Unable to send payment: Invalid invoice (no payment hash)',
+  unknown: 'Unknown',
 })

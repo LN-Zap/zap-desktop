@@ -29,10 +29,10 @@
   "components.Activity.Payment.status_processing": "Stiamo processando il tuo pagamento...",
   "components.Activity.Payment.status_success": "Pagamento effettuato con successo.",
   "components.Activity.Payment.type": "Pagamento Lightning",
-  "components.Activity.Payment.unknown": "Sconosciuto",
   "components.Activity.PaymentModal.amount": "Importo",
   "components.Activity.PaymentModal.current_value": "Valore attuale",
   "components.Activity.PaymentModal.date_sent": "Data di invio",
+  "components.Activity.PaymentModal.destination": "",
   "components.Activity.PaymentModal.fee": "Commissione",
   "components.Activity.PaymentModal.memo": "",
   "components.Activity.PaymentModal.preimage": "",
@@ -671,5 +671,6 @@
   "reducers.messages.transaction_sent_body": "",
   "reducers.messages.transaction_sent_title": "",
   "reducers.pay.pay_lnurl_withdraw_error": "",
-  "reducers.payment.payment_send_error": ""
+  "reducers.payment.payment_send_error": "",
+  "reducers.payment.unknown": ""
 }

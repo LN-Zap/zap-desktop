@@ -29,10 +29,10 @@
   "components.Activity.Payment.status_processing": "Zap behandler din betaling. Dette kan tage op til 01:00 min.",
   "components.Activity.Payment.status_success": "Din betaling var succesfuld.",
   "components.Activity.Payment.type": "Lightning betaling",
-  "components.Activity.Payment.unknown": "",
   "components.Activity.PaymentModal.amount": "Beløb",
   "components.Activity.PaymentModal.current_value": "Nuværende værdi",
   "components.Activity.PaymentModal.date_sent": "Dato sendt",
+  "components.Activity.PaymentModal.destination": "",
   "components.Activity.PaymentModal.fee": "Gebyr",
   "components.Activity.PaymentModal.memo": "Notat",
   "components.Activity.PaymentModal.preimage": "Betalings Preimage",
@@ -671,5 +671,6 @@
   "reducers.messages.transaction_sent_body": "",
   "reducers.messages.transaction_sent_title": "",
   "reducers.pay.pay_lnurl_withdraw_error": "",
-  "reducers.payment.payment_send_error": ""
+  "reducers.payment.payment_send_error": "",
+  "reducers.payment.unknown": ""
 }

@@ -29,10 +29,10 @@
   "components.Activity.Payment.status_processing": "Zpracovávání vaší platby...",
   "components.Activity.Payment.status_success": "Vaše platba proběhla úspěšně.",
   "components.Activity.Payment.type": "Lightning platba",
-  "components.Activity.Payment.unknown": "Neznámý",
   "components.Activity.PaymentModal.amount": "Částka",
   "components.Activity.PaymentModal.current_value": "Aktuální hodnota",
   "components.Activity.PaymentModal.date_sent": "Datum odeslání",
+  "components.Activity.PaymentModal.destination": "",
   "components.Activity.PaymentModal.fee": "Poplatek",
   "components.Activity.PaymentModal.memo": "Poznámka",
   "components.Activity.PaymentModal.preimage": "Předběžná platba",
@@ -671,5 +671,6 @@
   "reducers.messages.transaction_sent_body": "Nerad je vidím mizet, ale rád je vidím odcházet. Vaše on-chain transakce byla úspěšně odeslána.",
   "reducers.messages.transaction_sent_title": "On-chain transakce odeslána!",
   "reducers.pay.pay_lnurl_withdraw_error": "Nelze zpracovat žádost o výběr z {service}: {reason}",
-  "reducers.payment.payment_send_error": "Nelze odeslat platbu: Neplatná faktura (bez hashe platby)"
+  "reducers.payment.payment_send_error": "Nelze odeslat platbu: Neplatná faktura (bez hashe platby)",
+  "reducers.payment.unknown": ""
 }

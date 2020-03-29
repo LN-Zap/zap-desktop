@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage, FormattedTime, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass/styled-components'
 import { intlShape } from '@zap/i18n'
-import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
+import { getDisplayNodeName } from 'reducers/payment/utils'
 import { Message, Text } from 'components/UI'
 import Zap from 'components/Icon/Zap'
 import { CryptoValue, FiatValue } from 'containers/UI'
@@ -11,26 +11,6 @@ import ErrorLink from '../ErrorLink'
 import messages from './messages'
 
 const ZapIcon = () => <Zap height="1.6em" width="1.6em" />
-
-/**
- * getDisplayNodeName - Given a payment object devise the most appropriate display name.
- *
- * @param  {object} payment Payment
- * @param {intlShape} intl react-intl module
- * @returns {string} Display name
- */
-const getDisplayNodeName = (payment, intl) => {
-  const { destNodeAlias, destNodePubkey } = payment
-  if (destNodeAlias) {
-    return destNodeAlias
-  }
-  if (destNodePubkey) {
-    return truncateNodePubkey(destNodePubkey)
-  }
-
-  // If all else fails, return the string 'unknown'.
-  return intl.formatMessage({ ...messages.unknown })
-}
 
 const Payment = ({
   activity,
@@ -56,7 +36,7 @@ const Payment = ({
         data-hint={intl.formatMessage({ ...messages.type })}
         width={3 / 4}
       >
-        <Text mb={1}>{getDisplayNodeName(activity, intl)}</Text>
+        <Text mb={1}>{getDisplayNodeName(activity)}</Text>
         {activity.isSending ? (
           <>
             {activity.status === 'sending' && (

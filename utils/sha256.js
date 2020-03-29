@@ -1,14 +1,14 @@
-import crypto from 'crypto'
+import { createHash } from 'crypto'
 
 /**
- * sha256digest - Generates a digest of the `message`
+ * sha256digest - Generates a digest of the `message`(hex)
  *
  * @param {string} message message to hash
- * @returns {string} sha256 hex hash of a `message`
+ * @param {string} encoding Endoding to output
+ * @returns {string|Buffer} sha256 hash of a message`. If encoding is provided a string will be returned;
+ *  otherwise a Buffer is returned.
  */
-export default function sha256digest(message) {
-  return crypto
-    .createHash('sha256')
+export const sha256digest = (message, encoding) =>
+  createHash('sha256')
     .update(message)
-    .digest('hex')
-}
+    .digest(encoding)
