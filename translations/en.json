@@ -29,10 +29,10 @@
   "components.Activity.Payment.status_processing": "Processing your payment...",
   "components.Activity.Payment.status_success": "Your payment was successful.",
   "components.Activity.Payment.type": "Lightning payment",
-  "components.Activity.Payment.unknown": "Unknown",
   "components.Activity.PaymentModal.amount": "Amount",
   "components.Activity.PaymentModal.current_value": "Current value",
   "components.Activity.PaymentModal.date_sent": "Date sent",
+  "components.Activity.PaymentModal.destination": "Destination",
   "components.Activity.PaymentModal.fee": "Total fee",
   "components.Activity.PaymentModal.memo": "Memo",
   "components.Activity.PaymentModal.preimage": "Payment preimage",
@@ -671,5 +671,6 @@
   "reducers.messages.transaction_sent_body": "Hate to see 'em go but love to watch 'em leave. Your on-chain transaction successfully sent.",
   "reducers.messages.transaction_sent_title": "On-chain Transaction Sent!",
   "reducers.pay.pay_lnurl_withdraw_error": "Unable to process withdraw request from {service}: {reason}",
-  "reducers.payment.payment_send_error": "Unable to send payment: Invalid invoice (no payment hash)"
+  "reducers.payment.payment_send_error": "Unable to send payment: Invalid invoice (no payment hash)",
+  "reducers.payment.unknown": "Unknown"
 }

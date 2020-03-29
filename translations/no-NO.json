@@ -29,10 +29,10 @@
   "components.Activity.Payment.status_processing": "Behandler din betaling...",
   "components.Activity.Payment.status_success": "Betalingen var vellykket.",
   "components.Activity.Payment.type": "Lightning-betaling",
-  "components.Activity.Payment.unknown": "Ukjent",
   "components.Activity.PaymentModal.amount": "Beløp",
   "components.Activity.PaymentModal.current_value": "Nåværende verdi",
   "components.Activity.PaymentModal.date_sent": "Dato sendt",
+  "components.Activity.PaymentModal.destination": "",
   "components.Activity.PaymentModal.fee": "Total avgift",
   "components.Activity.PaymentModal.memo": "",
   "components.Activity.PaymentModal.preimage": "",
@@ -671,5 +671,6 @@
   "reducers.messages.transaction_sent_body": "",
   "reducers.messages.transaction_sent_title": "",
   "reducers.pay.pay_lnurl_withdraw_error": "",
-  "reducers.payment.payment_send_error": ""
+  "reducers.payment.payment_send_error": "",
+  "reducers.payment.unknown": ""
 }
