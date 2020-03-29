@@ -1,9 +1,9 @@
-import { randomBytes } from 'crypto'
 import config from 'config'
 import defaults from 'lodash/defaults'
 import omitBy from 'lodash/omitBy'
 import isNil from 'lodash/isNil'
 import { grpcLog } from '@zap/utils/log'
+import { generatePreimage } from '@zap/utils/crypto'
 import { logGrpcCmd } from './helpers'
 
 const PAYMENT_TIMEOUT = config.payments.timeout
@@ -33,7 +33,7 @@ async function probePayment(options) {
 
   // Use a payload that has the payment hash set to some random bytes.
   // This will cause the payment to fail at the final destination.
-  payload.paymentHash = new Uint8Array(randomBytes(32))
+  payload.paymentHash = new Uint8Array(generatePreimage())
 
   logGrpcCmd('Router.probePayment', payload)
 

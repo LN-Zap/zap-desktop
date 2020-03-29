@@ -1,13 +1,13 @@
 import config from 'config'
-import { randomBytes, createHash } from 'crypto'
 import uniqBy from 'lodash/uniqBy'
 import find from 'lodash/find'
 import createReducer from '@zap/utils/createReducer'
 import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
 import { getIntl } from '@zap/i18n'
-import { decodePayReq, getTag, isPubkey } from '@zap/utils/crypto'
+import { decodePayReq, getTag, isPubkey, generatePreimage } from '@zap/utils/crypto'
 import delay from '@zap/utils/delay'
 import genId from '@zap/utils/genId'
+import { sha256digest } from '@zap/utils/sha256'
 import { mainLog } from '@zap/utils/log'
 import { CoinBig } from '@zap/utils/coin'
 import { grpc } from 'workers'
@@ -31,7 +31,6 @@ const {
   PAYMENT_STATUS_FAILED,
   DEFAULT_CLTV_DELTA,
   KEYSEND_PREIMAGE_TYPE,
-  PREIMAGE_BYTE_LENGTH,
 } = constants
 
 // ------------------------------------
@@ -252,10 +251,8 @@ export const payInvoice = ({
   // Keysend payment.
   if (isKeysend) {
     pubkey = payReq
-    const preimage = randomBytes(PREIMAGE_BYTE_LENGTH)
-    paymentHash = createHash('sha256')
-      .update(preimage)
-      .digest()
+    const preimage = generatePreimage()
+    paymentHash = sha256digest(preimage)
 
     payload = {
       ...payload,

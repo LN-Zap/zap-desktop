@@ -11,4 +11,3 @@ export const PAYMENT_STATUS_FAILED = 'failed'
 
 export const DEFAULT_CLTV_DELTA = 43
 export const KEYSEND_PREIMAGE_TYPE = '5482373484'
-export const PREIMAGE_BYTE_LENGTH = 32
