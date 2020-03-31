@@ -1,4 +1,6 @@
-import produce from 'immer'
+import produce, { enableMapSet } from 'immer'
+
+enableMapSet()
 
 /**
  * createReducer - Creates immer compatible reducer.

@@ -338,7 +338,7 @@
     "get-port": "5.1.1",
     "googleapis": "48.0.0",
     "history": "4.10.1",
-    "immer": "5.3.6",
+    "immer": "6.0.3",
     "informed": "3.6.1",
     "is-electron-renderer": "2.0.1",
     "jstimezonedetect": "1.0.7",
