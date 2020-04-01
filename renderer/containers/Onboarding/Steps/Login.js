@@ -4,7 +4,6 @@ import { setUnlockWalletError, unlockWallet } from 'reducers/lnd'
 
 const mapStateToProps = state => ({
   unlockWalletError: state.lnd.unlockWalletError,
-  isSkipBackupDialogOpen: state.onboarding.isSkipBackupDialogOpen,
 })
 
 const mapDispatchToProps = {
