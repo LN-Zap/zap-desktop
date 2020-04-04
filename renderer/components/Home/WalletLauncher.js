@@ -79,7 +79,10 @@ const walletToFormFormat = values => {
     // Lnd expects the autopilot allocation to be in [0..100]
     result.autopilotAllocation = autopilotAllocation * 100
   }
-  return result
+  return {
+    ...result,
+    ...parseLndConnectURI(result.lndconnectUri),
+  }
 }
 
 // deletes null undefined and empty string fields from a given object
@@ -132,6 +135,7 @@ const parseLndConnectURI = uri => {
     const parseFunc =
       getLndConnectType(uri) === LNDCONNECT_BTCPAY_SERVER ? parseBtcPayString : parse
     const { host, cert, macaroon } = parseFunc(uri)
+
     return {
       host: host && decodeURIComponent(host),
       cert: cert && decodeURIComponent(cert),
@@ -349,54 +353,6 @@ class WalletLauncher extends React.Component {
     deleteWallet()
   }
 
-  hasChanges = () => {
-    const { wallet } = this.props
-    const formState = this.formApi.getState()
-    // to properly compare changes between current form state and db config
-    // we need to
-    // 1. account differences in format (like autopilotAllocation)
-    // 2. Account for undefined vs unset fields
-    // 3. Autopilot defaults might be missing from config which basically is the same as having no defaults
-    // 4. wallet type
-    // 5. it is required to use unsafe shallow compare so "5" equals 5
-    if (wallet.type !== 'local') {
-      if (getLndConnectType(wallet.lndconnectUri) === LNDCONNECT_EMBEDDED) {
-        return !unsafeShallowCompare(clean(wallet), clean(formState.values), {
-          name: '',
-          lndconnectUri: '',
-        })
-      }
-
-      const { host, cert, macaroon } = parseLndConnectURI(wallet.lndconnectUri)
-      return !unsafeShallowCompare(
-        // include derived host, cert, macaroon values to detect changes
-        clean({ host, cert, macaroon, ...wallet }),
-        clean(formState.values),
-        {
-          name: '',
-          cert: '',
-          host: '',
-          macaroon: '',
-        }
-      )
-    }
-
-    const whiteList = {
-      ...autopilotDefaults,
-      autopilot: '',
-      alias: '',
-      name: '',
-      neutrinoNodes: '',
-      whitelistPeers: '',
-    }
-    // local node
-    return !unsafeShallowCompare(
-      clean(formatAutopilot({ autopilot: false, ...autopilotDefaults, ...wallet })),
-      clean(formToWalletFormat({ autopilot: false, ...autopilotDefaults, ...formState.values })),
-      whiteList
-    )
-  }
-
   render() {
     const { wallet, isStartingLnd, isNeutrinoRunning, ...rest } = this.props
     const { isValidating } = this.state
@@ -420,6 +376,56 @@ class WalletLauncher extends React.Component {
 
     const walletConverted = walletToFormFormat(wallet)
 
+    const hasChanges = () => {
+      const formState = this.formApi.getState()
+      // to properly compare changes between current form state and db config
+      // we need to
+      // 1. account differences in format (like autopilotAllocation)
+      // 2. Account for undefined vs unset fields
+      // 3. Autopilot defaults might be missing from config which basically is the same as having no defaults
+      // 4. wallet type
+      // 5. it is required to use unsafe shallow compare so "5" equals 5
+      if (walletConverted.type !== 'local') {
+        if (getLndConnectType(walletConverted.lndconnectUri) === LNDCONNECT_EMBEDDED) {
+          return !unsafeShallowCompare(clean(walletConverted), clean(formState.values), {
+            name: '',
+            lndconnectUri: '',
+          })
+        }
+
+        const { host, cert, macaroon } = parseLndConnectURI(walletConverted.lndconnectUri)
+        const orig = clean({ host, cert, macaroon, ...walletConverted })
+        const updated = clean(formState.values)
+
+        return !unsafeShallowCompare(
+          // include derived host, cert, macaroon values to detect changes
+          orig,
+          updated,
+          {
+            name: '',
+            cert: '',
+            host: '',
+            macaroon: '',
+          }
+        )
+      }
+
+      const whiteList = {
+        ...autopilotDefaults,
+        autopilot: '',
+        alias: '',
+        name: '',
+        neutrinoNodes: '',
+        whitelistPeers: '',
+      }
+
+      // local node
+      return !unsafeShallowCompare(
+        clean(formatAutopilot({ autopilot: false, ...autopilotDefaults, ...walletConverted })),
+        clean(formToWalletFormat({ autopilot: false, ...autopilotDefaults, ...formState.values })),
+        whiteList
+      )
+    }
     return (
       <Box {...rest}>
         <Form
@@ -463,7 +469,7 @@ class WalletLauncher extends React.Component {
                 <WalletSettingsFormRemote
                   isEmbeddedConnectionString={isEmbeddedLndConnectURI(wallet.lndconnectUri)}
                   wallet={walletConverted}
-                  {...parseLndConnectURI(wallet.lndconnectUri)}
+                  {...parseLndConnectURI(walletConverted.lndconnectUri)}
                 />
               )}
 
@@ -484,7 +490,7 @@ class WalletLauncher extends React.Component {
                 </Button>
               </Flex>
 
-              {this.hasChanges() && (
+              {hasChanges() && (
                 <Box mt={80}>
                   <WalletActionBar buttons={actionBarButtons(formState)} />
                 </Box>
