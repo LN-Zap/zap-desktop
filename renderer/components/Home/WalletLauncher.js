@@ -28,6 +28,60 @@ const WalletActionBar = styled(ActionBar)`
   right: 0;
 `
 
+const LNDCONNECT_BTCPAY_SERVER = 'LNDCONNECT_BTCPAY_SERVER'
+const LNDCONNECT_EMBEDDED = 'LNDCONNECT_EMBEDDED'
+const LNDCONNECT_REGULAR = 'LNDCONNECT_REGULAR'
+
+/**
+ * getLndConnectType - Determine wether an lndconnect uri uses regular or embedded format.
+ *
+ * @param  {string} lndconnectUri lndconnect url
+ * @returns {'LNDCONNECT_EMBEDDED'|'LNDCONNECT_REGULAR'} lndconnect uri type
+ */
+const getLndConnectType = lndconnectUri => {
+  if (isValidBtcPayConfig(lndconnectUri)) {
+    return LNDCONNECT_BTCPAY_SERVER
+  }
+  return isEmbeddedLndConnectURI(lndconnectUri) ? LNDCONNECT_EMBEDDED : LNDCONNECT_REGULAR
+}
+
+/**
+ * parseBtcPayString - Extract lnd node connection details from a BTCPay Server connecttion string.
+ *
+ * @param  {string} btcPayString BTCPay Server connecttion string
+ * @returns {{host, cert, macaroon}} Lnd connection details
+ */
+const parseBtcPayString = btcPayString => {
+  const { host, port, macaroon } = parseConnectionString(btcPayString)
+  return { host: `${host}:${port}`, macaroon, cert: '' }
+}
+
+/**
+ * parseLndConnectURI - Parses lndconnect uri and returns decoded cert, macaroon and host.
+ *
+ * @param {string} lndconnectUri Lndconnect uri
+ * @returns {{host, cert, macaroon}} Host/Cert/Macaroon as parsed from lnd connect string
+ */
+const parseLndConnectURI = lndconnectUri => {
+  try {
+    const parseFunc =
+      getLndConnectType(lndconnectUri) === LNDCONNECT_BTCPAY_SERVER ? parseBtcPayString : parse
+    const { host, cert, macaroon } = parseFunc(lndconnectUri)
+
+    return {
+      host: host && decodeURIComponent(host),
+      cert: cert && decodeURIComponent(cert),
+      macaroon: macaroon && decodeURIComponent(macaroon),
+    }
+  } catch (e) {
+    return {
+      host: '',
+      cert: '',
+      macaroon: '',
+    }
+  }
+}
+
 const { maxchannels, minchansize, maxchansize, allocation } = config.lnd.autopilot
 const autopilotDefaults = {
   autopilotMaxchannels: maxchannels,
@@ -36,7 +90,12 @@ const autopilotDefaults = {
   autopilotAllocation: allocation * 100,
 }
 
-// cleans up autopilot settings if autopilot flag is turned
+/**
+ * formatAutopilot - Cleans up autopilot settings if autopilot flag is turned.
+ *
+ * @param  {object} values Values to format
+ * @returns {object} Formatted values
+ */
 const formatAutopilot = values => {
   const result = { ...values }
   if (!values.autopilot) {
@@ -51,10 +110,36 @@ const formatAutopilot = values => {
   return result
 }
 
-// Format autopilot, then clean.
+/**
+ * clean - Deletes null undefined and empty string fields from a given object.
+ *
+ * @param {object} obj Object to clean
+ * @returns {object} Cleaned object
+ */
+const clean = obj => {
+  const result = { ...obj }
+  Object.keys(result).forEach(
+    key =>
+      (result[key] === undefined || result[key] === '' || result[key] === null) &&
+      delete result[key]
+  )
+  return result
+}
+
+/**
+ * prepareValues - Format autopilot, then clean.
+ *
+ * @param  {object} values Values to prepare
+ * @returns {object} Prepared values
+ */
 const prepareValues = values => clean(formatAutopilot({ ...values }))
 
-// converts form format to db/lnd compatible format
+/**
+ * formToWalletFormat - Converts form format to db/lnd compatible format.
+ *
+ * @param  {object} values Values to format to prepare
+ * @returns {object} Prepared values
+ */
 const formToWalletFormat = values => {
   const result = prepareValues(values)
   const { autopilot, autopilotAllocation, neutrinoNodes } = result
@@ -71,7 +156,12 @@ const formToWalletFormat = values => {
   return result
 }
 
-// converts db/lnd  format to form compatible format
+/**
+ * walletToFormFormat - Converts db/lnd  format to form compatible format.
+ *
+ * @param  {object} values Values to format to prepare
+ * @returns {object} Prepared values
+ */
 const walletToFormFormat = values => {
   const result = prepareValues(values)
   const { autopilot, autopilotAllocation } = result
@@ -81,19 +171,8 @@ const walletToFormFormat = values => {
   }
   return {
     ...result,
-    ...parseLndConnectURI(result.lndconnectUri),
+    ...parseLndConnectURI(values.lndconnectUri),
   }
-}
-
-// deletes null undefined and empty string fields from a given object
-const clean = obj => {
-  const result = { ...obj }
-  Object.keys(result).forEach(
-    key =>
-      (result[key] === undefined || result[key] === '' || result[key] === null) &&
-      delete result[key]
-  )
-  return result
 }
 
 /**
@@ -106,48 +185,6 @@ const clean = obj => {
  */
 const unsafeShallowCompare = (obj1, obj2, whiteList) => {
   return Object.keys(whiteList).every(key => isEqual(obj1[key], obj2[key]))
-}
-
-const LNDCONNECT_BTCPAY_SERVER = 'LNDCONNECT_BTCPAY_SERVER'
-const LNDCONNECT_EMBEDDED = 'LNDCONNECT_EMBEDDED'
-const LNDCONNECT_REGULAR = 'LNDCONNECT_REGULAR'
-
-const getLndConnectType = lndconnectUri => {
-  if (isValidBtcPayConfig(lndconnectUri)) {
-    return LNDCONNECT_BTCPAY_SERVER
-  }
-  return isEmbeddedLndConnectURI(lndconnectUri) ? LNDCONNECT_EMBEDDED : LNDCONNECT_REGULAR
-}
-
-/**
- * parseLndConnectURI - Parses lndconnect uri and returns decoded cert, macaroon and host.
- *
- * @param {string} uri Lndconnect uri
- * @returns {{host, cert, macaroon}} Host/Cert/Macaroon as parsed from lnd connect string
- */
-const parseLndConnectURI = uri => {
-  const parseBtcPayString = uri => {
-    const { host, port, macaroon } = parseConnectionString(uri)
-    return { host: `${host}:${port}`, macaroon, cert: '' }
-  }
-
-  try {
-    const parseFunc =
-      getLndConnectType(uri) === LNDCONNECT_BTCPAY_SERVER ? parseBtcPayString : parse
-    const { host, cert, macaroon } = parseFunc(uri)
-
-    return {
-      host: host && decodeURIComponent(host),
-      cert: cert && decodeURIComponent(cert),
-      macaroon: macaroon && decodeURIComponent(macaroon),
-    }
-  } catch (e) {
-    return {
-      host: '',
-      cert: '',
-      macaroon: '',
-    }
-  }
 }
 
 class WalletLauncher extends React.Component {
@@ -281,7 +318,7 @@ class WalletLauncher extends React.Component {
             break
 
           case LNDCONNECT_BTCPAY_SERVER: {
-            const config = {
+            const walletConfig = {
               ...values, // btcpay config we needs to be decoded down to  host, cert and macaroon first
               ...parseLndConnectURI(values.lndconnectUri),
               lndconnectUri: undefined, // delete uris so the main process re-generates them
@@ -289,20 +326,20 @@ class WalletLauncher extends React.Component {
             }
             // re-generate lndconnectUri and
             // QR using updated host, cert and macaroon values. This is done in the main process
-            result = formToWalletFormat(await generateLndConfigFromWallet(config))
+            result = formToWalletFormat(await generateLndConfigFromWallet(walletConfig))
 
             formApi.setValues({ ...values, lndconnectUri: result.lndconnectUri })
             break
           }
           default: {
-            const config = {
+            const walletConfig = {
               ...values,
               lndconnectUri: undefined, // delete uris so the main process re-generates them
               lndconnectQRCode: undefined,
             }
             // re-generate lndconnectUri and
             // QR using updated host, cert and macaroon values. This is done in the main process
-            result = formToWalletFormat(await generateLndConfigFromWallet(config))
+            result = formToWalletFormat(await generateLndConfigFromWallet(walletConfig))
             break
           }
         }
@@ -469,7 +506,7 @@ class WalletLauncher extends React.Component {
                 <WalletSettingsFormRemote
                   isEmbeddedConnectionString={isEmbeddedLndConnectURI(wallet.lndconnectUri)}
                   wallet={walletConverted}
-                  {...parseLndConnectURI(walletConverted.lndconnectUri)}
+                  {...parseLndConnectURI(wallet.lndconnectUri)}
                 />
               )}
 
