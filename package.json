@@ -355,7 +355,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-hot-loader": "4.12.20",
-    "react-intl": "3.12.1",
+    "react-intl": "4.3.1",
     "react-intl-redux": "2.2.0",
     "react-redux": "7.2.0",
     "react-router-dom": "5.1.2",
