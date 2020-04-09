@@ -333,7 +333,7 @@
     "dexie": "3.0.0-rc.1",
     "downshift": "5.0.6",
     "dropbox": "4.0.30",
-    "electron-is-dev": "1.1.0",
+    "electron-is-dev": "1.2.0",
     "focus-visible": "5.0.2",
     "get-port": "5.1.1",
     "googleapis": "48.0.0",
