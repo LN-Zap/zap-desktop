@@ -9,22 +9,17 @@ import { CryptoValue } from 'containers/UI'
 import { Message, Text } from 'components/UI'
 import messages from './messages'
 import PayButtons from './PayButtons'
-import { PAY_FORM_STEPS } from './constants'
+import { PAY_FORM_STEPS, PAYMENT_TYPES } from './constants'
 
 const isEnoughFunds = props => {
   // convert entered amount to satoshis
-  const {
-    amountInSats,
-    channelBalance,
-    invoice,
-    isBolt11,
-    isOnchain,
-    isPubkey,
-    walletBalanceConfirmed,
-  } = props
+  const { amountInSats, channelBalance, invoice, paymentType, walletBalanceConfirmed } = props
 
   // Determine whether we have enough funds available.
   let hasEnoughFunds = true
+  const isBolt11 = paymentType === PAYMENT_TYPES.bolt11
+  const isPubkey = paymentType === PAYMENT_TYPES.pubkey
+  const isOnchain = paymentType === PAYMENT_TYPES.onchain
   if ((isBolt11 && invoice) || isPubkey) {
     hasEnoughFunds = CoinBig(amountInSats).lte(channelBalance)
   } else if (isOnchain) {
@@ -67,22 +62,22 @@ const PayPanelFooter = props => {
     cryptoUnitName,
     currentStep,
     formState,
-    isBolt11,
-    isOnchain,
-    isPubkey,
     isProcessing,
+    paymentType,
     previousStep,
     walletBalanceConfirmed,
     intl,
   } = props
 
   const renderLiquidityWarning = props => {
-    const { currentStep, maxOneTimeSend, cryptoUnit, isBolt11, isPubkey, amountInSats } = props
+    const { currentStep, maxOneTimeSend, cryptoUnit, amountInSats } = props
 
     if (currentStep !== PAY_FORM_STEPS.summary) {
       return null
     }
 
+    const isBolt11 = paymentType === PAYMENT_TYPES.bolt11
+    const isPubkey = paymentType === PAYMENT_TYPES.pubkey
     const isNotEnoughFunds = !isEnoughFunds(props)
     const isAboveMax = (isBolt11 || isPubkey) && CoinBig(amountInSats).gt(maxOneTimeSend)
     const formattedMax = intl.formatNumber(convert('sats', cryptoUnit, maxOneTimeSend), {
@@ -110,8 +105,8 @@ const PayPanelFooter = props => {
 
   // Determine which buttons should be visible.
   const hasBackButton = currentStep !== PAY_FORM_STEPS.address
-  const hasSubmitButton =
-    currentStep !== PAY_FORM_STEPS.address || isOnchain || isBolt11 || isPubkey
+  const isPaymentTypeSet = paymentType !== PAYMENT_TYPES.none
+  const hasSubmitButton = currentStep !== PAY_FORM_STEPS.address || isPaymentTypeSet
 
   return (
     <Flex flexDirection="column">
@@ -168,11 +163,9 @@ PayPanelFooter.propTypes = {
   formState: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
   invoice: PropTypes.object,
-  isBolt11: PropTypes.bool,
-  isOnchain: PropTypes.bool,
   isProcessing: PropTypes.bool,
-  isPubkey: PropTypes.bool,
   maxOneTimeSend: PropTypes.string.isRequired,
+  paymentType: PropTypes.oneOf(Object.values(PAYMENT_TYPES)).isRequired,
   previousStep: PropTypes.func.isRequired,
   walletBalanceConfirmed: PropTypes.string.isRequired,
 }

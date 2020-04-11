@@ -2,7 +2,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import toJSON from 'enzyme-to-json'
 import { PayPanelBody } from 'components/Pay'
-import { PAY_FORM_STEPS } from 'components/Pay/constants'
+import { PAY_FORM_STEPS, PAYMENT_TYPES } from 'components/Pay/constants'
 
 const props = {
   amountInSats: '1',
@@ -20,6 +20,7 @@ const props = {
     slow: 1,
   },
   network: '',
+  paymentType: PAYMENT_TYPES.none,
   queryFees: () => {},
   walletBalanceConfirmed: '1',
 }

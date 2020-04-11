@@ -19,12 +19,14 @@ exports[`component.Pay.PayPanelBody current step is not summary should render co
     handlePayReqChange={[Function]}
     intl={Object {}}
     network=""
+    paymentType="none"
   />
   <PayAmountFields
     cryptoUnit="sats"
     currentStep="amount"
     formApi={Object {}}
     intl={Object {}}
+    isOnchain={false}
     lndTargetConfirmations={
       Object {
         "fast": 10,
@@ -47,6 +49,7 @@ exports[`component.Pay.PayPanelBody current step is not summary should render co
         "slow": 1,
       }
     }
+    paymentType="none"
     routes={Array []}
   />
 </Fragment>
@@ -71,12 +74,14 @@ exports[`component.Pay.PayPanelBody current step is summary should render correc
     handlePayReqChange={[Function]}
     intl={Object {}}
     network=""
+    paymentType="none"
   />
   <PayAmountFields
     cryptoUnit="sats"
     currentStep="summary"
     formApi={Object {}}
     intl={Object {}}
+    isOnchain={false}
     lndTargetConfirmations={
       Object {
         "fast": 10,
@@ -99,6 +104,7 @@ exports[`component.Pay.PayPanelBody current step is summary should render correc
         "slow": 1,
       }
     }
+    paymentType="none"
     routes={Array []}
   />
 </Fragment>

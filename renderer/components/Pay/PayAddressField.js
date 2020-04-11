@@ -5,7 +5,7 @@ import { Keyframes } from 'react-spring/renderprops.cjs'
 import { intlShape } from '@zap/i18n'
 import { LightningInvoiceInput } from 'components/Form'
 import messages from './messages'
-import { PAY_FORM_STEPS } from './constants'
+import { PAY_FORM_STEPS, PAYMENT_TYPES } from './constants'
 
 /**
  * Animation to handle showing/hiding the payReq field.
@@ -27,9 +27,8 @@ class PayAddressField extends React.Component {
     formState: PropTypes.object,
     handlePayReqChange: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    isBolt11: PropTypes.bool,
-    isPubkey: PropTypes.bool,
     network: PropTypes.string.isRequired,
+    paymentType: PropTypes.oneOf(Object.values(PAYMENT_TYPES)).isRequired,
     redirectPayReq: PropTypes.object,
   }
 
@@ -49,7 +48,9 @@ class PayAddressField extends React.Component {
   }
 
   getPaymentRequestLabel = () => {
-    const { currentStep, isPubkey, isBolt11 } = this.props
+    const { currentStep, paymentType } = this.props
+    const isPubkey = paymentType === PAYMENT_TYPES.pubkey
+    const isBolt11 = paymentType === PAYMENT_TYPES.bolt11
     let payReqLabel
     if (currentStep === PAY_FORM_STEPS.address) {
       payReqLabel = 'request_label_combined'
@@ -71,10 +72,11 @@ class PayAddressField extends React.Component {
       currentStep,
       formState,
       handlePayReqChange,
-      isBolt11,
       network,
+      paymentType,
       redirectPayReq,
     } = this.props
+    const isBolt11 = paymentType === PAYMENT_TYPES.bolt11
     const addressFieldState = currentStep === PAY_FORM_STEPS.address || isBolt11 ? 'big' : 'small'
 
     const { payReq } = formState.values

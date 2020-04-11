@@ -10,7 +10,7 @@ import { getAmountInSats, getFeeRate } from './utils'
 import PayPanelBody from './PayPanelBody'
 import PayPanelFooter from './PayPanelFooter'
 import PayPanelHeader from './PayPanelHeader'
-import { PAY_FORM_STEPS } from './constants'
+import { PAY_FORM_STEPS, PAYMENT_TYPES } from './constants'
 import { intlShape } from '@zap/i18n'
 
 class Pay extends React.Component {
@@ -63,9 +63,7 @@ class Pay extends React.Component {
   state = {
     currentStep: PAY_FORM_STEPS.address,
     previousStep: null,
-    isPubkey: null,
-    isBolt11: null,
-    isOnchain: null,
+    paymentType: PAYMENT_TYPES.none,
   }
 
   // Set a flag so that we can trigger form submission in componentDidUpdate once the form is loaded.
@@ -77,7 +75,7 @@ class Pay extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { redirectPayReq, queryRoutes, setRedirectPayReq } = this.props
-    const { currentStep, invoice, isOnchain, isPubkey } = this.state
+    const { currentStep, invoice, paymentType } = this.state
     const { address, amount } = redirectPayReq || {}
     const { payReq: prevPayReq } = prevProps || {}
     const { address: prevAddress, amount: prevAmount } = prevPayReq || {}
@@ -107,14 +105,16 @@ class Pay extends React.Component {
     }
 
     // If we now have a valid onchain address, trigger the form submit to move to the amount step.
-    const isNowOnchain = isOnchain && isOnchain !== prevState.isOnchain
+    const isNowOnchain =
+      paymentType === PAYMENT_TYPES.onchain && paymentType !== prevState.paymentType
     if (currentStep === PAY_FORM_STEPS.address && isNowOnchain) {
       this.formApi.submitForm()
       return
     }
 
     // If we now have a valid onchain address, trigger the form submit to move to the amount step.
-    const isNowPubkey = isPubkey && isPubkey !== prevState.isPubkey
+    const isNowPubkey =
+      paymentType === PAYMENT_TYPES.pubkey && paymentType !== prevState.paymentType
     if (currentStep === PAY_FORM_STEPS.address && isNowPubkey) {
       this.formApi.submitForm()
       return
@@ -134,7 +134,7 @@ class Pay extends React.Component {
       if (invoice) {
         const { paymentRequest } = invoice
         queryRoutes(paymentRequest, this.amountInSats())
-      } else if (isPubkey) {
+      } else if (paymentType === PAYMENT_TYPES.pubkey) {
         const {
           values: { payReq },
         } = this.formApi.getState()
@@ -225,9 +225,9 @@ class Pay extends React.Component {
       addFilter,
       closeModal,
     } = this.props
-    const { isOnchain } = this.state
+    const { paymentType } = this.state
 
-    if (isOnchain) {
+    if (paymentType === PAYMENT_TYPES.onchain) {
       // Determine the fee rate to use.
       const satPerByte = this.getFee()
 
@@ -239,7 +239,7 @@ class Pay extends React.Component {
         satPerByte,
         isCoinSweep: values.isCoinSweep,
       })
-    } else {
+    } else if (paymentType === PAYMENT_TYPES.bolt11 || paymentType === PAYMENT_TYPES.pubkey) {
       // Pay LN invoice
       payInvoice({
         payReq: values.payReq,
@@ -274,9 +274,9 @@ class Pay extends React.Component {
    * @returns {string[]} List of enabled form steps
    */
   steps = () => {
-    const { isBolt11, isPubkey, isOnchain, invoice } = this.state
+    const { paymentType, invoice } = this.state
     let steps = [PAY_FORM_STEPS.address]
-    if (isBolt11) {
+    if (paymentType === PAYMENT_TYPES.bolt11) {
       // If we have an invoice and the invoice has an amount, this is a 2 step form.
       if (invoice && (invoice.satoshis || invoice.millisatoshis)) {
         steps.push(PAY_FORM_STEPS.summary)
@@ -285,7 +285,7 @@ class Pay extends React.Component {
       else {
         steps = [PAY_FORM_STEPS.address, PAY_FORM_STEPS.amount, PAY_FORM_STEPS.summary]
       }
-    } else if (isOnchain || isPubkey) {
+    } else if (paymentType === PAYMENT_TYPES.onchain || paymentType === PAYMENT_TYPES.pubkey) {
       steps = [PAY_FORM_STEPS.address, PAY_FORM_STEPS.amount, PAY_FORM_STEPS.summary]
     }
     return steps
@@ -316,7 +316,7 @@ class Pay extends React.Component {
   }
 
   /**
-   * handlePayReqChange - Set isBolt11/isOnchain/isPubkey state based on payReq value.
+   * handlePayReqChange - Set payment type state based on payReq value.
    *
    * @param {string} payReq Payment request
    */
@@ -324,9 +324,7 @@ class Pay extends React.Component {
     const { chain, network } = this.props
     const state = {
       currentStep: PAY_FORM_STEPS.address,
-      isBolt11: null,
-      isPubkey: null,
-      isOnchain: null,
+      paymentType: PAYMENT_TYPES.none,
       invoice: null,
     }
 
@@ -338,17 +336,17 @@ class Pay extends React.Component {
       } catch (e) {
         return
       }
-      state.isBolt11 = true
+      state.paymentType = PAYMENT_TYPES.bolt11
     }
 
     // Otherwise, see if we have a valid onchain address.
     else if (isOnchain(payReq, chain, network)) {
-      state.isOnchain = true
+      state.paymentType = PAYMENT_TYPES.onchain
     }
 
     // Or a valid pubkey.
     else if (isPubkey(payReq)) {
-      state.isPubkey = true
+      state.paymentType = PAYMENT_TYPES.pubkey
     }
 
     // Update the state with our findings.
@@ -356,7 +354,8 @@ class Pay extends React.Component {
   }
 
   render() {
-    const { currentStep, invoice, isBolt11, isOnchain, isPubkey, previousStep } = this.state
+    const { currentStep, invoice, paymentType, previousStep } = this.state
+
     const {
       chain,
       chainName,
@@ -395,9 +394,7 @@ class Pay extends React.Component {
               <PayPanelHeader
                 chainName={chainName}
                 cryptoUnitName={cryptoUnitName}
-                isBolt11={isBolt11}
-                isOnchain={isOnchain}
-                isPubkey={isPubkey}
+                paymentType={paymentType}
               />
             </Panel.Header>
             <Panel.Body py={3}>
@@ -415,13 +412,11 @@ class Pay extends React.Component {
                 initialAmountFiat={initialAmountFiat}
                 intl={intl}
                 invoice={invoice}
-                isBolt11={isBolt11}
-                isOnchain={isOnchain}
-                isPubkey={isPubkey}
                 isQueryingFees={isQueryingFees}
                 lndTargetConfirmations={lndTargetConfirmations}
                 network={network}
                 onchainFees={onchainFees}
+                paymentType={paymentType}
                 previousStep={previousStep}
                 queryFees={queryFees}
                 redirectPayReq={redirectPayReq}
@@ -438,11 +433,9 @@ class Pay extends React.Component {
                 currentStep={currentStep}
                 formState={formState}
                 invoice={invoice}
-                isBolt11={isBolt11}
-                isOnchain={isOnchain}
                 isProcessing={isProcessing}
-                isPubkey={isPubkey}
                 maxOneTimeSend={maxOneTimeSend}
+                paymentType={paymentType}
                 previousStep={this.goToPreviousStep}
                 walletBalanceConfirmed={walletBalanceConfirmed}
               />
