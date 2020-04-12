@@ -123,7 +123,7 @@ export const sentActivityRaw = createSelector(
       ...payments,
       ...transactions.filter(
         transaction =>
-          !transaction.received &&
+          !transaction.isReceived &&
           !transaction.isFunding &&
           !transaction.isClosing &&
           !transaction.isPending
@@ -143,7 +143,7 @@ export const receivedActivityRaw = createSelector(
       ...invoices.filter(invoice => invoice.isSettled),
       ...transactions.filter(
         transaction =>
-          transaction.received &&
+          transaction.isReceived &&
           !transaction.isFunding &&
           !transaction.isClosing &&
           !transaction.isPending
