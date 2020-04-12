@@ -659,7 +659,7 @@
   "reducers.messages.backup_import_error": "Import zálohy se nezdařil: {error} ",
   "reducers.messages.backup_import_success": "Záloha peněženky byla úspěšně importována",
   "reducers.messages.backup_not_found_error": "Nelze najít zálohovací soubor ",
-  "reducers.messages.channels_open_warning": "Otevření kanálu bylo zahájeno",
+  "reducers.channels.channels_open_warning": "Otevření kanálu bylo zahájeno",
   "reducers.messages.invoice_receive_body": "Gratulujeme, někdo právě zaplatil vaši fakturu",
   "reducers.messages.invoice_receive_title": "Byl jsi Zappován",
   "reducers.messages.keysend_receive_body": "Gratulujeme, někdo vám právě zaplatil",
