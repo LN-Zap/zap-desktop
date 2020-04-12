@@ -4,11 +4,14 @@ import { FormattedMessage } from 'react-intl'
 import { Bar } from 'components/UI'
 import PayHeader from './PayHeader'
 import messages from './messages'
-import { PAY_HEADER_TYPES } from './constants'
+import { PAY_HEADER_TYPES, PAYMENT_TYPES } from './constants'
 
 const PayPanelHeader = props => {
-  const { chainName, cryptoUnitName, isBolt11, isOnchain, isPubkey } = props
+  const { chainName, cryptoUnitName, paymentType } = props
   let headerType = null
+  const isBolt11 = paymentType === PAYMENT_TYPES.bolt11
+  const isPubkey = paymentType === PAYMENT_TYPES.pubkey
+  const isOnchain = paymentType === PAYMENT_TYPES.onchain
   if (isBolt11 || isPubkey) {
     headerType = PAY_HEADER_TYPES.offchain
   } else if (isOnchain) {
@@ -33,9 +36,7 @@ const PayPanelHeader = props => {
 PayPanelHeader.propTypes = {
   chainName: PropTypes.string.isRequired,
   cryptoUnitName: PropTypes.string.isRequired,
-  isBolt11: PropTypes.bool,
-  isOnchain: PropTypes.bool,
-  isPubkey: PropTypes.bool,
+  paymentType: PropTypes.oneOf(Object.values(PAYMENT_TYPES)),
 }
 
 export default PayPanelHeader

@@ -22,8 +22,8 @@ exports[`component.Pay.PayAddressField current step is "address" should render c
           },
           "handlePayReqChange": [Function],
           "intl": Object {},
-          "isBolt11": null,
           "network": "testnet",
+          "paymentType": "none",
           "redirectPayReq": Object {},
         },
         "refs": Object {},
@@ -61,8 +61,8 @@ exports[`component.Pay.PayAddressField current step is "address" should render c
               }
               handlePayReqChange={[Function]}
               intl={Object {}}
-              isBolt11={null}
               network="testnet"
+              paymentType="none"
               redirectPayReq={Object {}}
             />,
             "_firstWorkInProgressHook": null,
@@ -118,8 +118,8 @@ exports[`component.Pay.PayAddressField current step is "summary" and it is an LN
           },
           "handlePayReqChange": [Function],
           "intl": Object {},
-          "isBolt11": true,
           "network": "testnet",
+          "paymentType": "bolt11",
           "redirectPayReq": Object {},
         },
         "refs": Object {},
@@ -157,8 +157,8 @@ exports[`component.Pay.PayAddressField current step is "summary" and it is an LN
               }
               handlePayReqChange={[Function]}
               intl={Object {}}
-              isBolt11={true}
               network="testnet"
+              paymentType="bolt11"
               redirectPayReq={Object {}}
             />,
             "_firstWorkInProgressHook": null,
@@ -214,8 +214,8 @@ exports[`component.Pay.PayAddressField current step is "summary" and it is an on
           },
           "handlePayReqChange": [Function],
           "intl": Object {},
-          "isBolt11": false,
           "network": "testnet",
+          "paymentType": "onchain",
           "redirectPayReq": Object {},
         },
         "refs": Object {},
@@ -253,8 +253,8 @@ exports[`component.Pay.PayAddressField current step is "summary" and it is an on
               }
               handlePayReqChange={[Function]}
               intl={Object {}}
-              isBolt11={false}
               network="testnet"
+              paymentType="onchain"
               redirectPayReq={Object {}}
             />,
             "_firstWorkInProgressHook": null,

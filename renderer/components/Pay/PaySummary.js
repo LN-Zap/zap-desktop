@@ -4,22 +4,15 @@ import { animated, Transition } from 'react-spring/renderprops.cjs'
 import PaySummaryLightning from 'containers/Pay/PaySummaryLightning'
 import PaySummaryOnChain from 'containers/Pay/PaySummaryOnChain'
 import { getMaxFeeInclusive, getMinFee, getExactFee } from '@zap/utils/crypto'
-import { PAY_FORM_STEPS } from './constants'
+import { PAY_FORM_STEPS, PAYMENT_TYPES } from './constants'
 import { getFeeRate } from './utils'
 
 const PaySummary = props => {
-  const {
-    amountInSats,
-    formApi,
-    isOnchain,
-    isPubkey,
-    lndTargetConfirmations,
-    onchainFees,
-    routes,
-  } = props
+  const { amountInSats, formApi, lndTargetConfirmations, onchainFees, paymentType, routes } = props
   const formState = formApi.getState()
   const { speed, payReq, isCoinSweep } = formState.values
 
+  const isOnchain = paymentType === PAYMENT_TYPES.onchain
   if (isOnchain) {
     return (
       <PaySummaryOnChain
@@ -33,6 +26,8 @@ const PaySummary = props => {
       />
     )
   }
+
+  const isPubkey = paymentType === PAYMENT_TYPES.pubkey
 
   return (
     <PaySummaryLightning
@@ -52,8 +47,6 @@ PaySummary.displayName = 'PaySummary'
 PaySummary.propTypes = {
   amountInSats: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   formApi: PropTypes.object.isRequired,
-  isOnchain: PropTypes.bool,
-  isPubkey: PropTypes.bool,
   lndTargetConfirmations: PropTypes.shape({
     fast: PropTypes.number.isRequired,
     medium: PropTypes.number.isRequired,
@@ -64,6 +57,7 @@ PaySummary.propTypes = {
     medium: PropTypes.string,
     slow: PropTypes.string,
   }),
+  paymentType: PropTypes.oneOf(Object.values(PAYMENT_TYPES)).isRequired,
   routes: PropTypes.array,
 }
 
