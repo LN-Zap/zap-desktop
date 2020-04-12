@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "checkJs": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "strict": true,
+    "target": "esnext",
+    "jsx": "preserve",
+    "lib": ["dom", "es2017"],
+    "noEmit": true,
+    "allowJs": true,
+    "alwaysStrict": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "paths": {
+      "components/*": ["./renderer/components/*"],
+      "containers/*": ["./renderer/containers/*"],
+      "hocs/*": ["./renderer/hocs/*"],
+      "reducers/*": ["./renderer/reducers/*"],
+      "store/*": ["./renderer/store/*"],
+      "themes/*": ["./renderer/themes/*"],
+      "workers/*": ["./renderer/workers/*"]
+    }
+  },
+  "include": ["./renderer/**/*"],
+  "exclude": ["node_modules"]
+}
+
