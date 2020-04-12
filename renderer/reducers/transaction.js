@@ -248,7 +248,7 @@ export const receiveTransactionData = transaction => (dispatch, getState) => {
     dispatch(fetchChannels())
     const intl = getIntl()
     // HTML 5 desktop notification for the new transaction
-    if (transaction.isReceived) {
+    if (CoinBig(transaction.amount).gt(0)) {
       showSystemNotification(intl.formatMessage(messages.transaction_received_title), {
         body: intl.formatMessage(messages.transaction_received_body),
       })
