@@ -659,7 +659,7 @@
   "reducers.messages.backup_import_error": "Backup-Import fehlgeschlagen: {error} ",
   "reducers.messages.backup_import_success": "Wallet-Backup erfolgreich importiert",
   "reducers.messages.backup_not_found_error": "Backup-Datei konnte nicht gefunden werden",
-  "reducers.messages.channels_open_warning": "Kanalöffnung gestartet",
+  "reducers.channels.channels_open_warning": "Kanalöffnung gestartet",
   "reducers.messages.invoice_receive_body": "Gratuliere, jemand hat eine deiner Zahlungsanfragen bezahlt",
   "reducers.messages.invoice_receive_title": "Du wurdest geZappt",
   "reducers.messages.keysend_receive_body": "",

@@ -112,10 +112,6 @@ export async function purgeAllLocalWallets(chains = [], networks = []) {
  * @param {string} location.network - network
  * @param {string} location.wallet - wallet id
  * @param {string} location.dir - Direct location
- * @param {string} location.dir - Direct location
- *
- * Must either specify @dir or @chain and @network and @wallet
- *
  * @returns {undefined}
  */
 export async function deleteLocalWallet({ chain, network, wallet, dir }) {

@@ -659,7 +659,7 @@
   "reducers.messages.backup_import_error": "Backup import has failed: {error} ",
   "reducers.messages.backup_import_success": "Wallet backup imported successfully",
   "reducers.messages.backup_not_found_error": "Unable to find backup file ",
-  "reducers.messages.channels_open_warning": "Channel opening initiated",
+  "reducers.channels.channels_open_warning": "Channel opening initiated",
   "reducers.messages.invoice_receive_body": "Congrats, someone just paid an invoice of yours",
   "reducers.messages.invoice_receive_title": "You've been Zapped",
   "reducers.messages.keysend_receive_body": "Congrats, someone just paid you",

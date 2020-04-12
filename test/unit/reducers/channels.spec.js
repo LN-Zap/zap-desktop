@@ -51,7 +51,7 @@ describe('reducers', () => {
     it('should handle CHANGE_CHANNEL_SORT', () => {
       const action = {
         type: CHANGE_CHANNEL_SORT,
-        sort: 'CAPACITY',
+        sort: 'CHANNELS_SORT_CAPACITY',
       }
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })

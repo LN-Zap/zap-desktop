@@ -659,7 +659,7 @@
   "reducers.messages.backup_import_error": "L'importation de la sauvegarde a échoué : {error}",
   "reducers.messages.backup_import_success": "Sauvegarde du portefeuille importée avec succès",
   "reducers.messages.backup_not_found_error": "Impossible de trouver un fichier de sauvegarde",
-  "reducers.messages.channels_open_warning": "Ouverture du canal initiée",
+  "reducers.channels.channels_open_warning": "Ouverture du canal initiée",
   "reducers.messages.invoice_receive_body": "Félicitations ! Quelqu'un vient de payer votre demande",
   "reducers.messages.invoice_receive_title": "Zap ! Vous avez été foudroyé",
   "reducers.messages.keysend_receive_body": "",
