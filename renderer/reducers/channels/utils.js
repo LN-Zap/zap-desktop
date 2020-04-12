@@ -123,10 +123,12 @@ export const decorateChannel = (channelObj, nodes, closingChannelIds, loadingCha
       const flow = CoinBig.sum(sent, received)
 
       // Calculate capacity as flow / capacity.
-      return flow
+      const activity = flow
         .dividedBy(CoinBig(capacity))
         .multipliedBy(100)
         .toFixed(0)
+
+      return Number(activity)
     }
 
     return 0
@@ -152,5 +154,6 @@ export const decorateChannel = (channelObj, nodes, closingChannelIds, loadingCha
       channel: updatedChannelData,
     }
   }
+
   return updatedChannelData
 }
