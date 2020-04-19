@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Box, Flex } from 'rebass/styled-components'
 import { withFormApi } from 'informed'
+import { CoinBig } from '@zap/utils/coin'
 import { Spinner, Text } from 'components/UI'
 import CryptoValue from 'containers/UI/CryptoValue'
 import CryptoSelector from 'containers/UI/CryptoSelector'
@@ -49,6 +50,7 @@ const TransactionFeeInput = ({
   fee,
 }) => {
   const value = formApi.getValue(field)
+  const hasFee = CoinBig(fee).isFinite()
   return (
     <Flex alignItems="center" justifyContent="space-between">
       <Box>
@@ -76,9 +78,9 @@ const TransactionFeeInput = ({
           </Flex>
         )}
 
-        {!isQueryingFees && !Number.isFinite(fee) && <FormattedMessage {...messages.fee_unknown} />}
+        {!isQueryingFees && !hasFee && <FormattedMessage {...messages.fee_unknown} />}
 
-        {!isQueryingFees && Number.isFinite(fee) && value && (
+        {!isQueryingFees && hasFee && value && (
           <Flex alignItems="flex-end" flexDirection="column">
             <Box>
               <CryptoValue value={fee} />
