@@ -1,3 +1,5 @@
+import { mainLog } from '@zap/utils/log'
+
 /**
  * combinePaginators - Combines multiple simple paginators into a single stateful paginator.
  *
@@ -30,7 +32,12 @@ export default function combinePaginators(itemSorter, ...paginators) {
       // checks whether particular paginator has more to yield
       const hasMore = p => !offsets.has(p) || offsets.get(p)
       const depleted = { offset: 0, items: [] }
-      const next = p => p(pageSize, offsets.get(p) || 0)
+      const missing = { offset: 1, items: [] }
+      const next = p =>
+        p(pageSize, offsets.get(p) || 0).catch(e => {
+          mainLog.error('Unable to fetch activity items from %s paginator: %o', p.name, e)
+          return missing
+        })
       return Promise.all(paginators.map(p => (hasMore(p) ? next(p) : depleted)))
     }
 
