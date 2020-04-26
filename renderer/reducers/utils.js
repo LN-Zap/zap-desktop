@@ -55,9 +55,21 @@ export const getLoadingMessage = (state, location = {}) => {
   const activeWallet = walletSelectors.activeWalletSettings(state)
   const isLocal = activeWallet && activeWallet.type === 'local'
 
-  const { loading, starting_lnd, connecting_to_lnd, starting_neutrino, fetching_tickers } = messages
+  const {
+    loading,
+    starting_lnd,
+    connecting_to_lnd,
+    starting_neutrino,
+    fetching_tickers,
+    starting_tor_proxy,
+  } = messages
   if (neutrinoSelectors.isStartingNeutrino(state)) {
     return starting_neutrino
+  }
+
+  const { isTorProxyStarting } = state.lnd
+  if (isTorProxyStarting) {
+    return starting_tor_proxy
   }
 
   if (lndSelectors.isStartingLnd(state)) {

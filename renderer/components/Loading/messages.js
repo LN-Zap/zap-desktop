@@ -9,4 +9,5 @@ export default defineMessages({
   connecting_to_unlocker: 'Connecting to unlocker interface',
   starting_neutrino: 'Starting Neutrino',
   fetching_tickers: 'Fetching tickers',
+  starting_tor_proxy: 'Starting Tor proxy',
 })

@@ -15,6 +15,9 @@ import lightningSubscriptions from './lightning.subscriptions'
 const GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE = 'GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE'
 const GRPC_LIGHTNING_SERVICE_ACTIVE = 'GRPC_LIGHTNING_SERVICE_ACTIVE'
 
+const GRPC_TOR_PROXY_STARTING = 'GRPC_TOR_PROXY_STARTING'
+const GRPC_TOR_PROXY_ACTIVE = 'GRPC_TOR_PROXY_ACTIVE'
+
 // Timeout for WalletUnlocker actions.
 const WALLET_UNLOCKER_TIMEOUT = 1000 * 60
 
@@ -80,6 +83,12 @@ class ZapGrpc extends EventEmitter {
     this.grpc.on('active', () => {
       this.emit(GRPC_LIGHTNING_SERVICE_ACTIVE)
       this.subscribeAll()
+    })
+    this.grpc.on('tor.starting', () => {
+      this.emit(GRPC_TOR_PROXY_STARTING)
+    })
+    this.grpc.on('tor.started', () => {
+      this.emit(GRPC_TOR_PROXY_ACTIVE)
     })
 
     // Connect the service.
