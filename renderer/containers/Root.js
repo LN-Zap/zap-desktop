@@ -142,7 +142,7 @@ const mapStateToProps = (state, ownProps) => ({
   notifications: notificationSelectors.getNotificationState(state),
   theme: themeSelectors.currentThemeSettings(state),
   isLoading: isLoading(state) || isLoadingPerPath(state, ownProps.history.location),
-  loadingMessage: getLoadingMessage(state),
+  loadingMessage: getLoadingMessage(state, ownProps.history.location),
   isMounted: appSelectors.isMounted(state),
   isAppReady: appSelectors.isAppReady(state),
   isRootReady: appSelectors.isRootReady(state),

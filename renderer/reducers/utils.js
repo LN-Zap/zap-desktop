@@ -73,7 +73,7 @@ export const getLoadingMessage = (state, location = {}) => {
     }
   }
 
-  if (pathname === '/app') {
+  if (pathname === '/app' || pathname === '/onboarding') {
     if (!(tickerSelectors.currentTicker(state) && tickerSelectors.cryptoUnitName(state))) {
       return fetching_tickers
     }
