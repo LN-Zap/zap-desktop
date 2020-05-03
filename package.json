@@ -40,7 +40,7 @@
     "test-unit": "jest --coverage ./test/unit",
     "test-ci": "yarn test-e2e && yarn test-unit",
     "pretest-e2e": "yarn build-e2e",
-    "test-e2e": "cross-env DISABLE_INIT=1 ELECTRON_USER_DIR_TEMP=1 testcafe --selector-timeout 60000 --assertion-timeout 60000 --screenshots ./screenshots --screenshots-on-fails electron:'./' ./test/e2e"
+    "test-e2e": "cross-env DISABLE_INIT=1 ELECTRON_USER_DIR_TEMP=1 testcafe --selector-timeout 60000 --assertion-timeout 60000 --screenshots ./screenshots --screenshots-on-fails @ln-zap/electron:'./' ./test/e2e"
   },
   "config": {
     "lnd-binary": {
@@ -49,7 +49,7 @@
     }
   },
   "browserslist": [
-    "electron 7.1.5"
+    "electron 8.2.5"
   ],
   "engines": {
     "node": ">=12.0.0",
@@ -221,6 +221,7 @@
     "@commitlint/config-conventional": "8.3.4",
     "@ln-zap/eslint-config": "0.3.2",
     "@ln-zap/prettier-config": "0.1.0",
+    "@ln-zap/testcafe-browser-provider-electron": "0.0.15-alpha.3",
     "@storybook/addon-actions": "5.3.18",
     "@storybook/addon-console": "1.2.1",
     "@storybook/addon-knobs": "5.3.18",
@@ -249,7 +250,7 @@
     "cross-env": "7.0.2",
     "cross-spawn": "7.0.2",
     "csp-html-webpack-plugin": "3.0.4",
-    "electron": "7.2.3",
+    "electron": "8.2.5",
     "electron-builder": "22.5.1",
     "electron-devtools-installer": "3.0.0",
     "electron-notarize": "0.3.0",
@@ -303,7 +304,6 @@
     "stylelint-formatter-pretty": "2.0.0",
     "stylelint-processor-styled-components": "1.9.0",
     "testcafe": "1.8.4",
-    "testcafe-browser-provider-electron": "0.0.14",
     "testcafe-react-selectors": "4.0.0",
     "url-loader": "4.1.0",
     "webpack": "4.42.1",
