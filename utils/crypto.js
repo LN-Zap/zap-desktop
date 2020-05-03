@@ -59,7 +59,7 @@ export const decodePayReq = (payReq, addDefaults = true) => {
  */
 export const getTag = (invoice, tagName) => {
   try {
-    const decodedInvoice = typeof invoice === 'string' ? decodePayReq.decode(invoice) : invoice
+    const decodedInvoice = typeof invoice === 'string' ? decodePayReq(invoice) : invoice
     return decodedInvoice.tags.find(t => t.tagName === tagName).data
   } catch (e) {
     return null
