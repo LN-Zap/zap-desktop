@@ -48,6 +48,7 @@ async function probePayment(options) {
   return new Promise((resolve, reject) => {
     grpcLog.time('probePayment')
     const call = this.service.sendPayment(payload)
+    let route
 
     call.on('data', data => {
       grpcLog.debug('PROBE DATA :%o', data)
@@ -59,16 +60,18 @@ async function probePayment(options) {
 
         case 'FAILED_INCORRECT_PAYMENT_DETAILS':
           grpcLog.info('PROBE SUCCESS: %o', data)
+          // Prior to lnd v0.10.0 sendPayment would return a single route under the `route` key.
+          route = data.route || data.htlcs[0].route
           // FIXME: For some reason the customRecords key is corrupt in the grpc response object.
           // For now, assume that if a custom_record key is set that it is a keysend record and fix it accordingly.
-          data.route.hops = data.route.hops.map(hop => {
+          route.hops = route.hops.map(hop => {
             Object.keys(hop.customRecords).forEach(key => {
               hop.customRecords[KEYSEND_PREIMAGE_TYPE] = hop.customRecords[key]
               delete hop.customRecords[key]
             })
             return hop
           })
-          result = data.route
+          result = route
           break
 
         default:
