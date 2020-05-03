@@ -317,7 +317,7 @@
     "@rebass/forms": "4.0.6",
     "@styled-system/theme-get": "5.1.2",
     "axios": "0.19.2",
-    "bech32": "1.1.3",
+    "bech32": "1.1.4",
     "bignumber.js": "9.0.0",
     "bip21": "2.0.2",
     "bip39-en": "1.1.1",
