@@ -11701,10 +11701,10 @@ lnd-binary@0.3.15:
     "true-case-path" "^2.2.1"
     unzip-stream "^0.3.0"
 
-lnd-grpc@0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.4.0.tgz#b549e3686413447574b7892421ef0fb18644c6f1"
-  integrity sha512-wtQ1EP6mHvjGuB4+cSyx7SgaiHA5/kAPBmO/I3JfKLQtEKUheJrvQAA1EEPAQTtNQp+Tx4G56UuzI5kBVjfeKQ==
+lnd-grpc@0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.4.1.tgz#29ca51c01ce0f8447cfe7f2d6cf157e453f7f130"
+  integrity sha512-1XGPpAc0jFJeAeFp7pZg31Y3G1AAQJWidSdh855xzNYgKbkioG+U5Kk3KMyRk/VSl2hGi9o11zgAhv2sC8Xe7A==
   dependencies:
     "@grpc/grpc-js" "1.0.3"
     "@ln-zap/proto-loader" "0.5.4"
