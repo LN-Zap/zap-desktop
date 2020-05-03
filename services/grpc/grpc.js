@@ -102,17 +102,16 @@ class ZapGrpc extends EventEmitter {
    * @returns {Promise} Promise that resolves after unlocking a wallet and connecting to the Lightning interface.
    */
   async unlock(password) {
+    const { grpc } = this
     try {
-      const { grpc } = this
-      await promiseTimeout(
-        WALLET_UNLOCKER_TIMEOUT,
-        grpc.services.WalletUnlocker.unlockWallet({ walletPassword: Buffer.from(password) })
-      )
-      return await promiseTimeout(WALLET_UNLOCKER_TIMEOUT, grpc.activateLightning())
+      await grpc.services.WalletUnlocker.unlockWallet({ walletPassword: Buffer.from(password) })
     } catch (e) {
-      grpcLog.error(`Error when trying to connect to LND grpc: %o`, e)
-      throw e
+      if (e.code !== status.UNAVAILABLE) {
+        grpcLog.error(`Error when trying to connect to LND grpc: %o`, e)
+        throw e
+      }
     }
+    await grpc.activateLightning()
   }
 
   /**
