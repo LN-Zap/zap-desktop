@@ -1346,12 +1346,12 @@
   resolved "https://registry.yarnpkg.com/@formatjs/intl-utils/-/intl-utils-2.2.4.tgz#fe62a96799d1f7dbe621fd38a4bd2e5a6a16cb0e"
   integrity sha512-83fsJywew0o9wQsW3VuEp33HRiFd0qbQDyFFnwZCwk59eLZ33CtKyJ5ofKMrU2KK6hk1zaIdzisrZeoNfmI3Tw==
 
-"@grpc/grpc-js@0.5.2":
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-0.5.2.tgz#8e39876033749e1611fe9fa181d9535077805abe"
-  integrity sha512-NE1tP/1AF6BqhLdILElnF7aOBfoky+4ZOdZU/0NmKo2d+9F9QD8zGoElpBk/5BfyQZ3u1Zs+wFbDOFpVUzDx1w==
+"@grpc/grpc-js@1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.0.3.tgz#7fa2ba293ccc1e91b24074c2628c8c68336e18c4"
+  integrity sha512-JKV3f5Bv2TZxK6eJSB9EarsZrnLxrvcFNwI9goq0YRXa3S6NNoCSnI3cG3lkXVIJ03Wng1WXe76kc2JQtRe7AQ==
   dependencies:
-    semver "^6.0.0"
+    semver "^6.2.0"
 
 "@hot-loader/react-dom@16.13.0":
   version "16.13.0"
@@ -1564,10 +1564,10 @@
   resolved "https://registry.yarnpkg.com/@ln-zap/prettier-config/-/prettier-config-0.1.0.tgz#d42cd49c9d675da26d56ecfe58f5304c43471d84"
   integrity sha512-L9OHuzQ2XscNCWCyqWMYLxZhGc6hQLDjkDTa9aywkGYVAKctlGpHIj43OeuZnaacxZWA+vgiSUNsKT94BxfX6g==
 
-"@ln-zap/proto-loader@0.5.1":
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/@ln-zap/proto-loader/-/proto-loader-0.5.1.tgz#246f1a3c54f906e0f825a0890b56a426de122d15"
-  integrity sha512-zkupXayub2dPaqYXVlxF0rilQQuLtRd7qHcS8vwWl6DOVZIki9uCd2wmnhtuh5FieGsFmc1yfXt9LeuENHhjVw==
+"@ln-zap/proto-loader@0.5.4":
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/@ln-zap/proto-loader/-/proto-loader-0.5.4.tgz#4be409f6d0448fe81e71918e440bf902168f576f"
+  integrity sha512-6zK9sgYrUwz+vd5Tt97rrKwKiFBe8r4+sQdO+MLZO2odiapLuiwUBB5mjEG/zb0c9nDgU6ZW+Pqye7Gye00VcA==
   dependencies:
     lodash.camelcase "^4.3.0"
     protobufjs "^6.8.6"
@@ -11701,20 +11701,21 @@ lnd-binary@0.3.15:
     "true-case-path" "^2.2.1"
     unzip-stream "^0.3.0"
 
-lnd-grpc@0.3.4:
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.3.4.tgz#1070e900039549e94115c7258d40362cb8a6d0b2"
-  integrity sha512-5GdufbAzLaPS9mh6PhnTjKrI1N3Lzb9QW7em/Az+emHXyEDFjNoIIZddGTlQ+TdxdRHv4xRxUQiPPdae+Nm1BA==
+lnd-grpc@0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.4.0.tgz#b549e3686413447574b7892421ef0fb18644c6f1"
+  integrity sha512-wtQ1EP6mHvjGuB4+cSyx7SgaiHA5/kAPBmO/I3JfKLQtEKUheJrvQAA1EEPAQTtNQp+Tx4G56UuzI5kBVjfeKQ==
   dependencies:
-    "@grpc/grpc-js" "0.5.2"
-    "@ln-zap/proto-loader" "0.5.1"
+    "@grpc/grpc-js" "1.0.3"
+    "@ln-zap/proto-loader" "0.5.4"
     debug "4.1.1"
+    get-port "5.1.1"
     javascript-state-machine "3.1.0"
     lndconnect "0.2.10"
     lodash.defaultsdeep "4.6.1"
-    semver "6.3.0"
+    semver "^7.1.3"
     untildify "4.0.0"
-    validator "11.1.0"
+    validator "^13.0.0"
 
 lndconnect@0.2.10:
   version "0.2.10"
@@ -18056,12 +18057,7 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-validator@11.1.0:
-  version "11.1.0"
-  resolved "https://registry.yarnpkg.com/validator/-/validator-11.1.0.tgz#ac18cac42e0aa5902b603d7a5d9b7827e2346ac4"
-  integrity sha512-qiQ5ktdO7CD6C/5/mYV4jku/7qnqzjrxb3C/Q5wR3vGGinHTgJZN/TdFT3ZX4vXhX2R1PXx42fB1cn5W+uJ4lg==
-
-validator@13.0.0:
+validator@13.0.0, validator@^13.0.0:
   version "13.0.0"
   resolved "https://registry.yarnpkg.com/validator/-/validator-13.0.0.tgz#0fb6c6bb5218ea23d368a8347e6d0f5a70e3bcab"
   integrity sha512-anYx5fURbgF04lQV18nEQWZ/3wHGnxiKdG4aL8J+jEDsm98n/sU/bey+tYk6tnGJzm7ioh5FoqrAiQ6m03IgaA==
