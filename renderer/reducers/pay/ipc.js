@@ -7,6 +7,7 @@ import { showError } from 'reducers/notification'
 import { walletSelectors } from 'reducers/wallet'
 import { showAutopayNotification, autopaySelectors } from 'reducers/autopay'
 import { payInvoice } from 'reducers/payment'
+import { tickerSelectors } from 'reducers/ticker'
 import { setRedirectPayReq, setLnurlWithdrawalParams } from './reducer'
 import messages from './messages'
 
@@ -63,7 +64,7 @@ export const lightningPaymentUri = (event, { address }) => (dispatch, getState) 
  * @param  {{ address, options }} options Decoded bip21 payment url
  * @returns {Function} Thunk
  */
-export const bitcoinPaymentUri = (event, { address, options = {} }) => dispatch => {
+export const bitcoinPaymentUri = (event, { address, options = {} }) => (dispatch, getState) => {
   // If the bip21 data includes a bolt11 invoice in the `lightning` key handle as a lightning payment.
   const { lightning } = options
   if (lightning) {
@@ -71,7 +72,9 @@ export const bitcoinPaymentUri = (event, { address, options = {} }) => dispatch 
   }
   // Otherwise, use the bitcoin address for on-chain payment.
   else {
-    const { amount } = options
+    const { amount: amountInBtc } = options
+    const cryptoUnit = tickerSelectors.cryptoUnit(getState())
+    const amount = convert('btc', cryptoUnit, amountInBtc)
     dispatch(setRedirectPayReq({ address, amount }))
   }
 }
