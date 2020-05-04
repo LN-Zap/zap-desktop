@@ -8,12 +8,12 @@ import messages from './messages'
 
 const messageMapper = key => {
   const filters = {
-    OPEN_DATE: messages.channel_sort_open_date,
-    REMOTE_BALANCE: messages.channel_sort_remote_balance,
-    LOCAL_BALANCE: messages.channel_sort_local_balance,
-    ACTIVITY: messages.channel_sort_activity,
-    NAME: messages.channel_sort_name,
-    CAPACITY: messages.channel_sort_capacity,
+    CHANNELS_SORT_OPEN_DATE: messages.channel_sort_open_date,
+    CHANNELS_SORT_REMOTE_BALANCE: messages.channel_sort_remote_balance,
+    CHANNELS_SORT_LOCAL_BALANCE: messages.channel_sort_local_balance,
+    CHANNELS_SORT_ACTIVITY: messages.channel_sort_activity,
+    CHANNELS_SORT_NAME: messages.channel_sort_name,
+    CHANNELS_SORT_CAPACITY: messages.channel_sort_capacity,
   }
 
   return filters[key]

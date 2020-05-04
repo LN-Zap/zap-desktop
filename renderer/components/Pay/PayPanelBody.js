@@ -5,6 +5,7 @@ import PayAddressField from './PayAddressField'
 import PayAmountFields from './PayAmountFields'
 import PayHelpText from './PayHelpText'
 import PaySummary from './PaySummary'
+import { PAYMENT_TYPES } from './constants'
 
 const PayPanelBody = props => {
   const {
@@ -21,13 +22,11 @@ const PayPanelBody = props => {
     initialAmountFiat,
     intl,
     invoice,
-    isBolt11,
-    isOnchain,
-    isPubkey,
     isQueryingFees,
     lndTargetConfirmations,
     network,
     onchainFees,
+    paymentType,
     previousStep,
     queryFees,
     redirectPayReq,
@@ -50,10 +49,8 @@ const PayPanelBody = props => {
         formApi={formState}
         handlePayReqChange={handlePayReqChange}
         intl={intl}
-        isBolt11={isBolt11}
-        isOnchain={isOnchain}
-        isPubkey={isPubkey}
         network={network}
+        paymentType={paymentType}
         redirectPayReq={redirectPayReq}
       />
       <PayAmountFields
@@ -64,8 +61,7 @@ const PayPanelBody = props => {
         initialAmountFiat={initialAmountFiat}
         intl={intl}
         invoice={invoice}
-        isOnchain={isOnchain}
-        isPubkey={isPubkey}
+        isOnchain={paymentType === PAYMENT_TYPES.onchain}
         isQueryingFees={isQueryingFees}
         lndTargetConfirmations={lndTargetConfirmations}
         onchainFees={onchainFees}
@@ -76,10 +72,9 @@ const PayPanelBody = props => {
         amountInSats={amountInSats}
         currentStep={currentStep}
         formApi={formApi}
-        isOnchain={isOnchain}
-        isPubkey={isPubkey}
         lndTargetConfirmations={lndTargetConfirmations}
         onchainFees={onchainFees}
+        paymentType={paymentType}
         routes={routes}
       />
     </>
@@ -100,9 +95,6 @@ PayPanelBody.propTypes = {
   initialAmountFiat: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   intl: intlShape.isRequired,
   invoice: PropTypes.object,
-  isBolt11: PropTypes.bool,
-  isOnchain: PropTypes.bool,
-  isPubkey: PropTypes.bool,
   isQueryingFees: PropTypes.bool,
   lndTargetConfirmations: PropTypes.shape({
     fast: PropTypes.number.isRequired,
@@ -115,6 +107,7 @@ PayPanelBody.propTypes = {
     medium: PropTypes.string,
     slow: PropTypes.string,
   }),
+  paymentType: PropTypes.oneOf(Object.values(PAYMENT_TYPES)).isRequired,
   previousStep: PropTypes.string,
   queryFees: PropTypes.func.isRequired,
   redirectPayReq: PropTypes.object,

@@ -1,5 +1,5 @@
 import config from 'config'
-import { decodePayReq, getNodeAlias, getTag, generatePreimage } from '@zap/utils/crypto'
+import { decodePayReq, getNodeAlias, generatePreimage } from '@zap/utils/crypto'
 import { convert } from '@zap/utils/btc'
 import { getIntl } from '@zap/i18n'
 import { sha256digest } from '@zap/utils/sha256'
@@ -118,7 +118,6 @@ export const prepareBolt11Payload = (payReq, amt, feeLimit) => {
   return {
     ...getPaymentConfig(),
     paymentRequest: invoice.paymentRequest,
-    paymentHash: getTag(invoice, 'payment_hash'), // hash is not needed in the payload but store for convienience.
     feeLimit: feeLimit ? { fixed: feeLimit } : null,
     amt: millisatoshis ? null : amt,
   }

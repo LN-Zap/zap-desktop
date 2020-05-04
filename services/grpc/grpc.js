@@ -15,6 +15,9 @@ import lightningSubscriptions from './lightning.subscriptions'
 const GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE = 'GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE'
 const GRPC_LIGHTNING_SERVICE_ACTIVE = 'GRPC_LIGHTNING_SERVICE_ACTIVE'
 
+const GRPC_TOR_PROXY_STARTING = 'GRPC_TOR_PROXY_STARTING'
+const GRPC_TOR_PROXY_ACTIVE = 'GRPC_TOR_PROXY_ACTIVE'
+
 // Timeout for WalletUnlocker actions.
 const WALLET_UNLOCKER_TIMEOUT = 1000 * 60
 
@@ -81,6 +84,12 @@ class ZapGrpc extends EventEmitter {
       this.emit(GRPC_LIGHTNING_SERVICE_ACTIVE)
       this.subscribeAll()
     })
+    this.grpc.on('tor.starting', () => {
+      this.emit(GRPC_TOR_PROXY_STARTING)
+    })
+    this.grpc.on('tor.started', () => {
+      this.emit(GRPC_TOR_PROXY_ACTIVE)
+    })
 
     // Connect the service.
     return this.grpc.connect(options)
@@ -93,17 +102,16 @@ class ZapGrpc extends EventEmitter {
    * @returns {Promise} Promise that resolves after unlocking a wallet and connecting to the Lightning interface.
    */
   async unlock(password) {
+    const { grpc } = this
     try {
-      const { grpc } = this
-      await promiseTimeout(
-        WALLET_UNLOCKER_TIMEOUT,
-        grpc.services.WalletUnlocker.unlockWallet({ walletPassword: Buffer.from(password) })
-      )
-      return await promiseTimeout(WALLET_UNLOCKER_TIMEOUT, grpc.activateLightning())
+      await grpc.services.WalletUnlocker.unlockWallet({ walletPassword: Buffer.from(password) })
     } catch (e) {
-      grpcLog.error(`Error when trying to connect to LND grpc: %o`, e)
-      throw e
+      if (e.code !== status.UNAVAILABLE) {
+        grpcLog.error(`Error when trying to connect to LND grpc: %o`, e)
+        throw e
+      }
     }
+    await grpc.activateLightning()
   }
 
   /**

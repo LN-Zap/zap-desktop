@@ -84,7 +84,7 @@ export function requestFees(options) {
           }
           return acc
         }, [])
-      return feeRange.length ? feeRange[0].maxFee : null
+      return feeRange.length ? feeRange[0].maxFee : 0
     }
 
     const { fast, medium, slow } = options

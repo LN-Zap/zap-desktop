@@ -652,7 +652,7 @@
   "reducers.account.account_password_updated": "Dein Passwort wurde erfolgreich aktualisiert",
   "reducers.activity.activity_invoice_download_error": "Ein Fehler ist aufgetreten",
   "reducers.activity.activity_invoice_download_success": "Download komplett",
-  "reducers.channels.channels_open_warning": "Kanalnöffnung gestartet",
+  "reducers.channels.channels_open_warning": "Kanalöffnung gestartet",
   "reducers.messages.address_new_address_error": "{addressType} -Adresse konnte nicht gefunden werden: {error}",
   "reducers.messages.app_init_db_error": "Datenbank kann nicht initialisiert werden: {error}",
   "reducers.messages.autopay_notification_detail": "für \"{reason}\"",

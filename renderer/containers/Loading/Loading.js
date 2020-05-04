@@ -13,6 +13,7 @@ const LoadingContainer = ({
   isAccountPasswordEnabled,
   isWalletOpen,
   onClose,
+  message,
   isAccountLoading,
   isLoggedIn,
 }) => {
@@ -35,7 +36,13 @@ const LoadingContainer = ({
   }
 
   return (
-    <Loading hasClose={hasClose} isLoading={isLoading} onClose={onClose} variant={getVariant()} />
+    <Loading
+      hasClose={hasClose}
+      isLoading={isLoading}
+      message={message}
+      onClose={onClose}
+      variant={getVariant()}
+    />
   )
 }
 
@@ -47,6 +54,7 @@ LoadingContainer.propTypes = {
   isLoading: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   isWalletOpen: PropTypes.bool,
+  message: PropTypes.object,
   onClose: PropTypes.func,
   pathname: PropTypes.string.isRequired,
 }

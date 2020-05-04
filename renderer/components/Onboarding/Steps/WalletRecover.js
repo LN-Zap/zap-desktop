@@ -7,7 +7,7 @@ import { intlShape } from '@zap/i18n'
 import ErrorDialog from './components/ErrorDialog'
 import messages from './messages'
 
-const isInvalidPassphrase = error => error === 'invalid passphrase'
+const isInvalidPassphrase = error => error === '2 UNKNOWN: invalid passphrase'
 
 class WalletRecover extends React.Component {
   static propTypes = {

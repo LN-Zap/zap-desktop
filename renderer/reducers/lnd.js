@@ -68,6 +68,9 @@ export const CONNECT_GRPC_FAILURE = 'CONNECT_GRPC_FAILURE'
 export const LND_WALLET_UNLOCKER_GRPC_ACTIVE = 'LND_WALLET_UNLOCKER_GRPC_ACTIVE'
 export const LND_LIGHTNING_GRPC_ACTIVE = 'LND_LIGHTNING_GRPC_ACTIVE'
 
+export const LND_TOR_PROXY_STARTING = 'LND_TOR_PROXY_STARTING'
+export const LND_TOR_PROXY_ACTIVE = 'LND_TOR_PROXY_ACTIVE'
+
 export const DISCONNECT_GRPC = 'DISCONNECT_GRPC'
 export const DISCONNECT_GRPC_SUCCESS = 'DISCONNECT_GRPC_SUCCESS'
 export const DISCONNECT_GRPC_FAILURE = 'DISCONNECT_GRPC_FAILURE'
@@ -124,6 +127,8 @@ function unsubFromGrpcEvents(lndGrpc) {
   lndGrpc.removeAllListeners('subscribeChannelBackups.data')
   lndGrpc.removeAllListeners('GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE')
   lndGrpc.removeAllListeners('GRPC_LIGHTNING_SERVICE_ACTIVE')
+  lndGrpc.removeAllListeners('GRPC_TOR_PROXY_STARTING')
+  lndGrpc.removeAllListeners('GRPC_TOR_PROXY_ACTIVE')
 }
 
 // ------------------------------------
@@ -148,6 +153,8 @@ export const connectGrpcService = lndConfig => async dispatch => {
   )
   const handleWalletUnlockerActive = proxyValue(() => dispatch(setWalletUnlockerGrpcActive()))
   const handleLightningActive = proxyValue(() => dispatch(setLightningGrpcActive()))
+  const handleTorProxyStarting = proxyValue(() => dispatch(setTorProxyStarting()))
+  const handleTorProxyActive = proxyValue(() => dispatch(setTorProxyActive()))
 
   try {
     // Hook up event listeners for stream subscriptions.
@@ -160,6 +167,8 @@ export const connectGrpcService = lndConfig => async dispatch => {
     // Hook up event listeners to notify when each gRPC service becomes available.
     grpc.on('GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE', handleWalletUnlockerActive)
     grpc.on('GRPC_LIGHTNING_SERVICE_ACTIVE', handleLightningActive)
+    grpc.on('GRPC_TOR_PROXY_STARTING', handleTorProxyStarting)
+    grpc.on('GRPC_TOR_PROXY_ACTIVE', handleTorProxyActive)
 
     await grpc.connect(lndConfig)
 
@@ -305,6 +314,28 @@ export const stopLnd = () => async (dispatch, getState) => {
     dispatch({ type: STOP_LND_FAILURE, error })
   }
 }
+
+/**
+ * setTorProxyStarting - Tor proxy starting callback.
+ *
+ * Called when grpc tor proxy is about to start.
+ *
+ * @returns {Function} Thunk
+ */
+export const setTorProxyStarting = () => ({
+  type: LND_TOR_PROXY_STARTING,
+})
+
+/**
+ * setTorProxyActive - Tor proxy active callback.
+ *
+ * Called when grpc tor proxy has started.
+ *
+ * @returns {Function} Thunk
+ */
+export const setTorProxyActive = () => ({
+  type: LND_TOR_PROXY_ACTIVE,
+})
 
 /**
  * setLightningGrpcActive - Lightning gRPC connect callback.
@@ -603,6 +634,16 @@ const ACTION_HANDLERS = {
   [CONNECT_GRPC_SUCCESS]: state => {
     state.isStartingGrpc = false
   },
+
+  [LND_TOR_PROXY_STARTING]: state => {
+    state.isTorProxyStarting = true
+    state.isTorProxyActive = false
+  },
+  [LND_TOR_PROXY_ACTIVE]: state => {
+    state.isTorProxyStarting = false
+    state.isTorProxyActive = true
+  },
+
   [LND_WALLET_UNLOCKER_GRPC_ACTIVE]: state => {
     state.isWalletUnlockerGrpcActive = true
     state.isLightningGrpcActive = false

@@ -10,10 +10,10 @@ const VARIANTS = {
   launchpad: LoadingLaunchpad,
 }
 
-const Loading = ({ variant, isLoading }) => {
+const Loading = ({ variant, isLoading, ...rest }) => {
   const Component = VARIANTS[variant]
   if (Component) {
-    return <Component isLoading={isLoading} />
+    return <Component isLoading={isLoading} {...rest} />
   }
 
   return null

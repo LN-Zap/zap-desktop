@@ -2,13 +2,12 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import toJSON from 'enzyme-to-json'
 import { PayAddressField } from 'components/Pay'
-import { PAY_FORM_STEPS } from 'components/Pay/constants'
+import { PAY_FORM_STEPS, PAYMENT_TYPES } from 'components/Pay/constants'
 
 const props = {
   chain: 'Bitcoin',
   handlePayReqChange: () => {},
   intl: {},
-  isBolt11: null,
   network: 'testnet',
   redirectPayReq: {},
   formState: { values: {}, submits: 0 },
@@ -17,7 +16,13 @@ const props = {
 describe('component.Pay.PayAddressField', () => {
   describe('current step is "address"', () => {
     it('should render correctly', () => {
-      const wrapper = shallow(<PayAddressField {...props} currentStep={PAY_FORM_STEPS.address} />)
+      const wrapper = shallow(
+        <PayAddressField
+          {...props}
+          currentStep={PAY_FORM_STEPS.address}
+          paymentType={PAYMENT_TYPES.none}
+        />
+      )
       expect(toJSON(wrapper)).toMatchSnapshot()
     })
   })
@@ -26,7 +31,11 @@ describe('component.Pay.PayAddressField', () => {
     describe('and it is an LN transaction', () => {
       it('should render correctly', () => {
         const wrapper = shallow(
-          <PayAddressField {...props} currentStep={PAY_FORM_STEPS.summary} isBolt11 />
+          <PayAddressField
+            {...props}
+            currentStep={PAY_FORM_STEPS.summary}
+            paymentType={PAYMENT_TYPES.bolt11}
+          />
         )
         expect(toJSON(wrapper)).toMatchSnapshot()
       })
@@ -35,7 +44,11 @@ describe('component.Pay.PayAddressField', () => {
     describe('and it is an on-chain transaction', () => {
       it('should render correctly', () => {
         const wrapper = shallow(
-          <PayAddressField {...props} currentStep={PAY_FORM_STEPS.summary} isBolt11={false} />
+          <PayAddressField
+            {...props}
+            currentStep={PAY_FORM_STEPS.summary}
+            paymentType={PAYMENT_TYPES.onchain}
+          />
         )
         expect(toJSON(wrapper)).toMatchSnapshot()
       })

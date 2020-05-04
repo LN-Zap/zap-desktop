@@ -4,7 +4,7 @@ import find from 'lodash/find'
 import createReducer from '@zap/utils/createReducer'
 import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
 import { getIntl } from '@zap/i18n'
-import { isPubkey } from '@zap/utils/crypto'
+import { isPubkey, getTag } from '@zap/utils/crypto'
 import delay from '@zap/utils/delay'
 import genId from '@zap/utils/genId'
 import { mainLog } from '@zap/utils/log'
@@ -228,11 +228,10 @@ export const payInvoice = ({
   } else {
     dispatch(
       sendPayment({
-        // path: [pubkey],
         paymentHash:
           route && route.isExact
             ? route.paymentHash.toString('hex')
-            : payload.paymentHash.toString('hex'),
+            : getTag(payReq, 'payment_hash'),
         paymentId,
         feeLimit,
         value: amt,

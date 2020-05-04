@@ -123,7 +123,6 @@ export const setGrpcActiveInterface = grpcActiveInterface => {
  *
  * @param {object} options Options
  * @param {string} options.code Exit code
- * @param {string} options.code Exit signal code
  * @param {string} options.lastError Last message output to lnd's stderror stream
  * @returns {object} Action
  */

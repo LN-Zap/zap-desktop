@@ -22,8 +22,8 @@ exports[`component.Pay.PayAddressField current step is "address" should render c
           },
           "handlePayReqChange": [Function],
           "intl": Object {},
-          "isBolt11": null,
           "network": "testnet",
+          "paymentType": "none",
           "redirectPayReq": Object {},
         },
         "refs": Object {},
@@ -61,8 +61,8 @@ exports[`component.Pay.PayAddressField current step is "address" should render c
               }
               handlePayReqChange={[Function]}
               intl={Object {}}
-              isBolt11={null}
               network="testnet"
+              paymentType="none"
               redirectPayReq={Object {}}
             />,
             "_firstWorkInProgressHook": null,
@@ -72,7 +72,7 @@ exports[`component.Pay.PayAddressField current step is "address" should render c
             "_newState": null,
             "_numberOfReRenders": 0,
             "_renderPhaseUpdates": null,
-            "_rendered": <ForwardRef(styled.div)
+            "_rendered": <styled.div
               className="element-show"
             >
               <Unknown
@@ -81,7 +81,7 @@ exports[`component.Pay.PayAddressField current step is "address" should render c
               >
                 [Function]
               </Unknown>
-            </ForwardRef(styled.div)>,
+            </styled.div>,
             "_rendering": false,
             "_updater": [Circular],
             "_workInProgressHook": null,
@@ -118,8 +118,8 @@ exports[`component.Pay.PayAddressField current step is "summary" and it is an LN
           },
           "handlePayReqChange": [Function],
           "intl": Object {},
-          "isBolt11": true,
           "network": "testnet",
+          "paymentType": "bolt11",
           "redirectPayReq": Object {},
         },
         "refs": Object {},
@@ -157,8 +157,8 @@ exports[`component.Pay.PayAddressField current step is "summary" and it is an LN
               }
               handlePayReqChange={[Function]}
               intl={Object {}}
-              isBolt11={true}
               network="testnet"
+              paymentType="bolt11"
               redirectPayReq={Object {}}
             />,
             "_firstWorkInProgressHook": null,
@@ -168,7 +168,7 @@ exports[`component.Pay.PayAddressField current step is "summary" and it is an LN
             "_newState": null,
             "_numberOfReRenders": 0,
             "_renderPhaseUpdates": null,
-            "_rendered": <ForwardRef(styled.div)
+            "_rendered": <styled.div
               className="element-hide"
             >
               <Unknown
@@ -177,7 +177,7 @@ exports[`component.Pay.PayAddressField current step is "summary" and it is an LN
               >
                 [Function]
               </Unknown>
-            </ForwardRef(styled.div)>,
+            </styled.div>,
             "_rendering": false,
             "_updater": [Circular],
             "_workInProgressHook": null,
@@ -214,8 +214,8 @@ exports[`component.Pay.PayAddressField current step is "summary" and it is an on
           },
           "handlePayReqChange": [Function],
           "intl": Object {},
-          "isBolt11": false,
           "network": "testnet",
+          "paymentType": "onchain",
           "redirectPayReq": Object {},
         },
         "refs": Object {},
@@ -253,8 +253,8 @@ exports[`component.Pay.PayAddressField current step is "summary" and it is an on
               }
               handlePayReqChange={[Function]}
               intl={Object {}}
-              isBolt11={false}
               network="testnet"
+              paymentType="onchain"
               redirectPayReq={Object {}}
             />,
             "_firstWorkInProgressHook": null,
@@ -264,7 +264,7 @@ exports[`component.Pay.PayAddressField current step is "summary" and it is an on
             "_newState": null,
             "_numberOfReRenders": 0,
             "_renderPhaseUpdates": null,
-            "_rendered": <ForwardRef(styled.div)
+            "_rendered": <styled.div
               className="element-hide"
             >
               <Unknown
@@ -273,7 +273,7 @@ exports[`component.Pay.PayAddressField current step is "summary" and it is an on
               >
                 [Function]
               </Unknown>
-            </ForwardRef(styled.div)>,
+            </styled.div>,
             "_rendering": false,
             "_updater": [Circular],
             "_workInProgressHook": null,

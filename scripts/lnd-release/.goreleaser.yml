@@ -9,9 +9,16 @@ builds:
     binary: lnd
     main: ./cmd/lnd
     ldflags:
+      - -s -w
       - -X github.com/lightningnetwork/lnd/build.Commit={{.Tag}}
+      - -X github.com/lightningnetwork/lnd/build.RawTags=experimental,monitoring,autopilotrpc,chainrpc,invoicesrpc,signrpc,routerrpc,walletrpc,watchtowerrpc,wtclientrpc"
+      - -X github.com/lightningnetwork/lnd/build.CommitHash={{.FullCommit}}
+      - -X github.com/lightningnetwork/lnd/build.GoVersion={{.Env.GOVERSION}}
     flags:
-      - -tags=experimental monitoring autopilotrpc chainrpc invoicesrpc routerrpc signrpc walletrpc watchtowerrpc wtclientrpc
+      - -v
+      - -trimpath
+      - -tags=experimental monitoring autopilotrpc chainrpc invoicesrpc signrpc routerrpc walletrpc watchtowerrpc wtclientrpc
+
   - id: lncli
     goos:
       - linux
@@ -22,9 +29,15 @@ builds:
     binary: lncli
     main: ./cmd/lncli
     ldflags:
+      - -s -w
       - -X github.com/lightningnetwork/lnd/build.Commit={{.Tag}}
+      - -X github.com/lightningnetwork/lnd/build.RawTags=experimental,monitoring,autopilotrpc,chainrpc,invoicesrpc,signrpc,routerrpc,walletrpc,watchtowerrpc,wtclientrpc"
+      - -X github.com/lightningnetwork/lnd/build.CommitHash={{.FullCommit}}
+      - -X github.com/lightningnetwork/lnd/build.GoVersion={{.Env.GOVERSION}}
     flags:
-      - -tags=experimental monitoring autopilotrpc chainrpc invoicesrpc routerrpc signrpc walletrpc watchtowerrpc wtclientrpc
+      - -v
+      - -trimpath
+      - -tags=experimental monitoring autopilotrpc chainrpc invoicesrpc signrpc routerrpc walletrpc watchtowerrpc wtclientrpc
 archives:
   - name_template: '{{ .ProjectName }}-{{ .Os }}-{{ .Arch }}{{ .Arm }}-v{{ .Version }}'
     format: tar.gz

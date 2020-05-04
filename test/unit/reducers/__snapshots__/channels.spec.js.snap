@@ -48,31 +48,31 @@ Snapshot Diff:
     },
     "searchQuery": null,
     "selectedChannelId": null,
-    "sort": "OPEN_DATE",
+    "sort": "CHANNELS_SORT_OPEN_DATE",
     "sortOrder": "asc",
     "sorters": Array [
       Object {
-        "key": "OPEN_DATE",
+        "key": "CHANNELS_SORT_OPEN_DATE",
         "value": "Open date",
       },
       Object {
-        "key": "REMOTE_BALANCE",
+        "key": "CHANNELS_SORT_REMOTE_BALANCE",
         "value": "Remote balance",
       },
       Object {
-        "key": "LOCAL_BALANCE",
+        "key": "CHANNELS_SORT_LOCAL_BALANCE",
         "value": "Local balance",
       },
       Object {
-        "key": "ACTIVITY",
+        "key": "CHANNELS_SORT_ACTIVITY",
         "value": "Activity",
       },
       Object {
-        "key": "NAME",
+        "key": "CHANNELS_SORT_NAME",
         "value": "Name",
       },
       Object {
-        "key": "CAPACITY",
+        "key": "CHANNELS_SORT_CAPACITY",
         "value": "Capacity",
       },
     ],
@@ -135,31 +135,31 @@ Snapshot Diff:
     },
     "searchQuery": null,
     "selectedChannelId": null,
-    "sort": "OPEN_DATE",
+    "sort": "CHANNELS_SORT_OPEN_DATE",
     "sortOrder": "asc",
     "sorters": Array [
       Object {
-        "key": "OPEN_DATE",
+        "key": "CHANNELS_SORT_OPEN_DATE",
         "value": "Open date",
       },
       Object {
-        "key": "REMOTE_BALANCE",
+        "key": "CHANNELS_SORT_REMOTE_BALANCE",
         "value": "Remote balance",
       },
       Object {
-        "key": "LOCAL_BALANCE",
+        "key": "CHANNELS_SORT_LOCAL_BALANCE",
         "value": "Local balance",
       },
       Object {
-        "key": "ACTIVITY",
+        "key": "CHANNELS_SORT_ACTIVITY",
         "value": "Activity",
       },
       Object {
-        "key": "NAME",
+        "key": "CHANNELS_SORT_NAME",
         "value": "Name",
       },
       Object {
-        "key": "CAPACITY",
+        "key": "CHANNELS_SORT_CAPACITY",
         "value": "Capacity",
       },
     ],
@@ -217,31 +217,31 @@ Snapshot Diff:
     },
     "searchQuery": null,
     "selectedChannelId": null,
-    "sort": "OPEN_DATE",
+    "sort": "CHANNELS_SORT_OPEN_DATE",
     "sortOrder": "asc",
     "sorters": Array [
       Object {
-        "key": "OPEN_DATE",
+        "key": "CHANNELS_SORT_OPEN_DATE",
         "value": "Open date",
       },
       Object {
-        "key": "REMOTE_BALANCE",
+        "key": "CHANNELS_SORT_REMOTE_BALANCE",
         "value": "Remote balance",
       },
       Object {
-        "key": "LOCAL_BALANCE",
+        "key": "CHANNELS_SORT_LOCAL_BALANCE",
         "value": "Local balance",
       },
       Object {
-        "key": "ACTIVITY",
+        "key": "CHANNELS_SORT_ACTIVITY",
         "value": "Activity",
       },
       Object {
-        "key": "NAME",
+        "key": "CHANNELS_SORT_NAME",
         "value": "Name",
       },
       Object {
-        "key": "CAPACITY",
+        "key": "CHANNELS_SORT_CAPACITY",
         "value": "Capacity",
       },
     ],
@@ -299,32 +299,32 @@ Snapshot Diff:
     },
     "searchQuery": null,
     "selectedChannelId": null,
--   "sort": "OPEN_DATE",
-+   "sort": "CAPACITY",
+-   "sort": "CHANNELS_SORT_OPEN_DATE",
++   "sort": "CHANNELS_SORT_CAPACITY",
     "sortOrder": "asc",
     "sorters": Array [
       Object {
-        "key": "OPEN_DATE",
+        "key": "CHANNELS_SORT_OPEN_DATE",
         "value": "Open date",
       },
       Object {
-        "key": "REMOTE_BALANCE",
+        "key": "CHANNELS_SORT_REMOTE_BALANCE",
         "value": "Remote balance",
       },
       Object {
-        "key": "LOCAL_BALANCE",
+        "key": "CHANNELS_SORT_LOCAL_BALANCE",
         "value": "Local balance",
       },
       Object {
-        "key": "ACTIVITY",
+        "key": "CHANNELS_SORT_ACTIVITY",
         "value": "Activity",
       },
       Object {
-        "key": "NAME",
+        "key": "CHANNELS_SORT_NAME",
         "value": "Name",
       },
       Object {
-        "key": "CAPACITY",
+        "key": "CHANNELS_SORT_CAPACITY",
         "value": "Capacity",
       },
     ],
@@ -382,32 +382,32 @@ Snapshot Diff:
     },
     "searchQuery": null,
     "selectedChannelId": null,
-    "sort": "OPEN_DATE",
+    "sort": "CHANNELS_SORT_OPEN_DATE",
 -   "sortOrder": "asc",
 +   "sortOrder": "desc",
     "sorters": Array [
       Object {
-        "key": "OPEN_DATE",
+        "key": "CHANNELS_SORT_OPEN_DATE",
         "value": "Open date",
       },
       Object {
-        "key": "REMOTE_BALANCE",
+        "key": "CHANNELS_SORT_REMOTE_BALANCE",
         "value": "Remote balance",
       },
       Object {
-        "key": "LOCAL_BALANCE",
+        "key": "CHANNELS_SORT_LOCAL_BALANCE",
         "value": "Local balance",
       },
       Object {
-        "key": "ACTIVITY",
+        "key": "CHANNELS_SORT_ACTIVITY",
         "value": "Activity",
       },
       Object {
-        "key": "NAME",
+        "key": "CHANNELS_SORT_NAME",
         "value": "Name",
       },
       Object {
-        "key": "CAPACITY",
+        "key": "CHANNELS_SORT_CAPACITY",
         "value": "Capacity",
       },
     ],
@@ -466,31 +466,31 @@ Snapshot Diff:
     },
     "searchQuery": null,
     "selectedChannelId": null,
-    "sort": "OPEN_DATE",
+    "sort": "CHANNELS_SORT_OPEN_DATE",
     "sortOrder": "asc",
     "sorters": Array [
       Object {
-        "key": "OPEN_DATE",
+        "key": "CHANNELS_SORT_OPEN_DATE",
         "value": "Open date",
       },
       Object {
-        "key": "REMOTE_BALANCE",
+        "key": "CHANNELS_SORT_REMOTE_BALANCE",
         "value": "Remote balance",
       },
       Object {
-        "key": "LOCAL_BALANCE",
+        "key": "CHANNELS_SORT_LOCAL_BALANCE",
         "value": "Local balance",
       },
       Object {
-        "key": "ACTIVITY",
+        "key": "CHANNELS_SORT_ACTIVITY",
         "value": "Activity",
       },
       Object {
-        "key": "NAME",
+        "key": "CHANNELS_SORT_NAME",
         "value": "Name",
       },
       Object {
-        "key": "CAPACITY",
+        "key": "CHANNELS_SORT_CAPACITY",
         "value": "Capacity",
       },
     ],
@@ -549,31 +549,31 @@ Snapshot Diff:
     },
     "searchQuery": null,
     "selectedChannelId": null,
-    "sort": "OPEN_DATE",
+    "sort": "CHANNELS_SORT_OPEN_DATE",
     "sortOrder": "asc",
     "sorters": Array [
       Object {
-        "key": "OPEN_DATE",
+        "key": "CHANNELS_SORT_OPEN_DATE",
         "value": "Open date",
       },
       Object {
-        "key": "REMOTE_BALANCE",
+        "key": "CHANNELS_SORT_REMOTE_BALANCE",
         "value": "Remote balance",
       },
       Object {
-        "key": "LOCAL_BALANCE",
+        "key": "CHANNELS_SORT_LOCAL_BALANCE",
         "value": "Local balance",
       },
       Object {
-        "key": "ACTIVITY",
+        "key": "CHANNELS_SORT_ACTIVITY",
         "value": "Activity",
       },
       Object {
-        "key": "NAME",
+        "key": "CHANNELS_SORT_NAME",
         "value": "Name",
       },
       Object {
-        "key": "CAPACITY",
+        "key": "CHANNELS_SORT_CAPACITY",
         "value": "Capacity",
       },
     ],
@@ -631,31 +631,31 @@ Snapshot Diff:
     },
     "searchQuery": null,
     "selectedChannelId": null,
-    "sort": "OPEN_DATE",
+    "sort": "CHANNELS_SORT_OPEN_DATE",
     "sortOrder": "asc",
     "sorters": Array [
       Object {
-        "key": "OPEN_DATE",
+        "key": "CHANNELS_SORT_OPEN_DATE",
         "value": "Open date",
       },
       Object {
-        "key": "REMOTE_BALANCE",
+        "key": "CHANNELS_SORT_REMOTE_BALANCE",
         "value": "Remote balance",
       },
       Object {
-        "key": "LOCAL_BALANCE",
+        "key": "CHANNELS_SORT_LOCAL_BALANCE",
         "value": "Local balance",
       },
       Object {
-        "key": "ACTIVITY",
+        "key": "CHANNELS_SORT_ACTIVITY",
         "value": "Activity",
       },
       Object {
-        "key": "NAME",
+        "key": "CHANNELS_SORT_NAME",
         "value": "Name",
       },
       Object {
-        "key": "CAPACITY",
+        "key": "CHANNELS_SORT_CAPACITY",
         "value": "Capacity",
       },
     ],
@@ -735,31 +735,31 @@ Snapshot Diff:
     },
     "searchQuery": null,
     "selectedChannelId": null,
-    "sort": "OPEN_DATE",
+    "sort": "CHANNELS_SORT_OPEN_DATE",
     "sortOrder": "asc",
     "sorters": Array [
       Object {
-        "key": "OPEN_DATE",
+        "key": "CHANNELS_SORT_OPEN_DATE",
         "value": "Open date",
       },
       Object {
-        "key": "REMOTE_BALANCE",
+        "key": "CHANNELS_SORT_REMOTE_BALANCE",
         "value": "Remote balance",
       },
       Object {
-        "key": "LOCAL_BALANCE",
+        "key": "CHANNELS_SORT_LOCAL_BALANCE",
         "value": "Local balance",
       },
       Object {
-        "key": "ACTIVITY",
+        "key": "CHANNELS_SORT_ACTIVITY",
         "value": "Activity",
       },
       Object {
-        "key": "NAME",
+        "key": "CHANNELS_SORT_NAME",
         "value": "Name",
       },
       Object {
-        "key": "CAPACITY",
+        "key": "CHANNELS_SORT_CAPACITY",
         "value": "Capacity",
       },
     ],
@@ -817,31 +817,31 @@ Snapshot Diff:
     },
     "searchQuery": null,
     "selectedChannelId": null,
-    "sort": "OPEN_DATE",
+    "sort": "CHANNELS_SORT_OPEN_DATE",
     "sortOrder": "asc",
     "sorters": Array [
       Object {
-        "key": "OPEN_DATE",
+        "key": "CHANNELS_SORT_OPEN_DATE",
         "value": "Open date",
       },
       Object {
-        "key": "REMOTE_BALANCE",
+        "key": "CHANNELS_SORT_REMOTE_BALANCE",
         "value": "Remote balance",
       },
       Object {
-        "key": "LOCAL_BALANCE",
+        "key": "CHANNELS_SORT_LOCAL_BALANCE",
         "value": "Local balance",
       },
       Object {
-        "key": "ACTIVITY",
+        "key": "CHANNELS_SORT_ACTIVITY",
         "value": "Activity",
       },
       Object {
-        "key": "NAME",
+        "key": "CHANNELS_SORT_NAME",
         "value": "Name",
       },
       Object {
-        "key": "CAPACITY",
+        "key": "CHANNELS_SORT_CAPACITY",
         "value": "Capacity",
       },
     ],
@@ -900,31 +900,31 @@ Snapshot Diff:
     },
     "searchQuery": null,
     "selectedChannelId": null,
-    "sort": "OPEN_DATE",
+    "sort": "CHANNELS_SORT_OPEN_DATE",
     "sortOrder": "asc",
     "sorters": Array [
       Object {
-        "key": "OPEN_DATE",
+        "key": "CHANNELS_SORT_OPEN_DATE",
         "value": "Open date",
       },
       Object {
-        "key": "REMOTE_BALANCE",
+        "key": "CHANNELS_SORT_REMOTE_BALANCE",
         "value": "Remote balance",
       },
       Object {
-        "key": "LOCAL_BALANCE",
+        "key": "CHANNELS_SORT_LOCAL_BALANCE",
         "value": "Local balance",
       },
       Object {
-        "key": "ACTIVITY",
+        "key": "CHANNELS_SORT_ACTIVITY",
         "value": "Activity",
       },
       Object {
-        "key": "NAME",
+        "key": "CHANNELS_SORT_NAME",
         "value": "Name",
       },
       Object {
-        "key": "CAPACITY",
+        "key": "CHANNELS_SORT_CAPACITY",
         "value": "Capacity",
       },
     ],
@@ -993,31 +993,31 @@ Snapshot Diff:
     },
     "searchQuery": null,
     "selectedChannelId": null,
-    "sort": "OPEN_DATE",
+    "sort": "CHANNELS_SORT_OPEN_DATE",
     "sortOrder": "asc",
     "sorters": Array [
       Object {
-        "key": "OPEN_DATE",
+        "key": "CHANNELS_SORT_OPEN_DATE",
         "value": "Open date",
       },
       Object {
-        "key": "REMOTE_BALANCE",
+        "key": "CHANNELS_SORT_REMOTE_BALANCE",
         "value": "Remote balance",
       },
       Object {
-        "key": "LOCAL_BALANCE",
+        "key": "CHANNELS_SORT_LOCAL_BALANCE",
         "value": "Local balance",
       },
       Object {
-        "key": "ACTIVITY",
+        "key": "CHANNELS_SORT_ACTIVITY",
         "value": "Activity",
       },
       Object {
-        "key": "NAME",
+        "key": "CHANNELS_SORT_NAME",
         "value": "Name",
       },
       Object {
-        "key": "CAPACITY",
+        "key": "CHANNELS_SORT_CAPACITY",
         "value": "Capacity",
       },
     ],
@@ -1077,31 +1077,31 @@ Snapshot Diff:
     "searchQuery": null,
 -   "selectedChannelId": null,
 +   "selectedChannelId": "1",
-    "sort": "OPEN_DATE",
+    "sort": "CHANNELS_SORT_OPEN_DATE",
     "sortOrder": "asc",
     "sorters": Array [
       Object {
-        "key": "OPEN_DATE",
+        "key": "CHANNELS_SORT_OPEN_DATE",
         "value": "Open date",
       },
       Object {
-        "key": "REMOTE_BALANCE",
+        "key": "CHANNELS_SORT_REMOTE_BALANCE",
         "value": "Remote balance",
       },
       Object {
-        "key": "LOCAL_BALANCE",
+        "key": "CHANNELS_SORT_LOCAL_BALANCE",
         "value": "Local balance",
       },
       Object {
-        "key": "ACTIVITY",
+        "key": "CHANNELS_SORT_ACTIVITY",
         "value": "Activity",
       },
       Object {
-        "key": "NAME",
+        "key": "CHANNELS_SORT_NAME",
         "value": "Name",
       },
       Object {
-        "key": "CAPACITY",
+        "key": "CHANNELS_SORT_CAPACITY",
         "value": "Capacity",
       },
     ],
@@ -1160,31 +1160,31 @@ Snapshot Diff:
 -   "searchQuery": null,
 +   "searchQuery": "some text",
     "selectedChannelId": null,
-    "sort": "OPEN_DATE",
+    "sort": "CHANNELS_SORT_OPEN_DATE",
     "sortOrder": "asc",
     "sorters": Array [
       Object {
-        "key": "OPEN_DATE",
+        "key": "CHANNELS_SORT_OPEN_DATE",
         "value": "Open date",
       },
       Object {
-        "key": "REMOTE_BALANCE",
+        "key": "CHANNELS_SORT_REMOTE_BALANCE",
         "value": "Remote balance",
       },
       Object {
-        "key": "LOCAL_BALANCE",
+        "key": "CHANNELS_SORT_LOCAL_BALANCE",
         "value": "Local balance",
       },
       Object {
-        "key": "ACTIVITY",
+        "key": "CHANNELS_SORT_ACTIVITY",
         "value": "Activity",
       },
       Object {
-        "key": "NAME",
+        "key": "CHANNELS_SORT_NAME",
         "value": "Name",
       },
       Object {
-        "key": "CAPACITY",
+        "key": "CHANNELS_SORT_CAPACITY",
         "value": "Capacity",
       },
     ],
@@ -1238,31 +1238,31 @@ Object {
   },
   "searchQuery": null,
   "selectedChannelId": null,
-  "sort": "OPEN_DATE",
+  "sort": "CHANNELS_SORT_OPEN_DATE",
   "sortOrder": "asc",
   "sorters": Array [
     Object {
-      "key": "OPEN_DATE",
+      "key": "CHANNELS_SORT_OPEN_DATE",
       "value": "Open date",
     },
     Object {
-      "key": "REMOTE_BALANCE",
+      "key": "CHANNELS_SORT_REMOTE_BALANCE",
       "value": "Remote balance",
     },
     Object {
-      "key": "LOCAL_BALANCE",
+      "key": "CHANNELS_SORT_LOCAL_BALANCE",
       "value": "Local balance",
     },
     Object {
-      "key": "ACTIVITY",
+      "key": "CHANNELS_SORT_ACTIVITY",
       "value": "Activity",
     },
     Object {
-      "key": "NAME",
+      "key": "CHANNELS_SORT_NAME",
       "value": "Name",
     },
     Object {
-      "key": "CAPACITY",
+      "key": "CHANNELS_SORT_CAPACITY",
       "value": "Capacity",
     },
   ],

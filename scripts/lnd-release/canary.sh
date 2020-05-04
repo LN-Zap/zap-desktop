@@ -1,4 +1,4 @@
 #!/bin/bash
 
 git tag `git describe` || true
-goreleaser release --rm-dist --skip-validate
+GOVERSION=$(go version | awk '{print $3;}') goreleaser release --rm-dist --skip-validate
