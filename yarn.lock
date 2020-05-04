@@ -4824,10 +4824,10 @@ bip174@^1.0.1:
   resolved "https://registry.yarnpkg.com/bip174/-/bip174-1.0.1.tgz#858a587f9529e22ee9b0572fd884e5783696824d"
   integrity sha512-Mq2aFs1TdMfxBpYPg7uzjhsiXbAtoVq44TNjEWtvuZBiBgc3m7+n55orYMtTAxdg7jWbL4DtH0MKocJER4xERQ==
 
-bip21@2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/bip21/-/bip21-2.0.2.tgz#fa3434a10ed349e37335d2ae7b277e7fd30ea149"
-  integrity sha512-17u8+MrOE9iQWwZ5fPg656lAtBpE6MrmGBPPnJvx/AXnvfQpvT51RN3hR7qHqcd8HxXT+tueywcoXwXp+CdtdA==
+bip21@2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/bip21/-/bip21-2.0.3.tgz#6e95b542718af497b442d92ae8af433d6ea80368"
+  integrity sha512-L4ODmASLjsHYAU+TG7xffkYNMvHzAe4mkVX7mcvOUyKAr/MDBPrsRgqUhE8EmKdeEKHk5SYpX1Aexzvm/6WdbQ==
   dependencies:
     qs "^6.3.0"
 
