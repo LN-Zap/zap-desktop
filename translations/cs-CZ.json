@@ -311,7 +311,7 @@
   "components.Loading.loading": "Načítání",
   "components.Loading.starting_lnd": "Startování LND",
   "components.Loading.starting_neutrino": "Startování Neutrina",
-  "components.Loading.starting_tor_proxy": "",
+  "components.Loading.starting_tor_proxy": "Spouštění Tor proxy",
   "components.Loading.starting_wallet_unlocker": "Startování unlocker peněženky",
   "components.Login.error_desc_darwin": "Klíčenka systému Mac OS není k dispozici. Je nutné spustit Zap peněženku.",
   "components.Login.error_desc_linux": "Klíčenka Gnome není k dispozici. Možná není nainstalována nebo není proces spuštěn. Zkontrolujte, zda je nainstalovaná a spuštěná a restartujte aplikaci",
