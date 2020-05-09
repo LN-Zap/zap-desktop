@@ -450,7 +450,7 @@
   "components.Pay.next": "Siguiente",
   "components.Pay.next_block_confirmation": "próxima confirmación de bloque",
   "components.Pay.onchain_balance": "{amount} {cryptoUnitName} (onchain)",
-  "components.Pay.request_label_combined": "",
+  "components.Pay.request_label_combined": "Solicitud de Pago o Dirección",
   "components.Pay.request_label_offchain": "Solicitud de Pago",
   "components.Pay.request_label_onchain": "Dirección",
   "components.Pay.request_label_pubkey": "Clave publica de nodo",
@@ -652,7 +652,7 @@
   "reducers.account.account_password_updated": "Tu contraseña se ha actualizado con éxito",
   "reducers.activity.activity_invoice_download_error": "Se ha producido un error",
   "reducers.activity.activity_invoice_download_success": "Descarga completa",
-  "reducers.channels.channels_open_warning": "Iniciando apertura de canal",
+  "reducers.channels.channels_open_warning": "",
   "reducers.messages.address_new_address_error": "No se puede obtener la dirección {addressType}: {error}",
   "reducers.messages.app_init_db_error": "No se puede inicializar la base de datos: {error}",
   "reducers.messages.autopay_notification_detail": "para \"{reason}\"",
@@ -673,5 +673,5 @@
   "reducers.messages.transaction_sent_title": "¡Transacción en cadena enviada!",
   "reducers.pay.pay_lnurl_withdraw_error": "No se puede procesar la solicitud de retiro de {service}: {reason}",
   "reducers.payment.payment_send_error": "No se puede enviar el pago: factura no válida (sin hash de pago)",
-  "reducers.payment.unknown": "Desconocido"
+  "reducers.payment.unknown": ""
 }
