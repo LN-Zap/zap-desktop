@@ -454,7 +454,7 @@
   "components.Pay.request_label_offchain": "Žádost o platbu",
   "components.Pay.request_label_onchain": "Adresa",
   "components.Pay.request_label_pubkey": "Pubkey uzlu",
-  "components.Pay.searching_routes": "hledání tras…",
+  "components.Pay.searching_routes": "vyhledávání tras…",
   "components.Pay.send": "Odeslat",
   "components.Pay.send_all": "Poslat vše",
   "components.Pay.subtitle_offchain": "Lightning platba",
