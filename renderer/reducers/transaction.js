@@ -235,18 +235,15 @@ export const transactionFailed = ({ internalId, error }) => async (dispatch, get
  * @returns {Function} Thunk
  */
 export const receiveTransactionData = transaction => (dispatch, getState) => {
-  // add the transaction only if we are not already aware of it
+  // add the transaction if we are not already aware of it, otherwise update existing transaction.
   const state = getState()
-  if (
-    !state.transaction ||
-    !state.transaction.transactions ||
-    !state.transaction.transactions.find(tx => tx.txHash === transaction.txHash)
-  ) {
+  const intl = getIntl()
+
+  if (state.transaction.transactions.find(tx => tx.txHash === transaction.txHash)) {
+    dispatch(receiveTransactions([transaction], true))
+  } else {
     dispatch({ type: ADD_TRANSACTION, transaction })
 
-    // fetch updated channels
-    dispatch(fetchChannels())
-    const intl = getIntl()
     // HTML 5 desktop notification for the new transaction
     if (CoinBig(transaction.amount).gt(0)) {
       showSystemNotification(intl.formatMessage(messages.transaction_received_title), {
@@ -260,6 +257,9 @@ export const receiveTransactionData = transaction => (dispatch, getState) => {
       })
     }
   }
+
+  // fetch updated channels
+  dispatch(fetchChannels())
 }
 
 // ------------------------------------
