@@ -1,7 +1,8 @@
 import { createSelector } from 'reselect'
 import uniqBy from 'lodash/uniqBy'
+import uniq from 'lodash/uniq'
 import last from 'lodash/last'
-import find from 'lodash'
+import find from 'lodash/find'
 import createReducer from '@zap/utils/createReducer'
 import { showSystemNotification } from '@zap/utils/notifications'
 import { convert } from '@zap/utils/btc'
@@ -14,8 +15,9 @@ import { grpc } from 'workers'
 import { addressSelectors, newAddress } from './address'
 import { fetchBalance } from './balance'
 import { fetchChannels, channelsSelectors, getChannelData } from './channels'
-import { settingsSelectors } from './settings'
 import messages from './messages'
+
+let usedAddresses = []
 
 // ------------------------------------
 // Initial State
@@ -37,7 +39,6 @@ export const SEND_TRANSACTION = 'SEND_TRANSACTION'
 export const TRANSACTION_SUCCESSFUL = 'TRANSACTION_SUCCESSFUL'
 export const TRANSACTION_FAILED = 'TRANSACTION_FAILED'
 export const TRANSACTION_COMPLETE = 'TRANSACTION_COMPLETE'
-export const ADD_TRANSACTION = 'ADD_TRANSACTION'
 
 // ------------------------------------
 // Helpers
@@ -109,7 +110,6 @@ export const receiveTransactions = (transactions, updateOnly = false) => (dispat
   const state = getState()
 
   const currentAddresses = addressSelectors.currentAddresses(state)
-  let usedAddresses = []
 
   // index of the last tx in `transactions`
   // that is newer(or equal) than the last tx from the state.
@@ -123,7 +123,7 @@ export const receiveTransactions = (transactions, updateOnly = false) => (dispat
       lastKnownTxIndex = index
     }
     // Keep track of used addresses.
-    usedAddresses = usedAddresses.concat(destAddresses)
+    usedAddresses = uniq(usedAddresses.concat(destAddresses))
   })
 
   dispatch({
@@ -138,7 +138,7 @@ export const receiveTransactions = (transactions, updateOnly = false) => (dispat
     }
   })
 
-  // fetch new balance
+  // Fetch updated balance.
   dispatch(fetchBalance())
 }
 
@@ -239,27 +239,22 @@ export const receiveTransactionData = transaction => (dispatch, getState) => {
   const state = getState()
   const intl = getIntl()
 
-  if (state.transaction.transactions.find(tx => tx.txHash === transaction.txHash)) {
-    dispatch(receiveTransactions([transaction], true))
-  } else {
-    dispatch({ type: ADD_TRANSACTION, transaction })
+  dispatch(receiveTransactions([transaction]))
 
+  if (!state.transaction.transactions.find(tx => tx.txHash === transaction.txHash)) {
     // HTML 5 desktop notification for the new transaction
     if (CoinBig(transaction.amount).gt(0)) {
       showSystemNotification(intl.formatMessage(messages.transaction_received_title), {
         body: intl.formatMessage(messages.transaction_received_body),
       })
-      // Generate a new address
-      dispatch(newAddress(settingsSelectors.currentConfig(state).address))
+      // Fetch updated channels.
+      dispatch(fetchChannels())
     } else {
       showSystemNotification(intl.formatMessage(messages.transaction_sent_title), {
         body: intl.formatMessage(messages.transaction_sent_body),
       })
     }
   }
-
-  // fetch updated channels
-  dispatch(fetchChannels())
 }
 
 // ------------------------------------
@@ -276,9 +271,6 @@ const ACTION_HANDLERS = {
   [RECEIVE_TRANSACTIONS]: (state, { transactions }) => {
     state.transactionLoading = false
     state.transactions = uniqBy(state.transactions.concat(transactions), 'txHash')
-  },
-  [ADD_TRANSACTION]: (state, { transaction }) => {
-    state.transactions.unshift(transaction)
   },
   [TRANSACTION_SUCCESSFUL]: (state, { internalId }) => {
     const txIndex = state.transactionsSending.findIndex(item => item.internalId === internalId)
