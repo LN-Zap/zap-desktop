@@ -248,7 +248,7 @@ export const getExactFee = routes => {
     return null
   }
   const route = routes.find(r => r.isExact)
-  return route ? route.totalFeesMsat : null
+  return route ? convert('msats', 'sats', route.totalFeesMsat) : null
 }
 
 /**

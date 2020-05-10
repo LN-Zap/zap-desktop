@@ -112,8 +112,8 @@ class PaySummaryLightning extends React.Component {
 
     const nodeAlias = getNodeAlias(payeeNodeKey, nodes)
     const totalAmountInSatoshis = CoinBig(exactFee).isFinite()
-      ? CoinBig.sum(amountInSatoshis, convert('msats', 'sats', exactFee)).toString()
-      : CoinBig.sum(amountInSatoshis, convert('msats', 'sats', maxFee)).toString()
+      ? CoinBig.sum(amountInSatoshis, exactFee).toString()
+      : CoinBig.sum(amountInSatoshis, maxFee).toString()
 
     return (
       <Box {...rest}>
