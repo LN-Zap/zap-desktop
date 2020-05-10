@@ -8,7 +8,6 @@ import reducer, {
   UPDATE_SEARCH_QUERY,
   GET_CHANNELS,
   RECEIVE_CHANNELS,
-  CLOSING_CHANNEL,
   ADD_LOADING_PUBKEY,
   REMOVE_LOADING_PUBKEY,
   ADD_CLOSING_CHAN_ID,
@@ -91,13 +90,6 @@ describe('reducers', () => {
           waitingCloseChannels: [5],
         },
         closedChannels: [5, 6],
-      }
-      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
-    })
-
-    it('should handle CLOSING_CHANNEL', () => {
-      const action = {
-        type: CLOSING_CHANNEL,
       }
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
