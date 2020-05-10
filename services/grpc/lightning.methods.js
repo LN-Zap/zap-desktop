@@ -178,11 +178,11 @@ async function openChannel(payload = {}) {
         resolve(response)
       })
 
-      call.on('error', data => {
-        grpcLog.error('OPEN_CHANNEL ERROR', data)
-        const error = new Error(data.message)
-        error.payload = parsePayload(payload)
-        reject(error)
+      call.on('error', error => {
+        grpcLog.error('OPEN_CHANNEL ERROR', error)
+        const e = new Error(error.details || error.message)
+        e.payload = parsePayload(payload)
+        reject(e)
       })
 
       call.on('status', status => {
@@ -234,11 +234,11 @@ async function closeChannel(payload = {}) {
         resolve(response)
       })
 
-      call.on('error', data => {
-        grpcLog.error('CLOSE_CHANNEL ERROR', data)
-        const error = new Error(data.message)
-        error.payload = { chanId }
-        reject(error)
+      call.on('error', error => {
+        grpcLog.error('CLOSE_CHANNEL ERROR', error)
+        const e = new Error(error.details || error.message)
+        e.payload = { chanId }
+        reject(e)
       })
 
       call.on('status', status => {
