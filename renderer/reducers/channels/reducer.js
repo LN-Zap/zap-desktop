@@ -375,7 +375,7 @@ export const pushchannelerror = ({ nodePubkey, error }) => dispatch => {
       { payload: { pubkey: nodePubkey } },
       {
         variant: 'error',
-        message: `Unable to open channel: ${error}`,
+        message: error,
         isProcessing: false,
       }
     )
@@ -440,7 +440,7 @@ export const openChannel = data => async (dispatch, getState) => {
   } catch (e) {
     dispatch(
       pushchannelerror({
-        error: e.message,
+        error: `Unable to open channel: ${e.message}`,
         nodePubkey: e.payload.nodePubkey,
       })
     )
@@ -462,7 +462,7 @@ export const closeChannel = () => async (dispatch, getState) => {
 
     const [fundingTxid, outputIndex] = channelPoint.split(':')
 
-    // Attempt to open the channel.
+    // Attempt to close the channel.
     try {
       const data = await grpc.services.Lightning.closeChannel({
         channelPoint: {
@@ -476,7 +476,7 @@ export const closeChannel = () => async (dispatch, getState) => {
     } catch (e) {
       dispatch(
         pushchannelerror({
-          error: e.message,
+          error: `Unable to close channel: ${e.message}`,
           nodePubkey: e.payload.nodePubkey,
         })
       )
