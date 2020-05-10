@@ -270,7 +270,7 @@ const ACTION_HANDLERS = {
   },
   [RECEIVE_TRANSACTIONS]: (state, { transactions }) => {
     state.transactionLoading = false
-    state.transactions = uniqBy(state.transactions.concat(transactions), 'txHash')
+    state.transactions = uniqBy(transactions.concat(state.transactions), 'txHash')
   },
   [TRANSACTION_SUCCESSFUL]: (state, { internalId }) => {
     const txIndex = state.transactionsSending.findIndex(item => item.internalId === internalId)
