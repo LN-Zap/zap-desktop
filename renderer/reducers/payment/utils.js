@@ -1,4 +1,5 @@
 import config from 'config'
+import get from 'lodash/get'
 import { decodePayReq, getNodeAlias, generatePreimage } from '@zap/utils/crypto'
 import { convert } from '@zap/utils/btc'
 import { getIntl } from '@zap/i18n'
@@ -39,13 +40,23 @@ export const decoratePayment = (payment, nodes = []) => {
       payment.rPreimage && Buffer.from(payment.rPreimage, 'hex').toString('hex')
   }
 
-  // Convert the preimage to a hex string.
+  // Convert the payment hash to a hex string.
   if (!payment.paymentHash) {
     decoration.paymentHash = payment.rHash && Buffer.from(payment.rHash, 'hex').toString('hex')
   }
 
-  // First try to get the pubkey from payment.path
-  let pubkey = payment.path && payment.path[payment.path.length - 1]
+  // First try to get the pubkey from payment.htlcs list (lnd 0.9+)
+  // Fallback to looking in the legacy payment.path property.
+  let pubkey
+  if (payment.htlcs) {
+    const hops = get(payment, 'htlcs[0].route.hops', [])
+    const lasthop = hops[hops.length - 1]
+    if (lasthop) {
+      pubkey = lasthop.pubKey
+    }
+  } else if (payment.path) {
+    pubkey = payment.path[payment.path.length - 1]
+  }
 
   // If we don't have a pubkey, try to get it from the payment request.
   if (!pubkey && payment.paymentRequest) {

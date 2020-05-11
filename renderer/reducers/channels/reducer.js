@@ -23,7 +23,6 @@ const {
   UPDATE_SEARCH_QUERY,
   GET_CHANNELS,
   RECEIVE_CHANNELS,
-  CLOSING_CHANNEL,
   ADD_LOADING_PUBKEY,
   REMOVE_LOADING_PUBKEY,
   ADD_CLOSING_CHAN_ID,
@@ -50,7 +49,6 @@ const initialState = {
   },
   closedChannels: [],
   closingChannelIds: [],
-  closingChannel: false,
   searchQuery: null,
   filter: new Set([...DEFAULT_FILTER]),
   filters: [
@@ -169,17 +167,6 @@ export function switchSortOrder() {
 export function getChannels() {
   return {
     type: GET_CHANNELS,
-  }
-}
-
-/**
- * closingChannel - Initialte channel close action.
- *
- * @returns {object} Action
- */
-export function closingChannel() {
-  return {
-    type: CLOSING_CHANNEL,
   }
 }
 
@@ -345,13 +332,17 @@ export const fetchChannels = () => async dispatch => {
  * @param {object} data Channel update notification
  * @returns {Function} Thunk
  */
-export const pushchannelupdated = ({ nodePubkey, data }) => dispatch => {
+export const pushchannelupdated = ({ nodePubkey, chanId, data }) => dispatch => {
   dispatch(fetchChannels())
   if (data.update === 'chanPending') {
-    dispatch(removeLoadingChannel(nodePubkey))
+    if (nodePubkey) {
+      dispatch(removeLoadingChannel(nodePubkey))
+    } else if (chanId) {
+      dispatch(removeClosingChanId(chanId))
+    }
     dispatch(
       updateNotification(
-        { payload: { pubkey: nodePubkey } },
+        { payload: { pubkey: nodePubkey, chanId } },
         {
           variant: 'success',
           message: 'Channel successfully created',
@@ -368,14 +359,18 @@ export const pushchannelupdated = ({ nodePubkey, data }) => dispatch => {
  * @param {object} data Channel error notification
  * @returns {Function} Thunk
  */
-export const pushchannelerror = ({ nodePubkey, error }) => dispatch => {
-  dispatch(removeLoadingChannel(nodePubkey))
+export const pushchannelerror = ({ nodePubkey, chanId, error }) => dispatch => {
+  if (nodePubkey) {
+    dispatch(removeLoadingChannel(nodePubkey))
+  } else if (chanId) {
+    dispatch(removeClosingChanId(chanId))
+  }
   dispatch(
     updateNotification(
-      { payload: { pubkey: nodePubkey } },
+      { payload: { pubkey: nodePubkey, chanId } },
       {
         variant: 'error',
-        message: `Unable to open channel: ${error}`,
+        message: error,
         isProcessing: false,
       }
     )
@@ -440,7 +435,7 @@ export const openChannel = data => async (dispatch, getState) => {
   } catch (e) {
     dispatch(
       pushchannelerror({
-        error: e.message,
+        error: `Unable to open channel: ${e.message}`,
         nodePubkey: e.payload.nodePubkey,
       })
     )
@@ -457,12 +452,11 @@ export const closeChannel = () => async (dispatch, getState) => {
 
   if (selectedChannel) {
     const { channelPoint, chanId, active } = selectedChannel
-    dispatch(closingChannel())
     dispatch(addClosingChanId(chanId))
 
     const [fundingTxid, outputIndex] = channelPoint.split(':')
 
-    // Attempt to open the channel.
+    // Attempt to close the channel.
     try {
       const data = await grpc.services.Lightning.closeChannel({
         channelPoint: {
@@ -476,8 +470,8 @@ export const closeChannel = () => async (dispatch, getState) => {
     } catch (e) {
       dispatch(
         pushchannelerror({
-          error: e.message,
-          nodePubkey: e.payload.nodePubkey,
+          error: `Unable to close channel: ${e.message}`,
+          chanId: e.payload.chanId,
         })
       )
     }
@@ -565,9 +559,6 @@ const ACTION_HANDLERS = {
     state.channels = channels
     state.pendingChannels = pendingChannels
     state.closedChannels = closedChannels
-  },
-  [CLOSING_CHANNEL]: state => {
-    state.closingChannel = true
   },
   [UPDATE_SEARCH_QUERY]: (state, { searchQuery }) => {
     state.searchQuery = searchQuery

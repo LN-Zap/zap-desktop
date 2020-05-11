@@ -183,12 +183,16 @@ function createActivityPaginator() {
       indexOffset: offset,
       reversed: true,
     })
-    return { items: invoices, offset: firstIndexOffset }
+    return { items: invoices, offset: parseInt(firstIndexOffset || 0, 10) }
   }
 
-  const fetchPayments = async () => {
-    const { payments } = await grpc.services.Lightning.listPayments()
-    return { items: payments, offset: 0 }
+  const fetchPayments = async (pageSize, offset) => {
+    const { payments, firstIndexOffset } = await grpc.services.Lightning.listPayments({
+      maxPayments: pageSize,
+      indexOffset: offset,
+      reversed: true,
+    })
+    return { items: payments, offset: parseInt(firstIndexOffset || 0, 10) }
   }
 
   const fetchTransactions = async () => {

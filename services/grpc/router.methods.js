@@ -86,7 +86,7 @@ async function probePayment(options) {
 
     call.on('error', e => {
       grpcLog.warn('PROBE ERROR :%o', e)
-      error = e
+      error = new Error(e.details || e.message)
     })
 
     call.on('end', () => {
@@ -162,7 +162,7 @@ async function sendPayment(options = {}) {
 
     call.on('error', e => {
       grpcLog.warn('PAYMENT ERROR :%o', e)
-      error = e
+      error = new Error(e.details || e.message)
     })
 
     call.on('end', () => {

@@ -6,7 +6,6 @@ import reducer, {
   TRANSACTION_SUCCESSFUL,
   TRANSACTION_FAILED,
   TRANSACTION_COMPLETE,
-  ADD_TRANSACTION,
 } from 'reducers/transaction'
 
 describe('reducers', () => {
@@ -56,14 +55,6 @@ describe('reducers', () => {
     it('should handle TRANSACTION_COMPLETE', () => {
       const action = {
         type: TRANSACTION_COMPLETE,
-      }
-      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
-    })
-
-    it('should handle ADD_TRANSACTION', () => {
-      const action = {
-        type: ADD_TRANSACTION,
-        transaction: { some: 'data' },
       }
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })

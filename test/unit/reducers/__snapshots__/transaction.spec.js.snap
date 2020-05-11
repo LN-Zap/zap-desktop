@@ -1,22 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`reducers transactionReducer should handle ADD_TRANSACTION 1`] = `
-Snapshot Diff:
-- First value
-+ Second value
-
-  Object {
-    "transactionLoading": false,
--   "transactions": Array [],
-+   "transactions": Array [
-+     Object {
-+       "some": "data",
-+     },
-+   ],
-    "transactionsSending": Array [],
-  }
-`;
-
 exports[`reducers transactionReducer should handle GET_TRANSACTIONS 1`] = `
 Snapshot Diff:
 - First value
