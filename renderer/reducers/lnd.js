@@ -526,11 +526,11 @@ export const createWallet = ({ recover } = {}) => async (dispatch, getState) => 
     // Call initWallet method.
     await grpc.initWallet({
       walletPassword: Buffer.from(state.onboarding.password),
-      aezeed_passphrase: state.onboarding.passphrase
+      aezeedPassphrase: state.onboarding.passphrase
         ? Buffer.from(state.onboarding.passphrase)
         : null,
       cipherSeedMnemonic: state.onboarding.seed,
-      recovery_window: recover ? config.lnd.recoveryWindow : 0,
+      recoveryWindow: recover ? config.lnd.recoveryWindow : 0,
     })
 
     // Notify of wallet recovery success.
