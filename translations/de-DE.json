@@ -672,6 +672,5 @@
   "reducers.messages.transaction_sent_body": "Und da geht sie einfach so... Transaktion erfolgreich gesendet.",
   "reducers.messages.transaction_sent_title": "On-chain Transaktion gesendet!",
   "reducers.pay.pay_lnurl_withdraw_error": "Abhebungsanfrage von {service} konnte nicht verarbeitet werden: {reason}",
-  "reducers.payment.payment_send_error": "Zahlung konnte nicht gesendet werden: Ungültige Rechnung (kein Zahlungshash)",
   "reducers.payment.unknown": "Unbekannt"
 }

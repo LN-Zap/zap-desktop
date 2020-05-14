@@ -672,6 +672,5 @@
   "reducers.messages.transaction_sent_body": "",
   "reducers.messages.transaction_sent_title": "",
   "reducers.pay.pay_lnurl_withdraw_error": "",
-  "reducers.payment.payment_send_error": "",
   "reducers.payment.unknown": "Ukjent"
 }

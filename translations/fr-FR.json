@@ -672,6 +672,5 @@
   "reducers.messages.transaction_sent_body": "C'est si dur de les voir partir… Votre transaction On-chain a bien été envoyée.",
   "reducers.messages.transaction_sent_title": "Transaction On-chain envoyée !",
   "reducers.pay.pay_lnurl_withdraw_error": "",
-  "reducers.payment.payment_send_error": "Impossible d'envoyer le paiement : demande invalide (pas de hash du paiement)",
   "reducers.payment.unknown": "Inconnu"
 }

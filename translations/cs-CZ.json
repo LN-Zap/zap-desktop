@@ -672,6 +672,5 @@
   "reducers.messages.transaction_sent_body": "Nerad je vidím mizet, ale rád je vidím odcházet. Vaše on-chain transakce byla úspěšně odeslána.",
   "reducers.messages.transaction_sent_title": "On-chain transakce odeslána!",
   "reducers.pay.pay_lnurl_withdraw_error": "Nelze zpracovat žádost o výběr z {service}: {reason}",
-  "reducers.payment.payment_send_error": "Nelze odeslat platbu: Neplatná faktura (bez hashe platby)",
   "reducers.payment.unknown": "Neznámý"
 }
