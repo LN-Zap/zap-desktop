@@ -4,6 +4,7 @@ import reducer, {
   RECEIVE_PAYMENTS,
   SEND_PAYMENT,
   PAYMENT_SUCCESSFUL,
+  PAYMENT_COMPLETED,
   PAYMENT_FAILED,
   DECREASE_PAYMENT_RETRIES,
 } from 'reducers/payment'
@@ -43,6 +44,14 @@ describe('reducers', () => {
     it('should handle PAYMENT_SUCCESSFUL', () => {
       const action = {
         type: PAYMENT_SUCCESSFUL,
+        paymentId: '123abc',
+      }
+      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
+    })
+
+    it('should handle PAYMENT_COMPLETED', () => {
+      const action = {
+        type: PAYMENT_COMPLETED,
       }
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })

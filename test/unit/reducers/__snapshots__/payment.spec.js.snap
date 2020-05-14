@@ -18,6 +18,11 @@ Snapshot Diff:
   }
 `;
 
+exports[`reducers paymentReducer should handle PAYMENT_COMPLETED 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
+`;
+
 exports[`reducers paymentReducer should handle PAYMENT_FAILED 1`] = `
 Snapshot Diff:
 Compared values have no visual difference.
