@@ -222,6 +222,7 @@ export const payInvoice = ({
         value: amt,
         remainingRetries: retries,
         paymentRequest: payload.paymentRequest,
+        dest: payload.dest && payload.dest.toString('hex'),
         maxRetries: retries,
         isKeysend,
       })

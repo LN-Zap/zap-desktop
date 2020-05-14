@@ -47,7 +47,7 @@ export const decoratePayment = (payment, nodes = []) => {
 
   // First try to get the pubkey from payment.htlcs list (lnd 0.9+)
   // Fallback to looking in the legacy payment.path property.
-  let pubkey
+  let pubkey = payment.dest
   if (payment.htlcs) {
     const hops = get(payment, 'htlcs[0].route.hops', [])
     const lasthop = hops[hops.length - 1]
