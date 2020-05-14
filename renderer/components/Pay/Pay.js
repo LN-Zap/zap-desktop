@@ -195,8 +195,10 @@ class Pay extends React.Component {
     const { cryptoUnit } = this.props
     // Get crypto amount from the form and default to zero if it hasn't been set yet
     // otherwise you can end-up with amount equal to undefined
-    const amount = this.formApi.getValue('amountCrypto') || 0
-
+    const {
+      values: { amountCrypto = 0 },
+    } = this.formApi.getState()
+    const amount = amountCrypto
     return getAmountInSats(amount, cryptoUnit, invoice)
   }
 

@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, useIntl } from 'react-intl'
-import { useFieldState } from 'informed'
+import { useFormState } from 'informed'
 import { isOnchain, isBolt11, isPubkey, decodePayReq } from '@zap/utils/crypto'
 import { Message } from 'components/UI'
 import TextArea from './TextArea'
@@ -43,8 +43,9 @@ const validate = (intl, network, chain, value) => {
 const LightningInvoiceInput = props => {
   const { network, chain, field } = props
   const intl = useIntl()
-  const fieldState = useFieldState(field)
-  const { value } = fieldState
+  const { values, errors } = useFormState()
+  const value = values && values[field]
+  const error = errors && errors[field]
   let chainName = isBolt11(value, chain, network) || isPubkey(value) ? 'lightning' : chain
   if (network !== 'mainnet') {
     chainName += ` (${network})`
@@ -59,7 +60,7 @@ const LightningInvoiceInput = props => {
   return (
     <>
       <TextArea mask={mask} validate={doValidate} {...props} validateOnBlur validateOnChange />
-      {value && !fieldState.error && (
+      {value && !error && (
         <Message mt={2} variant="success">
           <FormattedMessage
             {...messages[isPubkey(value) ? 'valid_pubkey' : 'valid_request']}
