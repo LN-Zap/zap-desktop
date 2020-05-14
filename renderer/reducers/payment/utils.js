@@ -1,6 +1,6 @@
 import config from 'config'
 import get from 'lodash/get'
-import { decodePayReq, getNodeAlias, generatePreimage } from '@zap/utils/crypto'
+import { getTag, decodePayReq, getNodeAlias, generatePreimage } from '@zap/utils/crypto'
 import { convert } from '@zap/utils/btc'
 import { getIntl } from '@zap/i18n'
 import { sha256digest } from '@zap/utils/sha256'
@@ -131,6 +131,50 @@ export const prepareBolt11Payload = (payReq, amt, feeLimit) => {
     paymentRequest: invoice.paymentRequest,
     feeLimit: feeLimit ? { fixed: feeLimit } : null,
     amt: millisatoshis ? null : amt,
+  }
+}
+
+/**
+ * prepareKeysendProbe - Prepare a keysend probe.
+ *
+ * @param  {string} pubkey   Pubkey
+ * @param  {number} amt      Amount in satoshi
+ * @param  {number} feeLimit Fee limit (sats)
+ * @returns {object} Keysnd payment
+ */
+export const prepareKeysendProbe = (pubkey, amt, feeLimit) => {
+  const preimage = generatePreimage()
+
+  return {
+    ...getPaymentConfig(),
+    dest: Buffer.from(pubkey, 'hex'),
+    feeLimit: feeLimit ? { fixed: feeLimit } : null,
+    amt,
+    finalCltvDelta: DEFAULT_CLTV_DELTA,
+    paymentHash: sha256digest(preimage),
+    destCustomRecords: {
+      [KEYSEND_PREIMAGE_TYPE]: preimage,
+    },
+  }
+}
+
+/**
+ * prepareBolt11Probe - Prepare a bolt11 probe.
+ *
+ * @param  {string} payReq   Payment request
+ * @param  {number} feeLimit Fee limit (sats)
+ * @returns {object} bolt11 payment
+ */
+export const prepareBolt11Probe = (payReq, feeLimit) => {
+  const invoice = decodePayReq(payReq)
+  const { millisatoshis, payeeNodeKey: pubkey } = invoice
+
+  return {
+    ...getPaymentConfig(),
+    dest: Buffer.from(pubkey, 'hex'),
+    feeLimit: feeLimit ? { fixed: feeLimit } : null,
+    amtMsat: millisatoshis,
+    finalCltvDelta: getTag(invoice, 'min_final_cltv_expiry'),
   }
 }
 
