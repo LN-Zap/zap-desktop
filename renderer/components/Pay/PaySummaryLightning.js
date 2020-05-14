@@ -176,7 +176,11 @@ class PaySummaryLightning extends React.Component {
             ) : (
               <Flex alignItems="baseline">
                 <CryptoSelector mr={2} />
-                <CryptoValue value={totalAmountInSatoshis} />
+                {totalAmountInSatoshis === 'NaN' ? (
+                  <FormattedMessage {...messages.fee_unknown} />
+                ) : (
+                  <CryptoValue value={totalAmountInSatoshis} />
+                )}
               </Flex>
             )
           }
