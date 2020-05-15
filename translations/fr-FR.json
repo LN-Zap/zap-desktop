@@ -450,7 +450,7 @@
   "components.Pay.next": "Continuer",
   "components.Pay.next_block_confirmation": "confirmation au prochain bloc",
   "components.Pay.onchain_balance": "{amount} {cryptoUnitName} (On-chain)",
-  "components.Pay.request_label_combined": "",
+  "components.Pay.request_label_combined": "Demande de paiement ou adresse",
   "components.Pay.request_label_offchain": "Demande de paiement",
   "components.Pay.request_label_onchain": "Adresse",
   "components.Pay.request_label_pubkey": "",
@@ -652,7 +652,7 @@
   "reducers.account.account_password_updated": "Votre mot de passe a bien été modifié",
   "reducers.activity.activity_invoice_download_error": "Une erreur s'est produite",
   "reducers.activity.activity_invoice_download_success": "Téléchargement terminé",
-  "reducers.channels.channels_open_warning": "Ouverture du canal initiée",
+  "reducers.channels.channels_open_warning": "",
   "reducers.messages.address_new_address_error": "Impossible d'obtenir une adresse {addressType} : {error}",
   "reducers.messages.app_init_db_error": "Impossible d'initialiser la base de données : {error}",
   "reducers.messages.autopay_notification_detail": "",
@@ -672,6 +672,5 @@
   "reducers.messages.transaction_sent_body": "C'est si dur de les voir partir… Votre transaction On-chain a bien été envoyée.",
   "reducers.messages.transaction_sent_title": "Transaction On-chain envoyée !",
   "reducers.pay.pay_lnurl_withdraw_error": "",
-  "reducers.payment.payment_send_error": "Impossible d'envoyer le paiement : demande invalide (pas de hash du paiement)",
-  "reducers.payment.unknown": "Inconnu"
+  "reducers.payment.unknown": ""
 }
