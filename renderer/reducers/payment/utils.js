@@ -175,7 +175,7 @@ export const prepareBolt11Probe = (payReq, feeLimit) => {
     dest: Buffer.from(pubkey, 'hex'),
     feeLimit: feeLimit ? { fixed: feeLimit } : null,
     amtMsat: millisatoshis,
-    finalCltvDelta: getTag(invoice, 'min_final_cltv_expiry') ?? DEFAULT_CLTV_DELTA,
+    finalCltvDelta: getTag(invoice, 'min_final_cltv_expiry') || DEFAULT_CLTV_DELTA,
   }
 }
 
