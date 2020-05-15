@@ -450,7 +450,7 @@
   "components.Pay.next": "Slijedeće",
   "components.Pay.next_block_confirmation": "potvrda u slijedećem bloku",
   "components.Pay.onchain_balance": "",
-  "components.Pay.request_label_combined": "",
+  "components.Pay.request_label_combined": "Zahtjev za plaćanjem ili adresa",
   "components.Pay.request_label_offchain": "Zahtjev za plaćanjem",
   "components.Pay.request_label_onchain": "Adresa",
   "components.Pay.request_label_pubkey": "",
@@ -652,7 +652,7 @@
   "reducers.account.account_password_updated": "",
   "reducers.activity.activity_invoice_download_error": "",
   "reducers.activity.activity_invoice_download_success": "",
-  "reducers.channels.channels_open_warning": "Otvaranje kanala započeto",
+  "reducers.channels.channels_open_warning": "",
   "reducers.messages.address_new_address_error": "",
   "reducers.messages.app_init_db_error": "",
   "reducers.messages.autopay_notification_detail": "",
@@ -672,6 +672,5 @@
   "reducers.messages.transaction_sent_body": "",
   "reducers.messages.transaction_sent_title": "",
   "reducers.pay.pay_lnurl_withdraw_error": "",
-  "reducers.payment.payment_send_error": "",
-  "reducers.payment.unknown": "Nepoznato"
+  "reducers.payment.unknown": ""
 }
