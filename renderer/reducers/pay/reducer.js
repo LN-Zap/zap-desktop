@@ -34,7 +34,6 @@ const initialState = {
     medium: null,
     slow: null,
   },
-  pubKey: null,
   queryFeesError: null,
   queryRoutesError: null,
   redirectPayReq: null,
@@ -168,7 +167,7 @@ export const queryRoutes = (payReqOrPubkey, amt, feeLimit) => async (dispatch, g
     return routes
   }
 
-  dispatch({ type: QUERY_ROUTES, pubKey: payload.pubKey })
+  dispatch({ type: QUERY_ROUTES, paymentHash })
 
   try {
     let routes = []
@@ -220,9 +219,8 @@ const ACTION_HANDLERS = {
     state.onchainFees = {}
     state.queryFeesError = error
   },
-  [QUERY_ROUTES]: (state, { pubKey }) => {
+  [QUERY_ROUTES]: state => {
     state.isQueryingRoutes = true
-    state.pubKey = pubKey
     state.queryRoutesError = null
     state.routes = []
   },
@@ -233,7 +231,6 @@ const ACTION_HANDLERS = {
   },
   [QUERY_ROUTES_FAILURE]: (state, { error }) => {
     state.isQueryingRoutes = false
-    state.pubKey = null
     state.queryRoutesError = error
     state.routes = []
   },
