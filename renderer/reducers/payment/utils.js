@@ -94,10 +94,10 @@ export const getPaymentConfig = () => {
 /**
  * prepareKeysendPayload - Prepare a keysend payment.
  *
- * @param  {string} pubkey   Pubkey
- * @param  {number} amt      Amount in satoshi
+ * @param  {string} pubkey Pubkey
+ * @param  {number} amt Amount in satoshi
  * @param  {number} feeLimit Fee limit (sats)
- * @returns {object} Keysnd payment
+ * @returns {object} Keysnd payment payload
  */
 export const prepareKeysendPayload = (pubkey, amt, feeLimit) => {
   const preimage = generatePreimage()
@@ -118,10 +118,10 @@ export const prepareKeysendPayload = (pubkey, amt, feeLimit) => {
 /**
  * prepareKeysendPayload - Prepare a bolt11 payment.
  *
- * @param  {string} payReq   Payment request
- * @param  {number} amt      Amount in satoshi
+ * @param  {string} payReq Payment request
+ * @param  {number} amt Amount in satoshi
  * @param  {number} feeLimit Fee limit (sats)
- * @returns {object} bolt11 payment
+ * @returns {object} Bolt11 payment payload
  */
 export const prepareBolt11Payload = (payReq, amt, feeLimit) => {
   const invoice = decodePayReq(payReq)
@@ -138,10 +138,10 @@ export const prepareBolt11Payload = (payReq, amt, feeLimit) => {
 /**
  * prepareKeysendProbe - Prepare a keysend probe.
  *
- * @param  {string} pubkey   Pubkey
- * @param  {number} amt      Amount in satoshi
+ * @param  {string} pubkey Pubkey
+ * @param  {number} amt Amount in satoshi
  * @param  {number} feeLimit Fee limit (sats)
- * @returns {object} Keysnd payment
+ * @returns {object} Keysend probe payload
  */
 export const prepareKeysendProbe = (pubkey, amt, feeLimit) => {
   const preimage = generatePreimage()
@@ -162,9 +162,9 @@ export const prepareKeysendProbe = (pubkey, amt, feeLimit) => {
 /**
  * prepareBolt11Probe - Prepare a bolt11 probe.
  *
- * @param  {string} payReq   Payment request
+ * @param  {string} payReq Payment request
  * @param  {number} feeLimit Fee limit (sats)
- * @returns {object} bolt11 payment
+ * @returns {object} Bolt11 probe payload
  */
 export const prepareBolt11Probe = (payReq, feeLimit) => {
   const invoice = decodePayReq(payReq)
