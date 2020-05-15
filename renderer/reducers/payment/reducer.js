@@ -3,8 +3,7 @@ import uniqBy from 'lodash/uniqBy'
 import find from 'lodash/find'
 import createReducer from '@zap/utils/createReducer'
 import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
-import { getIntl } from '@zap/i18n'
-import { isPubkey, getTag } from '@zap/utils/crypto'
+import { isPubkey } from '@zap/utils/crypto'
 import delay from '@zap/utils/delay'
 import genId from '@zap/utils/genId'
 import { mainLog } from '@zap/utils/log'
@@ -13,8 +12,6 @@ import { grpc } from 'workers'
 import { fetchBalance } from 'reducers/balance'
 import { fetchChannels } from 'reducers/channels'
 import { infoSelectors } from 'reducers/info'
-import { showError } from 'reducers/notification'
-import messages from './messages'
 import { paymentsSending } from './selectors'
 import { prepareKeysendPayload, prepareBolt11Payload } from './utils'
 import * as constants from './constants'
@@ -25,6 +22,7 @@ const {
   SEND_PAYMENT,
   PAYMENT_SUCCESSFUL,
   PAYMENT_FAILED,
+  PAYMENT_COMPLETED,
   DECREASE_PAYMENT_RETRIES,
   PAYMENT_STATUS_SENDING,
   PAYMENT_STATUS_SUCCESSFUL,
@@ -76,11 +74,6 @@ const decPaymentRetry = paymentId => ({
  * @returns {Function} Thunk
  */
 export const sendPayment = data => dispatch => {
-  if (!data.paymentHash) {
-    dispatch(showError(getIntl().formatMessage(messages.payment_send_error)))
-    return
-  }
-
   const payment = {
     ...data,
     status: PAYMENT_STATUS_SENDING,
@@ -94,18 +87,14 @@ export const sendPayment = data => dispatch => {
   })
 }
 
-/**
- * updatePayment - Updates specified payment request.
- *
- * @param {string} paymentHash Payment hash
- * @returns {Function} Thunk
- */
-export const updatePayment = paymentHash => async dispatch => {
-  const { payments } = await grpc.services.Lightning.listPayments()
-  const payment = payments.find(p => p.paymentHash === paymentHash)
-  if (payment) {
-    dispatch(receivePayments([payment]))
-  }
+export const paymentComplete = paymentId => async dispatch => {
+  const { payments } = await grpc.services.Lightning.listPayments({
+    maxPayments: 3,
+    indexOffset: 0,
+    reversed: true,
+  })
+  dispatch(receivePayments(payments))
+  dispatch({ type: PAYMENT_COMPLETED, paymentId })
 }
 
 /**
@@ -119,7 +108,7 @@ export const paymentSuccessful = ({ paymentId }) => async (dispatch, getState) =
 
   // If we found a related entry in paymentsSending, gracefully remove it and handle as success case.
   if (paymentSending) {
-    const { creationDate, paymentHash } = paymentSending
+    const { creationDate } = paymentSending
 
     // Ensure payment stays in sending state for at least 1 second.
     await delay(1000 - (Date.now() - creationDate * 1000))
@@ -130,7 +119,7 @@ export const paymentSuccessful = ({ paymentId }) => async (dispatch, getState) =
     // Wait for another 3 seconds.
     await delay(3000)
 
-    dispatch(updatePayment(paymentHash))
+    dispatch(paymentComplete(paymentId))
   }
 
   // Fetch new balance.
@@ -228,15 +217,12 @@ export const payInvoice = ({
   } else {
     dispatch(
       sendPayment({
-        paymentHash:
-          route && route.isExact
-            ? route.paymentHash.toString('hex')
-            : getTag(payReq, 'payment_hash'),
         paymentId,
         feeLimit,
         value: amt,
         remainingRetries: retries,
         paymentRequest: payload.paymentRequest,
+        dest: payload.dest && payload.dest.toString('hex'),
         maxRetries: retries,
         isKeysend,
       })
@@ -306,10 +292,7 @@ const ACTION_HANDLERS = {
   },
   [RECEIVE_PAYMENTS]: (state, { payments }) => {
     state.paymentLoading = false
-    state.payments = uniqBy(state.payments.concat(payments), 'paymentHash')
-    state.paymentsSending = state.paymentsSending.filter(
-      item => !payments.find(p => p.paymentHash === item.paymentHash)
-    )
+    state.payments = uniqBy(payments.concat(state.payments), 'paymentHash')
   },
   [SEND_PAYMENT]: (state, { payment }) => {
     state.paymentsSending.push(payment)
@@ -331,6 +314,9 @@ const ACTION_HANDLERS = {
     if (item) {
       item.status = PAYMENT_STATUS_SUCCESSFUL
     }
+  },
+  [PAYMENT_COMPLETED]: (state, { paymentId }) => {
+    state.paymentsSending = state.paymentsSending.filter(item => item.paymentId !== paymentId)
   },
   [PAYMENT_FAILED]: (state, { paymentId, error }) => {
     const item = find(state.paymentsSending, { paymentId })

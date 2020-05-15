@@ -238,7 +238,7 @@ const ACTION_HANDLERS = {
   },
   [RECEIVE_INVOICES]: (state, { invoices }) => {
     state.isInvoicesLoading = false
-    state.invoices = uniqBy(state.invoices.concat(invoices), 'addIndex')
+    state.invoices = uniqBy(invoices.concat(state.invoices), 'addIndex')
   },
   [SEND_INVOICE]: state => {
     state.isInvoicesLoading = true

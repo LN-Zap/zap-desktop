@@ -136,9 +136,9 @@ class Pay extends React.Component {
         queryRoutes(paymentRequest, this.amountInSats())
       } else if (paymentType === PAYMENT_TYPES.pubkey) {
         const {
-          values: { payReq },
+          values: { payReq: pubKey },
         } = this.formApi.getState()
-        queryRoutes(payReq, this.amountInSats())
+        queryRoutes(pubKey, this.amountInSats())
       }
     }
   }

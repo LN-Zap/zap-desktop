@@ -672,6 +672,5 @@
   "reducers.messages.transaction_sent_body": "Me duele que se vayan pero me encanta verlos ir. Tu transacción on-chain se ha enviado con éxito.",
   "reducers.messages.transaction_sent_title": "¡Transacción en cadena enviada!",
   "reducers.pay.pay_lnurl_withdraw_error": "No se puede procesar la solicitud de retiro de {service}: {reason}",
-  "reducers.payment.payment_send_error": "No se puede enviar el pago: factura no válida (sin hash de pago)",
   "reducers.payment.unknown": "Desconocido"
 }

@@ -3,11 +3,10 @@ import { send } from 'redux-electron-ipc'
 import { grpc } from 'workers'
 import createReducer from '@zap/utils/createReducer'
 import { estimateFeeRange } from '@zap/utils/fee'
-import { sha256digest } from '@zap/utils/sha256'
-import { decodePayReq, isPubkey, getTag, generatePreimage } from '@zap/utils/crypto'
+import { isPubkey, getTag } from '@zap/utils/crypto'
 import { settingsSelectors } from 'reducers/settings'
 import { infoSelectors } from 'reducers/info'
-import { DEFAULT_CLTV_DELTA, KEYSEND_PREIMAGE_TYPE } from 'reducers/payment'
+import { prepareKeysendProbe, prepareBolt11Probe } from 'reducers/payment'
 import { createInvoice } from 'reducers/invoice'
 import * as constants from './constants'
 
@@ -35,7 +34,6 @@ const initialState = {
     medium: null,
     slow: null,
   },
-  pubKey: null,
   queryFeesError: null,
   queryRoutesError: null,
   redirectPayReq: null,
@@ -131,59 +129,29 @@ export const queryFees = (address, amountInSats) => async (dispatch, getState) =
 /**
  * queryRoutes - Find valid routes to make a payment to a node.
  *
- * @param {object|string} payReq Payment request or node pubkey
+ * @param {string} payReqOrPubkey Payment request or node pubkey
  * @param {number} amt Payment amount (in sats)
- * @param {number} finalCltvDelta The number of blocks the last hop has to reveal the preimage
+ * @param {number} feeLimit The max fee to apply
  * @returns {Function} Thunk
  */
-export const queryRoutes = (payReq, amt, finalCltvDelta = DEFAULT_CLTV_DELTA) => async (
-  dispatch,
-  getState
-) => {
-  const isKeysend = isPubkey(payReq)
-  let pubkey
+export const queryRoutes = (payReqOrPubkey, amt, feeLimit) => async (dispatch, getState) => {
+  const isKeysend = isPubkey(payReqOrPubkey)
   let paymentHash
+  let payload
 
-  let payload = {
-    useMissionControl: true,
-    finalCltvDelta,
-  }
-
-  // Keysend payment.
+  // Prepare payload for lnd.
   if (isKeysend) {
-    pubkey = payReq
-    const preimage = generatePreimage()
-    paymentHash = sha256digest(preimage)
-
-    payload = {
-      ...payload,
-      amt,
-      dest: Buffer.from(payReq, 'hex'),
-      destCustomRecords: {
-        [KEYSEND_PREIMAGE_TYPE]: preimage,
-      },
-    }
-  }
-
-  // Bolt11 invoice payment.
-  else {
-    const invoice = decodePayReq(payReq)
-    const { millisatoshis } = invoice
-    const amountInSats = millisatoshis / 1000
-    paymentHash = getTag(invoice, 'payment_hash')
-    pubkey = invoice.payeeNodeKey
-
-    payload = {
-      ...payload,
-      amt: amountInSats,
-      dest: Buffer.from(pubkey, 'hex'),
-    }
+    payload = prepareKeysendProbe(payReqOrPubkey, amt, feeLimit)
+    paymentHash = payload.paymentHash // eslint-disable-line prefer-destructuring
+  } else {
+    payload = prepareBolt11Probe(payReqOrPubkey, feeLimit)
+    paymentHash = getTag(payReqOrPubkey, 'payment_hash')
   }
 
   const callQueryRoutes = async () => {
     const { routes } = await grpc.services.Lightning.queryRoutes({
       ...payload,
-      pubKey: pubkey,
+      useMissionControl: true,
     })
     return routes
   }
@@ -193,13 +161,13 @@ export const queryRoutes = (payReq, amt, finalCltvDelta = DEFAULT_CLTV_DELTA) =>
     const route = await grpc.services.Router.probePayment(payload)
     // Flag this as an exact route. This can be used as a hint for whether to use sendToRoute to fulfil the payment.
     route.isExact = true
-    // Store the payment hash for use with keysnd.
+    // Store the payment hash for use with keysend.
     route.paymentHash = paymentHash
     routes.push(route)
     return routes
   }
 
-  dispatch({ type: QUERY_ROUTES, pubKey: pubkey })
+  dispatch({ type: QUERY_ROUTES, paymentHash })
 
   try {
     let routes = []
@@ -251,9 +219,8 @@ const ACTION_HANDLERS = {
     state.onchainFees = {}
     state.queryFeesError = error
   },
-  [QUERY_ROUTES]: (state, { pubKey }) => {
+  [QUERY_ROUTES]: state => {
     state.isQueryingRoutes = true
-    state.pubKey = pubKey
     state.queryRoutesError = null
     state.routes = []
   },
@@ -264,7 +231,6 @@ const ACTION_HANDLERS = {
   },
   [QUERY_ROUTES_FAILURE]: (state, { error }) => {
     state.isQueryingRoutes = false
-    state.pubKey = null
     state.queryRoutesError = error
     state.routes = []
   },

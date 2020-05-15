@@ -672,6 +672,5 @@
   "reducers.messages.transaction_sent_body": "Hate to see 'em go but love to watch 'em leave. Your on-chain transaction successfully sent.",
   "reducers.messages.transaction_sent_title": "On-chain Transaction Sent!",
   "reducers.pay.pay_lnurl_withdraw_error": "Unable to process withdraw request from {service}: {reason}",
-  "reducers.payment.payment_send_error": "Unable to send payment: Invalid invoice (no payment hash)",
   "reducers.payment.unknown": "Unknown"
 }
