@@ -64,17 +64,19 @@ class Pay extends React.Component {
     currentStep: PAY_FORM_STEPS.address,
     previousStep: null,
     paymentType: PAYMENT_TYPES.none,
+    loaded: false,
   }
 
   // Set a flag so that we can trigger form submission in componentDidUpdate once the form is loaded.
   componentDidMount() {
-    const { fetchTickers, queryFees } = this.props
+    const { fetchTickers } = this.props
+    const { loaded } = this.state
     fetchTickers()
-    queryFees()
+    !loaded && this.setState({ loaded: true })
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { redirectPayReq, queryRoutes, setRedirectPayReq } = this.props
+    const { redirectPayReq, queryRoutes, setRedirectPayReq, queryFees } = this.props
     const { currentStep, invoice, paymentType } = this.state
     const { address, amount } = redirectPayReq || {}
     const { payReq: prevPayReq } = prevProps || {}
@@ -108,6 +110,7 @@ class Pay extends React.Component {
     const isNowOnchain =
       paymentType === PAYMENT_TYPES.onchain && paymentType !== prevState.paymentType
     if (currentStep === PAY_FORM_STEPS.address && isNowOnchain) {
+      queryFees()
       this.formApi.submitForm()
       return
     }
