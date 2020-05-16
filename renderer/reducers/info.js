@@ -240,6 +240,14 @@ infoSelectors.hasRouterSupport = createSelector(infoSelectors.grpcProtoVersion, 
   return semver.gte(version, '0.7.1-beta', { includePrerelease: true })
 })
 
+// Check whether node has support for SendPaymentV2 service
+infoSelectors.hasSendPaymentV2Support = createSelector(infoSelectors.grpcProtoVersion, version => {
+  if (!version) {
+    return false
+  }
+  return semver.gte(version, '0.10.0-beta', { includePrerelease: true })
+})
+
 // Get the node pubkey. If not set, try to extract it from the node uri.
 infoSelectors.nodePubkey = createSelector(
   infoSelectors.nodeUris,

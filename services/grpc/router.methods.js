@@ -8,14 +8,26 @@ import { logGrpcCmd } from './helpers'
 
 const PAYMENT_TIMEOUT = config.payments.timeout
 const PAYMENT_FEE_LIMIT = config.payments.feeLimit
-
+const PAYMENT_MAX_PARTS = config.payments.maxParts
 const PAYMENT_PROBE_TIMEOUT = config.payments.probeTimeout
 const PAYMENT_PROBE_FEE_LIMIT = config.payments.probeFeeLimit
 
 export const KEYSEND_PREIMAGE_TYPE = '5482373484'
 
+const defaultProbeOptions = {
+  timeoutSeconds: PAYMENT_PROBE_TIMEOUT,
+  feeLimitSat: PAYMENT_PROBE_FEE_LIMIT,
+  allowSelfPayment: true,
+}
+
+const defaultPaymentOptions = {
+  timeoutSeconds: PAYMENT_TIMEOUT,
+  feeLimit: PAYMENT_FEE_LIMIT,
+  allowSelfPayment: true,
+}
+
 // ------------------------------------
-// Wrappers / Overrides
+// Overrides
 // ------------------------------------
 
 /**
@@ -25,11 +37,9 @@ export const KEYSEND_PREIMAGE_TYPE = '5482373484'
  * @returns {Promise} The route route when state is SUCCEEDED
  */
 async function probePayment(options) {
-  const payload = defaults(omitBy(options, isNil), {
-    timeoutSeconds: PAYMENT_PROBE_TIMEOUT,
-    feeLimitSat: PAYMENT_PROBE_FEE_LIMIT,
-    allowSelfPayment: true,
-  })
+  // Use a payload that has the payment hash set to some random bytes.
+  // This will cause the payment to fail at the final destination.
+  const payload = defaults(omitBy(options, isNil), defaultProbeOptions)
 
   // Use a payload that has the payment hash set to some random bytes.
   // This will cause the payment to fail at the final destination.
@@ -110,13 +120,7 @@ async function probePayment(options) {
  * @returns {Promise} Original payload augmented with lnd sendPayment response data
  */
 async function sendPayment(options = {}) {
-  // Use a payload that has the payment hash set to some random bytes.
-  // This will cause the payment to fail at the final destination.
-  const payload = defaults(omitBy(options, isNil), {
-    timeoutSeconds: PAYMENT_TIMEOUT,
-    feeLimit: PAYMENT_FEE_LIMIT,
-  })
-
+  const payload = defaults(omitBy(options, isNil), defaultPaymentOptions)
   logGrpcCmd('Router.sendPayment', payload)
 
   // Our response will always include the original payload.
@@ -179,7 +183,75 @@ async function sendPayment(options = {}) {
   })
 }
 
+/**
+ * sendPaymentV2 - Call lnd grpc sendPaymentV2 method.
+ *
+ * @param {object} options Options
+ * @returns {Promise} Original payload augmented with lnd sendPaymentV2 response data
+ */
+async function sendPaymentV2(options = {}) {
+  const payload = defaults(omitBy(options, isNil), defaultPaymentOptions)
+  logGrpcCmd('Router.sendPaymentV2', payload)
+
+  // Our response will always include the original payload.
+  const result = { ...payload }
+  let error
+
+  const decorateError = e => {
+    e.details = result
+    return e
+  }
+
+  return new Promise((resolve, reject) => {
+    grpcLog.time('sendPaymentV2')
+    const call = this.service.sendPaymentV2(payload)
+
+    call.on('data', data => {
+      grpcLog.debug('PAYMENT DATA :%o', data)
+
+      switch (data.status) {
+        case 'IN_FLIGHT':
+          grpcLog.info('IN_FLIGHT...')
+          break
+
+        case 'SUCCEEDED':
+          grpcLog.info('PAYMENT SUCCESS: %o', data)
+
+          // Add lnd return data to the response.
+          Object.assign(result, data)
+          break
+
+        default:
+          grpcLog.warn('PAYMENT FAILED: %o', data)
+          error = new Error(data.failureReason)
+      }
+    })
+
+    call.on('status', status => {
+      grpcLog.info('PAYMENT STATUS :%o', status)
+    })
+
+    call.on('error', e => {
+      grpcLog.warn('PAYMENT ERROR :%o', e)
+      error = new Error(e.details || e.message)
+    })
+
+    call.on('end', () => {
+      grpcLog.timeEnd('sendPaymentV2')
+      grpcLog.info('PAYMENT END')
+      if (error) {
+        return reject(decorateError(error))
+      }
+      if (!result.paymentPreimage) {
+        return reject(decorateError(new Error('TERMINATED_EARLY')))
+      }
+      return resolve(result)
+    })
+  })
+}
+
 export default {
   probePayment,
   sendPayment,
+  sendPaymentV2,
 }

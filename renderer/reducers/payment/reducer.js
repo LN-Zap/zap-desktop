@@ -196,6 +196,9 @@ export const payInvoice = ({
   retries = 0,
   originalPaymentId,
 }) => async (dispatch, getState) => {
+  const routerSendPayment = infoSelectors.hasSendPaymentV2Support(getState())
+    ? grpc.services.Router.sendPaymentV2
+    : grpc.services.Router.sendPayment
   const paymentId = originalPaymentId || genId()
   const isKeysend = isPubkey(payReq)
   let payload
@@ -232,7 +235,6 @@ export const payInvoice = ({
   // Submit the payment to LND.
   try {
     let data = { paymentId }
-
     // Use Router service if lnd version supports it.
     if (infoSelectors.hasRouterSupport(getState())) {
       // If we have been supplied with exact route, attempt to use that route.
@@ -251,7 +253,7 @@ export const payInvoice = ({
             // We don't know for sure that the node has been compiled with the Router service.
             // Fall bak to using sendPayment in the event of an error.
             mainLog.warn('Unable to pay invoice using sendToRoute: %s', error.message)
-            data = await grpc.services.Router.sendPayment(payload)
+            data = await routerSendPayment(payload)
           } else {
             error.details = data
             throw error
@@ -266,13 +268,13 @@ export const payInvoice = ({
 
       // Otherwise, just use sendPayment.
       else {
-        data = await grpc.services.Router.sendPayment(payload)
+        data = await routerSendPayment(payload)
       }
     }
 
     // For older versions use the legacy Lightning.sendPayment method.
     else {
-      data = await grpc.services.Lightning.sendPayment(payload)
+      data = await routerSendPayment(payload)
     }
 
     dispatch(paymentSuccessful(data))
