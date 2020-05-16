@@ -51,9 +51,13 @@ export const TRANSACTION_COMPLETE = 'TRANSACTION_COMPLETE'
  * @returns {object} Decorated transaction
  */
 const decorateTransaction = transaction => {
+  const isReceived = !transaction.isSending && CoinBig(transaction.amount).gt(0)
+  const isSent = !transaction.isSending && CoinBig(transaction.amount).lt(0)
+  const isToSelf = isSent && CoinBig.sum(transaction.totalFees, transaction.amount).isEqualTo(0)
   const decoration = {
     type: 'transaction',
-    isReceived: !transaction.isSending && CoinBig(transaction.amount).gt(0),
+    isReceived,
+    isToSelf,
   }
   return {
     ...transaction,
