@@ -55,6 +55,7 @@
   "components.Activity.Transaction.status_error": "Došlo je do problema prilikom slanja vaše transakcije.",
   "components.Activity.Transaction.status_processing": "Zap procesuira vaše plaćanje. Ovo može potrajati do jedne minute.",
   "components.Activity.Transaction.status_success": "Vaša transakcija je bila uspješna.",
+  "components.Activity.Transaction.to_self": "",
   "components.Activity.Transaction.type": "Na-lanac transakcija",
   "components.Activity.TransactionModal.address": "Adresa",
   "components.Activity.TransactionModal.amount": "Iznos",

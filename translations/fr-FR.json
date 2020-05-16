@@ -55,6 +55,7 @@
   "components.Activity.Transaction.status_error": "Un problème est survenu au cours de l'envoi de votre transaction.",
   "components.Activity.Transaction.status_processing": "Traitement de votre transaction...",
   "components.Activity.Transaction.status_success": "Votre transaction a été effectuée.",
+  "components.Activity.Transaction.to_self": "",
   "components.Activity.Transaction.type": "Transaction On-chain",
   "components.Activity.TransactionModal.address": "Adresse",
   "components.Activity.TransactionModal.amount": "Montant",

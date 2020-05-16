@@ -55,6 +55,7 @@
   "components.Activity.Transaction.status_error": "Si è verificato un errore durante l'invio della transazione.",
   "components.Activity.Transaction.status_processing": "Processando il tuo pagamento...",
   "components.Activity.Transaction.status_success": "La transazione è avvenuta con successo.",
+  "components.Activity.Transaction.to_self": "",
   "components.Activity.Transaction.type": "Transazione on-chain",
   "components.Activity.TransactionModal.address": "Indirizzo",
   "components.Activity.TransactionModal.amount": "Importo",

@@ -55,6 +55,7 @@
   "components.Activity.Transaction.status_error": "",
   "components.Activity.Transaction.status_processing": "",
   "components.Activity.Transaction.status_success": "",
+  "components.Activity.Transaction.to_self": "",
   "components.Activity.Transaction.type": "On-chain transaksjon",
   "components.Activity.TransactionModal.address": "Adresse",
   "components.Activity.TransactionModal.amount": "Beløp",

@@ -55,6 +55,7 @@
   "components.Activity.Transaction.status_error": "Při odesílání transakce se vyskytl problém.",
   "components.Activity.Transaction.status_processing": "Zpracování vaší transakce...",
   "components.Activity.Transaction.status_success": "Vaše transakce byla úspěšná.",
+  "components.Activity.Transaction.to_self": "",
   "components.Activity.Transaction.type": "On-chain transakce",
   "components.Activity.TransactionModal.address": "Adresa",
   "components.Activity.TransactionModal.amount": "Částka",

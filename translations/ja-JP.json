@@ -55,6 +55,7 @@
   "components.Activity.Transaction.status_error": "トランザクションの送信で問題がありました。",
   "components.Activity.Transaction.status_processing": "トランザクション処理中…",
   "components.Activity.Transaction.status_success": "トランザクションは成功です。",
+  "components.Activity.Transaction.to_self": "",
   "components.Activity.Transaction.type": "オンチェイントランザクション",
   "components.Activity.TransactionModal.address": "アドレス",
   "components.Activity.TransactionModal.amount": "数量",

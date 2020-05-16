@@ -55,6 +55,7 @@
   "components.Activity.Transaction.status_error": "Ocurrió un error con su transacción. Haga clic para ver más detalles.",
   "components.Activity.Transaction.status_processing": "Procesando su transacción…",
   "components.Activity.Transaction.status_success": "Su transacción ha sido exitoso.",
+  "components.Activity.Transaction.to_self": "",
   "components.Activity.Transaction.type": "Transacción en-cadena",
   "components.Activity.TransactionModal.address": "Dirección",
   "components.Activity.TransactionModal.amount": "Cantidad",

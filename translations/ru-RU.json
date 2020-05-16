@@ -55,6 +55,7 @@
   "components.Activity.Transaction.status_error": "Возникла проблема при отправке вашей транзакции.",
   "components.Activity.Transaction.status_processing": "Отправка вашей транзакции...",
   "components.Activity.Transaction.status_success": "Транзакция выполнена успешно.",
+  "components.Activity.Transaction.to_self": "",
   "components.Activity.Transaction.type": "",
   "components.Activity.TransactionModal.address": "Адрес",
   "components.Activity.TransactionModal.amount": "Сумма",

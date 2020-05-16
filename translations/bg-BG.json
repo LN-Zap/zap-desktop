@@ -55,6 +55,7 @@
   "components.Activity.Transaction.status_error": "",
   "components.Activity.Transaction.status_processing": "",
   "components.Activity.Transaction.status_success": "",
+  "components.Activity.Transaction.to_self": "",
   "components.Activity.Transaction.type": "Блокчейн транзакция",
   "components.Activity.TransactionModal.address": "",
   "components.Activity.TransactionModal.amount": "",

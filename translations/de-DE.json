@@ -55,6 +55,7 @@
   "components.Activity.Transaction.status_error": "Während dem Senden der Transaktion ist ein Fehler aufgetreten.",
   "components.Activity.Transaction.status_processing": "Deine Zahlung wird bearbeitet...",
   "components.Activity.Transaction.status_success": "Deine Überweisung war erfolgreich.",
+  "components.Activity.Transaction.to_self": "",
   "components.Activity.Transaction.type": "Transaktion im Bitcoin Netzwerk",
   "components.Activity.TransactionModal.address": "Adresse",
   "components.Activity.TransactionModal.amount": "Betrag",

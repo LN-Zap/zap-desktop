@@ -55,6 +55,7 @@
   "components.Activity.Transaction.status_error": "发送您的交易时出现问题。",
   "components.Activity.Transaction.status_processing": "",
   "components.Activity.Transaction.status_success": "您的付款已成功",
+  "components.Activity.Transaction.to_self": "",
   "components.Activity.Transaction.type": "链上交易",
   "components.Activity.TransactionModal.address": "地址",
   "components.Activity.TransactionModal.amount": "数量",

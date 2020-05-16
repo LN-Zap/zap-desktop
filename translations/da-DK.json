@@ -55,6 +55,7 @@
   "components.Activity.Transaction.status_error": "Der opstod et problem med at sende din betaling.",
   "components.Activity.Transaction.status_processing": "Zap behandler din transaktion. Dette kan tage op til 01:00 min.",
   "components.Activity.Transaction.status_success": "Din transaktion var succesfuld.",
+  "components.Activity.Transaction.to_self": "",
   "components.Activity.Transaction.type": "On-chain transaktion",
   "components.Activity.TransactionModal.address": "Adresse",
   "components.Activity.TransactionModal.amount": "Beløb",
