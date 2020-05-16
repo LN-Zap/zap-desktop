@@ -20,4 +20,5 @@ export default defineMessages({
   closetype_abandoned: 'Abandoned',
   pending: 'Pending',
   confirmed: 'Confirmed',
+  to_self: '(to self)',
 })

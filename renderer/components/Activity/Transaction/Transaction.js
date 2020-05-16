@@ -77,7 +77,15 @@ const Transaction = ({
           {activity.closeType ? (
             <FormattedMessage {...messages[`closetype_${activity.closeType.toLowerCase()}`]} />
           ) : (
-            <FormattedMessage {...messages[type]} />
+            <>
+              <FormattedMessage {...messages[type]} />
+              {activity.isToSelf && (
+                <>
+                  &nbsp;
+                  <FormattedMessage {...messages.to_self} />
+                </>
+              )}
+            </>
           )}
         </Text>
 
