@@ -26,6 +26,11 @@ const defaultPaymentOptions = {
   allowSelfPayment: true,
 }
 
+const defaultPaymentOptionsV2 = {
+  ...defaultPaymentOptions,
+  maxParts: PAYMENT_MAX_PARTS,
+}
+
 // ------------------------------------
 // Overrides
 // ------------------------------------
@@ -190,7 +195,7 @@ async function sendPayment(options = {}) {
  * @returns {Promise} Original payload augmented with lnd sendPaymentV2 response data
  */
 async function sendPaymentV2(options = {}) {
-  const payload = defaults(omitBy(options, isNil), defaultPaymentOptions)
+  const payload = defaults(omitBy(options, isNil), defaultPaymentOptionsV2)
   logGrpcCmd('Router.sendPaymentV2', payload)
 
   // Our response will always include the original payload.

@@ -188,7 +188,8 @@ export const sendCoins = ({
     await grpc.services.Lightning.sendCoins(payload)
     dispatch(transactionSuccessful({ ...payload, internalId }))
   } catch (e) {
-    dispatch(transactionFailed({ error: e.message, internalId }))
+    e.message = errorToUserFriendly(e.message)
+    dispatch(transactionFailed({ internalId, error: e }))
   }
 }
 
@@ -229,7 +230,7 @@ export const transactionFailed = ({ internalId, error }) => async (dispatch, get
   await delay(2000 - (Date.now() - timestamp * 1000))
 
   // Mark the payment as failed.
-  dispatch({ type: TRANSACTION_FAILED, internalId, error: errorToUserFriendly(error) })
+  dispatch({ type: TRANSACTION_FAILED, internalId, error })
 }
 
 /**

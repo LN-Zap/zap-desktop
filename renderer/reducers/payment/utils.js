@@ -198,3 +198,15 @@ export const getDisplayNodeName = payment => {
   const intl = getIntl()
   return intl.formatMessage({ ...messages.unknown })
 }
+
+/**
+ * errorCodeToMessage - Convert an error code to an error message.
+ *
+ * @param  {string} code Error code
+ * @returns {string|null} error message
+ */
+export const errorCodeToMessage = code => {
+  const intl = getIntl()
+  const msg = messages[code.toLowerCase()]
+  return msg ? intl.formatMessage({ ...msg }) : null
+}
