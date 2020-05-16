@@ -22,20 +22,25 @@ class ZapUpdater {
 
     this.configure({ ...config.autoupdate, ...options })
 
-    autoUpdater.on('update-downloaded', () => {
-      const opt = {
-        type: 'question',
-        buttons: ['Install', 'Later'],
-        title: 'Update available',
-        message: 'An update is available. Restart the app and install?',
+    autoUpdater.on('update-downloaded', async info => {
+      updaterLog.info('Downloaded update: %o', info)
+      const dialogOpts = {
+        type: 'info',
+        buttons: ['Restart', 'Later'],
+        title: 'Application Update',
+        message: 'A new version has been downloaded. Restart the application to apply the updates.',
       }
-      dialog.showMessageBox(this.mainWindow, opt, async choice => {
-        if (choice !== 0) {
-          return
-        }
-        await delay(100)
+      const returnValue = await dialog.showMessageBox(this.mainWindow, dialogOpts)
+      if (returnValue.response === 0) {
+        await delay(500)
+        mainWindow.forceClose = true
         autoUpdater.quitAndInstall()
-      })
+      }
+    })
+
+    autoUpdater.on('error', message => {
+      updaterLog.warn('There was a problem updating the application: %s', message)
+      dialog.showErrorBox('There was a problem updating the application', message)
     })
 
     // Enable updates if needed.
