@@ -33,7 +33,7 @@
   "components.Activity.PaymentModal.current_value": "Valor actual",
   "components.Activity.PaymentModal.date_sent": "Fecha de envío",
   "components.Activity.PaymentModal.destination": "",
-  "components.Activity.PaymentModal.fee": "Total de comisión",
+  "components.Activity.PaymentModal.fee": "Comisión",
   "components.Activity.PaymentModal.memo": "Memorándum",
   "components.Activity.PaymentModal.preimage": "Preimagen de Pago",
   "components.Activity.PaymentModal.subtitle": "Pago de Lightning",
