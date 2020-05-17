@@ -9,6 +9,7 @@ import { getTag } from '@zap/utils/crypto'
 import { CopyButton, CryptoSelector, CryptoValue, FiatSelector, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
 import Lightning from 'components/Icon/Lightning'
+import Route from './Route'
 import messages from './messages'
 
 class PaymentModal extends React.PureComponent {
@@ -20,6 +21,9 @@ class PaymentModal extends React.PureComponent {
   render() {
     const { item, intl, ...rest } = this.props
     const memo = item && getTag(item.paymentRequest, 'description')
+    const htlcs = item.htlcs.filter(htlc => htlc.status === 'SUCCEEDED')
+    const isMpp = htlcs.length > 1
+    const isRouted = htlcs.filter(htlc => htlc.route.hops.length > 1).length > 0
 
     return (
       <Panel {...rest}>
@@ -106,6 +110,17 @@ class PaymentModal extends React.PureComponent {
               </Flex>
             }
           />
+
+          {(isMpp || isRouted) && (
+            <>
+              <Bar variant="light" />
+
+              <DataRow
+                left={<FormattedMessage {...messages.htlc_title} />}
+                right={<Route htlcs={htlcs} />}
+              />
+            </>
+          )}
         </Panel.Body>
       </Panel>
     )

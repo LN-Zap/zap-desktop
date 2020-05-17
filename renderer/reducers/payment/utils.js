@@ -1,5 +1,6 @@
 import config from 'config'
 import get from 'lodash/get'
+import cloneDeep from 'lodash/cloneDeep'
 import { getTag, decodePayReq, getNodeAlias, generatePreimage } from '@zap/utils/crypto'
 import { convert } from '@zap/utils/btc'
 import { getIntl } from '@zap/i18n'
@@ -71,6 +72,19 @@ export const decoratePayment = (payment, nodes = []) => {
       destNodePubkey: pubkey,
       destNodeAlias: getNodeAlias(pubkey, nodes),
     })
+  }
+
+  // Try to add some info about the nodes involved in payment htlcs.
+  if (payment.htlcs) {
+    const decoratedHtlcs = cloneDeep(payment.htlcs)
+    decoratedHtlcs.map(htlc => {
+      htlc.route.hops.map(hop => {
+        hop.alias = getNodeAlias(hop.pubKey, nodes)
+        return hop
+      })
+      return htlc
+    })
+    decoration.htlcs = decoratedHtlcs
   }
 
   return {
@@ -186,12 +200,12 @@ export const prepareBolt11Probe = (payReq, feeLimit) => {
  * @returns {string} Display name
  */
 export const getDisplayNodeName = payment => {
-  const { destNodeAlias, destNodePubkey } = payment
-  if (destNodeAlias) {
-    return destNodeAlias
+  const { destNodeAlias, destNodePubkey, alias, pubKey } = payment
+  if (destNodeAlias || alias) {
+    return destNodeAlias || alias
   }
-  if (destNodePubkey) {
-    return truncateNodePubkey(destNodePubkey)
+  if (destNodePubkey || pubKey) {
+    return truncateNodePubkey(destNodePubkey || pubKey)
   }
 
   // If all else fails, return the string 'unknown'.
