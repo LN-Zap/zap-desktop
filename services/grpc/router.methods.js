@@ -22,7 +22,7 @@ const defaultProbeOptions = {
 
 const defaultPaymentOptions = {
   timeoutSeconds: PAYMENT_TIMEOUT,
-  feeLimit: PAYMENT_FEE_LIMIT,
+  feeLimitSat: PAYMENT_FEE_LIMIT,
   allowSelfPayment: true,
 }
 

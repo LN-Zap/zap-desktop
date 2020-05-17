@@ -105,7 +105,7 @@ export const prepareKeysendPayload = (pubkey, amt, feeLimit) => {
   return {
     ...getPaymentConfig(),
     dest: Buffer.from(pubkey, 'hex'),
-    feeLimit: feeLimit ? { fixed: feeLimit } : null,
+    feeLimitSat: feeLimit,
     paymentHash: sha256digest(preimage),
     amt,
     finalCltvDelta: DEFAULT_CLTV_DELTA,
@@ -130,7 +130,7 @@ export const prepareBolt11Payload = (payReq, amt, feeLimit) => {
   return {
     ...getPaymentConfig(),
     paymentRequest: invoice.paymentRequest,
-    feeLimit: feeLimit ? { fixed: feeLimit } : null,
+    feeLimitSat: feeLimit,
     amt: millisatoshis ? null : amt,
   }
 }
@@ -149,7 +149,7 @@ export const prepareKeysendProbe = (pubkey, amt, feeLimit) => {
   return {
     ...getPaymentConfig(),
     dest: Buffer.from(pubkey, 'hex'),
-    feeLimit: feeLimit ? { fixed: feeLimit } : null,
+    feeLimitSat: feeLimit,
     amt,
     finalCltvDelta: DEFAULT_CLTV_DELTA,
     paymentHash: sha256digest(preimage),
@@ -173,7 +173,7 @@ export const prepareBolt11Probe = (payReq, feeLimit) => {
   return {
     ...getPaymentConfig(),
     dest: Buffer.from(pubkey, 'hex'),
-    feeLimit: feeLimit ? { fixed: feeLimit } : null,
+    feeLimitSat: feeLimit,
     amtMsat: millisatoshis,
     finalCltvDelta: getTag(invoice, 'min_final_cltv_expiry') || DEFAULT_CLTV_DELTA,
   }

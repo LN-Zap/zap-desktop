@@ -248,6 +248,9 @@ export const payInvoice = ({
             paymentHash: route.paymentHash ? Buffer.from(route.paymentHash, 'hex') : null,
             route: routeToUse,
           })
+          if (result.failure) {
+            throw new Error(result.failure.code)
+          }
         } catch (error) {
           if (error.message === 'unknown service routerrpc.Router') {
             // We don't know for sure that the node has been compiled with the Router service.
@@ -259,11 +262,6 @@ export const payInvoice = ({
             throw error
           }
         }
-        if (result.failure) {
-          const error = new Error(result.failure.code)
-          error.details = data
-          throw error
-        }
       }
 
       // Otherwise, just use sendPayment.
@@ -274,7 +272,11 @@ export const payInvoice = ({
 
     // For older versions use the legacy Lightning.sendPayment method.
     else {
-      data = await routerSendPayment(payload)
+      if (payload.feeLimitSat) {
+        payload.feeLimit = { fixed: payload.feeLimitSat }
+        delete payload.feeLimitSat
+      }
+      await grpc.services.Lightning.sendPayment(payload)
     }
 
     dispatch(paymentSuccessful(data))
