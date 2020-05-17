@@ -248,6 +248,14 @@ infoSelectors.hasSendPaymentV2Support = createSelector(infoSelectors.grpcProtoVe
   return semver.gte(version, '0.10.0-beta', { includePrerelease: true })
 })
 
+// Check whether node has support for mpp
+infoSelectors.hasMppSupport = createSelector(infoSelectors.grpcProtoVersion, version => {
+  if (!version) {
+    return false
+  }
+  return semver.gte(version, '0.10.0-beta', { includePrerelease: true })
+})
+
 // Get the node pubkey. If not set, try to extract it from the node uri.
 infoSelectors.nodePubkey = createSelector(
   infoSelectors.nodeUris,

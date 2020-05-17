@@ -5,6 +5,7 @@ import { CoinBig } from '@zap/utils/coin'
 import { convert } from '@zap/utils/btc'
 import { networkSelectors } from 'reducers/network'
 import { settingsSelectors } from 'reducers/settings'
+import { infoSelectors } from 'reducers/info'
 import { getChannelData, getChannelEffectiveCapacity, decorateChannel } from './utils'
 import {
   DEFAULT_FILTER,
@@ -311,35 +312,39 @@ channelsSelectors.selectedChannel = createSelector(
   }
 )
 
-channelsSelectors.capacity = createSelector(channelsSelectors.allChannelsRaw, allChannels => {
-  let maxOneTimeSend = 0
-  let maxOneTimeReceive = 0
-  let send = 0
-  let receive = 0
+channelsSelectors.capacity = createSelector(
+  channelsSelectors.allChannelsRaw,
+  infoSelectors.hasMppSupport,
+  (allChannels, hasMppSupport) => {
+    let maxOneTimeSend = 0
+    let maxOneTimeReceive = 0
+    let send = 0
+    let receive = 0
 
-  allChannels.forEach(channel => {
-    const channelData = getChannelData(channel)
-    const local = CoinBig(get(channelData, 'localBalance', 0))
-    const remote = CoinBig(get(channelData, 'remoteBalance', 0))
+    allChannels.forEach(channel => {
+      const channelData = getChannelData(channel)
+      const local = CoinBig(get(channelData, 'localBalance', 0))
+      const remote = CoinBig(get(channelData, 'remoteBalance', 0))
 
-    if (local) {
-      send = CoinBig.sum(send, local)
-      maxOneTimeSend = CoinBig.max(maxOneTimeSend, local)
+      if (local) {
+        send = CoinBig.sum(send, local)
+        maxOneTimeSend = hasMppSupport ? send : CoinBig.max(maxOneTimeSend, local)
+      }
+
+      if (remote) {
+        receive = CoinBig.sum(receive, remote)
+        maxOneTimeReceive = hasMppSupport ? receive : CoinBig.max(maxOneTimeReceive, remote)
+      }
+    })
+
+    return {
+      send: CoinBig(send).toString(),
+      receive: CoinBig(receive).toString(),
+      maxOneTimeReceive: CoinBig(maxOneTimeReceive).toString(),
+      maxOneTimeSend: CoinBig(maxOneTimeSend).toString(),
     }
-
-    if (remote) {
-      receive = CoinBig.sum(receive, remote)
-      maxOneTimeReceive = CoinBig.max(maxOneTimeReceive, remote)
-    }
-  })
-
-  return {
-    send: CoinBig(send).toString(),
-    receive: CoinBig(receive).toString(),
-    maxOneTimeReceive: CoinBig(maxOneTimeReceive).toString(),
-    maxOneTimeSend: CoinBig(maxOneTimeSend).toString(),
   }
-})
+)
 
 channelsSelectors.sendCapacity = createSelector(
   channelsSelectors.capacity,
