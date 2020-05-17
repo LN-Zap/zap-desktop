@@ -434,7 +434,7 @@
   "components.Pay.back": "Назад",
   "components.Pay.calculating": "обчислення...",
   "components.Pay.current_balance": "Ваш поточний підтверджений баланс:",
-  "components.Pay.description": "",
+  "components.Pay.description": "Вставити запит Lightning платіж або {chain} адресу в полі нижче, щоб надіслати {chain} ({ticker}) через Lightning мережу або виконати On-Chain транзакцію.",
   "components.Pay.error_not_enough_funds": "",
   "components.Pay.error_not_onetime_send_capacity": "",
   "components.Pay.fee": "Комісія",
