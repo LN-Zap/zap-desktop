@@ -445,7 +445,7 @@
   "components.Pay.fee_subtraction": "",
   "components.Pay.fee_unknown": "непознато",
   "components.Pay.fee_upto": "до {maxFee} сатошита",
-  "components.Pay.lightning_balance": "",
+  "components.Pay.lightning_balance": "{amount} {cryptoUnitName} (в канали)",
   "components.Pay.memo": "Бележка",
   "components.Pay.next": "Напред",
   "components.Pay.next_block_confirmation": "",
