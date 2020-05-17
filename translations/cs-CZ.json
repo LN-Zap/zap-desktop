@@ -442,6 +442,7 @@
   "components.Pay.error_not_onetime_send_capacity": "Pokoušíte se odeslat více, než je vaše současná kapacita jednorázového odesílání {capacity} {unit}",
   "components.Pay.fee": "Poplatek",
   "components.Pay.fee_addition": "Celkem přidáno",
+  "components.Pay.fee_config_limit": "",
   "components.Pay.fee_less_than_1": "méně než 1 satoshi",
   "components.Pay.fee_per_byte": "za byte",
   "components.Pay.fee_range": "mezi {minFee} a {maxFee} satoshi",

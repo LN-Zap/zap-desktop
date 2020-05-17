@@ -442,6 +442,7 @@
   "components.Pay.error_not_onetime_send_capacity": "",
   "components.Pay.fee": "Gebyr",
   "components.Pay.fee_addition": "",
+  "components.Pay.fee_config_limit": "",
   "components.Pay.fee_less_than_1": "mindre end 1 satoshi",
   "components.Pay.fee_per_byte": "",
   "components.Pay.fee_range": "mellem {minFee} og {maxFee} satoshis",

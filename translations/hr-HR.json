@@ -442,6 +442,7 @@
   "components.Pay.error_not_onetime_send_capacity": "",
   "components.Pay.fee": "Naknada",
   "components.Pay.fee_addition": "",
+  "components.Pay.fee_config_limit": "",
   "components.Pay.fee_less_than_1": "manje od 1 satoshi",
   "components.Pay.fee_per_byte": "po bajtu",
   "components.Pay.fee_range": "između {minFee} i {maxFee} satošija",

@@ -442,6 +442,7 @@
   "components.Pay.error_not_onetime_send_capacity": "Vous essayez d'envoyer plus que ce que votre capacité d'envoi de {capacity}{unit} vous permet d'envoyer d'un coup",
   "components.Pay.fee": "Frais",
   "components.Pay.fee_addition": "Ajoutés au total",
+  "components.Pay.fee_config_limit": "",
   "components.Pay.fee_less_than_1": "moins d'1 satoshi",
   "components.Pay.fee_per_byte": "par byte",
   "components.Pay.fee_range": "entre {minFee} et {maxFee} satoshis",

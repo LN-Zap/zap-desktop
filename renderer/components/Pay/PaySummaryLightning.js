@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage } from 'react-intl'
+import config from 'config'
 import { CoinBig } from '@zap/utils/coin'
 import { convert } from '@zap/utils/btc'
 import { decodePayReq, getNodeAlias, getTag } from '@zap/utils/crypto'
@@ -54,8 +55,8 @@ class PaySummaryLightning extends React.Component {
     }
 
     // Select an appropriate fee message...
-    // Default to unknown.
-    let feeMessage = messages.fee_unknown
+    // Default to configured limit.
+    let feeMessage = messages.fee_config_limit
 
     if (hasMinFee || hasMaxFee) {
       // If thex max fee is 0 or 1 then show a message like "less than 1".
@@ -73,7 +74,12 @@ class PaySummaryLightning extends React.Component {
     }
 
     if (feeMessage) {
-      return <FormattedMessage {...feeMessage} values={{ minFee, maxFee }} />
+      return (
+        <FormattedMessage
+          {...feeMessage}
+          values={{ minFee, maxFee: hasMaxFee ? maxFee : config.payments.feeLimit }}
+        />
+      )
     }
 
     return null

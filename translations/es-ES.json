@@ -442,6 +442,7 @@
   "components.Pay.error_not_onetime_send_capacity": "Estás intentando enviar más de tu capacidad de envío actual de {capacity} {unit}",
   "components.Pay.fee": "Comisión",
   "components.Pay.fee_addition": "Añadido al total",
+  "components.Pay.fee_config_limit": "",
   "components.Pay.fee_less_than_1": "menos de 1 satoshi",
   "components.Pay.fee_per_byte": "por byte",
   "components.Pay.fee_range": "entre {minFee} y {maxFee} satoshis",

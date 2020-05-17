@@ -23,6 +23,7 @@ export default defineMessages({
   fee_upto: 'up to {maxFee} satoshi',
   fee_unknown: 'unknown',
   fee_per_byte: 'per byte',
+  fee_config_limit: 'unknown (no more than {maxFee} satoshi)',
   fee_subtraction: 'Deducted from total',
   fee_addition: 'Added to total',
   amount: 'Amount',
