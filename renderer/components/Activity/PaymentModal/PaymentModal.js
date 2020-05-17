@@ -9,6 +9,7 @@ import { getTag } from '@zap/utils/crypto'
 import { CopyButton, CryptoSelector, CryptoValue, FiatSelector, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
 import Lightning from 'components/Icon/Lightning'
+import Route from './Route'
 import messages from './messages'
 
 class PaymentModal extends React.PureComponent {
@@ -105,6 +106,14 @@ class PaymentModal extends React.PureComponent {
                 </Text>
               </Flex>
             }
+          />
+
+          <Bar variant="light" />
+
+          <DataRow
+            body={<Route htlcs={item.htlcs.filter(htlc => htlc.status === 'SUCCEEDED')} />}
+            left={<FormattedMessage {...messages.htlc_title} />}
+            right={item.htlcs.length}
           />
         </Panel.Body>
       </Panel>

@@ -6,8 +6,12 @@ export default defineMessages({
   amount: 'Amount',
   destination: 'Destination',
   date_sent: 'Date sent',
-  fee: 'Total fee',
+  fee: 'Fee ({cryptoUnitName})',
   current_value: 'Current value',
   preimage: 'Payment preimage',
   memo: 'Memo',
+  route: 'Route',
+  htlc_title: 'HTLCs',
+  htlc_description: 'This payment was sent with the following HTLCs',
+  htlc_hop_hint: '{hopFee} {cryptoUnitName} fee',
 })
