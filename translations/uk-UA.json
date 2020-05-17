@@ -309,7 +309,7 @@
   "components.Loading.connecting_to_unlocker": "",
   "components.Loading.fetching_tickers": "",
   "components.Loading.loading": "завантаження",
-  "components.Loading.starting_lnd": "",
+  "components.Loading.starting_lnd": "Запуск LND",
   "components.Loading.starting_neutrino": "",
   "components.Loading.starting_tor_proxy": "",
   "components.Loading.starting_wallet_unlocker": "",
@@ -456,7 +456,7 @@
   "components.Pay.request_label_pubkey": "",
   "components.Pay.searching_routes": "пошук маршрутів…",
   "components.Pay.send": "Надіслати",
-  "components.Pay.send_all": "",
+  "components.Pay.send_all": "Відправити всі",
   "components.Pay.subtitle_offchain": "Lightning платіж",
   "components.Pay.subtitle_onchain": "On-Chain платіж",
   "components.Pay.sweep_funds": "",
@@ -670,7 +670,7 @@
   "reducers.messages.transaction_received_body": "",
   "reducers.messages.transaction_received_title": "",
   "reducers.messages.transaction_sent_body": "",
-  "reducers.messages.transaction_sent_title": "",
-  "reducers.pay.pay_lnurl_withdraw_error": "",
+  "reducers.messages.transaction_sent_title": "Безланцюгова транзакція надіслана!",
+  "reducers.pay.pay_lnurl_withdraw_error": "Неможливо обробити запит на зняття коштів від {service}: {reason}",
   "reducers.payment.unknown": "Невідомо"
 }
