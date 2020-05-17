@@ -665,7 +665,7 @@
   "reducers.messages.invoice_receive_title": "",
   "reducers.messages.keysend_receive_body": "Поздравления! Някой току-що ви плати",
   "reducers.messages.neutrtino_synced_body": "",
-  "reducers.messages.neutrtino_synced_title": "",
+  "reducers.messages.neutrtino_synced_title": "Възелът на Lightning е синхронизиран",
   "reducers.messages.settings_init_error": "Невъзможно зареждане на настройките: {error}",
   "reducers.messages.transaction_received_body": "",
   "reducers.messages.transaction_received_title": "Транзакция On-chain е получена!",
