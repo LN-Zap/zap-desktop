@@ -10,7 +10,7 @@ const ErrorDetailsDialog = ({ error, isOpen, onCopy, onClose, position, ...rest 
     return null
   }
 
-  const { details, header } = error
+  const { details: { message, code } = {}, header } = error
   const headerEl = (
     <Heading.h2 mb={4}>
       {header || <FormattedMessage {...messages.error_dialog_header} />}
@@ -18,7 +18,7 @@ const ErrorDetailsDialog = ({ error, isOpen, onCopy, onClose, position, ...rest 
   )
 
   const handleCopy = () => {
-    copy(details)
+    copy([code, message].join(': '))
     onCopy && onCopy()
   }
 
@@ -34,9 +34,16 @@ const ErrorDetailsDialog = ({ error, isOpen, onCopy, onClose, position, ...rest 
         }
         onClose={onClose}
       >
-        <Text color="gray" px={4}>
-          {details}
-        </Text>
+        {code && (
+          <Text color="lightGray" pb={3} px={4}>
+            {code}
+          </Text>
+        )}
+        {message && (
+          <Text color="gray" px={4}>
+            {message}
+          </Text>
+        )}
       </Dialog>
     </DialogOverlay>
   )

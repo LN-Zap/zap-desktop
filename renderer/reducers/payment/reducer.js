@@ -2,7 +2,6 @@ import config from 'config'
 import uniqBy from 'lodash/uniqBy'
 import find from 'lodash/find'
 import createReducer from '@zap/utils/createReducer'
-import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
 import { isPubkey } from '@zap/utils/crypto'
 import delay from '@zap/utils/delay'
 import genId from '@zap/utils/genId'
@@ -13,7 +12,7 @@ import { fetchBalance } from 'reducers/balance'
 import { fetchChannels } from 'reducers/channels'
 import { infoSelectors } from 'reducers/info'
 import { paymentsSending } from './selectors'
-import { prepareKeysendPayload, prepareBolt11Payload } from './utils'
+import { prepareKeysendPayload, prepareBolt11Payload, errorCodeToMessage } from './utils'
 import * as constants from './constants'
 
 const {
@@ -100,10 +99,10 @@ export const paymentComplete = paymentId => async dispatch => {
 /**
  * paymentSuccessful - Success handler for payInvoice.
  *
- * @param {{paymentId}} paymentId Payment id (internal)
+ * @param {string} paymentId Payment id (internal)
  * @returns {Function} Thunk
  */
-export const paymentSuccessful = ({ paymentId }) => async (dispatch, getState) => {
+export const paymentSuccessful = paymentId => async (dispatch, getState) => {
   const paymentSending = find(paymentsSending(getState()), { paymentId })
 
   // If we found a related entry in paymentsSending, gracefully remove it and handle as success case.
@@ -132,12 +131,12 @@ export const paymentSuccessful = ({ paymentId }) => async (dispatch, getState) =
 /**
  * paymentFailed - Error handler for payInvoice.
  *
- * @param {Error} error Error
- * @param {object} details Failed payment details
- *
+ * @param {object} options Options
+ * @param {string} options.paymentId Internal payment id
+ * @param {number} options.error Error
  * @returns {Function} Thunk
  */
-export const paymentFailed = (error, { paymentId }) => async (dispatch, getState) => {
+export const paymentFailed = ({ paymentId, error }) => async (dispatch, getState) => {
   const paymentSending = find(paymentsSending(getState()), { paymentId })
 
   // errors that trigger retry mechanism
@@ -145,9 +144,18 @@ export const paymentFailed = (error, { paymentId }) => async (dispatch, getState
     'payment attempt not completed before timeout', // ErrPaymentAttemptTimeout
     'unable to find a path to destination', // ErrNoPathFound
     'target not found', // ErrTargetNotInNetwork
+
+    // SendPayment error codes.
     'FAILED_NO_ROUTE',
     'FAILED_ERROR',
     'FAILED_TIMEOUT',
+
+    // SendPaymentV2 error codes.
+    'FAILURE_REASON_NO_ROUTE',
+    'FAILURE_REASON_ERROR',
+    'FAILURE_REASON_TIMEOUT',
+
+    // Internal codes.
     'TERMINATED_EARLY', // Triggered if sendPayment aborts without giveing a proper response.
   ]
 
@@ -155,7 +163,7 @@ export const paymentFailed = (error, { paymentId }) => async (dispatch, getState
   if (paymentSending) {
     const { creationDate, paymentRequest, remainingRetries, maxRetries } = paymentSending
     // if we have retries left and error is eligible for retry - rebroadcast payment
-    if (paymentRequest && remainingRetries && RETRIABLE_ERRORS.includes(error)) {
+    if (paymentRequest && remainingRetries && RETRIABLE_ERRORS.includes(error.code)) {
       const data = {
         ...paymentSending,
         payReq: paymentRequest,
@@ -170,13 +178,13 @@ export const paymentFailed = (error, { paymentId }) => async (dispatch, getState
       await delay(2000 - (Date.now() - creationDate * 1000))
 
       // Mark the payment as failed.
-      dispatch({ type: PAYMENT_FAILED, paymentId, error: errorToUserFriendly(error) })
+      dispatch({ type: PAYMENT_FAILED, paymentId, error })
     }
   }
 }
 
 /**
- * payInvoice - Pay a lightniung invoice.
+ * payInvoice - Pay a lightning invoice.
  * Controller code that wraps the send action and schedules automatic retries in the case of a failure.
  *
  * @param {object} options Options
@@ -196,6 +204,9 @@ export const payInvoice = ({
   retries = 0,
   originalPaymentId,
 }) => async (dispatch, getState) => {
+  const routerSendPayment = infoSelectors.hasSendPaymentV2Support(getState())
+    ? grpc.services.Router.sendPaymentV2
+    : grpc.services.Router.sendPayment
   const paymentId = originalPaymentId || genId()
   const isKeysend = isPubkey(payReq)
   let payload
@@ -231,8 +242,6 @@ export const payInvoice = ({
 
   // Submit the payment to LND.
   try {
-    let data = { paymentId }
-
     // Use Router service if lnd version supports it.
     if (infoSelectors.hasRouterSupport(getState())) {
       // If we have been supplied with exact route, attempt to use that route.
@@ -246,39 +255,44 @@ export const payInvoice = ({
             paymentHash: route.paymentHash ? Buffer.from(route.paymentHash, 'hex') : null,
             route: routeToUse,
           })
+          if (result.failure) {
+            throw new Error(result.failure.code)
+          }
         } catch (error) {
           if (error.message === 'unknown service routerrpc.Router') {
             // We don't know for sure that the node has been compiled with the Router service.
             // Fall bak to using sendPayment in the event of an error.
             mainLog.warn('Unable to pay invoice using sendToRoute: %s', error.message)
-            data = await grpc.services.Router.sendPayment(payload)
+            await routerSendPayment(payload)
           } else {
-            error.details = data
             throw error
           }
-        }
-        if (result.failure) {
-          const error = new Error(result.failure.code)
-          error.details = data
-          throw error
         }
       }
 
       // Otherwise, just use sendPayment.
       else {
-        data = await grpc.services.Router.sendPayment(payload)
+        await routerSendPayment(payload)
       }
     }
 
     // For older versions use the legacy Lightning.sendPayment method.
     else {
-      data = await grpc.services.Lightning.sendPayment(payload)
+      if (payload.feeLimitSat) {
+        payload.feeLimit = { fixed: payload.feeLimitSat }
+        delete payload.feeLimitSat
+      }
+      await grpc.services.Lightning.sendPayment(payload)
     }
 
-    dispatch(paymentSuccessful(data))
-  } catch (e) {
-    const { details, message } = e
-    dispatch(paymentFailed(message, details))
+    dispatch(paymentSuccessful(paymentId))
+  } catch (error) {
+    const userMessage = errorCodeToMessage(error.message)
+    if (userMessage) {
+      error.code = error.message
+      error.message = userMessage
+    }
+    dispatch(paymentFailed({ paymentId, error }))
   }
 }
 
