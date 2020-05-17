@@ -104,7 +104,7 @@
   "components.Autopay.save_success": "Налаштування автооплати оновлені",
   "components.Autopay.search_no_Results": "За вашим пошуком нічого не знайдено.",
   "components.Autopay.search_placeholder": "Пошук автосплати",
-  "components.Autopay.subtitle": "",
+  "components.Autopay.subtitle": "Бездротові цифрові платежі",
   "components.Autopay.success_text": "",
   "components.Autopay.title": "автооплата",
   "components.Channels.ChannelsMenu.menu_item_channel_create_description": "Відкрити нові канали",
