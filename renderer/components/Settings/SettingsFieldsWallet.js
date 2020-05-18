@@ -148,14 +148,6 @@ const SettingsFieldsWallet = ({ currentConfig, intl }) => {
 
       <Bar variant="light" />
 
-      {renderNumberDataRow('payments.probeTimeout')}
-
-      <Bar variant="light" />
-
-      {renderNumberDataRow('payments.probeFeeLimit')}
-
-      <Bar variant="light" />
-
       {renderNumberDataRow('payments.maxParts')}
     </>
   )

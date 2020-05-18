@@ -60,13 +60,7 @@ export default defineMessages({
     'Maximum amount of time to spend attempting to send a payment (seconds).',
   payments_feeLimit_label: 'Payment fee limit',
   payments_feeLimit_description: 'Upper limit on routing fees when sending payment (satoshis).',
-  payments_probeTimeout_label: 'Probe timeout',
-  payments_probeTimeout_description:
-    'Maximum amount of time to spend attempting to send a payment probe (seconds).',
-  payments_probeFeeLimit_label: 'Probe fee limit',
-  payments_probeFeeLimit_description:
-    'Upper limit on routing fees when probing payment (satoshis).',
-  payments_maxParts_label: 'Max parts',
+  payments_maxParts_label: 'Payment parts',
   payments_maxParts_description:
-    'The maximum number of partial payments that may be used to send a payment.',
+    'Maximum number of partial payments that may be used to send a payment.',
 })
