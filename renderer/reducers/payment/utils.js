@@ -1,6 +1,7 @@
 import config from 'config'
 import get from 'lodash/get'
 import cloneDeep from 'lodash/cloneDeep'
+import { chanNumber } from 'bolt07'
 import { getTag, decodePayReq, getNodeAlias, generatePreimage } from '@zap/utils/crypto'
 import { convert } from '@zap/utils/btc'
 import { getIntl } from '@zap/i18n'
@@ -184,12 +185,23 @@ export const prepareBolt11Probe = (payReq, feeLimit) => {
   const invoice = decodePayReq(payReq)
   const { millisatoshis, payeeNodeKey: pubkey } = invoice
 
+  // Extract route hints from the invoice.
+  const routingInfo = getTag(invoice, 'routing_info') || []
+  const hopHints = routingInfo.map(hint => ({
+    nodeId: hint.pubkey,
+    chanId: chanNumber({ id: hint.short_channel_id }).number,
+    feeBaseMsat: hint.fee_base_msat,
+    feeProportionalMillionths: hint.fee_proportional_millionths,
+    cltvExpiryDelta: hint.cltv_expiry_delta,
+  }))
+
   return {
     ...getPaymentConfig(),
     dest: Buffer.from(pubkey, 'hex'),
     feeLimitSat: feeLimit,
     amtMsat: millisatoshis,
     finalCltvDelta: getTag(invoice, 'min_final_cltv_expiry') || DEFAULT_CLTV_DELTA,
+    routeHints: [{ hopHints }],
   }
 }
 

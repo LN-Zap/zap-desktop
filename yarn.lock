@@ -4810,6 +4810,11 @@ bluebird@^3.3.5, bluebird@^3.5.0, bluebird@^3.5.5:
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
   integrity sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==
 
+bn.js@5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-5.1.1.tgz#48efc4031a9c4041b9c99c6941d903463ab62eb5"
+  integrity sha512-IUTD/REb78Z2eodka1QZyyEk66pciRcP6Sroka0aI3tG/iwIdYLrBD62RsubR7vqdt3WyX8p4jxeatzmRSphtA==
+
 bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.11.8, bn.js@^4.4.0:
   version "4.11.8"
   resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-4.11.8.tgz#2cde09eb5ee341f484746bb0309b3253b1b1442f"
@@ -4830,6 +4835,13 @@ body-parser@1.19.0:
     qs "6.7.0"
     raw-body "2.4.0"
     type-is "~1.6.17"
+
+bolt07@1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/bolt07/-/bolt07-1.5.0.tgz#4200e574226c7d540a36e6cce42a35c9f4ac0213"
+  integrity sha512-56MzzIej8xP5Ksl+8AwOSMkbFWX9HG3/3qG+2lwxpvkoUQJVUSjyj/JKx+6qaJdarv1XcpNbtGfpixCKIlI+sg==
+  dependencies:
+    bn.js "5.1.1"
 
 bolt11@1.2.7:
   version "1.2.7"
