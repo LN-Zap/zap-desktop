@@ -106,11 +106,11 @@ module.exports = {
   },
 
   payments: {
-    timeout: 30, // Upper limit on the amount of time (s) we should spend when attempting to probe a payment
-    feeLimit: 5000, // Upper limit on the routing fees we should accept when sending payment without a limit
-    probeTimeout: 30, // Upper limit on the amount of time (s) we should spend when attempting to send a payment
-    probeFeeLimit: 5000, // Upper limit on the routing fees we want to consider in payment probes,
-    maxParts: 10, // The maximum number of partial payments that may be use to complete the full amount.
+    timeout: 30, // Upper limit on the amount of time (s) we should spend when attempting to send a payment.
+    feeLimit: 5000, // Upper limit on the routing fees we should accept when sending payment without a limit.
+    probeTimeout: 30, // Upper limit on the amount of time (s) we should spend when attempting to send a payment probe.
+    probeFeeLimit: 5000, // Upper limit on the routing fees we want to consider when attempting to send a payment probe.
+    maxParts: 10, // The maximum number of partial payments that may be used to send a payment.
   },
 
   autopay: {
