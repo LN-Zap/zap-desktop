@@ -584,7 +584,7 @@
   "components.Settings.durationUnitSeconds": "{value} {value, plural, one {секунда} other {секунд}}",
   "components.Settings.durationUnitWeeks": "{value} {value, plural, one {тиждень} other {тижні}}",
   "components.Settings.durationUnitYears": "{value} {value, plural, one {рік} other {роки}}",
-  "components.Settings.fallbackAddress_description": "",
+  "components.Settings.fallbackAddress_description": "Додайте ланцюгову адресу зворотного зв'язку до рахунків LN.",
   "components.Settings.fallbackAddress_label": "",
   "components.Settings.fieldgroup_general": "Загальне",
   "components.Settings.fieldgroup_security": "Безпека",
