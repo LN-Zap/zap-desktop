@@ -313,7 +313,7 @@
   "components.Loading.starting_neutrino": "Запуск Нейтрино",
   "components.Loading.starting_tor_proxy": "Запуск проксі-сервера Tor",
   "components.Loading.starting_wallet_unlocker": "Початок розблокування гаманця",
-  "components.Login.error_desc_darwin": "",
+  "components.Login.error_desc_darwin": "Mac OS брелок не доступний. Потрібно запустити гаманець Zap.",
   "components.Login.error_desc_linux": "",
   "components.Login.error_desc_win32": "",
   "components.Login.header": "",
