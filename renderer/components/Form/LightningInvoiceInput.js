@@ -7,7 +7,7 @@ import { Message } from 'components/UI'
 import TextArea from './TextArea'
 import messages from './messages'
 
-const mask = value => (value ? value.trim() : value)
+const mask = value => (value ? value.split('@')[0].trim() : value)
 
 const validate = (intl, network, chain, value) => {
   if (value) {
