@@ -590,7 +590,7 @@
   "components.Settings.fieldgroup_security": "Безпека",
   "components.Settings.fieldgroup_wallet": "Гаманець",
   "components.Settings.invoices_expire_description": "",
-  "components.Settings.invoices_expire_label": "",
+  "components.Settings.invoices_expire_label": "Термін дії рахунку",
   "components.Settings.lndTargetConfirmations_fast_description": "",
   "components.Settings.lndTargetConfirmations_fast_label": "",
   "components.Settings.lndTargetConfirmations_medium_description": "",
