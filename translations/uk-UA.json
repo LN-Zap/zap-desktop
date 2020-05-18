@@ -342,7 +342,7 @@
   "components.Onboarding.Steps.components.error_dialog_recover_wallet_error_desc": "Під час відновлення гаманця сталася така помилка:",
   "components.Onboarding.Steps.components.skip_backup_dialog_restore_warning": "Відновлення гаманця без резервної копії вашого каналу може призвести до втрати коштів у випадку, якщо вам потрібно відновити з фразови.",
   "components.Onboarding.Steps.components.skip_backup_dialog_restore_warning_acknowledgement": "Я не хочу повертати кошти каналу",
-  "components.Onboarding.Steps.components.skip_backup_dialog_warning": "",
+  "components.Onboarding.Steps.components.skip_backup_dialog_warning": "Якщо не налаштувати резервну копію каналу, то файл буде знаходитись тільки локально в вашому каталозі даних Zap. Якщо цей файл пошкоджений або загублений, він може призвести до втрати коштів у разі, якщо вам потрібно відновити дані за допомогою фрази-паролю.",
   "components.Onboarding.Steps.components.skip_backup_dialog_warning_acknowledgement": "",
   "components.Onboarding.Steps.components.skip_backup_dialog_warning_cancel_text": "Скасувати",
   "components.Onboarding.Steps.components.skip_backup_dialog_warning_header": "Ви впевнені?",
