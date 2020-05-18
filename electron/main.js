@@ -224,10 +224,10 @@ app.on('ready', async () => {
     show: false,
     useContentSize: true,
     titleBarStyle: 'hidden',
-    width: 900,
+    width: 950,
     height: 680,
-    minWidth: 900,
-    minHeight: 425,
+    minWidth: 950,
+    minHeight: 450,
     backgroundColor: get(theme, 'colors.primaryColor', '#242633'),
     icon: isDev
       ? path.resolve('resources', 'icon.png')
