@@ -11,7 +11,7 @@ import { PAY_FORM_STEPS, PAYMENT_TYPES } from './constants'
  * Animation to handle showing/hiding the payReq field.
  */
 const ShowHidePayReq = Keyframes.Spring({
-  small: { height: 48 },
+  small: { height: 48, resize: 'none', overflow: 'hidden' },
   big: async (next, cancel, ownProps) => {
     ownProps.context.focusPayReqInput()
     await next({ height: 110, immediate: true })
