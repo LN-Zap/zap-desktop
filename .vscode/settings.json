@@ -1,5 +1,5 @@
 {
-  "javascript.validate.enable": false,
+  "javascript.validate.enable": true,
   "search.exclude": {
     ".git": true,
     ".eslintcache": true,
