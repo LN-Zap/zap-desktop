@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass/styled-components'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { CoinBig } from '@zap/utils/coin'
 import { intlShape } from '@zap/i18n'
 import { convert } from '@zap/utils/btc'
+import { usePrevious } from 'hooks'
 import { CryptoValue } from 'containers/UI'
 import { Message, Text } from 'components/UI'
 import messages from './messages'
@@ -103,10 +104,28 @@ const PayPanelFooter = props => {
     )
   }
 
+  const prevStep = usePrevious(currentStep)
+  const isChangedStep = prevStep && currentStep !== prevStep
+  const isPaymentTypeSet = paymentType !== PAYMENT_TYPES.none
+  const isAddressStep = currentStep === PAY_FORM_STEPS.address
+
+  const hadPaymentTypeRef = useRef(isPaymentTypeSet)
+  if (isPaymentTypeSet) {
+    hadPaymentTypeRef.current = true
+  }
+  const hadPaymentType = hadPaymentTypeRef.current
+
   // Determine which buttons should be visible.
   const hasBackButton = currentStep !== PAY_FORM_STEPS.address
-  const isPaymentTypeSet = paymentType !== PAYMENT_TYPES.none
-  const hasSubmitButton = currentStep !== PAY_FORM_STEPS.address || isPaymentTypeSet
+  const hasSubmitButton = hadPaymentType || isPaymentTypeSet || isChangedStep || !isAddressStep
+
+  // Determine wether the submit button should be disabled.
+  const willValidateInvalid = !isAddressStep || (isAddressStep && !isPaymentTypeSet)
+  const isDisabled =
+    formState.pristine ||
+    isProcessing ||
+    (currentStep === PAY_FORM_STEPS.summary && !hasEnoughFunds) ||
+    (willValidateInvalid && formState.invalid)
 
   return (
     <Flex flexDirection="column">
@@ -114,12 +133,7 @@ const PayPanelFooter = props => {
       <PayButtons
         hasBackButton={hasBackButton}
         hasSubmitButton={hasSubmitButton}
-        isDisabled={
-          formState.pristine ||
-          formState.invalid ||
-          isProcessing ||
-          (currentStep === PAY_FORM_STEPS.summary && !hasEnoughFunds)
-        }
+        isDisabled={isDisabled}
         isProcessing={isProcessing}
         nextButtonText={getNextButtonText(formState, props)}
         previousStep={previousStep}
