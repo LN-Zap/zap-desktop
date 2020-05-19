@@ -117,7 +117,6 @@ const PayPanelFooter = props => {
   const isChangedStep = prevStep && currentStep !== prevStep
   const isPaymentTypeSet = paymentType !== PAYMENT_TYPES.none
   const isAddressStep = currentStep === PAY_FORM_STEPS.address
-  const isSummaryStep = currentStep === PAY_FORM_STEPS.summary
 
   const hadPaymentTypeRef = useRef(isPaymentTypeSet)
   if (isPaymentTypeSet) {
@@ -139,7 +138,7 @@ const PayPanelFooter = props => {
 
   return (
     <Flex flexDirection="column">
-      {!isSummaryStep && (
+      {!isAddressStep && (
         <LiquidityWarning
           amountInSats={amountInSats}
           cryptoUnit={cryptoUnit}
