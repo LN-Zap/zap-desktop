@@ -1,9 +1,8 @@
 import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass/styled-components'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage, useIntl } from 'react-intl'
 import { CoinBig } from '@zap/utils/coin'
-import { intlShape } from '@zap/i18n'
 import { convert } from '@zap/utils/btc'
 import { usePrevious } from 'hooks'
 import { CryptoValue } from 'containers/UI'
@@ -56,58 +55,69 @@ const getNextButtonText = (formState, props) => {
   return nextButtonText
 }
 
+const LiquidityWarning = ({
+  maxOneTimeSend,
+  cryptoUnit,
+  amountInSats,
+  isNotEnoughFunds,
+  paymentType,
+}) => {
+  const { formatNumber } = useIntl()
+  const isBolt11 = paymentType === PAYMENT_TYPES.bolt11
+  const isPubkey = paymentType === PAYMENT_TYPES.pubkey
+  const isAboveMax = (isBolt11 || isPubkey) && CoinBig(amountInSats).gt(maxOneTimeSend)
+  const formattedMax = formatNumber(convert('sats', cryptoUnit, maxOneTimeSend), {
+    maximumFractionDigits: 8,
+  })
+  return (
+    <Flex alignItems="center" flexDirection="column">
+      {isNotEnoughFunds ? (
+        <Message mb={2} variant="error">
+          <FormattedMessage {...messages.error_not_enough_funds} />
+        </Message>
+      ) : (
+        isAboveMax && (
+          <Message justifyContent="center" mb={2} variant="warning">
+            <FormattedMessage
+              {...messages.error_not_onetime_send_capacity}
+              values={{ capacity: formattedMax, unit: cryptoUnit }}
+            />
+          </Message>
+        )
+      )}
+    </Flex>
+  )
+}
+
+LiquidityWarning.propTypes = {
+  amountInSats: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  cryptoUnit: PropTypes.string.isRequired,
+  isNotEnoughFunds: PropTypes.bool,
+  maxOneTimeSend: PropTypes.string.isRequired,
+  paymentType: PropTypes.oneOf(Object.values(PAYMENT_TYPES)).isRequired,
+}
+
 const PayPanelFooter = props => {
   const hasEnoughFunds = isEnoughFunds(props)
   const {
+    amountInSats,
     channelBalance,
+    cryptoUnit,
     cryptoUnitName,
     currentStep,
     formState,
     isProcessing,
+    maxOneTimeSend,
     paymentType,
     previousStep,
     walletBalanceConfirmed,
-    intl,
   } = props
-
-  const renderLiquidityWarning = props => {
-    const { currentStep, maxOneTimeSend, cryptoUnit, amountInSats } = props
-
-    if (currentStep !== PAY_FORM_STEPS.summary) {
-      return null
-    }
-
-    const isBolt11 = paymentType === PAYMENT_TYPES.bolt11
-    const isPubkey = paymentType === PAYMENT_TYPES.pubkey
-    const isNotEnoughFunds = !isEnoughFunds(props)
-    const isAboveMax = (isBolt11 || isPubkey) && CoinBig(amountInSats).gt(maxOneTimeSend)
-    const formattedMax = intl.formatNumber(convert('sats', cryptoUnit, maxOneTimeSend), {
-      maximumFractionDigits: 8,
-    })
-    return (
-      <Flex alignItems="center" flexDirection="column">
-        {isNotEnoughFunds ? (
-          <Message mb={2} variant="error">
-            <FormattedMessage {...messages.error_not_enough_funds} />
-          </Message>
-        ) : (
-          isAboveMax && (
-            <Message justifyContent="center" mb={2} variant="warning">
-              <FormattedMessage
-                {...messages.error_not_onetime_send_capacity}
-                values={{ capacity: formattedMax, unit: cryptoUnit }}
-              />
-            </Message>
-          )
-        )}
-      </Flex>
-    )
-  }
 
   const prevStep = usePrevious(currentStep)
   const isChangedStep = prevStep && currentStep !== prevStep
   const isPaymentTypeSet = paymentType !== PAYMENT_TYPES.none
   const isAddressStep = currentStep === PAY_FORM_STEPS.address
+  const isSummaryStep = currentStep === PAY_FORM_STEPS.summary
 
   const hadPaymentTypeRef = useRef(isPaymentTypeSet)
   if (isPaymentTypeSet) {
@@ -129,7 +139,16 @@ const PayPanelFooter = props => {
 
   return (
     <Flex flexDirection="column">
-      {renderLiquidityWarning(props)}
+      {!isSummaryStep && (
+        <LiquidityWarning
+          amountInSats={amountInSats}
+          cryptoUnit={cryptoUnit}
+          isNotEnoughFunds={!isEnoughFunds(props)}
+          maxOneTimeSend={maxOneTimeSend}
+          paymentType={paymentType}
+        />
+      )}
+
       <PayButtons
         hasBackButton={hasBackButton}
         hasSubmitButton={hasSubmitButton}
@@ -175,7 +194,6 @@ PayPanelFooter.propTypes = {
   cryptoUnitName: PropTypes.string.isRequired,
   currentStep: PropTypes.string.isRequired,
   formState: PropTypes.object.isRequired,
-  intl: intlShape.isRequired,
   invoice: PropTypes.object,
   isProcessing: PropTypes.bool,
   maxOneTimeSend: PropTypes.string.isRequired,
@@ -184,4 +202,4 @@ PayPanelFooter.propTypes = {
   walletBalanceConfirmed: PropTypes.string.isRequired,
 }
 
-export default injectIntl(PayPanelFooter)
+export default PayPanelFooter
