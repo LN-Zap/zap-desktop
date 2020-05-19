@@ -4,10 +4,6 @@ exports[`component.Pay.PayPanelFooter current step is "address" should render co
 <Styled(styled.div)
   flexDirection="column"
 >
-  <LiquidityWarning
-    amountInSats={1}
-    isNotEnoughFunds={false}
-  />
   <PayButtons
     hasBackButton={false}
     hasSubmitButton={true}
@@ -73,6 +69,10 @@ exports[`component.Pay.PayPanelFooter current step is "summary" should render co
 <Styled(styled.div)
   flexDirection="column"
 >
+  <LiquidityWarning
+    amountInSats={1}
+    isNotEnoughFunds={false}
+  />
   <PayButtons
     hasBackButton={true}
     hasSubmitButton={true}
