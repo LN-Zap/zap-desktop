@@ -9,16 +9,8 @@ import { logGrpcCmd } from './helpers'
 const PAYMENT_TIMEOUT = config.payments.timeout
 const PAYMENT_FEE_LIMIT = config.payments.feeLimit
 const PAYMENT_MAX_PARTS = config.payments.maxParts
-const PAYMENT_PROBE_TIMEOUT = config.payments.probeTimeout
-const PAYMENT_PROBE_FEE_LIMIT = config.payments.probeFeeLimit
 
 export const KEYSEND_PREIMAGE_TYPE = '5482373484'
-
-const defaultProbeOptions = {
-  timeoutSeconds: PAYMENT_PROBE_TIMEOUT,
-  feeLimitSat: PAYMENT_PROBE_FEE_LIMIT,
-  allowSelfPayment: true,
-}
 
 const defaultPaymentOptions = {
   timeoutSeconds: PAYMENT_TIMEOUT,
@@ -44,7 +36,7 @@ const defaultPaymentOptionsV2 = {
 async function probePayment(options) {
   // Use a payload that has the payment hash set to some random bytes.
   // This will cause the payment to fail at the final destination.
-  const payload = defaults(omitBy(options, isNil), defaultProbeOptions)
+  const payload = defaults(omitBy(options, isNil), defaultPaymentOptions)
 
   // Use a payload that has the payment hash set to some random bytes.
   // This will cause the payment to fail at the final destination.

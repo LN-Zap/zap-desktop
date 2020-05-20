@@ -73,6 +73,8 @@ const SettingsFieldsWallet = ({ currentConfig, intl }) => {
         }
       />
 
+      <Bar variant="light" />
+
       <DataRow
         left={<FieldLabel itemKey="blockExplorer" />}
         right={
@@ -84,7 +86,9 @@ const SettingsFieldsWallet = ({ currentConfig, intl }) => {
           />
         }
       />
+
       <Bar variant="light" />
+
       <DataRow
         left={<FieldLabel itemKey="rateProvider" />}
         right={
@@ -107,6 +111,7 @@ const SettingsFieldsWallet = ({ currentConfig, intl }) => {
           />
         }
       />
+
       <Bar variant="light" />
 
       {renderNumberDataRow('lndTargetConfirmations.fast')}
@@ -120,6 +125,7 @@ const SettingsFieldsWallet = ({ currentConfig, intl }) => {
       {renderNumberDataRow('lndTargetConfirmations.slow')}
 
       <Bar variant="light" />
+
       <DataRow
         left={<FieldLabel itemKey="invoices.expire" />}
         right={
@@ -131,6 +137,18 @@ const SettingsFieldsWallet = ({ currentConfig, intl }) => {
           />
         }
       />
+
+      <Bar variant="light" />
+
+      {renderNumberDataRow('payments.timeout')}
+
+      <Bar variant="light" />
+
+      {renderNumberDataRow('payments.feeLimit')}
+
+      <Bar variant="light" />
+
+      {renderNumberDataRow('payments.maxParts')}
     </>
   )
 }

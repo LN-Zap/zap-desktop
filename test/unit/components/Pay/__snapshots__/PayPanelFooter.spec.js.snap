@@ -1,13 +1,142 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.Pay.PayPanelFooter current step is "address" should render correctly 1`] = `
-<ContextConsumer>
-  <Component />
-</ContextConsumer>
+<Styled(styled.div)
+  flexDirection="column"
+>
+  <PayButtons
+    hasBackButton={false}
+    hasSubmitButton={true}
+    isDisabled={false}
+    nextButtonText={
+      <FormattedMessage
+        defaultMessage="Next"
+        id="components.Pay.next"
+        values={Object {}}
+      />
+    }
+    previousStep={[Function]}
+  />
+  <Text
+    fontWeight="normal"
+    mt={3}
+    textAlign="center"
+  >
+    <FormattedMessage
+      defaultMessage="Your current confirmed balance:"
+      id="components.Pay.current_balance"
+      values={Object {}}
+    />
+  </Text>
+  <Text
+    fontSize="xs"
+    textAlign="center"
+  >
+    <FormattedMessage
+      defaultMessage="{amount} {cryptoUnitName} (onchain)"
+      id="components.Pay.onchain_balance"
+      values={
+        Object {
+          "amount": <CryptoValue
+            value={1}
+          />,
+          "cryptoUnitName": "sats",
+        }
+      }
+    />
+  </Text>
+  <Text
+    fontSize="xs"
+    textAlign="center"
+  >
+    <FormattedMessage
+      defaultMessage="{amount} {cryptoUnitName} (in channels)"
+      id="components.Pay.lightning_balance"
+      values={
+        Object {
+          "amount": <CryptoValue
+            value={1}
+          />,
+          "cryptoUnitName": "sats",
+        }
+      }
+    />
+  </Text>
+</Styled(styled.div)>
 `;
 
 exports[`component.Pay.PayPanelFooter current step is "summary" should render correctly 1`] = `
-<ContextConsumer>
-  <Component />
-</ContextConsumer>
+<Styled(styled.div)
+  flexDirection="column"
+>
+  <LiquidityWarning
+    amountInSats={1}
+    isNotEnoughFunds={false}
+  />
+  <PayButtons
+    hasBackButton={true}
+    hasSubmitButton={true}
+    nextButtonText={
+      <React.Fragment>
+        <FormattedMessage
+          defaultMessage="Send"
+          id="components.Pay.send"
+          values={Object {}}
+        />
+         
+        <CryptoValue
+          value={1}
+        />
+         
+        sats
+      </React.Fragment>
+    }
+    previousStep={[Function]}
+  />
+  <Text
+    fontWeight="normal"
+    mt={3}
+    textAlign="center"
+  >
+    <FormattedMessage
+      defaultMessage="Your current confirmed balance:"
+      id="components.Pay.current_balance"
+      values={Object {}}
+    />
+  </Text>
+  <Text
+    fontSize="xs"
+    textAlign="center"
+  >
+    <FormattedMessage
+      defaultMessage="{amount} {cryptoUnitName} (onchain)"
+      id="components.Pay.onchain_balance"
+      values={
+        Object {
+          "amount": <CryptoValue
+            value={1}
+          />,
+          "cryptoUnitName": "sats",
+        }
+      }
+    />
+  </Text>
+  <Text
+    fontSize="xs"
+    textAlign="center"
+  >
+    <FormattedMessage
+      defaultMessage="{amount} {cryptoUnitName} (in channels)"
+      id="components.Pay.lightning_balance"
+      values={
+        Object {
+          "amount": <CryptoValue
+            value={1}
+          />,
+          "cryptoUnitName": "sats",
+        }
+      }
+    />
+  </Text>
+</Styled(styled.div)>
 `;
