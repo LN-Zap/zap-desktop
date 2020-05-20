@@ -26,7 +26,7 @@ export const FETCH_PEERS_FAILURE = 'FETCH_PEERS_FAILURE'
 /**
  * fetchPeers - Fetch list of all connected peers.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const fetchPeers = () => async dispatch => {
   dispatch({ type: FETCH_PEERS })

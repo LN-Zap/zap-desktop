@@ -139,7 +139,7 @@ function unsubFromGrpcEvents(lndGrpc) {
  * connectGrpcService - Connect to lnd gRPC service.
  *
  * @param  {object} lndConfig LndConfig object
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const connectGrpcService = lndConfig => async dispatch => {
   dispatch({ type: CONNECT_GRPC })
@@ -185,7 +185,7 @@ export const connectGrpcService = lndConfig => async dispatch => {
 /**
  * disconnectGrpcService - Disconnect from lnd gRPC service.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const disconnectGrpcService = () => async dispatch => {
   dispatch({ type: DISCONNECT_GRPC })
@@ -202,7 +202,7 @@ export const disconnectGrpcService = () => async dispatch => {
 /**
  * startActiveWallet - Start the currently active wallet..
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const startActiveWallet = () => async (dispatch, getState) => {
   const state = getState()
@@ -220,7 +220,7 @@ export const startActiveWallet = () => async (dispatch, getState) => {
  * startLnd - Start lnd with the provided wallet config.
  *
  * @param  {object} wallet Wallet config
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const startLnd = wallet => async dispatch => {
   let lndConfig
@@ -290,7 +290,7 @@ export const clearStartLndError = () => {
 /**
  * stopLnd - Stop lnd.
  *
- * @returns {object} Action
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const stopLnd = () => async (dispatch, getState) => {
   const { isStoppingLnd, lndConfig } = getState().lnd
@@ -343,7 +343,7 @@ export const setTorProxyActive = () => ({
  * Called when connection to Lightning gRPC interface has been established.
  * (lnd wallet is connected and unlocked).
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const setLightningGrpcActive = () => async (dispatch, getState) => {
   // Fetch key info from lnd as early as possible.
@@ -382,7 +382,7 @@ export const setWalletUnlockerGrpcActive = () => ({
  * unlockWallet - WalletUnlocker connect gRPC callback.
  *
  * @param {string} password Password
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const unlockWallet = password => async dispatch => {
   dispatch({ type: UNLOCK_WALLET })
@@ -420,7 +420,7 @@ export const setUnlockWalletError = unlockWalletError => ({
  *
  * Starts a temporary lnd process and calls it's genSeed method.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const fetchSeed = () => async dispatch => {
   dispatch({ type: FETCH_SEED })
@@ -447,7 +447,7 @@ export const fetchSeed = () => async dispatch => {
  * fetchSeedSuccess - Fetch seed success callback.
  *
  * @param {Array} cipherSeedMnemonic Mnemonic seed
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const fetchSeedSuccess = cipherSeedMnemonic => dispatch => {
   dispatch({ type: FETCH_SEED_SUCCESS, seed: cipherSeedMnemonic })
@@ -483,7 +483,7 @@ export const verifyMessage = (message, signature) => () => {
  * fetchSeedError - Fetch seed error callback.
  *
  * @param {string} error Error message
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const fetchSeedError = error => dispatch => {
   dispatch({
@@ -498,7 +498,7 @@ export const fetchSeedError = error => dispatch => {
  *
  * @param  {object} options Options
  * @param  {object} options.recover Boolean indicating weather this is a recovery
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<object>} Thunk
  */
 export const createWallet = ({ recover } = {}) => async (dispatch, getState) => {
   dispatch({ type: CREATE_WALLET })

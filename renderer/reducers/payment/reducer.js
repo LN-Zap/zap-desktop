@@ -45,8 +45,8 @@ const initialState = {
 /**
  * receivePayments - Fetch payments success callback.
  *
- * @param {Array} payments list of payments.
- * @returns {Function} Thunk
+ * @param {Array<object>} payments list of payments.
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const receivePayments = payments => dispatch => {
   dispatch({
@@ -70,7 +70,7 @@ const decPaymentRetry = paymentId => ({
  * sendPayment - After initiating a lightning payment, store details of it in paymentSending array.
  *
  * @param {object} data Payment data
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const sendPayment = data => dispatch => {
   const payment = {
@@ -86,6 +86,12 @@ export const sendPayment = data => dispatch => {
   })
 }
 
+/**
+ * paymentComplete - Completion handler for payInvoce.
+ *
+ * @param {string} paymentId Payment id (internal)
+ * @returns {(dispatch:Function) => void} Thunk
+ */
 export const paymentComplete = paymentId => async dispatch => {
   const { payments } = await grpc.services.Lightning.listPayments({
     maxPayments: 3,
@@ -100,7 +106,7 @@ export const paymentComplete = paymentId => async dispatch => {
  * paymentSuccessful - Success handler for payInvoice.
  *
  * @param {string} paymentId Payment id (internal)
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const paymentSuccessful = paymentId => async (dispatch, getState) => {
   const paymentSending = find(paymentsSending(getState()), { paymentId })
@@ -134,7 +140,7 @@ export const paymentSuccessful = paymentId => async (dispatch, getState) => {
  * @param {object} options Options
  * @param {string} options.paymentId Internal payment id
  * @param {number} options.error Error
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const paymentFailed = ({ paymentId, error }) => async (dispatch, getState) => {
   const paymentSending = find(paymentsSending(getState()), { paymentId })
@@ -194,7 +200,7 @@ export const paymentFailed = ({ paymentId, error }) => async (dispatch, getState
  * @param {number} options.route Specific route to use.
  * @param {number} options.retries Number of remaining retries
  * @param {string} options.originalPaymentId Id of the original payment if (required if this is a payment retry)
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const payInvoice = ({
   payReq,

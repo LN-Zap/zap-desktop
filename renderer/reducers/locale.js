@@ -13,7 +13,7 @@ import { putConfig, settingsSelectors } from './settings'
  *
  * @param {object} event Event
  * @param {string} locale Locale
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const receiveLocale = (event, locale) => dispatch => {
   dispatch(setLocale(locale))
@@ -26,7 +26,7 @@ export const receiveLocale = (event, locale) => dispatch => {
 /**
  * initLocale - Initialise the translation system.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const initLocale = () => async (dispatch, getState) => {
   const state = getState()
@@ -42,7 +42,7 @@ export const initLocale = () => async (dispatch, getState) => {
  * setLocale - Set the current locale.
  *
  * @param {string} locale Locale
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const setLocale = locale => async (dispatch, getState) => {
   const state = getState()

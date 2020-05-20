@@ -58,7 +58,7 @@ export function setWalletsLoaded() {
 /**
  * getWallets - Fetch all wallet configs.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<Array<object>>} Thunk
  */
 export const getWallets = () => async dispatch => {
   let wallets
@@ -76,7 +76,7 @@ export const getWallets = () => async dispatch => {
  * setActiveWallet - Set the currently active wallet.
  *
  * @param {number} activeWallet Wallet Id
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const setActiveWallet = activeWallet => async dispatch => {
   dispatch(putSetting('activeWallet', activeWallet))
@@ -86,7 +86,7 @@ export const setActiveWallet = activeWallet => async dispatch => {
  * setActiveWallet - Set the currently active wallet.
  *
  * @param {boolean} isWalletOpen Boolean indicating wither currently active wallet is open.
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const setIsWalletOpen = isWalletOpen => async dispatch => {
   dispatch(putSetting('isWalletOpen', isWalletOpen))
@@ -112,7 +112,7 @@ export const putWallet = wallet => async dispatch => {
  * removeWallet - Remove a wallet config.
  *
  * @param  {object} wallet Wallet config.
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const removeWallet = wallet => async dispatch => {
   // Delete the wallet from the filesystem.
@@ -132,7 +132,7 @@ export const removeWallet = wallet => async dispatch => {
  * deleteWallet - Handle delete wallet confirmation triggered by a user.
  * Removes currently active wallet.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const deleteWallet = () => async (dispatch, getState) => {
   try {
@@ -161,7 +161,7 @@ export const deleteWallet = () => async (dispatch, getState) => {
 /**
  * initWallets - Loads wallet configs from the database and filesystem.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const initWallets = () => async dispatch => {
   // Fetch wallet details.

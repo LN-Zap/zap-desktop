@@ -83,7 +83,7 @@ export const showWarning = (message, options = {}) => {
  * enqueueNotification - Push a notification onto the top of the stack.
  *
  * @param  {object} options Notification options
- * @returns {Function} Think
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const enqueueNotification = options => async dispatch => {
   // Create a new notification using the options provided.
@@ -110,7 +110,7 @@ export const enqueueNotification = options => async dispatch => {
  *
  * @param  {object} predicate Predicate used to find notifications to modify
  * @param  {object} options Notification options
- * @returns {Function} Think
+ * @returns {(dispatch:Function, getState:Function) => void} Thunk
  */
 export const updateNotification = (predicate, options) => (dispatch, getState) => {
   const state = getState().notification

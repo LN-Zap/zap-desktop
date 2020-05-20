@@ -20,7 +20,7 @@ import messages from './messages'
  *
  * @param  {event} event Event
  * @param  {{ address }} address Address (payment request)
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => void} Thunk
  */
 export const lightningPaymentUri = (event, { address }) => (dispatch, getState) => {
   const state = getState()
@@ -62,7 +62,7 @@ export const lightningPaymentUri = (event, { address }) => (dispatch, getState) 
  *
  * @param  {event} event Event
  * @param  {{ address, options }} options Decoded bip21 payment url
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => void} Thunk
  */
 export const bitcoinPaymentUri = (event, { address, options = {} }) => (dispatch, getState) => {
   // If the bip21 data includes a bolt11 invoice in the `lightning` key handle as a lightning payment.
@@ -86,7 +86,7 @@ export const bitcoinPaymentUri = (event, { address, options = {} }) => (dispatch
  * @param  {object} params { service, reason }
  * @param  {string} params.service lnurl
  * @param  {string} params.reason error reason
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const lnurlError = (event, { service, reason }) => dispatch => {
   const intl = getIntl()
@@ -101,7 +101,7 @@ export const lnurlError = (event, { service, reason }) => dispatch => {
  * @param  {string} params.service lnurl
  * @param  {number} params.amount ln pr amount
  * @param  {string} params.memo ln pr memo
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const lnurlRequest = (event, { service, amount, memo }) => dispatch => {
   dispatch(setLnurlWithdrawalParams({ amount, service, memo }))

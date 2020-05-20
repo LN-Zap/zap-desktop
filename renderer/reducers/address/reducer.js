@@ -44,7 +44,18 @@ const ADDRESS_TYPES = {
 // Actions
 // ------------------------------------
 
+/**
+ * openWalletModal - Open wallet modal.
+ *
+ * @returns {(dispatch:Function) => void} Thunk
+ */
 export const openWalletModal = () => dispatch => dispatch(openModal('RECEIVE_MODAL'))
+
+/**
+ * closeWalletModal - Close wallet modal.
+ *
+ * @returns {(dispatch:Function) => void} Thunk
+ */
 export const closeWalletModal = () => dispatch => dispatch(closeModal('RECEIVE_MODAL'))
 
 /**
@@ -52,7 +63,7 @@ export const closeWalletModal = () => dispatch => dispatch(closeModal('RECEIVE_M
  *
  * @param {string} addressType Address type
  * @param {string} address Address
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const newAddressSuccess = (addressType, address) => async (dispatch, getState) => {
   const state = getState()
@@ -76,7 +87,7 @@ export const newAddressSuccess = (addressType, address) => async (dispatch, getS
  * createNewAddress - Creates a new address.
  *
  * @param {('p2wkh'|'np2wkh'|null)} addressType Address type. If not specified uses current saved config setting.
- * @returns {Promise<string>} Generated address
+ * @returns {(dispatch:Function, getState:Function) => Promise<string>} Thunk
  */
 export const createNewAddress = addressType => async (dispatch, getState) => {
   const getConfigAddressType = () => {
@@ -93,7 +104,7 @@ export const createNewAddress = addressType => async (dispatch, getState) => {
  *
  * @param {string} addressType Address type
  * @param {string} error Error message
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const newAddressFailure = (addressType, error) => dispatch => {
   const intl = getIntl()
@@ -111,7 +122,7 @@ export const newAddressFailure = (addressType, error) => dispatch => {
  * newAddress - Generate a new address and sets it as wallet current.
  *
  * @param {('p2wkh'|'np2wkh')} addressType Address type
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<string>} Thunk
  */
 export const newAddress = addressType => async dispatch => {
   dispatch({ type: NEW_ADDRESS, addressType })
@@ -128,7 +139,7 @@ export const newAddress = addressType => async dispatch => {
 /**
  * initAddresses - Initialise addresses.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const initAddresses = () => async (dispatch, getState) => {
   try {

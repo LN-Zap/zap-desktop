@@ -24,7 +24,7 @@ export const SET_THEME = 'SET_THEME'
 /**
  * initTheme - Initialise the theme system with the currently active theme.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const initTheme = () => async (dispatch, getState) => {
   const state = getState()
@@ -40,7 +40,7 @@ export const initTheme = () => async (dispatch, getState) => {
  * setTheme - Sey the currently active theme.
  *
  * @param {string} currentTheme Theme name
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const setTheme = currentTheme => async dispatch => {
   // Persist the new theme in the store.

@@ -61,7 +61,7 @@ export const SKIP_BACKUP_DIALOG_ID = 'SKIP_BACKUP_DIALOG_ID'
  *
  * @param {object} event Event
  * @param {string} lndConnect LND Connect URI
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const lndconnectUri = (event, lndConnect) => dispatch => {
   dispatch(setLndconnect(lndConnect))
@@ -71,6 +71,11 @@ export const lndconnectUri = (event, lndConnect) => dispatch => {
 // Actions
 // ------------------------------------
 
+/**
+ * resetOnboarding - Reset onboarding state
+ *
+ * @returns {(dispatch:Function) => void} Thunk
+ */
 export const resetOnboarding = () => dispatch => {
   dispatch({ type: RESET_ONBOARDING })
 }
@@ -261,7 +266,7 @@ export function setLndconnect(lndConnect) {
  * validateHost - Validate that a host can be connected to.
  *
  * @param {string} host Host to validate
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<boolean>} Thunk
  */
 export const validateHost = host => async dispatch => {
   try {
@@ -279,7 +284,7 @@ export const validateHost = host => async dispatch => {
  * validateHost - Validate a cart can be found on disk.
  *
  * @param {string} certPath Cert file to validate
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<boolean>} Thunk
  */
 export const validateCert = certPath => async dispatch => {
   try {
@@ -300,7 +305,7 @@ export const validateCert = certPath => async dispatch => {
  * validateMacaroon - Validate a macaroon can be found on disk.
  *
  * @param {string} macaroonPath Macaroon file to validate
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<boolean>} Thunk
  */
 export const validateMacaroon = macaroonPath => async dispatch => {
   try {

@@ -99,7 +99,7 @@ export function getDescribeNetwork() {
 /**
  * fetchDescribeNetwork - Fetch network data.
  *
- * @returns {object} Action
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const fetchDescribeNetwork = () => async dispatch => {
   dispatch(getDescribeNetwork())
@@ -111,7 +111,7 @@ export const fetchDescribeNetwork = () => async dispatch => {
  * receiveDescribeNetwork - Receive network data.
  *
  * @param {{ nodes }} nodes List of nodes describing the network topology
- * @returns {object} Action
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const receiveDescribeNetwork = ({ nodes }) => dispatch =>
   dispatch({ type: RECEIVE_DESCRIBE_NETWORK, nodes })

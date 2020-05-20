@@ -36,7 +36,7 @@ export const SET_SETTING = 'SET_SETTING'
  * initSettings - Fetch the current settings from the database and save into the store.
  * Should be called once when the app first loads.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const initSettings = () => async dispatch => {
   dispatch({ type: INIT_SETTINGS })
@@ -62,7 +62,7 @@ export const initSettings = () => async dispatch => {
  *
  * @param  {string} key Key
  * @param  {*} value Value
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const putSetting = (key, value) => async dispatch => {
   dispatch({ type: SET_SETTING, key, value })
@@ -74,7 +74,7 @@ export const putSetting = (key, value) => async dispatch => {
  *
  * @param  {string} path Config path property to set
  * @param  {*} value Value to set
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const putConfig = (path, value) => async (dispatch, getState) => {
   const currentConfig = settingsSelectors.currentConfig(getState())
@@ -86,7 +86,7 @@ export const putConfig = (path, value) => async (dispatch, getState) => {
  * saveConfigOverrides - Save config overrides.
  *
  * @param  {object} values Config object that matches the structure of root config.
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const saveConfigOverrides = values => async (dispatch, getState) => {
   const currentConfig = settingsSelectors.currentConfig(getState())

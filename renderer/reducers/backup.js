@@ -104,7 +104,7 @@ export const backupTokensUpdated = (event, { provider, tokens, walletId }) => {
  *
  * @param {object} event Event
  * @param {{walletId}} options Options
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const backupServiceInitialized = (event, { walletId }) => async (dispatch, getState) => {
   const state = getState()
@@ -133,7 +133,7 @@ export const saveBackupSuccess = (event, { provider, locationHint, walletId }) =
  *
  * @param {object} event Event
  * @param {{ walletId, backup }} options Options
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const queryWalletBackupSuccess = (event, { walletId, backup }) => async dispatch => {
   try {
@@ -148,7 +148,7 @@ export const queryWalletBackupSuccess = (event, { walletId, backup }) => async d
 /**
  * queryWalletBackupFailure - Error callback for queryWalletBackup.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const queryWalletBackupFailure = () => async dispatch => {
   dispatch(showError(getIntl().formatMessage(messages.backup_not_found_error)))
@@ -205,7 +205,7 @@ export const setRestoreMode = value => {
  *
  * @param {string} walletId Wallet Id
  * @param {boolean} isRestoreMode Boolean indcation whether this is a restore
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const setupBackupService = (walletId, isRestoreMode) => async (dispatch, getState) => {
   const { providerSelector, localPathSelector } = backupSelectors
@@ -262,7 +262,7 @@ const setRestoreState = async (walletId, state) => {
  * Should be called after sync is complete e.g `syncedToChain` is true.
  *
  * @param {string} walletId Wallet identifier. if not specified uses current active wallet
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const initBackupService = walletId => async (dispatch, getState) => {
   const wId = walletId || walletSelectors.activeWallet(getState())
@@ -295,7 +295,7 @@ export const initBackupService = walletId => async (dispatch, getState) => {
  *
  * @param {string} walletId Wallet identifier. if not specified uses current active wallet
  * @param {object} backup Backup data
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const backupCurrentWallet = (walletId, backup) => async (dispatch, getState) => {
   const getFreshBackup = async () => {
@@ -381,7 +381,7 @@ async function updateBackupProvider(walletId, provider) {
  *
  * @param {string} walletId Wallet identifier
  * @param {string} provider Provider name
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const queryWalletBackup = (walletId, provider) => async (dispatch, getState) => {
   const backupDesc = (await dbGet(walletId)) || {}
@@ -397,7 +397,7 @@ export const queryWalletBackup = (walletId, provider) => async (dispatch, getSta
  * restoreWallet - Restore a wallet backup.
  *
  * @param {object} backup Restore a channel backup
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const restoreWallet = backup => async dispatch => {
   const intl = getIntl()

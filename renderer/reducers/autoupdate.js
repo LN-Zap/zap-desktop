@@ -15,7 +15,7 @@ export const CONFIGURE_AUTOUPDATER = 'CONFIGURE_AUTOUPDATER'
  *
  * @param {{ active }} settings AutoUpdater settings
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const configureAutoUpdater = settings => dispatch => {
   dispatch({ type: CONFIGURE_AUTOUPDATER, settings })

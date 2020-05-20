@@ -101,7 +101,7 @@ export function getInfo() {
  * setHasSynced - Register that the currently connected node has fully synced at least once.
  *
  * @param {boolean} hasSynced Boolean indicating the node has completed a full sync of the blockchain
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const setHasSynced = hasSynced => async (dispatch, getState) => {
   dispatch({ type: SET_HAS_SYNCED, hasSynced })
@@ -126,7 +126,7 @@ export const setHasSynced = hasSynced => async (dispatch, getState) => {
 /**
  * fetchInfo - Fetch node info for the currently connected node.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const fetchInfo = () => async dispatch => {
   dispatch(getInfo())
@@ -148,7 +148,7 @@ export function setInfo(data) {
  * receiveInfo - Receive node info from lnd.
  *
  * @param {object} data Node info
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const receiveInfo = data => async (dispatch, getState) => {
   // Save the node info.

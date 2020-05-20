@@ -46,7 +46,7 @@ export const RECIEVE_TICKERS = 'RECIEVE_TICKERS'
 /**
  * initCurrency - Initialise the fiat currency.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const initCurrency = () => async (dispatch, getState) => {
   const state = getState()
@@ -61,7 +61,7 @@ export const initCurrency = () => async (dispatch, getState) => {
 /**
  * initCurrency - Initialise the fiat tickers.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const initTickers = () => async (dispatch, getState) => {
   const state = getState()
@@ -79,7 +79,7 @@ export const initTickers = () => async (dispatch, getState) => {
  * setCryptoUnit - Set the currently active crypto unit.
  *
  * @param {string} unit Crypto unit (eg bits, sats, btc)
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const setCryptoUnit = unit => async (dispatch, getState) => {
   const state = getState()
@@ -95,7 +95,7 @@ export const setCryptoUnit = unit => async (dispatch, getState) => {
  * setFiatTicker - Set the currently active fiat ticker.
  *
  * @param {string} fiatTicker Fiat ticker symbol (USD, EUR etc)
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const setFiatTicker = fiatTicker => async dispatch => {
   await dispatch(putConfig('currency', fiatTicker))
@@ -105,7 +105,7 @@ export const setFiatTicker = fiatTicker => async dispatch => {
 /**
  * fetchTickers - Fetch all fiat tickers from currently active fiat ticker provider.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const fetchTickers = () => async (dispatch, getState) => {
   const state = getState()

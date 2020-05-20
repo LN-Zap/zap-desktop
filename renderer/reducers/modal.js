@@ -47,7 +47,7 @@ const createModalData = (type, options) => ({
  * openDialog - Open dialog.
  *
  * @param  {string} id Name of modal to open
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const openDialog = id => dispatch => {
   dispatch({
@@ -60,7 +60,7 @@ export const openDialog = id => dispatch => {
  * closeDialog - Close specified dialog.
  *
  * @param  {string} id Name of modal to open
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const closeDialog = id => dispatch => {
   dispatch({
@@ -74,7 +74,7 @@ export const closeDialog = id => dispatch => {
  *
  * @param  {string} type Name of modal to open
  * @param  {object} options Options to apply to the modal
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => void} Thunk
  */
 export const openModal = (type, options) => (dispatch, getState) => {
   const modals = modalSelectors.getModalState(getState())

@@ -45,7 +45,7 @@ export const initialState = {
  * initAccount - Fetch the current account info from the database and save into the store.
  * Should be called once when the app first loads.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const initAccount = () => async dispatch => {
   dispatch({ type: INIT_ACCOUNT })
@@ -77,7 +77,7 @@ const setIsPasswordEnabled = value => ({
  * setPassword - Updates wallet password.
  *
  * @param {string} password new password
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 const setPassword = password => async dispatch => {
   const { sha256digest } = window.Zap
@@ -88,7 +88,7 @@ const setPassword = password => async dispatch => {
  * checkAccountPasswordEnabled - Checks whether app password is set via checking secure storage.
  * Dispatches setIsPasswordEnabled on completion.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<boolean>} Thunk
  */
 const checkAccountPasswordEnabled = () => async dispatch => {
   const { value } = await dispatch(waitForIpcEvent('hasPassword'))
@@ -102,7 +102,7 @@ const checkAccountPasswordEnabled = () => async dispatch => {
  * @param {object} params password params
  * @param {string} params.newPassword new password
  * @param {string} params.oldPassword old password
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const changePassword = ({ newPassword, oldPassword }) => async dispatch => {
   try {
@@ -120,7 +120,7 @@ export const changePassword = ({ newPassword, oldPassword }) => async dispatch =
  * enablePassword - Enables app-wide password protection.
  *
  * @param {string} password to be used further on.
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const enablePassword = ({ password }) => async dispatch => {
   try {
@@ -138,7 +138,7 @@ export const enablePassword = ({ password }) => async dispatch => {
  * disablePassword - Disables app-wide password protection.
  *
  * @param {string} password current password.
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const disablePassword = ({ password }) => async dispatch => {
   try {
@@ -157,7 +157,7 @@ export const disablePassword = ({ password }) => async dispatch => {
  * requirePassword - Password protect routine. Should be placed before protected code.
  *
  * @param {string} password current password.
- * @returns {Promise} Promise that fulfills after login attempt (either successful or not)
+ * @returns {(dispatch:Function) => Promise<boolean>} Thunk
  */
 const requirePassword = password => async dispatch => {
   const { sha256digest } = window.Zap
@@ -174,7 +174,7 @@ const requirePassword = password => async dispatch => {
  * login - Perform account login.
  *
  * @param {string} password Password
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const login = password => async dispatch => {
   try {
@@ -189,7 +189,7 @@ export const login = password => async dispatch => {
 /**
  * clearLoginError - Clear login user error.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => void} Thunk
  */
 export const clearLoginError = () => (dispatch, getState) => {
   if (accountSelectors.loginError(getState())) {

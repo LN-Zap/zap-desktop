@@ -84,7 +84,7 @@ export function setLnurlWithdrawalParams(params) {
 /**
  * finishLnurlWithdrawal - Concludes lnurl withdraw request processing by sending our ln PR to the service.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const finishLnurlWithdrawal = () => async (dispatch, getState) => {
   const state = getState()
@@ -108,7 +108,7 @@ export const finishLnurlWithdrawal = () => async (dispatch, getState) => {
  *
  * @param {string} address Destination address
  * @param {number} amountInSats desired amount in satoshis
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const queryFees = (address, amountInSats) => async (dispatch, getState) => {
   dispatch({ type: QUERY_FEES })
@@ -132,7 +132,7 @@ export const queryFees = (address, amountInSats) => async (dispatch, getState) =
  * @param {string} payReqOrPubkey Payment request or node pubkey
  * @param {number} amt Payment amount (in sats)
  * @param {number} feeLimit The max fee to apply
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const queryRoutes = (payReqOrPubkey, amt, feeLimit) => async (dispatch, getState) => {
   const isKeysend = isPubkey(payReqOrPubkey)

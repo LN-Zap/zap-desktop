@@ -93,7 +93,7 @@ export function resetApp() {
 /**
  * logout - Perform wallet logout.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const logout = () => dispatch => {
   dispatch({ type: LOGOUT })
@@ -107,7 +107,7 @@ export const logout = () => dispatch => {
 /**
  * initDatabase - Initialize app database.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const initDatabase = () => async dispatch => {
   dispatch({ type: INIT_DATABASE })
@@ -127,7 +127,7 @@ export const initDatabase = () => async dispatch => {
 /**
  * initRoot - Initialize app root.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const initRoot = () => async dispatch => {
   dispatch(initTheme())
@@ -149,7 +149,7 @@ export const initRoot = () => async dispatch => {
  *
  * @param {object} event Event
  * @param {object} options Options
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const initApp = (event, options = {}) => async (dispatch, getState) => {
   dispatch({ type: INIT_APP, options })
@@ -166,7 +166,7 @@ export const initApp = (event, options = {}) => async (dispatch, getState) => {
 /**
  * terminateApp - IPC handler for 'terminateApp' message.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const terminateApp = () => async dispatch => {
   try {
@@ -182,7 +182,7 @@ export const terminateApp = () => async dispatch => {
 /**
  * openPreferences - IPC handler for 'openPreferences' message.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const openPreferences = () => dispatch => {
   dispatch(openModal('SETTINGS'))

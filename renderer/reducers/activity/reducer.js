@@ -82,7 +82,7 @@ export const setErorDialogDetails = details => {
  * @param {string} options.title invoice title
  * @param {string} options.subtitle invoice subtitle
  * @param {Array<Array>} options.invoiceData invoice rows
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const saveInvoice = ({
   defaultFilename,
@@ -96,7 +96,7 @@ export const saveInvoice = ({
 /**
  * saveInvoiceFailure - Invoice save failed event.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const saveInvoiceFailure = () => dispatch => {
   dispatch(showError(getIntl().formatMessage(messages.activity_invoice_download_error)))
@@ -105,7 +105,7 @@ export const saveInvoiceFailure = () => dispatch => {
 /**
  * saveInvoiceSuccess - Invoice save success event.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const saveInvoiceSuccess = () => dispatch => {
   dispatch(showNotification(getIntl().formatMessage(messages.activity_invoice_download_success)))
@@ -116,7 +116,7 @@ export const saveInvoiceSuccess = () => dispatch => {
  *
  * @param {string} itemType Item type
  * @param {string} itemId Item id
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const showActivityModal = (itemType, itemId) => dispatch => {
   dispatch({ type: SHOW_ACTIVITY_MODAL, itemType, itemId })
@@ -126,7 +126,7 @@ export const showActivityModal = (itemType, itemId) => dispatch => {
 /**
  * hideActivityModal - Hide the activity modal.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const hideActivityModal = () => dispatch => {
   dispatch({ type: HIDE_ACTIVITY_MODAL })
@@ -221,7 +221,7 @@ function getPaginator() {
 /**
  * loadNextPage - Loads next activity page if it's available.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const loadNextPage = () => async (dispatch, getState) => {
   const thisPaginator = getPaginator()
@@ -248,7 +248,7 @@ export const loadNextPage = () => async (dispatch, getState) => {
 /**
  * fetchActivityHistory - Fetch user activity history, including Balance, Payments, Invoices, Transactions etc.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const fetchActivityHistory = () => dispatch => {
   dispatch({ type: FETCH_ACTIVITY_HISTORY })

@@ -43,7 +43,7 @@ export const RESET_EDIT_MODE = 'RESET_EDIT_MODE'
  *
  * @param {string} merchantId Merchant Id
  * @param {string} limit Autopay limit
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export function enableAutopay(merchantId, limit) {
   return async dispatch => {
@@ -59,7 +59,7 @@ export function enableAutopay(merchantId, limit) {
  * disableAutopay - Disable autopay for a given merchant.
  *
  * @param {string} merchantId Merchant Id
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export function disableAutopay(merchantId) {
   return async dispatch => {
@@ -87,7 +87,7 @@ export function setAutopayList(list) {
 /**
  * initAutopay - Initialize autopay module.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export function initAutopay() {
   return async dispatch => {
@@ -228,7 +228,7 @@ function setAutopayListFromArray(state, { list }) {
  * showAutopayNotification - Show a system notification to advise users that autopay is taking place.
  *
  * @param {object} invoice Decoded bolt 11 Invoice
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const showAutopayNotification = invoice => async (dispatch, getState) => {
   const nodes = networkSelectors.nodes(getState())

@@ -94,7 +94,7 @@ export function sendTransaction(data) {
  *
  * @param {boolean} updateOnly if true only update known transactions or adds new ones
  * (ones whose timestamp is greater than the newest known one)
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const fetchTransactions = updateOnly => async dispatch => {
   dispatch({ type: GET_TRANSACTIONS })
@@ -108,7 +108,7 @@ export const fetchTransactions = updateOnly => async dispatch => {
  * @param {Array} transactions of transaction.
  * @param {boolean} updateOnly if true only update known transactions or adds new ones
  * (ones whose timestamp is greater than the newest known one)
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => void} Thunk
  */
 export const receiveTransactions = (transactions, updateOnly = false) => (dispatch, getState) => {
   const state = getState()
@@ -156,7 +156,7 @@ export const receiveTransactions = (transactions, updateOnly = false) => (dispat
  * @param  {number}  options.targetConf Number of blocks to target for conf time
  * @param  {number}  options.satPerByte Sat per byte fee rate to apply
  * @param  {boolean} options.isCoinSweep Boolean indicating whether this is a coin sweep (will send all funds).
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const sendCoins = ({
   value,
@@ -197,7 +197,7 @@ export const sendCoins = ({
  * transactionSuccessful - Success handler for sendCoins.
  *
  * @param  {{ string }} internalId transaction internal id
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const transactionSuccessful = ({ internalId }) => async (dispatch, getState) => {
   const { timestamp } = find(transactionsSendingSelector(getState(), { internalId }))
@@ -221,7 +221,7 @@ export const transactionSuccessful = ({ internalId }) => async (dispatch, getSta
  * @param  {object} details Details
  * @param  {{ string }} details.internalId transaction internal id
  * @param  {{ string }} details.error Error message
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const transactionFailed = ({ internalId, error }) => async (dispatch, getState) => {
   const { timestamp } = find(transactionsSendingSelector(getState(), { internalId }))
@@ -237,7 +237,7 @@ export const transactionFailed = ({ internalId, error }) => async (dispatch, get
  * receiveTransactionData - Listener for when a new transaction is pushed from the subscriber.
  *
  * @param  {object} transaction Transaction
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => void} Thunk
  */
 export const receiveTransactionData = transaction => (dispatch, getState) => {
   // add the transaction if we are not already aware of it, otherwise update existing transaction.

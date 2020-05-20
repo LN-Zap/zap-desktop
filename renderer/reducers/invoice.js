@@ -123,7 +123,7 @@ export function sendInvoice() {
  * receiveInvoices - Receive details of all invoice.
  *
  * @param {Array} invoices List of invoices
- * @returns {object} Action
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const receiveInvoices = invoices => dispatch => {
   dispatch({ type: RECEIVE_INVOICES, invoices })
@@ -178,7 +178,7 @@ export const createInvoice = ({ amount, cryptoUnit, memo, isPrivate, fallbackAdd
  * createInvoiceSuccess - Create invoice success handler.
  *
  * @param {object} invoice Invoice
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const createInvoiceSuccess = invoice => dispatch => {
   // Add new invoice to invoices list
@@ -192,7 +192,7 @@ export const createInvoiceSuccess = invoice => dispatch => {
  * createInvoiceFailure - Create invoice error handler.
  *
  * @param {Error} error Error
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const createInvoiceFailure = error => dispatch => {
   dispatch({ type: INVOICE_FAILED, error: error.message })
@@ -203,7 +203,7 @@ export const createInvoiceFailure = error => dispatch => {
  * receiveInvoiceData - Listen for invoice updates pushed from backend from invoices stream.
  *
  * @param {object} invoice Invoice
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const receiveInvoiceData = invoice => dispatch => {
   dispatch({ type: UPDATE_INVOICE, invoice })

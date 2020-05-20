@@ -86,7 +86,7 @@ const initialState = {
  * setChannelViewMode - Set the current channels list view mode.
  *
  * @param {('list'|'card')} viewMode View mode
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const setChannelViewMode = viewMode => dispatch => {
   dispatch({ type: SET_CHANNEL_VIEW_MODE, viewMode })
@@ -96,7 +96,7 @@ export const setChannelViewMode = viewMode => dispatch => {
 /**
  * initChannels - Initialise channels.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const initChannels = () => async (dispatch, getState) => {
   const state = getState()
@@ -288,7 +288,7 @@ export function receiveSuggestedNodes(suggestedNodes) {
 /**
  * fetchSuggestedNodes - Fetch suggested node list.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const fetchSuggestedNodes = () => async dispatch => {
   dispatch(getSuggestedNodes())
@@ -304,7 +304,7 @@ export const fetchSuggestedNodes = () => async dispatch => {
  * receiveChannels - Receive channels data from lnd.
  *
  * @param {object} data Details of all current channels
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const receiveChannels = ({
   channels: { channels },
@@ -330,7 +330,7 @@ export const fetchChannels = () => async dispatch => {
  * pushchannelupdated - Receive a channel update notification from lnd.
  *
  * @param {object} data Channel update notification
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const pushchannelupdated = ({ nodePubkey, chanId, data }) => dispatch => {
   dispatch(fetchChannels())
@@ -357,7 +357,7 @@ export const pushchannelupdated = ({ nodePubkey, chanId, data }) => dispatch => 
  * pushchannelerror - Receive a channel error notification from lnd.
  *
  * @param {object} data Channel error notification
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const pushchannelerror = ({ nodePubkey, chanId, error }) => dispatch => {
   if (nodePubkey) {
@@ -381,7 +381,7 @@ export const pushchannelerror = ({ nodePubkey, chanId, error }) => dispatch => {
  * pushclosechannelupdated - Receive a channel cloase update notification from lnd.
  *
  * @param {object} data Channel close update notification
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const pushclosechannelupdated = ({ chanId }) => dispatch => {
   dispatch(fetchChannels())
@@ -392,7 +392,7 @@ export const pushclosechannelupdated = ({ chanId }) => dispatch => {
  * openChannel - Send open channel request to lnd.
  *
  * @param {object} data New channel config
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const openChannel = data => async (dispatch, getState) => {
   const { pubkey, host, localamt, satPerByte, isPrivate, spendUnconfirmed = true } = data
@@ -445,7 +445,7 @@ export const openChannel = data => async (dispatch, getState) => {
 /**
  * closeChannel - Close the currently selected channel.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const closeChannel = () => async (dispatch, getState) => {
   const selectedChannel = channelsSelectors.selectedChannel(getState())
@@ -482,7 +482,7 @@ export const closeChannel = () => async (dispatch, getState) => {
  * pushclosechannelerror - Receive a channel cloase error notification from lnd.
  *
  * @param {object} data Channel close error notification
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const pushclosechannelerror = ({ error, chanId }) => dispatch => {
   dispatch(showError(error))

@@ -27,7 +27,7 @@ const initialState = {
 /**
  * fetchBalance - Fetch balances.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const fetchBalance = () => async dispatch => {
   try {

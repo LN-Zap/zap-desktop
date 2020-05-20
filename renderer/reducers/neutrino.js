@@ -94,7 +94,7 @@ const parseHeightUpdates = data => {
  *
  * @param {object} event Event
  * @param {string} signal Kill signal
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const killNeutrino = (event, signal) => async dispatch => {
   await neutrino.shutdown({ signal })
@@ -150,7 +150,7 @@ export const neutrinoReset = () => {
  * initNeutrino - Initialise neutrino service.
  * Attaches event handlers.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const initNeutrino = () => async (dispatch, getState) => {
   neutrino.on(
@@ -226,7 +226,7 @@ export const initNeutrino = () => async (dispatch, getState) => {
  * startNeutrino - Start neutrino process.
  *
  * @param  {object} lndConfig Lnd config instance
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const startNeutrino = lndConfig => async (dispatch, getState) => {
   const { isStartingNeutrino } = getState().neutrino
@@ -300,7 +300,7 @@ export const startNeutrinoFailure = startNeutrinoError => {
 /**
  * stopNeutrino - Stop neutrino process.
  *
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const stopNeutrino = () => async (dispatch, getState) => {
   const { isStoppingNeutrino } = getState().neutrino
@@ -375,7 +375,7 @@ export const neutrinoRecoveryHeight = height => ({
  * neutrinoBlockHeight - Receive LND sync status change.
  *
  * @param  {string} status Neutrino service sync state.
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const neutrinoSyncStatus = status => async dispatch => {
   const intl = getIntl()
