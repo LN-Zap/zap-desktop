@@ -73,7 +73,7 @@ export const closeDialog = id => dispatch => {
  * openModal - Open a specific modal.
  *
  * @param  {string} type Name of modal to open
- * @param  {object} options Options to apply to the modal
+ * @param  {object} [options] Options to apply to the modal
  * @returns {(dispatch:Function, getState:Function) => void} Thunk
  */
 export const openModal = (type, options) => (dispatch, getState) => {

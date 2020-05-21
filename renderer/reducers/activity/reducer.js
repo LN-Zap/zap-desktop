@@ -1,10 +1,8 @@
 import { send } from 'redux-electron-ipc'
 import groupBy from 'lodash/groupBy'
 import config from 'config'
-import { grpc } from 'workers'
 import createReducer from '@zap/utils/createReducer'
 import { getIntl } from '@zap/i18n'
-import combinePaginators from '@zap/utils/pagination'
 import { openModal, closeModal } from 'reducers/modal'
 import { fetchDescribeNetwork } from 'reducers/network'
 import { receiveTransactions } from 'reducers/transaction'
@@ -13,7 +11,8 @@ import { receiveInvoices } from 'reducers/invoice'
 import { fetchBalance } from 'reducers/balance'
 import { showError, showNotification } from 'reducers/notification'
 import { fetchChannels } from 'reducers/channels'
-import activitySelectors from './selectors'
+import { createActivityPaginator } from './utils'
+import { hasNextPage } from './selectors'
 import messages from './messages'
 import * as constants from './constants'
 
@@ -34,9 +33,19 @@ const {
 // Initial State
 // ------------------------------------
 
-// activity paginator object. must be reset for each wallet login
-let paginator = null
+/**
+ * @typedef State
+ * @property {Set<string>} filter Currently applied activity filter.
+ * @property {object[]} filters List of supported activity filters.
+ * @property {{itemType: string|null, itemId: string|null}} modal Activity item currently showing in activity modal.
+ * @property {Error|null} errorDialogDetails Activity error currently showing in error details dialog.
+ * @property {string|null} searchText Current activity search string.
+ * @property {boolean} isActivityLoading Boolean indicating if activity is loading.
+ * @property {Error|null} activityLoadingError Error from loading activity.
+ * @property {boolean} hasNextPage Boolean indicating if there are more activity pages to fetch.
+ */
 
+/** @type {State} */
 const initialState = {
   filter: new Set([...constants.defaultFilter]),
   filters: [
@@ -58,6 +67,27 @@ const initialState = {
 }
 
 // ------------------------------------
+// Helpers
+// ------------------------------------
+
+// activity paginator object. must be reset for each wallet login
+/** @type {Function | null} */
+let paginator = null
+
+/**
+ * getPaginator - Returns current activity paginator object. This acts as a singleton
+ * and creates paginator if it's not initialized.
+ *
+ * @returns {Function} Paginator
+ */
+export const getPaginator = () => {
+  if (!paginator) {
+    paginator = createActivityPaginator()
+  }
+  return paginator
+}
+
+// ------------------------------------
 // Actions
 // ------------------------------------
 
@@ -75,13 +105,51 @@ export const setErorDialogDetails = details => {
 }
 
 /**
+ * changeFilter - Toggle specified activity filter.
+ *
+ * @param {...string} filterList Filter to apply
+ * @returns {object} Action
+ */
+export function changeFilter(...filterList) {
+  return {
+    type: CHANGE_FILTER,
+    filterList,
+  }
+}
+/**
+ * addFilter - Enable specified activity filters.
+ *
+ * @param {...string} filterList Filters to apply
+ * @returns {object} Action
+ */
+export function addFilter(...filterList) {
+  return {
+    type: ADD_FILTER,
+    filterList,
+  }
+}
+
+/**
+ * updateSearchText - Set the current activity search string.
+ *
+ * @param {string|null} searchText Search string to apply
+ * @returns {object} Action
+ */
+export function updateSearchText(searchText = null) {
+  return {
+    type: UPDATE_SEARCH_TEXT,
+    searchText,
+  }
+}
+
+/**
  * saveInvoice - Initiates saving of invoice pdf.
  *
- * @param {string} options invoice options
+ * @param {object} options invoice options
  * @param {string} options.defaultFilename invoice title
  * @param {string} options.title invoice title
  * @param {string} options.subtitle invoice subtitle
- * @param {Array<Array>} options.invoiceData invoice rows
+ * @param {Array<object>} options.invoiceData invoice rows
  * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const saveInvoice = ({
@@ -134,99 +202,17 @@ export const hideActivityModal = () => dispatch => {
 }
 
 /**
- * changeFilter - Toggle specified activity filter.
- *
- * @param {...string} filterList Filter to apply
- * @returns {object} Action
- */
-export function changeFilter(...filterList) {
-  return {
-    type: CHANGE_FILTER,
-    filterList,
-  }
-}
-/**
- * addFilter - Enable specified activity filters.
- *
- * @param {...string} filterList Filters to apply
- * @returns {object} Action
- */
-export function addFilter(...filterList) {
-  return {
-    type: ADD_FILTER,
-    filterList,
-  }
-}
-
-/**
- * updateSearchText - Set the current activity search string.
- *
- * @param {string} searchText Search string to apply
- * @returns {object} Action
- */
-export function updateSearchText(searchText = null) {
-  return {
-    type: UPDATE_SEARCH_TEXT,
-    searchText,
-  }
-}
-
-/**
- * createActivityPaginator - Creates activity paginator object.
- *
- * @returns {Function} Paginator
- */
-function createActivityPaginator() {
-  const fetchInvoices = async (pageSize, offset) => {
-    const { invoices, firstIndexOffset } = await grpc.services.Lightning.listInvoices({
-      numMaxInvoices: pageSize,
-      indexOffset: offset,
-      reversed: true,
-    })
-    return { items: invoices, offset: parseInt(firstIndexOffset || 0, 10) }
-  }
-
-  const fetchPayments = async (pageSize, offset) => {
-    const { payments, firstIndexOffset } = await grpc.services.Lightning.listPayments({
-      maxPayments: pageSize,
-      indexOffset: offset,
-      reversed: true,
-    })
-    return { items: payments, offset: parseInt(firstIndexOffset || 0, 10) }
-  }
-
-  const fetchTransactions = async () => {
-    const { transactions } = await grpc.services.Lightning.getTransactions()
-    return { items: transactions, offset: 0 }
-  }
-  const getTimestamp = item =>
-    parseInt(item.timeStamp, 10) || parseInt(item.settleDate, 10) || parseInt(item.creationDate, 10)
-  const itemSorter = (a, b) => getTimestamp(b) - getTimestamp(a)
-  return combinePaginators(itemSorter, fetchInvoices, fetchPayments, fetchTransactions)
-}
-
-/**
- * getPaginator - Returns current activity paginator object. This acts as a singleton
- * and creates paginator if it's not initialized.
- *
- * @returns {Function} Paginator
- */
-function getPaginator() {
-  if (!paginator) {
-    paginator = createActivityPaginator()
-  }
-  return paginator
-}
-
-/**
  * loadNextPage - Loads next activity page if it's available.
  *
  * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const loadNextPage = () => async (dispatch, getState) => {
   const thisPaginator = getPaginator()
-  if (activitySelectors.hasNextPage(getState())) {
-    const { items, hasNextPage } = await thisPaginator(config.activity.pageSize)
+  if (hasNextPage(getState())) {
+    const { items, hasNextPage: paginatorHasNextPage } = await thisPaginator(
+      config.activity.pageSize
+    )
+
     const getItemType = item => {
       if (item.destAddresses) {
         return 'transactions'
@@ -238,7 +224,7 @@ export const loadNextPage = () => async (dispatch, getState) => {
     }
 
     const { invoices, payments, transactions } = groupBy(items, getItemType)
-    dispatch({ type: SET_HAS_NEXT_PAGE, value: hasNextPage })
+    dispatch({ type: SET_HAS_NEXT_PAGE, value: paginatorHasNextPage })
     invoices && dispatch(receiveInvoices(invoices))
     payments && dispatch(receivePayments(payments))
     transactions && dispatch(receiveTransactions(transactions))
@@ -263,6 +249,11 @@ export const fetchActivityHistory = () => dispatch => {
   }
 }
 
+/**
+ * resetActivity - Reset user activity history.
+ *
+ * @returns {() => void} Thunk
+ */
 export const resetActivity = () => () => {
   paginator = null
 }

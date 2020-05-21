@@ -1,3 +1,7 @@
+/**
+ * @typedef {import('../index').State} State
+ */
+
 import { createSelector } from 'reselect'
 import { transactionsSelectors } from 'reducers/transaction'
 import { paymentSelectors } from 'reducers/payment'
@@ -14,15 +18,15 @@ const transactionsSendingSelector = state => transactionsSelectors.transactionsS
 /**
  * filter - Activity filter.
  *
- * @param  {object} state redux state
- * @returns {string} Current activity filter
+ * @param  {State} state redux state
+ * @returns {Set<string>} Current activity filter
  */
 export const filter = state => state.activity.filter
 
 /**
  * hasNextPage - Activity pagination more state.
  *
- * @param  {object} state redux state
+ * @param  {State} state redux state
  * @returns {boolean} Boolean indicating if there are more pages of activity data to paginate
  */
 export const hasNextPage = state => state.activity.hasNextPage
@@ -30,40 +34,40 @@ export const hasNextPage = state => state.activity.hasNextPage
 /**
  * filters - List of activity filters.
  *
- * @param  {object} state redux state
- * @returns {Array}  List of activity filters
+ * @param  {State} state redux state
+ * @returns {object[]}  List of activity filters
  */
 export const filters = state => state.activity.filters
 
 /**
  * searchText - Activity search text.
  *
- * @param  {object} state redux state
- * @returns {string} Current activity search text
+ * @param  {State} state redux state
+ * @returns {string|null} Current activity search text
  */
 export const searchText = state => state.activity.searchText
 
 /**
  * modalItemType - Item type of currently active activity modal.
  *
- * @param  {object} state redux state
- * @returns {string} Item type of currently active activity modal
+ * @param  {State} state redux state
+ * @returns {string|null} Item type of currently active activity modal
  */
 export const modalItemType = state => state.activity.modal.itemType
 
 /**
  * modalItemId - Id of currently active activity modal.
  *
- * @param  {object} state redux state
- * @returns {string} Id of currently active activity modal
+ * @param  {State} state redux state
+ * @returns {string|null} Id of currently active activity modal
  */
 export const modalItemId = state => state.activity.modal.itemId
 
 /**
  * errorDialogDetails - Activity error dialog details.
  *
- * @param  {object} state redux state
- * @returns {object} Error dialog details
+ * @param  {State} state redux state
+ * @returns {Error|null} Error dialog details
  */
 export const errorDialogDetails = state => state.activity.errorDialogDetails
 
@@ -234,8 +238,8 @@ export default {
   filters,
   searchText,
   hasNextPage,
-  isErrorDialogOpen,
   errorDialogDetails,
+  isErrorDialogOpen,
   currentActivity,
   activityModalItem,
   isCustomFilter,

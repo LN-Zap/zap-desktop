@@ -4,14 +4,13 @@ import { mainLog } from '@zap/utils/log'
 import waitForIpcEvent from '@zap/utils/waitForIpc'
 import { closeDialog } from 'reducers/modal'
 import { showNotification } from 'reducers/notification'
-import accountSelectors from './selectors'
+import { loginError } from './selectors'
 import messages from './messages'
 import * as constants from './constants'
 
 const {
   INIT_ACCOUNT,
   INIT_ACCOUNT_SUCCESS,
-  INIT_ACCOUNT_FAILURE,
   LOGIN,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
@@ -27,19 +26,52 @@ const {
 // Initial State
 // ------------------------------------
 
+/**
+ * @typedef State
+ * @property {boolean} isAccountLoading
+ * @property {boolean} isAccountLoaded
+ * @property {boolean} isLoggingIn
+ * @property {boolean} isLoggedIn
+ * @property {boolean|null} isPasswordEnabled
+ * @property {string|null} loginError
+ */
+
+/** @type {State} */
 export const initialState = {
   isAccountLoading: false,
   isAccountLoaded: false,
-  initAccountError: null,
   isLoggingIn: false,
-  loginError: null,
   isLoggedIn: false,
   isPasswordEnabled: null,
+  loginError: null,
 }
 
 // ------------------------------------
 // Actions
 // ------------------------------------
+
+/**
+ * setIsPasswordEnabled - Whether password is set for the account.
+ *
+ * @param {boolean} value Boolean indicating wether password is enabled.
+ * @returns {object} Action
+ */
+const setIsPasswordEnabled = value => ({
+  type: SET_IS_PASSWORD_ENABLED,
+  value,
+})
+
+/**
+ * checkAccountPasswordEnabled - Checks whether app password is set via checking secure storage.
+ * Dispatches setIsPasswordEnabled on completion.
+ *
+ * @returns {(dispatch:Function) => Promise<boolean>} Thunk
+ */
+const checkAccountPasswordEnabled = () => async dispatch => {
+  const { value } = await dispatch(waitForIpcEvent('hasPassword'))
+  dispatch(setIsPasswordEnabled(value))
+  return value
+}
 
 /**
  * initAccount - Fetch the current account info from the database and save into the store.
@@ -63,17 +95,6 @@ export const initAccount = () => async dispatch => {
 }
 
 /**
- * setIsPasswordEnabled - Whether password is set for the account.
- *
- * @param {string} value value
- * @returns {object} Action
- */
-const setIsPasswordEnabled = value => ({
-  type: SET_IS_PASSWORD_ENABLED,
-  value,
-})
-
-/**
  * setPassword - Updates wallet password.
  *
  * @param {string} password new password
@@ -85,15 +106,20 @@ const setPassword = password => async dispatch => {
 }
 
 /**
- * checkAccountPasswordEnabled - Checks whether app password is set via checking secure storage.
- * Dispatches setIsPasswordEnabled on completion.
+ * requirePassword - Password protect routine. Should be placed before protected code.
  *
+ * @param {string} password current password.
  * @returns {(dispatch:Function) => Promise<boolean>} Thunk
  */
-const checkAccountPasswordEnabled = () => async dispatch => {
-  const { value } = await dispatch(waitForIpcEvent('hasPassword'))
-  dispatch(setIsPasswordEnabled(value))
-  return value
+const requirePassword = password => async dispatch => {
+  const { sha256digest } = window.Zap
+  const { password: hash } = await dispatch(waitForIpcEvent('getPassword'))
+  const passwordHash = await sha256digest(password)
+  // compare hash received from the main thread to a hash of a password provided
+  if (hash === passwordHash) {
+    return true
+  }
+  throw new Error(getIntl().formatMessage(messages.account_invalid_password))
 }
 
 /**
@@ -119,7 +145,8 @@ export const changePassword = ({ newPassword, oldPassword }) => async dispatch =
 /**
  * enablePassword - Enables app-wide password protection.
  *
- * @param {string} password to be used further on.
+ * @param {object} params password params
+ * @param {string} params.password to be used further on.
  * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const enablePassword = ({ password }) => async dispatch => {
@@ -137,7 +164,8 @@ export const enablePassword = ({ password }) => async dispatch => {
 /**
  * disablePassword - Disables app-wide password protection.
  *
- * @param {string} password current password.
+ * @param {object} params password params
+ * @param {string} params.password current password.
  * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const disablePassword = ({ password }) => async dispatch => {
@@ -151,23 +179,6 @@ export const disablePassword = ({ password }) => async dispatch => {
   } catch (error) {
     dispatch({ type: LOGIN_FAILURE, error: error.message })
   }
-}
-
-/**
- * requirePassword - Password protect routine. Should be placed before protected code.
- *
- * @param {string} password current password.
- * @returns {(dispatch:Function) => Promise<boolean>} Thunk
- */
-const requirePassword = password => async dispatch => {
-  const { sha256digest } = window.Zap
-  const { password: hash } = await dispatch(waitForIpcEvent('getPassword'))
-  const passwordHash = await sha256digest(password)
-  // compare hash received from the main thread to a hash of a password provided
-  if (hash === passwordHash) {
-    return true
-  }
-  throw new Error(getIntl().formatMessage(messages.account_invalid_password))
 }
 
 /**
@@ -192,7 +203,7 @@ export const login = password => async dispatch => {
  * @returns {(dispatch:Function, getState:Function) => void} Thunk
  */
 export const clearLoginError = () => (dispatch, getState) => {
-  if (accountSelectors.loginError(getState())) {
+  if (loginError(getState())) {
     dispatch({
       type: 'LOGIN_CLEAR_ERROR',
     })
@@ -210,13 +221,7 @@ const ACTION_HANDLERS = {
   [INIT_ACCOUNT_SUCCESS]: state => {
     state.isAccountLoading = false
     state.isAccountLoaded = true
-    state.initAccountError = null
   },
-  [INIT_ACCOUNT_FAILURE]: (state, { error }) => {
-    state.isAccountLoading = false
-    state.initAccountError = error
-  },
-
   [LOGIN]: state => {
     state.isLoggingIn = true
   },

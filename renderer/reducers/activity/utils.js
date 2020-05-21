@@ -1,3 +1,6 @@
+import { grpc } from 'workers'
+import combinePaginators from '@zap/utils/pagination'
+
 export const months = [
   'Jan',
   'Feb',
@@ -129,4 +132,41 @@ export const applySearch = (data, searchTextSelector) => {
  */
 export const prepareData = (data, searchText) => {
   return groupActivity(applySearch(data, searchText))
+}
+
+/**
+ * createActivityPaginator - Creates activity paginator object.
+ *
+ * @returns {Function} Paginator
+ */
+export const createActivityPaginator = () => {
+  const fetchInvoices = async (pageSize, offset) => {
+    const { invoices, firstIndexOffset } = await grpc.services.Lightning.listInvoices({
+      numMaxInvoices: pageSize,
+      indexOffset: offset,
+      reversed: true,
+    })
+    return { items: invoices, offset: parseInt(firstIndexOffset || 0, 10) }
+  }
+
+  const fetchPayments = async (pageSize, offset) => {
+    const { payments, firstIndexOffset } = await grpc.services.Lightning.listPayments({
+      maxPayments: pageSize,
+      indexOffset: offset,
+      reversed: true,
+    })
+    return { items: payments, offset: parseInt(firstIndexOffset || 0, 10) }
+  }
+
+  const fetchTransactions = async () => {
+    const { transactions } = await grpc.services.Lightning.getTransactions()
+    return { items: transactions, offset: 0 }
+  }
+
+  const getTimestamp = item =>
+    parseInt(item.timeStamp, 10) || parseInt(item.settleDate, 10) || parseInt(item.creationDate, 10)
+
+  const itemSorter = (a, b) => getTimestamp(b) - getTimestamp(a)
+
+  return combinePaginators(itemSorter, fetchInvoices, fetchPayments, fetchTransactions)
 }

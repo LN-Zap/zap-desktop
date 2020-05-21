@@ -30,7 +30,16 @@ import settingsmenu from './settingsmenu'
 import wallet from './wallet'
 import backup from './backup'
 
-const appReducer = combineReducers({
+/**
+ * @typedef State
+ * @property {object} intl Intl reducer.
+ * @property {object} locale Locale reducer.
+ * @property {import('./account').State} account Account reducer.
+ * @property {import('./activity').State} activity Activity reducer.
+ */
+
+/** @type {State} */
+const reducers = {
   // Third party reducers.
   intl,
   locale,
@@ -63,7 +72,9 @@ const appReducer = combineReducers({
   ticker,
   transaction,
   wallet,
-})
+}
+
+const appReducer = combineReducers(reducers)
 
 export default (state, action) => {
   // Reset all reducers, except for selected reducers which should persist.
