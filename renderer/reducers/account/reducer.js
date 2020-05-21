@@ -28,12 +28,12 @@ const {
 
 /**
  * @typedef State
- * @property {boolean} isAccountLoading
- * @property {boolean} isAccountLoaded
- * @property {boolean} isLoggingIn
- * @property {boolean} isLoggedIn
- * @property {boolean|null} isPasswordEnabled
- * @property {string|null} loginError
+ * @property {boolean} isAccountLoading Boolean indicating if account is loading.
+ * @property {boolean} isAccountLoaded Boolean indicating if account is loaded.
+ * @property {boolean} isLoggingIn Boolean indicating if login is in process.
+ * @property {boolean} isLoggedIn Boolean indicating if user is logged in.
+ * @property {boolean|null} isPasswordEnabled Boolean indicating if user password is enabled.
+ * @property {string|null} loginError Login error message.
  */
 
 /** @type {State} */
