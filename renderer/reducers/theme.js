@@ -7,6 +7,12 @@ import { putConfig, settingsSelectors } from './settings'
 // Initial State
 // ------------------------------------
 
+/**
+ * @typedef State
+ * @property {Object.<string, any>} themes Themes.
+ */
+
+/** @type {State} */
 const initialState = {
   themes: { dark, light },
 }

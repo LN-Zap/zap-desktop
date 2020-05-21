@@ -32,20 +32,23 @@ import backup from './backup'
 
 /**
  * @typedef State
- * @property {object} intl Intl reducer.
- * @property {object} locale Locale reducer.
+ * @property {Object.<string, any>} intl Intl reducer.
+ * @property {Object.<string, any>} locale Locale reducer.
+ * @property {import('./theme').State} theme Theme reducer.
  * @property {import('./account').State} account Account reducer.
  * @property {import('./activity').State} activity Activity reducer.
+ * @property {import('./address').State} address Address reducer.
  */
 
 /** @type {State} */
 const reducers = {
   // Third party reducers.
   intl,
+
+  // Custom reducers
   locale,
   theme,
 
-  // Custom reducers
   account,
   activity,
   address,

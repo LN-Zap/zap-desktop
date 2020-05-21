@@ -21,6 +21,15 @@ const {
 // Initial State
 // ------------------------------------
 
+/**
+ * @typedef State
+ * @property {boolean} isAddressLoading Boolean indicating if addresses are loading.
+ * @property {Error|null} fetchAddressError Error from loading addresses.
+ * @property {{np2wkh: boolean, p2wkh: boolean}} addressesLoading Booleans indicating address types that are loading.
+ * @property {{np2wkh: string|null, p2wkh: string|null}} addresses Current bitcoin addresses.
+ */
+
+/** @type {State} */
 const initialState = {
   isAddressLoading: false,
   fetchAddressError: null,
