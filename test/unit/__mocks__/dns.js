@@ -3,9 +3,9 @@ const dns = jest.genMockFromModule('dns')
 /**
  * lookup - Mock lookup.
  *
- * @param  {string} hostname Hostname
- * @param  {object} options Options
- * @param  {Function} callback Callback
+ * @param {string} hostname Hostname
+ * @param {object} options Options
+ * @param {Function} callback Callback
  */
 function lookup(hostname, options, callback = jest.fn()) {
   let cb = callback

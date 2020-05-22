@@ -27,9 +27,9 @@ export const UPDATE_NOTIFICATION = 'UPDATE_NOTIFICATION'
 /**
  * createNotification - Create a new notification.
  *
- * @param  {object} options Options
- * @param  {number} options.timeout Timeout until notification is removed
- * @param  {number} options.variant Notification variant
+ * @param {object} options Options
+ * @param {number} options.timeout Timeout until notification is removed
+ * @param {number} options.variant Notification variant
  * @returns {object} Notification
  */
 const createNotification = (options = {}) => {
@@ -45,8 +45,8 @@ const createNotification = (options = {}) => {
 /**
  * showError - Show an error notification.
  *
- * @param  {string} message Message
- * @param  {object} options Notification options
+ * @param {string} message Message
+ * @param {object} options Notification options
  * @returns {object} Action
  */
 export const showError = (message, options = {}) => {
@@ -56,8 +56,8 @@ export const showError = (message, options = {}) => {
 /**
  * showNotification - Show an info notification.
  *
- * @param  {string} message Message
- * @param  {object} options Notification options
+ * @param {string} message Message
+ * @param {object} options Notification options
  * @returns {object} Action
  */
 export const showNotification = (message, options = {}) => {
@@ -67,8 +67,8 @@ export const showNotification = (message, options = {}) => {
 /**
  * showWarning - Show a warning notification.
  *
- * @param  {string} message Message
- * @param  {object} options Notification options
+ * @param {string} message Message
+ * @param {object} options Notification options
  * @returns {object} Action
  */
 export const showWarning = (message, options = {}) => {
@@ -82,7 +82,7 @@ export const showWarning = (message, options = {}) => {
 /**
  * enqueueNotification - Push a notification onto the top of the stack.
  *
- * @param  {object} options Notification options
+ * @param {object} options Notification options
  * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const enqueueNotification = options => async dispatch => {
@@ -108,8 +108,8 @@ export const enqueueNotification = options => async dispatch => {
 /**
  * updateNotification - Update one or more existing notifications.
  *
- * @param  {object} predicate Predicate used to find notifications to modify
- * @param  {object} options Notification options
+ * @param {object} predicate Predicate used to find notifications to modify
+ * @param {object} options Notification options
  * @returns {(dispatch:Function, getState:Function) => void} Thunk
  */
 export const updateNotification = (predicate, options) => (dispatch, getState) => {
@@ -134,7 +134,7 @@ export const updateNotification = (predicate, options) => (dispatch, getState) =
 /**
  * removeNotification - Remove a notification by id.
  *
- * @param  {string} id Notification Id
+ * @param {string} id Notification Id
  * @returns {object} Action
  */
 export function removeNotification(id) {

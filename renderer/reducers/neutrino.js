@@ -73,7 +73,7 @@ const SYNC_DEBOUNCE = {
 /**
  * parseHeightUpdates - Get the first and last e4ntry in a list of block heights.
  *
- * @param  {Array} data List of height updates
+ * @param {Array} data List of height updates
  * @returns {{ first, last }} First and last height in list
  */
 const parseHeightUpdates = data => {
@@ -225,7 +225,7 @@ export const initNeutrino = () => async (dispatch, getState) => {
 /**
  * startNeutrino - Start neutrino process.
  *
- * @param  {object} lndConfig Lnd config instance
+ * @param {object} lndConfig Lnd config instance
  * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const startNeutrino = lndConfig => async (dispatch, getState) => {
@@ -327,7 +327,7 @@ export const stopNeutrino = () => async (dispatch, getState) => {
 /**
  * currentBlockHeight - Receive current block height.
  *
- * @param  {number} height Block height
+ * @param {number} height Block height
  * @returns {object} Action
  */
 export const currentBlockHeight = height => ({
@@ -338,7 +338,7 @@ export const currentBlockHeight = height => ({
 /**
  * neutrinoBlockHeight - Receive current neutrino sync block height.
  *
- * @param  {number} height Block height
+ * @param {number} height Block height
  * @returns {object} Action
  */
 export const neutrinoBlockHeight = height => ({
@@ -350,7 +350,7 @@ export const neutrinoBlockHeight = height => ({
 /**
  * neutrinoBlockHeight - Receive current neutrino sync cfilter height.
  *
- * @param  {number} height Block height
+ * @param {number} height Block height
  * @returns {object} Action
  */
 export const neutrinoCfilterHeight = height => ({
@@ -362,7 +362,7 @@ export const neutrinoCfilterHeight = height => ({
 /**
  * neutrinoBlockHeight - Receive current neutrino recovery height.
  *
- * @param  {number} height Block height
+ * @param {number} height Block height
  * @returns {object} Action
  */
 export const neutrinoRecoveryHeight = height => ({
@@ -374,7 +374,7 @@ export const neutrinoRecoveryHeight = height => ({
 /**
  * neutrinoBlockHeight - Receive LND sync status change.
  *
- * @param  {string} status Neutrino service sync state.
+ * @param {string} status Neutrino service sync state.
  * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const neutrinoSyncStatus = status => async dispatch => {

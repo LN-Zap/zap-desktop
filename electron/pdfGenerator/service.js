@@ -4,7 +4,7 @@ import saveInvoice from './invoice'
 /**
  * createService - Creates pdf generator service.
  *
- * @param  {object} mainWindow Browser window
+ * @param {object} mainWindow Browser window
  */
 export default function createService(mainWindow) {
   // helper func to send messages to the renderer process

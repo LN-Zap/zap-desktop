@@ -4,7 +4,7 @@ import find from 'lodash/find'
 /**
  * wallets - All wallets.
  *
- * @param  {object} state redux state
+ * @param {object} state redux state
  * @returns {Array} List of all wallets
  */
 export const wallets = state => state.wallet.wallets
@@ -12,7 +12,7 @@ export const wallets = state => state.wallet.wallets
 /**
  * activeWallet - Active wallet.
  *
- * @param  {object} state redux state
+ * @param {object} state redux state
  * @returns {string} currently active wallet id
  */
 export const activeWallet = state => state.settings.activeWallet
@@ -20,7 +20,7 @@ export const activeWallet = state => state.settings.activeWallet
 /**
  * isWalletsLoaded - Wallets loaded state.
  *
- * @param  {object} state redux state
+ * @param {object} state redux state
  * @returns {boolean} Boolean indicating wether wallets have been loaded
  */
 export const isWalletsLoaded = state => state.wallet.isWalletsLoaded
@@ -28,7 +28,7 @@ export const isWalletsLoaded = state => state.wallet.isWalletsLoaded
 /**
  * isWalletOpen - Wallet open state.
  *
- * @param  {object} state redux state
+ * @param {object} state redux state
  * @returns {boolean} Boolean indicating wether wallet is open
  */
 export const isWalletOpen = state => state.settings.isWalletOpen

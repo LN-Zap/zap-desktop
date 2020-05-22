@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 /**
  * isInside - Check if an event comes from a nested element.
  *
- * @param  {object} ref Element reference
+ * @param {object} ref Element reference
  * @returns {boolean} Boolean indicating whether event originates from nested element
  */
 function isInside(ref) {
@@ -13,8 +13,8 @@ function isInside(ref) {
 /**
  * useOnClickOutside - React hook that calls a handler when a click event comes from outside of a ref.
  *
- * @param  {[object]|object} refOrRefList Element reference or list of element references
- * @param  {Function} handler Handler
+ * @param {[object]|object} refOrRefList Element reference or list of element references
+ * @param {Function} handler Handler
  */
 export default function useOnClickOutside(refOrRefList, handler) {
   const refList = Array.from(refOrRefList)

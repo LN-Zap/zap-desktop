@@ -1,7 +1,7 @@
 /**
  * extractSpaceProps - Extract styled-system space props.
  *
- * @param  {object} props Props
+ * @param {object} props Props
  * @returns {Array} An array containig all space props, and an array containing everything else.
  */
 const extractSpaceProps = props => {

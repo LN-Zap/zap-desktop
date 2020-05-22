@@ -9,7 +9,7 @@ import { createError, UNSUPPORTED } from '@zap/utils/error'
 /**
  * sanitizeFeeRange - Sanitize a fee rate object ensuring that all fees are at least 1.
  *
- * @param  {object} fees Fee rate object
+ * @param {object} fees Fee rate object
  * @returns {object} Sanitized fee rate object
  */
 const sanitizeFeeRange = fees => mapValues(fees, fee => CoinBig.max(1, fee).toString())

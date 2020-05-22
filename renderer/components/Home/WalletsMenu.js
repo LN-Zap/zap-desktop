@@ -17,7 +17,7 @@ const WalletGroup = withRouter(
     /**
      * generateMenuItemId - Generate a menu item id from a wallet id.
      *
-     * @param  {string} walletId Wallet Id
+     * @param {string} walletId Wallet Id
      * @returns {string} Wallet menu item id
      */
     const generateMenuItemId = walletId => `wallet-menu-item-${walletId}`
@@ -25,7 +25,7 @@ const WalletGroup = withRouter(
     /**
      * generateMenuItems - Gernate a set of menu items from a list of wallets.
      *
-     * @param  {Array} wallets List of wallets
+     * @param {Array} wallets List of wallets
      * @returns {Array} List of menu items
      */
     const generateMenuItems = wallets =>

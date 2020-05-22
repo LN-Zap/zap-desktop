@@ -15,8 +15,8 @@ const PAYMENT_TIMEOUT = config.invoices.paymentTimeout
 /**
  * decoratePayment - Decorate payment object with custom/computed properties.
  *
- * @param  {object} payment Payment
- * @param  {Array} nodes Nodes
+ * @param {object} payment Payment
+ * @param {Array} nodes Nodes
  * @returns {object} Decorated payment
  */
 export const decoratePayment = (payment, nodes = []) => {
@@ -109,9 +109,9 @@ export const getPaymentConfig = () => {
 /**
  * prepareKeysendPayload - Prepare a keysend payment.
  *
- * @param  {string} pubkey Pubkey
- * @param  {number} amt Amount in satoshi
- * @param  {number} feeLimit Fee limit (sats)
+ * @param {string} pubkey Pubkey
+ * @param {number} amt Amount in satoshi
+ * @param {number} feeLimit Fee limit (sats)
  * @returns {object} Keysnd payment payload
  */
 export const prepareKeysendPayload = (pubkey, amt, feeLimit) => {
@@ -133,9 +133,9 @@ export const prepareKeysendPayload = (pubkey, amt, feeLimit) => {
 /**
  * prepareKeysendPayload - Prepare a bolt11 payment.
  *
- * @param  {string} payReq Payment request
- * @param  {number} amt Amount in satoshi
- * @param  {number} feeLimit Fee limit (sats)
+ * @param {string} payReq Payment request
+ * @param {number} amt Amount in satoshi
+ * @param {number} feeLimit Fee limit (sats)
  * @returns {object} Bolt11 payment payload
  */
 export const prepareBolt11Payload = (payReq, amt, feeLimit) => {
@@ -153,9 +153,9 @@ export const prepareBolt11Payload = (payReq, amt, feeLimit) => {
 /**
  * prepareKeysendProbe - Prepare a keysend probe.
  *
- * @param  {string} pubkey Pubkey
- * @param  {number} amt Amount in satoshi
- * @param  {number} feeLimit Fee limit (sats)
+ * @param {string} pubkey Pubkey
+ * @param {number} amt Amount in satoshi
+ * @param {number} feeLimit Fee limit (sats)
  * @returns {object} Keysend probe payload
  */
 export const prepareKeysendProbe = (pubkey, amt, feeLimit) => {
@@ -177,8 +177,8 @@ export const prepareKeysendProbe = (pubkey, amt, feeLimit) => {
 /**
  * prepareBolt11Probe - Prepare a bolt11 probe.
  *
- * @param  {string} payReq Payment request
- * @param  {number} feeLimit Fee limit (sats)
+ * @param {string} payReq Payment request
+ * @param {number} feeLimit Fee limit (sats)
  * @returns {object} Bolt11 probe payload
  */
 export const prepareBolt11Probe = (payReq, feeLimit) => {
@@ -208,7 +208,7 @@ export const prepareBolt11Probe = (payReq, feeLimit) => {
 /**
  * getDisplayNodeName - Given a payment object devise the most appropriate display name.
  *
- * @param  {object} payment Payment
+ * @param {object} payment Payment
  * @returns {string} Display name
  */
 export const getDisplayNodeName = payment => {
@@ -228,7 +228,7 @@ export const getDisplayNodeName = payment => {
 /**
  * errorCodeToMessage - Convert an error code to an error message.
  *
- * @param  {string} code Error code
+ * @param {string} code Error code
  * @returns {string|null} error message
  */
 export const errorCodeToMessage = code => {

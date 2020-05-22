@@ -3,8 +3,8 @@ import get from 'lodash/get'
 /**
  * parseConnectionString - Parse a BTCPay Server style connection string.
  *
- * @param  {string} value Connection string
- * @param  {string} network Network code of config to extract
+ * @param {string} value Connection string
+ * @param {string} network Network code of config to extract
  * @returns {{ host, port, macaroon, cert }} Parsed connection string
  */
 const parseConnectionString = (value, network = 'BTC') => {

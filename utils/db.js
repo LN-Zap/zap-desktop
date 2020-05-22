@@ -1,7 +1,7 @@
 /**
  * getDbName - Derive database name from global config.
  *
- * @param  {*} options Options
+ * @param {*} options Options
  * @returns {string} Database name
  */
 const getDbName = options => {

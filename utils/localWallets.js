@@ -27,8 +27,8 @@ export function getWalletDir(chain, network, wallet = '') {
 /**
  * getLocalWallets - Get a list of local wallets from the filesystem for a given chain/network.
  *
- * @param  {string} chain Chain name
- * @param  {string} network Network name
+ * @param {string} chain Chain name
+ * @param {string} network Network name
  * @returns {Array} List of wallets
  */
 export async function getLocalWallets(chain, network) {
@@ -52,8 +52,8 @@ export async function getLocalWallets(chain, network) {
 /**
  * getAllLocalWallets - Get a list of local wallets from the filesystem.
  *
- * @param  {Array} chains = [] List of chain names
- * @param  {Array} networks = [] List of network names
+ * @param {Array} chains = [] List of chain names
+ * @param {Array} networks = [] List of network names
  * @returns {Array} List of local wallets matching chains and networks
  */
 export async function getAllLocalWallets(chains = [], networks = []) {
@@ -79,9 +79,9 @@ export async function getAllLocalWallets(chains = [], networks = []) {
 /**
  * purgeLocalWallet - Purge a local wallet (triggers a resync).
  *
- * @param  {string} chain Chain name
- * @param  {string} network Network name
- * @param  {string} wallet Wallet name
+ * @param {string} chain Chain name
+ * @param {string} network Network name
+ * @param {string} wallet Wallet name
  * @returns {Promise} Promise
  */
 export async function purgeLocalWallet(chain, network, wallet) {
@@ -93,8 +93,8 @@ export async function purgeLocalWallet(chain, network, wallet) {
 /**
  * purgeAllLocalWallets - Purge all local wallets (triggers a resync).
  *
- * @param  {Array} chains = [] list of chain names
- * @param  {Array} networks = [] list of network names
+ * @param {Array} chains = [] list of chain names
+ * @param {Array} networks = [] list of network names
  * @returns {Promise} Promise
  */
 export async function purgeAllLocalWallets(chains = [], networks = []) {

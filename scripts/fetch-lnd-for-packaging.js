@@ -3,9 +3,9 @@ import { install } from 'lnd-binary'
 /**
  * installLnd - Install lnd for a given platform and architecture.
  *
- * @param  {string} platform Platform
- * @param  {string} arch     Architecture
- * @param  {string} dest     Destination
+ * @param {string} platform Platform
+ * @param {string} arch     Architecture
+ * @param {string} dest     Destination
  * @returns {Promise} resolves after install is complete
  */
 function installLnd(platform, arch, dest) {

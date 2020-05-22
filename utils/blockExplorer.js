@@ -1,8 +1,8 @@
 /**
  * showBlock - Open a block on an external block explorer.
  *
- * @param  {{explorerUrl:string}} network Network info
- * @param  {string} address Address
+ * @param {{explorerUrl:string}} network Network info
+ * @param {string} address Address
  */
 
 const showAddress = (network, address) => {
@@ -12,8 +12,8 @@ const showAddress = (network, address) => {
 /**
  * showTransaction - Open a transaction on an external block explorer.
  *
- * @param  {{explorerUrl:string}} network Network info
- * @param  {string} txid Transaction id
+ * @param {{explorerUrl:string}} network Network info
+ * @param {string} txid Transaction id
  */
 const showTransaction = (network, txid) => {
   window.Zap.openExternal(`${network.explorerUrl}/tx/${txid}`)
@@ -22,8 +22,8 @@ const showTransaction = (network, txid) => {
 /**
  * showBlock - Open a block on an external block explorer.
  *
- * @param  {{explorerUrl:string}} network Network info
- * @param  {string} blockHash Block hash
+ * @param {{explorerUrl:string}} network Network info
+ * @param {string} blockHash Block hash
  */
 const showBlock = (network, blockHash) => {
   window.Zap.openExternal(`${network.explorerUrl}/block/${blockHash}`)
@@ -32,7 +32,7 @@ const showBlock = (network, blockHash) => {
 /**
  * showChannelClosing - Open a channel's closing transaction on an external block explorer.
  *
- * @param  {{closingTxid:string}} channel Channel info
+ * @param {{closingTxid:string}} channel Channel info
  */
 const showChannelClosing = channel => {
   showTransaction(channel.closingTxid)
@@ -41,7 +41,7 @@ const showChannelClosing = channel => {
 /**
  * showChannelPoint - Open a channel's funding transaction on an external block explorer.
  *
- * @param  {{closingTxid:string}} channel Channel info
+ * @param {{closingTxid:string}} channel Channel info
  */
 const showChannelPoint = channel => {
   showTransaction(channel.channel.channelPoint.split(':')[0])

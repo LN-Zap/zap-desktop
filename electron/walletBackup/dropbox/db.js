@@ -72,8 +72,8 @@ async function createClient({ clientId, authRedirectUrl, tokens }) {
   /**
    * apiCall - Wrap api calls to catch errors that are potentially caused with expired/incorrect tokens.
    *
-   * @param  {Function} method Method to call
-   * @param  {...object} args Additional arguments to pass to call the method with
+   * @param {Function} method Method to call
+   * @param {...object} args Additional arguments to pass to call the method with
    * @returns {any} Result of calling the api method
    */
   function apiCall(method, ...args) {

@@ -1,7 +1,7 @@
 /**
  * isFieldValid - Check whether a field is valid or not.
  *
- * @param  {{value, error, asyncError, touched}} fieldState Informed field state.
+ * @param {{value, error, asyncError, touched}} fieldState Informed field state.
  * @returns {boolean} Boolean indicating whether field is valie.
  */
 export const isFieldValid = ({ value, error, asyncError, touched }) => {
@@ -11,7 +11,7 @@ export const isFieldValid = ({ value, error, asyncError, touched }) => {
 /**
  * mapDefaultBorderColor - Determine the most appropriate border color for an input (normal state).
  *
- * @param  {object} props Props
+ * @param {object} props Props
  * @param {object} theme Theme object
  * @returns {string} Color
  */

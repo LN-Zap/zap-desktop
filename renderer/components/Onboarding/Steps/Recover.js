@@ -29,7 +29,7 @@ const Recover = ({ wizardApi, wizardState, setSeed, intl, ...rest }) => {
   /**
    * handlePaste - Parse valid seed from the clipboard and use to set values on all inputs.
    *
-   * @param  {Event} event onPaste event
+   * @param {Event} event onPaste event
    */
   const handlePaste = event => {
     const seedWords = parseSeed(event.clipboardData.getData('text'))

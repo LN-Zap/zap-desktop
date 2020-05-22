@@ -8,9 +8,9 @@ import { themeGet } from '@styled-system/theme-get'
  * makelongshadow - Helper method to create the box-shadow for slider-thumb.
  * This is a hack around the fact that slider-thumb only supports a single color.
  *
- * @param  {string} color Color
- * @param  {string} size  Sioze
- * @param  {number} width Shadow width
+ * @param {string} color Color
+ * @param {string} size  Sioze
+ * @param {number} width Shadow width
  * @returns {string} Shadow css
  */
 function makelongshadow(color, size, width) {

@@ -64,7 +64,7 @@ const composeEnhancers =
 /**
  * configureStore - Configure redux store.
  *
- * @param  {object} initialState Initial state
+ * @param {object} initialState Initial state
  * @returns {object} Configured store
  */
 export const configureStore = initialState => {

@@ -1,7 +1,7 @@
 /**
  * delay - Promisified setTimeout.
  *
- * @param  {number} time Time (ms)
+ * @param {number} time Time (ms)
  * @returns {Promise} Promise that resolves after time ms
  */
 const delay = time => new Promise(resolve => setTimeout(() => resolve(), time))

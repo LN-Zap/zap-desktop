@@ -9,8 +9,8 @@ let window = null
 /**
  * openAboutWindow - Opens the about window.
  *
- * @param  {object} info Window options
- * @param  {string} htmlPath Path to html file to load into the window
+ * @param {object} info Window options
+ * @param {string} htmlPath Path to html file to load into the window
  * @returns {BrowserWindow} About window
  */
 function openAboutWindow(info, htmlPath) {

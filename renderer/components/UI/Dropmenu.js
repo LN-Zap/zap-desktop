@@ -22,7 +22,7 @@ import { DropdownButton } from './Dropdown'
 /**
  * getColor - Get color based on hover state.
  *
- * @param  {*} props Props
+ * @param {*} props Props
  * @returns {string} Color
  */
 function getColor(props) {
@@ -34,7 +34,7 @@ function getColor(props) {
 /**
  * getMutedColor - Get muted color based on hover state.
  *
- * @param  {*} props Props
+ * @param {*} props Props
  * @returns {string} Color
  */
 function getMutedColor(props) {

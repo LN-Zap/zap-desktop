@@ -29,8 +29,8 @@ export const CLOSE_DIALOG = 'CLOSE_DIALOG'
 /**
  * createModalData - Create base data for new modal.
  *
- * @param  {string} type Modal type
- * @param  {object} options Modal options
+ * @param {string} type Modal type
+ * @param {object} options Modal options
  * @returns {object} Base data for new modal
  */
 const createModalData = (type, options) => ({
@@ -46,7 +46,7 @@ const createModalData = (type, options) => ({
 /**
  * openDialog - Open dialog.
  *
- * @param  {string} id Name of modal to open
+ * @param {string} id Name of modal to open
  * @returns {(dispatch:Function) => void} Thunk
  */
 export const openDialog = id => dispatch => {
@@ -59,7 +59,7 @@ export const openDialog = id => dispatch => {
 /**
  * closeDialog - Close specified dialog.
  *
- * @param  {string} id Name of modal to open
+ * @param {string} id Name of modal to open
  * @returns {(dispatch:Function) => void} Thunk
  */
 export const closeDialog = id => dispatch => {
@@ -72,8 +72,8 @@ export const closeDialog = id => dispatch => {
 /**
  * openModal - Open a specific modal.
  *
- * @param  {string} type Name of modal to open
- * @param  {object} [options] Options to apply to the modal
+ * @param {string} type Name of modal to open
+ * @param {object} [options] Options to apply to the modal
  * @returns {(dispatch:Function, getState:Function) => void} Thunk
  */
 export const openModal = (type, options) => (dispatch, getState) => {
@@ -89,7 +89,7 @@ export const openModal = (type, options) => (dispatch, getState) => {
 /**
  * closeModal - Close a specific modal (or the top modal if id is ommitted).
  *
- * @param  {string} id Id modal to close
+ * @param {string} id Id modal to close
  * @returns {object} Action
  */
 export function closeModal(id) {
@@ -102,7 +102,7 @@ export function closeModal(id) {
 /**
  * closeModal - Close a specific modal (or the top modal if id is ommitted).
  *
- * @param  {object} predicate Set of attributes used to find modals to close
+ * @param {object} predicate Set of attributes used to find modals to close
  * @returns {object} Action
  */
 export function closeAllModals(predicate) {
@@ -137,7 +137,7 @@ export function closeAllModals(predicate) {
 /**
  * setModals - The list of current open modals.
  *
- * @param  {Array} modalList List of modals
+ * @param {Array} modalList List of modals
  * @returns {object} Action
  */
 export function setModals(modalList = []) {

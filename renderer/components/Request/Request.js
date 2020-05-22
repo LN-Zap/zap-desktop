@@ -96,7 +96,7 @@ class Request extends React.Component {
   /**
    * onSubmit - Form submit handler.
    *
-   * @param  {object} values submitted form values.
+   * @param {object} values submitted form values.
    */
   onSubmit = async values => {
     const {

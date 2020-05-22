@@ -117,7 +117,7 @@ const handleLndStartError = (e, lndConfig) => {
 /**
  * unsubFromGrpcEvents - Unsubscribe from grpc events.
  *
- * @param  {object} lndGrpc Lnd Grpc instance
+ * @param {object} lndGrpc Lnd Grpc instance
  */
 function unsubFromGrpcEvents(lndGrpc) {
   lndGrpc.removeAllListeners('subscribeInvoices.data')
@@ -138,7 +138,7 @@ function unsubFromGrpcEvents(lndGrpc) {
 /**
  * connectGrpcService - Connect to lnd gRPC service.
  *
- * @param  {object} lndConfig LndConfig object
+ * @param {object} lndConfig LndConfig object
  * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const connectGrpcService = lndConfig => async dispatch => {
@@ -219,7 +219,7 @@ export const startActiveWallet = () => async (dispatch, getState) => {
 /**
  * startLnd - Start lnd with the provided wallet config.
  *
- * @param  {object} wallet Wallet config
+ * @param {object} wallet Wallet config
  * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const startLnd = wallet => async dispatch => {
@@ -496,8 +496,8 @@ export const fetchSeedError = error => dispatch => {
 /**
  * createWallet - Create a new wallet using settings from the onboarding state.
  *
- * @param  {object} options Options
- * @param  {object} options.recover Boolean indicating weather this is a recovery
+ * @param {object} options Options
+ * @param {object} options.recover Boolean indicating weather this is a recovery
  * @returns {(dispatch:Function, getState:Function) => Promise<object>} Thunk
  */
 export const createWallet = ({ recover } = {}) => async (dispatch, getState) => {

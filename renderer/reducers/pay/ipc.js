@@ -18,8 +18,8 @@ import messages from './messages'
 /**
  * lightningPaymentUri - Initiate lightning payment flow.
  *
- * @param  {event} event Event
- * @param  {{ address }} address Address (payment request)
+ * @param {event} event Event
+ * @param {{ address }} address Address (payment request)
  * @returns {(dispatch:Function, getState:Function) => void} Thunk
  */
 export const lightningPaymentUri = (event, { address }) => (dispatch, getState) => {
@@ -60,8 +60,8 @@ export const lightningPaymentUri = (event, { address }) => (dispatch, getState) 
 /**
  * bitcoinPaymentUri - Initiate bitcoin payment flow.
  *
- * @param  {event} event Event
- * @param  {{ address, options }} options Decoded bip21 payment url
+ * @param {event} event Event
+ * @param {{ address, options }} options Decoded bip21 payment url
  * @returns {(dispatch:Function, getState:Function) => void} Thunk
  */
 export const bitcoinPaymentUri = (event, { address, options = {} }) => (dispatch, getState) => {
@@ -82,10 +82,10 @@ export const bitcoinPaymentUri = (event, { address, options = {} }) => (dispatch
 /**
  * lnurlError - IPC handler for lnurlError event.
  *
- * @param  {event} event Event ipc event
- * @param  {object} params { service, reason }
- * @param  {string} params.service lnurl
- * @param  {string} params.reason error reason
+ * @param {event} event Event ipc event
+ * @param {object} params { service, reason }
+ * @param {string} params.service lnurl
+ * @param {string} params.reason error reason
  * @returns {(dispatch:Function) => void} Thunk
  */
 export const lnurlError = (event, { service, reason }) => dispatch => {
@@ -96,11 +96,11 @@ export const lnurlError = (event, { service, reason }) => dispatch => {
 /**
  * lnurlRequest - IPC handler for lnurlRequest event.
  *
- * @param  {event} event Event ipc event
- * @param  {object} params { service, amount, memo }
- * @param  {string} params.service lnurl
- * @param  {number} params.amount ln pr amount
- * @param  {string} params.memo ln pr memo
+ * @param {event} event Event ipc event
+ * @param {object} params { service, amount, memo }
+ * @param {string} params.service lnurl
+ * @param {number} params.amount ln pr amount
+ * @param {string} params.memo ln pr memo
  * @returns {(dispatch:Function) => void} Thunk
  */
 export const lnurlRequest = (event, { service, amount, memo }) => dispatch => {

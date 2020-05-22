@@ -60,8 +60,8 @@ export const initSettings = () => async dispatch => {
 /**
  * putSetting - Save an updated setting.
  *
- * @param  {string} key Key
- * @param  {*} value Value
+ * @param {string} key Key
+ * @param {*} value Value
  * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const putSetting = (key, value) => async dispatch => {
@@ -72,8 +72,8 @@ export const putSetting = (key, value) => async dispatch => {
 /**
  * putConfig - Save a config property.
  *
- * @param  {string} path Config path property to set
- * @param  {*} value Value to set
+ * @param {string} path Config path property to set
+ * @param {*} value Value to set
  * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const putConfig = (path, value) => async (dispatch, getState) => {
@@ -85,7 +85,7 @@ export const putConfig = (path, value) => async (dispatch, getState) => {
 /**
  * saveConfigOverrides - Save config overrides.
  *
- * @param  {object} values Config object that matches the structure of root config.
+ * @param {object} values Config object that matches the structure of root config.
  * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const saveConfigOverrides = values => async (dispatch, getState) => {

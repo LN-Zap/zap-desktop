@@ -77,7 +77,7 @@ export const hooks = {
   /**
    * reading - Inject `wallet` property.
    *
-   * @param  {object} obj [description]
+   * @param {object} obj [description]
    * @returns {object}     [description]
    */
   reading(obj) {
@@ -88,9 +88,9 @@ export const hooks = {
   /**
    * updating - Strip out all unknown properties on update.
    *
-   * @param  {object} modifications Modifications to apply
-   * @param  {string} primKey The primary key of the object being updated
-   * @param  {object} obj Object that is about to be updated
+   * @param {object} modifications Modifications to apply
+   * @param {string} primKey The primary key of the object being updated
+   * @param {object} obj Object that is about to be updated
    * @returns {object} Updates to apply
    */
   updating(modifications, primKey, obj) {
@@ -113,8 +113,8 @@ export const hooks = {
   /**
    * creating - Strip out all unknown properties on create.
    *
-   * @param  {string} primKey [description]
-   * @param  {object} obj     [description]
+   * @param {string} primKey [description]
+   * @param {object} obj     [description]
    */
   creating(primKey, obj) {
     Object.keys(obj).forEach(key => {

@@ -72,7 +72,7 @@ function openTestnetFaucet() {
 /**
  * killNeutrino - Kill Neutrino process.
  *
- * @param  {[string]} signal Signal to send to neutrino process
+ * @param {[string]} signal Signal to send to neutrino process
  * @returns {Promise} Promise that resolves when the neutrino process has been killed
  */
 function killNeutrino(signal) {
@@ -85,7 +85,7 @@ function killNeutrino(signal) {
 /**
  * generateLndConfigFromWallet - Generates an lnd config object from a wallet config.
  *
- * @param  {object} wallet Wallet config
+ * @param {object} wallet Wallet config
  * @returns {object}        Lnd config
  */
 async function generateLndConfigFromWallet(wallet) {

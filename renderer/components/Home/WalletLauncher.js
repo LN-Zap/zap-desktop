@@ -35,7 +35,7 @@ const LNDCONNECT_REGULAR = 'LNDCONNECT_REGULAR'
 /**
  * getLndConnectType - Determine wether an lndconnect uri uses regular or embedded format.
  *
- * @param  {string} lndconnectUri lndconnect url
+ * @param {string} lndconnectUri lndconnect url
  * @returns {'LNDCONNECT_EMBEDDED'|'LNDCONNECT_REGULAR'} lndconnect uri type
  */
 const getLndConnectType = lndconnectUri => {
@@ -48,7 +48,7 @@ const getLndConnectType = lndconnectUri => {
 /**
  * parseBtcPayString - Extract lnd node connection details from a BTCPay Server connecttion string.
  *
- * @param  {string} btcPayString BTCPay Server connecttion string
+ * @param {string} btcPayString BTCPay Server connecttion string
  * @returns {{host, cert, macaroon}} Lnd connection details
  */
 const parseBtcPayString = btcPayString => {
@@ -93,7 +93,7 @@ const autopilotDefaults = {
 /**
  * formatAutopilot - Cleans up autopilot settings if autopilot flag is turned.
  *
- * @param  {object} values Values to format
+ * @param {object} values Values to format
  * @returns {object} Formatted values
  */
 const formatAutopilot = values => {
@@ -129,7 +129,7 @@ const clean = obj => {
 /**
  * prepareValues - Format autopilot, then clean.
  *
- * @param  {object} values Values to prepare
+ * @param {object} values Values to prepare
  * @returns {object} Prepared values
  */
 const prepareValues = values => clean(formatAutopilot({ ...values }))
@@ -137,7 +137,7 @@ const prepareValues = values => clean(formatAutopilot({ ...values }))
 /**
  * formToWalletFormat - Converts form format to db/lnd compatible format.
  *
- * @param  {object} values Values to format to prepare
+ * @param {object} values Values to format to prepare
  * @returns {object} Prepared values
  */
 const formToWalletFormat = values => {
@@ -159,7 +159,7 @@ const formToWalletFormat = values => {
 /**
  * walletToFormFormat - Converts db/lnd  format to form compatible format.
  *
- * @param  {object} values Values to format to prepare
+ * @param {object} values Values to format to prepare
  * @returns {object} Prepared values
  */
 const walletToFormFormat = values => {

@@ -111,7 +111,7 @@ export const putWallet = wallet => async dispatch => {
 /**
  * removeWallet - Remove a wallet config.
  *
- * @param  {object} wallet Wallet config.
+ * @param {object} wallet Wallet config.
  * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const removeWallet = wallet => async dispatch => {

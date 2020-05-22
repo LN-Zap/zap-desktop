@@ -47,7 +47,7 @@ export const TRANSACTION_COMPLETE = 'TRANSACTION_COMPLETE'
 /**
  * decorateTransaction - Decorate transaction object with custom/computed properties.
  *
- * @param  {object} transaction Transaction
+ * @param {object} transaction Transaction
  * @returns {object} Decorated transaction
  */
 const decorateTransaction = transaction => {
@@ -72,7 +72,7 @@ const decorateTransaction = transaction => {
 /**
  * sendTransaction - Store details of sending in progress onchain transaction.
  *
- * @param  {object} data Transaction data
+ * @param {object} data Transaction data
  * @returns {object} Action
  */
 export function sendTransaction(data) {
@@ -149,13 +149,13 @@ export const receiveTransactions = (transactions, updateOnly = false) => (dispat
 /**
  * sendCoins - Send an onchain transaction.
  *
- * @param  {object}  options Options
- * @param  {number}  options.value Number of units to send
- * @param  {string}  options.addr Destination address
- * @param  {string}  options.cryptoUnit Crypto unit that value is denominated in (converted to sats prior to send)
- * @param  {number}  options.targetConf Number of blocks to target for conf time
- * @param  {number}  options.satPerByte Sat per byte fee rate to apply
- * @param  {boolean} options.isCoinSweep Boolean indicating whether this is a coin sweep (will send all funds).
+ * @param {object}  options Options
+ * @param {number}  options.value Number of units to send
+ * @param {string}  options.addr Destination address
+ * @param {string}  options.cryptoUnit Crypto unit that value is denominated in (converted to sats prior to send)
+ * @param {number}  options.targetConf Number of blocks to target for conf time
+ * @param {number}  options.satPerByte Sat per byte fee rate to apply
+ * @param {boolean} options.isCoinSweep Boolean indicating whether this is a coin sweep (will send all funds).
  * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const sendCoins = ({
@@ -196,7 +196,7 @@ export const sendCoins = ({
 /**
  * transactionSuccessful - Success handler for sendCoins.
  *
- * @param  {{ string }} internalId transaction internal id
+ * @param {{ string }} internalId transaction internal id
  * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const transactionSuccessful = ({ internalId }) => async (dispatch, getState) => {
@@ -218,9 +218,9 @@ export const transactionSuccessful = ({ internalId }) => async (dispatch, getSta
 /**
  * transactionFailed - Error handler for sendCoins.
  *
- * @param  {object} details Details
- * @param  {{ string }} details.internalId transaction internal id
- * @param  {{ string }} details.error Error message
+ * @param {object} details Details
+ * @param {{ string }} details.internalId transaction internal id
+ * @param {{ string }} details.error Error message
  * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const transactionFailed = ({ internalId, error }) => async (dispatch, getState) => {
@@ -236,7 +236,7 @@ export const transactionFailed = ({ internalId, error }) => async (dispatch, get
 /**
  * receiveTransactionData - Listener for when a new transaction is pushed from the subscriber.
  *
- * @param  {object} transaction Transaction
+ * @param {object} transaction Transaction
  * @returns {(dispatch:Function, getState:Function) => void} Thunk
  */
 export const receiveTransactionData = transaction => (dispatch, getState) => {

@@ -296,9 +296,9 @@ class ZapGrpc extends EventEmitter {
    * registerSubscription - Register a stream.
    * Provide a mapping between a service and a subscription activation helper method.
    *
-   * @param  {string} key         Key used to identify the subscription.
-   * @param  {string} serviceName Name of service that provides the subscription.
-   * @param  {string} methodName  Name of service methods that activates the subscription.
+   * @param {string} key         Key used to identify the subscription.
+   * @param {string} serviceName Name of service that provides the subscription.
+   * @param {string} methodName  Name of service methods that activates the subscription.
    */
   registerSubscription(key, serviceName, methodName) {
     this.availableSubscriptions[key] = { key, serviceName, methodName }

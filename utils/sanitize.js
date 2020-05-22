@@ -7,8 +7,8 @@ import truncate from './truncate'
  * NOTE: This method takes a rudimentary approach to modifying the object properties that could have unintended
  * side-effects, such as removing prototype data.
  *
- * @param  {*} data sanitize (truncate) object properties
- * @param  {Array} properties list of object properties to sanitize
+ * @param {*} data sanitize (truncate) object properties
+ * @param {Array} properties list of object properties to sanitize
  * @returns {*} cloned object with sanitized properties
  */
 const sanitize = (data, properties = []) => {

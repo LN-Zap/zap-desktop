@@ -19,8 +19,8 @@ export function requestSuggestedNodes() {
 /**
  * requestNodeScores - Fetch BOS node scores.
  *
- * @param  {string} chain Chain name
- * @param  {string} network Network name
+ * @param {string} chain Chain name
+ * @param {string} network Network name
  * @returns {*} BOS node scores processed into a format that lnd heuristics expects
  */
 export function requestNodeScores(chain, network) {
@@ -68,7 +68,7 @@ export function requestFees(options) {
     /**
      * getFee - Get the lowest fee to get in within a given number of target confs.
      *
-     * @param  {number} targetConfs The target number of blocks
+     * @param {number} targetConfs The target number of blocks
      * @returns {number|null} The fee rate in satoshi/byte
      */
     const getFee = targetConfs => {

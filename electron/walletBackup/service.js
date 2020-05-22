@@ -5,7 +5,7 @@ import getBackupService from './serviceFactory'
 /**
  * createBackupService - Create backup service.
  *
- * @param  {object} mainWindow Browser window
+ * @param {object} mainWindow Browser window
  */
 export default function createBackupService(mainWindow) {
   // helper func to send messages to the renderer process

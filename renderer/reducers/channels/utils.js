@@ -7,7 +7,7 @@ import { getNodeDisplayName } from 'reducers/network'
  * getChannelData - Get the channel data from a channel object.
  * If this is a pending channel, the channel data will be stored under the `channel` key.
  *
- * @param  {object} channelObj Channel object
+ * @param {object} channelObj Channel object
  * @returns {object} Channel data
  */
 export const getChannelData = channelObj => channelObj.channel || channelObj
@@ -18,7 +18,7 @@ export const getChannelData = channelObj => channelObj.channel || channelObj
  * due to inconsistent API vals the remote nodes pubkey will be under remotePubkey for active channels and
  * remoteNodePub for pending channels we have.
  *
- * @param  {object} channel Channel object
+ * @param {object} channel Channel object
  * @returns {string} Channel remote pubKey
  */
 export const getRemoteNodePubKey = channel => {
@@ -32,8 +32,8 @@ export const getRemoteNodePubKey = channel => {
  *  - the alias of the node at the other end of the channel
  *  - a shortened public key.
  *
- * @param  {object} channel Channel object
- * @param  {Array} nodes Array of nodes
+ * @param {object} channel Channel object
+ * @param {Array} nodes Array of nodes
  * @returns {string} Channel display name
  */
 export const getDisplayName = (channel, nodes) => {
@@ -46,9 +46,9 @@ export const getDisplayName = (channel, nodes) => {
 /**
  * getStatus - Determine the status of a channel.
  *
- * @param  {object} channelObj Channel object
- * @param  {Array} closingChannelIds List of channel ids that we are in the process of closing
- * @param  {Array} loadingChannelPubKeys List of channel ids that we are in the process of opening
+ * @param {object} channelObj Channel object
+ * @param {Array} closingChannelIds List of channel ids that we are in the process of closing
+ * @param {Array} loadingChannelPubKeys List of channel ids that we are in the process of opening
  * @returns {string} Channel status name
  */
 export const getStatus = (channelObj, closingChannelIds = [], loadingChannelPubKeys = []) => {
@@ -90,7 +90,7 @@ export const getStatus = (channelObj, closingChannelIds = [], loadingChannelPubK
 /**
  * getChannelEffectiveCapacity - Get the effective capacity (local + remote balance) for a channel.
  *
- * @param  {object} channel Channel object
+ * @param {object} channel Channel object
  * @returns {number} Effective capacity
  */
 export const getChannelEffectiveCapacity = channel =>
@@ -101,10 +101,10 @@ export const getChannelEffectiveCapacity = channel =>
 /**
  * decorateChannel - Decorate a channel object with additional calculated properties.
  *
- * @param  {object} channelObj Channel object
- * @param  {Array} nodes Array of node data
- * @param  {Array} closingChannelIds List of channel ids that we are in the process of closing
- * @param  {Array} loadingChannelPubKeys List of channel ids that we are in the process of opening
+ * @param {object} channelObj Channel object
+ * @param {Array} nodes Array of node data
+ * @param {Array} closingChannelIds List of channel ids that we are in the process of closing
+ * @param {Array} loadingChannelPubKeys List of channel ids that we are in the process of opening
  * @returns {object} Decorated channel object
  */
 export const decorateChannel = (channelObj, nodes, closingChannelIds, loadingChannelPubKeys) => {

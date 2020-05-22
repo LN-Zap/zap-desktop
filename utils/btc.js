@@ -10,7 +10,7 @@ const isEmptyAmount = amount => amount === undefined || amount === null || amoun
 /**
  * btcToBits - Convert btc to bits.
  *
- * @param  {string|number} btc Amount in btc
+ * @param {string|number} btc Amount in btc
  * @returns {string} Amount in bits
  */
 export function btcToBits(btc) {
@@ -24,7 +24,7 @@ export function btcToBits(btc) {
 /**
  * btcToSatoshis - Convert btc to satoshis.
  *
- * @param  {string|number} btc Amount in btc
+ * @param {string|number} btc Amount in btc
  * @returns {string} Amount in satoshis
  */
 export function btcToSatoshis(btc) {
@@ -38,7 +38,7 @@ export function btcToSatoshis(btc) {
 /**
  * btcToMillisatoshis - Convert btc to millisatoshis.
  *
- * @param  {string|number} btc Amount in btc
+ * @param {string|number} btc Amount in btc
  * @returns {string} Amount in millisatoshis
  */
 export function btcToMillisatoshis(btc) {
@@ -52,8 +52,8 @@ export function btcToMillisatoshis(btc) {
 /**
  * btcToFiat - Convert btc to fiat.
  *
- * @param  {string|number} btc Amount in btc
- * @param  {string|number} price Exchange rate
+ * @param {string|number} btc Amount in btc
+ * @param {string|number} price Exchange rate
  * @returns {string} Amount in fiat
  */
 export function btcToFiat(btc, price) {
@@ -72,7 +72,7 @@ export function btcToFiat(btc, price) {
 /**
  * bitsToBtc - Convert bits to btc.
  *
- * @param  {string|number} bits Amount in bits
+ * @param {string|number} bits Amount in bits
  * @returns {string} Amount in btc
  */
 export function bitsToBtc(bits) {
@@ -85,7 +85,7 @@ export function bitsToBtc(bits) {
 /**
  * bitsToSatoshis - Convert bits to satoshis.
  *
- * @param  {string|number} bits Amount in bits
+ * @param {string|number} bits Amount in bits
  * @returns {string} Amount in satoshis
  */
 export function bitsToSatoshis(bits) {
@@ -98,7 +98,7 @@ export function bitsToSatoshis(bits) {
 /**
  * bitsToMillisatoshis - Convert bits to msats.
  *
- * @param  {string|number} bits Amount in msats
+ * @param {string|number} bits Amount in msats
  * @returns {string} Amount in msats
  */
 export function bitsToMillisatoshis(bits) {
@@ -112,8 +112,8 @@ export function bitsToMillisatoshis(bits) {
 /**
  * bitsToFiat - Convert bits to fiat.
  *
- * @param  {string|number} bits Amount in bits
- * @param  {string|number} price Exchange rate
+ * @param {string|number} bits Amount in bits
+ * @param {string|number} price Exchange rate
  * @returns {string} Amount in fiat
  */
 export function bitsToFiat(bits, price) {
@@ -130,7 +130,7 @@ export function bitsToFiat(bits, price) {
 /**
  * satoshisToBtc - Convert satoshis to btc.
  *
- * @param  {string|number} satoshis Amount in satoshis
+ * @param {string|number} satoshis Amount in satoshis
  * @returns {string} Amount in btc
  */
 export function satoshisToBtc(satoshis) {
@@ -143,7 +143,7 @@ export function satoshisToBtc(satoshis) {
 /**
  * satoshisToBits - Convert satoshis to bits.
  *
- * @param  {string|number} satoshis Amount in satoshis
+ * @param {string|number} satoshis Amount in satoshis
  * @returns {string} Amount in bits
  */
 export function satoshisToBits(satoshis) {
@@ -156,7 +156,7 @@ export function satoshisToBits(satoshis) {
 /**
  * satoshisToMillisatoshis - Convert satoshis to msats.
  *
- * @param  {string|number} satoshis Amount in satoshis
+ * @param {string|number} satoshis Amount in satoshis
  * @returns {string} Amount in msats
  */
 export function satoshisToMillisatoshis(satoshis) {
@@ -169,8 +169,8 @@ export function satoshisToMillisatoshis(satoshis) {
 /**
  * satoshisToFiat - convert satoshis to fiat.
  *
- * @param  {string|number} satoshis Amount in satoshis
- * @param  {string|number} price Exchange rate
+ * @param {string|number} satoshis Amount in satoshis
+ * @param {string|number} price Exchange rate
  * @returns {string} Amount in fiat
  */
 export function satoshisToFiat(satoshis, price) {
@@ -187,7 +187,7 @@ export function satoshisToFiat(satoshis, price) {
 /**
  * millisatoshisToBtc - Convert msats to btc.
  *
- * @param  {string|number} msats Amount in msats
+ * @param {string|number} msats Amount in msats
  * @returns {string} Amount in btc
  */
 export function millisatoshisToBtc(msats) {
@@ -200,7 +200,7 @@ export function millisatoshisToBtc(msats) {
 /**
  * millisatoshisToBits - Convert msats to bits.
  *
- * @param  {string|number} msats Amount in msats
+ * @param {string|number} msats Amount in msats
  * @returns {string} Amount in bits
  */
 export function millisatoshisToBits(msats) {
@@ -213,7 +213,7 @@ export function millisatoshisToBits(msats) {
 /**
  * millisatoshisToSatoshis - Convert msats to satoshis.
  *
- * @param  {string|number} msats Amount in msats
+ * @param {string|number} msats Amount in msats
  * @returns {string} Amount in satoshis
  */
 export function millisatoshisToSatoshis(msats) {
@@ -226,8 +226,8 @@ export function millisatoshisToSatoshis(msats) {
 /**
  * millisatoshisToFiat - convert msats to fiat.
  *
- * @param  {string|number} msats Amount in msats
- * @param  {string|number} price Exchange rate
+ * @param {string|number} msats Amount in msats
+ * @param {string|number} price Exchange rate
  * @returns {string} Amount in fiat
  */
 export function millisatoshisToFiat(msats, price) {
@@ -244,8 +244,8 @@ export function millisatoshisToFiat(msats, price) {
 /**
  * fiatToBtc - Convert fiat to btc.
  *
- * @param  {string|number} fiat Amount in fiat
- * @param  {string|number} price Exchange rate
+ * @param {string|number} fiat Amount in fiat
+ * @param {string|number} price Exchange rate
  * @returns {string} Amount in btc
  */
 export function fiatToBtc(fiat, price) {
@@ -259,8 +259,8 @@ export function fiatToBtc(fiat, price) {
 /**
  * fiatToBtc - Convert fiat to bits.
  *
- * @param  {string|number} fiat Amount in fiat
- * @param  {string|number} price Exchange rate
+ * @param {string|number} fiat Amount in fiat
+ * @param {string|number} price Exchange rate
  * @returns {string} Amount in bits
  */
 export function fiatToBits(fiat, price) {
@@ -271,8 +271,8 @@ export function fiatToBits(fiat, price) {
 /**
  * fiatToBtc - Convert fiat to satoshis.
  *
- * @param  {string|number} fiat Amount in fiat
- * @param  {string|number} price Exchange rate
+ * @param {string|number} fiat Amount in fiat
+ * @param {string|number} price Exchange rate
  * @returns {string} Amount in satoshis
  */
 export function fiatToSatoshis(fiat, price) {
@@ -283,8 +283,8 @@ export function fiatToSatoshis(fiat, price) {
 /**
  * fiatToBtc - Convert fiat to msats.
  *
- * @param  {string|number} fiat Amount in fiat
- * @param  {string|number} price Exchange rate
+ * @param {string|number} fiat Amount in fiat
+ * @param {string|number} price Exchange rate
  * @returns {string} Amount in msats
  */
 export function fiatToMilliSatoshis(fiat, price) {
@@ -295,10 +295,10 @@ export function fiatToMilliSatoshis(fiat, price) {
 /**
  * convert - Convert between units.
  *
- * @param  {'btc|bits|sats|msats|fiat'} from Base unit
- * @param  {'btc|bits|sats|msats|fiat'} to Target unit
- * @param  {string|number} amount Amount in base unit
- * @param  {string|number} price Exchange rate (used for fiat conversions)
+ * @param {'btc|bits|sats|msats|fiat'} from Base unit
+ * @param {'btc|bits|sats|msats|fiat'} to Target unit
+ * @param {string|number} amount Amount in base unit
+ * @param {string|number} price Exchange rate (used for fiat conversions)
  * @returns {string} Amount in target unit
  */
 export function convert(from, to, amount, price) {

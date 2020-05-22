@@ -28,8 +28,8 @@ export const UPDATE_NODE_DATA = 'UPDATE_NODE_DATA'
  * mergeNodeUpdate - Merge node update into the state.
  * Updates existing entry or adds to the end of the list.
  *
- * @param  {object} state State
- * @param  {object} nodeData Node data
+ * @param {object} state State
+ * @param {object} nodeData Node data
  * @returns {object} Updated state
  */
 const mergeNodeUpdates = (state, nodeData) => {
@@ -51,7 +51,7 @@ const mergeNodeUpdates = (state, nodeData) => {
  * getNodeDisplayName - Get display name for a node.
  * Use alias if set, otherwise use a truncated version of the node pubkey.
  *
- * @param  {object} node Node
+ * @param {object} node Node
  * @returns {string} Display name
  */
 export const getNodeDisplayName = node => {
@@ -70,7 +70,7 @@ export const getNodeDisplayName = node => {
  * updateNodeData - Update node data
  * Debounced to reduce frequency of state changes.
  *
- * @param  {Array} data List of nodes to update
+ * @param {Array} data List of nodes to update
  * @returns {string} Display name
  */
 export function updateNodeData(data) {

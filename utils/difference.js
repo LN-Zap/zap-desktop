@@ -5,8 +5,8 @@ import isObject from '@zap/utils/isObject'
 /**
  * Deep diff between two object, using lodash
  *
- * @param  {object} object Object compared
- * @param  {object} base   Object to compare with
+ * @param {object} object Object compared
+ * @param {object} base   Object to compare with
  * @returns {object}        Return a new object who represent the diff
  */
 const difference = (object, base) => {

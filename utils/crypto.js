@@ -53,8 +53,8 @@ export const decodePayReq = (payReq, addDefaults = true) => {
 /**
  * getTag = Get tag data for `tagName` from a decoded bolt11 invoice.
  *
- * @param  {string|object} invoice Payment request or decoded bolt11 invoice
- * @param  {string} tagName Tag to fetch
+ * @param {string|object} invoice Payment request or decoded bolt11 invoice
+ * @param {string} tagName Tag to fetch
  * @returns {*|null} Tag data or null if not found
  */
 export const getTag = (invoice, tagName) => {

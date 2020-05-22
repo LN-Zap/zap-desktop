@@ -36,7 +36,7 @@ class ZapController {
   /**
    * init - Initialize the controller.
    *
-   * @param  {[object]} options Options to pass through to the renderer
+   * @param {[object]} options Options to pass through to the renderer
    */
   init(options) {
     // Load the application into the main window.
@@ -63,7 +63,7 @@ class ZapController {
   /**
    * initApp - Initialise the app.
    *
-   * @param  {[object]} options Options to pass through to the renderer
+   * @param {[object]} options Options to pass through to the renderer
    */
   initApp(options) {
     mainLog.debug('initApp...')
@@ -96,8 +96,8 @@ class ZapController {
   /**
    * sendMessage - Send a message to the main window.
    *
-   * @param  {string} msg message to send.
-   * @param  {object} data additional data to accompany the message.
+   * @param {string} msg message to send.
+   * @param {object} data additional data to accompany the message.
    */
   sendMessage(msg, data) {
     if (this.mainWindow) {

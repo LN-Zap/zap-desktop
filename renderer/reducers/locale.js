@@ -77,7 +77,7 @@ export const localeSelectors = {
 /**
  * localeReducer - Locale reducer.
  *
- * @param  {object} state = initialState Initial state
+ * @param {object} state = initialState Initial state
  * @returns {object} Next state
  */
 export default function localeReducer(state = translations) {

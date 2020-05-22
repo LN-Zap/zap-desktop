@@ -14,7 +14,7 @@ export default class Node {
   /**
    * getCurrentAddress - Get current address of a given type.
    *
-   * @param  {string} type type of address to fetch.
+   * @param {string} type type of address to fetch.
    * @returns {string} current address of requested type, if one exists.
    */
   getCurrentAddress(type) {
@@ -24,8 +24,8 @@ export default class Node {
   /**
    * setCurrentAddress - Set current address of a given type.
    *
-   * @param  {string} type type of address to save.
-   * @param  {string} address address to save.
+   * @param {string} type type of address to save.
+   * @param {string} address address to save.
    * @returns {Node} updated node instance.
    */
   setCurrentAddress(type, address) {

@@ -5,7 +5,7 @@ import createCRUD from './ipcCRUD'
 /**
  * createStorageService - Create secure storage service.
  *
- * @param  {object} mainWindow Browser window
+ * @param {object} mainWindow Browser window
  */
 export default function createStorageService(mainWindow) {
   const storage = createStorage(config.secureStorage.namespace)

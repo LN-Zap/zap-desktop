@@ -42,7 +42,7 @@ export const UPDATE_INVOICE = 'UPDATE_INVOICE'
 /**
  * decorateInvoice - Decorate invoice object with custom/computed properties.
  *
- * @param  {object} invoice Invoice
+ * @param {object} invoice Invoice
  * @returns {object} Decorated invoice
  */
 const decorateInvoice = invoice => {

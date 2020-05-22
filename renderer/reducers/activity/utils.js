@@ -19,7 +19,7 @@ export const months = [
 /**
  * returnTimestamp - Returns invoice, payment or transaction timestamp.
  *
- * @param  {Object<string, any>} activity Activity item
+ * @param {Object<string, any>} activity Activity item
  * @returns {number} Timestamp
  */
 export const returnTimestamp = activity => {
@@ -51,7 +51,7 @@ export const addDate = entry => {
 /**
  * propMatches - Check whether a prop exists and contains a given search string.
  *
- * @param  {string}  prop Prop name
+ * @param {string}  prop Prop name
  * @returns {boolean} Boolean indicating if the prop was found and contains the search string
  */
 export const propMatches = function propMatches(prop) {
@@ -91,8 +91,8 @@ export function groupActivity(data) {
 /**
  * applySearch - Filter activity list by checking various properties against a given search string.
  *
- * @param  {any[]}  data Activity item list
- * @param  {string} searchTextSelector Search text
+ * @param {any[]}  data Activity item list
+ * @param {string} searchTextSelector Search text
  * @returns {any[]}  Filtered activity list
  */
 export const applySearch = (data, searchTextSelector) => {
@@ -126,8 +126,8 @@ export const applySearch = (data, searchTextSelector) => {
 /**
  * prepareData - Filter dataset with search criteria.
  *
- * @param  {any[]}  data Activity item list
- * @param  {string} searchText Search text
+ * @param {any[]}  data Activity item list
+ * @param {string} searchText Search text
  * @returns {any[]} Filtered dataset
  */
 export const prepareData = (data, searchText) => {
