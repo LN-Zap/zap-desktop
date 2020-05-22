@@ -9,7 +9,7 @@ import { putConfig, settingsSelectors } from './settings'
 
 /**
  * @typedef State
- * @property {Object.<string, any>} themes Themes.
+ * @property {object.<string, any>} themes Themes.
  */
 
 /** @type {State} */

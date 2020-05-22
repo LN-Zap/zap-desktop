@@ -19,7 +19,7 @@ export const months = [
 /**
  * returnTimestamp - Returns invoice, payment or transaction timestamp.
  *
- * @param {Object<string, any>} activity Activity item
+ * @param {object<string, any>} activity Activity item
  * @returns {number} Timestamp
  */
 export const returnTimestamp = activity => {
@@ -38,8 +38,8 @@ export const returnTimestamp = activity => {
 /**
  * addDate - Decorates activity entry with date and timestamp fields.
  *
- * @param {Object<string, any>} entry Activity entry
- * @returns {Object<string, any>} decorated activity entry
+ * @param {object<string, any>} entry Activity entry
+ * @returns {object<string, any>} decorated activity entry
  */
 export const addDate = entry => {
   const timestamp = returnTimestamp(entry)

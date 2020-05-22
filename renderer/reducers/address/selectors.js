@@ -9,7 +9,7 @@ import { settingsSelectors } from '../settings'
  * currentConfigSelector - Current config.
  *
  * @param {State} state Redux state
- * @returns {Object<string, any>} Config.
+ * @returns {object<string, any>} Config.
  */
 export const currentConfigSelector = state => settingsSelectors.currentConfig(state)
 
@@ -17,7 +17,7 @@ export const currentConfigSelector = state => settingsSelectors.currentConfig(st
  * addressesLoadingSelector - Details of addresses loading.
  *
  * @param {State} state Redux state
- * @returns {Object<string, boolean>} Details of address that are loading
+ * @returns {object<string, boolean>} Details of address that are loading
  */
 export const addressesLoadingSelector = state => state.address.addressesLoading
 
@@ -25,7 +25,7 @@ export const addressesLoadingSelector = state => state.address.addressesLoading
  * currentAddresses - Current addresses.
  *
  * @param {State} state Redux state
- * @returns {Object<string, string|null>} List of current addresses
+ * @returns {object<string, string|null>} List of current addresses
  */
 export const currentAddresses = state => state.address.addresses
 
