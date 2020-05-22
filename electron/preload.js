@@ -27,6 +27,7 @@ const WHITELISTED_DOMAINS = [
   'blockstream.info',
   'github.com',
   'coinfaucet.eu',
+  'docs.zaphq.io',
   'live.blockcypher.com',
   'ln-zap.github.io',
   'testnet.smartbit.com.au',
