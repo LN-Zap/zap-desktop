@@ -1,24 +1,54 @@
 import { createSelector } from 'reselect'
 import { settingsSelectors } from '../settings'
 
-export const addressesLoading = state => state.address.addressesLoading
+/**
+ * @typedef {import('../index').State} State
+ */
+
+/**
+ * currentConfigSelector - Current config.
+ *
+ * @param {State} state Redux state
+ * @returns {Object<string, any>} Config.
+ */
+export const currentConfigSelector = state => settingsSelectors.currentConfig(state)
+
+/**
+ * addressesLoadingSelector - Details of addresses loading.
+ *
+ * @param {State} state Redux state
+ * @returns {Object<string, boolean>} Details of address that are loading
+ */
+export const addressesLoadingSelector = state => state.address.addressesLoading
+
+/**
+ * currentAddresses - Current addresses.
+ *
+ * @param {State} state Redux state
+ * @returns {Object<string, string|null>} List of current addresses
+ */
 export const currentAddresses = state => state.address.addresses
-export const currentConfig = state => settingsSelectors.currentConfig(state)
+
+/**
+ * currentAddress - Current address of default address type.
+ */
 export const currentAddress = createSelector(
   currentAddresses,
-  currentConfig,
+  currentConfigSelector,
   (adresses, config) => adresses[config.address]
 )
+
+/**
+ * isAddressLoading - Boolean indicating if default address type is loading.
+ */
 export const isAddressLoading = createSelector(
-  addressesLoading,
-  currentConfig,
+  addressesLoadingSelector,
+  currentConfigSelector,
   (adresses, config) => adresses[config.address]
 )
 
 export default {
-  addressesLoading,
-  currentAddress,
   currentAddresses,
-  currentConfig,
   isAddressLoading,
+  currentAddress,
 }

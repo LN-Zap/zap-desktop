@@ -19,8 +19,8 @@ export const months = [
 /**
  * returnTimestamp - Returns invoice, payment or transaction timestamp.
  *
- * @param  {object} activity Activity item
- * @returns {string} Timestamp
+ * @param  {Object<string, any>} activity Activity item
+ * @returns {number} Timestamp
  */
 export const returnTimestamp = activity => {
   switch (activity.type) {
@@ -38,12 +38,12 @@ export const returnTimestamp = activity => {
 /**
  * addDate - Decorates activity entry with date and timestamp fields.
  *
- * @param {object} entry Activity entry
- * @returns {object} decorated activity entry
+ * @param {Object<string, any>} entry Activity entry
+ * @returns {Object<string, any>} decorated activity entry
  */
 export const addDate = entry => {
   const timestamp = returnTimestamp(entry)
-  const d = new Date(timestamp * 1000)
+  const d = new Date(Number(timestamp) * 1000)
   const date = d.getDate()
   return { ...entry, date: `${months[d.getMonth()]} ${date}, ${d.getFullYear()}`, timestamp }
 }
@@ -62,8 +62,8 @@ export const propMatches = function propMatches(prop) {
 /**
  * groupAll - Sorts data by date and inserts grouping titles.
  *
- * @param {Array} data Items to group
- * @returns {Array} Groups items
+ * @param {any[]} data Items to group
+ * @returns {any[]} Grouped items
  */
 export function groupActivity(data) {
   // according too https://stackoverflow.com/a/11252167/3509860
@@ -91,9 +91,9 @@ export function groupActivity(data) {
 /**
  * applySearch - Filter activity list by checking various properties against a given search string.
  *
- * @param  {Array}  data Activity item list
+ * @param  {any[]}  data Activity item list
  * @param  {string} searchTextSelector Search text
- * @returns {Array}  Filtered activity list
+ * @returns {any[]}  Filtered activity list
  */
 export const applySearch = (data, searchTextSelector) => {
   if (!searchTextSelector) {
@@ -126,9 +126,9 @@ export const applySearch = (data, searchTextSelector) => {
 /**
  * prepareData - Filter dataset with search criteria.
  *
- * @param  {Array}  data Activity item list
+ * @param  {any[]}  data Activity item list
  * @param  {string} searchText Search text
- * @returns {Array} Filtered dataset
+ * @returns {any[]} Filtered dataset
  */
 export const prepareData = (data, searchText) => {
   return groupActivity(applySearch(data, searchText))

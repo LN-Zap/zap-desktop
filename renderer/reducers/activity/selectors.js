@@ -9,16 +9,50 @@ import { invoiceSelectors } from 'reducers/invoice'
 import { addDate, prepareData } from './utils'
 import { defaultFilter } from './constants'
 
+/**
+ * paymentsSelector - Payments.
+ *
+ * @param {State} state redux state
+ * @returns {Object<string, any>[]} List of payments.
+ */
 const paymentsSelector = state => paymentSelectors.payments(state)
+
+/**
+ * paymentsSendingSelector - Payments sending.
+ *
+ * @param {State} state Redux state
+ * @returns {Object<string, any>[]} List of payments sending
+ */
 const paymentsSendingSelector = state => paymentSelectors.paymentsSending(state)
+
+/**
+ * invoicesSelector - Invoice.
+ *
+ * @param {State} state Redux state
+ * @returns {Object<string, any>[]} List of invoices
+ */
 const invoicesSelector = state => invoiceSelectors.invoices(state)
+
+/**
+ * invoicesSelector - Transactions.
+ *
+ * @param {State} state Redux state
+ * @returns {Object<string, any>[]} List of transactions
+ */
 const transactionsSelector = state => transactionsSelectors.transactions(state)
+
+/**
+ * invoicesSelector - Transactions.
+ *
+ * @param {State} state Redux state
+ * @returns {Object<string, any>[]} List of transactions sending
+ */
 const transactionsSendingSelector = state => transactionsSelectors.transactionsSending(state)
 
 /**
  * filter - Activity filter.
  *
- * @param  {State} state redux state
+ * @param {State} state Redux state
  * @returns {Set<string>} Current activity filter
  */
 export const filter = state => state.activity.filter
@@ -26,7 +60,7 @@ export const filter = state => state.activity.filter
 /**
  * hasNextPage - Activity pagination more state.
  *
- * @param  {State} state redux state
+ * @param {State} state Redux state
  * @returns {boolean} Boolean indicating if there are more pages of activity data to paginate
  */
 export const hasNextPage = state => state.activity.hasNextPage
@@ -34,15 +68,15 @@ export const hasNextPage = state => state.activity.hasNextPage
 /**
  * filters - List of activity filters.
  *
- * @param  {State} state redux state
- * @returns {object[]}  List of activity filters
+ * @param {State} state Redux state
+ * @returns {Object<string, any>[]}  List of activity filters
  */
 export const filters = state => state.activity.filters
 
 /**
  * searchText - Activity search text.
  *
- * @param  {State} state redux state
+ * @param {State} state Redux state
  * @returns {string|null} Current activity search text
  */
 export const searchText = state => state.activity.searchText
@@ -50,7 +84,7 @@ export const searchText = state => state.activity.searchText
 /**
  * modalItemType - Item type of currently active activity modal.
  *
- * @param  {State} state redux state
+ * @param {State} state Redux state
  * @returns {string|null} Item type of currently active activity modal
  */
 export const modalItemType = state => state.activity.modal.itemType
@@ -58,7 +92,7 @@ export const modalItemType = state => state.activity.modal.itemType
 /**
  * modalItemId - Id of currently active activity modal.
  *
- * @param  {State} state redux state
+ * @param {State} state Redux state
  * @returns {string|null} Id of currently active activity modal
  */
 export const modalItemId = state => state.activity.modal.itemId
@@ -66,7 +100,7 @@ export const modalItemId = state => state.activity.modal.itemId
 /**
  * errorDialogDetails - Activity error dialog details.
  *
- * @param  {State} state redux state
+ * @param {State} state Redux state
  * @returns {Error|null} Error dialog details
  */
 export const errorDialogDetails = state => state.activity.errorDialogDetails

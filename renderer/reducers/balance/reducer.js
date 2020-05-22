@@ -9,6 +9,19 @@ const { FETCH_BALANCE, FETCH_BALANCE_SUCCESS, FETCH_BALANCE_FAILURE } = constant
 // Initial State
 // ------------------------------------
 
+/**
+ * @typedef State
+ * @property {boolean} isBalanceLoading Boolean indicating if balances are loading.
+ * @property {string|null} walletBalance Total wallet balance.
+ * @property {string|null} walletBalanceConfirmed Confirmed wallet balance.
+ * @property {string|null} walletBalanceUnconfirmed Unconfirmed wallet balance.
+ * @property {string|null} channelBalance Total channel balance.
+ * @property {string|null} channelBalanceConfirmed Confirmed channel balance.
+ * @property {string|null} channelBalancePending Pending channel balance.
+ * @property {Error|null} fetchBalanceError Balance fetching error.
+ */
+
+/** @type {State} */
 const initialState = {
   isBalanceLoading: false,
   walletBalance: null,

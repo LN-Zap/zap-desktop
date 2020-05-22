@@ -38,6 +38,7 @@ import backup from './backup'
  * @property {import('./account').State} account Account reducer.
  * @property {import('./activity').State} activity Activity reducer.
  * @property {import('./address').State} address Address reducer.
+ * @property {import('./balance').State} balance Balance reducer.
  */
 
 /** @type {State} */
