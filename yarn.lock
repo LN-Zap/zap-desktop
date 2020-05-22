@@ -1291,11 +1291,12 @@
   resolved "https://registry.yarnpkg.com/@formatjs/intl-utils/-/intl-utils-2.2.4.tgz#fe62a96799d1f7dbe621fd38a4bd2e5a6a16cb0e"
   integrity sha512-83fsJywew0o9wQsW3VuEp33HRiFd0qbQDyFFnwZCwk59eLZ33CtKyJ5ofKMrU2KK6hk1zaIdzisrZeoNfmI3Tw==
 
-"@grpc/grpc-js@1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.0.3.tgz#7fa2ba293ccc1e91b24074c2628c8c68336e18c4"
-  integrity sha512-JKV3f5Bv2TZxK6eJSB9EarsZrnLxrvcFNwI9goq0YRXa3S6NNoCSnI3cG3lkXVIJ03Wng1WXe76kc2JQtRe7AQ==
+"@grpc/grpc-js@1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.0.4.tgz#a858bca10ee1da24291f54931656bd5877686a55"
+  integrity sha512-Qawt6HUrEmljQMPWnLnIXpcjelmtIAydi3M9awiG02WWJ1CmIvFEx4IOC1EsWUWUlabOGksRbpfvoIeZKFTNXw==
   dependencies:
+    google-auth-library "^6.0.0"
     semver "^6.2.0"
 
 "@hot-loader/react-dom@16.13.0":
@@ -11895,12 +11896,12 @@ lnd-binary@0.3.16:
     "true-case-path" "^2.2.1"
     unzip-stream "^0.3.0"
 
-lnd-grpc@0.4.1:
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.4.1.tgz#29ca51c01ce0f8447cfe7f2d6cf157e453f7f130"
-  integrity sha512-1XGPpAc0jFJeAeFp7pZg31Y3G1AAQJWidSdh855xzNYgKbkioG+U5Kk3KMyRk/VSl2hGi9o11zgAhv2sC8Xe7A==
+lnd-grpc@0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.4.3.tgz#9b20fb158dc3e28548c9a4e1984febee719042b9"
+  integrity sha512-cByIjaCV0OiJU1jIh/iOOOUTACcSIMDHzoXK6rmmhSBKeY9vjRw6W4oL639THEiBkbqFGjT9GYyHZLPe75Q/kw==
   dependencies:
-    "@grpc/grpc-js" "1.0.3"
+    "@grpc/grpc-js" "1.0.4"
     "@ln-zap/proto-loader" "0.5.4"
     debug "4.1.1"
     get-port "5.1.1"
