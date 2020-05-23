@@ -6,7 +6,6 @@ Snapshot Diff:
 + Second value
 
   Object {
-    "initAccountError": null,
     "isAccountLoaded": false,
 -   "isAccountLoading": false,
 +   "isAccountLoading": true,
@@ -19,19 +18,7 @@ Snapshot Diff:
 
 exports[`reducers accountReducer should handle INIT_ACCOUNT_FAILURE 1`] = `
 Snapshot Diff:
-- First value
-+ Second value
-
-  Object {
--   "initAccountError": null,
-+   "initAccountError": "some error",
-    "isAccountLoaded": false,
-    "isAccountLoading": false,
-    "isLoggedIn": false,
-    "isLoggingIn": false,
-    "isPasswordEnabled": null,
-    "loginError": null,
-  }
+Compared values have no visual difference.
 `;
 
 exports[`reducers accountReducer should handle INIT_ACCOUNT_SUCCESS 1`] = `
@@ -40,7 +27,6 @@ Snapshot Diff:
 + Second value
 
   Object {
-    "initAccountError": null,
 -   "isAccountLoaded": false,
 +   "isAccountLoaded": true,
     "isAccountLoading": false,
@@ -57,7 +43,6 @@ Snapshot Diff:
 + Second value
 
   Object {
-    "initAccountError": null,
     "isAccountLoaded": false,
     "isAccountLoading": false,
     "isLoggedIn": false,
@@ -79,7 +64,6 @@ Snapshot Diff:
 + Second value
 
   Object {
-    "initAccountError": null,
     "isAccountLoaded": false,
     "isAccountLoading": false,
     "isLoggedIn": false,
@@ -96,7 +80,6 @@ Snapshot Diff:
 + Second value
 
   Object {
-    "initAccountError": null,
     "isAccountLoaded": false,
     "isAccountLoading": false,
 -   "isLoggedIn": false,
@@ -109,7 +92,6 @@ Snapshot Diff:
 
 exports[`reducers accountReducer should handle initial state 1`] = `
 Object {
-  "initAccountError": null,
   "isAccountLoaded": false,
   "isAccountLoading": false,
   "isLoggedIn": false,
