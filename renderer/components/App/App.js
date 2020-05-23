@@ -30,8 +30,9 @@ const App = ({
   modals,
   redirectPayReq,
   updateAutopilotNodeScores,
-  fetchActivityHistory,
+  initActivityHistory,
   setIsWalletOpen,
+  fetchDescribeNetwork,
   fetchPeers,
   fetchTransactions,
   setModals,
@@ -51,8 +52,8 @@ const App = ({
      * node data quite frequently but as time goes on the frequency is reduced to a max of PEERS_MAX_REFETCH_INTERVAL
      */
     appScheduler.addTask({
-      task: fetchPeers,
-      taskId: 'fetchPeers',
+      task: () => fetchDescribeNetwork() && fetchPeers(),
+      taskId: 'fetchNetworkData',
       baseDelay: PEERS_INITIAL_REFETCH_INTERVAL,
       maxDelay: PEERS_MAX_REFETCH_INTERVAL,
       backoff: PEERS_REFETCH_BACKOFF_SCHEDULE,
@@ -73,15 +74,17 @@ const App = ({
     return () => {
       appScheduler.removeAllTasks()
     }
-  }, [fetchPeers, fetchTransactions, updateAutopilotNodeScores])
+  }, [fetchDescribeNetwork, fetchPeers, fetchTransactions, updateAutopilotNodeScores])
 
   useEffect(() => {
     // Set wallet open state.
     setIsWalletOpen(true)
     // fetch data from lnd.
-    fetchActivityHistory()
+    initActivityHistory()
     // fetch node info.
     fetchPeers()
+    // fetch network info
+    fetchDescribeNetwork()
     // Update autopilot node scores.
     updateAutopilotNodeScores()
     fetchSuggestedNodes()
@@ -93,7 +96,8 @@ const App = ({
       finishLnurlWithdrawal()
     }
   }, [
-    fetchActivityHistory,
+    initActivityHistory,
+    fetchDescribeNetwork,
     fetchPeers,
     fetchSuggestedNodes,
     initBackupService,
@@ -128,11 +132,12 @@ const App = ({
 }
 
 App.propTypes = {
-  fetchActivityHistory: PropTypes.func.isRequired,
+  fetchDescribeNetwork: PropTypes.func.isRequired,
   fetchPeers: PropTypes.func.isRequired,
   fetchSuggestedNodes: PropTypes.func.isRequired,
   fetchTransactions: PropTypes.func.isRequired,
   finishLnurlWithdrawal: PropTypes.func.isRequired,
+  initActivityHistory: PropTypes.func.isRequired,
   initBackupService: PropTypes.func.isRequired,
   initTickers: PropTypes.func.isRequired,
   isAppReady: PropTypes.bool.isRequired,

@@ -1,9 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { fetchPeers } from 'reducers/peers'
+import { fetchDescribeNetwork } from 'reducers/network'
 import { setIsWalletOpen } from 'reducers/wallet'
 import { updateAutopilotNodeScores } from 'reducers/autopilot'
-import { fetchActivityHistory } from 'reducers/activity'
+import { initActivityHistory } from 'reducers/activity'
 import { fetchTransactions } from 'reducers/transaction'
 import { appSelectors } from 'reducers/app'
 import { finishLnurlWithdrawal, paySelectors } from 'reducers/pay'
@@ -24,9 +25,10 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
+  fetchDescribeNetwork,
   fetchPeers,
   updateAutopilotNodeScores,
-  fetchActivityHistory,
+  initActivityHistory,
   setIsWalletOpen,
   fetchTransactions,
   setModals,
