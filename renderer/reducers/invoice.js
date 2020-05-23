@@ -208,18 +208,20 @@ export const createInvoiceFailure = error => dispatch => {
 export const receiveInvoiceData = invoice => dispatch => {
   dispatch({ type: UPDATE_INVOICE, invoice })
 
-  // Fetch new balance
-  dispatch(fetchBalance())
+  const decoratedInvoice = decorateInvoice(invoice)
 
-  // Fetch updated channels.
-  dispatch(fetchChannels())
+  if (decoratedInvoice.isSettled) {
+    // Fetch new balance
+    dispatch(fetchBalance())
 
-  if (invoice.isSettled) {
-    const intl = getIntl()
+    // Fetch updated channels.
+    dispatch(fetchChannels())
+
     // HTML 5 desktop notification for the invoice update
+    const intl = getIntl()
     const notifTitle = intl.formatMessage(messages.invoice_receive_title)
     const notifBody = intl.formatMessage(
-      invoice.isKeysend ? messages.keysend_receive_body : messages.invoice_receive_body
+      decoratedInvoice.isKeysend ? messages.keysend_receive_body : messages.invoice_receive_body
     )
 
     showSystemNotification(notifTitle, { body: notifBody })
