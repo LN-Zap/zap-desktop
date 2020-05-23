@@ -14,7 +14,7 @@ const ActivityActions = ({
   filters,
   searchText,
   changeFilter,
-  fetchActivityHistory,
+  reloadActivityHistory,
   updateSearchText,
   isCustomFilter,
   intl,
@@ -39,7 +39,7 @@ const ActivityActions = ({
           mx={3}
         />
 
-        <ActivityRefresh mx={3} onClick={fetchActivityHistory} />
+        <ActivityRefresh mx={3} onClick={reloadActivityHistory} />
       </Flex>
     </Flex>
   </Card>
@@ -47,11 +47,11 @@ const ActivityActions = ({
 
 ActivityActions.propTypes = {
   changeFilter: PropTypes.func.isRequired,
-  fetchActivityHistory: PropTypes.func.isRequired,
   filter: PropTypes.object.isRequired,
   filters: PropTypes.array.isRequired,
   intl: intlShape.isRequired,
   isCustomFilter: PropTypes.bool,
+  reloadActivityHistory: PropTypes.func.isRequired,
   searchText: PropTypes.string,
   updateSearchText: PropTypes.func.isRequired,
 }

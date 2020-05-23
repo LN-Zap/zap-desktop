@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import {
   changeFilter,
-  fetchActivityHistory,
+  reloadActivityHistory,
   updateSearchText,
   activitySelectors,
 } from 'reducers/activity'
@@ -9,7 +9,7 @@ import ActivityActions from 'components/Activity/ActivityActions'
 
 const mapDispatchToProps = {
   changeFilter,
-  fetchActivityHistory,
+  reloadActivityHistory,
   updateSearchText,
 }
 

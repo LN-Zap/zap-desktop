@@ -18,7 +18,7 @@ const Activity = props => {
     errorDialogDetails,
     currentActivity,
     showNotification,
-    loadNextPage,
+    loadPage,
     intl,
   } = props
 
@@ -35,7 +35,7 @@ const Activity = props => {
 
   const isRowLoaded = ({ index }) => Boolean(currentActivity[index])
 
-  const loadMoreRows = () => loadNextPage()
+  const loadMoreRows = () => loadPage()
   const renderActivityList = () => {
     return (
       <InfiniteLoader
@@ -90,7 +90,7 @@ Activity.propTypes = {
   hideErrorDetailsDialog: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
   isErrorDialogOpen: PropTypes.bool,
-  loadNextPage: PropTypes.func.isRequired,
+  loadPage: PropTypes.func.isRequired,
   showNotification: PropTypes.func.isRequired,
 }
 

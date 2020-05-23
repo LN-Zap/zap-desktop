@@ -1,17 +1,18 @@
 import { send } from 'redux-electron-ipc'
 import groupBy from 'lodash/groupBy'
+import range from 'lodash/range'
 import config from 'config'
 import createReducer from '@zap/utils/createReducer'
 import { getIntl } from '@zap/i18n'
+import { mainLog } from '@zap/utils/log'
 import { openModal, closeModal } from 'reducers/modal'
-import { fetchDescribeNetwork } from 'reducers/network'
 import { receiveTransactions } from 'reducers/transaction'
 import { receivePayments } from 'reducers/payment'
 import { receiveInvoices } from 'reducers/invoice'
 import { fetchBalance } from 'reducers/balance'
-import { showError, showNotification } from 'reducers/notification'
 import { fetchChannels } from 'reducers/channels'
-import { createActivityPaginator } from './utils'
+import { showError, showNotification } from 'reducers/notification'
+import { createActivityPaginator, getItemType } from './utils'
 import { hasNextPage } from './selectors'
 import messages from './messages'
 import * as constants from './constants'
@@ -73,6 +74,7 @@ const initialState = {
 // activity paginator object. must be reset for each wallet login
 /** @type {Function | null} */
 let paginator = null
+let loadedPages = 0
 
 /**
  * getPaginator - Returns current activity paginator object. This acts as a singleton
@@ -202,29 +204,42 @@ export const hideActivityModal = () => dispatch => {
 }
 
 /**
- * loadNextPage - Loads next activity page if it's available.
+ * resetActivity - Reset activity history.
  *
+ * @returns {() => void} Thunk
+ */
+export const resetActivity = () => () => {
+  paginator = null
+  loadedPages = 0
+}
+
+/**
+ * resetPaginator - Reset activity paginator.
+ *
+ * @returns {() => void} Thunk
+ */
+export const resetPaginator = () => () => {
+  paginator = null
+}
+
+/**
+ * loadPage - Loads next activity page if it's available.
+ *
+ * @param {boolean} reload Boolean indicating if this page load is part of a reload.
  * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
-export const loadNextPage = () => async (dispatch, getState) => {
+export const loadPage = (reload = false) => async (dispatch, getState) => {
   const thisPaginator = getPaginator()
-  if (hasNextPage(getState())) {
-    const { items, hasNextPage: paginatorHasNextPage } = await thisPaginator(
-      config.activity.pageSize
-    )
+  if (reload || hasNextPage(getState())) {
+    const { pageSize } = config.activity
+    const { items, hasNextPage: paginatorHasNextPage } = await thisPaginator(pageSize)
 
-    const getItemType = item => {
-      if (item.destAddresses) {
-        return 'transactions'
-      }
-      if ('addIndex' in item) {
-        return 'invoices'
-      }
-      return 'payments'
+    if (!reload) {
+      loadedPages += 1
+      dispatch({ type: SET_HAS_NEXT_PAGE, value: paginatorHasNextPage })
     }
 
     const { invoices, payments, transactions } = groupBy(items, getItemType)
-    dispatch({ type: SET_HAS_NEXT_PAGE, value: paginatorHasNextPage })
     invoices && dispatch(receiveInvoices(invoices))
     payments && dispatch(receivePayments(payments))
     transactions && dispatch(receiveTransactions(transactions))
@@ -232,17 +247,34 @@ export const loadNextPage = () => async (dispatch, getState) => {
 }
 
 /**
- * fetchActivityHistory - Fetch user activity history, including Balance, Payments, Invoices, Transactions etc.
+ * reloadPages - Reloads all already loaded activity pages.
+ *
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
+ */
+export const reloadPages = () => async dispatch => {
+  const pageCount = loadedPages
+  mainLog.debug(`reloading ${pageCount} activity pages`)
+  dispatch(resetPaginator())
+
+  // eslint-disable-next-line no-unused-vars
+  for (const page of range(pageCount)) {
+    mainLog.debug(`reloading activity page ${page}`)
+    // eslint-disable-next-line no-await-in-loop
+    await dispatch(loadPage(true))
+  }
+}
+
+/**
+ * initActivityHistory - Load user activity history.
  *
  * @returns {(dispatch:Function) => void} Thunk
  */
-export const fetchActivityHistory = () => dispatch => {
+export const initActivityHistory = () => async dispatch => {
   dispatch({ type: FETCH_ACTIVITY_HISTORY })
   try {
-    dispatch(fetchDescribeNetwork())
+    await dispatch(loadPage())
     dispatch(fetchChannels())
     dispatch(fetchBalance())
-    dispatch(loadNextPage())
     dispatch({ type: FETCH_ACTIVITY_HISTORY_SUCCESS })
   } catch (error) {
     dispatch({ type: FETCH_ACTIVITY_HISTORY_FAILURE, error })
@@ -250,12 +282,20 @@ export const fetchActivityHistory = () => dispatch => {
 }
 
 /**
- * resetActivity - Reset user activity history.
+ * reloadActivityHistory - Reload activity history.
  *
- * @returns {() => void} Thunk
+ * @returns {(dispatch:Function) => void} Thunk
  */
-export const resetActivity = () => () => {
-  paginator = null
+export const reloadActivityHistory = () => async dispatch => {
+  dispatch({ type: FETCH_ACTIVITY_HISTORY })
+  try {
+    await dispatch(reloadPages())
+    dispatch(fetchChannels())
+    dispatch(fetchBalance())
+    dispatch({ type: FETCH_ACTIVITY_HISTORY_SUCCESS })
+  } catch (error) {
+    dispatch({ type: FETCH_ACTIVITY_HISTORY_FAILURE, error })
+  }
 }
 
 // ------------------------------------

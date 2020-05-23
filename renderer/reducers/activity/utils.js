@@ -170,3 +170,19 @@ export const createActivityPaginator = () => {
 
   return combinePaginators(itemSorter, fetchInvoices, fetchPayments, fetchTransactions)
 }
+
+/**
+ * getItemType - Determine an activity item type.
+ *
+ * @param {object<string, any>} item Activity item
+ * @returns {string} Item type
+ */
+export const getItemType = item => {
+  if (item.destAddresses) {
+    return 'transactions'
+  }
+  if ('addIndex' in item) {
+    return 'invoices'
+  }
+  return 'payments'
+}
