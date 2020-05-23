@@ -69,9 +69,23 @@ export const limboBalance = state => state.channels.pendingChannels.totalLimboBa
  */
 export const totalBalance = createSelector(
   channelBalance,
-  walletBalance,
+  walletBalanceConfirmed,
+  walletBalanceUnconfirmed,
   limboBalance,
-  (c = 0, w = 0, l = 0) => CoinBig.sum(c, w, l).toString()
+  (c = '0', wc = '0', wuc = '0', l = '0') => {
+    // when a force close channel passes its maturity height the balance from it
+    // appears in both unconfirmed wallet balance and in total limbo balance.
+    // Here we try to prevent the double counting.
+    const dedupedUnconfirmed = CoinBig(wuc).minus(l)
+    const unconfirmed = CoinBig.max(0, dedupedUnconfirmed)
+
+    // Total balance is the sum of
+    // - channel balances
+    // - confirmed wallet balance
+    // - deduped unconfirmed wallet balance
+    // - limbo balance
+    return CoinBig.sum(c, wc, unconfirmed, l).toString()
+  }
 )
 
 export default {

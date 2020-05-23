@@ -142,8 +142,9 @@ export const receiveTransactions = (transactions, updateOnly = false) => (dispat
     }
   })
 
-  // Fetch updated balance.
+  // Fetch updated channels and balance.
   dispatch(fetchBalance())
+  dispatch(fetchChannels())
 }
 
 /**
@@ -252,8 +253,6 @@ export const receiveTransactionData = transaction => (dispatch, getState) => {
       showSystemNotification(intl.formatMessage(messages.transaction_received_title), {
         body: intl.formatMessage(messages.transaction_received_body),
       })
-      // Fetch updated channels.
-      dispatch(fetchChannels())
     } else {
       showSystemNotification(intl.formatMessage(messages.transaction_sent_title), {
         body: intl.formatMessage(messages.transaction_sent_body),
