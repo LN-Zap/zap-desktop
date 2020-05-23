@@ -57,6 +57,7 @@ const decorateTransaction = transaction => {
   const decoration = {
     type: 'transaction',
     isReceived,
+    isSent,
     isToSelf,
   }
   return {
@@ -110,7 +111,10 @@ export const fetchTransactions = updateOnly => async dispatch => {
  * (ones whose timestamp is greater than the newest known one)
  * @returns {(dispatch:Function, getState:Function) => void} Thunk
  */
-export const receiveTransactions = (transactions, updateOnly = false) => (dispatch, getState) => {
+export const receiveTransactions = (transactions, updateOnly = false) => async (
+  dispatch,
+  getState
+) => {
   const state = getState()
 
   const currentAddresses = addressSelectors.currentAddresses(state)
@@ -143,8 +147,8 @@ export const receiveTransactions = (transactions, updateOnly = false) => (dispat
   })
 
   // Fetch updated channels and balance.
-  dispatch(fetchBalance())
-  dispatch(fetchChannels())
+  await dispatch(fetchBalance())
+  await dispatch(fetchChannels())
 }
 
 /**
@@ -240,23 +244,35 @@ export const transactionFailed = ({ internalId, error }) => async (dispatch, get
  * @param {object} transaction Transaction
  * @returns {(dispatch:Function, getState:Function) => void} Thunk
  */
-export const receiveTransactionData = transaction => (dispatch, getState) => {
-  // add the transaction if we are not already aware of it, otherwise update existing transaction.
+export const receiveTransactionData = transaction => async (dispatch, getState) => {
   const state = getState()
   const intl = getIntl()
+  const decoratedTransaction = decorateTransaction(transaction)
+  const { isSent, isReceived } = decoratedTransaction
+  const isNew = !transactionsSelector(state).find(tx => tx.txHash === transaction.txHash)
 
-  dispatch(receiveTransactions([transaction]))
+  // Add/Update the transaction.
+  await dispatch(receiveTransactions([transaction]))
 
-  if (!state.transaction.transactions.find(tx => tx.txHash === transaction.txHash)) {
-    // HTML 5 desktop notification for the new transaction
-    if (CoinBig(transaction.amount).gt(0)) {
+  if (isNew) {
+    // Send HTML 5 desktop notification for newly received transactions.
+    if (isReceived) {
       showSystemNotification(intl.formatMessage(messages.transaction_received_title), {
         body: intl.formatMessage(messages.transaction_received_body),
       })
-    } else {
-      showSystemNotification(intl.formatMessage(messages.transaction_sent_title), {
-        body: intl.formatMessage(messages.transaction_sent_body),
-      })
+    }
+    // Send HTML 5 desktop notification for newly sent transactions.
+    // (excluding channel opening or channel closing transactions)
+    else if (isSent) {
+      const poc = channelsSelectors.pendingOpenChannelsRaw(getState())
+      const isChannelOpen = poc.some(
+        c => c.channel.channelPoint.split(':')[0] === transaction.txHash
+      )
+      if (!isChannelOpen) {
+        showSystemNotification(intl.formatMessage(messages.transaction_sent_title), {
+          body: intl.formatMessage(messages.transaction_sent_body),
+        })
+      }
     }
   }
 }
