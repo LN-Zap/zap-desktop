@@ -677,10 +677,6 @@
   "reducers.messages.neutrtino_synced_body": "Visa wer? Du bist jetzt dein eigener Zahlungsabwickler!",
   "reducers.messages.neutrtino_synced_title": "Lightning Node synchronisiert",
   "reducers.messages.settings_init_error": "Einstellungen können nicht geladen werden: {error}",
-  "reducers.messages.transaction_received_body": "Du Glückspilz hast eine neue on-chain Transaktion erhalten. Ich bin neidisch.",
-  "reducers.messages.transaction_received_title": "On-chain Transaktion erhalten!",
-  "reducers.messages.transaction_sent_body": "Und da geht sie einfach so... Transaktion erfolgreich gesendet.",
-  "reducers.messages.transaction_sent_title": "On-chain Transaktion gesendet!",
   "reducers.pay.pay_lnurl_withdraw_error": "Abhebungsanfrage von {service} konnte nicht verarbeitet werden: {reason}",
   "reducers.payment.failed_error": "",
   "reducers.payment.failed_incorrect_payment_details": "",
@@ -697,5 +693,9 @@
   "reducers.payment.no_route": "",
   "reducers.payment.succeeded": "",
   "reducers.payment.terminated_early": "",
-  "reducers.payment.unknown": "Unbekannt"
+  "reducers.payment.unknown": "Unbekannt",
+  "reducers.transaction.transaction_received_body": "Du Glückspilz hast eine neue on-chain Transaktion erhalten. Ich bin neidisch.",
+  "reducers.transaction.transaction_received_title": "On-chain Transaktion erhalten!",
+  "reducers.transaction.transaction_sent_body": "Und da geht sie einfach so... Transaktion erfolgreich gesendet.",
+  "reducers.transaction.transaction_sent_title": "On-chain Transaktion gesendet!"
 }

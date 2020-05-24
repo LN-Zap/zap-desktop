@@ -13,10 +13,6 @@ export default defineMessages({
   address_new_address_error: 'Unable to get {addressType} address: {error}',
   settings_init_error: 'Unable to load settings: {error}',
   app_init_db_error: 'Unable to initialize database: {error}',
-  transaction_received_title: 'On-chain Transaction Received!',
-  transaction_received_body: `Lucky you, you just received a new on-chain transaction. I'm jealous.`,
-  transaction_sent_title: 'On-chain Transaction Sent!',
-  transaction_sent_body: `Hate to see 'em go but love to watch 'em leave. Your on-chain transaction successfully sent.`,
   neutrtino_synced_title: 'Lightning Node Synced',
   neutrtino_synced_body: "Visa who? You're your own payment processor now!",
 })

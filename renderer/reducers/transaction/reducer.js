@@ -1,4 +1,3 @@
-import { createSelector } from 'reselect'
 import uniqBy from 'lodash/uniqBy'
 import uniq from 'lodash/uniq'
 import last from 'lodash/last'
@@ -6,64 +5,59 @@ import find from 'lodash/find'
 import createReducer from '@zap/utils/createReducer'
 import { showSystemNotification } from '@zap/utils/notifications'
 import { convert } from '@zap/utils/btc'
-import { CoinBig } from '@zap/utils/coin'
 import { getIntl } from '@zap/i18n'
 import delay from '@zap/utils/delay'
 import genId from '@zap/utils/genId'
 import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
 import { grpc } from 'workers'
-import { addressSelectors, newAddress } from './address'
-import { fetchBalance } from './balance'
-import { fetchChannels, channelsSelectors, getChannelData } from './channels'
+import { newAddress, addressSelectors } from 'reducers/address'
+import { fetchBalance } from 'reducers/balance'
+import { fetchChannels, channelsSelectors } from 'reducers/channels'
+import transactionSelectors from './selectors'
+import { decorateTransaction } from './utils'
 import messages from './messages'
+import * as constants from './constants'
+
+const {
+  GET_TRANSACTIONS,
+  RECEIVE_TRANSACTIONS,
+  SEND_TRANSACTION,
+  TRANSACTION_SUCCESSFUL,
+  TRANSACTION_FAILED,
+  TRANSACTION_COMPLETE,
+} = constants
 
 let usedAddresses = []
+
+/**
+ * @typedef Transaction
+ * @property {string} txHash The transaction hash
+ * @property {string} amount The transaction amount, denominated in satoshis
+ * @property {number} numConfirmations The number of confirmations
+ * @property {string} blockHash The hash of the block this transaction was included in
+ * @property {number} blockHeight The height of the block this transaction was included in
+ * @property {string} timeStamp Timestamp of this transaction
+ * @property {string} totalFees Fees paid for this transaction
+ * @property {string[]} destAddresses Addresses that received funds for this transaction
+ * @property {string} rawTxHex The raw transaction hex.
+ */
+
+/**
+ * @typedef State
+ * @property {boolean} transactionLoading Boolean indicating if transactions are loading
+ * @property {Transaction[]} transactions List of transactions
+ * @property {object[]} transactionsSending List of transactions in process of sending
+ */
 
 // ------------------------------------
 // Initial State
 // ------------------------------------
 
+/** @type {State} */
 const initialState = {
   transactionLoading: false,
   transactions: [],
   transactionsSending: [],
-}
-
-// ------------------------------------
-// Constants
-// ------------------------------------
-
-export const GET_TRANSACTIONS = 'GET_TRANSACTIONS'
-export const RECEIVE_TRANSACTIONS = 'RECEIVE_TRANSACTIONS'
-export const SEND_TRANSACTION = 'SEND_TRANSACTION'
-export const TRANSACTION_SUCCESSFUL = 'TRANSACTION_SUCCESSFUL'
-export const TRANSACTION_FAILED = 'TRANSACTION_FAILED'
-export const TRANSACTION_COMPLETE = 'TRANSACTION_COMPLETE'
-
-// ------------------------------------
-// Helpers
-// ------------------------------------
-
-/**
- * decorateTransaction - Decorate transaction object with custom/computed properties.
- *
- * @param {object} transaction Transaction
- * @returns {object} Decorated transaction
- */
-const decorateTransaction = transaction => {
-  const isReceived = !transaction.isSending && CoinBig(transaction.amount).gt(0)
-  const isSent = !transaction.isSending && CoinBig(transaction.amount).lt(0)
-  const isToSelf = isSent && CoinBig.sum(transaction.totalFees, transaction.amount).isEqualTo(0)
-  const decoration = {
-    type: 'transaction',
-    isReceived,
-    isSent,
-    isToSelf,
-  }
-  return {
-    ...transaction,
-    ...decoration,
-  }
 }
 
 // ------------------------------------
@@ -81,7 +75,7 @@ export function sendTransaction(data) {
     ...data,
     status: 'sending',
     isSending: true,
-    timeStamp: Math.round(new Date() / 1000),
+    timeStamp: Math.round(new Date().getDate() / 1000),
     numConfirmations: 0,
   }
   return {
@@ -91,22 +85,9 @@ export function sendTransaction(data) {
 }
 
 /**
- * fetchTransactions - Fetch details of all transactions.
- *
- * @param {boolean} updateOnly if true only update known transactions or adds new ones
- * (ones whose timestamp is greater than the newest known one)
- * @returns {(dispatch:Function) => Promise<void>} Thunk
- */
-export const fetchTransactions = updateOnly => async dispatch => {
-  dispatch({ type: GET_TRANSACTIONS })
-  const transactions = await grpc.services.Lightning.getTransactions()
-  dispatch(receiveTransactions(transactions.transactions, updateOnly))
-}
-
-/**
  * receiveTransactions - Success callback for fetch transactions.
  *
- * @param {Array} transactions of transaction.
+ * @param {Transaction[]} transactions of transaction.
  * @param {boolean} updateOnly if true only update known transactions or adds new ones
  * (ones whose timestamp is greater than the newest known one)
  * @returns {(dispatch:Function, getState:Function) => void} Thunk
@@ -124,7 +105,7 @@ export const receiveTransactions = (transactions, updateOnly = false) => async (
   // This is used to only update known transactions or add new if
   // we are in `updateOnly` mode
   let lastKnownTxIndex = 0
-  const lastTx = last(transactionsSelector(state))
+  const lastTx = last(transactionSelectors.transactions(state))
   transactions.forEach((transaction, index) => {
     const { timeStamp, destAddresses } = transaction
     if (updateOnly && !lastKnownTxIndex && lastTx && timeStamp >= lastTx.timeStamp) {
@@ -145,6 +126,59 @@ export const receiveTransactions = (transactions, updateOnly = false) => async (
       dispatch(newAddress(type))
     }
   })
+}
+
+/**
+ * fetchTransactions - Fetch details of all transactions.
+ *
+ * @param {boolean} updateOnly if true only update known transactions or adds new ones
+ * (ones whose timestamp is greater than the newest known one)
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
+ */
+export const fetchTransactions = updateOnly => async dispatch => {
+  dispatch({ type: GET_TRANSACTIONS })
+  const transactions = await grpc.services.Lightning.getTransactions()
+  dispatch(receiveTransactions(transactions.transactions, updateOnly))
+}
+
+/**
+ * transactionSuccessful - Success handler for sendCoins.
+ *
+ * @param {string} internalId transaction internal id
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
+ */
+export const transactionSuccessful = ({ internalId }) => async (dispatch, getState) => {
+  const { timestamp } = find(transactionSelectors.transactionsSending(getState(), { internalId }))
+
+  // Ensure payment stays in sending state for at least 2 seconds.
+  await delay(2000 - (Date.now() - timestamp * 1000))
+
+  // Mark the payment as successful.
+  dispatch({ type: TRANSACTION_SUCCESSFUL, internalId })
+
+  // Wait for another second.
+  await delay(1000)
+
+  // Mark the payment as successful.
+  dispatch({ type: TRANSACTION_COMPLETE, internalId })
+}
+
+/**
+ * transactionFailed - Error handler for sendCoins.
+ *
+ * @param {object} details Details
+ * @param {string} details.internalId transaction internal id
+ * @param {string} details.error Error message
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
+ */
+export const transactionFailed = ({ internalId, error }) => async (dispatch, getState) => {
+  const { timestamp } = find(transactionSelectors.transactionsSending(getState()), { internalId })
+
+  // Ensure payment stays in sending state for at least 2 seconds.
+  await delay(2000 - (Date.now() - timestamp * 1000))
+
+  // Mark the payment as failed.
+  dispatch({ type: TRANSACTION_FAILED, internalId, error })
 }
 
 /**
@@ -195,53 +229,15 @@ export const sendCoins = ({
 }
 
 /**
- * transactionSuccessful - Success handler for sendCoins.
- *
- * @param {{ string }} internalId transaction internal id
- * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
- */
-export const transactionSuccessful = ({ internalId }) => async (dispatch, getState) => {
-  const { timestamp } = find(transactionsSendingSelector(getState(), { internalId }))
-
-  // Ensure payment stays in sending state for at least 2 seconds.
-  await delay(2000 - (Date.now() - timestamp * 1000))
-
-  // Mark the payment as successful.
-  dispatch({ type: TRANSACTION_SUCCESSFUL, internalId })
-
-  // Wait for another second.
-  await delay(1000)
-
-  // Mark the payment as successful.
-  dispatch({ type: TRANSACTION_COMPLETE, internalId })
-}
-
-/**
- * transactionFailed - Error handler for sendCoins.
- *
- * @param {object} details Details
- * @param {{ string }} details.internalId transaction internal id
- * @param {{ string }} details.error Error message
- * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
- */
-export const transactionFailed = ({ internalId, error }) => async (dispatch, getState) => {
-  const { timestamp } = find(transactionsSendingSelector(getState(), { internalId }))
-
-  // Ensure payment stays in sending state for at least 2 seconds.
-  await delay(2000 - (Date.now() - timestamp * 1000))
-
-  // Mark the payment as failed.
-  dispatch({ type: TRANSACTION_FAILED, internalId, error })
-}
-
-/**
  * receiveTransactionData - Listener for when a new transaction is pushed from the subscriber.
  *
- * @param {object} transaction Transaction
+ * @param {Transaction} transaction Transaction
  * @returns {(dispatch:Function, getState:Function) => void} Thunk
  */
 export const receiveTransactionData = transaction => async (dispatch, getState) => {
-  const isNew = !transactionsSelector(getState()).find(tx => tx.txHash === transaction.txHash)
+  const isNew = !transactionSelectors
+    .transactions(getState())
+    .find(tx => tx.txHash === transaction.txHash)
 
   // Add/Update the transaction.
   await dispatch(receiveTransactions([transaction]))
@@ -311,56 +307,5 @@ const ACTION_HANDLERS = {
     )
   },
 }
-
-// ------------------------------------
-// Selectors
-// ------------------------------------
-
-const transactionsSelectors = {}
-const transactionsSelector = state => state.transaction.transactions
-const transactionsSendingSelector = state => state.transaction.transactionsSending
-
-transactionsSelectors.transactionsSending = createSelector(
-  transactionsSendingSelector,
-  transactionsSending => transactionsSending.map(transaction => decorateTransaction(transaction))
-)
-
-transactionsSelectors.transactions = createSelector(
-  transactionsSelector,
-  channelsSelectors.allChannelsRaw,
-  channelsSelectors.closingPendingChannelsRaw,
-  channelsSelectors.pendingOpenChannelsRaw,
-  (transactions, allChannelsRaw, closingPendingChannelsRaw, pendingOpenChannelsRaw) => {
-    return transactions
-      .map(transaction => decorateTransaction(transaction))
-      .map(transaction => {
-        const fundedChannel = allChannelsRaw.find(channelObj => {
-          const channelData = getChannelData(channelObj)
-          const { channelPoint } = channelData
-          return channelPoint ? transaction.txHash === channelPoint.split(':')[0] : null
-        })
-        const closedChannel = allChannelsRaw.find(channelObj => {
-          const channelData = getChannelData(channelObj)
-          return [channelData.closingTxHash, channelObj.closingTxid].includes(transaction.txHash)
-        })
-        const pendingChannel = [...closingPendingChannelsRaw, ...pendingOpenChannelsRaw].find(
-          channelObj => {
-            return channelObj.closingTxid === transaction.txHash
-          }
-        )
-        return {
-          ...transaction,
-          closeType: closedChannel ? closedChannel.closeType : null,
-          isFunding: Boolean(fundedChannel),
-          isClosing: Boolean(closedChannel),
-          isPending: Boolean(pendingChannel),
-          limboAmount: pendingChannel && pendingChannel.limboBalance,
-          maturityHeight: pendingChannel && pendingChannel.maturityHeight,
-        }
-      })
-  }
-)
-
-export { transactionsSelectors }
 
 export default createReducer(initialState, ACTION_HANDLERS)

@@ -40,6 +40,7 @@ import backup from './backup'
  * @property {import('./address').State} address Address reducer.
  * @property {import('./balance').State} balance Balance reducer.
  * @property {import('./invoice').State} invoice Invoice reducer.
+ * @property {import('./transaction').State} transaction Transaction reducer.
  */
 
 /** @type {State} */

@@ -677,10 +677,6 @@
   "reducers.messages.neutrtino_synced_body": "",
   "reducers.messages.neutrtino_synced_title": "",
   "reducers.messages.settings_init_error": "",
-  "reducers.messages.transaction_received_body": "",
-  "reducers.messages.transaction_received_title": "",
-  "reducers.messages.transaction_sent_body": "",
-  "reducers.messages.transaction_sent_title": "",
   "reducers.pay.pay_lnurl_withdraw_error": "",
   "reducers.payment.failed_error": "",
   "reducers.payment.failed_incorrect_payment_details": "",
@@ -697,5 +693,9 @@
   "reducers.payment.no_route": "",
   "reducers.payment.succeeded": "",
   "reducers.payment.terminated_early": "",
-  "reducers.payment.unknown": ""
+  "reducers.payment.unknown": "",
+  "reducers.transaction.transaction_received_body": "",
+  "reducers.transaction.transaction_received_title": "",
+  "reducers.transaction.transaction_sent_body": "",
+  "reducers.transaction.transaction_sent_title": ""
 }

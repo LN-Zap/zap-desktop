@@ -5,7 +5,7 @@ import { neutrinoSelectors } from './neutrino'
 import { lndSelectors } from './lnd'
 import { appSelectors } from './app'
 import { tickerSelectors } from './ticker'
-import { transactionsSelectors } from './transaction'
+import { transactionSelectors } from './transaction'
 import { channelsSelectors } from './channels'
 
 /**
@@ -99,7 +99,7 @@ export const getLoadingMessage = (state, location = {}) => {
  * such as funding  tx timestamp
  */
 export const decoratedSelectedChannel = createSelector(
-  transactionsSelectors.transactions,
+  transactionSelectors.transactions,
   channelsSelectors.selectedChannel,
   (transactions, channelData) => {
     if (channelData && channelData.channelPoint) {

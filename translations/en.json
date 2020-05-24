@@ -677,10 +677,6 @@
   "reducers.messages.neutrtino_synced_body": "Visa who? You're your own payment processor now!",
   "reducers.messages.neutrtino_synced_title": "Lightning Node Synced",
   "reducers.messages.settings_init_error": "Unable to load settings: {error}",
-  "reducers.messages.transaction_received_body": "Lucky you, you just received a new on-chain transaction. I'm jealous.",
-  "reducers.messages.transaction_received_title": "On-chain Transaction Received!",
-  "reducers.messages.transaction_sent_body": "Hate to see 'em go but love to watch 'em leave. Your on-chain transaction successfully sent.",
-  "reducers.messages.transaction_sent_title": "On-chain Transaction Sent!",
   "reducers.pay.pay_lnurl_withdraw_error": "Unable to process withdraw request from {service}: {reason}",
   "reducers.payment.failed_error": "A non-recoverable error has occured.",
   "reducers.payment.failed_incorrect_payment_details": "Payment details incorrect (unknown hash, invalid amt or invalid final cltv delta).",
@@ -697,5 +693,9 @@
   "reducers.payment.no_route": "Unable to find route.",
   "reducers.payment.succeeded": "Payment completed successfully.",
   "reducers.payment.terminated_early": "Payment attempt terminated early.",
-  "reducers.payment.unknown": "Unknown"
+  "reducers.payment.unknown": "Unknown",
+  "reducers.transaction.transaction_received_body": "Lucky you, you just received a new on-chain transaction. I'm jealous.",
+  "reducers.transaction.transaction_received_title": "On-chain Transaction Received!",
+  "reducers.transaction.transaction_sent_body": "Hate to see 'em go but love to watch 'em leave. Your on-chain transaction successfully sent.",
+  "reducers.transaction.transaction_sent_title": "On-chain Transaction Sent!"
 }

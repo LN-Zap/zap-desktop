@@ -3,7 +3,7 @@
  */
 
 import { createSelector } from 'reselect'
-import { transactionsSelectors } from 'reducers/transaction'
+import { transactionSelectors } from 'reducers/transaction'
 import { paymentSelectors } from 'reducers/payment'
 import { invoiceSelectors } from 'reducers/invoice'
 import { addDate, prepareData } from './utils'
@@ -39,7 +39,7 @@ const invoicesSelector = state => invoiceSelectors.invoices(state)
  * @param {State} state Redux state
  * @returns {object<string, any>[]} List of transactions
  */
-const transactionsSelector = state => transactionsSelectors.transactions(state)
+const transactionsSelector = state => transactionSelectors.transactions(state)
 
 /**
  * invoicesSelector - Transactions.
@@ -47,7 +47,7 @@ const transactionsSelector = state => transactionsSelectors.transactions(state)
  * @param {State} state Redux state
  * @returns {object<string, any>[]} List of transactions sending
  */
-const transactionsSendingSelector = state => transactionsSelectors.transactionsSending(state)
+const transactionsSendingSelector = state => transactionSelectors.transactionsSending(state)
 
 /**
  * filter - Activity filter.

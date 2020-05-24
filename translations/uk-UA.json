@@ -677,10 +677,6 @@
   "reducers.messages.neutrtino_synced_body": "Що там віза? Тепер ви самі оператор оплати!",
   "reducers.messages.neutrtino_synced_title": "Lightning вузли синхронізовані",
   "reducers.messages.settings_init_error": "Не вдалося завантажити налаштування: {error}",
-  "reducers.messages.transaction_received_body": "Пощастило, ви отримали нову транзакцію. Заздрю вам.",
-  "reducers.messages.transaction_received_title": "Отримано транзакцію!",
-  "reducers.messages.transaction_sent_body": "Транзакцію на ланцюг успішно відправлено.",
-  "reducers.messages.transaction_sent_title": "Безланцюгова транзакція надіслана!",
   "reducers.pay.pay_lnurl_withdraw_error": "Неможливо обробити запит на зняття коштів від {service}: {reason}",
   "reducers.payment.failed_error": "Сталася невиправна помилка.",
   "reducers.payment.failed_incorrect_payment_details": "Реквізити платежу невірні (невідомий хеш, недійсний amt або недійсний остаточний дельта cltv).",
@@ -697,5 +693,9 @@
   "reducers.payment.no_route": "Неможливо знайти маршрут.",
   "reducers.payment.succeeded": "Оплату здійснено успішно.",
   "reducers.payment.terminated_early": "Попередня спроба оплати припинила роботу.",
-  "reducers.payment.unknown": "Невідомо"
+  "reducers.payment.unknown": "Невідомо",
+  "reducers.transaction.transaction_received_body": "Пощастило, ви отримали нову транзакцію. Заздрю вам.",
+  "reducers.transaction.transaction_received_title": "Отримано транзакцію!",
+  "reducers.transaction.transaction_sent_body": "Транзакцію на ланцюг успішно відправлено.",
+  "reducers.transaction.transaction_sent_title": "Безланцюгова транзакція надіслана!"
 }
