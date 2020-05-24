@@ -75,7 +75,7 @@ export function sendTransaction(data) {
     ...data,
     status: 'sending',
     isSending: true,
-    timeStamp: Math.round(new Date().getDate() / 1000),
+    timeStamp: Math.round(Date.now() / 1000),
     numConfirmations: 0,
   }
   return {

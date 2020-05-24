@@ -42,7 +42,7 @@ storiesOf('Components', module)
           {
             title: 'Custom dialog',
             sectionFn: () => {
-              const date = new Date(new Date().getTime() + 60000)
+              const date = new Date(Date.now() + 60000)
               const customHeader = (
                 <Flex alignItems="center" alignSelf="stretch" flexDirection="column" mb={3}>
                   <Eye color="white" height={64} width={64} />

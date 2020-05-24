@@ -4,7 +4,6 @@ import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage, FormattedTime, injectIntl } from 'react-intl'
 import copy from 'copy-to-clipboard'
 import { decodePayReq, getTag } from '@zap/utils/crypto'
-import getUnixTime from '@zap/utils/time'
 import { Bar, DataRow, Button, QRCode, Text, Countdown } from 'components/UI'
 import { CryptoSelector, CryptoValue, FiatSelector, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
@@ -17,7 +16,7 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
   const [expiryDelta, setExpiryDelta] = useState(decodedInvoice.timeExpireDate - Date.now() / 1000)
 
   useEffect(() => {
-    setExpiryDelta(decodedInvoice.timeExpireDate - getUnixTime() / 1000)
+    setExpiryDelta(decodedInvoice.timeExpireDate - Date.now() / 1000)
     return () => {
       setIsExpired(false)
     }

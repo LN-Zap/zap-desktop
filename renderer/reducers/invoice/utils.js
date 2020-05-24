@@ -40,7 +40,7 @@ export const decorateInvoice = invoice => {
 
   // Add an `isExpired` prop which shows whether the invoice is expired or not.
   const expiresAt = parseInt(invoice.creationDate, 10) + parseInt(invoice.expiry, 10)
-  const isExpired = expiresAt < Math.round(new Date().getTime() / 1000)
+  const isExpired = expiresAt < Math.round(Date.now() / 1000)
 
   // Older versions of lnd provided the settled state in `settled`
   // This is now deprecated in favor of `state=SETTLED

@@ -8,7 +8,7 @@ storiesOf('Components', module).addWithChapters('Countdown', {
       sections: [
         {
           title: 'Default',
-          sectionFn: () => <Countdown offset={new Date(new Date().getTime() + 10000)} />,
+          sectionFn: () => <Countdown offset={new Date(Date.now() + 10000)} />,
         },
         {
           title: 'Stop after expire',

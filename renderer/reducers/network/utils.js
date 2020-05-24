@@ -25,7 +25,7 @@ export const mergeNodeUpdates = (networkState, nodeData) => {
     nodes[index] = {
       ...nodes[index],
       ...nodeData,
-      lastUpdate: Math.round(new Date().getDate() / 1000),
+      lastUpdate: Math.round(Date.now() / 1000),
     }
   }
 
