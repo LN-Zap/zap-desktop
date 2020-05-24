@@ -453,6 +453,7 @@
   "components.Pay.memo": "",
   "components.Pay.next": "",
   "components.Pay.next_block_confirmation": "",
+  "components.Pay.no_route_tooltip": "",
   "components.Pay.onchain_balance": "",
   "components.Pay.request_label_combined": "",
   "components.Pay.request_label_offchain": "",

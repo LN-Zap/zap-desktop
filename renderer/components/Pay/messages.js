@@ -10,6 +10,8 @@ export default defineMessages({
   request_label_onchain: 'Address',
   request_label_pubkey: 'Node Pubkey',
   searching_routes: 'searching for routes…',
+  no_route_tooltip:
+    'Unable to find payment route. You can try sending the payment anyway and fees will be capped at your configured payment fee limit, which you can edit in your preferences.',
   subtitle_onchain: 'On-Chain Payment',
   subtitle_offchain: 'Lightning Payment',
   next_block_confirmation: 'next block confirmation',
@@ -23,7 +25,7 @@ export default defineMessages({
   fee_upto: 'up to {maxFee} satoshi',
   fee_unknown: 'unknown',
   fee_per_byte: 'per byte',
-  fee_config_limit: 'unknown (no more than {maxFee} satoshi)',
+  fee_config_limit: 'unknown (up to {maxFee} satoshi)',
   fee_subtraction: 'Deducted from total',
   fee_addition: 'Added to total',
   amount: 'Amount',

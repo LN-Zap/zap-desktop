@@ -135,12 +135,14 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
       <Styled(styled.div)
         alignItems="baseline"
       >
-        <Memo(Connect(Dropdown))
-          mr={2}
-        />
-        <CryptoValue
-          value="10000"
-        />
+        <React.Fragment>
+          <Memo(Connect(Dropdown))
+            mr={2}
+          />
+          <CryptoValue
+            value="10000"
+          />
+        </React.Fragment>
       </Styled(styled.div)>
     }
   />
