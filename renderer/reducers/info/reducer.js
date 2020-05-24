@@ -1,17 +1,30 @@
-import { createSelector } from 'reselect'
-import semver from 'semver'
 import get from 'lodash/get'
 import createReducer from '@zap/utils/createReducer'
 import { networks } from '@zap/utils/crypto'
 import { grpc } from 'workers'
-import { initAddresses } from './address'
-import { putWallet, walletSelectors } from './wallet'
-import { settingsSelectors } from './settings'
+import { initAddresses } from 'reducers/address'
+import { putWallet, walletSelectors } from 'reducers/wallet'
+import * as constants from './constants'
+
+const { GET_INFO, RECEIVE_INFO, SET_HAS_SYNCED } = constants
+
+/**
+ * @typedef State
+ * @property {boolean} infoLoading Boolean indicating if info is current loading
+ * @property {boolean} infoLoaded Boolean indicating if info is loaded
+ * @property {boolean|undefined} hasSynced Boolean indicating if node is synced
+ * @property {string|null} chain Chain name
+ * @property {string|null} network Network name
+ * @property {object|null} data Node info (as returned from lnd)
+ * @property {object} networks Details of supported networks
+ * @property {object} chains Details of supported chains
+ */
 
 // ------------------------------------
 // Initial State
 // ------------------------------------
 
+/** @type {State} */
 const initialState = {
   infoLoading: false,
   infoLoaded: false,
@@ -75,14 +88,6 @@ const initialState = {
 }
 
 // ------------------------------------
-// Constants
-// ------------------------------------
-
-export const GET_INFO = 'GET_INFO'
-export const RECEIVE_INFO = 'RECEIVE_INFO'
-export const SET_HAS_SYNCED = 'SET_HAS_SYNCED'
-
-// ------------------------------------
 // Actions
 // ------------------------------------
 
@@ -95,6 +100,16 @@ export function getInfo() {
   return {
     type: GET_INFO,
   }
+}
+
+/**
+ * setInfo - Set node info for the currently connected node.
+ *
+ * @param {object} data Node info
+ * @returns {object} Action
+ */
+export function setInfo(data) {
+  return { type: RECEIVE_INFO, data }
 }
 
 /**
@@ -121,27 +136,6 @@ export const setHasSynced = hasSynced => async (dispatch, getState) => {
       }
     }
   }
-}
-
-/**
- * fetchInfo - Fetch node info for the currently connected node.
- *
- * @returns {(dispatch:Function) => Promise<void>} Thunk
- */
-export const fetchInfo = () => async dispatch => {
-  dispatch(getInfo())
-  const info = await grpc.services.Lightning.getInfo()
-  dispatch(receiveInfo(info))
-}
-
-/**
- * setInfo - Set node info for the currently connected node.
- *
- * @param {object} data Node info
- * @returns {object} Action
- */
-export function setInfo(data) {
-  return { type: RECEIVE_INFO, data }
 }
 
 /**
@@ -180,6 +174,17 @@ export const receiveInfo = data => async (dispatch, getState) => {
   }
 }
 
+/**
+ * fetchInfo - Fetch node info for the currently connected node.
+ *
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
+ */
+export const fetchInfo = () => async dispatch => {
+  dispatch(getInfo())
+  const info = await grpc.services.Lightning.getInfo()
+  dispatch(receiveInfo(info))
+}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
@@ -199,100 +204,5 @@ const ACTION_HANDLERS = {
     state.network = get(data, 'chains[0].network')
   },
 }
-// ------------------------------------
-// Selectors
-// ------------------------------------
-
-const infoSelectors = {}
-infoSelectors.chainSelector = state => state.info.chain
-infoSelectors.chainsSelector = state => state.info.chains
-infoSelectors.networkSelector = state => state.info.network
-infoSelectors.networksSelector = state => state.info.networks
-infoSelectors.infoLoading = state => state.info.infoLoading
-infoSelectors.infoLoaded = state => state.info.infoLoaded
-infoSelectors.hasSynced = state => state.info.hasSynced
-infoSelectors.isSyncedToChain = state => get(state, 'info.data.syncedToChain', false)
-infoSelectors.version = state => get(state, 'info.data.version')
-infoSelectors.identityPubkey = state => get(state, 'info.data.identity_pubkey')
-infoSelectors.nodeUris = state => get(state, 'info.data.uris')
-infoSelectors.grpcProtoVersion = state => get(state, 'info.data.grpcProtoVersion')
-
-// Extract the version string from the version.
-infoSelectors.versionString = createSelector(
-  infoSelectors.version,
-  version => version && version.split(' ')[0]
-)
-
-// Extract the commit string from the version.
-infoSelectors.commitString = createSelector(infoSelectors.version, version => {
-  if (!version) {
-    return undefined
-  }
-  const commitString = version.split(' ')[1]
-  return commitString ? commitString.replace('commit=', '') : undefined
-})
-
-// Check whether node has support for Router service
-infoSelectors.hasRouterSupport = createSelector(infoSelectors.grpcProtoVersion, version => {
-  if (!version) {
-    return false
-  }
-  return semver.gte(version, '0.7.1-beta', { includePrerelease: true })
-})
-
-// Check whether node has support for SendPaymentV2 service
-infoSelectors.hasSendPaymentV2Support = createSelector(infoSelectors.grpcProtoVersion, version => {
-  if (!version) {
-    return false
-  }
-  return semver.gte(version, '0.10.0-beta', { includePrerelease: true })
-})
-
-// Check whether node has support for mpp
-infoSelectors.hasMppSupport = createSelector(infoSelectors.grpcProtoVersion, version => {
-  if (!version) {
-    return false
-  }
-  return semver.gte(version, '0.10.0-beta', { includePrerelease: true })
-})
-
-// Get the node pubkey. If not set, try to extract it from the node uri.
-infoSelectors.nodePubkey = createSelector(
-  infoSelectors.nodeUris,
-  infoSelectors.identityPubkey,
-  (nodeUris, identityPubkey) => {
-    const parseFromDataUri = () => nodeUris && nodeUris[0].split('@')[0]
-    return identityPubkey || parseFromDataUri()
-  }
-)
-
-// Get the node uri or pubkey.
-infoSelectors.nodeUrisOrPubkey = createSelector(
-  infoSelectors.nodeUris,
-  infoSelectors.nodePubkey,
-  (nodeUris, nodePubkey) => nodeUris || [nodePubkey]
-)
-
-infoSelectors.networkInfo = createSelector(
-  infoSelectors.chainSelector,
-  infoSelectors.networkSelector,
-  infoSelectors.networksSelector,
-  settingsSelectors.currentConfig,
-  (chain, network, networks, currentConfig) => {
-    const networkInfo = get(networks, `${chain}.${network}`, {})
-    return {
-      ...networkInfo,
-      explorerUrl: networkInfo.explorerUrls[currentConfig.blockExplorer],
-    }
-  }
-)
-
-infoSelectors.chainName = createSelector(
-  infoSelectors.chainSelector,
-  infoSelectors.chainsSelector,
-  (chain, chains) => get(chains, `${chain}.name`, null)
-)
-
-export { infoSelectors }
 
 export default createReducer(initialState, ACTION_HANDLERS)

@@ -39,6 +39,7 @@ import backup from './backup'
  * @property {import('./activity').State} activity Activity reducer.
  * @property {import('./address').State} address Address reducer.
  * @property {import('./balance').State} balance Balance reducer.
+ * @property {import('./info').State} info Info reducer.
  * @property {import('./invoice').State} invoice Invoice reducer.
  * @property {import('./network').State} network Network reducer.
  * @property {import('./transaction').State} transaction Transaction reducer.

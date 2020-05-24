@@ -14,9 +14,7 @@ import messages from './messages'
 const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest }) => {
   const decodedInvoice = useMemo(() => (payReq ? decodePayReq(payReq) : {}), [payReq])
   const [isExpired, setIsExpired] = useState(false)
-  const [expiryDelta, setExpiryDelta] = useState(
-    decodedInvoice.timeExpireDate - getUnixTime() / 1000
-  )
+  const [expiryDelta, setExpiryDelta] = useState(decodedInvoice.timeExpireDate - Date.now() / 1000)
 
   useEffect(() => {
     setExpiryDelta(decodedInvoice.timeExpireDate - getUnixTime() / 1000)
