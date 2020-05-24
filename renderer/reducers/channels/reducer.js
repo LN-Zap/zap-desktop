@@ -4,8 +4,8 @@ import { CoinBig } from '@zap/utils/coin'
 import { getIntl } from '@zap/i18n'
 import { requestSuggestedNodes } from '@zap/utils/api'
 import { grpc } from 'workers'
-import { updateNotification, showWarning, showError } from 'reducers/notification'
 import { fetchBalance } from 'reducers/balance'
+import { updateNotification, showWarning, showError } from 'reducers/notification'
 import { walletSelectors } from 'reducers/wallet'
 import { updateNodeData } from 'reducers/network'
 import { putConfig, settingsSelectors } from 'reducers/settings'
@@ -312,7 +312,6 @@ export const receiveChannels = ({
   closedChannels: { channels: closedChannels },
 }) => dispatch => {
   dispatch({ type: RECEIVE_CHANNELS, channels, pendingChannels, closedChannels })
-  dispatch(fetchBalance())
 }
 
 /**
@@ -323,7 +322,7 @@ export const receiveChannels = ({
 export const fetchChannels = () => async dispatch => {
   dispatch(getChannels())
   const channels = await grpc.services.Lightning.getChannels()
-  dispatch(receiveChannels(channels))
+  await dispatch(receiveChannels(channels))
 }
 
 /**
@@ -334,6 +333,7 @@ export const fetchChannels = () => async dispatch => {
  */
 export const pushchannelupdated = ({ nodePubkey, chanId, data }) => dispatch => {
   dispatch(fetchChannels())
+  dispatch(fetchBalance())
   if (data.update === 'chanPending') {
     if (nodePubkey) {
       dispatch(removeLoadingChannel(nodePubkey))
@@ -385,6 +385,7 @@ export const pushchannelerror = ({ nodePubkey, chanId, error }) => dispatch => {
  */
 export const pushclosechannelupdated = ({ chanId }) => dispatch => {
   dispatch(fetchChannels())
+  dispatch(fetchBalance())
   dispatch(removeClosingChanId(chanId))
 }
 
@@ -492,16 +493,25 @@ export const pushclosechannelerror = ({ error, chanId }) => dispatch => {
 /**
  * throttledFetchChannels - Throttled dispatch to fetchChannels (calls fetchChannels no more than once per second).
  */
-const throttledFetchChannels = throttle(dispatch => dispatch(fetchChannels()), 1000, {
-  leading: true,
-  trailing: true,
-})
+const throttledFetchChannels = throttle(
+  dispatch => {
+    dispatch(fetchChannels())
+    dispatch(fetchBalance())
+  },
+  1000,
+  {
+    leading: true,
+    trailing: true,
+  }
+)
 
 /**
  * receiveChannelGraphData - Receive channel graph data from lnd.
  *
- * @param {object} data Channel graph
- * @returns {Function} Thunk
+ * @param {object} data Channel grph subscription updates.
+ * @param {object} data.channelUpdates New channels being advertised, updates in channel routing policy etc
+ * @param {object} data.nodeUpdates New nodes coming online, nodes updating their authenticated attributes
+ * @returns {(dispatch:Function, getState:Function) => void} Thunk
  */
 export const receiveChannelGraphData = ({ channelUpdates, nodeUpdates }) => (
   dispatch,

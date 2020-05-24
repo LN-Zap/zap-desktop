@@ -145,10 +145,6 @@ export const receiveTransactions = (transactions, updateOnly = false) => async (
       dispatch(newAddress(type))
     }
   })
-
-  // Fetch updated channels and balance.
-  await dispatch(fetchBalance())
-  await dispatch(fetchChannels())
 }
 
 /**
@@ -245,14 +241,18 @@ export const transactionFailed = ({ internalId, error }) => async (dispatch, get
  * @returns {(dispatch:Function, getState:Function) => void} Thunk
  */
 export const receiveTransactionData = transaction => async (dispatch, getState) => {
-  const state = getState()
-  const intl = getIntl()
-  const decoratedTransaction = decorateTransaction(transaction)
-  const { isSent, isReceived } = decoratedTransaction
-  const isNew = !transactionsSelector(state).find(tx => tx.txHash === transaction.txHash)
+  const isNew = !transactionsSelector(getState()).find(tx => tx.txHash === transaction.txHash)
 
   // Add/Update the transaction.
   await dispatch(receiveTransactions([transaction]))
+
+  // Fetch updated channels and balance.
+  await dispatch(fetchBalance())
+  await dispatch(fetchChannels())
+
+  const intl = getIntl()
+  const decoratedTransaction = decorateTransaction(transaction)
+  const { isSent, isReceived } = decoratedTransaction
 
   if (isNew) {
     // Send HTML 5 desktop notification for newly received transactions.
