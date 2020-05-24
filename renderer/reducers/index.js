@@ -32,13 +32,14 @@ import backup from './backup'
 
 /**
  * @typedef State
- * @property {object.<string, any>} intl Intl reducer.
- * @property {object.<string, any>} locale Locale reducer.
+ * @property {object<string, any>} intl Intl reducer.
+ * @property {object<string, any>} locale Locale reducer.
  * @property {import('./theme').State} theme Theme reducer.
  * @property {import('./account').State} account Account reducer.
  * @property {import('./activity').State} activity Activity reducer.
  * @property {import('./address').State} address Address reducer.
  * @property {import('./balance').State} balance Balance reducer.
+ * @property {import('./invoice').State} invoice Invoice reducer.
  */
 
 /** @type {State} */

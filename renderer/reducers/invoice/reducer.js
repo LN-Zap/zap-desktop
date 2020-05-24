@@ -1,83 +1,74 @@
-import { createSelector } from 'reselect'
 import uniqBy from 'lodash/uniqBy'
 import createReducer from '@zap/utils/createReducer'
 import { showSystemNotification } from '@zap/utils/notifications'
 import { convert } from '@zap/utils/btc'
 import { getIntl } from '@zap/i18n'
 import { grpc } from 'workers'
-import { fetchBalance } from './balance'
-import { fetchChannels } from './channels'
-import { showError } from './notification'
-import { walletSelectors } from './wallet'
-import { settingsSelectors } from './settings'
+import { fetchBalance } from 'reducers/balance'
+import { fetchChannels } from 'reducers/channels'
+import { showError } from 'reducers/notification'
+import { walletSelectors } from 'reducers/wallet'
+import { settingsSelectors } from 'reducers/settings'
+import { decorateInvoice } from './utils'
 import messages from './messages'
+import * as constants from './constants'
+
+const {
+  SET_INVOICE,
+  GET_INVOICES,
+  RECEIVE_INVOICES,
+  SEND_INVOICE,
+  INVOICE_SUCCESSFUL,
+  INVOICE_FAILED,
+  UPDATE_INVOICE,
+} = constants
+
+/**
+ * @typedef Invoice
+ * @property {object[]} routeHints Route hints that can be used to assist in reaching the invoice's destination
+ * @property {object[]} htlcs List of HTLCs paying to this invoice
+ * @property {object} features List of features advertised on the invoice
+ * @property {string} memo An optional memo to attach along with the invoice
+ * @property {string} rPreimage The hex-encoded preimage (32 byte)
+ * @property {string} rHash The hash of the preimage
+ * @property {string} value The value of this invoice in satoshis
+ * @property {boolean} settled Whether this invoice has been fulfilled
+ * @property {string} creationDate When this invoice was created
+ * @property {string} settleDate When this invoice was settled
+ * @property {string} paymentRequest A bare-bones invoice for a payment within the Lightning Network
+ * @property {object} descriptionHash Hash (SHA-256) of a description of the payment
+ * @property {string} expiry Payment request expiry time in seconds
+ * @property {string} fallbackAddr Fallback on-chain address
+ * @property {string} cltvExpiry Delta to use for the time-lock of the CLTV extended to the final hop
+ * @property {boolean} private Whether this invoice should include routing hints for private channels
+ * @property {string} addIndex The "add" index of this invoice
+ * @property {string} settleIndex The "settle" index of this invoice
+ * @property {string} amtPaid Deprecated, use amt_paid_sat or amt_paid_msat
+ * @property {string} amtPaidSat The amount that was accepted for this invoice, in satoshis
+ * @property {string} amtPaidMsat The amount that was accepted for this invoice, in millisatoshis
+ * @property {'OPEN'|'SETTLED'|'CANCELED'|'ACCEPTED'} state The state the invoice is in
+ * @property {string} valueMsat The value of this invoice in millisatoshis
+ * @property {boolean} isKeysend Indicates if this invoice was a spontaneous payment that arrived via keysend
+ */
+
+/**
+ * @typedef State
+ * @property {boolean} isInvoicesLoading Boolean indicating if invoices are loading.
+ * @property {Error|null} createInvoiceError Error from loading activity.
+ * @property {Invoice[]} invoices List of invoices.
+ * @property {string|null} invoice Currently selected invoice (payment request)
+ */
 
 // ------------------------------------
 // Initial State
 // ------------------------------------
 
+/** @type {State} */
 const initialState = {
   isInvoicesLoading: false,
   createInvoiceError: null,
   invoices: [],
   invoice: null,
-}
-
-// ------------------------------------
-// Constants
-// ------------------------------------
-
-export const SET_INVOICE = 'SET_INVOICE'
-export const GET_INVOICES = 'GET_INVOICES'
-export const RECEIVE_INVOICES = 'RECEIVE_INVOICES'
-export const SEND_INVOICE = 'SEND_INVOICE'
-export const INVOICE_SUCCESSFUL = 'INVOICE_SUCCESSFUL'
-export const INVOICE_FAILED = 'INVOICE_FAILED'
-export const UPDATE_INVOICE = 'UPDATE_INVOICE'
-
-// ------------------------------------
-// Helpers
-// ------------------------------------
-
-/**
- * decorateInvoice - Decorate invoice object with custom/computed properties.
- *
- * @param {object} invoice Invoice
- * @returns {object} Decorated invoice
- */
-const decorateInvoice = invoice => {
-  // Add basic type information.
-  const decoration = {
-    type: 'invoice',
-  }
-
-  const { amtPaid, amtPaidSat, value, amtPaidMsat } = invoice
-
-  // Older versions of lnd provided the sat amount in `value`.
-  // This is now deprecated in favor of `valueSat` and `valueMsat`.
-  // Patch data returned from older clients to match the current format for consistency.
-  if (amtPaid && (!amtPaidSat || !amtPaidMsat)) {
-    Object.assign(decoration, {
-      amtPaidSat: amtPaid,
-      amtPaidMsat: convert('sats', 'msats', amtPaid),
-    })
-  }
-
-  decoration.finalAmount = amtPaidSat && amtPaidSat !== '0' ? amtPaidSat : value
-
-  // Add an `isExpired` prop which shows whether the invoice is expired or not.
-  const expiresAt = parseInt(invoice.creationDate, 10) + parseInt(invoice.expiry, 10)
-  decoration.isExpired = expiresAt < Math.round(new Date() / 1000)
-
-  // Older versions of lnd provided the settled state in `settled`
-  // This is now deprecated in favor of `state=SETTLED
-  // Add an `isSettled` prop which shows whether the invoice is settled or not.
-  decoration.isSettled = invoice.state ? invoice.state === 'SETTLED' : invoice.settled
-
-  return {
-    ...invoice,
-    ...decoration,
-  }
 }
 
 // ------------------------------------
@@ -87,13 +78,13 @@ const decorateInvoice = invoice => {
 /**
  * setInvoice - Set the active invoice.
  *
- * @param {object} invoice Invoice
+ * @param {string} paymentRequest Payment request
  * @returns {object} Action
  */
-export function setInvoice(invoice) {
+export function setInvoice(paymentRequest) {
   return {
     type: SET_INVOICE,
-    invoice,
+    invoice: paymentRequest,
   }
 }
 
@@ -122,11 +113,36 @@ export function sendInvoice() {
 /**
  * receiveInvoices - Receive details of all invoice.
  *
- * @param {Array} invoices List of invoices
+ * @param {Invoice[]} invoices List of invoices
  * @returns {(dispatch:Function) => void} Thunk
  */
 export const receiveInvoices = invoices => dispatch => {
   dispatch({ type: RECEIVE_INVOICES, invoices })
+}
+
+/**
+ * createInvoiceSuccess - Create invoice success handler.
+ *
+ * @param {Invoice} invoice Invoice
+ * @returns {(dispatch:Function) => void} Thunk
+ */
+export const createInvoiceSuccess = invoice => dispatch => {
+  // Add new invoice to invoices list
+  dispatch({ type: INVOICE_SUCCESSFUL, invoice })
+
+  // Set current invoice to newly created invoice.
+  dispatch(setInvoice(invoice.paymentRequest))
+}
+
+/**
+ * createInvoiceFailure - Create invoice error handler.
+ *
+ * @param {Error} error Error
+ * @returns {(dispatch:Function) => void} Thunk
+ */
+export const createInvoiceFailure = error => dispatch => {
+  dispatch({ type: INVOICE_FAILED, error: error.message })
+  dispatch(showError(error.message))
 }
 
 /**
@@ -138,7 +154,7 @@ export const receiveInvoices = invoices => dispatch => {
  * @param {string} options.memo Memo
  * @param {boolean} options.isPrivate Set to true to include routing hints
  * @param {string} options.fallbackAddress on-chain address fallback
- * @returns {Function} Thunk
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const createInvoice = ({ amount, cryptoUnit, memo, isPrivate, fallbackAddress }) => async (
   dispatch,
@@ -175,34 +191,9 @@ export const createInvoice = ({ amount, cryptoUnit, memo, isPrivate, fallbackAdd
 }
 
 /**
- * createInvoiceSuccess - Create invoice success handler.
- *
- * @param {object} invoice Invoice
- * @returns {(dispatch:Function) => void} Thunk
- */
-export const createInvoiceSuccess = invoice => dispatch => {
-  // Add new invoice to invoices list
-  dispatch({ type: INVOICE_SUCCESSFUL, invoice })
-
-  // Set current invoice to newly created invoice.
-  dispatch(setInvoice(invoice.paymentRequest))
-}
-
-/**
- * createInvoiceFailure - Create invoice error handler.
- *
- * @param {Error} error Error
- * @returns {(dispatch:Function) => void} Thunk
- */
-export const createInvoiceFailure = error => dispatch => {
-  dispatch({ type: INVOICE_FAILED, error: error.message })
-  dispatch(showError(error.message))
-}
-
-/**
  * receiveInvoiceData - Listen for invoice updates pushed from backend from invoices stream.
  *
- * @param {object} invoice Invoice
+ * @param {Invoice} invoice Invoice
  * @returns {(dispatch:Function) => void} Thunk
  */
 export const receiveInvoiceData = invoice => dispatch => {
@@ -221,7 +212,9 @@ export const receiveInvoiceData = invoice => dispatch => {
     const intl = getIntl()
     const notifTitle = intl.formatMessage(messages.invoice_receive_title)
     const notifBody = intl.formatMessage(
-      decoratedInvoice.isKeysend ? messages.keysend_receive_body : messages.invoice_receive_body
+      decoratedInvoice.isKeysend
+        ? messages.invoice_keysend_receive_body
+        : messages.invoice_receive_body
     )
 
     showSystemNotification(notifTitle, { body: notifBody })
@@ -267,26 +260,5 @@ const ACTION_HANDLERS = {
     }
   },
 }
-
-// ------------------------------------
-// Selectors
-// ------------------------------------
-
-const invoiceSelectors = {}
-const invoiceSelector = state => state.invoice.invoice
-const invoicesSelector = state => state.invoice.invoices
-
-invoiceSelectors.invoices = createSelector(invoicesSelector, invoices =>
-  invoices.map(decorateInvoice)
-)
-
-invoiceSelectors.invoiceModalOpen = createSelector(invoiceSelector, invoice => Boolean(invoice))
-invoiceSelectors.invoice = createSelector(
-  invoiceSelectors.invoices,
-  invoiceSelector,
-  (invoices, invoice) => invoices.find(item => item.paymentRequest === invoice)
-)
-
-export { invoiceSelectors }
 
 export default createReducer(initialState, ACTION_HANDLERS)

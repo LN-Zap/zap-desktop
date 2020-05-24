@@ -12,7 +12,7 @@ import { defaultFilter } from './constants'
 /**
  * paymentsSelector - Payments.
  *
- * @param {State} state redux state
+ * @param {State} state Redux state
  * @returns {object<string, any>[]} List of payments
  */
 const paymentsSelector = state => paymentSelectors.payments(state)
