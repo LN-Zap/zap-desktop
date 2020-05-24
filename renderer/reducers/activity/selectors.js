@@ -1,5 +1,7 @@
 /**
  * @typedef {import('../index').State} State
+ * @typedef {import('../invoice').DecoratedInvoice} DecoratedInvoice
+ * @typedef {import('../transaction').DecoratedTransaction} DecoratedTransaction
  */
 
 import { createSelector } from 'reselect'
@@ -29,7 +31,7 @@ const paymentsSendingSelector = state => paymentSelectors.paymentsSending(state)
  * invoicesSelector - Invoice.
  *
  * @param {State} state Redux state
- * @returns {object[]} List of invoices
+ * @returns {DecoratedInvoice[]} List of invoices
  */
 const invoicesSelector = state => invoiceSelectors.invoices(state)
 
@@ -37,7 +39,7 @@ const invoicesSelector = state => invoiceSelectors.invoices(state)
  * invoicesSelector - Transactions.
  *
  * @param {State} state Redux state
- * @returns {object[]} List of transactions
+ * @returns {DecoratedTransaction[]} List of transactions
  */
 const transactionsSelector = state => transactionSelectors.transactions(state)
 
