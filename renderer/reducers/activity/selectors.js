@@ -13,7 +13,7 @@ import { defaultFilter } from './constants'
  * paymentsSelector - Payments.
  *
  * @param {State} state Redux state
- * @returns {object<string, any>[]} List of payments
+ * @returns {object[]} List of payments
  */
 const paymentsSelector = state => paymentSelectors.payments(state)
 
@@ -21,7 +21,7 @@ const paymentsSelector = state => paymentSelectors.payments(state)
  * paymentsSendingSelector - Payments sending.
  *
  * @param {State} state Redux state
- * @returns {object<string, any>[]} List of payments sending
+ * @returns {object[]} List of payments sending
  */
 const paymentsSendingSelector = state => paymentSelectors.paymentsSending(state)
 
@@ -29,7 +29,7 @@ const paymentsSendingSelector = state => paymentSelectors.paymentsSending(state)
  * invoicesSelector - Invoice.
  *
  * @param {State} state Redux state
- * @returns {object<string, any>[]} List of invoices
+ * @returns {object[]} List of invoices
  */
 const invoicesSelector = state => invoiceSelectors.invoices(state)
 
@@ -37,7 +37,7 @@ const invoicesSelector = state => invoiceSelectors.invoices(state)
  * invoicesSelector - Transactions.
  *
  * @param {State} state Redux state
- * @returns {object<string, any>[]} List of transactions
+ * @returns {object[]} List of transactions
  */
 const transactionsSelector = state => transactionSelectors.transactions(state)
 
@@ -45,7 +45,7 @@ const transactionsSelector = state => transactionSelectors.transactions(state)
  * invoicesSelector - Transactions.
  *
  * @param {State} state Redux state
- * @returns {object<string, any>[]} List of transactions sending
+ * @returns {object[]} List of transactions sending
  */
 const transactionsSendingSelector = state => transactionSelectors.transactionsSending(state)
 
@@ -69,7 +69,7 @@ export const hasNextPage = state => state.activity.hasNextPage
  * filters - List of activity filters.
  *
  * @param {State} state Redux state
- * @returns {object<string, any>[]}  List of activity filters
+ * @returns {object[]}  List of activity filters
  */
 export const filters = state => state.activity.filters
 

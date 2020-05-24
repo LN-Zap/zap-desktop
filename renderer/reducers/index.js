@@ -32,8 +32,8 @@ import backup from './backup'
 
 /**
  * @typedef State
- * @property {object<string, any>} intl Intl reducer.
- * @property {object<string, any>} locale Locale reducer.
+ * @property {object} intl Intl reducer.
+ * @property {object} locale Locale reducer.
  * @property {import('./theme').State} theme Theme reducer.
  * @property {import('./account').State} account Account reducer.
  * @property {import('./activity').State} activity Activity reducer.

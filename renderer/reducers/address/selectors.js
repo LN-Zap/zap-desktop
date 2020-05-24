@@ -9,7 +9,7 @@ import { settingsSelectors } from '../settings'
  * currentConfigSelector - Current config.
  *
  * @param {State} state Redux state
- * @returns {object<string, any>} Config.
+ * @returns {object} Config.
  */
 export const currentConfigSelector = state => settingsSelectors.currentConfig(state)
 
