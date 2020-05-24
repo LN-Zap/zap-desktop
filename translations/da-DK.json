@@ -453,6 +453,7 @@
   "components.Pay.memo": "Notat",
   "components.Pay.next": "Næste",
   "components.Pay.next_block_confirmation": "næste blok bekæftelse",
+  "components.Pay.no_route_tooltip": "",
   "components.Pay.onchain_balance": "",
   "components.Pay.request_label_combined": "Betalings Anmodning eller Adresse",
   "components.Pay.request_label_offchain": "Betalings Anmodning",

@@ -453,6 +453,7 @@
   "components.Pay.memo": "Açıklama",
   "components.Pay.next": "Sonraki",
   "components.Pay.next_block_confirmation": "sıradaki blok onayında",
+  "components.Pay.no_route_tooltip": "",
   "components.Pay.onchain_balance": "{amount} {cryptoUnitName} (Ana-Ağ'da)",
   "components.Pay.request_label_combined": "Ödeme Talebi, Adres veya Nod Anahtarı",
   "components.Pay.request_label_offchain": "Ödeme Talebi",

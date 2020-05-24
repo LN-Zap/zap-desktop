@@ -453,6 +453,7 @@
   "components.Pay.memo": "Bilješka",
   "components.Pay.next": "Slijedeće",
   "components.Pay.next_block_confirmation": "potvrda u slijedećem bloku",
+  "components.Pay.no_route_tooltip": "",
   "components.Pay.onchain_balance": "",
   "components.Pay.request_label_combined": "Zahtjev za plaćanjem ili adresa",
   "components.Pay.request_label_offchain": "Zahtjev za plaćanjem",

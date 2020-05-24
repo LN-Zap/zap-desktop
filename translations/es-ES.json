@@ -453,6 +453,7 @@
   "components.Pay.memo": "Memorándum",
   "components.Pay.next": "Siguiente",
   "components.Pay.next_block_confirmation": "próxima confirmación de bloque",
+  "components.Pay.no_route_tooltip": "",
   "components.Pay.onchain_balance": "{amount} {cryptoUnitName} (onchain)",
   "components.Pay.request_label_combined": "Solicitud de Pago o Dirección",
   "components.Pay.request_label_offchain": "Solicitud de Pago",

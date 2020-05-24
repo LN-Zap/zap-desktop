@@ -7,7 +7,7 @@ import { CoinBig } from '@zap/utils/coin'
 import { convert } from '@zap/utils/btc'
 import { decodePayReq, getNodeAlias, getTag } from '@zap/utils/crypto'
 import BigArrowRight from 'components/Icon/BigArrowRight'
-import { Bar, DataRow, Spinner, Text } from 'components/UI'
+import { Bar, DataRow, Spinner, Text, Tooltip } from 'components/UI'
 import { CryptoSelector, CryptoValue, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
 import messages from './messages'
@@ -55,9 +55,7 @@ class PaySummaryLightning extends React.Component {
     }
 
     // Select an appropriate fee message...
-    // Default to configured limit.
-    let feeMessage = messages.fee_config_limit
-
+    let feeMessage
     if (hasMinFee || hasMaxFee) {
       // If thex max fee is 0 or 1 then show a message like "less than 1".
       if (hasMaxFee && maxFee >= 0 && maxFee < 1) {
@@ -82,7 +80,17 @@ class PaySummaryLightning extends React.Component {
       )
     }
 
-    return null
+    return (
+      <Flex alignItems="center">
+        <Tooltip mr={1}>
+          <FormattedMessage {...messages.no_route_tooltip} />
+        </Tooltip>
+        <FormattedMessage
+          {...messages.fee_config_limit}
+          values={{ maxFee: config.payments.feeLimit }}
+        />
+      </Flex>
+    )
   }
 
   render() {

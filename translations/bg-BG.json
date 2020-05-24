@@ -453,6 +453,7 @@
   "components.Pay.memo": "Бележка",
   "components.Pay.next": "Напред",
   "components.Pay.next_block_confirmation": "следващ блок за потвърждение",
+  "components.Pay.no_route_tooltip": "",
   "components.Pay.onchain_balance": "{amount} {cryptoUnitName} (on-chain)",
   "components.Pay.request_label_combined": "",
   "components.Pay.request_label_offchain": "Заявка за плащане",
