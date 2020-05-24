@@ -127,11 +127,11 @@ export const paymentSuccessful = paymentId => async (dispatch, getState) => {
     dispatch(paymentComplete(paymentId))
   }
 
-  // Fetch new balance.
-  dispatch(fetchBalance())
-
   // Fetch updated channels.
   dispatch(fetchChannels())
+
+  // Fetch new balance.
+  dispatch(fetchBalance())
 }
 
 /**
