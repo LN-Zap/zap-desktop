@@ -204,6 +204,13 @@ const forms = {
   },
 }
 
+const text = {
+  link: {
+    cursor: 'pointer',
+    textDecoration: 'underline',
+  },
+}
+
 const variants = {
   message: {
     success: {
@@ -270,6 +277,7 @@ export default {
   lineHeights,
   palette,
   shadows,
+  text,
   buttons,
   forms,
   variants,
