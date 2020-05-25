@@ -2,25 +2,37 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage } from 'react-intl'
-import config from 'config'
 import { CoinBig } from '@zap/utils/coin'
 import { convert } from '@zap/utils/btc'
 import { decodePayReq, getNodeAlias, getTag } from '@zap/utils/crypto'
 import BigArrowRight from 'components/Icon/BigArrowRight'
-import { Bar, DataRow, Spinner, Text, Tooltip } from 'components/UI'
+import { Bar, DataRow, Link, Spinner, Text, Tooltip } from 'components/UI'
 import { CryptoSelector, CryptoValue, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
 import messages from './messages'
+
+const ConfigLink = ({ feeLimit, openModal, ...rest }) => (
+  <Link onClick={() => openModal('SETTINGS')} {...rest}>
+    {feeLimit}
+  </Link>
+)
+
+ConfigLink.propTypes = {
+  feeLimit: PropTypes.number.isRequired,
+  openModal: PropTypes.func.isRequired,
+}
 
 class PaySummaryLightning extends React.Component {
   static propTypes = {
     amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     exactFee: PropTypes.string,
+    feeLimit: PropTypes.number,
     isPubkey: PropTypes.bool,
     isQueryingRoutes: PropTypes.bool,
     maxFee: PropTypes.string,
     minFee: PropTypes.string,
     nodes: PropTypes.array,
+    openModal: PropTypes.func.isRequired,
     payReq: PropTypes.string.isRequired,
   }
 
@@ -40,7 +52,7 @@ class PaySummaryLightning extends React.Component {
   )
 
   renderFee() {
-    const { exactFee, maxFee, minFee } = this.props
+    const { exactFee, feeLimit, maxFee, minFee, openModal } = this.props
     const hasExactFee = CoinBig(exactFee).isFinite()
     const hasMinFee = CoinBig(minFee).isFinite()
     const hasMaxFee = CoinBig(maxFee).isFinite()
@@ -72,12 +84,7 @@ class PaySummaryLightning extends React.Component {
     }
 
     if (feeMessage) {
-      return (
-        <FormattedMessage
-          {...feeMessage}
-          values={{ minFee, maxFee: hasMaxFee ? maxFee : config.payments.feeLimit }}
-        />
-      )
+      return <FormattedMessage {...feeMessage} values={{ minFee, maxFee }} />
     }
 
     return (
@@ -87,7 +94,7 @@ class PaySummaryLightning extends React.Component {
         </Tooltip>
         <FormattedMessage
           {...messages.fee_config_limit}
-          values={{ maxFee: config.payments.feeLimit }}
+          values={{ maxFee: <ConfigLink feeLimit={feeLimit} mx={1} openModal={openModal} /> }}
         />
       </Flex>
     )
