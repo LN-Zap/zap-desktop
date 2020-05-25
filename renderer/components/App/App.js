@@ -5,7 +5,7 @@ import LnurlChannelPrompt from 'containers/Channels/LnurlChannelPrompt'
 import createScheduler from '@zap/utils/scheduler'
 import Wallet from 'containers/Wallet'
 import Activity from 'containers/Activity'
-import LnurlWithdrawalPrompt from 'containers/Pay/LnurlWithdrawalPrompt'
+import LnurlWithdrawPrompt from 'containers/Pay/LnurlWithdrawPrompt'
 
 // Bitcoin blocks come on average every 10 mins
 // but we poll a lot more frequently to make UI a little bit more responsive
@@ -43,9 +43,9 @@ const App = ({
   lnurlChannelParams,
   lnurlWithdrawParams,
   finishLnurlChannel,
-  finishLnurlWithdrawal,
+  finishLnurlWithdraw,
   willShowLnurlChannelPrompt,
-  willShowLnurlWithdrawalPrompt,
+  willShowLnurlWithdrawPrompt,
 }) => {
   /**
    * App scheduler / polling service setup. Add new app-wide polls here
@@ -96,8 +96,8 @@ const App = ({
     // initialize backup service in forceUseTokens mode to avoid
     // launching it for wallets that don't have backup setup
     initBackupService()
-    if (!willShowLnurlWithdrawalPrompt) {
-      finishLnurlWithdrawal()
+    if (!willShowLnurlWithdrawPrompt) {
+      finishLnurlWithdraw()
     }
     if (!willShowLnurlChannelPrompt) {
       finishLnurlChannel()
@@ -112,11 +112,11 @@ const App = ({
     setIsWalletOpen,
     updateAutopilotNodeScores,
     finishLnurlChannel,
-    finishLnurlWithdrawal,
+    finishLnurlWithdraw,
     lnurlChannelParams,
     lnurlWithdrawParams,
     willShowLnurlChannelPrompt,
-    willShowLnurlWithdrawalPrompt,
+    willShowLnurlWithdrawPrompt,
   ])
 
   // Open the pay form when a payment link is used.
@@ -136,7 +136,7 @@ const App = ({
     <Flex as="article" flexDirection="column" width={1}>
       <Wallet />
       <Activity />
-      {willShowLnurlWithdrawalPrompt && <LnurlWithdrawalPrompt />}
+      {willShowLnurlWithdrawPrompt && <LnurlWithdrawPrompt />}
       {willShowLnurlChannelPrompt && <LnurlChannelPrompt />}
     </Flex>
   )
@@ -148,7 +148,7 @@ App.propTypes = {
   fetchSuggestedNodes: PropTypes.func.isRequired,
   fetchTransactions: PropTypes.func.isRequired,
   finishLnurlChannel: PropTypes.func.isRequired,
-  finishLnurlWithdrawal: PropTypes.func.isRequired,
+  finishLnurlWithdraw: PropTypes.func.isRequired,
   initActivityHistory: PropTypes.func.isRequired,
   initBackupService: PropTypes.func.isRequired,
   initTickers: PropTypes.func.isRequired,
@@ -161,7 +161,7 @@ App.propTypes = {
   setModals: PropTypes.func.isRequired,
   updateAutopilotNodeScores: PropTypes.func.isRequired,
   willShowLnurlChannelPrompt: PropTypes.bool,
-  willShowLnurlWithdrawalPrompt: PropTypes.bool,
+  willShowLnurlWithdrawPrompt: PropTypes.bool,
 }
 
 export default App

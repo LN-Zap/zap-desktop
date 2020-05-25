@@ -1,5 +1,10 @@
 import { connect } from 'react-redux'
-import { finishLnurlChannel, channelsSelectors, declineLnurlChannel } from 'reducers/channels'
+import {
+  finishLnurlChannel,
+  channelsSelectors,
+  clearLnurlChannel,
+  declineLnurlChannel,
+} from 'reducers/channels'
 import { LnurlChannelPrompt } from 'components/Channels'
 
 const mapStateToProps = state => ({
@@ -9,6 +14,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   onOk: finishLnurlChannel,
   onCancel: declineLnurlChannel,
+  onClose: clearLnurlChannel,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LnurlChannelPrompt)

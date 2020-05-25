@@ -6,7 +6,7 @@ import { Dialog, Heading, Button, DialogOverlay, Text } from 'components/UI'
 import { Form } from 'components/Form'
 import messages from './messages'
 
-const LnurlWithdrawalPrompt = ({ params, onOk, onCancel }) => {
+const LnurlWithdrawPrompt = ({ params, onOk, onCancel, onClose }) => {
   const { service, amount } = params
   const buttons = (
     <>
@@ -32,7 +32,7 @@ const LnurlWithdrawalPrompt = ({ params, onOk, onCancel }) => {
   return (
     <DialogOverlay alignItems="center" justifyContent="center">
       <Form onSubmit={handleSubmit}>
-        <Dialog buttons={buttons} header={header} onClose={onCancel} width={640}>
+        <Dialog buttons={buttons} header={header} onClose={onClose} width={640}>
           <Text color="gray">
             <FormattedMessage
               values={{ amount: amount / 1000 }}
@@ -46,10 +46,11 @@ const LnurlWithdrawalPrompt = ({ params, onOk, onCancel }) => {
   )
 }
 
-LnurlWithdrawalPrompt.propTypes = {
+LnurlWithdrawPrompt.propTypes = {
   onCancel: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
   onOk: PropTypes.func.isRequired,
   params: PropTypes.object.isRequired,
 }
 
-export default LnurlWithdrawalPrompt
+export default LnurlWithdrawPrompt

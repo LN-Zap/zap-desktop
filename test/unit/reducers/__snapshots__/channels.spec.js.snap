@@ -420,7 +420,7 @@ Snapshot Diff:
   }
 `;
 
-exports[`reducers channelsReducer should handle DECLINE_LNURL_CHANNEL 1`] = `
+exports[`reducers channelsReducer should handle CLEAR_LNURL_CHANNEL 1`] = `
 Snapshot Diff:
 Compared values have no visual difference.
 `;

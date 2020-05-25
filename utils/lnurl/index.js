@@ -26,30 +26,28 @@ function uintToString(uintArray) {
  */
 export async function fetchLnurlParams(lnurl) {
   mainLog.debug('Extracting params from lnurl: %s', lnurl)
-  const params = await axios.get(lnurl)
-  mainLog.debug('Got params from lnurl: %o', params)
+  const { data } = await axios.get(lnurl)
+  mainLog.debug('Got params from lnurl: %o', data)
 
   const {
-    data: {
-      // a second-level url which would accept a withdrawal Lightning invoice as query parameter
-      callback,
-      // an ephemeral secret which would allow user to withdraw funds
-      k1: secret,
-      maxWithdrawable,
-      // A default withdrawal invoice description
-      defaultDescription,
-      // An optional field, defaults to 1 milisats if not present, can not be less than 1 or more than `maxWithdrawable`
-      minWithdrawable,
-      // Remote node address of form node_key@ip_address:port_number
-      uri,
-      // action type
-      tag,
-      // error status
-      status,
-      // error reason
-      reason,
-    },
-  } = params
+    // a second-level url which would accept a withdrawal Lightning invoice as query parameter
+    callback,
+    // an ephemeral secret which would allow user to withdraw funds
+    k1: secret,
+    maxWithdrawable,
+    // A default withdrawal invoice description
+    defaultDescription,
+    // An optional field, defaults to 1 milisats if not present, can not be less than 1 or more than `maxWithdrawable`
+    minWithdrawable,
+    // Remote node address of form node_key@ip_address:port_number
+    uri,
+    // action type
+    tag,
+    // error status
+    status,
+    // error reason
+    reason,
+  } = data
 
   if (status === LNURL_STATUS_ERROR) {
     return {
@@ -57,6 +55,7 @@ export async function fetchLnurlParams(lnurl) {
       reason,
     }
   }
+
   if (tag === 'withdrawRequest') {
     return {
       tag,
@@ -76,7 +75,7 @@ export async function fetchLnurlParams(lnurl) {
     }
   }
 
-  throw new Error('Unknown request type')
+  throw new Error(`Unknown request type: "${tag}"`)
 }
 
 /**

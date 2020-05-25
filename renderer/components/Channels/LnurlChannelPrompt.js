@@ -6,8 +6,8 @@ import { Dialog, Heading, Button, DialogOverlay, Text } from 'components/UI'
 import { Form } from 'components/Form'
 import messages from './messages'
 
-const LnurlChannelPrompt = ({ params, onOk, onCancel }) => {
-  const { service, uri } = params
+const LnurlChannelPrompt = ({ params, onOk, onCancel, onClose }) => {
+  const { uri } = params
   const buttons = (
     <>
       <Button type="submit" variant="normal">
@@ -32,11 +32,10 @@ const LnurlChannelPrompt = ({ params, onOk, onCancel }) => {
   return (
     <DialogOverlay alignItems="center" justifyContent="center">
       <Form onSubmit={handleSubmit}>
-        <Dialog buttons={buttons} header={header} onClose={onCancel} width={640}>
+        <Dialog buttons={buttons} header={header} onClose={onClose} width={640}>
           <Text color="gray">
             <FormattedMessage values={{ uri }} {...messages.lnurl_channel_prompt_dialog_body} />
           </Text>
-          <Text>{service}</Text>
         </Dialog>
       </Form>
     </DialogOverlay>
@@ -45,6 +44,7 @@ const LnurlChannelPrompt = ({ params, onOk, onCancel }) => {
 
 LnurlChannelPrompt.propTypes = {
   onCancel: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
   onOk: PropTypes.func.isRequired,
   params: PropTypes.object.isRequired,
 }

@@ -33,7 +33,7 @@ const {
   RECEIVE_SUGGESTED_NODES_ERROR,
   RECEIVE_SUGGESTED_NODES,
   SET_LNURL_CHANNEL_PARAMS,
-  DECLINE_LNURL_CHANNEL,
+  CLEAR_LNURL_CHANNEL,
 } = constants
 
 // ------------------------------------
@@ -101,14 +101,22 @@ export function setLnurlChannelParams(params) {
 }
 
 /**
+ * clearLnurlChannel - Clears lnurl channel state
+ *
+ * @returns {object} Action
+ */
+export const clearLnurlChannel = () => dispatch => {
+  dispatch({ type: CLEAR_LNURL_CHANNEL })
+}
+
+/**
  * declineLnurlChannel - Cancels lnurl channel and clears params cache.
  *
  * @returns {object} Action
  */
-export const declineLnurlChannel = () => {
-  return {
-    type: DECLINE_LNURL_CHANNEL,
-  }
+export const declineLnurlChannel = () => dispatch => {
+  dispatch(send('lnurlCancelChannel'))
+  dispatch(clearLnurlChannel())
 }
 
 /**
@@ -120,9 +128,6 @@ export const finishLnurlChannel = () => async (dispatch, getState) => {
   const state = getState()
   if (state.channels.lnurlChannelParams) {
     const { uri } = getState().channels.lnurlChannelParams
-    dispatch(setLnurlChannelParams(null))
-    const [pubkey, host] = uri.split('@')
-    await grpc.services.Lightning.ensurePeerConnected({ pubkey, host })
 
     // Show notification.
     dispatch(
@@ -132,7 +137,10 @@ export const finishLnurlChannel = () => async (dispatch, getState) => {
       })
     )
 
-    dispatch(send('lnurlFinalizeChannel', { pubkey: infoSelectors.nodePubkey(state) }))
+    const [pubkey, host] = uri.split('@')
+    await grpc.services.Lightning.ensurePeerConnected({ pubkey, host })
+    dispatch(send('lnurlFinishChannel', { pubkey: infoSelectors.nodePubkey(state) }))
+    dispatch(clearLnurlChannel())
   }
 }
 
@@ -572,6 +580,7 @@ export const receiveChannelGraphData = ({ channelUpdates, nodeUpdates }) => (
   getState
 ) => {
   const { info, channels } = getState()
+
   // Process node updates.
   if (nodeUpdates.length) {
     dispatch(updateNodeData(nodeUpdates))
@@ -681,7 +690,7 @@ const ACTION_HANDLERS = {
   [SET_LNURL_CHANNEL_PARAMS]: (state, { params }) => {
     state.lnurlChannelParams = params
   },
-  [DECLINE_LNURL_CHANNEL]: state => {
+  [CLEAR_LNURL_CHANNEL]: state => {
     state.lnurlChannelParams = null
   },
 }

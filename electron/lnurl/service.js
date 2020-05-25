@@ -30,13 +30,16 @@ export default class LnurlService {
     this.mainWindow = mainWindow
 
     this.withdrawParams = {}
-    this.isWithdrawalProcessing = false
+    this.isWithdrawProcessing = false
 
     this.channelParams = {}
     this.isChannelProcessing = false
 
-    ipcMain.on('lnurlFinalizeWithdraw', this.onFinishWithdrawal)
-    ipcMain.on('lnurlFinalizeChannel', this.onFinishChannel)
+    ipcMain.on('lnurlFinishWithdraw', this.onFinishWithdraw)
+    ipcMain.on('lnurlCancelWithdraw', this.onCancelWithdraw)
+
+    ipcMain.on('lnurlFinishChannel', this.onFinishChannel)
+    ipcMain.on('lnurlCancelChannel', this.onCancelChannel)
   }
 
   /**
@@ -44,8 +47,11 @@ export default class LnurlService {
    * `LnurlService` instance is of no use anymore.
    */
   terminate() {
-    ipcMain.off('lnurlFinalizeWithdraw', this.onFinishWithdrawal)
-    ipcMain.off('lnurlFinalizeChannel', this.onFinishChannel)
+    ipcMain.off('lnurlFinishWithdraw', this.onFinishWithdraw)
+    ipcMain.off('lnurlCancelWithdraw', this.onCancelWithdraw)
+
+    ipcMain.off('lnurlFinishChannel', this.onFinishChannel)
+    ipcMain.off('lnurlCancelChannel', this.onCancelChannel)
   }
 
   /**
@@ -75,7 +81,7 @@ export default class LnurlService {
       switch (res.tag) {
         case 'withdrawRequest':
           this.withdrawParams = res
-          await this.startWithdrawal(lnurl)
+          await this.startWithdraw(lnurl)
           break
 
         case 'channelRequest':
@@ -93,25 +99,25 @@ export default class LnurlService {
   }
 
   /**
-   * startWithdrawal - Initiates lnurl withdrawal process by sending query to
+   * startWithdraw - Initiates lnurl withdrawal process by sending query to
    * renderer process to generate LN invoice.
    *
    * @param {string} lnurl decoded lnurl
    */
-  async startWithdrawal(lnurl) {
-    if (this.isWithdrawalProcessing) {
-      mainLog.warn('Error processing lnurl withdraw request: busy')
-      this.send('lnurlWithdrawalBusy')
-      return
-    }
-    this.isWithdrawalProcessing = true
-
+  async startWithdraw(lnurl) {
     const { status, reason, maxWithdrawable, defaultDescription } = this.withdrawParams
     const service = getServiceName(lnurl)
 
+    if (this.isWithdrawProcessing) {
+      mainLog.warn('Error processing lnurl withdraw request: busy')
+      this.send('lnurlWithdrawError', { service, reason: 'service busy' })
+      return
+    }
+    this.isWithdrawProcessing = true
+
     if (status === LNURL_STATUS_ERROR) {
       const withdrawParams = { status, reason, service }
-      this.isWithdrawalProcessing = false
+      this.isWithdrawProcessing = false
       mainLog.error('Unable to process lnurl withdraw request: %o', withdrawParams)
       this.send('lnurlWithdrawError', withdrawParams)
       return
@@ -123,30 +129,46 @@ export default class LnurlService {
   }
 
   /**
-   * onFinishChannel - Finalizes an lnurl-withdraw request.
+   * resetWithdraw - Resets lnurl-withdraw state.
+   */
+  resetWithdraw = () => {
+    this.isWithdrawProcessing = false
+    this.withdrawParams = {}
+  }
+
+  /**
+   * onCancelWithdraw - Cancels an lnurl-withdraw request.
+   */
+  onCancelWithdraw = () => {
+    this.resetWithdraw()
+    mainLog.info('Cancelling lnurl withdrawal request: %o', this.withdrawParams)
+  }
+
+  /**
+   * onFinishWithdraw - Finalizes an lnurl-withdraw request.
    *
    * @param {object} event Event
    * @param {object} data Data
    */
-  onFinishWithdrawal = async (event, { paymentRequest }) => {
+  onFinishWithdraw = async (event, { paymentRequest }) => {
+    mainLog.info('Finishing lnurl withdraw request: %o', this.withdrawParams)
+    const { callback, secret, service } = this.withdrawParams
     try {
-      const { callback, secret } = this.withdrawParams
       if (callback && secret && paymentRequest) {
         const { data } = await makeWithdrawRequest({ callback, secret, invoice: paymentRequest })
-
         if (data.status === LNURL_STATUS_ERROR) {
-          mainLog.warn('Unable to complete lnurl withdraw request: %o', data)
-          this.send('lnurlWithdrawError', data)
-          return
+          mainLog.warn('Got error from lnurl withdraw request: %s', data)
+          throw new Error(data.reason)
         }
 
         mainLog.info('Completed withdraw request: %o', data)
+        this.send('lnurlWithdrawSuccess', { service })
       }
     } catch (e) {
-      mainLog.warn('Unable to complete lnurl withdrawal request: %s', e)
+      mainLog.warn('Unable to complete lnurl withdraw request: %s', e.message)
+      this.send('lnurlWithdrawError', { service, reason: e.message })
     } finally {
-      this.isWithdrawalProcessing = false
-      this.withdrawParams = {}
+      this.resetWithdraw()
     }
   }
 
@@ -155,14 +177,14 @@ export default class LnurlService {
    * process to initiate channel connect.
    */
   async startChannel() {
+    const { status, uri } = this.channelParams
+
     if (this.isChannelProcessing) {
       mainLog.warn('Error processing lnurl channel request: busy')
-      this.send('lnurlChannelBusy')
+      this.send('lnurlChannelError', { uri, reason: 'service busy' })
       return
     }
     this.isChannelProcessing = true
-
-    const { status, uri } = this.channelParams
 
     if (status === LNURL_STATUS_ERROR) {
       const channelParams = { status, uri }
@@ -178,30 +200,47 @@ export default class LnurlService {
   }
 
   /**
+   * resetChannel - Resets lnurl-withdraw state.
+   */
+  resetChannel = () => {
+    this.isChannelProcessing = false
+    this.channelParams = {}
+  }
+
+  /**
+   * onCancelChannel - Cancels an lnurl-channel request.
+   */
+  onCancelChannel = () => {
+    this.resetChannel()
+    mainLog.info('Cancelling lnurl channel request: %o', this.channelParams)
+  }
+
+  /**
    * onFinishChannel - Finalizes an lnurl-channel request.
    *
    * @param {object} event Event
    * @param {object} data Data
    */
   onFinishChannel = async (event, { pubkey }) => {
+    mainLog.info('Finishing lnurl channel request: %o', this.channelParams)
+    const { callback, secret, uri } = this.channelParams
     try {
-      const { callback, secret, uri } = this.channelParams
       if (callback && secret && pubkey) {
         const { data } = await makeChannelRequest({ callback, secret, pubkey, isPrivate: true })
 
         if (data.status === LNURL_STATUS_ERROR) {
-          mainLog.warn('Unable to complete lnurl channel request: %o', data)
-          this.send('lnurlChannelError', { ...data, uri })
-          return
+          mainLog.warn('Got error from lnurl channel request: %s', data)
+          throw new Error(data.reason)
         }
 
         mainLog.info('Completed channel request: %o', data)
+        this.send('lnurlChannelSuccess', { uri })
       }
     } catch (e) {
-      mainLog.warn('Unable to complete lnurl channel request: %s', e)
+      mainLog.warn('Unable to complete lnurl channel request: %s', e.message)
+      this.send('lnurlChannelError', { uri, reason: e.message })
     } finally {
-      this.isChannelProcessing = false
-      this.channelParams = {}
+      this.resetChannel()
     }
   }
 }

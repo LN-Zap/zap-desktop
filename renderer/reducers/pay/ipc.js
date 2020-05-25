@@ -3,12 +3,12 @@ import { convert } from '@zap/utils/btc'
 import { CoinBig } from '@zap/utils/coin'
 import { isAutopayEnabled } from '@zap/utils/featureFlag'
 import { decodePayReq } from '@zap/utils/crypto'
-import { showError } from 'reducers/notification'
+import { updateNotification } from 'reducers/notification'
 import { walletSelectors } from 'reducers/wallet'
 import { showAutopayNotification, autopaySelectors } from 'reducers/autopay'
 import { payInvoice } from 'reducers/payment'
 import { tickerSelectors } from 'reducers/ticker'
-import { setRedirectPayReq, setLnurlWithdrawalParams } from './reducer'
+import { setRedirectPayReq, setLnurlWithdrawParams } from './reducer'
 import messages from './messages'
 
 // ------------------------------------
@@ -80,6 +80,28 @@ export const bitcoinPaymentUri = (event, { address, options = {} }) => (dispatch
 }
 
 /**
+ * lnurlWithdrawSuccess - IPC handler for lnurlWithdrawSuccess event.
+ *
+ * @param {event} event Event ipc event
+ * @param {object} params { service }
+ * @param {string} params.uri service
+ * @returns {(dispatch:Function) => void} Thunk
+ */
+export const lnurlWithdrawSuccess = (event, { service }) => dispatch => {
+  const intl = getIntl()
+  dispatch(
+    updateNotification(
+      { payload: { service } },
+      {
+        variant: 'success',
+        message: intl.formatMessage(messages.pay_lnurl_withdraw_success, { service }),
+        isProcessing: false,
+      }
+    )
+  )
+}
+
+/**
  * lnurlWithdrawError - IPC handler for lnurlWithdrawError event.
  *
  * @param {event} event Event ipc event
@@ -90,7 +112,16 @@ export const bitcoinPaymentUri = (event, { address, options = {} }) => (dispatch
  */
 export const lnurlWithdrawError = (event, { service, reason }) => dispatch => {
   const intl = getIntl()
-  dispatch(showError(intl.formatMessage(messages.pay_lnurl_withdraw_error, { reason, service })))
+  dispatch(
+    updateNotification(
+      { payload: { service } },
+      {
+        variant: 'error',
+        message: intl.formatMessage(messages.pay_lnurl_withdraw_error, { service, reason }),
+        isProcessing: false,
+      }
+    )
+  )
 }
 
 /**
@@ -104,5 +135,5 @@ export const lnurlWithdrawError = (event, { service, reason }) => dispatch => {
  * @returns {(dispatch:Function) => void} Thunk
  */
 export const lnurlWithdrawRequest = (event, { service, amount, memo }) => dispatch => {
-  dispatch(setLnurlWithdrawalParams({ amount, service, memo }))
+  dispatch(setLnurlWithdrawParams({ amount, service, memo }))
 }

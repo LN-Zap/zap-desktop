@@ -19,7 +19,6 @@ import {
   queryWalletBackupFailure,
 } from './backup'
 
-
 const ipc = createIpc({
   initApp,
   terminateApp,

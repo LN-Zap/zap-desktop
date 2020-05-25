@@ -30,8 +30,6 @@ export const lnurlChannelRequest = (event, { service, uri }) => dispatch => {
  */
 export const lnurlChannelSuccess = (event, { uri }) => dispatch => {
   const intl = getIntl()
-  // dispatch(showNotification(intl.formatMessage(messages.channels_lnurl_channel_success, { uri })))
-
   dispatch(
     updateNotification(
       { payload: { uri } },
@@ -55,8 +53,6 @@ export const lnurlChannelSuccess = (event, { uri }) => dispatch => {
  */
 export const lnurlChannelError = (event, { uri, reason }) => dispatch => {
   const intl = getIntl()
-  // dispatch(showError(intl.formatMessage(messages.channels_lnurl_channel_error, { uri, reason })))
-
   dispatch(
     updateNotification(
       { payload: { uri } },

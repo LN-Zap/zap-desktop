@@ -1,14 +1,17 @@
 import get from 'lodash/get'
 import { send } from 'redux-electron-ipc'
 import { grpc } from 'workers'
+import { getIntl } from '@zap/i18n'
 import createReducer from '@zap/utils/createReducer'
 import { estimateFeeRange } from '@zap/utils/fee'
 import { isPubkey, getTag } from '@zap/utils/crypto'
 import { settingsSelectors } from 'reducers/settings'
+import { showWarning } from 'reducers/notification'
 import { infoSelectors } from 'reducers/info'
 import { prepareKeysendProbe, prepareBolt11Probe } from 'reducers/payment'
 import { createInvoice } from 'reducers/invoice'
 import * as constants from './constants'
+import messages from './messages'
 
 const {
   QUERY_FEES,
@@ -19,7 +22,7 @@ const {
   QUERY_ROUTES_FAILURE,
   SET_REDIRECT_PAY_REQ,
   SET_LNURL_WITHDRAWAL_PARAMS,
-  DECLINE_LNURL_WITHDRAWAL,
+  CLEAR_LNURL_WITHDRAWAL,
 } = constants
 
 // ------------------------------------
@@ -46,20 +49,28 @@ const initialState = {
 // ------------------------------------
 
 /**
- * declineLnurlWithdrawal - Cancels lnurl withdrawal and clears params cache.
+ * clearLnurlWithdraw - Clears lnurl withdraw state
  *
  * @returns {object} Action
  */
-export const declineLnurlWithdrawal = () => {
-  return {
-    type: DECLINE_LNURL_WITHDRAWAL,
-  }
+export const clearLnurlWithdraw = () => dispatch => {
+  dispatch({ type: CLEAR_LNURL_WITHDRAWAL })
+}
+
+/**
+ * declineLnurlWithdraw - Cancels lnurl withdraw and clears params cache.
+ *
+ * @returns {object} Action
+ */
+export const declineLnurlWithdraw = () => dispatch => {
+  dispatch(send('lnurlCancelWithdraw'))
+  dispatch(clearLnurlWithdraw())
 }
 
 /**
  * setRedirectPayReq - Set payment request to initiate payment flow to a specific address / payment request.
  *
- * @param {{address, amount}} redirectPayReq Payment request details
+ * @param {{address:string, amount:string}} redirectPayReq Payment request details
  * @returns {object} Action
  */
 export function setRedirectPayReq(redirectPayReq) {
@@ -70,12 +81,12 @@ export function setRedirectPayReq(redirectPayReq) {
 }
 
 /**
- * setLnurlWithdrawalParams - Set request details.
+ * setLnurlWithdrawParams - Set request details.
  *
  * @param {object} params lnurl request details or null to clear
  * @returns {object} Action
  */
-export function setLnurlWithdrawalParams(params) {
+export function setLnurlWithdrawParams(params) {
   return {
     type: SET_LNURL_WITHDRAWAL_PARAMS,
     params,
@@ -83,15 +94,24 @@ export function setLnurlWithdrawalParams(params) {
 }
 
 /**
- * finishLnurlWithdrawal - Concludes lnurl withdraw request processing by sending our ln PR to the service.
+ * finishLnurlWithdraw - Concludes lnurl withdraw request processing by sending our ln PR to the service.
  *
  * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
-export const finishLnurlWithdrawal = () => async (dispatch, getState) => {
+export const finishLnurlWithdraw = () => async (dispatch, getState) => {
   const state = getState()
   if (state.pay.lnurlWithdrawParams) {
-    const { amount, memo } = getState().pay.lnurlWithdrawParams
-    dispatch(setLnurlWithdrawalParams(null))
+    const { service, amount, memo } = getState().pay.lnurlWithdrawParams
+
+    // Show notification.
+    dispatch(
+      showWarning(getIntl().formatMessage(messages.pay_lnurl_withdraw_started), {
+        isProcessing: true,
+        payload: { service },
+      })
+    )
+
+    // Create invoice.
     const { paymentRequest } = await dispatch(
       createInvoice({
         amount,
@@ -100,7 +120,10 @@ export const finishLnurlWithdrawal = () => async (dispatch, getState) => {
         isPrivate: true,
       })
     )
-    dispatch(send('lnurlFinalizeWithdraw', { paymentRequest }))
+
+    // Hand off to main lnurl service to complete the process.
+    dispatch(send('lnurlFinishWithdraw', { paymentRequest }))
+    dispatch(clearLnurlWithdraw())
   }
 }
 
@@ -241,7 +264,7 @@ const ACTION_HANDLERS = {
   [SET_LNURL_WITHDRAWAL_PARAMS]: (state, { params }) => {
     state.lnurlWithdrawParams = params
   },
-  [DECLINE_LNURL_WITHDRAWAL]: state => {
+  [CLEAR_LNURL_WITHDRAWAL]: state => {
     state.lnurlWithdrawParams = null
   },
 }
