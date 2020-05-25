@@ -45,7 +45,7 @@ const initialState = {
 export const updateNodeData = nodes => {
   return {
     type: UPDATE_NODE_DATA,
-    nodes,
+    data: nodes,
     // enable debounce for this action
     debounce: {
       wait: 2000,
@@ -94,7 +94,7 @@ export const fetchDescribeNetwork = () => async dispatch => {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [UPDATE_NODE_DATA]: (state, { nodes }) => nodes.flat().reduce(mergeNodeUpdates, state),
+  [UPDATE_NODE_DATA]: (state, { data: nodes }) => nodes.flat().reduce(mergeNodeUpdates, state),
   [GET_DESCRIBE_NETWORK]: state => {
     state.networkLoading = true
   },
