@@ -10,7 +10,7 @@ import { appSelectors } from 'reducers/app'
 import { finishLnurlWithdrawal, paySelectors } from 'reducers/pay'
 import { initBackupService } from 'reducers/backup'
 import { setModals, modalSelectors } from 'reducers/modal'
-import { fetchSuggestedNodes } from 'reducers/channels'
+import { channelsSelectors, finishLnurlChannel, fetchSuggestedNodes } from 'reducers/channels'
 import { initTickers } from 'reducers/ticker'
 import App from 'components/App'
 import ModalStack from './ModalStack'
@@ -22,6 +22,7 @@ const mapStateToProps = state => ({
   modals: modalSelectors.getModalState(state),
   lnurlWithdrawParams: paySelectors.lnurlWithdrawParams(state),
   willShowLnurlWithdrawalPrompt: paySelectors.willShowLnurlWithdrawalPrompt(state),
+  willShowLnurlChannelPrompt: channelsSelectors.willShowLnurlChannelPrompt(state),
 })
 
 const mapDispatchToProps = {
@@ -35,6 +36,7 @@ const mapDispatchToProps = {
   initTickers,
   initBackupService,
   fetchSuggestedNodes,
+  finishLnurlChannel,
   finishLnurlWithdrawal,
 }
 

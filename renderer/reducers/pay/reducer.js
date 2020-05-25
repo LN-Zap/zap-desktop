@@ -18,7 +18,7 @@ const {
   QUERY_ROUTES_SUCCESS,
   QUERY_ROUTES_FAILURE,
   SET_REDIRECT_PAY_REQ,
-  SET_REDIRECT_LN_URL,
+  SET_LNURL_WITHDRAWAL_PARAMS,
   DECLINE_LNURL_WITHDRAWAL,
 } = constants
 
@@ -68,6 +68,7 @@ export function setRedirectPayReq(redirectPayReq) {
     redirectPayReq,
   }
 }
+
 /**
  * setLnurlWithdrawalParams - Set request details.
  *
@@ -76,7 +77,7 @@ export function setRedirectPayReq(redirectPayReq) {
  */
 export function setLnurlWithdrawalParams(params) {
   return {
-    type: SET_REDIRECT_LN_URL,
+    type: SET_LNURL_WITHDRAWAL_PARAMS,
     params,
   }
 }
@@ -99,7 +100,7 @@ export const finishLnurlWithdrawal = () => async (dispatch, getState) => {
         isPrivate: true,
       })
     )
-    dispatch(send('lnurlCreateInvoice', { paymentRequest }))
+    dispatch(send('lnurlFinalizeWithdraw', { paymentRequest }))
   }
 }
 
@@ -237,7 +238,7 @@ const ACTION_HANDLERS = {
   [SET_REDIRECT_PAY_REQ]: (state, { redirectPayReq }) => {
     state.redirectPayReq = redirectPayReq
   },
-  [SET_REDIRECT_LN_URL]: (state, { params }) => {
+  [SET_LNURL_WITHDRAWAL_PARAMS]: (state, { params }) => {
     state.lnurlWithdrawParams = params
   },
   [DECLINE_LNURL_WITHDRAWAL]: state => {

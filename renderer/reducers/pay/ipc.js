@@ -80,7 +80,7 @@ export const bitcoinPaymentUri = (event, { address, options = {} }) => (dispatch
 }
 
 /**
- * lnurlError - IPC handler for lnurlError event.
+ * lnurlWithdrawError - IPC handler for lnurlWithdrawError event.
  *
  * @param {event} event Event ipc event
  * @param {object} params { service, reason }
@@ -88,13 +88,13 @@ export const bitcoinPaymentUri = (event, { address, options = {} }) => (dispatch
  * @param {string} params.reason error reason
  * @returns {(dispatch:Function) => void} Thunk
  */
-export const lnurlError = (event, { service, reason }) => dispatch => {
+export const lnurlWithdrawError = (event, { service, reason }) => dispatch => {
   const intl = getIntl()
   dispatch(showError(intl.formatMessage(messages.pay_lnurl_withdraw_error, { reason, service })))
 }
 
 /**
- * lnurlRequest - IPC handler for lnurlRequest event.
+ * lnurlWithdrawRequest - IPC handler for lnurlWithdrawRequest event.
  *
  * @param {event} event Event ipc event
  * @param {object} params { service, amount, memo }
@@ -103,6 +103,6 @@ export const lnurlError = (event, { service, reason }) => dispatch => {
  * @param {string} params.memo ln pr memo
  * @returns {(dispatch:Function) => void} Thunk
  */
-export const lnurlRequest = (event, { service, amount, memo }) => dispatch => {
+export const lnurlWithdrawRequest = (event, { service, amount, memo }) => dispatch => {
   dispatch(setLnurlWithdrawalParams({ amount, service, memo }))
 }

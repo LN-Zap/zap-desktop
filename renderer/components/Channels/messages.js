@@ -115,4 +115,8 @@ export default defineMessages({
   no_search_results: 'Your search did not return any results.',
   crypto_amount_with_unit: '{amount} {cryptoUnitName}',
   channels_filter_hint: 'Channels filter',
+  lnurl_channel_prompt_dialog_header: 'Confirm channel',
+  lnurl_channel_prompt_dialog_body: 'Do you confirm channel request to {uri}',
+  lnurl_channel_prompt_dialog_confirm_text: 'Confirm',
+  lnurl_channel_prompt_dialog_decline_text: 'Decline',
 })

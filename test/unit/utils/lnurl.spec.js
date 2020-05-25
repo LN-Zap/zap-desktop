@@ -1,5 +1,5 @@
 import nock from 'nock'
-import { fetchWithdrawParams, parseLnUrl } from '@zap/utils/lnurl'
+import { fetchLnurlParams, parseLnUrl } from '@zap/utils/lnurl'
 
 describe('lnurl', () => {
   describe('lnurl withdrawRequest', () => {
@@ -20,8 +20,9 @@ describe('lnurl', () => {
           tag: 'withdrawRequest',
         })
 
-      const params = await fetchWithdrawParams(parseLnUrl(url))
+      const params = await fetchLnurlParams(parseLnUrl(url))
       expect(params).toEqual({
+        tag: 'withdrawRequest',
         callback: 'cb',
         secret: 'secret',
         maxWithdrawable: 10000,

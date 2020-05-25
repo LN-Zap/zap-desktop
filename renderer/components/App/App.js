@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass/styled-components'
+import LnurlChannelPrompt from 'containers/Channels/LnurlChannelPrompt'
 import createScheduler from '@zap/utils/scheduler'
 import Wallet from 'containers/Wallet'
 import Activity from 'containers/Activity'
@@ -39,8 +40,11 @@ const App = ({
   initBackupService,
   fetchSuggestedNodes,
   initTickers,
+  lnurlChannelParams,
   lnurlWithdrawParams,
+  finishLnurlChannel,
   finishLnurlWithdrawal,
+  willShowLnurlChannelPrompt,
   willShowLnurlWithdrawalPrompt,
 }) => {
   /**
@@ -95,6 +99,9 @@ const App = ({
     if (!willShowLnurlWithdrawalPrompt) {
       finishLnurlWithdrawal()
     }
+    if (!willShowLnurlChannelPrompt) {
+      finishLnurlChannel()
+    }
   }, [
     initActivityHistory,
     fetchDescribeNetwork,
@@ -104,8 +111,11 @@ const App = ({
     initTickers,
     setIsWalletOpen,
     updateAutopilotNodeScores,
+    finishLnurlChannel,
     finishLnurlWithdrawal,
+    lnurlChannelParams,
     lnurlWithdrawParams,
+    willShowLnurlChannelPrompt,
     willShowLnurlWithdrawalPrompt,
   ])
 
@@ -127,6 +137,7 @@ const App = ({
       <Wallet />
       <Activity />
       {willShowLnurlWithdrawalPrompt && <LnurlWithdrawalPrompt />}
+      {willShowLnurlChannelPrompt && <LnurlChannelPrompt />}
     </Flex>
   )
 }
@@ -136,17 +147,20 @@ App.propTypes = {
   fetchPeers: PropTypes.func.isRequired,
   fetchSuggestedNodes: PropTypes.func.isRequired,
   fetchTransactions: PropTypes.func.isRequired,
+  finishLnurlChannel: PropTypes.func.isRequired,
   finishLnurlWithdrawal: PropTypes.func.isRequired,
   initActivityHistory: PropTypes.func.isRequired,
   initBackupService: PropTypes.func.isRequired,
   initTickers: PropTypes.func.isRequired,
   isAppReady: PropTypes.bool.isRequired,
+  lnurlChannelParams: PropTypes.object,
   lnurlWithdrawParams: PropTypes.object,
   modals: PropTypes.array.isRequired,
   redirectPayReq: PropTypes.object,
   setIsWalletOpen: PropTypes.func.isRequired,
   setModals: PropTypes.func.isRequired,
   updateAutopilotNodeScores: PropTypes.func.isRequired,
+  willShowLnurlChannelPrompt: PropTypes.bool,
   willShowLnurlWithdrawalPrompt: PropTypes.bool,
 }
 

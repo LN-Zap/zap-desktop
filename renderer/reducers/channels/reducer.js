@@ -1,4 +1,5 @@
 import throttle from 'lodash/throttle'
+import { send } from 'redux-electron-ipc'
 import createReducer from '@zap/utils/createReducer'
 import { CoinBig } from '@zap/utils/coin'
 import { getIntl } from '@zap/i18n'
@@ -7,6 +8,7 @@ import { grpc } from 'workers'
 import { fetchBalance } from 'reducers/balance'
 import { updateNotification, showWarning, showError } from 'reducers/notification'
 import { walletSelectors } from 'reducers/wallet'
+import { infoSelectors } from 'reducers/info'
 import { updateNodeData } from 'reducers/network'
 import { putConfig, settingsSelectors } from 'reducers/settings'
 import messages from './messages'
@@ -30,6 +32,8 @@ const {
   GET_SUGGESTED_NODES,
   RECEIVE_SUGGESTED_NODES_ERROR,
   RECEIVE_SUGGESTED_NODES,
+  SET_LNURL_CHANNEL_PARAMS,
+  DECLINE_LNURL_CHANNEL,
 } = constants
 
 // ------------------------------------
@@ -76,11 +80,61 @@ const initialState = {
   },
   suggestedNodesLoading: false,
   suggestedNodesError: null,
+  lnurlChannelParams: null,
 }
 
 // ------------------------------------
 // Actions
 // ------------------------------------
+
+/**
+ * setLnurlChannelParams - Set request details.
+ *
+ * @param {object|null} params lnurl request details or null to clear
+ * @returns {object} Action
+ */
+export function setLnurlChannelParams(params) {
+  return {
+    type: SET_LNURL_CHANNEL_PARAMS,
+    params,
+  }
+}
+
+/**
+ * declineLnurlChannel - Cancels lnurl channel and clears params cache.
+ *
+ * @returns {object} Action
+ */
+export const declineLnurlChannel = () => {
+  return {
+    type: DECLINE_LNURL_CHANNEL,
+  }
+}
+
+/**
+ * finishLnurlChannel - Concludes lnurl channel request processing by sending our ln pubjey to the service.
+ *
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
+ */
+export const finishLnurlChannel = () => async (dispatch, getState) => {
+  const state = getState()
+  if (state.channels.lnurlChannelParams) {
+    const { uri } = getState().channels.lnurlChannelParams
+    dispatch(setLnurlChannelParams(null))
+    const [pubkey, host] = uri.split('@')
+    await grpc.services.Lightning.ensurePeerConnected({ pubkey, host })
+
+    // Show notification.
+    dispatch(
+      showWarning(getIntl().formatMessage(messages.channels_lnurl_channel_started), {
+        isProcessing: true,
+        payload: { uri },
+      })
+    )
+
+    dispatch(send('lnurlFinalizeChannel', { pubkey: infoSelectors.nodePubkey(state) }))
+  }
+}
 
 /**
  * setChannelViewMode - Set the current channels list view mode.
@@ -623,6 +677,12 @@ const ACTION_HANDLERS = {
       mainnet: [],
       testnet: [],
     }
+  },
+  [SET_LNURL_CHANNEL_PARAMS]: (state, { params }) => {
+    state.lnurlChannelParams = params
+  },
+  [DECLINE_LNURL_CHANNEL]: state => {
+    state.lnurlChannelParams = null
   },
 }
 
