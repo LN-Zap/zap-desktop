@@ -29,7 +29,7 @@ describe('reducers', () => {
     it('should handle UPDATE_NODE_DATA', () => {
       const action = {
         type: UPDATE_NODE_DATA,
-        nodes: [{ some: 'data' }],
+        data: [{ some: 'data' }],
       }
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
