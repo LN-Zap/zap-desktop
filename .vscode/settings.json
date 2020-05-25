@@ -11,5 +11,9 @@
     "npm-debug.log.*": true,
     "test/**/__snapshots__": true,
     "yarn.lock": true
-  }
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.validate": ["javascript"]
 }
