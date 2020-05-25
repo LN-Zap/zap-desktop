@@ -21,7 +21,7 @@
   "components.Activity.InvoiceModal.pay_req": "",
   "components.Activity.InvoiceModal.status": "الحالة",
   "components.Activity.InvoiceModal.subtitle": "",
-  "components.Activity.InvoiceModal.title_received": "",
+  "components.Activity.InvoiceModal.title_received": "تم الاستلام",
   "components.Activity.InvoiceModal.title_requested": "",
   "components.Activity.Payment.amount": "",
   "components.Activity.Payment.fee": "",
