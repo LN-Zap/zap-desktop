@@ -11,7 +11,7 @@ import messages from './messages'
  * lnurlChannelRequest - IPC handler for lnurlChannelRequest event.
  *
  * @param {event} event Event ipc event
- * @param {object} params { service, amount, memo }
+ * @param {object} params { service }
  * @param {string} params.service lnurl channel uri
  * @returns {(dispatch:Function) => void} Thunk
  */

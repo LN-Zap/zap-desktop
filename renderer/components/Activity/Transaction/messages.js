@@ -9,7 +9,7 @@ export default defineMessages({
   amount: 'Transaction amount',
   fee: 'Transaction fee',
   type: 'On-chain transaction',
-  status_processing: 'Processing your transaction...',
+  status_processing: 'Processing your transaction…',
   status_success: 'Your transaction was successful.',
   status_error: 'There was a problem sending your transaction. Click for more details.',
   closetype_cooperative_close: 'Cooperative close',

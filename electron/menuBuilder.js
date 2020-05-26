@@ -92,7 +92,7 @@ export default class ZapMenuBuilder {
         buildAboutMenu(),
         { type: 'separator' },
         {
-          label: 'Preferences...',
+          label: 'Preferences…',
           accelerator: 'Command+,',
           click: () => this.mainWindow.webContents.send('openPreferences'),
         },
@@ -233,7 +233,7 @@ export default class ZapMenuBuilder {
           },
           { type: 'separator' },
           {
-            label: '&Preferences...',
+            label: '&Preferences…',
             accelerator: 'Ctrl+,',
             click: () => this.mainWindow.webContents.send('openPreferences'),
           },
