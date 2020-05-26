@@ -120,24 +120,24 @@ export const declineLnurlChannel = () => dispatch => {
 }
 
 /**
- * finishLnurlChannel - Concludes lnurl channel request processing by sending our ln pubjey to the service.
+ * finishLnurlChannel - Concludes lnurl channel request processing by sending our ln pubkey to the service.
  *
  * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const finishLnurlChannel = () => async (dispatch, getState) => {
   const state = getState()
   if (state.channels.lnurlChannelParams) {
-    const { uri } = getState().channels.lnurlChannelParams
+    const { service } = getState().channels.lnurlChannelParams
 
     // Show notification.
     dispatch(
       showWarning(getIntl().formatMessage(messages.channels_lnurl_channel_started), {
         isProcessing: true,
-        payload: { uri },
+        payload: { service },
       })
     )
 
-    const [pubkey, host] = uri.split('@')
+    const [pubkey, host] = service.split('@')
     await grpc.services.Lightning.ensurePeerConnected({ pubkey, host })
     dispatch(send('lnurlFinishChannel', { pubkey: infoSelectors.nodePubkey(state) }))
     dispatch(clearLnurlChannel())

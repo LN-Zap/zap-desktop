@@ -51,7 +51,7 @@ const initialState = {
 /**
  * clearLnurlWithdraw - Clears lnurl withdraw state
  *
- * @returns {object} Action
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const clearLnurlWithdraw = () => dispatch => {
   dispatch({ type: CLEAR_LNURL_WITHDRAWAL })
@@ -60,7 +60,7 @@ export const clearLnurlWithdraw = () => dispatch => {
 /**
  * declineLnurlWithdraw - Cancels lnurl withdraw and clears params cache.
  *
- * @returns {object} Action
+ * @returns {(dispatch:Function) => void} Thunk
  */
 export const declineLnurlWithdraw = () => dispatch => {
   dispatch(send('lnurlCancelWithdraw'))
@@ -83,7 +83,7 @@ export function setRedirectPayReq(redirectPayReq) {
 /**
  * setLnurlWithdrawParams - Set request details.
  *
- * @param {object} params lnurl request details or null to clear
+ * @param {object|null} params lnurl request details or null to clear
  * @returns {object} Action
  */
 export function setLnurlWithdrawParams(params) {

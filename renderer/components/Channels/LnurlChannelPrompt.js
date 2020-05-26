@@ -7,7 +7,7 @@ import { Form } from 'components/Form'
 import messages from './messages'
 
 const LnurlChannelPrompt = ({ params, onOk, onCancel, onClose }) => {
-  const { uri } = params
+  const { service } = params
   const buttons = (
     <>
       <Button type="submit" variant="normal">
@@ -34,7 +34,7 @@ const LnurlChannelPrompt = ({ params, onOk, onCancel, onClose }) => {
       <Form onSubmit={handleSubmit}>
         <Dialog buttons={buttons} header={header} onClose={onClose} width={640}>
           <Text color="gray">
-            <FormattedMessage values={{ uri }} {...messages.lnurl_channel_prompt_dialog_body} />
+            <FormattedMessage values={{ service }} {...messages.lnurl_channel_prompt_dialog_body} />
           </Text>
         </Dialog>
       </Form>

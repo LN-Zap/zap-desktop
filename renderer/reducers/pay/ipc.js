@@ -84,7 +84,7 @@ export const bitcoinPaymentUri = (event, { address, options = {} }) => (dispatch
  *
  * @param {event} event Event ipc event
  * @param {object} params { service }
- * @param {string} params.uri service
+ * @param {string} params.service service
  * @returns {(dispatch:Function) => void} Thunk
  */
 export const lnurlWithdrawSuccess = (event, { service }) => dispatch => {

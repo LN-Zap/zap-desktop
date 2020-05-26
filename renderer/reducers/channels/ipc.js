@@ -12,30 +12,29 @@ import messages from './messages'
  *
  * @param {event} event Event ipc event
  * @param {object} params { service, amount, memo }
- * @param {string} params.service lnurl
- * @param {number} params.uri ln channel uri
+ * @param {string} params.service lnurl channel uri
  * @returns {(dispatch:Function) => void} Thunk
  */
-export const lnurlChannelRequest = (event, { service, uri }) => dispatch => {
-  dispatch(setLnurlChannelParams({ service, uri }))
+export const lnurlChannelRequest = (event, { service }) => dispatch => {
+  dispatch(setLnurlChannelParams({ service }))
 }
 
 /**
  * lnurlChannelSuccess - IPC handler for lnurlChannelSuccess event.
  *
  * @param {event} event Event ipc event
- * @param {object} params { uri }
- * @param {string} params.uri uri
+ * @param {object} params { service }
+ * @param {string} params.service lnurl channel uri
  * @returns {(dispatch:Function) => void} Thunk
  */
-export const lnurlChannelSuccess = (event, { uri }) => dispatch => {
+export const lnurlChannelSuccess = (event, { service }) => dispatch => {
   const intl = getIntl()
   dispatch(
     updateNotification(
-      { payload: { uri } },
+      { payload: { service } },
       {
         variant: 'success',
-        message: intl.formatMessage(messages.channels_lnurl_channel_success, { uri }),
+        message: intl.formatMessage(messages.channels_lnurl_channel_success, { service }),
         isProcessing: false,
       }
     )
@@ -46,19 +45,19 @@ export const lnurlChannelSuccess = (event, { uri }) => dispatch => {
  * lnurlChannelError - IPC handler for lnurlChannelError event.
  *
  * @param {event} event Event ipc event
- * @param {object} params { uri, reason }
- * @param {string} params.uri uri
+ * @param {object} params { service, reason }
+ * @param {string} params.service lnurl channel uri
  * @param {string} params.reason error reason
  * @returns {(dispatch:Function) => void} Thunk
  */
-export const lnurlChannelError = (event, { uri, reason }) => dispatch => {
+export const lnurlChannelError = (event, { service, reason }) => dispatch => {
   const intl = getIntl()
   dispatch(
     updateNotification(
-      { payload: { uri } },
+      { payload: { service } },
       {
         variant: 'error',
-        message: intl.formatMessage(messages.channels_lnurl_channel_error, { uri, reason }),
+        message: intl.formatMessage(messages.channels_lnurl_channel_error, { service, reason }),
         isProcessing: false,
       }
     )

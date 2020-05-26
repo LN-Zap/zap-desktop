@@ -140,8 +140,8 @@ export default class LnurlService {
    * onCancelWithdraw - Cancels an lnurl-withdraw request.
    */
   onCancelWithdraw = () => {
-    this.resetWithdraw()
     mainLog.info('Cancelling lnurl withdrawal request: %o', this.withdrawParams)
+    this.resetWithdraw()
   }
 
   /**
@@ -157,7 +157,7 @@ export default class LnurlService {
       if (callback && secret && paymentRequest) {
         const { data } = await makeWithdrawRequest({ callback, secret, invoice: paymentRequest })
         if (data.status === LNURL_STATUS_ERROR) {
-          mainLog.warn('Got error from lnurl withdraw request: %s', data)
+          mainLog.warn('Got error from lnurl withdraw request: %o', data)
           throw new Error(data.reason)
         }
 
@@ -177,24 +177,24 @@ export default class LnurlService {
    * process to initiate channel connect.
    */
   async startChannel() {
-    const { status, uri } = this.channelParams
+    const { status, uri: service } = this.channelParams
 
     if (this.isChannelProcessing) {
       mainLog.warn('Error processing lnurl channel request: busy')
-      this.send('lnurlChannelError', { uri, reason: 'service busy' })
+      this.send('lnurlChannelError', { service, reason: 'service busy' })
       return
     }
     this.isChannelProcessing = true
 
     if (status === LNURL_STATUS_ERROR) {
-      const channelParams = { status, uri }
+      const channelParams = { status, service }
       this.isChannelProcessing = false
       mainLog.error('Unable to process lnurl channel request: %o', channelParams)
       this.send('lnurlChannelError', channelParams)
       return
     }
 
-    const channelParams = { uri }
+    const channelParams = { service }
     mainLog.info('Processing lnurl channel request: %o', channelParams)
     this.send('lnurlChannelRequest', channelParams)
   }
@@ -211,8 +211,8 @@ export default class LnurlService {
    * onCancelChannel - Cancels an lnurl-channel request.
    */
   onCancelChannel = () => {
-    this.resetChannel()
     mainLog.info('Cancelling lnurl channel request: %o', this.channelParams)
+    this.resetChannel()
   }
 
   /**
@@ -223,22 +223,22 @@ export default class LnurlService {
    */
   onFinishChannel = async (event, { pubkey }) => {
     mainLog.info('Finishing lnurl channel request: %o', this.channelParams)
-    const { callback, secret, uri } = this.channelParams
+    const { callback, secret, uri: service } = this.channelParams
     try {
       if (callback && secret && pubkey) {
         const { data } = await makeChannelRequest({ callback, secret, pubkey, isPrivate: true })
 
         if (data.status === LNURL_STATUS_ERROR) {
-          mainLog.warn('Got error from lnurl channel request: %s', data)
+          mainLog.warn('Got error from lnurl channel request: %o', data)
           throw new Error(data.reason)
         }
 
         mainLog.info('Completed channel request: %o', data)
-        this.send('lnurlChannelSuccess', { uri })
+        this.send('lnurlChannelSuccess', { service })
       }
     } catch (e) {
       mainLog.warn('Unable to complete lnurl channel request: %s', e.message)
-      this.send('lnurlChannelError', { uri, reason: e.message })
+      this.send('lnurlChannelError', { service, reason: e.message })
     } finally {
       this.resetChannel()
     }
