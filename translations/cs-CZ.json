@@ -453,7 +453,7 @@
   "components.Pay.memo": "Poznámka",
   "components.Pay.next": "Další",
   "components.Pay.next_block_confirmation": "další potvrzení bloku",
-  "components.Pay.no_route_tooltip": "",
+  "components.Pay.no_route_tooltip": "Nelze najít platební cestu. Můžete zkusit odeslat platbu i tak a poplatky budou omezeny na Váš nastavený limit platebních poplatků, který můžete upravit v nastavení.",
   "components.Pay.onchain_balance": "{amount} {cryptoUnitName} (on-chain)",
   "components.Pay.request_label_combined": "Žádost o platbu, Adresa nebo Pubkey uzlu",
   "components.Pay.request_label_offchain": "Žádost o platbu",
