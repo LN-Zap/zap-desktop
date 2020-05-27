@@ -22,6 +22,8 @@ describe('lnurl', () => {
 
       const params = await fetchLnurlParams(parseLnUrl(url))
       expect(params).toEqual({
+        lnurl:
+          'https://service.com/api?q=3fc3645b439ce8e7f2553a69e5267081d96dcd340693afabe04be7b0ccd178df',
         tag: 'withdrawRequest',
         callback: 'cb',
         secret: 'secret',

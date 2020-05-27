@@ -2,11 +2,12 @@ import createIpc from 'redux-electron-ipc'
 import { initApp, terminateApp, openPreferences, lnurlError } from './app'
 import { killNeutrino } from './neutrino'
 import { receiveLocale } from './locale'
-import { lnurlChannelRequest, lnurlChannelError } from './channels'
+import { lnurlChannelRequest, lnurlChannelSuccess, lnurlChannelError } from './channels'
 import {
   bitcoinPaymentUri,
   lightningPaymentUri,
   lnurlWithdrawRequest,
+  lnurlWithdrawSuccess,
   lnurlWithdrawError,
 } from './pay'
 import { lndconnectUri } from './onboarding'
@@ -37,8 +38,10 @@ const ipc = createIpc({
   saveInvoiceSuccess,
   saveInvoiceFailure,
   lnurlChannelRequest,
+  lnurlChannelSuccess,
   lnurlChannelError,
   lnurlWithdrawRequest,
+  lnurlWithdrawSuccess,
   lnurlWithdrawError,
 })
 
