@@ -237,7 +237,7 @@
     "@types/react-intl-redux": "0.1.14",
     "@types/react-redux": "7.1.7",
     "@types/react-router-dom": "5.1.4",
-    "@types/react-virtualized": "9.21.8",
+    "@types/react-virtualized": "9.21.10",
     "@types/rebass": "4.0.5",
     "@types/redux-logger": "3.0.7",
     "@types/styled-system__theme-get": "5.0.0",
