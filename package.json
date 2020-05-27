@@ -336,7 +336,7 @@
     "bolt07": "1.5.0",
     "bolt11": "1.2.7",
     "coininfo": "https://github.com/LN-Zap/coininfo#d7ac7be9c9c4ee74dada187f7762a55887a9c6ca",
-    "comlinkjs": "3.2.0",
+    "comlink": "4.3.0",
     "config": "3.3.1",
     "copy-to-clipboard": "3.3.1",
     "country-data-lookup": "0.0.33",
