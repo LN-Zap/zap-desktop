@@ -7,10 +7,10 @@ import { updateAutopilotNodeScores } from 'reducers/autopilot'
 import { initActivityHistory } from 'reducers/activity'
 import { fetchTransactions } from 'reducers/transaction'
 import { appSelectors } from 'reducers/app'
-import { finishLnurlWithdrawal, paySelectors } from 'reducers/pay'
+import { finishLnurlWithdraw, paySelectors } from 'reducers/pay'
 import { initBackupService } from 'reducers/backup'
 import { setModals, modalSelectors } from 'reducers/modal'
-import { fetchSuggestedNodes } from 'reducers/channels'
+import { channelsSelectors, finishLnurlChannel, fetchSuggestedNodes } from 'reducers/channels'
 import { initTickers } from 'reducers/ticker'
 import App from 'components/App'
 import ModalStack from './ModalStack'
@@ -21,7 +21,8 @@ const mapStateToProps = state => ({
   redirectPayReq: state.pay.redirectPayReq,
   modals: modalSelectors.getModalState(state),
   lnurlWithdrawParams: paySelectors.lnurlWithdrawParams(state),
-  willShowLnurlWithdrawalPrompt: paySelectors.willShowLnurlWithdrawalPrompt(state),
+  willShowLnurlWithdrawPrompt: paySelectors.willShowLnurlWithdrawPrompt(state),
+  willShowLnurlChannelPrompt: channelsSelectors.willShowLnurlChannelPrompt(state),
 })
 
 const mapDispatchToProps = {
@@ -35,7 +36,8 @@ const mapDispatchToProps = {
   initTickers,
   initBackupService,
   fetchSuggestedNodes,
-  finishLnurlWithdrawal,
+  finishLnurlChannel,
+  finishLnurlWithdraw,
 }
 
 const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App)

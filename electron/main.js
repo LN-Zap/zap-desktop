@@ -66,9 +66,10 @@ const handleBitcoinLink = input => {
   try {
     const decoded = bip21.decode(input)
     zap.sendMessage('bitcoinPaymentUri', decoded)
-    mainWindow.show()
   } catch (e) {
     mainLog.warn('Unable to process bitcoin uri: %s', e)
+  } finally {
+    mainWindow.show()
   }
 }
 
@@ -77,13 +78,14 @@ const handleBitcoinLink = input => {
  *
  * @param {string} input lnurl string
  */
-const handleLnurlLink = input => {
+const handleLnurlLink = async input => {
   mainLog.info('Processing lightning uri as lnurl: %s', input)
   try {
-    lnurlService.startWithdrawal(input)
-    mainWindow.show()
+    await lnurlService.process(input)
   } catch (e) {
-    mainLog.warn('Unable to process lnurl uri: %s', e)
+    mainLog.warn('Unable to process lnurl uri: %s', e.message)
+  } finally {
+    mainWindow.show()
   }
 }
 
@@ -96,9 +98,10 @@ const handleLninvoiceLink = address => {
   mainLog.info('Processing lightning uri as lninvoice: %s', address)
   try {
     zap.sendMessage('lightningPaymentUri', { address })
-    mainWindow.show()
   } catch (e) {
-    mainLog.warn('Unable to process lightning uri: %s', e)
+    mainLog.warn('Unable to process lightning uri: %s', e.message)
+  } finally {
+    mainWindow.show()
   }
 }
 
@@ -118,7 +121,7 @@ const handleLightningLink = fullUrl => {
       handleLninvoiceLink(url)
     }
   } catch (e) {
-    mainLog.warn('Unable to process lightning uri: %s', e)
+    mainLog.warn('Unable to process lightning uri: %s', e.message)
   }
 }
 
@@ -130,9 +133,10 @@ const handleLightningLink = fullUrl => {
 const handleLndconnectLink = input => {
   try {
     zap.sendMessage('lndconnectUri', input)
-    mainWindow.show()
   } catch (e) {
-    mainLog.warn('Unable to process lndconnect uri: %s', e)
+    mainLog.warn('Unable to process lndconnect uri: %s', e.message)
+  } finally {
+    mainWindow.show()
   }
 }
 

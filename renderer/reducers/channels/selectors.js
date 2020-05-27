@@ -34,6 +34,7 @@ const channelSearchQuerySelector = state => state.channels.searchQuery
 const channelSortSelector = state => state.channels.sort
 const channelSortOrderSelector = state => state.channels.sortOrder
 const filterSelector = state => state.channels.filter
+const lnurlChannelParams = state => state.channels.lnurlChannelParams
 const nodesSelector = state => networkSelectors.nodes(state)
 
 export const channelMatchesQuery = (channelObj, searchQuery) => {
@@ -372,5 +373,22 @@ channelsSelectors.isCustomFilter = createSelector(filterSelector, filters => {
   const difference = new Set([...filters].filter(x => !DEFAULT_FILTER.has(x)))
   return difference.size > 0
 })
+
+/**
+ * willShowLnurlChannelPrompt - Boolean indicating wether lnurl channel prompt should show.
+ */
+channelsSelectors.willShowLnurlChannelPrompt = createSelector(
+  lnurlChannelParams,
+  settingsSelectors.currentConfig,
+  (params, config) => {
+    const promptEnabled = config.lnurl.requirePrompt
+    return Boolean(promptEnabled && params)
+  }
+)
+
+/**
+ * lnurlChannelParams - Current lnurl withdrawal paramaters.
+ */
+channelsSelectors.lnurlChannelParams = createSelector(lnurlChannelParams, params => params)
 
 export default channelsSelectors

@@ -37,6 +37,7 @@ Snapshot Diff:
         "value": "Closing",
       },
     ],
+    "lnurlChannelParams": null,
     "loadingChannels": Array [],
     "pendingChannels": Object {
       "pendingClosingChannels": Array [],
@@ -118,6 +119,7 @@ Snapshot Diff:
         "value": "Closing",
       },
     ],
+    "lnurlChannelParams": null,
 -   "loadingChannels": Array [],
 +   "loadingChannels": Array [
 +     Object {
@@ -204,6 +206,7 @@ Snapshot Diff:
         "value": "Closing",
       },
     ],
+    "lnurlChannelParams": null,
     "loadingChannels": Array [],
     "pendingChannels": Object {
       "pendingClosingChannels": Array [],
@@ -285,6 +288,7 @@ Snapshot Diff:
         "value": "Closing",
       },
     ],
+    "lnurlChannelParams": null,
     "loadingChannels": Array [],
     "pendingChannels": Object {
       "pendingClosingChannels": Array [],
@@ -367,6 +371,7 @@ Snapshot Diff:
         "value": "Closing",
       },
     ],
+    "lnurlChannelParams": null,
     "loadingChannels": Array [],
     "pendingChannels": Object {
       "pendingClosingChannels": Array [],
@@ -415,6 +420,11 @@ Snapshot Diff:
   }
 `;
 
+exports[`reducers channelsReducer should handle CLEAR_LNURL_CHANNEL 1`] = `
+Snapshot Diff:
+Compared values have no visual difference.
+`;
+
 exports[`reducers channelsReducer should handle GET_CHANNELS 1`] = `
 Snapshot Diff:
 - First value
@@ -450,6 +460,7 @@ Snapshot Diff:
         "value": "Closing",
       },
     ],
+    "lnurlChannelParams": null,
     "loadingChannels": Array [],
     "pendingChannels": Object {
       "pendingClosingChannels": Array [],
@@ -531,6 +542,7 @@ Snapshot Diff:
         "value": "Closing",
       },
     ],
+    "lnurlChannelParams": null,
     "loadingChannels": Array [],
     "pendingChannels": Object {
       "pendingClosingChannels": Array [],
@@ -621,6 +633,7 @@ Snapshot Diff:
         "value": "Closing",
       },
     ],
+    "lnurlChannelParams": null,
     "loadingChannels": Array [],
     "pendingChannels": Object {
 -     "pendingClosingChannels": Array [],
@@ -715,6 +728,7 @@ Snapshot Diff:
         "value": "Closing",
       },
     ],
+    "lnurlChannelParams": null,
     "loadingChannels": Array [],
     "pendingChannels": Object {
       "pendingClosingChannels": Array [],
@@ -797,6 +811,7 @@ Snapshot Diff:
         "value": "Closing",
       },
     ],
+    "lnurlChannelParams": null,
     "loadingChannels": Array [],
     "pendingChannels": Object {
       "pendingClosingChannels": Array [],
@@ -889,6 +904,7 @@ Snapshot Diff:
         "value": "Closing",
       },
     ],
+    "lnurlChannelParams": null,
     "loadingChannels": Array [],
     "pendingChannels": Object {
       "pendingClosingChannels": Array [],
@@ -937,6 +953,91 @@ Snapshot Diff:
   }
 `;
 
+exports[`reducers channelsReducer should handle SET_LNURL_CHANNEL_PARAMS 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "channels": Array [],
+    "channelsLoading": false,
+    "closedChannels": Array [],
+    "closingChannelIds": Array [],
+    "filter": Set {
+      "ACTIVE_CHANNELS",
+      "NON_ACTIVE_CHANNELS",
+      "OPEN_PENDING_CHANNELS",
+      "CLOSING_PENDING_CHANNELS",
+    },
+    "filters": Array [
+      Object {
+        "key": "ACTIVE_CHANNELS",
+        "value": "Online",
+      },
+      Object {
+        "key": "NON_ACTIVE_CHANNELS",
+        "value": "Offline",
+      },
+      Object {
+        "key": "OPEN_PENDING_CHANNELS",
+        "value": "Pending",
+      },
+      Object {
+        "key": "CLOSING_PENDING_CHANNELS",
+        "value": "Closing",
+      },
+    ],
+-   "lnurlChannelParams": null,
++   "lnurlChannelParams": Object {
++     "some": "data",
++   },
+    "loadingChannels": Array [],
+    "pendingChannels": Object {
+      "pendingClosingChannels": Array [],
+      "pendingForceClosingChannels": Array [],
+      "pendingOpenChannels": Array [],
+      "totalLimboBalance": "0",
+      "waitingCloseChannels": Array [],
+    },
+    "searchQuery": null,
+    "selectedChannelId": null,
+    "sort": "CHANNELS_SORT_OPEN_DATE",
+    "sortOrder": "asc",
+    "sorters": Array [
+      Object {
+        "key": "CHANNELS_SORT_OPEN_DATE",
+        "value": "Open date",
+      },
+      Object {
+        "key": "CHANNELS_SORT_REMOTE_BALANCE",
+        "value": "Remote balance",
+      },
+      Object {
+        "key": "CHANNELS_SORT_LOCAL_BALANCE",
+        "value": "Local balance",
+      },
+      Object {
+        "key": "CHANNELS_SORT_ACTIVITY",
+        "value": "Activity",
+      },
+      Object {
+        "key": "CHANNELS_SORT_NAME",
+        "value": "Name",
+      },
+      Object {
+        "key": "CHANNELS_SORT_CAPACITY",
+        "value": "Capacity",
+      },
+    ],
+    "suggestedNodes": Object {
+      "mainnet": Array [],
+      "testnet": Array [],
+    },
+    "suggestedNodesError": null,
+    "suggestedNodesLoading": false,
+  }
+`;
+
 exports[`reducers channelsReducer should handle SET_SELECTED_CHANNEL 1`] = `
 Snapshot Diff:
 - First value
@@ -971,6 +1072,7 @@ Snapshot Diff:
         "value": "Closing",
       },
     ],
+    "lnurlChannelParams": null,
     "loadingChannels": Array [],
     "pendingChannels": Object {
       "pendingClosingChannels": Array [],
@@ -1053,6 +1155,7 @@ Snapshot Diff:
         "value": "Closing",
       },
     ],
+    "lnurlChannelParams": null,
     "loadingChannels": Array [],
     "pendingChannels": Object {
       "pendingClosingChannels": Array [],
@@ -1131,6 +1234,7 @@ Object {
       "value": "Closing",
     },
   ],
+  "lnurlChannelParams": null,
   "loadingChannels": Array [],
   "pendingChannels": Object {
     "pendingClosingChannels": Array [],

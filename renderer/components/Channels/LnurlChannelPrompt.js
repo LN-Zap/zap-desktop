@@ -6,15 +6,15 @@ import { Dialog, Heading, Button, DialogOverlay, Text } from 'components/UI'
 import { Form } from 'components/Form'
 import messages from './messages'
 
-const DialogWrapper = ({ params, onOk, onCancel }) => {
-  const { service, amount } = params
+const LnurlChannelPrompt = ({ params, onOk, onCancel, onClose }) => {
+  const { service } = params
   const buttons = (
     <>
       <Button type="submit" variant="normal">
-        <FormattedMessage {...messages.withdrawal_prompt_dialog_confirm_text} />
+        <FormattedMessage {...messages.lnurl_channel_prompt_dialog_confirm_text} />
       </Button>
       <Button onClick={onCancel} type="button" variant="secondary">
-        <FormattedMessage {...messages.withdrawal_prompt_dialog_decline_text} />
+        <FormattedMessage {...messages.lnurl_channel_prompt_dialog_decline_text} />
       </Button>
     </>
   )
@@ -22,7 +22,7 @@ const DialogWrapper = ({ params, onOk, onCancel }) => {
   const header = (
     <Flex alignItems="center" flexDirection="column" mb={4}>
       <Heading.h1>
-        <FormattedMessage {...messages.withdrawal_prompt_dialog_header} />
+        <FormattedMessage {...messages.lnurl_channel_prompt_dialog_header} />
       </Heading.h1>
     </Flex>
   )
@@ -32,25 +32,21 @@ const DialogWrapper = ({ params, onOk, onCancel }) => {
   return (
     <DialogOverlay alignItems="center" justifyContent="center">
       <Form onSubmit={handleSubmit}>
-        <Dialog buttons={buttons} header={header} onClose={onCancel} width={640}>
+        <Dialog buttons={buttons} header={header} onClose={onClose} width={640}>
           <Text color="gray">
-            <FormattedMessage
-              values={{ amount: amount / 1000 }}
-              {...messages.withdrawal_prompt_dialog_body}
-            />
+            <FormattedMessage values={{ service }} {...messages.lnurl_channel_prompt_dialog_body} />
           </Text>
-          <Text>{service}</Text>
         </Dialog>
       </Form>
     </DialogOverlay>
   )
 }
 
-DialogWrapper.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
+LnurlChannelPrompt.propTypes = {
   onCancel: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
   onOk: PropTypes.func.isRequired,
   params: PropTypes.object.isRequired,
 }
 
-export default DialogWrapper
+export default LnurlChannelPrompt

@@ -1,4 +1,5 @@
 import throttle from 'lodash/throttle'
+import { send } from 'redux-electron-ipc'
 import createReducer from '@zap/utils/createReducer'
 import { CoinBig } from '@zap/utils/coin'
 import { getIntl } from '@zap/i18n'
@@ -7,6 +8,7 @@ import { grpc } from 'workers'
 import { fetchBalance } from 'reducers/balance'
 import { updateNotification, showWarning, showError } from 'reducers/notification'
 import { walletSelectors } from 'reducers/wallet'
+import { infoSelectors } from 'reducers/info'
 import { updateNodeData } from 'reducers/network'
 import { putConfig, settingsSelectors } from 'reducers/settings'
 import messages from './messages'
@@ -30,6 +32,8 @@ const {
   GET_SUGGESTED_NODES,
   RECEIVE_SUGGESTED_NODES_ERROR,
   RECEIVE_SUGGESTED_NODES,
+  SET_LNURL_CHANNEL_PARAMS,
+  CLEAR_LNURL_CHANNEL,
 } = constants
 
 // ------------------------------------
@@ -76,11 +80,69 @@ const initialState = {
   },
   suggestedNodesLoading: false,
   suggestedNodesError: null,
+  lnurlChannelParams: null,
 }
 
 // ------------------------------------
 // Actions
 // ------------------------------------
+
+/**
+ * setLnurlChannelParams - Set request details.
+ *
+ * @param {object|null} params lnurl request details or null to clear
+ * @returns {object} Action
+ */
+export function setLnurlChannelParams(params) {
+  return {
+    type: SET_LNURL_CHANNEL_PARAMS,
+    params,
+  }
+}
+
+/**
+ * clearLnurlChannel - Clears lnurl channel state
+ *
+ * @returns {object} Action
+ */
+export const clearLnurlChannel = () => dispatch => {
+  dispatch({ type: CLEAR_LNURL_CHANNEL })
+}
+
+/**
+ * declineLnurlChannel - Cancels lnurl channel and clears params cache.
+ *
+ * @returns {object} Action
+ */
+export const declineLnurlChannel = () => dispatch => {
+  dispatch(send('lnurlCancelChannel'))
+  dispatch(clearLnurlChannel())
+}
+
+/**
+ * finishLnurlChannel - Concludes lnurl channel request processing by sending our ln pubkey to the service.
+ *
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
+ */
+export const finishLnurlChannel = () => async (dispatch, getState) => {
+  const state = getState()
+  if (state.channels.lnurlChannelParams) {
+    const { service } = getState().channels.lnurlChannelParams
+
+    // Show notification.
+    dispatch(
+      showWarning(getIntl().formatMessage(messages.channels_lnurl_channel_started), {
+        isProcessing: true,
+        payload: { service },
+      })
+    )
+
+    const [pubkey, host] = service.split('@')
+    await grpc.services.Lightning.ensurePeerConnected({ pubkey, host })
+    dispatch(send('lnurlFinishChannel', { pubkey: infoSelectors.nodePubkey(state) }))
+    dispatch(clearLnurlChannel())
+  }
+}
 
 /**
  * setChannelViewMode - Set the current channels list view mode.
@@ -518,6 +580,7 @@ export const receiveChannelGraphData = ({ channelUpdates, nodeUpdates }) => (
   getState
 ) => {
   const { info, channels } = getState()
+
   // Process node updates.
   if (nodeUpdates.length) {
     dispatch(updateNodeData(nodeUpdates))
@@ -623,6 +686,12 @@ const ACTION_HANDLERS = {
       mainnet: [],
       testnet: [],
     }
+  },
+  [SET_LNURL_CHANNEL_PARAMS]: (state, { params }) => {
+    state.lnurlChannelParams = params
+  },
+  [CLEAR_LNURL_CHANNEL]: state => {
+    state.lnurlChannelParams = null
   },
 }
 

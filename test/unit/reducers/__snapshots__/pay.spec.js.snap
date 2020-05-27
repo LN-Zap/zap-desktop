@@ -140,7 +140,7 @@ Snapshot Diff:
   }
 `;
 
-exports[`reducers payReducer should handle SET_REDIRECT_LN_URL 1`] = `
+exports[`reducers payReducer should handle SET_LNURL_WITHDRAWAL_PARAMS 1`] = `
 Snapshot Diff:
 - First value
 + Second value

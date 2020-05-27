@@ -3,6 +3,7 @@ import bech32 from 'bech32'
 import { mainLog } from '@zap/utils/log'
 
 export const LNURL_STATUS_ERROR = 'ERROR'
+export const LNURL_STATUS_OK = 'OK'
 
 /**
  * uintToString - Converts uint array to string.
@@ -16,37 +17,37 @@ function uintToString(uintArray) {
 }
 
 /**
- * fetchWithdrawParams - Fetches withdrawal request params from the specified `lnurl`
+ * fetchLnurlParams - Fetches lnurl request params from the specified `lnurl`
  *
  * @param {string} lnurl url
  * @returns {object} request params
- * Throws exception if target `lnurl` is not withdrawal request of params weren't successfully
- * fetched
+ * Throws exception if target `lnurl` is not a supported request type of params
+ * weren't successfully fetched
  */
-export async function fetchWithdrawParams(lnurl) {
+export async function fetchLnurlParams(lnurl) {
   mainLog.debug('Extracting params from lnurl: %s', lnurl)
-  const params = await axios.get(lnurl)
-  mainLog.debug('Got params from lnurl: %o', params)
+  const { data } = await axios.get(lnurl)
+  mainLog.debug('Got params from lnurl: %o', data)
 
   const {
-    data: {
-      // a second-level url which would accept a withdrawal Lightning invoice as query parameter
-      callback,
-      // an ephemeral secret which would allow user to withdraw funds
-      k1: secret,
-      maxWithdrawable,
-      // A default withdrawal invoice description
-      defaultDescription,
-      // An optional field, defaults to 1 milisats if not present, can not be less than 1 or more than `maxWithdrawable`
-      minWithdrawable,
-      // action type
-      tag,
-      // error status
-      status,
-      // error reason
-      reason,
-    },
-  } = params
+    // a second-level url which would accept a withdrawal Lightning invoice as query parameter
+    callback,
+    // an ephemeral secret which would allow user to withdraw funds
+    k1: secret,
+    maxWithdrawable,
+    // A default withdrawal invoice description
+    defaultDescription,
+    // An optional field, defaults to 1 milisats if not present, can not be less than 1 or more than `maxWithdrawable`
+    minWithdrawable,
+    // Remote node address of form node_key@ip_address:port_number
+    uri,
+    // action type
+    tag,
+    // error status
+    status,
+    // error reason
+    reason,
+  } = data
 
   if (status === LNURL_STATUS_ERROR) {
     return {
@@ -54,8 +55,10 @@ export async function fetchWithdrawParams(lnurl) {
       reason,
     }
   }
+
   if (tag === 'withdrawRequest') {
     return {
+      tag,
       callback,
       secret,
       maxWithdrawable,
@@ -63,8 +66,16 @@ export async function fetchWithdrawParams(lnurl) {
       defaultDescription,
     }
   }
+  if (tag === 'channelRequest') {
+    return {
+      tag,
+      callback,
+      secret,
+      uri,
+    }
+  }
 
-  throw new Error('Unknown request type')
+  throw new Error(`Unknown request type: "${tag}"`)
 }
 
 /**
@@ -81,6 +92,26 @@ export function makeWithdrawRequest({ callback, secret, invoice }) {
     params: {
       k1: secret,
       pr: invoice,
+    },
+  })
+}
+
+/**
+ * makeChannelRequest - Attempts channel initiation with the service specified by `callback`.
+ *
+ * @param {object} params { callback, secret, remoteid }
+ * @param {string} params.callback service callback to get from
+ * @param {string} params.secret k1 lnurl spec secret
+ * @param {string} params.pubkey LN node PubKey to receive incoming channel
+ * @param {boolean} params.isPrivate LBoolean indicating if channel should be private
+ * @returns {Promise} request result
+ */
+export function makeChannelRequest({ callback, secret, pubkey, isPrivate }) {
+  return axios.get(callback, {
+    params: {
+      k1: secret,
+      remoteid: pubkey,
+      private: isPrivate ? 1 : 0,
     },
   })
 }

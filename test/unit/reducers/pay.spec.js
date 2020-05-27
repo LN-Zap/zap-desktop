@@ -7,7 +7,7 @@ import reducer, {
   QUERY_ROUTES_SUCCESS,
   QUERY_ROUTES_FAILURE,
   SET_REDIRECT_PAY_REQ,
-  SET_REDIRECT_LN_URL,
+  SET_LNURL_WITHDRAWAL_PARAMS,
 } from 'reducers/pay'
 
 describe('reducers', () => {
@@ -75,9 +75,9 @@ describe('reducers', () => {
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
-    it('should handle SET_REDIRECT_LN_URL', () => {
+    it('should handle SET_LNURL_WITHDRAWAL_PARAMS', () => {
       const action = {
-        type: SET_REDIRECT_LN_URL,
+        type: SET_LNURL_WITHDRAWAL_PARAMS,
         params: { memo: '1', amount: 100 },
       }
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()

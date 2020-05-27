@@ -4,9 +4,9 @@ import { settingsSelectors } from 'reducers/settings'
 const getLnurlWithdrawParams = state => state.pay.lnurlWithdrawParams
 
 /**
- * willShowLnurlWithdrawalPrompt - Boolean indicating wether lnurl withdeawal prompt should show.
+ * willShowLnurlWithdrawPrompt - Boolean indicating wether lnurl withdeawal prompt should show.
  */
-export const willShowLnurlWithdrawalPrompt = createSelector(
+export const willShowLnurlWithdrawPrompt = createSelector(
   getLnurlWithdrawParams,
   settingsSelectors.currentConfig,
   (params, config) => {
@@ -21,6 +21,6 @@ export const willShowLnurlWithdrawalPrompt = createSelector(
 export const lnurlWithdrawParams = createSelector(getLnurlWithdrawParams, params => params)
 
 export default {
-  willShowLnurlWithdrawalPrompt,
+  willShowLnurlWithdrawPrompt,
   lnurlWithdrawParams,
 }
