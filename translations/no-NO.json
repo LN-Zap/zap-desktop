@@ -694,7 +694,7 @@
   "reducers.payment.no_route": "",
   "reducers.payment.succeeded": "",
   "reducers.payment.terminated_early": "",
-  "reducers.payment.unknown": "Ukjent",
+  "reducers.payment.unknown": "",
   "reducers.transaction.transaction_received_body": "",
   "reducers.transaction.transaction_received_title": "",
   "reducers.transaction.transaction_sent_body": "",
