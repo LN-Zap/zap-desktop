@@ -672,7 +672,7 @@
   "reducers.channels.channels_lnurl_channel_success": "",
   "reducers.channels.channels_open_warning": "",
   "reducers.invoice.invoice_keysend_receive_body": "",
-  "reducers.invoice.invoice_receive_body": "",
+  "reducers.invoice.invoice_receive_body": "Félicitations ! Quelqu'un vient de payer votre demande",
   "reducers.invoice.invoice_receive_title": "Zap ! Vous avez été foudroyé",
   "reducers.messages.address_new_address_error": "Impossible d'obtenir une adresse {addressType} : {error}",
   "reducers.messages.app_init_db_error": "Impossible d'initialiser la base de données : {error}",
