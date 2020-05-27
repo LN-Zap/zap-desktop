@@ -694,7 +694,7 @@
   "reducers.payment.no_route": "",
   "reducers.payment.succeeded": "",
   "reducers.payment.terminated_early": "",
-  "reducers.payment.unknown": "Unbekannt",
+  "reducers.payment.unknown": "",
   "reducers.transaction.transaction_received_body": "Du Glückspilz hast eine neue on-chain Transaktion erhalten. Ich bin neidisch.",
   "reducers.transaction.transaction_received_title": "On-chain Transaktion erhalten!",
   "reducers.transaction.transaction_sent_body": "Und da geht sie einfach so... Transaktion erfolgreich gesendet.",
