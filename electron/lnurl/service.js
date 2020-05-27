@@ -55,13 +55,21 @@ export default class LnurlService {
   }
 
   /**
-   * send - Send a message to the renderer.
+   * sendMessage - Send a message to the main window.
    *
-   * @param {string} msg Message
-   * @param {object} data Data
+   * @param {string} msg message to send.
+   * @param {object} data additional data to accompany the message.
    */
-  send(msg, data) {
-    this.mainWindow.webContents.send(msg, data)
+  sendMessage(msg, data) {
+    if (this.mainWindow) {
+      mainLog.info('Sending message to renderer process: %o', { msg, data })
+      this.mainWindow.webContents.send(msg, data)
+    } else {
+      mainLog.warn('Unable to send message to renderer process (main window not available): %o', {
+        msg,
+        data,
+      })
+    }
   }
 
   /**
@@ -93,7 +101,7 @@ export default class LnurlService {
           throw new Error('Unable to process lnurl')
       }
     } catch (error) {
-      this.send('lnurlError', { message: error.message })
+      this.sendMessage('lnurlError', { message: error.message })
       throw error
     }
   }
@@ -110,7 +118,7 @@ export default class LnurlService {
 
     if (this.isWithdrawProcessing) {
       mainLog.warn('Error processing lnurl withdraw request: busy')
-      this.send('lnurlWithdrawError', { service, reason: 'service busy' })
+      this.sendMessage('lnurlWithdrawError', { service, reason: 'service busy' })
       return
     }
     this.isWithdrawProcessing = true
@@ -119,13 +127,13 @@ export default class LnurlService {
       const withdrawParams = { status, reason, service }
       this.isWithdrawProcessing = false
       mainLog.error('Unable to process lnurl withdraw request: %o', withdrawParams)
-      this.send('lnurlWithdrawError', withdrawParams)
+      this.sendMessage('lnurlWithdrawError', withdrawParams)
       return
     }
 
     const withdrawParams = { amount: maxWithdrawable, memo: defaultDescription, service }
     mainLog.info('Processing lnurl withdraw request: %o', withdrawParams)
-    this.send('lnurlWithdrawRequest', withdrawParams)
+    this.sendMessage('lnurlWithdrawRequest', withdrawParams)
   }
 
   /**
@@ -152,7 +160,8 @@ export default class LnurlService {
    */
   onFinishWithdraw = async (event, { paymentRequest }) => {
     mainLog.info('Finishing lnurl withdraw request: %o', this.withdrawParams)
-    const { callback, secret, service } = this.withdrawParams
+    const { callback, secret, lnurl } = this.withdrawParams
+    const service = getServiceName(lnurl)
     try {
       if (callback && secret && paymentRequest) {
         const { data } = await makeWithdrawRequest({ callback, secret, invoice: paymentRequest })
@@ -162,11 +171,11 @@ export default class LnurlService {
         }
 
         mainLog.info('Completed withdraw request: %o', data)
-        this.send('lnurlWithdrawSuccess', { service })
+        this.sendMessage('lnurlWithdrawSuccess', { service })
       }
     } catch (e) {
       mainLog.warn('Unable to complete lnurl withdraw request: %s', e.message)
-      this.send('lnurlWithdrawError', { service, reason: e.message })
+      this.sendMessage('lnurlWithdrawError', { service, reason: e.message })
     } finally {
       this.resetWithdraw()
     }
@@ -181,7 +190,7 @@ export default class LnurlService {
 
     if (this.isChannelProcessing) {
       mainLog.warn('Error processing lnurl channel request: busy')
-      this.send('lnurlChannelError', { service, reason: 'service busy' })
+      this.sendMessage('lnurlChannelError', { service, reason: 'service busy' })
       return
     }
     this.isChannelProcessing = true
@@ -190,13 +199,13 @@ export default class LnurlService {
       const channelParams = { status, service }
       this.isChannelProcessing = false
       mainLog.error('Unable to process lnurl channel request: %o', channelParams)
-      this.send('lnurlChannelError', channelParams)
+      this.sendMessage('lnurlChannelError', channelParams)
       return
     }
 
     const channelParams = { service }
     mainLog.info('Processing lnurl channel request: %o', channelParams)
-    this.send('lnurlChannelRequest', channelParams)
+    this.sendMessage('lnurlChannelRequest', channelParams)
   }
 
   /**
@@ -234,11 +243,11 @@ export default class LnurlService {
         }
 
         mainLog.info('Completed channel request: %o', data)
-        this.send('lnurlChannelSuccess', { service })
+        this.sendMessage('lnurlChannelSuccess', { service })
       }
     } catch (e) {
       mainLog.warn('Unable to complete lnurl channel request: %s', e.message)
-      this.send('lnurlChannelError', { service, reason: e.message })
+      this.sendMessage('lnurlChannelError', { service, reason: e.message })
     } finally {
       this.resetChannel()
     }

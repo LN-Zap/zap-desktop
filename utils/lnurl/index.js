@@ -51,6 +51,7 @@ export async function fetchLnurlParams(lnurl) {
 
   if (status === LNURL_STATUS_ERROR) {
     return {
+      lnurl,
       status,
       reason,
     }
@@ -58,6 +59,7 @@ export async function fetchLnurlParams(lnurl) {
 
   if (tag === 'withdrawRequest') {
     return {
+      lnurl,
       tag,
       callback,
       secret,
@@ -68,6 +70,7 @@ export async function fetchLnurlParams(lnurl) {
   }
   if (tag === 'channelRequest') {
     return {
+      lnurl,
       tag,
       callback,
       secret,
