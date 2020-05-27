@@ -106,6 +106,7 @@ export const finishLnurlWithdraw = () => async (dispatch, getState) => {
     // Show notification.
     dispatch(
       showWarning(getIntl().formatMessage(messages.pay_lnurl_withdraw_started), {
+        timeout: 3000,
         isProcessing: true,
         payload: { service },
       })
