@@ -2662,10 +2662,10 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
-"@types/rebass@4.0.5":
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/@types/rebass/-/rebass-4.0.5.tgz#cd6bc6b71c7fe46c18c4692e68235ae7fc306d0d"
-  integrity sha512-c2CLauMY//8Oig3M4+9oDRWn7wZjUlEcJwmQdojjRCX6OWL5ZHidcG4febD81WRMyu40fkx8QcvcPlcFCrh9Fw==
+"@types/rebass@4.0.6":
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/@types/rebass/-/rebass-4.0.6.tgz#c33d133baca8a440b22ca4b3038014d0b0e8ce59"
+  integrity sha512-geU6Hh5/YM91c6yoT3/DsVsDRpbqoRFFnNmRQLT/V16aEL5zZ3Oa+2A+T2hvuNz6oSDA9tIj9SoEZVFivRe2Dg==
   dependencies:
     "@types/react" "*"
     "@types/styled-components" "*"
