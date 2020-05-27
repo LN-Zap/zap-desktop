@@ -132,6 +132,7 @@ export const finishLnurlChannel = () => async (dispatch, getState) => {
     // Show notification.
     dispatch(
       showWarning(getIntl().formatMessage(messages.channels_lnurl_channel_started), {
+        timeout: 3000,
         isProcessing: true,
         payload: { service },
       })
@@ -479,8 +480,9 @@ export const openChannel = data => async (dispatch, getState) => {
   // Show notification.
   dispatch(
     showWarning(getIntl().formatMessage(messages.channels_open_warning), {
-      payload: { pubkey },
+      timeout: 3000,
       isProcessing: true,
+      payload: { pubkey },
     })
   )
 

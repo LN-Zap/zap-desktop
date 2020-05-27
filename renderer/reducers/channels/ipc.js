@@ -35,6 +35,7 @@ export const lnurlChannelSuccess = (event, { service }) => dispatch => {
       {
         variant: 'success',
         message: intl.formatMessage(messages.channels_lnurl_channel_success, { service }),
+        timeout: 3000,
         isProcessing: false,
       }
     )

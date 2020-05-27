@@ -95,6 +95,7 @@ export const lnurlWithdrawSuccess = (event, { service }) => dispatch => {
       {
         variant: 'success',
         message: intl.formatMessage(messages.pay_lnurl_withdraw_success, { service }),
+        timeout: 3000,
         isProcessing: false,
       }
     )
