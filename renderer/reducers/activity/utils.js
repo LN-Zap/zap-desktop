@@ -43,7 +43,7 @@ export const returnTimestamp = activity => {
  */
 export const addDate = entry => {
   const timestamp = returnTimestamp(entry)
-  const d = new Date(Number(timestamp) * 1000)
+  const d = new Date(timestamp * 1000)
   const date = d.getDate()
   return { ...entry, date: `${months[d.getMonth()]} ${date}, ${d.getFullYear()}`, timestamp }
 }
@@ -66,17 +66,13 @@ export const propMatches = function propMatches(prop) {
  * @returns {any[]} Grouped items
  */
 export function groupActivity(data) {
-  // according too https://stackoverflow.com/a/11252167/3509860
-  // this provides an accurate measurement including handling of DST
-  const daysBetween = (t1, t2) => Math.round((t2 - t1) / 86400)
   return data
     .sort((a, b) => b.timestamp - a.timestamp)
     .reduce((acc, next) => {
       const prev = acc[acc.length - 1]
       // check if need insert a group title
       if (prev) {
-        const days = daysBetween(next.timestamp, prev.timestamp)
-        if (days >= 1) {
+        if (prev.date !== next.date) {
           acc.push({ title: next.date })
         }
       } else {
