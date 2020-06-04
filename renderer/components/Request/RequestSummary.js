@@ -115,7 +115,7 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
         right={
           <Text>
             {payReq ? (
-              <QRCode value={payReq} />
+              <QRCode value={payReq.toUpperCase()} />
             ) : (
               <FormattedMessage {...messages.payment_request_keysend} />
             )}
