@@ -703,7 +703,7 @@
   "reducers.payment.no_route": "",
   "reducers.payment.succeeded": "",
   "reducers.payment.terminated_early": "",
-  "reducers.payment.unknown": "Inconnu",
+  "reducers.payment.unknown": "",
   "reducers.transaction.transaction_received_body": "Vous venez de recevoir une transaction On-chain. La chance.",
   "reducers.transaction.transaction_received_title": "Transaction On-chain reçue !",
   "reducers.transaction.transaction_sent_body": "C'est si dur de les voir partir… Votre transaction On-chain a bien été envoyée.",
