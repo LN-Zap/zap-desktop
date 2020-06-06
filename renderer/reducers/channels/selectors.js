@@ -377,14 +377,9 @@ channelsSelectors.isCustomFilter = createSelector(filterSelector, filters => {
 /**
  * willShowLnurlChannelPrompt - Boolean indicating wether lnurl channel prompt should show.
  */
-channelsSelectors.willShowLnurlChannelPrompt = createSelector(
-  lnurlChannelParams,
-  settingsSelectors.currentConfig,
-  (params, config) => {
-    const promptEnabled = config.lnurl.requirePrompt
-    return Boolean(promptEnabled && params)
-  }
-)
+channelsSelectors.willShowLnurlChannelPrompt = createSelector(lnurlChannelParams, params => {
+  return Boolean(params)
+})
 
 /**
  * lnurlChannelParams - Current lnurl withdrawal paramaters.

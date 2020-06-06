@@ -3,6 +3,7 @@ import { initApp, terminateApp, openPreferences, lnurlError } from './app'
 import { killNeutrino } from './neutrino'
 import { receiveLocale } from './locale'
 import { lnurlChannelRequest, lnurlChannelSuccess, lnurlChannelError } from './channels'
+import { lnurlAuthRequest, lnurlAuthSuccess, lnurlAuthError } from './lnurl'
 import {
   bitcoinPaymentUri,
   lightningPaymentUri,
@@ -37,6 +38,9 @@ const ipc = createIpc({
   queryWalletBackupFailure,
   saveInvoiceSuccess,
   saveInvoiceFailure,
+  lnurlAuthRequest,
+  lnurlAuthSuccess,
+  lnurlAuthError,
   lnurlChannelRequest,
   lnurlChannelSuccess,
   lnurlChannelError,

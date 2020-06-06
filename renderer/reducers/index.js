@@ -29,6 +29,7 @@ import settings from './settings'
 import settingsmenu from './settingsmenu'
 import wallet from './wallet'
 import backup from './backup'
+import lnurl from './lnurl'
 
 /**
  * @typedef State
@@ -41,6 +42,7 @@ import backup from './backup'
  * @property {import('./balance').State} balance Balance reducer.
  * @property {import('./info').State} info Info reducer.
  * @property {import('./invoice').State} invoice Invoice reducer.
+ * @property {import('./lnurl').State} lnurl Lnurl reducer.
  * @property {import('./network').State} network Network reducer.
  * @property {import('./transaction').State} transaction Transaction reducer.
  */
@@ -67,6 +69,7 @@ const reducers = {
   info,
   invoice,
   lnd,
+  lnurl,
   modal,
   network,
   neutrino,

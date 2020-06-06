@@ -2,6 +2,7 @@ import { ipcMain } from 'electron'
 import { parse } from 'url'
 import {
   fetchLnurlParams,
+  makeAuthRequest,
   makeChannelRequest,
   makeWithdrawRequest,
   LNURL_STATUS_ERROR,
@@ -35,11 +36,17 @@ export default class LnurlService {
     this.channelParams = {}
     this.isChannelProcessing = false
 
+    this.authParams = {}
+    this.isAuthProcessing = false
+
     ipcMain.on('lnurlFinishWithdraw', this.onFinishWithdraw)
     ipcMain.on('lnurlCancelWithdraw', this.onCancelWithdraw)
 
     ipcMain.on('lnurlFinishChannel', this.onFinishChannel)
     ipcMain.on('lnurlCancelChannel', this.onCancelChannel)
+
+    ipcMain.on('lnurlFinishAuth', this.onFinishAuth)
+    ipcMain.on('lnurlCancelAuth', this.onCancelAuth)
   }
 
   /**
@@ -52,6 +59,9 @@ export default class LnurlService {
 
     ipcMain.off('lnurlFinishChannel', this.onFinishChannel)
     ipcMain.off('lnurlCancelChannel', this.onCancelChannel)
+
+    ipcMain.off('lnurlFinishAuth', this.onFinishAuth)
+    ipcMain.off('lnurlCancelAuth', this.onCancelAuth)
   }
 
   /**
@@ -97,6 +107,11 @@ export default class LnurlService {
           await this.startChannel()
           break
 
+        case 'authRequest':
+          this.authParams = res
+          await this.startAuth()
+          break
+
         default:
           throw new Error('Unable to process lnurl')
       }
@@ -105,6 +120,8 @@ export default class LnurlService {
       throw error
     }
   }
+
+  /** WITHDRAW -------------------------------------------------------------- */
 
   /**
    * startWithdraw - Initiates lnurl withdrawal process by sending query to
@@ -181,6 +198,8 @@ export default class LnurlService {
     }
   }
 
+  /** CHANNEL --------------------------------------------------------------- */
+
   /**
    * startChannel - Initiates lnurl channel process by sending query to renderer
    * process to initiate channel connect.
@@ -209,7 +228,7 @@ export default class LnurlService {
   }
 
   /**
-   * resetChannel - Resets lnurl-withdraw state.
+   * resetChannel - Resets lnurl-channel state.
    */
   resetChannel = () => {
     this.isChannelProcessing = false
@@ -250,6 +269,76 @@ export default class LnurlService {
       this.sendMessage('lnurlChannelError', { service, reason: e.message })
     } finally {
       this.resetChannel()
+    }
+  }
+
+  /** AUTH ------------------------------------------------------------------ */
+
+  /**
+   * startAuth - Initiates lnurl auth process by sending query to renderer
+   * process to initiate auth connect.
+   */
+  async startAuth() {
+    const { lnurl, secret } = this.authParams
+    const service = getServiceName(lnurl)
+
+    if (this.isAuthProcessing) {
+      mainLog.warn('Error processing lnurl auth request: busy')
+      this.sendMessage('lnurlAuthError', { service, reason: 'service busy' })
+      return
+    }
+    this.isAuthProcessing = true
+
+    const authParams = { service, secret }
+    mainLog.info('Processing lnurl auth request: %o', authParams)
+    this.sendMessage('lnurlAuthRequest', authParams)
+  }
+
+  /**
+   * resetAuth - Resets lnurl-auth state.
+   */
+  resetAuth = () => {
+    this.isAuthProcessing = false
+    this.authParams = {}
+  }
+
+  /**
+   * onCancelAuth - Cancels an lnurl-auth request.
+   */
+  onCancelAuth = () => {
+    mainLog.info('Cancelling lnurl auth request: %o', this.authParams)
+    this.resetAuth()
+  }
+
+  /**
+   * onFinishAuth - Finalizes an lnurl-auth request.
+   *
+   * @param {object} event Event
+   * @param {object} data Data
+   */
+  onFinishAuth = async (event, { sig, key }) => {
+    mainLog.info('Finishing lnurl auth request: %o', this.authParams)
+    const { lnurl } = this.authParams
+    const service = getServiceName(lnurl)
+
+    try {
+      if (sig && key) {
+        const callback = `${lnurl}&sig=${sig}&key=${key}`
+        const { data } = await makeAuthRequest({ lnurl, callback })
+
+        if (data.status === LNURL_STATUS_ERROR) {
+          mainLog.warn('Got error from lnurl auth request: %o', data)
+          throw new Error(data.reason)
+        }
+
+        mainLog.info('Completed auth request: %o', data)
+        this.sendMessage('lnurlAuthSuccess', { service })
+      }
+    } catch (e) {
+      mainLog.warn('Unable to complete lnurl auth request: %s', e.message)
+      this.sendMessage('lnurlAuthError', { service, reason: e.message })
+    } finally {
+      this.resetAuth()
     }
   }
 }

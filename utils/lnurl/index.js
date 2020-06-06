@@ -1,5 +1,7 @@
 import axios from 'axios'
 import bech32 from 'bech32'
+import { parse } from 'url'
+import { decode } from 'querystring'
 import { mainLog } from '@zap/utils/log'
 
 export const LNURL_STATUS_ERROR = 'ERROR'
@@ -26,8 +28,25 @@ function uintToString(uintArray) {
  */
 export async function fetchLnurlParams(lnurl) {
   mainLog.debug('Extracting params from lnurl: %s', lnurl)
-  const { data } = await axios.get(lnurl)
-  mainLog.debug('Got params from lnurl: %o', data)
+
+  let params = {}
+
+  const parsedUrl = parse(lnurl)
+  const { query } = parsedUrl
+  const decodedQueryString = decode(query)
+  const { tag: urlTag } = decodedQueryString
+
+  if (urlTag === 'login') {
+    params = {
+      tag: 'authRequest',
+      k1: decodedQueryString.k1,
+    }
+  } else {
+    const { data } = await axios.get(lnurl)
+    params = data
+  }
+
+  mainLog.debug('Got params from lnurl: %o', params)
 
   const {
     // a second-level url which would accept a withdrawal Lightning invoice as query parameter
@@ -47,7 +66,7 @@ export async function fetchLnurlParams(lnurl) {
     status,
     // error reason
     reason,
-  } = data
+  } = params
 
   if (status === LNURL_STATUS_ERROR) {
     return {
@@ -77,12 +96,19 @@ export async function fetchLnurlParams(lnurl) {
       uri,
     }
   }
+  if (tag === 'authRequest') {
+    return {
+      lnurl,
+      tag,
+      secret,
+    }
+  }
 
   throw new Error(`Unknown request type: "${tag}"`)
 }
 
 /**
- * makeWithdrawRequest - Attempts withdrawal with the service specified by `callback`.
+ * makeWithdrawRequest - Attempts withdraw with the service specified by `callback`.
  *
  * @param {object} params { callback, secret, invoice }
  * @param {string} params.callback service callback to get from
@@ -117,6 +143,17 @@ export function makeChannelRequest({ callback, secret, pubkey, isPrivate }) {
       private: isPrivate ? 1 : 0,
     },
   })
+}
+
+/**
+ * makeAuthRequest - Attempts auth with the service specified by `callback`.
+ *
+ * @param {object} params { callback, secret, invoice }
+ * @param {string} params.callback service callback to get from
+ * @returns {Promise} request result
+ */
+export function makeAuthRequest({ callback }) {
+  return axios.get(callback)
 }
 
 /**
