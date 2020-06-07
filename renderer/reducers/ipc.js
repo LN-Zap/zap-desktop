@@ -2,8 +2,14 @@ import createIpc from 'redux-electron-ipc'
 import { initApp, terminateApp, openPreferences, lnurlError } from './app'
 import { killNeutrino } from './neutrino'
 import { receiveLocale } from './locale'
-import { lnurlChannelRequest, lnurlChannelSuccess, lnurlChannelError } from './channels'
-import { lnurlAuthRequest, lnurlAuthSuccess, lnurlAuthError } from './lnurl'
+import {
+  lnurlAuthRequest,
+  lnurlAuthSuccess,
+  lnurlAuthError,
+  lnurlChannelRequest,
+  lnurlChannelSuccess,
+  lnurlChannelError,
+} from './lnurl'
 import {
   bitcoinPaymentUri,
   lightningPaymentUri,

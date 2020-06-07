@@ -1,14 +1,14 @@
 import { connect } from 'react-redux'
 import {
+  lnurlSelectors,
   finishLnurlChannel,
-  channelsSelectors,
   clearLnurlChannel,
   declineLnurlChannel,
-} from 'reducers/channels'
-import { LnurlChannelPrompt } from 'components/Channels'
+} from 'reducers/lnurl'
+import { LnurlChannelPrompt } from 'components/Lnurl'
 
 const mapStateToProps = state => ({
-  params: channelsSelectors.lnurlChannelParams(state),
+  params: lnurlSelectors.lnurlChannelParams(state),
 })
 
 const mapDispatchToProps = {

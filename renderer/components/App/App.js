@@ -6,7 +6,7 @@ import createScheduler from '@zap/utils/scheduler'
 import Wallet from 'containers/Wallet'
 import Activity from 'containers/Activity'
 import LnurlWithdrawPrompt from 'containers/Pay/LnurlWithdrawPrompt'
-import LnurlChannelPrompt from 'containers/Channels/LnurlChannelPrompt'
+import LnurlChannelPrompt from 'containers/Lnurl/LnurlChannelPrompt'
 
 // Bitcoin blocks come on average every 10 mins
 // but we poll a lot more frequently to make UI a little bit more responsive
