@@ -6,6 +6,7 @@ import { getIntl } from '@zap/i18n'
 import { grpc } from 'workers'
 import { infoSelectors } from 'reducers/info'
 import { showWarning } from 'reducers/notification'
+import { createInvoice } from 'reducers/invoice'
 import * as constants from './constants'
 import lnurlSelectors from './selectors'
 import messages from './messages'
@@ -15,6 +16,8 @@ const {
   CLEAR_LNURL_AUTH,
   SET_LNURL_CHANNEL_PARAMS,
   CLEAR_LNURL_CHANNEL,
+  SET_LNURL_WITHDRAW_PARAMS,
+  CLEAR_LNURL_WITHDRAW,
 } = constants
 
 // ------------------------------------
@@ -23,14 +26,16 @@ const {
 
 /**
  * @typedef State
- * @property {{service: string, secret: string}|null} lnurlAuthParams Current lnurl auth paramaters.
- * @property {{service: string, secret: string}|null} lnurlChannelParams Current lnurl channel paramaters.
+ * @property {{service: string, secret: string}|null} lnurlAuthParams lnurl auth paramaters.
+ * @property {{service: string, secret: string}|null} lnurlChannelParams lnurl channel paramaters.
+ * @property {{service: string, amount: string, memo: string}|null} lnurlWithdrawParams lnurl withdraw paramaters.
  */
 
 /** @type {State} */
 const initialState = {
   lnurlAuthParams: null,
   lnurlChannelParams: null,
+  lnurlWithdrawParams: null,
 }
 
 // ------------------------------------
@@ -184,6 +189,78 @@ export const finishLnurlChannel = () => async (dispatch, getState) => {
 }
 
 // ------------------------------------
+// Actions - lnurl-withdraw
+// ------------------------------------
+
+/**
+ * clearLnurlWithdraw - Clears lnurl withdraw state.
+ *
+ * @returns {(dispatch:Function) => void} Thunk
+ */
+export const clearLnurlWithdraw = () => dispatch => {
+  dispatch({ type: CLEAR_LNURL_WITHDRAW })
+}
+
+/**
+ * declineLnurlWithdraw - Cancels lnurl withdraw and clears params cache.
+ *
+ * @returns {(dispatch:Function) => void} Thunk
+ */
+export const declineLnurlWithdraw = () => dispatch => {
+  dispatch(send('lnurlCancelWithdraw'))
+  dispatch(clearLnurlWithdraw())
+}
+
+/**
+ * setLnurlWithdrawParams - Set request details.
+ *
+ * @param {object|null} params lnurl request details or null to clear
+ * @returns {object} Action
+ */
+export function setLnurlWithdrawParams(params) {
+  return {
+    type: SET_LNURL_WITHDRAW_PARAMS,
+    params,
+  }
+}
+
+/**
+ * finishLnurlWithdraw - Concludes lnurl withdraw request processing by sending our ln PR to the service.
+ *
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
+ */
+export const finishLnurlWithdraw = () => async (dispatch, getState) => {
+  const state = getState()
+  const lnurlWithdrawParams = lnurlSelectors.lnurlWithdrawParams(state)
+  if (lnurlWithdrawParams) {
+    const { service, amount, memo } = lnurlWithdrawParams
+
+    // Show notification.
+    dispatch(
+      showWarning(getIntl().formatMessage(messages.lnurl_withdraw_started), {
+        timeout: 3000,
+        isProcessing: true,
+        payload: { service },
+      })
+    )
+
+    // Create invoice.
+    const { paymentRequest } = await dispatch(
+      createInvoice({
+        amount,
+        memo,
+        cryptoUnit: 'msats',
+        isPrivate: true,
+      })
+    )
+
+    // Hand off to main lnurl service to complete the process.
+    dispatch(send('lnurlFinishWithdraw', { paymentRequest }))
+    dispatch(clearLnurlWithdraw())
+  }
+}
+
+// ------------------------------------
 // Action Handlers
 // ------------------------------------
 
@@ -199,6 +276,12 @@ const ACTION_HANDLERS = {
   },
   [CLEAR_LNURL_CHANNEL]: state => {
     state.lnurlChannelParams = null
+  },
+  [SET_LNURL_WITHDRAW_PARAMS]: (state, { params }) => {
+    state.lnurlWithdrawParams = params
+  },
+  [CLEAR_LNURL_WITHDRAW]: state => {
+    state.lnurlWithdrawParams = null
   },
 }
 

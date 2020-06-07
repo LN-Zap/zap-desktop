@@ -1,15 +1,12 @@
-import { getIntl } from '@zap/i18n'
 import { convert } from '@zap/utils/btc'
 import { CoinBig } from '@zap/utils/coin'
 import { isAutopayEnabled } from '@zap/utils/featureFlag'
 import { decodePayReq } from '@zap/utils/crypto'
-import { updateNotification } from 'reducers/notification'
 import { walletSelectors } from 'reducers/wallet'
 import { showAutopayNotification, autopaySelectors } from 'reducers/autopay'
 import { payInvoice } from 'reducers/payment'
 import { tickerSelectors } from 'reducers/ticker'
-import { setRedirectPayReq, setLnurlWithdrawParams } from './reducer'
-import messages from './messages'
+import { setRedirectPayReq } from './reducer'
 
 // ------------------------------------
 // IPC
@@ -19,7 +16,7 @@ import messages from './messages'
  * lightningPaymentUri - Initiate lightning payment flow.
  *
  * @param {event} event Event
- * @param {{ address }} address Address (payment request)
+ * @param {{ address: string }} address Address (payment request)
  * @returns {(dispatch:Function, getState:Function) => void} Thunk
  */
 export const lightningPaymentUri = (event, { address }) => (dispatch, getState) => {
@@ -61,7 +58,7 @@ export const lightningPaymentUri = (event, { address }) => (dispatch, getState) 
  * bitcoinPaymentUri - Initiate bitcoin payment flow.
  *
  * @param {event} event Event
- * @param {{ address, options }} options Decoded bip21 payment url
+ * @param {{ address: string, options }} options Decoded bip21 payment url
  * @returns {(dispatch:Function, getState:Function) => void} Thunk
  */
 export const bitcoinPaymentUri = (event, { address, options = {} }) => (dispatch, getState) => {
@@ -77,64 +74,4 @@ export const bitcoinPaymentUri = (event, { address, options = {} }) => (dispatch
     const amount = convert('btc', cryptoUnit, amountInBtc)
     dispatch(setRedirectPayReq({ address, amount }))
   }
-}
-
-/**
- * lnurlWithdrawSuccess - IPC handler for lnurlWithdrawSuccess event.
- *
- * @param {event} event Event ipc event
- * @param {object} params { service }
- * @param {string} params.service service
- * @returns {(dispatch:Function) => void} Thunk
- */
-export const lnurlWithdrawSuccess = (event, { service }) => dispatch => {
-  const intl = getIntl()
-  dispatch(
-    updateNotification(
-      { payload: { service } },
-      {
-        variant: 'success',
-        message: intl.formatMessage(messages.pay_lnurl_withdraw_success, { service }),
-        timeout: 3000,
-        isProcessing: false,
-      }
-    )
-  )
-}
-
-/**
- * lnurlWithdrawError - IPC handler for lnurlWithdrawError event.
- *
- * @param {event} event Event ipc event
- * @param {object} params { service, reason }
- * @param {string} params.service lnurl
- * @param {string} params.reason error reason
- * @returns {(dispatch:Function) => void} Thunk
- */
-export const lnurlWithdrawError = (event, { service, reason }) => dispatch => {
-  const intl = getIntl()
-  dispatch(
-    updateNotification(
-      { payload: { service } },
-      {
-        variant: 'error',
-        message: intl.formatMessage(messages.pay_lnurl_withdraw_error, { service, reason }),
-        isProcessing: false,
-      }
-    )
-  )
-}
-
-/**
- * lnurlWithdrawRequest - IPC handler for lnurlWithdrawRequest event.
- *
- * @param {event} event Event ipc event
- * @param {object} params { service, amount, memo }
- * @param {string} params.service lnurl
- * @param {number} params.amount ln pr amount
- * @param {string} params.memo ln pr memo
- * @returns {(dispatch:Function) => void} Thunk
- */
-export const lnurlWithdrawRequest = (event, { service, amount, memo }) => dispatch => {
-  dispatch(setLnurlWithdrawParams({ amount, service, memo }))
 }

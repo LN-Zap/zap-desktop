@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass/styled-components'
-import LnurlAuthPrompt from 'containers/Lnurl/LnurlAuthPrompt'
 import createScheduler from '@zap/utils/scheduler'
 import Wallet from 'containers/Wallet'
 import Activity from 'containers/Activity'
-import LnurlWithdrawPrompt from 'containers/Pay/LnurlWithdrawPrompt'
+import LnurlAuthPrompt from 'containers/Lnurl/LnurlAuthPrompt'
+import LnurlWithdrawPrompt from 'containers/Lnurl/LnurlWithdrawPrompt'
 import LnurlChannelPrompt from 'containers/Lnurl/LnurlChannelPrompt'
 
 // Bitcoin blocks come on average every 10 mins
@@ -103,11 +103,11 @@ const App = ({
     if (lnurlAuthParams && !willShowLnurlAuthPrompt) {
       finishLnurlAuth()
     }
-    if (lnurlWithdrawParams && !willShowLnurlWithdrawPrompt) {
-      finishLnurlWithdraw()
-    }
     if (lnurlChannelParams && !willShowLnurlChannelPrompt) {
       finishLnurlChannel()
+    }
+    if (lnurlWithdrawParams && !willShowLnurlWithdrawPrompt) {
+      finishLnurlWithdraw()
     }
   }, [
     initActivityHistory,
@@ -147,8 +147,8 @@ const App = ({
       <Wallet />
       <Activity />
       {willShowLnurlAuthPrompt && <LnurlAuthPrompt />}
-      {willShowLnurlWithdrawPrompt && <LnurlWithdrawPrompt />}
       {willShowLnurlChannelPrompt && <LnurlChannelPrompt />}
+      {willShowLnurlWithdrawPrompt && <LnurlWithdrawPrompt />}
     </Flex>
   )
 }

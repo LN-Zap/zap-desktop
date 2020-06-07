@@ -9,14 +9,11 @@ import {
   lnurlChannelRequest,
   lnurlChannelSuccess,
   lnurlChannelError,
-} from './lnurl'
-import {
-  bitcoinPaymentUri,
-  lightningPaymentUri,
   lnurlWithdrawRequest,
   lnurlWithdrawSuccess,
   lnurlWithdrawError,
-} from './pay'
+} from './lnurl'
+import { bitcoinPaymentUri, lightningPaymentUri } from './pay'
 import { lndconnectUri } from './onboarding'
 import { saveInvoiceFailure, saveInvoiceSuccess } from './activity'
 import {

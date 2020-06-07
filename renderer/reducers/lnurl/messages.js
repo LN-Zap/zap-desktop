@@ -10,4 +10,7 @@ export default defineMessages({
   lnurl_channel_started: 'Incoming channel requested. Please wait…',
   lnurl_channel_error: 'Unable to request incoming channel from {service}: {reason}',
   lnurl_channel_success: 'Channel request from {service} accepted',
+  lnurl_withdraw_started: 'Withdrawal requested. Please wait…',
+  lnurl_withdraw_error: 'Unable to process withdrawal request from {service}: {reason}',
+  lnurl_withdraw_success: 'Withdrawal request from {service} complete',
 })
