@@ -315,7 +315,7 @@
     "stylelint-processor-styled-components": "1.9.0",
     "testcafe": "1.8.4",
     "testcafe-react-selectors": "4.0.0",
-    "typescript": "3.8.3",
+    "typescript": "3.9.5",
     "url-loader": "4.1.0",
     "webpack": "4.43.0",
     "webpack-bundle-analyzer": "3.7.0",
