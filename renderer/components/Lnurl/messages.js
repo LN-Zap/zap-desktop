@@ -10,4 +10,8 @@ export default defineMessages({
   lnurl_channel_prompt_dialog_body: 'Do you confirm channel request to {service}',
   lnurl_channel_prompt_dialog_confirm_text: 'Confirm',
   lnurl_channel_prompt_dialog_decline_text: 'Decline',
+  lnurl_withdraw_prompt_dialog_header: 'Confirm withdrawal',
+  lnurl_withdraw_prompt_dialog_body: 'Do you confirm withdrawal of {amount} sats from',
+  lnurl_withdraw_prompt_dialog_confirm_text: 'Confirm',
+  lnurl_withdraw_prompt_dialog_decline_text: 'Decline',
 })

@@ -24,7 +24,7 @@ const getServiceName = url => {
 }
 
 /*
- * Lnurl handler class. Allows to process lnurl withdrawal request.
+ * Lnurl handler class. Allows to process lnurl withdraw request.
  */
 export default class LnurlService {
   constructor(mainWindow) {
@@ -124,7 +124,7 @@ export default class LnurlService {
   /** WITHDRAW -------------------------------------------------------------- */
 
   /**
-   * startWithdraw - Initiates lnurl withdrawal process by sending query to
+   * startWithdraw - Initiates lnurl withdrawRequest process by sending query to
    * renderer process to generate LN invoice.
    *
    * @param {string} lnurl decoded lnurl
@@ -165,7 +165,7 @@ export default class LnurlService {
    * onCancelWithdraw - Cancels an lnurl-withdraw request.
    */
   onCancelWithdraw = () => {
-    mainLog.info('Cancelling lnurl withdrawal request: %o', this.withdrawParams)
+    mainLog.info('Cancelling lnurl withdraw request: %o', this.withdrawParams)
     this.resetWithdraw()
   }
 
