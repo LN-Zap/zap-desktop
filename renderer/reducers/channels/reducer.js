@@ -501,7 +501,7 @@ export const openChannel = data => async (dispatch, getState) => {
     dispatch(
       pushchannelerror({
         error: `Unable to open channel: ${e.message}`,
-        nodePubkey: e.payload.nodePubkey,
+        nodePubkey: pubkey,
       })
     )
   }

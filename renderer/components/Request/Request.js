@@ -116,7 +116,7 @@ class Request extends React.Component {
       }
 
       if (willUseFallback) {
-        invoiceArgs.fallbackAddress = await createNewAddress()
+        invoiceArgs.fallbackAddr = await createNewAddress()
       }
 
       createInvoice(invoiceArgs)
