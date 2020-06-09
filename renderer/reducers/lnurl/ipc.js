@@ -3,6 +3,18 @@ import { showNotification, showError, updateNotification } from 'reducers/notifi
 import { setLnurlAuthParams, setLnurlChannelParams, setLnurlWithdrawParams } from './reducer'
 import messages from './messages'
 
+/**
+ * lnurlError - IPC handler for lnurlError event.
+ *
+ * @param {event} event Event ipc event
+ * @param {object} data Data
+ * @param {string} data.message message
+ * @returns {(dispatch:Function) => void} Thunk
+ */
+export const lnurlError = (event, { message }) => dispatch => {
+  dispatch(showError(message))
+}
+
 // ------------------------------------
 // lnurl-auth
 // ------------------------------------

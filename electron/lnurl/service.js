@@ -1,4 +1,5 @@
 import { ipcMain } from 'electron'
+import config from 'config'
 import { parse } from 'url'
 import {
   fetchLnurlParams,
@@ -30,23 +31,26 @@ export default class LnurlService {
   constructor(mainWindow) {
     this.mainWindow = mainWindow
 
-    this.withdrawParams = {}
-    this.isWithdrawProcessing = false
+    if (config.features.lnurlAuth) {
+      this.authParams = {}
+      this.isAuthProcessing = false
+      ipcMain.on('lnurlFinishAuth', this.onFinishAuth)
+      ipcMain.on('lnurlCancelAuth', this.onCancelAuth)
+    }
 
-    this.channelParams = {}
-    this.isChannelProcessing = false
+    if (config.features.lnurlChannel) {
+      this.channelParams = {}
+      this.isChannelProcessing = false
+      ipcMain.on('lnurlFinishChannel', this.onFinishChannel)
+      ipcMain.on('lnurlCancelChannel', this.onCancelChannel)
+    }
 
-    this.authParams = {}
-    this.isAuthProcessing = false
-
-    ipcMain.on('lnurlFinishWithdraw', this.onFinishWithdraw)
-    ipcMain.on('lnurlCancelWithdraw', this.onCancelWithdraw)
-
-    ipcMain.on('lnurlFinishChannel', this.onFinishChannel)
-    ipcMain.on('lnurlCancelChannel', this.onCancelChannel)
-
-    ipcMain.on('lnurlFinishAuth', this.onFinishAuth)
-    ipcMain.on('lnurlCancelAuth', this.onCancelAuth)
+    if (config.features.lnurlWithdraw) {
+      this.withdrawParams = {}
+      this.isWithdrawProcessing = false
+      ipcMain.on('lnurlFinishWithdraw', this.onFinishWithdraw)
+      ipcMain.on('lnurlCancelWithdraw', this.onCancelWithdraw)
+    }
   }
 
   /**
@@ -54,14 +58,20 @@ export default class LnurlService {
    * `LnurlService` instance is of no use anymore.
    */
   terminate() {
-    ipcMain.off('lnurlFinishWithdraw', this.onFinishWithdraw)
-    ipcMain.off('lnurlCancelWithdraw', this.onCancelWithdraw)
+    if (config.features.lnurlAuth) {
+      ipcMain.off('lnurlFinishAuth', this.onFinishAuth)
+      ipcMain.off('lnurlCancelAuth', this.onCancelAuth)
+    }
 
-    ipcMain.off('lnurlFinishChannel', this.onFinishChannel)
-    ipcMain.off('lnurlCancelChannel', this.onCancelChannel)
+    if (config.features.lnurlChannel) {
+      ipcMain.off('lnurlFinishChannel', this.onFinishChannel)
+      ipcMain.off('lnurlCancelChannel', this.onCancelChannel)
+    }
 
-    ipcMain.off('lnurlFinishAuth', this.onFinishAuth)
-    ipcMain.off('lnurlCancelAuth', this.onCancelAuth)
+    if (config.features.lnurlWithdraw) {
+      ipcMain.off('lnurlFinishWithdraw', this.onFinishWithdraw)
+      ipcMain.off('lnurlCancelWithdraw', this.onCancelWithdraw)
+    }
   }
 
   /**
@@ -97,20 +107,26 @@ export default class LnurlService {
       }
 
       switch (res.tag) {
-        case 'withdrawRequest':
-          this.withdrawParams = res
-          await this.startWithdraw(lnurl)
-          break
+        case 'authRequest':
+          if (config.features.lnurlAuth) {
+            this.authParams = res
+            return await this.startAuth()
+          }
+          throw new Error('lnurl-auth not supported.')
 
         case 'channelRequest':
-          this.channelParams = res
-          await this.startChannel()
-          break
+          if (config.features.lnurlChannel) {
+            this.channelParams = res
+            return await this.startChannel()
+          }
+          throw new Error('lnurl-channel not supported.')
 
-        case 'authRequest':
-          this.authParams = res
-          await this.startAuth()
-          break
+        case 'withdrawRequest':
+          if (config.features.lnurlWithdraw) {
+            this.withdrawParams = res
+            await this.startWithdraw()
+          }
+          throw new Error('lnurl-withdraw not supported.')
 
         default:
           throw new Error('Unable to process lnurl')
@@ -121,80 +137,73 @@ export default class LnurlService {
     }
   }
 
-  /** WITHDRAW -------------------------------------------------------------- */
+  /** AUTH ------------------------------------------------------------------ */
 
   /**
-   * startWithdraw - Initiates lnurl withdrawRequest process by sending query to
-   * renderer process to generate LN invoice.
-   *
-   * @param {string} lnurl decoded lnurl
+   * startAuth - Initiates lnurl auth process by sending query to renderer
+   * process to initiate auth connect.
    */
-  async startWithdraw(lnurl) {
-    const { status, reason, maxWithdrawable, defaultDescription } = this.withdrawParams
+  async startAuth() {
+    const { lnurl, secret } = this.authParams
     const service = getServiceName(lnurl)
 
-    if (this.isWithdrawProcessing) {
-      mainLog.warn('Error processing lnurl withdraw request: busy')
-      this.sendMessage('lnurlWithdrawError', { service, reason: 'service busy' })
+    if (this.isAuthProcessing) {
+      mainLog.warn('Error processing lnurl auth request: busy')
+      this.sendMessage('lnurlAuthError', { service, reason: 'service busy' })
       return
     }
-    this.isWithdrawProcessing = true
+    this.isAuthProcessing = true
 
-    if (status === LNURL_STATUS_ERROR) {
-      const withdrawParams = { status, reason, service }
-      this.isWithdrawProcessing = false
-      mainLog.error('Unable to process lnurl withdraw request: %o', withdrawParams)
-      this.sendMessage('lnurlWithdrawError', withdrawParams)
-      return
-    }
-
-    const withdrawParams = { amount: maxWithdrawable, memo: defaultDescription, service }
-    mainLog.info('Processing lnurl withdraw request: %o', withdrawParams)
-    this.sendMessage('lnurlWithdrawRequest', withdrawParams)
+    const authParams = { service, secret }
+    mainLog.info('Processing lnurl auth request: %o', authParams)
+    this.sendMessage('lnurlAuthRequest', authParams)
   }
 
   /**
-   * resetWithdraw - Resets lnurl-withdraw state.
+   * resetAuth - Resets lnurl-auth state.
    */
-  resetWithdraw = () => {
-    this.isWithdrawProcessing = false
-    this.withdrawParams = {}
+  resetAuth = () => {
+    this.isAuthProcessing = false
+    this.authParams = {}
   }
 
   /**
-   * onCancelWithdraw - Cancels an lnurl-withdraw request.
+   * onCancelAuth - Cancels an lnurl-auth request.
    */
-  onCancelWithdraw = () => {
-    mainLog.info('Cancelling lnurl withdraw request: %o', this.withdrawParams)
-    this.resetWithdraw()
+  onCancelAuth = () => {
+    mainLog.info('Cancelling lnurl auth request: %o', this.authParams)
+    this.resetAuth()
   }
 
   /**
-   * onFinishWithdraw - Finalizes an lnurl-withdraw request.
+   * onFinishAuth - Finalizes an lnurl-auth request.
    *
    * @param {object} event Event
    * @param {object} data Data
    */
-  onFinishWithdraw = async (event, { paymentRequest }) => {
-    mainLog.info('Finishing lnurl withdraw request: %o', this.withdrawParams)
-    const { callback, secret, lnurl } = this.withdrawParams
+  onFinishAuth = async (event, { sig, key }) => {
+    mainLog.info('Finishing lnurl auth request: %o', this.authParams)
+    const { lnurl } = this.authParams
     const service = getServiceName(lnurl)
+
     try {
-      if (callback && secret && paymentRequest) {
-        const { data } = await makeWithdrawRequest({ callback, secret, invoice: paymentRequest })
+      if (sig && key) {
+        const callback = `${lnurl}&sig=${sig}&key=${key}`
+        const { data } = await makeAuthRequest({ lnurl, callback })
+
         if (data.status === LNURL_STATUS_ERROR) {
-          mainLog.warn('Got error from lnurl withdraw request: %o', data)
+          mainLog.warn('Got error from lnurl auth request: %o', data)
           throw new Error(data.reason)
         }
 
-        mainLog.info('Completed withdraw request: %o', data)
-        this.sendMessage('lnurlWithdrawSuccess', { service })
+        mainLog.info('Completed auth request: %o', data)
+        this.sendMessage('lnurlAuthSuccess', { service })
       }
     } catch (e) {
-      mainLog.warn('Unable to complete lnurl withdraw request: %s', e.message)
-      this.sendMessage('lnurlWithdrawError', { service, reason: e.message })
+      mainLog.warn('Unable to complete lnurl auth request: %s', e.message)
+      this.sendMessage('lnurlAuthError', { service, reason: e.message })
     } finally {
-      this.resetWithdraw()
+      this.resetAuth()
     }
   }
 
@@ -272,73 +281,78 @@ export default class LnurlService {
     }
   }
 
-  /** AUTH ------------------------------------------------------------------ */
+  /** WITHDRAW -------------------------------------------------------------- */
 
   /**
-   * startAuth - Initiates lnurl auth process by sending query to renderer
-   * process to initiate auth connect.
+   * startWithdraw - Initiates lnurl withdrawRequest process by sending query to
+   * renderer process to generate LN invoice.
    */
-  async startAuth() {
-    const { lnurl, secret } = this.authParams
+  async startWithdraw() {
+    const { lnurl, status, reason, maxWithdrawable, defaultDescription } = this.withdrawParams
     const service = getServiceName(lnurl)
 
-    if (this.isAuthProcessing) {
-      mainLog.warn('Error processing lnurl auth request: busy')
-      this.sendMessage('lnurlAuthError', { service, reason: 'service busy' })
+    if (this.isWithdrawProcessing) {
+      mainLog.warn('Error processing lnurl withdraw request: busy')
+      this.sendMessage('lnurlWithdrawError', { service, reason: 'service busy' })
       return
     }
-    this.isAuthProcessing = true
+    this.isWithdrawProcessing = true
 
-    const authParams = { service, secret }
-    mainLog.info('Processing lnurl auth request: %o', authParams)
-    this.sendMessage('lnurlAuthRequest', authParams)
+    if (status === LNURL_STATUS_ERROR) {
+      const withdrawParams = { status, reason, service }
+      this.isWithdrawProcessing = false
+      mainLog.error('Unable to process lnurl withdraw request: %o', withdrawParams)
+      this.sendMessage('lnurlWithdrawError', withdrawParams)
+      return
+    }
+
+    const withdrawParams = { amount: maxWithdrawable, memo: defaultDescription, service }
+    mainLog.info('Processing lnurl withdraw request: %o', withdrawParams)
+    this.sendMessage('lnurlWithdrawRequest', withdrawParams)
   }
 
   /**
-   * resetAuth - Resets lnurl-auth state.
+   * resetWithdraw - Resets lnurl-withdraw state.
    */
-  resetAuth = () => {
-    this.isAuthProcessing = false
-    this.authParams = {}
+  resetWithdraw = () => {
+    this.isWithdrawProcessing = false
+    this.withdrawParams = {}
   }
 
   /**
-   * onCancelAuth - Cancels an lnurl-auth request.
+   * onCancelWithdraw - Cancels an lnurl-withdraw request.
    */
-  onCancelAuth = () => {
-    mainLog.info('Cancelling lnurl auth request: %o', this.authParams)
-    this.resetAuth()
+  onCancelWithdraw = () => {
+    mainLog.info('Cancelling lnurl withdraw request: %o', this.withdrawParams)
+    this.resetWithdraw()
   }
 
   /**
-   * onFinishAuth - Finalizes an lnurl-auth request.
+   * onFinishWithdraw - Finalizes an lnurl-withdraw request.
    *
    * @param {object} event Event
    * @param {object} data Data
    */
-  onFinishAuth = async (event, { sig, key }) => {
-    mainLog.info('Finishing lnurl auth request: %o', this.authParams)
-    const { lnurl } = this.authParams
+  onFinishWithdraw = async (event, { paymentRequest }) => {
+    mainLog.info('Finishing lnurl withdraw request: %o', this.withdrawParams)
+    const { callback, secret, lnurl } = this.withdrawParams
     const service = getServiceName(lnurl)
-
     try {
-      if (sig && key) {
-        const callback = `${lnurl}&sig=${sig}&key=${key}`
-        const { data } = await makeAuthRequest({ lnurl, callback })
-
+      if (callback && secret && paymentRequest) {
+        const { data } = await makeWithdrawRequest({ callback, secret, invoice: paymentRequest })
         if (data.status === LNURL_STATUS_ERROR) {
-          mainLog.warn('Got error from lnurl auth request: %o', data)
+          mainLog.warn('Got error from lnurl withdraw request: %o', data)
           throw new Error(data.reason)
         }
 
-        mainLog.info('Completed auth request: %o', data)
-        this.sendMessage('lnurlAuthSuccess', { service })
+        mainLog.info('Completed withdraw request: %o', data)
+        this.sendMessage('lnurlWithdrawSuccess', { service })
       }
     } catch (e) {
-      mainLog.warn('Unable to complete lnurl auth request: %s', e.message)
-      this.sendMessage('lnurlAuthError', { service, reason: e.message })
+      mainLog.warn('Unable to complete lnurl withdraw request: %s', e.message)
+      this.sendMessage('lnurlWithdrawError', { service, reason: e.message })
     } finally {
-      this.resetAuth()
+      this.resetWithdraw()
     }
   }
 }

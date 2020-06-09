@@ -188,18 +188,6 @@ export const openPreferences = () => dispatch => {
   dispatch(openModal('SETTINGS'))
 }
 
-/**
- * lnurlError - IPC handler for lnurlError event.
- *
- * @param {event} event Event ipc event
- * @param {object} data Data
- * @param {string} data.message message
- * @returns {(dispatch:Function) => void} Thunk
- */
-export const lnurlError = (event, { message }) => dispatch => {
-  dispatch(showError(message))
-}
-
 // ------------------------------------
 // Action Handlers
 // ------------------------------------

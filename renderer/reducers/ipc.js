@@ -1,8 +1,9 @@
 import createIpc from 'redux-electron-ipc'
-import { initApp, terminateApp, openPreferences, lnurlError } from './app'
+import { initApp, terminateApp, openPreferences } from './app'
 import { killNeutrino } from './neutrino'
 import { receiveLocale } from './locale'
 import {
+  lnurlError,
   lnurlAuthRequest,
   lnurlAuthSuccess,
   lnurlAuthError,
