@@ -153,10 +153,10 @@ export const createInvoiceFailure = error => dispatch => {
  * @param {string} options.cryptoUnit Crypto unit (sats, bits, btc)
  * @param {string} options.memo Memo
  * @param {boolean} options.isPrivate Set to true to include routing hints
- * @param {string} options.fallbackAddress on-chain address fallback
+ * @param {string} options.fallbackAddr on-chain address fallback
  * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
-export const createInvoice = ({ amount, cryptoUnit, memo, isPrivate, fallbackAddress }) => async (
+export const createInvoice = ({ amount, cryptoUnit, memo, isPrivate, fallbackAddr }) => async (
   dispatch,
   getState
 ) => {
@@ -180,7 +180,7 @@ export const createInvoice = ({ amount, cryptoUnit, memo, isPrivate, fallbackAdd
       memo,
       private: isPrivate || activeWalletSettings.type === 'local',
       expiry: currentConfig.invoices.expire,
-      fallbackAddress,
+      fallbackAddr,
     })
     dispatch(createInvoiceSuccess(invoice))
     return invoice
