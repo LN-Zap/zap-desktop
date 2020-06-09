@@ -7,10 +7,15 @@ import { updateAutopilotNodeScores } from 'reducers/autopilot'
 import { initActivityHistory } from 'reducers/activity'
 import { fetchTransactions } from 'reducers/transaction'
 import { appSelectors } from 'reducers/app'
-import { finishLnurlWithdraw, paySelectors } from 'reducers/pay'
+import {
+  finishLnurlAuth,
+  finishLnurlChannel,
+  finishLnurlWithdraw,
+  lnurlSelectors,
+} from 'reducers/lnurl'
 import { initBackupService } from 'reducers/backup'
 import { setModals, modalSelectors } from 'reducers/modal'
-import { channelsSelectors, finishLnurlChannel, fetchSuggestedNodes } from 'reducers/channels'
+import { fetchSuggestedNodes } from 'reducers/channels'
 import { initTickers } from 'reducers/ticker'
 import App from 'components/App'
 import ModalStack from './ModalStack'
@@ -20,9 +25,10 @@ const mapStateToProps = state => ({
   isAppReady: appSelectors.isAppReady(state),
   redirectPayReq: state.pay.redirectPayReq,
   modals: modalSelectors.getModalState(state),
-  lnurlWithdrawParams: paySelectors.lnurlWithdrawParams(state),
-  willShowLnurlWithdrawPrompt: paySelectors.willShowLnurlWithdrawPrompt(state),
-  willShowLnurlChannelPrompt: channelsSelectors.willShowLnurlChannelPrompt(state),
+  lnurlWithdrawParams: lnurlSelectors.lnurlWithdrawParams(state),
+  willShowLnurlAuthPrompt: lnurlSelectors.willShowLnurlAuthPrompt(state),
+  willShowLnurlWithdrawPrompt: lnurlSelectors.willShowLnurlWithdrawPrompt(state),
+  willShowLnurlChannelPrompt: lnurlSelectors.willShowLnurlChannelPrompt(state),
 })
 
 const mapDispatchToProps = {
@@ -36,6 +42,7 @@ const mapDispatchToProps = {
   initTickers,
   initBackupService,
   fetchSuggestedNodes,
+  finishLnurlAuth,
   finishLnurlChannel,
   finishLnurlWithdraw,
 }

@@ -28,7 +28,7 @@ const SettingsFieldsSecurity = ({
         }
       />
       <DataRow
-        left={<FieldLabel itemKey="lnurl.withdrawal" />}
+        left={<FieldLabel itemKey="lnurl.withdraw" />}
         right={
           <Toggle field="lnurl.requirePrompt" initialValue={currentConfig.lnurl.requirePrompt} />
         }
