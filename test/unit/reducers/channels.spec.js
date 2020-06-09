@@ -15,8 +15,6 @@ import reducer, {
   GET_SUGGESTED_NODES,
   RECEIVE_SUGGESTED_NODES_ERROR,
   RECEIVE_SUGGESTED_NODES,
-  SET_LNURL_CHANNEL_PARAMS,
-  CLEAR_LNURL_CHANNEL,
 } from 'reducers/channels'
 
 describe('reducers', () => {
@@ -149,23 +147,6 @@ describe('reducers', () => {
         suggestedNodes: {
           some: 'data',
         },
-      }
-      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
-    })
-
-    it('should handle SET_LNURL_CHANNEL_PARAMS', () => {
-      const action = {
-        type: SET_LNURL_CHANNEL_PARAMS,
-        params: {
-          some: 'data',
-        },
-      }
-      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
-    })
-
-    it('should handle CLEAR_LNURL_CHANNEL', () => {
-      const action = {
-        type: CLEAR_LNURL_CHANNEL,
       }
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })

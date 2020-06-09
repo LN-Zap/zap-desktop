@@ -11,10 +11,10 @@ const LnurlWithdrawPrompt = ({ params, onOk, onCancel, onClose }) => {
   const buttons = (
     <>
       <Button type="submit" variant="normal">
-        <FormattedMessage {...messages.withdrawal_prompt_dialog_confirm_text} />
+        <FormattedMessage {...messages.lnurl_withdraw_prompt_dialog_confirm_text} />
       </Button>
       <Button onClick={onCancel} type="button" variant="secondary">
-        <FormattedMessage {...messages.withdrawal_prompt_dialog_decline_text} />
+        <FormattedMessage {...messages.lnurl_withdraw_prompt_dialog_decline_text} />
       </Button>
     </>
   )
@@ -22,7 +22,7 @@ const LnurlWithdrawPrompt = ({ params, onOk, onCancel, onClose }) => {
   const header = (
     <Flex alignItems="center" flexDirection="column" mb={4}>
       <Heading.h1>
-        <FormattedMessage {...messages.withdrawal_prompt_dialog_header} />
+        <FormattedMessage {...messages.lnurl_withdraw_prompt_dialog_header} />
       </Heading.h1>
     </Flex>
   )
@@ -36,7 +36,7 @@ const LnurlWithdrawPrompt = ({ params, onOk, onCancel, onClose }) => {
           <Text color="gray">
             <FormattedMessage
               values={{ amount: amount / 1000 }}
-              {...messages.withdrawal_prompt_dialog_body}
+              {...messages.lnurl_withdraw_prompt_dialog_body}
             />
           </Text>
           <Text>{service}</Text>

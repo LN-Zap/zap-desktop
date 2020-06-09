@@ -129,14 +129,15 @@ module.exports = {
     isWinPlatformSupported: false,
   },
 
-  // feature flags to enable/disable experimental functionality
+  // feature flags to enable/disable functionality
   features: {
     autopay: false,
-    // enables/disables mainnet lnd autopilot setting selection
-    // if false, autopilot selection won't be available
     mainnetAutopilot: false,
     networkSelection: false,
     scbRestore: false,
+    lnurlAuth: false,
+    lnurlChannel: true,
+    lnurlWithdraw: true,
   },
 
   // number of onchain confirmations for the specified periods

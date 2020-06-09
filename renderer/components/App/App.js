@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass/styled-components'
-import LnurlChannelPrompt from 'containers/Channels/LnurlChannelPrompt'
 import createScheduler from '@zap/utils/scheduler'
 import Wallet from 'containers/Wallet'
 import Activity from 'containers/Activity'
-import LnurlWithdrawPrompt from 'containers/Pay/LnurlWithdrawPrompt'
+import LnurlAuthPrompt from 'containers/Lnurl/LnurlAuthPrompt'
+import LnurlWithdrawPrompt from 'containers/Lnurl/LnurlWithdrawPrompt'
+import LnurlChannelPrompt from 'containers/Lnurl/LnurlChannelPrompt'
 
 // Bitcoin blocks come on average every 10 mins
 // but we poll a lot more frequently to make UI a little bit more responsive
@@ -40,10 +41,13 @@ const App = ({
   initBackupService,
   fetchSuggestedNodes,
   initTickers,
+  lnurlAuthParams,
   lnurlChannelParams,
   lnurlWithdrawParams,
-  finishLnurlChannel,
+  finishLnurlAuth,
   finishLnurlWithdraw,
+  finishLnurlChannel,
+  willShowLnurlAuthPrompt,
   willShowLnurlChannelPrompt,
   willShowLnurlWithdrawPrompt,
 }) => {
@@ -96,11 +100,14 @@ const App = ({
     // initialize backup service in forceUseTokens mode to avoid
     // launching it for wallets that don't have backup setup
     initBackupService()
-    if (!willShowLnurlWithdrawPrompt) {
-      finishLnurlWithdraw()
+    if (lnurlAuthParams && !willShowLnurlAuthPrompt) {
+      finishLnurlAuth()
     }
-    if (!willShowLnurlChannelPrompt) {
+    if (lnurlChannelParams && !willShowLnurlChannelPrompt) {
       finishLnurlChannel()
+    }
+    if (lnurlWithdrawParams && !willShowLnurlWithdrawPrompt) {
+      finishLnurlWithdraw()
     }
   }, [
     initActivityHistory,
@@ -111,10 +118,13 @@ const App = ({
     initTickers,
     setIsWalletOpen,
     updateAutopilotNodeScores,
+    finishLnurlAuth,
     finishLnurlChannel,
     finishLnurlWithdraw,
+    lnurlAuthParams,
     lnurlChannelParams,
     lnurlWithdrawParams,
+    willShowLnurlAuthPrompt,
     willShowLnurlChannelPrompt,
     willShowLnurlWithdrawPrompt,
   ])
@@ -136,8 +146,9 @@ const App = ({
     <Flex as="article" flexDirection="column" width={1}>
       <Wallet />
       <Activity />
-      {willShowLnurlWithdrawPrompt && <LnurlWithdrawPrompt />}
+      {willShowLnurlAuthPrompt && <LnurlAuthPrompt />}
       {willShowLnurlChannelPrompt && <LnurlChannelPrompt />}
+      {willShowLnurlWithdrawPrompt && <LnurlWithdrawPrompt />}
     </Flex>
   )
 }
@@ -147,12 +158,14 @@ App.propTypes = {
   fetchPeers: PropTypes.func.isRequired,
   fetchSuggestedNodes: PropTypes.func.isRequired,
   fetchTransactions: PropTypes.func.isRequired,
+  finishLnurlAuth: PropTypes.func.isRequired,
   finishLnurlChannel: PropTypes.func.isRequired,
   finishLnurlWithdraw: PropTypes.func.isRequired,
   initActivityHistory: PropTypes.func.isRequired,
   initBackupService: PropTypes.func.isRequired,
   initTickers: PropTypes.func.isRequired,
   isAppReady: PropTypes.bool.isRequired,
+  lnurlAuthParams: PropTypes.object,
   lnurlChannelParams: PropTypes.object,
   lnurlWithdrawParams: PropTypes.object,
   modals: PropTypes.array.isRequired,
@@ -160,6 +173,7 @@ App.propTypes = {
   setIsWalletOpen: PropTypes.func.isRequired,
   setModals: PropTypes.func.isRequired,
   updateAutopilotNodeScores: PropTypes.func.isRequired,
+  willShowLnurlAuthPrompt: PropTypes.bool,
   willShowLnurlChannelPrompt: PropTypes.bool,
   willShowLnurlWithdrawPrompt: PropTypes.bool,
 }
