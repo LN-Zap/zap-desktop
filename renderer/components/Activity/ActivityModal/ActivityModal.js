@@ -8,22 +8,30 @@ import { TransactionModal } from 'components/Activity/TransactionModal'
 export default class ActivityModal extends React.PureComponent {
   static propTypes = {
     cancelInvoice: PropTypes.func.isRequired,
+    clearSettleInvoiceError: PropTypes.func.isRequired,
     isInvoiceCancelling: PropTypes.bool,
+    isInvoiceSettling: PropTypes.bool,
     item: PropTypes.object,
     networkInfo: PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string,
     }),
     saveInvoice: PropTypes.func.isRequired,
+    settleInvoice: PropTypes.func.isRequired,
+    settleInvoiceError: PropTypes.string,
     showNotification: PropTypes.func.isRequired,
   }
 
   render() {
     const {
       cancelInvoice,
+      clearSettleInvoiceError,
       isInvoiceCancelling,
+      isInvoiceSettling,
       item,
       networkInfo,
+      settleInvoice,
+      settleInvoiceError,
       showNotification,
       saveInvoice,
       ...rest
@@ -44,7 +52,16 @@ export default class ActivityModal extends React.PureComponent {
       },
       invoice: {
         component: InvoiceModal,
-        props: { item, showNotification, cancelInvoice, isInvoiceCancelling },
+        props: {
+          item,
+          showNotification,
+          cancelInvoice,
+          clearSettleInvoiceError,
+          settleInvoice,
+          settleInvoiceError,
+          isInvoiceCancelling,
+          isInvoiceSettling,
+        },
       },
     }
 

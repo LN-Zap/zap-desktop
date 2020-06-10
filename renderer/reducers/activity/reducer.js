@@ -18,7 +18,7 @@ import messages from './messages'
 import * as constants from './constants'
 
 const {
-  SHOW_ACTIVITY_MODAL,
+  SET_ACTIVITY_MODAL,
   HIDE_ACTIVITY_MODAL,
   CHANGE_FILTER,
   UPDATE_SEARCH_TEXT,
@@ -182,6 +182,17 @@ export const saveInvoiceSuccess = () => dispatch => {
 }
 
 /**
+ * setActivityModal - Show the activity modal with a given activity item.
+ *
+ * @param {string} itemType Item type
+ * @param {string} itemId Item id
+ * @returns {(dispatch:Function) => void} Thunk
+ */
+export const setActivityModal = (itemType, itemId) => dispatch => {
+  dispatch({ type: SET_ACTIVITY_MODAL, itemType, itemId })
+}
+
+/**
  * showActivityModal - Show the activity modal with a given activity item.
  *
  * @param {string} itemType Item type
@@ -189,7 +200,7 @@ export const saveInvoiceSuccess = () => dispatch => {
  * @returns {(dispatch:Function) => void} Thunk
  */
 export const showActivityModal = (itemType, itemId) => dispatch => {
-  dispatch({ type: SHOW_ACTIVITY_MODAL, itemType, itemId })
+  dispatch(setActivityModal(itemType, itemId))
   dispatch(openModal('ACTIVITY_MODAL'))
 }
 
@@ -303,7 +314,7 @@ export const reloadActivityHistory = () => async dispatch => {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [SHOW_ACTIVITY_MODAL]: (state, { itemType, itemId }) => {
+  [SET_ACTIVITY_MODAL]: (state, { itemType, itemId }) => {
     state.modal = { itemType, itemId }
   },
   [HIDE_ACTIVITY_MODAL]: state => {

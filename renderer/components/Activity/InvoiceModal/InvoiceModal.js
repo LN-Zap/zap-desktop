@@ -6,7 +6,17 @@ import { RequestSummary } from 'components/Request'
 import Lightning from 'components/Icon/Lightning'
 import messages from './messages'
 
-const InvoiceModal = ({ cancelInvoice, isInvoiceCancelling, item, showNotification, ...rest }) => (
+const InvoiceModal = ({
+  cancelInvoice,
+  clearSettleInvoiceError,
+  isInvoiceCancelling,
+  isInvoiceSettling,
+  item,
+  settleInvoice,
+  settleInvoiceError,
+  showNotification,
+  ...rest
+}) => (
   <Panel {...rest}>
     <Panel.Header>
       <Header
@@ -22,8 +32,12 @@ const InvoiceModal = ({ cancelInvoice, isInvoiceCancelling, item, showNotificati
     <Panel.Body>
       <RequestSummary
         cancelInvoice={cancelInvoice}
+        clearSettleInvoiceError={clearSettleInvoiceError}
         invoice={item}
         isInvoiceCancelling={isInvoiceCancelling}
+        isInvoiceSettling={isInvoiceSettling}
+        settleInvoice={settleInvoice}
+        settleInvoiceError={settleInvoiceError}
         showNotification={showNotification}
       />
     </Panel.Body>
@@ -32,8 +46,12 @@ const InvoiceModal = ({ cancelInvoice, isInvoiceCancelling, item, showNotificati
 
 InvoiceModal.propTypes = {
   cancelInvoice: PropTypes.func.isRequired,
+  clearSettleInvoiceError: PropTypes.func.isRequired,
   isInvoiceCancelling: PropTypes.bool,
+  isInvoiceSettling: PropTypes.bool,
   item: PropTypes.object.isRequired,
+  settleInvoice: PropTypes.func.isRequired,
+  settleInvoiceError: PropTypes.string,
   showNotification: PropTypes.func.isRequired,
 }
 

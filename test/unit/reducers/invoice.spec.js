@@ -1,10 +1,9 @@
 import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, {
-  SET_INVOICE,
   RECEIVE_INVOICES,
   ADD_INVOICE,
-  INVOICE_SUCCESSFUL,
-  INVOICE_FAILED,
+  ADD_INVOICE_SUCCESS,
+  ADD_INVOICE_FAILURE,
   UPDATE_INVOICE,
 } from 'reducers/invoice'
 
@@ -12,14 +11,6 @@ describe('reducers', () => {
   describe('invoiceReducer', () => {
     it('should handle initial state', () => {
       expect(reducer(undefined, {})).toMatchSnapshot()
-    })
-
-    it('should handle SET_INVOICE', () => {
-      const action = {
-        type: SET_INVOICE,
-        invoice: { rHash: '123' },
-      }
-      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
     it('should handle RECEIVE_INVOICES', () => {
@@ -40,16 +31,16 @@ describe('reducers', () => {
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
-    it('should handle INVOICE_SUCCESSFUL', () => {
+    it('should handle ADD_INVOICE_SUCCESS', () => {
       const action = {
-        type: INVOICE_SUCCESSFUL,
+        type: ADD_INVOICE_SUCCESS,
       }
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
-    it('should handle INVOICE_FAILED', () => {
+    it('should handle ADD_INVOICE_FAILURE', () => {
       const action = {
-        type: INVOICE_FAILED,
+        type: ADD_INVOICE_FAILURE,
         error: 'some error',
       }
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()

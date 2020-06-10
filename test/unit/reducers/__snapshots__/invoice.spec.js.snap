@@ -6,33 +6,35 @@ Snapshot Diff:
 + Second value
 
   Object {
+    "addInvoiceError": null,
     "cancelInvoiceError": null,
-    "createInvoiceError": null,
-    "invoice": null,
     "invoices": Array [],
     "isInvoiceCancelling": false,
 -   "isInvoiceCreating": false,
 +   "isInvoiceCreating": true,
+    "isInvoiceSettling": false,
+    "settleInvoiceError": null,
   }
 `;
 
-exports[`reducers invoiceReducer should handle INVOICE_FAILED 1`] = `
+exports[`reducers invoiceReducer should handle ADD_INVOICE_FAILURE 1`] = `
 Snapshot Diff:
 - First value
 + Second value
 
   Object {
+-   "addInvoiceError": null,
++   "addInvoiceError": "some error",
     "cancelInvoiceError": null,
--   "createInvoiceError": null,
-+   "createInvoiceError": "some error",
-    "invoice": null,
     "invoices": Array [],
     "isInvoiceCancelling": false,
     "isInvoiceCreating": false,
+    "isInvoiceSettling": false,
+    "settleInvoiceError": null,
   }
 `;
 
-exports[`reducers invoiceReducer should handle INVOICE_SUCCESSFUL 1`] = `
+exports[`reducers invoiceReducer should handle ADD_INVOICE_SUCCESS 1`] = `
 Snapshot Diff:
 Compared values have no visual difference.
 `;
@@ -43,9 +45,8 @@ Snapshot Diff:
 + Second value
 
   Object {
+    "addInvoiceError": null,
     "cancelInvoiceError": null,
-    "createInvoiceError": null,
-    "invoice": null,
 -   "invoices": Array [],
 +   "invoices": Array [
 +     Object {
@@ -59,24 +60,8 @@ Snapshot Diff:
 +   ],
     "isInvoiceCancelling": false,
     "isInvoiceCreating": false,
-  }
-`;
-
-exports[`reducers invoiceReducer should handle SET_INVOICE 1`] = `
-Snapshot Diff:
-- First value
-+ Second value
-
-  Object {
-    "cancelInvoiceError": null,
-    "createInvoiceError": null,
--   "invoice": null,
-+   "invoice": Object {
-+     "rHash": "123",
-+   },
-    "invoices": Array [],
-    "isInvoiceCancelling": false,
-    "isInvoiceCreating": false,
+    "isInvoiceSettling": false,
+    "settleInvoiceError": null,
   }
 `;
 
@@ -86,9 +71,8 @@ Snapshot Diff:
 + Second value
 
   Object {
+    "addInvoiceError": null,
     "cancelInvoiceError": null,
-    "createInvoiceError": null,
-    "invoice": null,
 -   "invoices": Array [],
 +   "invoices": Array [
 +     Object {
@@ -97,16 +81,19 @@ Snapshot Diff:
 +   ],
     "isInvoiceCancelling": false,
     "isInvoiceCreating": false,
+    "isInvoiceSettling": false,
+    "settleInvoiceError": null,
   }
 `;
 
 exports[`reducers invoiceReducer should handle initial state 1`] = `
 Object {
+  "addInvoiceError": null,
   "cancelInvoiceError": null,
-  "createInvoiceError": null,
-  "invoice": null,
   "invoices": Array [],
   "isInvoiceCancelling": false,
   "isInvoiceCreating": false,
+  "isInvoiceSettling": false,
+  "settleInvoiceError": null,
 }
 `;

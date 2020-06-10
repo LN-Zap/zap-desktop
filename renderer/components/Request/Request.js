@@ -10,45 +10,33 @@ import { Form, Input, Label, TextArea, Toggle } from 'components/Form'
 import { CurrencyFieldGroup } from 'containers/Form'
 import Lightning from 'components/Icon/Lightning'
 import Padlock from 'components/Icon/Padlock'
-import RequestSummary from './RequestSummary'
 import messages from './messages'
 
 class Request extends React.Component {
-  state = {
-    currentStep: 'form',
-  }
-
   amountInput = React.createRef()
 
   static propTypes = {
     activeWalletSettings: PropTypes.shape({
       type: PropTypes.string.isRequired,
     }).isRequired,
+    addInvoice: PropTypes.func.isRequired,
     cancelInvoice: PropTypes.func.isRequired,
     chainName: PropTypes.string.isRequired,
-    createInvoice: PropTypes.func.isRequired,
     createNewAddress: PropTypes.func.isRequired,
     cryptoUnit: PropTypes.string.isRequired,
     cryptoUnitName: PropTypes.string.isRequired,
     fetchTickers: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    invoice: PropTypes.object,
     isAnimating: PropTypes.bool,
     isHoldInvoiceEnabled: PropTypes.bool,
-    isInvoiceCancelling: PropTypes.bool,
     isProcessing: PropTypes.bool,
     maxOneTimeReceive: PropTypes.string.isRequired,
+    setActivityModal: PropTypes.func.isRequired,
+    settleInvoice: PropTypes.func.isRequired,
+    setTopModal: PropTypes.func.isRequired,
     showError: PropTypes.func.isRequired,
     showNotification: PropTypes.func.isRequired,
     willUseFallback: PropTypes.bool,
-  }
-
-  componentDidUpdate(prevProps) {
-    const { invoice } = this.props
-    const { currentStep } = this.state
-    if (invoice !== prevProps.invoice && currentStep === 'form') {
-      this.nextStep()
-    }
   }
 
   /**
@@ -65,37 +53,6 @@ class Request extends React.Component {
   }
 
   /**
-   * steps - Get list of enabled form steps.
-   *
-   * @returns {Array} List of enabled form steps.
-   */
-  steps = () => {
-    return ['form', 'summary']
-  }
-
-  /**
-   * previousStep - Go back to previous form step.
-   */
-  previousStep = () => {
-    const { currentStep } = this.state
-    const nextStep = Math.max(this.steps().indexOf(currentStep) - 1, 0)
-    if (currentStep !== nextStep) {
-      this.setState({ currentStep: this.steps()[nextStep] })
-    }
-  }
-
-  /**
-   * nextStep - Progress to next form step.
-   */
-  nextStep = () => {
-    const { currentStep } = this.state
-    const nextStep = Math.min(this.steps().indexOf(currentStep) + 1, this.steps().length - 1)
-    if (currentStep !== nextStep) {
-      this.setState({ currentStep: this.steps()[nextStep] })
-    }
-  }
-
-  /**
    * onSubmit - Form submit handler.
    *
    * @param {object} values submitted form values.
@@ -103,19 +60,21 @@ class Request extends React.Component {
   onSubmit = async values => {
     const {
       cryptoUnit,
-      createInvoice,
+      addInvoice,
       willUseFallback,
       createNewAddress,
       intl,
+      setTopModal,
+      setActivityModal,
       showError,
     } = this.props
     try {
-      const { amountCrypto, memo, hasRoutingHints, isHoldInvoice, preimage } = values
+      const { amountCrypto, memo, isPrivate, isHoldInvoice, preimage } = values
       const invoiceArgs = {
         amount: amountCrypto,
         cryptoUnit,
         memo,
-        isPrivate: !hasRoutingHints,
+        isPrivate,
         isHoldInvoice,
         preimage,
       }
@@ -124,7 +83,11 @@ class Request extends React.Component {
         invoiceArgs.fallbackAddr = await createNewAddress()
       }
 
-      createInvoice(invoiceArgs)
+      const paymentRequest = await addInvoice(invoiceArgs)
+      if (paymentRequest) {
+        setActivityModal('INVOICE', paymentRequest)
+        setTopModal('ACTIVITY_MODAL')
+      }
     } catch (e) {
       const message = intl.formatMessage({ ...messages.add_error })
       showError(message)
@@ -210,7 +173,7 @@ class Request extends React.Component {
           <Padlock />
         </Span>
         <Flex>
-          <Label htmlFor="hasRoutingHints">
+          <Label htmlFor="isPrivate">
             <FormattedMessage {...messages.routing_hints_label} />
           </Label>
           <Tooltip ml={1}>
@@ -218,7 +181,7 @@ class Request extends React.Component {
           </Tooltip>
         </Flex>
       </Flex>
-      <Toggle field="hasRoutingHints" />
+      <Toggle field="isPrivate" />
     </Flex>
   )
 
@@ -262,7 +225,7 @@ class Request extends React.Component {
     const {
       activeWalletSettings,
       cancelInvoice,
-      createInvoice,
+      addInvoice,
       cryptoUnit,
       cryptoUnitName,
       chainName,
@@ -270,17 +233,17 @@ class Request extends React.Component {
       intl,
       isProcessing,
       isHoldInvoiceEnabled,
-      isInvoiceCancelling,
       isAnimating,
-      invoice,
+      setTopModal,
+      setActivityModal,
       showNotification,
       createNewAddress,
+      settleInvoice,
       showError,
       willUseFallback,
       maxOneTimeReceive,
       ...rest
     } = this.props
-    const { currentStep } = this.state
 
     return (
       <Form height="100%" width={1} {...rest} getApi={this.setFormApi} onSubmit={this.onSubmit}>
@@ -305,49 +268,35 @@ class Request extends React.Component {
                 <Bar mt={2} />
               </Panel.Header>
               <Panel.Body py={3}>
-                {currentStep === 'form' ? (
-                  <>
-                    {this.renderHelpText()}
-                    {this.renderAmountFields()}
-                    {this.renderMemoField()}
-                    {activeWalletSettings.type !== 'local' && this.renderRoutingHints()}
-                    {isHoldInvoiceEnabled && this.renderHoldInvoice()}
-                  </>
-                ) : (
-                  <RequestSummary
-                    cancelInvoice={cancelInvoice}
-                    invoice={invoice}
-                    isInvoiceCancelling={isInvoiceCancelling}
-                    mt={-3}
-                    showNotification={showNotification}
-                  />
-                )}
+                {this.renderHelpText()}
+                {this.renderAmountFields()}
+                {this.renderMemoField()}
+                {activeWalletSettings.type !== 'local' && this.renderRoutingHints()}
+                {isHoldInvoiceEnabled && this.renderHoldInvoice()}
               </Panel.Body>
-              {currentStep === 'form' && (
-                <Panel.Footer>
-                  <Flex alignItems="center" flexDirection="column">
-                    {this.isAmountAboveMax() && (
-                      <Message mb={2} variant="warning">
-                        <FormattedMessage
-                          {...messages.max_capacity_warning}
-                          values={{
-                            capacity: this.getMaxOneTimeReceive(),
-                            unit: cryptoUnitName,
-                          }}
-                        />
-                      </Message>
-                    )}
-                    <Button
-                      isDisabled={formState.pristine || formState.invalid || isProcessing}
-                      isProcessing={isProcessing}
-                      mx="auto"
-                      type="submit"
-                    >
-                      {nextButtonText}
-                    </Button>
-                  </Flex>
-                </Panel.Footer>
-              )}
+              <Panel.Footer>
+                <Flex alignItems="center" flexDirection="column">
+                  {this.isAmountAboveMax() && (
+                    <Message mb={2} variant="warning">
+                      <FormattedMessage
+                        {...messages.max_capacity_warning}
+                        values={{
+                          capacity: this.getMaxOneTimeReceive(),
+                          unit: cryptoUnitName,
+                        }}
+                      />
+                    </Message>
+                  )}
+                  <Button
+                    isDisabled={formState.pristine || formState.invalid || isProcessing}
+                    isProcessing={isProcessing}
+                    mx="auto"
+                    type="submit"
+                  >
+                    {nextButtonText}
+                  </Button>
+                </Flex>
+              </Panel.Footer>
             </Panel>
           )
         }}
