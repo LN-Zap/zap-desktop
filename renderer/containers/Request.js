@@ -17,7 +17,6 @@ const mapStateToProps = state => ({
   cryptoUnitName: tickerSelectors.cryptoUnitName(state),
   isProcessing: state.invoice.isInvoicesLoading,
   isHoldInvoiceEnabled: isHoldInvoiceEnabled(),
-  payReq: state.invoice.invoice,
   invoice: invoiceSelectors.invoice(state),
   maxOneTimeReceive: channelsSelectors.maxOneTimeReceive(state),
   willUseFallback: settingsSelectors.currentConfig(state).invoices.useAddressFallback,

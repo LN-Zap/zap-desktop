@@ -3,7 +3,7 @@ import reducer, {
   SET_INVOICE,
   GET_INVOICES,
   RECEIVE_INVOICES,
-  SEND_INVOICE,
+  ADD_INVOICE,
   INVOICE_SUCCESSFUL,
   INVOICE_FAILED,
   UPDATE_INVOICE,
@@ -41,9 +41,9 @@ describe('reducers', () => {
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })
 
-    it('should handle SEND_INVOICE', () => {
+    it('should handle ADD_INVOICE', () => {
       const action = {
-        type: SEND_INVOICE,
+        type: ADD_INVOICE,
       }
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })

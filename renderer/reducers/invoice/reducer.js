@@ -19,7 +19,7 @@ const {
   SET_INVOICE,
   GET_INVOICES,
   RECEIVE_INVOICES,
-  SEND_INVOICE,
+  ADD_INVOICE,
   INVOICE_SUCCESSFUL,
   INVOICE_FAILED,
   UPDATE_INVOICE,
@@ -102,13 +102,13 @@ export function getInvoices() {
 }
 
 /**
- * sendInvoice - Send an inveoice.
+ * createInvoiceStart - Start invoice creation.
  *
  * @returns {object} Action
  */
-export function sendInvoice() {
+export function createInvoiceStart() {
   return {
-    type: SEND_INVOICE,
+    type: ADD_INVOICE,
   }
 }
 
@@ -125,15 +125,15 @@ export const receiveInvoices = invoices => dispatch => {
 /**
  * createInvoiceSuccess - Create invoice success handler.
  *
- * @param {Invoice} invoice Invoice
+ * @param {string} paymentRequest Payment request
  * @returns {(dispatch:Function) => void} Thunk
  */
-export const createInvoiceSuccess = invoice => dispatch => {
+export const createInvoiceSuccess = paymentRequest => dispatch => {
   // Set current invoice to newly created invoice.
-  dispatch(setInvoice(invoice.paymentRequest))
+  dispatch(setInvoice(paymentRequest))
 
   // Add new invoice to invoices list
-  dispatch({ type: INVOICE_SUCCESSFUL, invoice })
+  dispatch({ type: INVOICE_SUCCESSFUL })
 }
 
 /**
@@ -174,7 +174,7 @@ export const createInvoice = ({
   // backend needs value in satoshis no matter what currency we are using
   const value = convert(cryptoUnit, 'sats', amount)
 
-  dispatch(sendInvoice())
+  dispatch(createInvoiceStart())
 
   // Grab the activeWallet type from our local store. If the active connection type is local (light clients using
   // neutrino) we will have to flag private as true when creating this invoice. All light cliets open private channels
@@ -190,20 +190,18 @@ export const createInvoice = ({
     expiry: currentConfig.invoices.expire,
     fallbackAddr,
   }
-  let invoice
+  let paymentRequest
   try {
     if (isHoldInvoice) {
       const preimageBytes = preimage ? new TextEncoder().encode(preimage) : generatePreimage()
       payload.hash = sha256digest(preimageBytes)
-      invoice = await grpc.services.Invoices.addHoldInvoice(payload)
+      ;({ paymentRequest } = await grpc.services.Invoices.addHoldInvoice(payload))
     } else {
-      invoice = await grpc.services.Lightning.createInvoice(payload)
+      ;({ paymentRequest } = await grpc.services.Lightning.addInvoice(payload))
     }
-    dispatch(createInvoiceSuccess(invoice))
-    return invoice
+    dispatch(createInvoiceSuccess(paymentRequest))
   } catch (error) {
     dispatch(createInvoiceFailure(error))
-    return null
   }
 }
 
@@ -252,7 +250,7 @@ const ACTION_HANDLERS = {
     state.isInvoicesLoading = false
     state.invoices = uniqBy(invoices.concat(state.invoices), 'addIndex')
   },
-  [SEND_INVOICE]: state => {
+  [ADD_INVOICE]: state => {
     state.isInvoicesLoading = true
   },
   [INVOICE_SUCCESSFUL]: state => {

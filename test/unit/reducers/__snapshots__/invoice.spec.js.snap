@@ -56,7 +56,7 @@ Snapshot Diff:
   }
 `;
 
-exports[`reducers invoiceReducer should handle SEND_INVOICE 1`] = `
+exports[`reducers invoiceReducer should handle ADD_INVOICE 1`] = `
 Snapshot Diff:
 - First value
 + Second value

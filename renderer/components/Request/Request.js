@@ -36,16 +36,15 @@ class Request extends React.Component {
     isHoldInvoiceEnabled: PropTypes.bool,
     isProcessing: PropTypes.bool,
     maxOneTimeReceive: PropTypes.string.isRequired,
-    payReq: PropTypes.string,
     showError: PropTypes.func.isRequired,
     showNotification: PropTypes.func.isRequired,
     willUseFallback: PropTypes.bool,
   }
 
   componentDidUpdate(prevProps) {
-    const { payReq } = this.props
+    const { invoice } = this.props
     const { currentStep } = this.state
-    if (payReq !== prevProps.payReq && currentStep === 'form') {
+    if (invoice !== prevProps.invoice && currentStep === 'form') {
       this.nextStep()
     }
   }
@@ -270,7 +269,6 @@ class Request extends React.Component {
       isHoldInvoiceEnabled,
       isAnimating,
       invoice,
-      payReq,
       showNotification,
       createNewAddress,
       showError,
@@ -312,12 +310,7 @@ class Request extends React.Component {
                     {isHoldInvoiceEnabled && this.renderHoldInvoice()}
                   </>
                 ) : (
-                  <RequestSummary
-                    invoice={invoice}
-                    mt={-3}
-                    payReq={payReq}
-                    showNotification={showNotification}
-                  />
+                  <RequestSummary invoice={invoice} mt={-3} showNotification={showNotification} />
                 )}
               </Panel.Body>
               {currentStep === 'form' && (

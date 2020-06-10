@@ -1,26 +1,28 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage, FormattedTime, injectIntl } from 'react-intl'
 import copy from 'copy-to-clipboard'
-import { decodePayReq, getTag } from '@zap/utils/crypto'
 import { Bar, DataRow, Button, QRCode, Text, Countdown } from 'components/UI'
 import { CryptoSelector, CryptoValue, FiatSelector, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
 import { intlShape } from '@zap/i18n'
 import messages from './messages'
 
-const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest }) => {
-  const decodedInvoice = useMemo(() => (payReq ? decodePayReq(payReq) : {}), [payReq])
+const RequestSummary = ({ invoice = {}, intl, showNotification, ...rest }) => {
   const [isExpired, setIsExpired] = useState(false)
-  const [expiryDelta, setExpiryDelta] = useState(decodedInvoice.timeExpireDate - Date.now() / 1000)
 
-  useEffect(() => {
-    setExpiryDelta(decodedInvoice.timeExpireDate - Date.now() / 1000)
-    return () => {
-      setIsExpired(false)
-    }
-  }, [decodedInvoice])
+  const {
+    value: amountInSats,
+    creationDate,
+    expiryDate,
+    fallbackAddr,
+    isKeysend,
+    isSettled,
+    memo,
+    paymentRequest,
+    settleDate,
+  } = invoice
 
   const copyToClipboard = data => {
     copy(data)
@@ -28,15 +30,8 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
     showNotification(notifBody)
   }
 
-  const { satoshis: invoiceAmount, timestampString } = decodedInvoice
-  const satoshis = invoice.finalAmount || invoiceAmount || 0
-  const memo = getTag(decodedInvoice, 'description')
-
-  const fallbackTag = getTag(decodedInvoice, 'fallback_address')
-  const fallback = fallbackTag && fallbackTag.address
-
   const getStatusColor = () => {
-    if (invoice.isSettled) {
+    if (isSettled) {
       return 'superGreen'
     }
     return isExpired ? 'superRed' : 'primaryAccent'
@@ -49,7 +44,7 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
         right={
           <Flex alignItems="center">
             <CryptoSelector mr={2} />
-            <CryptoValue fontSize="xxl" value={satoshis} />
+            <CryptoValue fontSize="xxl" value={amountInSats} />
           </Flex>
         }
       />
@@ -58,7 +53,9 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
 
       <DataRow
         left={<FormattedMessage {...messages.created} />}
-        right={<FormattedTime day="2-digit" month="long" value={timestampString} year="numeric" />}
+        right={
+          <FormattedTime day="2-digit" month="long" value={creationDate * 1000} year="numeric" />
+        }
       />
 
       <Bar variant="light" />
@@ -68,7 +65,7 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
         right={
           <Flex alignItems="center">
             <FiatSelector mr={2} />
-            <FiatValue value={satoshis} />
+            <FiatValue value={amountInSats} />
           </Flex>
         }
       />
@@ -80,10 +77,13 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
         </>
       )}
 
-      {fallback && (
+      {fallbackAddr && (
         <>
           <Bar variant="light" />
-          <DataRow left={<FormattedMessage {...messages.fallback_address} />} right={fallback} />
+          <DataRow
+            left={<FormattedMessage {...messages.fallback_address} />}
+            right={fallbackAddr}
+          />
         </>
       )}
 
@@ -93,19 +93,19 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
         left={
           <>
             <FormattedMessage {...messages.payment_request} />
-            {payReq && (
+            {paymentRequest && (
               <>
                 <Text
                   className="hint--bottom-left"
                   css="word-wrap: break-word;"
-                  data-hint={payReq}
+                  data-hint={paymentRequest}
                   fontSize="xs"
                   fontWeight="light"
                   mb={2}
                 >
-                  <Truncate maxlen={40} text={payReq} />
+                  <Truncate maxlen={40} text={paymentRequest} />
                 </Text>
-                <Button onClick={() => copyToClipboard(payReq)} size="small" type="button">
+                <Button onClick={() => copyToClipboard(paymentRequest)} size="small" type="button">
                   <FormattedMessage {...messages.copy_button_text} />
                 </Button>
               </>
@@ -114,10 +114,10 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
         }
         right={
           <Text>
-            {payReq ? (
-              <QRCode value={payReq.toUpperCase()} />
-            ) : (
+            {isKeysend ? (
               <FormattedMessage {...messages.payment_request_keysend} />
+            ) : (
+              <QRCode value={paymentRequest.toUpperCase()} />
             )}
           </Text>
         }
@@ -128,7 +128,7 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
       <DataRow
         left={<FormattedMessage {...messages.status} />}
         right={
-          invoice.isSettled ? (
+          isSettled ? (
             <Text
               color={getStatusColor()}
               css="word-break: break-all; text-transform: capitalize;"
@@ -137,12 +137,7 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
             >
               <FormattedMessage {...messages.paid} />
               <br />
-              <FormattedTime
-                day="2-digit"
-                month="long"
-                value={invoice.settleDate * 1000}
-                year="numeric"
-              />
+              <FormattedTime day="2-digit" month="long" value={settleDate * 1000} year="numeric" />
             </Text>
           ) : (
             <>
@@ -150,7 +145,7 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
                 color={getStatusColor()}
                 countdownStyle="long"
                 isContinual={false}
-                offset={expiryDelta}
+                offset={new Date(expiryDate * 1000)}
                 onExpire={() => setIsExpired(true)}
               />
 
@@ -167,8 +162,7 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
 
 RequestSummary.propTypes = {
   intl: intlShape.isRequired,
-  invoice: PropTypes.object,
-  payReq: PropTypes.string,
+  invoice: PropTypes.object.isRequired,
   showNotification: PropTypes.func.isRequired,
 }
 
