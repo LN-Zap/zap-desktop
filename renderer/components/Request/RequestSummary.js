@@ -167,7 +167,7 @@ const RequestSummary = ({ invoice = {}, payReq, intl, showNotification, ...rest 
 
 RequestSummary.propTypes = {
   intl: intlShape.isRequired,
-  invoice: PropTypes.object.isRequired,
+  invoice: PropTypes.object,
   payReq: PropTypes.string,
   showNotification: PropTypes.func.isRequired,
 }
