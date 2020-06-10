@@ -3,6 +3,8 @@ import createReducer from '@zap/utils/createReducer'
 import { showSystemNotification } from '@zap/utils/notifications'
 import { convert } from '@zap/utils/btc'
 import { getIntl } from '@zap/i18n'
+import { generatePreimage } from '@zap/utils/crypto'
+import { sha256digest } from '@zap/utils/sha256'
 import { grpc } from 'workers'
 import { fetchBalance } from 'reducers/balance'
 import { fetchChannels } from 'reducers/channels'
@@ -127,11 +129,11 @@ export const receiveInvoices = invoices => dispatch => {
  * @returns {(dispatch:Function) => void} Thunk
  */
 export const createInvoiceSuccess = invoice => dispatch => {
-  // Add new invoice to invoices list
-  dispatch({ type: INVOICE_SUCCESSFUL, invoice })
-
   // Set current invoice to newly created invoice.
   dispatch(setInvoice(invoice.paymentRequest))
+
+  // Add new invoice to invoices list
+  dispatch({ type: INVOICE_SUCCESSFUL, invoice })
 }
 
 /**
@@ -151,15 +153,22 @@ export const createInvoiceFailure = error => dispatch => {
  * @param {object} options request options
  * @param {number} options.amount Amount
  * @param {string} options.cryptoUnit Crypto unit (sats, bits, btc)
- * @param {string} options.memo Memo
- * @param {boolean} options.isPrivate Set to true to include routing hints
- * @param {string} options.fallbackAddr on-chain address fallback
+ * @param {string} [options.memo] Memo
+ * @param {boolean} [options.isPrivate] Set to true to include routing hints
+ * @param {boolean} [options.isHoldInvoice=false] Set to true to make this a hold invoice
+ * @param {string} [options.fallbackAddr] on-chain address fallback
+ * @param {string} [options.preimage] on-chain address fallback
  * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
-export const createInvoice = ({ amount, cryptoUnit, memo, isPrivate, fallbackAddr }) => async (
-  dispatch,
-  getState
-) => {
+export const createInvoice = ({
+  amount,
+  cryptoUnit,
+  memo,
+  isPrivate,
+  isHoldInvoice,
+  fallbackAddr,
+  preimage,
+}) => async (dispatch, getState) => {
   const state = getState()
 
   // backend needs value in satoshis no matter what currency we are using
@@ -174,14 +183,22 @@ export const createInvoice = ({ amount, cryptoUnit, memo, isPrivate, fallbackAdd
   const activeWalletSettings = walletSelectors.activeWalletSettings(state)
   const currentConfig = settingsSelectors.currentConfig(state)
 
+  const payload = {
+    value,
+    memo,
+    private: isPrivate || activeWalletSettings.type === 'local',
+    expiry: currentConfig.invoices.expire,
+    fallbackAddr,
+  }
+  let invoice
   try {
-    const invoice = await grpc.services.Lightning.createInvoice({
-      value,
-      memo,
-      private: isPrivate || activeWalletSettings.type === 'local',
-      expiry: currentConfig.invoices.expire,
-      fallbackAddr,
-    })
+    if (isHoldInvoice) {
+      const preimageBytes = preimage ? new TextEncoder().encode(preimage) : generatePreimage()
+      payload.hash = sha256digest(preimageBytes)
+      invoice = await grpc.services.Invoices.addHoldInvoice(payload)
+    } else {
+      invoice = await grpc.services.Lightning.createInvoice(payload)
+    }
     dispatch(createInvoiceSuccess(invoice))
     return invoice
   } catch (error) {

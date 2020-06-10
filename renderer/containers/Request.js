@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { isHoldInvoiceEnabled } from '@zap/utils/featureFlag'
 import { Request } from 'components/Request'
 import { fetchTickers, tickerSelectors } from 'reducers/ticker'
 import { createNewAddress } from 'reducers/address'
@@ -15,6 +16,7 @@ const mapStateToProps = state => ({
   cryptoUnit: tickerSelectors.cryptoUnit(state),
   cryptoUnitName: tickerSelectors.cryptoUnitName(state),
   isProcessing: state.invoice.isInvoicesLoading,
+  isHoldInvoiceEnabled: isHoldInvoiceEnabled(),
   payReq: state.invoice.invoice,
   invoice: invoiceSelectors.invoice(state),
   maxOneTimeReceive: channelsSelectors.maxOneTimeReceive(state),

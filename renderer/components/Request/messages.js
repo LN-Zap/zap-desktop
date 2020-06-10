@@ -18,6 +18,9 @@ export default defineMessages({
   add_error: 'An error has occurred',
   routing_hints_label: 'Include routing hints',
   routing_hints_tooltip: 'Whether this invoice should include routing hints for private channels.',
+  hold_invoice_label: 'Hold invoice',
+  hold_invoice_tooltip: 'Enables manual control the invoice settlement process.',
+  preimage_placeholder: 'Preimage (required to settle invoice)',
   memo_tooltip:
     'Add some describer text to your payment request for the recipient to see when paying.',
   not_paid: 'not paid',

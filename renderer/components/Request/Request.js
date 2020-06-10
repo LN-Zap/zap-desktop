@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex } from 'rebass/styled-components'
+import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { intlShape } from '@zap/i18n'
 import { convert } from '@zap/utils/btc'
 import { CoinBig } from '@zap/utils/coin'
 import { Bar, Button, Header, Panel, Span, Text, Tooltip, Message } from 'components/UI'
-import { Form, Label, TextArea, Toggle } from 'components/Form'
+import { Form, Input, Label, TextArea, Toggle } from 'components/Form'
 import { CurrencyFieldGroup } from 'containers/Form'
 import Lightning from 'components/Icon/Lightning'
 import Padlock from 'components/Icon/Padlock'
@@ -33,6 +33,7 @@ class Request extends React.Component {
     intl: intlShape.isRequired,
     invoice: PropTypes.object,
     isAnimating: PropTypes.bool,
+    isHoldInvoiceEnabled: PropTypes.bool,
     isProcessing: PropTypes.bool,
     maxOneTimeReceive: PropTypes.string.isRequired,
     payReq: PropTypes.string,
@@ -108,11 +109,14 @@ class Request extends React.Component {
       showError,
     } = this.props
     try {
+      const { amountCrypto, memo, hasRoutingHints, isHoldInvoice, preimage } = values
       const invoiceArgs = {
-        amount: values.amountCrypto,
+        amount: amountCrypto,
         cryptoUnit,
-        memo: values.memo,
-        isPrivate: values.routingHints,
+        memo,
+        isPrivate: !hasRoutingHints,
+        isHoldInvoice,
+        preimage,
       }
 
       if (willUseFallback) {
@@ -199,13 +203,13 @@ class Request extends React.Component {
   }
 
   renderRoutingHints = () => (
-    <Flex alignItems="center" justifyContent="space-between">
+    <Flex alignItems="center" justifyContent="space-between" mb={2}>
       <Flex>
         <Span color="gray" fontSize="s" mr={2}>
           <Padlock />
         </Span>
         <Flex>
-          <Label htmlFor="routingHints">
+          <Label htmlFor="hasRoutingHints">
             <FormattedMessage {...messages.routing_hints_label} />
           </Label>
           <Tooltip ml={1}>
@@ -213,9 +217,45 @@ class Request extends React.Component {
           </Tooltip>
         </Flex>
       </Flex>
-      <Toggle field="routingHints" />
+      <Toggle field="hasRoutingHints" />
     </Flex>
   )
+
+  renderHoldInvoice = () => {
+    const { intl } = this.props
+    const { values } = this.formApi.getState()
+    return (
+      <Box>
+        <Flex alignItems="center" justifyContent="space-between">
+          <Flex>
+            <Span color="gray" fontSize="s" mr={2}>
+              <Padlock />
+            </Span>
+            <Flex>
+              <Label htmlFor="isHoldInvoice">
+                <FormattedMessage {...messages.hold_invoice_label} />
+              </Label>
+              <Tooltip ml={1}>
+                <FormattedMessage {...messages.hold_invoice_tooltip} />
+              </Tooltip>
+            </Flex>
+          </Flex>
+          <Toggle field="isHoldInvoice" />
+        </Flex>
+        {values.isHoldInvoice && (
+          <Input
+            field="preimage"
+            isRequired
+            mt={2}
+            name="preimage"
+            placeholder={intl.formatMessage({ ...messages.preimage_placeholder })}
+            validateOnBlur
+            validateOnChange
+          />
+        )}
+      </Box>
+    )
+  }
 
   render() {
     const {
@@ -227,6 +267,7 @@ class Request extends React.Component {
       fetchTickers,
       intl,
       isProcessing,
+      isHoldInvoiceEnabled,
       isAnimating,
       invoice,
       payReq,
@@ -268,6 +309,7 @@ class Request extends React.Component {
                     {this.renderAmountFields()}
                     {this.renderMemoField()}
                     {activeWalletSettings.type !== 'local' && this.renderRoutingHints()}
+                    {isHoldInvoiceEnabled && this.renderHoldInvoice()}
                   </>
                 ) : (
                   <RequestSummary
