@@ -6,36 +6,35 @@ import { RequestSummary } from 'components/Request'
 import Lightning from 'components/Icon/Lightning'
 import messages from './messages'
 
-export default class InvoiceModal extends React.PureComponent {
-  static propTypes = {
-    /** Invoice */
-    item: PropTypes.object.isRequired,
-    /** Show a notification. */
-    showNotification: PropTypes.func.isRequired,
-  }
+const InvoiceModal = ({ cancelInvoice, isInvoiceCancelling, item, showNotification, ...rest }) => (
+  <Panel {...rest}>
+    <Panel.Header>
+      <Header
+        logo={<Lightning height="45px" width="45px" />}
+        subtitle={<FormattedMessage {...messages.subtitle} />}
+        title={
+          <FormattedMessage {...messages[item.isSettled ? 'title_received' : 'title_requested']} />
+        }
+      />
+      <Bar mt={2} />
+    </Panel.Header>
 
-  render() {
-    const { item, showNotification, ...rest } = this.props
+    <Panel.Body>
+      <RequestSummary
+        cancelInvoice={cancelInvoice}
+        invoice={item}
+        isInvoiceCancelling={isInvoiceCancelling}
+        showNotification={showNotification}
+      />
+    </Panel.Body>
+  </Panel>
+)
 
-    return (
-      <Panel {...rest}>
-        <Panel.Header>
-          <Header
-            logo={<Lightning height="45px" width="45px" />}
-            subtitle={<FormattedMessage {...messages.subtitle} />}
-            title={
-              <FormattedMessage
-                {...messages[item.isSettled ? 'title_received' : 'title_requested']}
-              />
-            }
-          />
-          <Bar mt={2} />
-        </Panel.Header>
-
-        <Panel.Body>
-          <RequestSummary invoice={item} showNotification={showNotification} />
-        </Panel.Body>
-      </Panel>
-    )
-  }
+InvoiceModal.propTypes = {
+  cancelInvoice: PropTypes.func.isRequired,
+  isInvoiceCancelling: PropTypes.bool,
+  item: PropTypes.object.isRequired,
+  showNotification: PropTypes.func.isRequired,
 }
+
+export default InvoiceModal

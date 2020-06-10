@@ -23,6 +23,22 @@ const invoicesSelector = state => state.invoice.invoices
 const invoiceSelector = state => state.invoice.invoice
 
 /**
+ * isInvoiceCancelling - Invoice cancellation status.
+ *
+ * @param {State} state Redux state
+ * @returns {boolean} Boolean indicating if invoice is being cancelled.
+ */
+const isInvoiceCancelling = state => state.invoice.isInvoiceCancelling
+
+/**
+ * isInvoiceCreating - Invoices loading status.
+ *
+ * @param {State} state Redux state
+ * @returns {boolean} Boolean indicating if invoices are loading.
+ */
+const isInvoiceCreating = state => state.invoice.isInvoiceCreating
+
+/**
  * invoices - List of decorated invoices.
  *
  * @param {State} state Redux state
@@ -43,4 +59,6 @@ export const invoice = createSelector(invoices, invoiceSelector, (allInvoices, p
 export default {
   invoice,
   invoices,
+  isInvoiceCancelling,
+  isInvoiceCreating,
 }

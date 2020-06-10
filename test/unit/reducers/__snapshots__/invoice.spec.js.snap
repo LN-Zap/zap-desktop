@@ -1,16 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`reducers invoiceReducer should handle GET_INVOICES 1`] = `
+exports[`reducers invoiceReducer should handle ADD_INVOICE 1`] = `
 Snapshot Diff:
 - First value
 + Second value
 
   Object {
+    "cancelInvoiceError": null,
     "createInvoiceError": null,
     "invoice": null,
     "invoices": Array [],
--   "isInvoicesLoading": false,
-+   "isInvoicesLoading": true,
+    "isInvoiceCancelling": false,
+-   "isInvoiceCreating": false,
++   "isInvoiceCreating": true,
   }
 `;
 
@@ -20,11 +22,13 @@ Snapshot Diff:
 + Second value
 
   Object {
+    "cancelInvoiceError": null,
 -   "createInvoiceError": null,
 +   "createInvoiceError": "some error",
     "invoice": null,
     "invoices": Array [],
-    "isInvoicesLoading": false,
+    "isInvoiceCancelling": false,
+    "isInvoiceCreating": false,
   }
 `;
 
@@ -39,6 +43,7 @@ Snapshot Diff:
 + Second value
 
   Object {
+    "cancelInvoiceError": null,
     "createInvoiceError": null,
     "invoice": null,
 -   "invoices": Array [],
@@ -52,21 +57,8 @@ Snapshot Diff:
 +       "rHash": "456",
 +     },
 +   ],
-    "isInvoicesLoading": false,
-  }
-`;
-
-exports[`reducers invoiceReducer should handle ADD_INVOICE 1`] = `
-Snapshot Diff:
-- First value
-+ Second value
-
-  Object {
-    "createInvoiceError": null,
-    "invoice": null,
-    "invoices": Array [],
--   "isInvoicesLoading": false,
-+   "isInvoicesLoading": true,
+    "isInvoiceCancelling": false,
+    "isInvoiceCreating": false,
   }
 `;
 
@@ -76,13 +68,15 @@ Snapshot Diff:
 + Second value
 
   Object {
+    "cancelInvoiceError": null,
     "createInvoiceError": null,
 -   "invoice": null,
 +   "invoice": Object {
 +     "rHash": "123",
 +   },
     "invoices": Array [],
-    "isInvoicesLoading": false,
+    "isInvoiceCancelling": false,
+    "isInvoiceCreating": false,
   }
 `;
 
@@ -92,6 +86,7 @@ Snapshot Diff:
 + Second value
 
   Object {
+    "cancelInvoiceError": null,
     "createInvoiceError": null,
     "invoice": null,
 -   "invoices": Array [],
@@ -100,15 +95,18 @@ Snapshot Diff:
 +       "rHash": "123",
 +     },
 +   ],
-    "isInvoicesLoading": false,
+    "isInvoiceCancelling": false,
+    "isInvoiceCreating": false,
   }
 `;
 
 exports[`reducers invoiceReducer should handle initial state 1`] = `
 Object {
+  "cancelInvoiceError": null,
   "createInvoiceError": null,
   "invoice": null,
   "invoices": Array [],
-  "isInvoicesLoading": false,
+  "isInvoiceCancelling": false,
+  "isInvoiceCreating": false,
 }
 `;

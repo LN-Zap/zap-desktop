@@ -1,7 +1,6 @@
 import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, {
   SET_INVOICE,
-  GET_INVOICES,
   RECEIVE_INVOICES,
   ADD_INVOICE,
   INVOICE_SUCCESSFUL,
@@ -19,13 +18,6 @@ describe('reducers', () => {
       const action = {
         type: SET_INVOICE,
         invoice: { rHash: '123' },
-      }
-      expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
-    })
-
-    it('should handle GET_INVOICES', () => {
-      const action = {
-        type: GET_INVOICES,
       }
       expect(snapshotDiff(reducer(undefined, {}), reducer(undefined, action))).toMatchSnapshot()
     })

@@ -7,6 +7,8 @@ import { TransactionModal } from 'components/Activity/TransactionModal'
 
 export default class ActivityModal extends React.PureComponent {
   static propTypes = {
+    cancelInvoice: PropTypes.func.isRequired,
+    isInvoiceCancelling: PropTypes.bool,
     item: PropTypes.object,
     networkInfo: PropTypes.shape({
       id: PropTypes.string,
@@ -17,7 +19,15 @@ export default class ActivityModal extends React.PureComponent {
   }
 
   render() {
-    const { item, networkInfo, showNotification, saveInvoice, ...rest } = this.props
+    const {
+      cancelInvoice,
+      isInvoiceCancelling,
+      item,
+      networkInfo,
+      showNotification,
+      saveInvoice,
+      ...rest
+    } = this.props
 
     if (!item) {
       return null
@@ -34,7 +44,7 @@ export default class ActivityModal extends React.PureComponent {
       },
       invoice: {
         component: InvoiceModal,
-        props: { item, showNotification },
+        props: { item, showNotification, cancelInvoice, isInvoiceCancelling },
       },
     }
 

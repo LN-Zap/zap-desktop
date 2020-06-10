@@ -13,16 +13,19 @@ import { walletSelectors } from 'reducers/wallet'
 import { settingsSelectors } from 'reducers/settings'
 import { decorateInvoice } from './utils'
 import messages from './messages'
+import selectors from './selectors'
 import * as constants from './constants'
 
 const {
   SET_INVOICE,
-  GET_INVOICES,
   RECEIVE_INVOICES,
   ADD_INVOICE,
   INVOICE_SUCCESSFUL,
   INVOICE_FAILED,
   UPDATE_INVOICE,
+  CANCEL_INVOICE,
+  CANCEL_INVOICE_SUCCESS,
+  CANCEL_INVOICE_FAILURE,
 } = constants
 
 /**
@@ -55,8 +58,10 @@ const {
 
 /**
  * @typedef State
- * @property {boolean} isInvoicesLoading Boolean indicating if invoices are loading.
- * @property {Error|null} createInvoiceError Error from loading activity.
+ * @property {boolean} isInvoiceCreating Boolean indicating if invoices are loading.
+ * @property {boolean} isInvoiceCancelling Boolean indicating if invoice is being cancelled.
+ * @property {string|null} createInvoiceError Error from loading activity.
+ * @property {string|null} cancelInvoiceError Error from cancelling invoice.
  * @property {Invoice[]} invoices List of invoices.
  * @property {string|null} invoice Currently selected invoice (payment request)
  */
@@ -67,8 +72,10 @@ const {
 
 /** @type {State} */
 const initialState = {
-  isInvoicesLoading: false,
+  isInvoiceCreating: false,
+  isInvoiceCancelling: false,
   createInvoiceError: null,
+  cancelInvoiceError: null,
   invoices: [],
   invoice: null,
 }
@@ -91,17 +98,6 @@ export function setInvoice(paymentRequest) {
 }
 
 /**
- * getInvoices - Fetch details of all invoices.
- *
- * @returns {object} Action
- */
-export function getInvoices() {
-  return {
-    type: GET_INVOICES,
-  }
-}
-
-/**
  * createInvoiceStart - Start invoice creation.
  *
  * @returns {object} Action
@@ -110,16 +106,6 @@ export function createInvoiceStart() {
   return {
     type: ADD_INVOICE,
   }
-}
-
-/**
- * receiveInvoices - Receive details of all invoice.
- *
- * @param {Invoice[]} invoices List of invoices
- * @returns {(dispatch:Function) => void} Thunk
- */
-export const receiveInvoices = invoices => dispatch => {
-  dispatch({ type: RECEIVE_INVOICES, invoices })
 }
 
 /**
@@ -144,6 +130,37 @@ export const createInvoiceSuccess = paymentRequest => dispatch => {
  */
 export const createInvoiceFailure = error => dispatch => {
   dispatch({ type: INVOICE_FAILED, error: error.message })
+  dispatch(showError(error.message))
+}
+
+/**
+ * cancelInvoiceStart - Start invoice creation.
+ *
+ * @returns {object} Action
+ */
+export function cancelInvoiceStart() {
+  return {
+    type: CANCEL_INVOICE,
+  }
+}
+
+/**
+ * cancelInvoiceSuccess - Cancel invoice success handler.
+ *
+ * @returns {(dispatch:Function) => void} Thunk
+ */
+export const cancelInvoiceSuccess = () => dispatch => {
+  dispatch({ type: CANCEL_INVOICE_SUCCESS })
+}
+
+/**
+ * cancelInvoiceFailure - Cancel invoice error handler.
+ *
+ * @param {Error} error Error
+ * @returns {(dispatch:Function) => void} Thunk
+ */
+export const cancelInvoiceFailure = error => dispatch => {
+  dispatch({ type: CANCEL_INVOICE_FAILURE, error: error.message })
   dispatch(showError(error.message))
 }
 
@@ -206,6 +223,38 @@ export const createInvoice = ({
 }
 
 /**
+ * cancelInvoice - CancelInvoice cancels a currently open invoice.
+ *
+ * @param  {string} paymentHash Hash corresponding to the (hold) invoice to cancel
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
+ */
+export const cancelInvoice = paymentHash => async (dispatch, getState) => {
+  dispatch(cancelInvoiceStart())
+  try {
+    await grpc.services.Invoices.cancelInvoice({ paymentHash })
+    const invoices = selectors.invoices(getState())
+    const invoice = invoices.find(i => i.rHash === paymentHash)
+    if (invoice) {
+      invoice.state = 'CANCELED'
+      dispatch(receiveInvoiceData(invoice))
+    }
+    dispatch(cancelInvoiceSuccess())
+  } catch (error) {
+    dispatch(cancelInvoiceFailure(error))
+  }
+}
+
+/**
+ * receiveInvoices - Receive details of invoices.
+ *
+ * @param {Invoice[]} invoices List of invoices
+ * @returns {(dispatch:Function) => void} Thunk
+ */
+export const receiveInvoices = invoices => dispatch => {
+  dispatch({ type: RECEIVE_INVOICES, invoices })
+}
+
+/**
  * receiveInvoiceData - Listen for invoice updates pushed from backend from invoices stream.
  *
  * @param {Invoice} invoice Invoice
@@ -243,24 +292,30 @@ const ACTION_HANDLERS = {
   [SET_INVOICE]: (state, { invoice }) => {
     state.invoice = invoice
   },
-  [GET_INVOICES]: state => {
-    state.isInvoicesLoading = true
-  },
   [RECEIVE_INVOICES]: (state, { invoices }) => {
-    state.isInvoicesLoading = false
     state.invoices = uniqBy(invoices.concat(state.invoices), 'addIndex')
   },
   [ADD_INVOICE]: state => {
-    state.isInvoicesLoading = true
+    state.isInvoiceCreating = true
   },
   [INVOICE_SUCCESSFUL]: state => {
-    state.isInvoicesLoading = false
+    state.isInvoiceCreating = false
     state.createInvoiceError = null
   },
-
   [INVOICE_FAILED]: (state, { error }) => {
-    state.isInvoicesLoading = false
+    state.isInvoiceCreating = false
     state.createInvoiceError = error
+  },
+  [CANCEL_INVOICE]: state => {
+    state.isInvoiceCancelling = true
+  },
+  [CANCEL_INVOICE_SUCCESS]: state => {
+    state.isInvoiceCancelling = false
+    state.cancelInvoiceError = null
+  },
+  [CANCEL_INVOICE_FAILURE]: (state, { error }) => {
+    state.isInvoiceCancelling = false
+    state.cancelInvoiceError = error
   },
   [UPDATE_INVOICE]: (state, { invoice }) => {
     const invoiceIndex = state.invoices.findIndex(

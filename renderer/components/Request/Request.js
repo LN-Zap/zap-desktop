@@ -24,6 +24,7 @@ class Request extends React.Component {
     activeWalletSettings: PropTypes.shape({
       type: PropTypes.string.isRequired,
     }).isRequired,
+    cancelInvoice: PropTypes.func.isRequired,
     chainName: PropTypes.string.isRequired,
     createInvoice: PropTypes.func.isRequired,
     createNewAddress: PropTypes.func.isRequired,
@@ -34,6 +35,7 @@ class Request extends React.Component {
     invoice: PropTypes.object,
     isAnimating: PropTypes.bool,
     isHoldInvoiceEnabled: PropTypes.bool,
+    isInvoiceCancelling: PropTypes.bool,
     isProcessing: PropTypes.bool,
     maxOneTimeReceive: PropTypes.string.isRequired,
     showError: PropTypes.func.isRequired,
@@ -259,6 +261,7 @@ class Request extends React.Component {
   render() {
     const {
       activeWalletSettings,
+      cancelInvoice,
       createInvoice,
       cryptoUnit,
       cryptoUnitName,
@@ -267,6 +270,7 @@ class Request extends React.Component {
       intl,
       isProcessing,
       isHoldInvoiceEnabled,
+      isInvoiceCancelling,
       isAnimating,
       invoice,
       showNotification,
@@ -310,7 +314,13 @@ class Request extends React.Component {
                     {isHoldInvoiceEnabled && this.renderHoldInvoice()}
                   </>
                 ) : (
-                  <RequestSummary invoice={invoice} mt={-3} showNotification={showNotification} />
+                  <RequestSummary
+                    cancelInvoice={cancelInvoice}
+                    invoice={invoice}
+                    isInvoiceCancelling={isInvoiceCancelling}
+                    mt={-3}
+                    showNotification={showNotification}
+                  />
                 )}
               </Panel.Body>
               {currentStep === 'form' && (

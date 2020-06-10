@@ -9,20 +9,32 @@ import { Truncate } from 'components/Util'
 import { intlShape } from '@zap/i18n'
 import messages from './messages'
 
-const RequestSummary = ({ invoice = {}, intl, showNotification, ...rest }) => {
-  const [isExpired, setIsExpired] = useState(false)
-
+const RequestSummary = ({
+  cancelInvoice,
+  invoice = {},
+  intl,
+  showNotification,
+  isInvoiceCancelling,
+  isInvoiceSettling,
+  ...rest
+}) => {
   const {
     value: amountInSats,
     creationDate,
     expiryDate,
     fallbackAddr,
+    isCancelled,
+    isExpired,
     isKeysend,
     isSettled,
+    isHoldInvoice,
     memo,
     paymentRequest,
     settleDate,
+    state,
   } = invoice
+
+  const [isNowExpired, setIsNowExpired] = useState(isExpired)
 
   const copyToClipboard = data => {
     copy(data)
@@ -34,7 +46,10 @@ const RequestSummary = ({ invoice = {}, intl, showNotification, ...rest }) => {
     if (isSettled) {
       return 'superGreen'
     }
-    return isExpired ? 'superRed' : 'primaryAccent'
+    if (isCancelled || isExpired) {
+      return 'superRed'
+    }
+    return 'primaryAccent'
   }
 
   return (
@@ -126,7 +141,30 @@ const RequestSummary = ({ invoice = {}, intl, showNotification, ...rest }) => {
       <Bar variant="light" />
 
       <DataRow
-        left={<FormattedMessage {...messages.status} />}
+        left={
+          <>
+            <Text mb={2}>
+              <FormattedMessage {...messages.status} />
+            </Text>
+            {!isNowExpired && !isCancelled && (
+              <Flex alignItems="center" mr={2}>
+                <Button
+                  isDisabled={isInvoiceCancelling || !['OPEN', 'ACCEPTED'].includes(state)}
+                  mr={2}
+                  onClick={() => cancelInvoice(invoice.rHash)}
+                  size="small"
+                >
+                  <FormattedMessage {...messages.cancel_button_text} />
+                </Button>
+                {isHoldInvoice && (
+                  <Button isDisabled={state !== 'ACCEPTED' || isInvoiceSettling} size="small">
+                    <FormattedMessage {...messages.settle_button_text} />
+                  </Button>
+                )}
+              </Flex>
+            )}
+          </>
+        }
         right={
           isSettled ? (
             <Text
@@ -140,19 +178,27 @@ const RequestSummary = ({ invoice = {}, intl, showNotification, ...rest }) => {
               <FormattedTime day="2-digit" month="long" value={settleDate * 1000} year="numeric" />
             </Text>
           ) : (
-            <>
-              <Countdown
-                color={getStatusColor()}
-                countdownStyle="long"
-                isContinual={false}
-                offset={new Date(expiryDate * 1000)}
-                onExpire={() => setIsExpired(true)}
-              />
-
-              <Text color={getStatusColor()} fontWeight="light">
-                <FormattedMessage {...messages.not_paid} />
-              </Text>
-            </>
+            <Flex alignItems="center">
+              <Box textAlign="right">
+                <Text color={getStatusColor()} fontWeight="light">
+                  <FormattedMessage {...messages.not_paid} />
+                </Text>
+                {isCancelled ? (
+                  <Text color={getStatusColor()} fontSize="s" fontWeight="light">
+                    <FormattedMessage {...messages.cancelled} />
+                  </Text>
+                ) : (
+                  <Countdown
+                    color={getStatusColor()}
+                    countdownStyle="long"
+                    fontSize="s"
+                    isContinual={false}
+                    offset={new Date(expiryDate * 1000)}
+                    onExpire={() => setIsNowExpired(true)}
+                  />
+                )}
+              </Box>
+            </Flex>
           )
         }
       />
@@ -161,8 +207,11 @@ const RequestSummary = ({ invoice = {}, intl, showNotification, ...rest }) => {
 }
 
 RequestSummary.propTypes = {
+  cancelInvoice: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
   invoice: PropTypes.object.isRequired,
+  isInvoiceCancelling: PropTypes.bool,
+  isInvoiceSettling: PropTypes.bool,
   showNotification: PropTypes.func.isRequired,
 }
 

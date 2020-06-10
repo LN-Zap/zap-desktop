@@ -7,6 +7,8 @@ export default defineMessages({
   current_value: 'Current value',
   button_text: 'Request',
   copy_button_text: 'Copy invoice',
+  cancel_button_text: 'Cancel invoice',
+  settle_button_text: 'Settle invoice',
   address_copied_notification_title: 'Address copied',
   address_copied_notification_description: 'Payment request has been copied to your clipboard',
   payment_request: 'Payment request',
@@ -24,6 +26,7 @@ export default defineMessages({
   memo_tooltip:
     'Add some describer text to your payment request for the recipient to see when paying.',
   not_paid: 'not paid',
+  cancelled: 'cancelled',
   paid: 'paid',
   qrcode: 'QR-Code',
   status: 'Request Status',
