@@ -72,6 +72,8 @@ const RequestSummary = ({
     return 'superOrange'
   }
 
+  const hasButtons = !isNowExpired && ['OPEN', 'ACCEPTED'].includes(state)
+
   return (
     <Box {...rest}>
       {isSettleDialogOpen && !isSettled && (
@@ -171,11 +173,8 @@ const RequestSummary = ({
       <DataRow
         left={
           <>
-            <Text mb={2}>
-              <FormattedMessage {...messages.status} />
-            </Text>
-            {!isNowExpired && ['OPEN', 'ACCEPTED'].includes(state) && (
-              <Flex alignItems="center" mr={2}>
+            {hasButtons ? (
+              <Flex alignItems="center">
                 <Button
                   isDisabled={Boolean(isInvoiceCancelling || isInvoiceSettling)}
                   mr={2}
@@ -194,6 +193,10 @@ const RequestSummary = ({
                   </Button>
                 )}
               </Flex>
+            ) : (
+              <Text>
+                <FormattedMessage {...messages.status} />
+              </Text>
             )}
           </>
         }
