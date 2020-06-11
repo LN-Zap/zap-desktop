@@ -33,8 +33,8 @@ const composeEnhancers =
                   invoices: invoice.invoices.map(invoice => {
                     return {
                       ...invoice,
-                      // rHash: '<<R_HASH_BUFFER_DATA>>',
-                      // rPreimage: '<<R_PREIMAGE_BUFFER_DATA>>',
+                      rHash: '<<R_HASH_BUFFER_DATA>>',
+                      rPreimage: '<<R_PREIMAGE_BUFFER_DATA>>',
                     }
                   }),
                 },
