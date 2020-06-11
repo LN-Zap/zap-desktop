@@ -28,6 +28,7 @@ const RequestSummary = ({
   settleInvoiceError,
   invoice = {},
   showNotification,
+  isHoldInvoiceEnabled,
   isInvoiceCancelling,
   isInvoiceSettling,
   ...rest
@@ -171,13 +172,13 @@ const RequestSummary = ({
       <DataRow
         left={
           <>
-            <Text mb={2}>
+            <Text>
               <FormattedMessage {...messages.status} />
             </Text>
-            {!isNowExpired && ['OPEN', 'ACCEPTED'].includes(state) && (
-              <Flex alignItems="center" mr={2}>
+            {!isNowExpired && ['OPEN', 'ACCEPTED'].includes(state) && isHoldInvoiceEnabled && (
+              <Flex alignItems="center" mr={2} mt={2}>
                 <Button
-                  isDisabled={Boolean(isInvoiceCancelling || isInvoiceSettling)}
+                  isDisabled={isInvoiceCancelling || isInvoiceSettling}
                   mr={2}
                   onClick={() => cancelInvoice(invoice.rHash)}
                   size="small"
@@ -186,7 +187,7 @@ const RequestSummary = ({
                 </Button>
                 {isHoldInvoice && (
                   <Button
-                    isDisabled={Boolean(isInvoiceCancelling || isInvoiceSettling)}
+                    isDisabled={isInvoiceCancelling || isInvoiceSettling}
                     onClick={() => setIsSettleDialogOpen(true)}
                     size="small"
                   >
@@ -242,6 +243,7 @@ RequestSummary.propTypes = {
   cancelInvoice: PropTypes.func.isRequired,
   clearSettleInvoiceError: PropTypes.func.isRequired,
   invoice: PropTypes.object.isRequired,
+  isHoldInvoiceEnabled: PropTypes.bool,
   isInvoiceCancelling: PropTypes.bool,
   isInvoiceSettling: PropTypes.bool,
   settleInvoice: PropTypes.func.isRequired,

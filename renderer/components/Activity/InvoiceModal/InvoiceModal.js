@@ -9,6 +9,7 @@ import messages from './messages'
 const InvoiceModal = ({
   cancelInvoice,
   clearSettleInvoiceError,
+  isHoldInvoiceEnabled,
   isInvoiceCancelling,
   isInvoiceSettling,
   item,
@@ -34,6 +35,7 @@ const InvoiceModal = ({
         cancelInvoice={cancelInvoice}
         clearSettleInvoiceError={clearSettleInvoiceError}
         invoice={item}
+        isHoldInvoiceEnabled={isHoldInvoiceEnabled}
         isInvoiceCancelling={isInvoiceCancelling}
         isInvoiceSettling={isInvoiceSettling}
         settleInvoice={settleInvoice}
@@ -47,6 +49,7 @@ const InvoiceModal = ({
 InvoiceModal.propTypes = {
   cancelInvoice: PropTypes.func.isRequired,
   clearSettleInvoiceError: PropTypes.func.isRequired,
+  isHoldInvoiceEnabled: PropTypes.bool,
   isInvoiceCancelling: PropTypes.bool,
   isInvoiceSettling: PropTypes.bool,
   item: PropTypes.object.isRequired,
