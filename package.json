@@ -286,7 +286,7 @@
     "eslint-plugin-shopify": "35.1.0",
     "eslint-plugin-testcafe": "0.2.1",
     "extract-react-intl-messages": "4.1.1",
-    "fake-indexeddb": "3.0.1",
+    "fake-indexeddb": "3.0.2",
     "file-loader": "6.0.0",
     "gh-pages": "2.2.0",
     "html-webpack-plugin": "4.3.0",
