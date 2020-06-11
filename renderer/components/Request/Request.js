@@ -5,11 +5,10 @@ import { FormattedMessage, injectIntl } from 'react-intl'
 import { intlShape } from '@zap/i18n'
 import { convert } from '@zap/utils/btc'
 import { CoinBig } from '@zap/utils/coin'
-import { Bar, Button, Header, Panel, Span, Text, Tooltip, Message } from 'components/UI'
+import { Bar, Button, Header, Panel, Text, Tooltip, Message } from 'components/UI'
 import { Form, Input, Label, TextArea, Toggle } from 'components/Form'
 import { CurrencyFieldGroup } from 'containers/Form'
 import Lightning from 'components/Icon/Lightning'
-import Padlock from 'components/Icon/Padlock'
 import messages from './messages'
 
 class Request extends React.Component {
@@ -169,9 +168,6 @@ class Request extends React.Component {
   renderRoutingHints = () => (
     <Flex alignItems="center" justifyContent="space-between" mb={2}>
       <Flex>
-        <Span color="gray" fontSize="s" mr={2}>
-          <Padlock />
-        </Span>
         <Flex>
           <Label htmlFor="isPrivate">
             <FormattedMessage {...messages.routing_hints_label} />
@@ -192,9 +188,6 @@ class Request extends React.Component {
       <Box>
         <Flex alignItems="center" justifyContent="space-between">
           <Flex>
-            <Span color="gray" fontSize="s" mr={2}>
-              <Padlock />
-            </Span>
             <Flex>
               <Label htmlFor="isHoldInvoice">
                 <FormattedMessage {...messages.hold_invoice_label} />
