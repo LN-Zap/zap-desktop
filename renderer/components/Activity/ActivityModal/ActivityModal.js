@@ -9,6 +9,7 @@ export default class ActivityModal extends React.PureComponent {
   static propTypes = {
     cancelInvoice: PropTypes.func.isRequired,
     clearSettleInvoiceError: PropTypes.func.isRequired,
+    isHoldInvoiceEnabled: PropTypes.bool,
     isInvoiceCancelling: PropTypes.bool,
     isInvoiceSettling: PropTypes.bool,
     item: PropTypes.object,
@@ -26,6 +27,7 @@ export default class ActivityModal extends React.PureComponent {
     const {
       cancelInvoice,
       clearSettleInvoiceError,
+      isHoldInvoiceEnabled,
       isInvoiceCancelling,
       isInvoiceSettling,
       item,
@@ -59,6 +61,7 @@ export default class ActivityModal extends React.PureComponent {
           clearSettleInvoiceError,
           settleInvoice,
           settleInvoiceError,
+          isHoldInvoiceEnabled,
           isInvoiceCancelling,
           isInvoiceSettling,
         },

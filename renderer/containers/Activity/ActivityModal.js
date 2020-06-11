@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { isHoldInvoiceEnabled } from '@zap/utils/featureFlag'
 import { hideActivityModal, activitySelectors, saveInvoice } from 'reducers/activity'
 import {
   cancelInvoice,
@@ -11,6 +12,7 @@ import { showNotification } from 'reducers/notification'
 import { ActivityModal } from 'components/Activity/ActivityModal'
 
 const mapStateToProps = state => ({
+  isHoldInvoiceEnabled: isHoldInvoiceEnabled() && infoSelectors.hasInvoicesSupport(state),
   isInvoiceCancelling: invoiceSelectors.isInvoiceCancelling(state),
   isInvoiceSettling: invoiceSelectors.isInvoiceSettling(state),
   item: activitySelectors.activityModalItem(state),

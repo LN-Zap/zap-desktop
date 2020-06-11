@@ -28,6 +28,7 @@ const RequestSummary = ({
   settleInvoiceError,
   invoice = {},
   showNotification,
+  isHoldInvoiceEnabled,
   isInvoiceCancelling,
   isInvoiceSettling,
   ...rest
@@ -176,7 +177,7 @@ const RequestSummary = ({
             {hasButtons ? (
               <Flex alignItems="center">
                 <Button
-                  isDisabled={Boolean(isInvoiceCancelling || isInvoiceSettling)}
+                  isDisabled={isInvoiceCancelling || isInvoiceSettling}
                   mr={2}
                   onClick={() => cancelInvoice(invoice.rHash)}
                   size="small"
@@ -185,7 +186,7 @@ const RequestSummary = ({
                 </Button>
                 {isHoldInvoice && (
                   <Button
-                    isDisabled={Boolean(isInvoiceCancelling || isInvoiceSettling)}
+                    isDisabled={isInvoiceCancelling || isInvoiceSettling}
                     onClick={() => setIsSettleDialogOpen(true)}
                     size="small"
                   >
@@ -245,6 +246,7 @@ RequestSummary.propTypes = {
   cancelInvoice: PropTypes.func.isRequired,
   clearSettleInvoiceError: PropTypes.func.isRequired,
   invoice: PropTypes.object.isRequired,
+  isHoldInvoiceEnabled: PropTypes.bool,
   isInvoiceCancelling: PropTypes.bool,
   isInvoiceSettling: PropTypes.bool,
   settleInvoice: PropTypes.func.isRequired,
