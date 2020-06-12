@@ -111,7 +111,7 @@ Tests should try to be written for every feature/fix and pass `npm run test` bef
 [eslint]: https://eslint.org/
 [issues]: https://github.com/LN-Zap/zap-desktop/issues
 [prettier]: https://prettier.io/
-[slack]: https://join.slack.com/t/zaphq/shared_invite/enQtMzgyNDA2NDI2Nzg0LTQwZWQ2ZWEzOWFhMjRiNWZkZWMwYTA4MzA5NzhjMDNhNTM5YzliNDA4MmZkZWZkZTFmODM4ODJkYzU3YmI3ZmI
+[slack]: https://join.slack.com/t/zaphq/shared_invite/zt-4voawvc0-1Ywht6f6RKX4iPzbRTUUoQ
 
 ### Releases
 
