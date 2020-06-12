@@ -332,7 +332,7 @@
     "bignumber.js": "9.0.0",
     "bip21": "2.0.3",
     "bip39-en": "1.1.1",
-    "bitcoinjs-lib": "5.1.7",
+    "bitcoinjs-lib": "5.1.10",
     "bolt07": "1.5.0",
     "bolt11": "1.2.7",
     "coininfo": "https://github.com/LN-Zap/coininfo#d7ac7be9c9c4ee74dada187f7762a55887a9c6ca",
