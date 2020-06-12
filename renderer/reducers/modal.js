@@ -16,12 +16,16 @@ const initialState = {
 // ------------------------------------
 
 export const OPEN_MODAL = 'OPEN_MODAL'
+
 export const CLOSE_MODAL = 'CLOSE_MODAL'
 export const CLOSE_ALL_MODALS = 'CLOSE_ALL_MODALS'
+
 export const SET_MODALS = 'SET_MODALS'
+export const SET_TOP_MODAL = 'SET_TOP_MODAL'
 
 export const OPEN_DIALOG = 'SHOW_DIALOG'
 export const CLOSE_DIALOG = 'CLOSE_DIALOG'
+
 // ------------------------------------
 // Helpers
 // ------------------------------------
@@ -100,7 +104,7 @@ export function closeModal(id) {
 }
 
 /**
- * closeModal - Close a specific modal (or the top modal if id is ommitted).
+ * closeModal - Close all modals that match the supplied predicate.
  *
  * @param {object} predicate Set of attributes used to find modals to close
  * @returns {object} Action
@@ -135,7 +139,7 @@ export function closeAllModals(predicate) {
 }
 
 /**
- * setModals - The list of current open modals.
+ * setModals - Set the list of current open modals.
  *
  * @param {Array} modalList List of modals
  * @returns {object} Action
@@ -145,6 +149,20 @@ export function setModals(modalList = []) {
   return {
     type: SET_MODALS,
     modals,
+  }
+}
+
+/**
+ * setTopModal - Set the top modal.
+ *
+ * @param {string} type Name of modal to open
+ * @param {object} [options] Options to apply to the modal
+ * @returns {object} Action
+ */
+export function setTopModal(type, options) {
+  return {
+    type: SET_TOP_MODAL,
+    modal: createModalData(type, options),
   }
 }
 
@@ -169,11 +187,12 @@ const ACTION_HANDLERS = {
   [SET_MODALS]: (state, { modals }) => {
     state.modals = modals
   },
-
+  [SET_TOP_MODAL]: (state, { modal }) => {
+    state.modals[0] = modal
+  },
   [OPEN_DIALOG]: (state, { id }) => {
     state.dialogs[id] = true
   },
-
   [CLOSE_DIALOG]: (state, { id }) => {
     delete state.dialogs[id]
   },

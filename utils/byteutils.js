@@ -91,7 +91,7 @@ export function byteToHexString(uint8arr) {
 }
 
 /**
- * hexStringToByte - Convert from bytes to hex string.
+ * hexStringToByte - Convert from hex string to bytes.
  *
  * @param {string} str Hex string to convert
  * @returns {Uint8Array} Bytes

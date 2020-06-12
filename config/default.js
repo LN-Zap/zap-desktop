@@ -138,6 +138,7 @@ module.exports = {
     lnurlAuth: false,
     lnurlChannel: true,
     lnurlWithdraw: true,
+    holdInvoice: true,
   },
 
   // number of onchain confirmations for the specified periods

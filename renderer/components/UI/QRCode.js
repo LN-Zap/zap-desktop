@@ -116,7 +116,7 @@ const ZapQRCode = props => {
       border = 2
       break
     default:
-      size = 150
+      size = QRCODE_SIZE_MEDIUM
   }
 
   return (

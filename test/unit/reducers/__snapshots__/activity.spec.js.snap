@@ -186,7 +186,7 @@ Snapshot Diff:
   }
 `;
 
-exports[`reducers activityReducer should handle SHOW_ACTIVITY_MODAL 1`] = `
+exports[`reducers activityReducer should handle SET_ACTIVITY_MODAL 1`] = `
 Snapshot Diff:
 - First value
 + Second value

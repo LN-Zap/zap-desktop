@@ -3,6 +3,8 @@ import createReducer from '@zap/utils/createReducer'
 import { showSystemNotification } from '@zap/utils/notifications'
 import { convert } from '@zap/utils/btc'
 import { getIntl } from '@zap/i18n'
+import { generatePreimage } from '@zap/utils/crypto'
+import { sha256digest } from '@zap/utils/sha256'
 import { grpc } from 'workers'
 import { fetchBalance } from 'reducers/balance'
 import { fetchChannels } from 'reducers/channels'
@@ -11,16 +13,25 @@ import { walletSelectors } from 'reducers/wallet'
 import { settingsSelectors } from 'reducers/settings'
 import { decorateInvoice } from './utils'
 import messages from './messages'
+import selectors from './selectors'
 import * as constants from './constants'
 
 const {
-  SET_INVOICE,
-  GET_INVOICES,
   RECEIVE_INVOICES,
-  SEND_INVOICE,
-  INVOICE_SUCCESSFUL,
-  INVOICE_FAILED,
   UPDATE_INVOICE,
+
+  ADD_INVOICE,
+  ADD_INVOICE_SUCCESS,
+  ADD_INVOICE_FAILURE,
+
+  CANCEL_INVOICE,
+  CANCEL_INVOICE_SUCCESS,
+  CANCEL_INVOICE_FAILURE,
+
+  SETTLE_INVOICE,
+  SETTLE_INVOICE_SUCCESS,
+  SETTLE_INVOICE_FAILURE,
+  CLEAR_SETTLE_INVOICE_ERROR,
 } = constants
 
 /**
@@ -53,10 +64,13 @@ const {
 
 /**
  * @typedef State
- * @property {boolean} isInvoicesLoading Boolean indicating if invoices are loading.
- * @property {Error|null} createInvoiceError Error from loading activity.
+ * @property {boolean} isInvoiceCreating Boolean indicating if invoices are loading.
+ * @property {boolean} isInvoiceCancelling Boolean indicating if invoice is being cancelled.
+ * @property {boolean} isInvoiceSettling Boolean indicating if invoice is being settled.
+ * @property {string|null} addInvoiceError Error from loading activity.
+ * @property {string|null} cancelInvoiceError Error from cancelling invoice.
+ * @property {string|null} settleInvoiceError Error from settling invoice.
  * @property {Invoice[]} invoices List of invoices.
- * @property {string|null} invoice Currently selected invoice (payment request)
  */
 
 // ------------------------------------
@@ -65,10 +79,13 @@ const {
 
 /** @type {State} */
 const initialState = {
-  isInvoicesLoading: false,
-  createInvoiceError: null,
+  isInvoiceCreating: false,
+  isInvoiceCancelling: false,
+  isInvoiceSettling: false,
+  addInvoiceError: null,
+  cancelInvoiceError: null,
+  settleInvoiceError: null,
   invoices: [],
-  invoice: null,
 }
 
 // ------------------------------------
@@ -76,118 +93,13 @@ const initialState = {
 // ------------------------------------
 
 /**
- * setInvoice - Set the active invoice.
- *
- * @param {string} paymentRequest Payment request
- * @returns {object} Action
- */
-export function setInvoice(paymentRequest) {
-  return {
-    type: SET_INVOICE,
-    invoice: paymentRequest,
-  }
-}
-
-/**
- * getInvoices - Fetch details of all invoices.
- *
- * @returns {object} Action
- */
-export function getInvoices() {
-  return {
-    type: GET_INVOICES,
-  }
-}
-
-/**
- * sendInvoice - Send an inveoice.
- *
- * @returns {object} Action
- */
-export function sendInvoice() {
-  return {
-    type: SEND_INVOICE,
-  }
-}
-
-/**
- * receiveInvoices - Receive details of all invoice.
+ * receiveInvoices - Receive details of invoices.
  *
  * @param {Invoice[]} invoices List of invoices
  * @returns {(dispatch:Function) => void} Thunk
  */
 export const receiveInvoices = invoices => dispatch => {
   dispatch({ type: RECEIVE_INVOICES, invoices })
-}
-
-/**
- * createInvoiceSuccess - Create invoice success handler.
- *
- * @param {Invoice} invoice Invoice
- * @returns {(dispatch:Function) => void} Thunk
- */
-export const createInvoiceSuccess = invoice => dispatch => {
-  // Add new invoice to invoices list
-  dispatch({ type: INVOICE_SUCCESSFUL, invoice })
-
-  // Set current invoice to newly created invoice.
-  dispatch(setInvoice(invoice.paymentRequest))
-}
-
-/**
- * createInvoiceFailure - Create invoice error handler.
- *
- * @param {Error} error Error
- * @returns {(dispatch:Function) => void} Thunk
- */
-export const createInvoiceFailure = error => dispatch => {
-  dispatch({ type: INVOICE_FAILED, error: error.message })
-  dispatch(showError(error.message))
-}
-
-/**
- * createInvoice - Create an invoice.
- *
- * @param {object} options request options
- * @param {number} options.amount Amount
- * @param {string} options.cryptoUnit Crypto unit (sats, bits, btc)
- * @param {string} options.memo Memo
- * @param {boolean} options.isPrivate Set to true to include routing hints
- * @param {string} options.fallbackAddr on-chain address fallback
- * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
- */
-export const createInvoice = ({ amount, cryptoUnit, memo, isPrivate, fallbackAddr }) => async (
-  dispatch,
-  getState
-) => {
-  const state = getState()
-
-  // backend needs value in satoshis no matter what currency we are using
-  const value = convert(cryptoUnit, 'sats', amount)
-
-  dispatch(sendInvoice())
-
-  // Grab the activeWallet type from our local store. If the active connection type is local (light clients using
-  // neutrino) we will have to flag private as true when creating this invoice. All light cliets open private channels
-  // (both manual and autopilot ones). In order for these clients to receive money through these channels the invoices
-  // need to come with routing hints for private channels.
-  const activeWalletSettings = walletSelectors.activeWalletSettings(state)
-  const currentConfig = settingsSelectors.currentConfig(state)
-
-  try {
-    const invoice = await grpc.services.Lightning.createInvoice({
-      value,
-      memo,
-      private: isPrivate || activeWalletSettings.type === 'local',
-      expiry: currentConfig.invoices.expire,
-      fallbackAddr,
-    })
-    dispatch(createInvoiceSuccess(invoice))
-    return invoice
-  } catch (error) {
-    dispatch(createInvoiceFailure(error))
-    return null
-  }
 }
 
 /**
@@ -220,32 +132,134 @@ export const receiveInvoiceData = invoice => dispatch => {
     showSystemNotification(notifTitle, { body: notifBody })
   }
 }
+
+/**
+ * addInvoice - Create an invoice.
+ *
+ * @param {object} options request options
+ * @param {number} options.amount Amount
+ * @param {string} options.cryptoUnit Crypto unit (sats, bits, btc)
+ * @param {string} [options.memo] Memo
+ * @param {boolean} [options.isPrivate] Set to true to include routing hints
+ * @param {boolean} [options.isHoldInvoice=false] Set to true to make this a hold invoice
+ * @param {string} [options.fallbackAddr] on-chain address fallback
+ * @param {string} [options.preimage] on-chain address fallback
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
+ */
+export const addInvoice = ({
+  amount,
+  cryptoUnit,
+  memo,
+  isPrivate,
+  isHoldInvoice,
+  fallbackAddr,
+  preimage,
+}) => async (dispatch, getState) => {
+  dispatch({ type: ADD_INVOICE })
+  try {
+    // backend needs value in satoshis no matter what currency we are using
+    const value = convert(cryptoUnit, 'sats', amount)
+
+    // Grab the activeWallet type from our local store. If the active connection type is local (light clients using
+    // neutrino) we will have to flag private as true when creating this invoice. All light cliets open private channels
+    // (both manual and autopilot ones). In order for these clients to receive money through these channels the invoices
+    // need to come with routing hints for private channels.
+    const state = getState()
+    const activeWalletSettings = walletSelectors.activeWalletSettings(state)
+    const currentConfig = settingsSelectors.currentConfig(state)
+
+    const payload = {
+      value,
+      memo,
+      private: isPrivate || activeWalletSettings.type === 'local',
+      expiry: currentConfig.invoices.expire,
+      fallbackAddr,
+    }
+    let paymentRequest
+
+    if (isHoldInvoice) {
+      const preimageBytes = preimage ? new TextEncoder().encode(preimage) : generatePreimage()
+      const preimageHash = sha256digest(preimageBytes)
+      const preimageHashHash = sha256digest(preimageHash)
+      payload.hash = preimageHashHash
+      ;({ paymentRequest } = await grpc.services.Invoices.addHoldInvoice(payload))
+    } else {
+      ;({ paymentRequest } = await grpc.services.Lightning.addInvoice(payload))
+    }
+    dispatch({ type: ADD_INVOICE_SUCCESS })
+    return paymentRequest
+  } catch (error) {
+    dispatch({ type: ADD_INVOICE_FAILURE, error: error.message })
+    dispatch(showError(error.message))
+    return null
+  }
+}
+
+/**
+ * cancelInvoice - Cancels a currently open invoice.
+ *
+ * @param  {string} paymentHash Hash corresponding to the (hold) invoice to cancel
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
+ */
+export const cancelInvoice = paymentHash => async (dispatch, getState) => {
+  dispatch({ type: CANCEL_INVOICE })
+  try {
+    await grpc.services.Invoices.cancelInvoice({ paymentHash })
+    const invoices = selectors.invoices(getState())
+    const invoice = invoices.find(i => i.rHash === paymentHash)
+    if (invoice) {
+      invoice.state = 'CANCELED'
+      dispatch(receiveInvoiceData(invoice))
+    }
+    dispatch({ type: CANCEL_INVOICE_SUCCESS })
+  } catch (error) {
+    dispatch({ type: CANCEL_INVOICE_FAILURE, error: error.message })
+    dispatch(showError(error.message))
+  }
+}
+
+/**
+ * settleInvoice - Settles a currently open invoice.
+ *
+ * @param  {string} preimage Externally discovered pre-image that should be used to settle the hold / invoice.
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
+ */
+export const settleInvoice = preimage => async (dispatch, getState) => {
+  dispatch({ type: SETTLE_INVOICE })
+  const preimageBytes = new TextEncoder().encode(preimage)
+  const preimageHash = sha256digest(preimageBytes)
+  try {
+    await grpc.services.Invoices.settleInvoice({ preimage: preimageHash })
+    const invoices = selectors.invoices(getState())
+    const invoice = invoices.find(i => i.rPreimage === preimage)
+    if (invoice) {
+      invoice.state = 'SETTLED'
+      dispatch(receiveInvoiceData(invoice))
+    }
+    dispatch({ type: SETTLE_INVOICE_SUCCESS })
+  } catch (error) {
+    dispatch({ type: SETTLE_INVOICE_FAILURE, error: error.message })
+  }
+}
+
+/**
+ * clearSettleInvoiceError - Clear settle invoice error.
+ *
+ * @returns {(dispatch:Function, getState:Function) => void} Thunk
+ */
+export const clearSettleInvoiceError = () => (dispatch, getState) => {
+  if (selectors.settleInvoiceError(getState())) {
+    dispatch({ type: CLEAR_SETTLE_INVOICE_ERROR })
+  }
+}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [SET_INVOICE]: (state, { invoice }) => {
-    state.invoice = invoice
-  },
-  [GET_INVOICES]: state => {
-    state.isInvoicesLoading = true
-  },
   [RECEIVE_INVOICES]: (state, { invoices }) => {
-    state.isInvoicesLoading = false
     state.invoices = uniqBy(invoices.concat(state.invoices), 'addIndex')
-  },
-  [SEND_INVOICE]: state => {
-    state.isInvoicesLoading = true
-  },
-  [INVOICE_SUCCESSFUL]: state => {
-    state.isInvoicesLoading = false
-    state.createInvoiceError = null
-  },
-
-  [INVOICE_FAILED]: (state, { error }) => {
-    state.isInvoicesLoading = false
-    state.createInvoiceError = error
   },
   [UPDATE_INVOICE]: (state, { invoice }) => {
     const invoiceIndex = state.invoices.findIndex(
@@ -258,6 +272,45 @@ const ACTION_HANDLERS = {
     } else {
       state.invoices.push(invoice)
     }
+  },
+
+  [ADD_INVOICE]: state => {
+    state.isInvoiceCreating = true
+  },
+  [ADD_INVOICE_SUCCESS]: state => {
+    state.isInvoiceCreating = false
+    state.addInvoiceError = null
+  },
+  [ADD_INVOICE_FAILURE]: (state, { error }) => {
+    state.isInvoiceCreating = false
+    state.addInvoiceError = error
+  },
+
+  [CANCEL_INVOICE]: state => {
+    state.isInvoiceCancelling = true
+  },
+  [CANCEL_INVOICE_SUCCESS]: state => {
+    state.isInvoiceCancelling = false
+    state.cancelInvoiceError = null
+  },
+  [CANCEL_INVOICE_FAILURE]: (state, { error }) => {
+    state.isInvoiceCancelling = false
+    state.cancelInvoiceError = error
+  },
+
+  [SETTLE_INVOICE]: state => {
+    state.isInvoiceSettling = true
+  },
+  [SETTLE_INVOICE_SUCCESS]: state => {
+    state.isInvoiceSettling = false
+    state.settleInvoiceError = null
+  },
+  [SETTLE_INVOICE_FAILURE]: (state, { error }) => {
+    state.isInvoiceSettling = false
+    state.settleInvoiceError = error
+  },
+  [CLEAR_SETTLE_INVOICE_ERROR]: state => {
+    state.settleInvoiceError = null
   },
 }
 

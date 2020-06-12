@@ -15,12 +15,36 @@ import { decorateInvoice } from './utils'
 const invoicesSelector = state => state.invoice.invoices
 
 /**
- * invoiceSelector - Currently selected invoice.
+ * isInvoiceCancelling - Invoice cancellation status.
  *
  * @param {State} state Redux state
- * @returns {string|null} Currently selected invoice
+ * @returns {boolean} Boolean indicating if invoice is being cancelled.
  */
-const invoiceSelector = state => state.invoice.invoice
+const isInvoiceCancelling = state => state.invoice.isInvoiceCancelling
+
+/**
+ * isInvoiceCreating - Invoices loading status.
+ *
+ * @param {State} state Redux state
+ * @returns {boolean} Boolean indicating if invoices are loading.
+ */
+const isInvoiceCreating = state => state.invoice.isInvoiceCreating
+
+/**
+ * isInvoiceSettling - Invoice cancellation status.
+ *
+ * @param {State} state Redux state
+ * @returns {boolean} Boolean indicating if invoice is being settled.
+ */
+const isInvoiceSettling = state => state.invoice.isInvoiceSettling
+
+/**
+ * settleInvoiceError - Settle invoice error.
+ *
+ * @param {State} state Redux state
+ * @returns {string|null} Error from settling invoice.
+ */
+const settleInvoiceError = state => state.invoice.settleInvoiceError
 
 /**
  * invoices - List of decorated invoices.
@@ -30,17 +54,10 @@ const invoiceSelector = state => state.invoice.invoice
  */
 export const invoices = createSelector(invoicesSelector, item => item.map(decorateInvoice))
 
-/**
- * invoice - Currently selected invoice.
- *
- * @param {State} state Redux state
- * @returns {Invoice|null} Currently selected decorated invoice
- */
-export const invoice = createSelector(invoices, invoiceSelector, (allInvoices, paymentRequest) =>
-  allInvoices.find(item => item.paymentRequest === paymentRequest)
-)
-
 export default {
-  invoice,
   invoices,
+  isInvoiceCancelling,
+  isInvoiceSettling,
+  isInvoiceCreating,
+  settleInvoiceError,
 }

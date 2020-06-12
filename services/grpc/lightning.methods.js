@@ -98,26 +98,6 @@ async function getChannels() {
 }
 
 /**
- * createInvoice - Call lnd grpc createInvoice method.
- *
- * @param {object} payload Payload
- * @returns {Promise} Invoice decorated with additional info
- */
-async function createInvoice(payload = {}) {
-  const invoice = await this.addInvoice(payload)
-  const decodedInvoice = await this.decodePayReq({ payReq: invoice.paymentRequest })
-  return {
-    ...decodedInvoice,
-    memo: payload.memo,
-    value: payload.value,
-    private: payload.private,
-    rHash: Buffer.from(invoice.rHash, 'hex').toString('hex'),
-    paymentRequest: invoice.paymentRequest,
-    creationDate: Date.now() / 1000,
-  }
-}
-
-/**
  * ensurePeerConnected - Call lnd grpc connectPeer method if not already connected to the peer.
  *
  * @param {object} payload Payload
@@ -326,7 +306,6 @@ export default {
   getInfo,
   getBalance,
   getChannels,
-  createInvoice,
   ensurePeerConnected,
   connectAndOpen,
   openChannel,
