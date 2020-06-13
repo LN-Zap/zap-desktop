@@ -48,10 +48,12 @@ class Tooltip extends React.Component {
   }
 
   tooltipIcon = () => {
+    const { hover } = this.state
+
     /* eslint-disable shopify/jsx-no-hardcoded-content */
     return (
       <StyledTooltipIconBox
-        bg="primaryText"
+        bg={hover ? 'primaryText' : 'grey'}
         ml={1}
         onMouseEnter={this.hoverOn}
         onMouseLeave={this.hoverOff}
