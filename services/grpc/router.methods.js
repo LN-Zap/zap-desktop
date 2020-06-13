@@ -1,27 +1,8 @@
-import config from 'config'
-import defaults from 'lodash/defaults'
-import omitBy from 'lodash/omitBy'
-import isNil from 'lodash/isNil'
 import { grpcLog } from '@zap/utils/log'
 import { generatePreimage } from '@zap/utils/crypto'
 import { logGrpcCmd } from './helpers'
 
-const PAYMENT_TIMEOUT = config.payments.timeout
-const PAYMENT_FEE_LIMIT = config.payments.feeLimit
-const PAYMENT_MAX_PARTS = config.payments.maxParts
-
 export const KEYSEND_PREIMAGE_TYPE = '5482373484'
-
-const defaultPaymentOptions = {
-  timeoutSeconds: PAYMENT_TIMEOUT,
-  feeLimitSat: PAYMENT_FEE_LIMIT,
-  allowSelfPayment: true,
-}
-
-const defaultPaymentOptionsV2 = {
-  ...defaultPaymentOptions,
-  maxParts: PAYMENT_MAX_PARTS,
-}
 
 // ------------------------------------
 // Overrides
@@ -30,14 +11,10 @@ const defaultPaymentOptionsV2 = {
 /**
  * probePayment - Call lnd grpc sendPayment method with a fake payment hash in order to probe for a route.
  *
- * @param {object} options Options
+ * @param {object} payload Payload
  * @returns {Promise} The route route when state is SUCCEEDED
  */
-async function probePayment(options) {
-  // Use a payload that has the payment hash set to some random bytes.
-  // This will cause the payment to fail at the final destination.
-  const payload = defaults(omitBy(options, isNil), defaultPaymentOptions)
-
+async function probePayment(payload) {
   // Use a payload that has the payment hash set to some random bytes.
   // This will cause the payment to fail at the final destination.
   payload.paymentHash = new Uint8Array(generatePreimage())
@@ -113,11 +90,10 @@ async function probePayment(options) {
 /**
  * sendPayment - Call lnd grpc sendPayment method.
  *
- * @param {object} options Options
+ * @param {object} payload Payload
  * @returns {Promise} Original payload augmented with lnd sendPayment response data
  */
-async function sendPayment(options = {}) {
-  const payload = defaults(omitBy(options, isNil), defaultPaymentOptions)
+async function sendPayment(payload = {}) {
   logGrpcCmd('Router.sendPayment', payload)
 
   // Our response will always include the original payload.
@@ -183,11 +159,10 @@ async function sendPayment(options = {}) {
 /**
  * sendPaymentV2 - Call lnd grpc sendPaymentV2 method.
  *
- * @param {object} options Options
+ * @param {object} payload Payload
  * @returns {Promise} Original payload augmented with lnd sendPaymentV2 response data
  */
-async function sendPaymentV2(options = {}) {
-  const payload = defaults(omitBy(options, isNil), defaultPaymentOptionsV2)
+async function sendPaymentV2(payload = {}) {
   logGrpcCmd('Router.sendPaymentV2', payload)
 
   // Our response will always include the original payload.

@@ -1,4 +1,8 @@
 import get from 'lodash/get'
+import defaults from 'lodash/defaults'
+import omitBy from 'lodash/omitBy'
+import isNil from 'lodash/isNil'
+import pick from 'lodash/pick'
 import { grpc } from 'workers'
 import createReducer from '@zap/utils/createReducer'
 import { estimateFeeRange } from '@zap/utils/fee'
@@ -85,16 +89,25 @@ export const queryFees = (address, amountInSats) => async (dispatch, getState) =
  * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const queryRoutes = (payReqOrPubkey, amt, feeLimit) => async (dispatch, getState) => {
+  const currentConfig = settingsSelectors.currentConfig(getState())
   const isKeysend = isPubkey(payReqOrPubkey)
   let paymentHash
   let payload
 
+  const defaultPaymentOptions = pick(currentConfig.payments, [
+    'allowSelfPayment',
+    'timeoutSeconds',
+    'feeLimit',
+  ])
+
   // Prepare payload for lnd.
   if (isKeysend) {
-    payload = prepareKeysendProbe(payReqOrPubkey, amt, feeLimit)
+    const options = prepareKeysendProbe(payReqOrPubkey, amt, feeLimit)
+    payload = defaults(omitBy(options, isNil), defaultPaymentOptions)
     paymentHash = payload.paymentHash // eslint-disable-line prefer-destructuring
   } else {
-    payload = prepareBolt11Probe(payReqOrPubkey, feeLimit)
+    const options = prepareBolt11Probe(payReqOrPubkey, feeLimit)
+    payload = defaults(omitBy(options, isNil), defaultPaymentOptions)
     paymentHash = getTag(payReqOrPubkey, 'payment_hash')
   }
 

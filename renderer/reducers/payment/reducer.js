@@ -1,6 +1,10 @@
 import config from 'config'
 import uniqBy from 'lodash/uniqBy'
 import find from 'lodash/find'
+import pick from 'lodash/pick'
+import defaults from 'lodash/defaults'
+import omitBy from 'lodash/omitBy'
+import isNil from 'lodash/isNil'
 import createReducer from '@zap/utils/createReducer'
 import { isPubkey } from '@zap/utils/crypto'
 import delay from '@zap/utils/delay'
@@ -11,6 +15,7 @@ import { grpc } from 'workers'
 import { fetchBalance } from 'reducers/balance'
 import { fetchChannels } from 'reducers/channels'
 import { infoSelectors } from 'reducers/info'
+import { settingsSelectors } from 'reducers/settings'
 import { paymentsSending } from './selectors'
 import { prepareKeysendPayload, prepareBolt11Payload, errorCodeToMessage } from './utils'
 import * as constants from './constants'
@@ -210,22 +215,31 @@ export const payInvoice = ({
   retries = 0,
   originalPaymentId,
 }) => async (dispatch, getState) => {
-  const routerSendPayment = infoSelectors.hasSendPaymentV2Support(getState())
+  const state = getState()
+  const currentConfig = settingsSelectors.currentConfig(state)
+  const routerSendPayment = infoSelectors.hasSendPaymentV2Support(state)
     ? grpc.services.Router.sendPaymentV2
     : grpc.services.Router.sendPayment
   const paymentId = originalPaymentId || genId()
   const isKeysend = isPubkey(payReq)
   let payload
 
+  const defaultPaymentOptions = pick(currentConfig.payments, [
+    'allowSelfPayment',
+    'timeoutSeconds',
+    'feeLimit',
+    'maxParts',
+  ])
+  defaultPaymentOptions.paymentId = paymentId
+
   // Prepare payload for lnd.
   if (isKeysend) {
-    payload = prepareKeysendPayload(payReq, amt, feeLimit)
+    const options = prepareKeysendPayload(payReq, amt, feeLimit)
+    payload = defaults(omitBy(options, isNil), defaultPaymentOptions)
   } else {
-    payload = prepareBolt11Payload(payReq, amt, feeLimit)
+    const options = prepareBolt11Payload(payReq, amt, feeLimit)
+    payload = defaults(omitBy(options, isNil), defaultPaymentOptions)
   }
-
-  // Add id into the payload as a way to allow identification later.
-  payload.paymentId = paymentId
 
   // If we already have an id then this is a retry. Decrease the retry count.
   // Otherwise, add to paymentsSending in the state.

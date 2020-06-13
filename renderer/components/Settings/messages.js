@@ -55,8 +55,8 @@ export default defineMessages({
   rateProvider_description: 'Your preferred rate provider.',
   lnurl_withdraw_label: 'Require confirmation to process lnurl withdrawal links',
   lnurl_withdraw_description: 'Show prompt that allows you confirm or decline lnurl withdrawal.',
-  payments_timeout_label: 'Payment timeout',
-  payments_timeout_description:
+  payments_timeoutSeconds_label: 'Payment timeout',
+  payments_timeoutSeconds_description:
     'Maximum amount of time to spend attempting to send a payment (seconds).',
   payments_feeLimit_label: 'Payment fee limit',
   payments_feeLimit_description: 'Upper limit on routing fees when sending payment (satoshis).',

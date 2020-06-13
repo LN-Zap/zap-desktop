@@ -140,7 +140,7 @@ const SettingsFieldsWallet = ({ currentConfig, intl }) => {
 
       <Bar variant="light" />
 
-      {renderNumberDataRow('payments.timeout')}
+      {renderNumberDataRow('payments.timeoutSeconds')}
 
       <Bar variant="light" />
 
