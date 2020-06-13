@@ -1291,12 +1291,11 @@
   resolved "https://registry.yarnpkg.com/@formatjs/intl-utils/-/intl-utils-2.2.4.tgz#fe62a96799d1f7dbe621fd38a4bd2e5a6a16cb0e"
   integrity sha512-83fsJywew0o9wQsW3VuEp33HRiFd0qbQDyFFnwZCwk59eLZ33CtKyJ5ofKMrU2KK6hk1zaIdzisrZeoNfmI3Tw==
 
-"@grpc/grpc-js@1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.0.4.tgz#a858bca10ee1da24291f54931656bd5877686a55"
-  integrity sha512-Qawt6HUrEmljQMPWnLnIXpcjelmtIAydi3M9awiG02WWJ1CmIvFEx4IOC1EsWUWUlabOGksRbpfvoIeZKFTNXw==
+"@grpc/grpc-js@1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.0.5.tgz#09948c0810e62828fdd61455b2eb13d7879888b0"
+  integrity sha512-Hm+xOiqAhcpT9RYM8lc15dbQD7aQurM7ZU8ulmulepiPlN7iwBXXwP3vSBUimoFoApRqz7pSIisXU8pZaCB4og==
   dependencies:
-    google-auth-library "^6.0.0"
     semver "^6.2.0"
 
 "@hot-loader/react-dom@16.13.0":
@@ -11963,12 +11962,12 @@ lnd-binary@0.3.17:
     "true-case-path" "^2.2.1"
     unzip-stream "^0.3.0"
 
-lnd-grpc@0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.4.3.tgz#9b20fb158dc3e28548c9a4e1984febee719042b9"
-  integrity sha512-cByIjaCV0OiJU1jIh/iOOOUTACcSIMDHzoXK6rmmhSBKeY9vjRw6W4oL639THEiBkbqFGjT9GYyHZLPe75Q/kw==
+lnd-grpc@0.4.4:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.4.4.tgz#1111ebb0ec45967fefe9b021805d44364944d653"
+  integrity sha512-wTBO/jvR7TaeIM3T+bZeiBW5rQ6I8+Uy22qUL69Wcy9qxpxvimeOZSTCcYwtldVKm0ic0xKuhibns1hUtaqbzQ==
   dependencies:
-    "@grpc/grpc-js" "1.0.4"
+    "@grpc/grpc-js" "1.0.5"
     "@ln-zap/proto-loader" "0.5.4"
     debug "4.1.1"
     get-port "5.1.1"
