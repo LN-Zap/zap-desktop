@@ -361,7 +361,7 @@
     "new-github-issue-url": "0.2.1",
     "node-fetch": "2.6.0",
     "pdfmake": "0.1.65",
-    "polished": "3.6.3",
+    "polished": "3.6.5",
     "prop-types": "15.7.2",
     "qrcode.react": "1.0.0",
     "react": "16.13.1",
