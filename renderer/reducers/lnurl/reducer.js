@@ -6,7 +6,7 @@ import { getIntl } from '@zap/i18n'
 import { grpc } from 'workers'
 import { infoSelectors } from 'reducers/info'
 import { showWarning } from 'reducers/notification'
-import { createInvoice } from 'reducers/invoice'
+import { addInvoice } from 'reducers/invoice'
 import * as constants from './constants'
 import lnurlSelectors from './selectors'
 import messages from './messages'
@@ -246,7 +246,7 @@ export const finishLnurlWithdraw = () => async (dispatch, getState) => {
 
     // Create invoice.
     const { paymentRequest } = await dispatch(
-      createInvoice({
+      addInvoice({
         amount,
         memo,
         cryptoUnit: 'msats',

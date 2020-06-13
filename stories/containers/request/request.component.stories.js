@@ -3,7 +3,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import { text } from '@storybook/addon-knobs'
 import lightningPayReq from 'bolt11'
 import { convert } from '@zap/utils/btc'
 import { RequestSummary } from 'components/Request'
@@ -38,19 +37,10 @@ const mockCreateInvoice = async (amount, currency, memo = '') => {
   return signed.paymentRequest
 }
 
-const payReq = text(
-  'Payment Request',
-  'lntb10170n1pda7tarpp59kjlzct447ttxper43kek78lhwgxk4gy8nfvpjdr7yzkscu2ds5qdzy2pshjmt9de6zqen0wgsrzvp3xus8q6tcv4k8xgrpwss8xct5daeks6tn9ecxcctrv5hqxqzjccqp2yvpzcn2xazu9rt8nrhn2xf6nyrj8fsfw9hafsf0p80trypu4tp58km5mn7wz50uh06kxf4t8kdj64f86u6l5ksl75r500zl7urhacxspcm4ye9'
-)
-
 storiesOf('Containers.Request', module)
   .addDecorator(story => <Provider story={story()} />)
   .add('RequestSummary', () => {
     return (
-      <RequestSummary
-        invoice={mockCreateInvoice()}
-        payReq={payReq}
-        showNotification={action('showNotification')}
-      />
+      <RequestSummary invoice={mockCreateInvoice()} showNotification={action('showNotification')} />
     )
   })

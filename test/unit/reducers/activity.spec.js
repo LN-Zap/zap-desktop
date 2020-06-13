@@ -1,6 +1,6 @@
 import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, {
-  SHOW_ACTIVITY_MODAL,
+  SET_ACTIVITY_MODAL,
   HIDE_ACTIVITY_MODAL,
   CHANGE_FILTER,
   UPDATE_SEARCH_TEXT,
@@ -13,9 +13,9 @@ import reducer, {
 
 describe('reducers', () => {
   describe('activityReducer', () => {
-    it('should handle SHOW_ACTIVITY_MODAL', () => {
+    it('should handle SET_ACTIVITY_MODAL', () => {
       const action = {
-        type: SHOW_ACTIVITY_MODAL,
+        type: SET_ACTIVITY_MODAL,
         itemType: 'transaction',
         itemId: '123',
       }

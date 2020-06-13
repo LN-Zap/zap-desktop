@@ -2,23 +2,23 @@ import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass/styled-components'
 import { FormattedMessage, useIntl } from 'react-intl'
-import { Dialog, Heading, Message, Button, DialogOverlay } from 'components/UI'
-import { PasswordInput, Form } from 'components/Form'
+import { Button, Dialog, DialogOverlay, Heading, Message, Text } from 'components/UI'
+import { Input, Form } from 'components/Form'
 import messages from './messages'
 import { useFormError } from 'hooks'
 
-const ChangePasswordDialog = ({ loginError, clearLoginError, onChange, onCancel }) => {
+const RequestSettlePrompt = ({ submitError, clearError, onOk, onCancel }) => {
   const intl = useIntl()
   const formApiRef = useRef(null)
-  useFormError(loginError, clearLoginError, formApiRef)
+  useFormError(submitError, clearError, formApiRef)
 
   const buttons = (
     <>
       <Button type="submit" variant="primary">
-        <FormattedMessage {...messages.password_change_button_text} />
+        <FormattedMessage {...messages.request_settle_dialog_confirm_button_text} />
       </Button>
       <Button onClick={onCancel} type="button" variant="secondary">
-        <FormattedMessage {...messages.password_dialog_cancel_button_text} />
+        <FormattedMessage {...messages.request_settle_dialog_cancel_button_text} />
       </Button>
     </>
   )
@@ -26,12 +26,12 @@ const ChangePasswordDialog = ({ loginError, clearLoginError, onChange, onCancel 
   const header = (
     <Flex alignItems="center" flexDirection="column" mb={4}>
       <Heading.h1>
-        <FormattedMessage {...messages.password_change_dialog_header} />
+        <FormattedMessage {...messages.request_settle_dialog_dialog_header} />
       </Heading.h1>
     </Flex>
   )
 
-  const handleSubmit = values => onChange(values)
+  const handleSubmit = ({ preimage }) => onOk(preimage)
 
   return (
     <DialogOverlay alignItems="center" justifyContent="center">
@@ -51,9 +51,14 @@ const ChangePasswordDialog = ({ loginError, clearLoginError, onChange, onCancel 
                     {error}
                   </Message>
                 )}
-                <PasswordInput
-                  description={intl.formatMessage(messages.password_old_password)}
-                  field="oldPassword"
+                <Text color="gray" mb={3}>
+                  <FormattedMessage {...messages.request_settle_dialog_body} />
+                </Text>
+                <Input
+                  description={intl.formatMessage(
+                    messages.request_settle_dialog_preimage_description
+                  )}
+                  field="preimage"
                   hasMessageSpacer
                   isRequired
                   mb={2}
@@ -61,14 +66,6 @@ const ChangePasswordDialog = ({ loginError, clearLoginError, onChange, onCancel 
                   validateOnChange={willValidateInline}
                   width={1}
                   willAutoFocus
-                />
-                <PasswordInput
-                  description={intl.formatMessage(messages.password_new_password)}
-                  field="newPassword"
-                  hasMessageSpacer
-                  isRequired
-                  minLength={6}
-                  width={1}
                 />
               </Flex>
             </Dialog>
@@ -79,11 +76,11 @@ const ChangePasswordDialog = ({ loginError, clearLoginError, onChange, onCancel 
   )
 }
 
-ChangePasswordDialog.propTypes = {
-  clearLoginError: PropTypes.func.isRequired,
-  loginError: PropTypes.string,
+RequestSettlePrompt.propTypes = {
+  clearError: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
+  onOk: PropTypes.func.isRequired,
+  submitError: PropTypes.string,
 }
 
-export default ChangePasswordDialog
+export default RequestSettlePrompt

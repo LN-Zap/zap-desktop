@@ -44,3 +44,12 @@ export function isNetworkSelectionEnabled() {
 export function isSCBRestoreEnabled() {
   return config.features.scbRestore
 }
+
+/**
+ * isHoldInvoiceEnabled - Check if Hold Invoice feature is enabled.
+ *
+ * @returns {boolean} Boolean indicating whether Hold Invoice is enabled
+ */
+export function isHoldInvoiceEnabled() {
+  return config.features.holdInvoice
+}

@@ -2,10 +2,10 @@ import { useMemo } from 'react'
 /**
  * useIntlMap - Internationalizes select items.
  *
- * @param {Array} items Items
+ * @param {{ key:string, value:string? }[]} items Items
  * @param {Function} messageMapper key=>intl message mapper
  * @param {object} intl Intl
- * @returns {Array} Mapped items
+ * @returns {{ key:string }[]} Mapped items
  */
 export default function useIntlMap(items, messageMapper, intl) {
   return useMemo(() => {
@@ -14,8 +14,14 @@ export default function useIntlMap(items, messageMapper, intl) {
     if (!messageMapper) {
       return items
     }
-    return items.map(({ key }) => {
-      return { key, value: intl.formatMessage({ ...messageMapper(key) }) }
+    return items.map(({ key, value }) => {
+      let msg = value || key
+      try {
+        msg = intl.formatMessage({ ...messageMapper(key) })
+        return { key, value: msg }
+      } catch (e) {
+        return { key, value: msg }
+      }
     })
   }, [items, messageMapper, intl])
 }

@@ -1,52 +1,41 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex } from 'rebass/styled-components'
+import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { intlShape } from '@zap/i18n'
 import { convert } from '@zap/utils/btc'
 import { CoinBig } from '@zap/utils/coin'
-import { Bar, Button, Header, Panel, Span, Text, Tooltip, Message } from 'components/UI'
-import { Form, Label, TextArea, Toggle } from 'components/Form'
+import { Bar, Button, Header, Panel, Text, Tooltip, Message } from 'components/UI'
+import { Form, Input, Label, TextArea, Toggle } from 'components/Form'
 import { CurrencyFieldGroup } from 'containers/Form'
 import Lightning from 'components/Icon/Lightning'
-import Padlock from 'components/Icon/Padlock'
-import RequestSummary from './RequestSummary'
 import messages from './messages'
 
 class Request extends React.Component {
-  state = {
-    currentStep: 'form',
-  }
-
   amountInput = React.createRef()
 
   static propTypes = {
     activeWalletSettings: PropTypes.shape({
       type: PropTypes.string.isRequired,
     }).isRequired,
+    addInvoice: PropTypes.func.isRequired,
+    cancelInvoice: PropTypes.func.isRequired,
     chainName: PropTypes.string.isRequired,
-    createInvoice: PropTypes.func.isRequired,
     createNewAddress: PropTypes.func.isRequired,
     cryptoUnit: PropTypes.string.isRequired,
     cryptoUnitName: PropTypes.string.isRequired,
     fetchTickers: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    invoice: PropTypes.object,
     isAnimating: PropTypes.bool,
+    isHoldInvoiceEnabled: PropTypes.bool,
     isProcessing: PropTypes.bool,
     maxOneTimeReceive: PropTypes.string.isRequired,
-    payReq: PropTypes.string,
+    setActivityModal: PropTypes.func.isRequired,
+    settleInvoice: PropTypes.func.isRequired,
+    setTopModal: PropTypes.func.isRequired,
     showError: PropTypes.func.isRequired,
     showNotification: PropTypes.func.isRequired,
     willUseFallback: PropTypes.bool,
-  }
-
-  componentDidUpdate(prevProps) {
-    const { payReq } = this.props
-    const { currentStep } = this.state
-    if (payReq !== prevProps.payReq && currentStep === 'form') {
-      this.nextStep()
-    }
   }
 
   /**
@@ -63,37 +52,6 @@ class Request extends React.Component {
   }
 
   /**
-   * steps - Get list of enabled form steps.
-   *
-   * @returns {Array} List of enabled form steps.
-   */
-  steps = () => {
-    return ['form', 'summary']
-  }
-
-  /**
-   * previousStep - Go back to previous form step.
-   */
-  previousStep = () => {
-    const { currentStep } = this.state
-    const nextStep = Math.max(this.steps().indexOf(currentStep) - 1, 0)
-    if (currentStep !== nextStep) {
-      this.setState({ currentStep: this.steps()[nextStep] })
-    }
-  }
-
-  /**
-   * nextStep - Progress to next form step.
-   */
-  nextStep = () => {
-    const { currentStep } = this.state
-    const nextStep = Math.min(this.steps().indexOf(currentStep) + 1, this.steps().length - 1)
-    if (currentStep !== nextStep) {
-      this.setState({ currentStep: this.steps()[nextStep] })
-    }
-  }
-
-  /**
    * onSubmit - Form submit handler.
    *
    * @param {object} values submitted form values.
@@ -101,25 +59,34 @@ class Request extends React.Component {
   onSubmit = async values => {
     const {
       cryptoUnit,
-      createInvoice,
+      addInvoice,
       willUseFallback,
       createNewAddress,
       intl,
+      setTopModal,
+      setActivityModal,
       showError,
     } = this.props
     try {
+      const { amountCrypto, memo, isPrivate, isHoldInvoice, preimage } = values
       const invoiceArgs = {
-        amount: values.amountCrypto,
+        amount: amountCrypto,
         cryptoUnit,
-        memo: values.memo,
-        isPrivate: values.routingHints,
+        memo,
+        isPrivate,
+        isHoldInvoice,
+        preimage,
       }
 
       if (willUseFallback) {
         invoiceArgs.fallbackAddr = await createNewAddress()
       }
 
-      createInvoice(invoiceArgs)
+      const paymentRequest = await addInvoice(invoiceArgs)
+      if (paymentRequest) {
+        setActivityModal('INVOICE', paymentRequest)
+        setTopModal('ACTIVITY_MODAL')
+      }
     } catch (e) {
       const message = intl.formatMessage({ ...messages.add_error })
       showError(message)
@@ -199,13 +166,10 @@ class Request extends React.Component {
   }
 
   renderRoutingHints = () => (
-    <Flex alignItems="center" justifyContent="space-between">
+    <Flex alignItems="center" justifyContent="space-between" mb={2}>
       <Flex>
-        <Span color="gray" fontSize="s" mr={2}>
-          <Padlock />
-        </Span>
         <Flex>
-          <Label htmlFor="routingHints">
+          <Label htmlFor="isPrivate">
             <FormattedMessage {...messages.routing_hints_label} />
           </Label>
           <Tooltip ml={1}>
@@ -213,31 +177,66 @@ class Request extends React.Component {
           </Tooltip>
         </Flex>
       </Flex>
-      <Toggle field="routingHints" />
+      <Toggle field="isPrivate" />
     </Flex>
   )
+
+  renderHoldInvoice = () => {
+    const { intl } = this.props
+    const { values } = this.formApi.getState()
+    return (
+      <Box>
+        <Flex alignItems="center" justifyContent="space-between">
+          <Flex>
+            <Flex>
+              <Label htmlFor="isHoldInvoice">
+                <FormattedMessage {...messages.hold_invoice_label} />
+              </Label>
+              <Tooltip ml={1}>
+                <FormattedMessage {...messages.hold_invoice_tooltip} />
+              </Tooltip>
+            </Flex>
+          </Flex>
+          <Toggle field="isHoldInvoice" />
+        </Flex>
+        {values.isHoldInvoice && (
+          <Input
+            field="preimage"
+            isRequired
+            mt={2}
+            name="preimage"
+            placeholder={intl.formatMessage({ ...messages.preimage_placeholder })}
+            validateOnBlur
+            validateOnChange
+          />
+        )}
+      </Box>
+    )
+  }
 
   render() {
     const {
       activeWalletSettings,
-      createInvoice,
+      cancelInvoice,
+      addInvoice,
       cryptoUnit,
       cryptoUnitName,
       chainName,
       fetchTickers,
       intl,
       isProcessing,
+      isHoldInvoiceEnabled,
       isAnimating,
-      invoice,
-      payReq,
+      setTopModal,
+      setActivityModal,
       showNotification,
       createNewAddress,
+      settleInvoice,
       showError,
       willUseFallback,
       maxOneTimeReceive,
       ...rest
     } = this.props
-    const { currentStep } = this.state
 
     return (
       <Form height="100%" width={1} {...rest} getApi={this.setFormApi} onSubmit={this.onSubmit}>
@@ -262,47 +261,35 @@ class Request extends React.Component {
                 <Bar mt={2} />
               </Panel.Header>
               <Panel.Body py={3}>
-                {currentStep === 'form' ? (
-                  <>
-                    {this.renderHelpText()}
-                    {this.renderAmountFields()}
-                    {this.renderMemoField()}
-                    {activeWalletSettings.type !== 'local' && this.renderRoutingHints()}
-                  </>
-                ) : (
-                  <RequestSummary
-                    invoice={invoice}
-                    mt={-3}
-                    payReq={payReq}
-                    showNotification={showNotification}
-                  />
-                )}
+                {this.renderHelpText()}
+                {this.renderAmountFields()}
+                {this.renderMemoField()}
+                {activeWalletSettings.type !== 'local' && this.renderRoutingHints()}
+                {isHoldInvoiceEnabled && this.renderHoldInvoice()}
               </Panel.Body>
-              {currentStep === 'form' && (
-                <Panel.Footer>
-                  <Flex alignItems="center" flexDirection="column">
-                    {this.isAmountAboveMax() && (
-                      <Message mb={2} variant="warning">
-                        <FormattedMessage
-                          {...messages.max_capacity_warning}
-                          values={{
-                            capacity: this.getMaxOneTimeReceive(),
-                            unit: cryptoUnitName,
-                          }}
-                        />
-                      </Message>
-                    )}
-                    <Button
-                      isDisabled={formState.pristine || formState.invalid || isProcessing}
-                      isProcessing={isProcessing}
-                      mx="auto"
-                      type="submit"
-                    >
-                      {nextButtonText}
-                    </Button>
-                  </Flex>
-                </Panel.Footer>
-              )}
+              <Panel.Footer>
+                <Flex alignItems="center" flexDirection="column">
+                  {this.isAmountAboveMax() && (
+                    <Message mb={2} variant="warning">
+                      <FormattedMessage
+                        {...messages.max_capacity_warning}
+                        values={{
+                          capacity: this.getMaxOneTimeReceive(),
+                          unit: cryptoUnitName,
+                        }}
+                      />
+                    </Message>
+                  )}
+                  <Button
+                    isDisabled={formState.pristine || formState.invalid || isProcessing}
+                    isProcessing={isProcessing}
+                    mx="auto"
+                    type="submit"
+                  >
+                    {nextButtonText}
+                  </Button>
+                </Flex>
+              </Panel.Footer>
             </Panel>
           )
         }}

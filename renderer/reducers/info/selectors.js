@@ -124,9 +124,21 @@ const commitString = createSelector(version, v => {
 })
 
 /**
+ * hasRouterSupport - Check whether node has support for Invoices service
+ *
+ * @returns {boolean} Boolean indicating if node has Invoices service
+ */
+const hasInvoicesSupport = createSelector(grpcProtoVersion, v => {
+  if (!v) {
+    return false
+  }
+  return semver.gte(v, '0.6.0-beta', { includePrerelease: true })
+})
+
+/**
  * hasRouterSupport - Check whether node has support for Router service
  *
- * @returns {boolean} Boolean indicating if node has router service
+ * @returns {boolean} Boolean indicating if node has Router service
  */
 const hasRouterSupport = createSelector(grpcProtoVersion, v => {
   if (!v) {
@@ -219,6 +231,7 @@ export default {
   grpcProtoVersion,
   versionString,
   commitString,
+  hasInvoicesSupport,
   hasRouterSupport,
   hasSendPaymentV2Support,
   hasMppSupport,
