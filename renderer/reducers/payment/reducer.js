@@ -1,4 +1,3 @@
-import config from 'config'
 import uniqBy from 'lodash/uniqBy'
 import find from 'lodash/find'
 import pick from 'lodash/pick'
@@ -64,12 +63,16 @@ export const receivePayments = payments => dispatch => {
  * decPaymentRetry - Decrement payment request retry count.
  *
  * @param {string} paymentId Internal id of payment whose retry count to decrease
- * @returns {object} Action
+ * @returns {(dispatch:Function, getState:Function) => void} Thunk
  */
-const decPaymentRetry = paymentId => ({
-  type: DECREASE_PAYMENT_RETRIES,
-  paymentId,
-})
+const decPaymentRetry = paymentId => (dispatch, getState) => {
+  const config = settingsSelectors.currentConfig(getState())
+  dispatch({
+    type: DECREASE_PAYMENT_RETRIES,
+    paymentId,
+    feeIncrementExponent: config.invoices.feeIncrementExponent,
+  })
+}
 
 /**
  * sendPayment - After initiating a lightning payment, store details of it in paymentSending array.
@@ -149,6 +152,7 @@ export const paymentSuccessful = paymentId => async (dispatch, getState) => {
  */
 export const paymentFailed = ({ paymentId, error }) => async (dispatch, getState) => {
   const paymentSending = find(paymentsSending(getState()), { paymentId })
+  const config = settingsSelectors.currentConfig(getState())
 
   // errors that trigger retry mechanism
   const RETRIABLE_ERRORS = [
@@ -331,13 +335,13 @@ const ACTION_HANDLERS = {
   [SEND_PAYMENT]: (state, { payment }) => {
     state.paymentsSending.push(payment)
   },
-  [DECREASE_PAYMENT_RETRIES]: (state, { paymentId }) => {
+  [DECREASE_PAYMENT_RETRIES]: (state, { paymentId, feeIncrementExponent }) => {
     const item = find(state.paymentsSending, { paymentId })
     if (item) {
       item.remainingRetries = Math.max(item.remainingRetries - 1, 0)
       if (item.feeLimit) {
         item.feeLimit = CoinBig(item.feeLimit)
-          .times(config.invoices.feeIncrementExponent)
+          .times(feeIncrementExponent)
           .decimalPlaces(0)
           .toString()
       }
