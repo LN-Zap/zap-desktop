@@ -9,15 +9,15 @@ import { Text } from 'components/UI'
  * we don't have to filter through the whole array when looking up values
  * every time
  */
-const bip39WordMap = bip39.reduce((bip39WordMap, word) => {
+const bip39WordMap = bip39.reduce((data, word) => {
   const [firstLetter] = word
-  if (!bip39WordMap[firstLetter]) {
-    bip39WordMap[firstLetter] = []
+  if (!data[firstLetter]) {
+    data[firstLetter] = []
   }
 
-  bip39WordMap[firstLetter].push(word)
+  data[firstLetter].push(word)
 
-  return bip39WordMap
+  return data
 }, {})
 
 const StyledOptionList = React.forwardRef((props, ref) => (

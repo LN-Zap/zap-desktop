@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import fs from 'fs'
 import path from 'path'
 import { promisify } from 'util'

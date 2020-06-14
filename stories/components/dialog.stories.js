@@ -1,4 +1,4 @@
-/* eslint-disable-file  no-alert */
+/* eslint-disable no-alert */
 import React from 'react'
 import { Flex } from 'rebass/styled-components'
 import { storiesOf } from '@storybook/react'
@@ -46,7 +46,7 @@ storiesOf('Components', module)
               const customHeader = (
                 <Flex alignItems="center" alignSelf="stretch" flexDirection="column" mb={3}>
                   <Eye color="white" height={64} width={64} />
-                  <Heading.h2>Custom heading</Heading.h2>
+                  <Heading.H2>Custom heading</Heading.H2>
                 </Flex>
               )
 

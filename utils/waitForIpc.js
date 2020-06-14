@@ -21,16 +21,13 @@ export default function waitForIpcEvent(message, params, responseEvent, failureE
       dispatch(send(message, params))
 
       const onSuccess = (event, response) => {
-        removeFailureEventListener()
+        window.ipcRenderer.off(failureEventName, onSuccess)
         resolve(response)
       }
       const onFailure = (event, response) => {
-        removeSuccessEventListener()
+        window.ipcRenderer.off(successEventName, onFailure)
         reject(response)
       }
-
-      const removeFailureEventListener = () => window.ipcRenderer.off(successEventName, onSuccess)
-      const removeSuccessEventListener = () => window.ipcRenderer.off(failureEventName, onFailure)
 
       window.ipcRenderer.once(failureEventName, onFailure).once(successEventName, onSuccess)
     })

@@ -1,6 +1,18 @@
 import matches from 'lodash/matches'
 import createReducer from '@zap/utils/createReducer'
 import genId from '@zap/utils/genId'
+import modalSelectors from './selectors'
+import * as constants from './constants'
+
+const {
+  OPEN_MODAL,
+  CLOSE_MODAL,
+  CLOSE_ALL_MODALS,
+  SET_MODALS,
+  SET_TOP_MODAL,
+  OPEN_DIALOG,
+  CLOSE_DIALOG,
+} = constants
 
 // ------------------------------------
 // Initial State
@@ -10,21 +22,6 @@ const initialState = {
   modals: [],
   dialogs: {},
 }
-
-// ------------------------------------
-// Constants
-// ------------------------------------
-
-export const OPEN_MODAL = 'OPEN_MODAL'
-
-export const CLOSE_MODAL = 'CLOSE_MODAL'
-export const CLOSE_ALL_MODALS = 'CLOSE_ALL_MODALS'
-
-export const SET_MODALS = 'SET_MODALS'
-export const SET_TOP_MODAL = 'SET_TOP_MODAL'
-
-export const OPEN_DIALOG = 'SHOW_DIALOG'
-export const CLOSE_DIALOG = 'CLOSE_DIALOG'
 
 // ------------------------------------
 // Helpers
@@ -197,15 +194,5 @@ const ACTION_HANDLERS = {
     delete state.dialogs[id]
   },
 }
-
-// ------------------------------------
-// Selectors
-// ------------------------------------
-
-const modalSelectors = {}
-modalSelectors.getModalState = state => state.modal.modals
-modalSelectors.isDialogOpen = (state, id) => Boolean(state.modal.dialogs[id])
-
-export { modalSelectors }
 
 export default createReducer(initialState, ACTION_HANDLERS)

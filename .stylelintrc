@@ -1,6 +1,12 @@
 {
   "processors": [
-    "stylelint-processor-styled-components"
+    ["stylelint-processor-styled-components", {
+      "parserPlugins": [
+        "jsx",
+        "classProperties",
+        "exportDefaultFrom"
+      ]
+    }]
   ],
   "extends": [
     "stylelint-config-recommended",

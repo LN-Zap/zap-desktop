@@ -25,9 +25,9 @@ const ChangePasswordDialog = ({ loginError, clearLoginError, onChange, onCancel 
 
   const header = (
     <Flex alignItems="center" flexDirection="column" mb={4}>
-      <Heading.h1>
+      <Heading.H1>
         <FormattedMessage {...messages.password_change_dialog_header} />
-      </Heading.h1>
+      </Heading.H1>
     </Flex>
   )
 

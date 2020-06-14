@@ -11,7 +11,7 @@ import Label from './Label'
 const LndConnectionStringEditor = ({ formApi, field, hideStringMessage, ...rest }) => {
   const isDisabled = formApi.getValue('hideLndConnectUri')
 
-  const getValue = isDisabled => {
+  const getValue = () => {
     const value = formApi.getValue(field) || ''
     // create obfuscated value if TextArea is disabled
     if (isDisabled) {
@@ -30,7 +30,7 @@ const LndConnectionStringEditor = ({ formApi, field, hideStringMessage, ...rest 
         {...rest}
         field={field}
         isReadOnly={isDisabled}
-        value={getValue(isDisabled)}
+        value={getValue()}
       />
       <Flex alignItems="center" justifyContent="space-between" mt={3}>
         <Flex>

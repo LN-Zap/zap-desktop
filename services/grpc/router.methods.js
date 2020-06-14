@@ -64,8 +64,8 @@ async function probePayment(payload) {
       }
     })
 
-    call.on('status', status => {
-      grpcLog.info('PROBE STATUS :%o', status)
+    call.on('status', s => {
+      grpcLog.info('PROBE STATUS :%o', s)
     })
 
     call.on('error', e => {
@@ -133,8 +133,8 @@ async function sendPayment(payload = {}) {
       }
     })
 
-    call.on('status', status => {
-      grpcLog.info('PAYMENT STATUS :%o', status)
+    call.on('status', s => {
+      grpcLog.info('PAYMENT STATUS :%o', s)
     })
 
     call.on('error', e => {
@@ -199,8 +199,8 @@ async function sendPaymentV2(payload = {}) {
       }
     })
 
-    call.on('status', status => {
-      grpcLog.info('PAYMENT STATUS :%o', status)
+    call.on('status', s => {
+      grpcLog.info('PAYMENT STATUS :%o', s)
     })
 
     call.on('error', e => {

@@ -10,9 +10,9 @@ const NodeCardList = ({ nodes, updateContactFormSearchQuery, ...rest }) => (
   <Box as="article" {...rest}>
     {Boolean(nodes && nodes.length) && (
       <>
-        <Heading.h1 mb={3}>
+        <Heading.H1 mb={3}>
           <FormattedMessage {...messages.node_suggestions_title} />
-        </Heading.h1>
+        </Heading.H1>
         <Flex flexWrap="wrap">
           {nodes.map((nodeInfo, index) => {
             const column = index % 3

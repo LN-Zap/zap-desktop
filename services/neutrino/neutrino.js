@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import split2 from 'split2'
 import EventEmitter from 'events'
 import { spawn } from 'child_process'
@@ -136,18 +137,18 @@ class Neutrino extends EventEmitter {
       return
     }
 
-    await this._shutdownNeutrino(signal, timeout)
+    await this.shutdownNeutrino(signal, timeout)
     mainLog.info('Neutrino shutdown complete.')
   }
 
   /**
-   * _shutdownNeutrino - Attempt to gracefully terminate the neutrino process. If it fails, force kill it.
+   * shutdownNeutrino - Attempt to gracefully terminate the neutrino process. If it fails, force kill it.
    *
    * @param {string}  signal  process signal
    * @param {number}  timeout timeout before force killing with SIGKILL
    * @returns {Promise} Promise
    */
-  async _shutdownNeutrino(signal, timeout) {
+  async shutdownNeutrino(signal, timeout) {
     let hasCompleted = false
 
     // promisify NEUTRINO_EXIT callback.

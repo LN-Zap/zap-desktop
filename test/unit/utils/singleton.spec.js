@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import createSingletonFactory from '@zap/utils/singleton'
 
 class Class1 {}

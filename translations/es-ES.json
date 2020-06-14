@@ -705,7 +705,7 @@
   "reducers.messages.backup_not_found_error": "No se puede encontrar el archivo de respaldo ",
   "reducers.messages.neutrtino_synced_body": "Visa ni que Visa? Ahora tu mismo eres tu propio procesador de pago!",
   "reducers.messages.neutrtino_synced_title": "Nodo de Lightning Sincronizado",
-  "reducers.messages.settings_init_error": "No se puede cargar la configuración: {error}",
+  "reducers.settings.settings_init_error": "No se puede cargar la configuración: {error}",
   "reducers.payment.failed_error": "Ha ocurrido un error no recuperable.",
   "reducers.payment.failed_incorrect_payment_details": "Detalles de pago incorrectos (hash desconocido, total inválido o delta final cltv inválido).",
   "reducers.payment.failed_insufficient_balance": "Balance local insuficiente.",

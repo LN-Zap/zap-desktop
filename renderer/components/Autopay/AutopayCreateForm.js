@@ -35,7 +35,7 @@ const AutopayCreateForm = props => {
     merchantName,
     pubkey,
     isActive,
-    limit,
+    limit = defaultValue,
     merchantLogo,
     onRemoveAutopay,
     onCreateAutopay,
@@ -96,10 +96,10 @@ const AutopayCreateForm = props => {
 
         /* eslint-disable  react/display-name */
         /* eslint-disable   react/prop-types */
-        const renderFlipper = isActive => ({ opacity }) => (
+        const renderFlipper = isFlipperActive => ({ opacity }) => (
           <Container
             style={{
-              transform: `rotateX(${isActive ? 180 : 0}deg)`,
+              transform: `rotateX(${isFlipperActive ? 180 : 0}deg)`,
               opacity: opacity.interpolate({
                 range: [0, 0.5, 1],
                 output: [0, 0, 1],
@@ -112,12 +112,12 @@ const AutopayCreateForm = props => {
         /* eslint-disable */
         return (
           <Box px={5}>
-            <Heading.h1 textAlign="center">
+            <Heading.H1 textAlign="center">
               <FormattedMessage
                 values={{ merchantNickname }}
                 {...(isActive ? messages.header_success : messages.header_add)}
               />
-            </Heading.h1>
+            </Heading.H1>
             <Bar my={2} />
             <Box height={isEditMode ? 250 : 195}>
               <Spring
@@ -157,10 +157,6 @@ const AutopayCreateForm = props => {
       }}
     </Form>
   )
-}
-
-AutopayCreateForm.defaultProps = {
-  limit: defaultValue,
 }
 
 AutopayCreateForm.propTypes = {

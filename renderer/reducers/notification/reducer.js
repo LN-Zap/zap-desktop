@@ -2,6 +2,15 @@ import matches from 'lodash/matches'
 import createReducer from '@zap/utils/createReducer'
 import delay from '@zap/utils/delay'
 import genId from '@zap/utils/genId'
+import * as constants from './constants'
+
+const {
+  NOTIFICATION_TIMEOUT_SHORT,
+  NOTIFICATION_TIMEOUT_LONG,
+  ENQUEUE_NOTIFICATION,
+  REMOVE_NOTIFICATION,
+  UPDATE_NOTIFICATION,
+} = constants
 
 // ------------------------------------
 // Initial State
@@ -10,15 +19,6 @@ import genId from '@zap/utils/genId'
 const initialState = {
   notifications: [],
 }
-
-// ------------------------------------
-// Constants
-// ------------------------------------
-
-const NOTIFICATION_TIMEOUT = 10000
-export const ENQUEUE_NOTIFICATION = 'ENQUEUE_NOTIFICATION'
-export const REMOVE_NOTIFICATION = 'REMOVE_NOTIFICATION'
-export const UPDATE_NOTIFICATION = 'UPDATE_NOTIFICATION'
 
 // ------------------------------------
 // Helpers
@@ -33,7 +33,10 @@ export const UPDATE_NOTIFICATION = 'UPDATE_NOTIFICATION'
  * @returns {object} Notification
  */
 const createNotification = (options = {}) => {
-  const { timeout = NOTIFICATION_TIMEOUT, variant = 'success' } = options
+  const {
+    variant = 'success',
+    timeout = variant === 'success' ? NOTIFICATION_TIMEOUT_SHORT : NOTIFICATION_TIMEOUT_LONG,
+  } = options
   return {
     ...options,
     timeout,
@@ -42,42 +45,22 @@ const createNotification = (options = {}) => {
   }
 }
 
-/**
- * showError - Show an error notification.
- *
- * @param {string} message Message
- * @param {object} options Notification options
- * @returns {object} Action
- */
-export const showError = (message, options = {}) => {
-  return enqueueNotification({ ...options, message, variant: 'error' })
-}
-
-/**
- * showNotification - Show an info notification.
- *
- * @param {string} message Message
- * @param {object} options Notification options
- * @returns {object} Action
- */
-export const showNotification = (message, options = {}) => {
-  return enqueueNotification({ ...options, message, variant: 'success' })
-}
-
-/**
- * showWarning - Show a warning notification.
- *
- * @param {string} message Message
- * @param {object} options Notification options
- * @returns {object} Action
- */
-export const showWarning = (message, options = {}) => {
-  return enqueueNotification({ ...options, message, variant: 'warning' })
-}
-
 // ------------------------------------
 // Actions
 // ------------------------------------
+
+/**
+ * removeNotification - Remove a notification by id.
+ *
+ * @param {string} id Notification Id
+ * @returns {object} Action
+ */
+export function removeNotification(id) {
+  return {
+    type: REMOVE_NOTIFICATION,
+    id,
+  }
+}
 
 /**
  * enqueueNotification - Push a notification onto the top of the stack.
@@ -132,16 +115,36 @@ export const updateNotification = (predicate, options) => (dispatch, getState) =
 }
 
 /**
- * removeNotification - Remove a notification by id.
+ * showError - Show an error notification.
  *
- * @param {string} id Notification Id
+ * @param {string} message Message
+ * @param {object} options Notification options
  * @returns {object} Action
  */
-export function removeNotification(id) {
-  return {
-    type: REMOVE_NOTIFICATION,
-    id,
-  }
+export const showError = (message, options = {}) => {
+  return enqueueNotification({ ...options, message, variant: 'error' })
+}
+
+/**
+ * showNotification - Show an info notification.
+ *
+ * @param {string} message Message
+ * @param {object} options Notification options
+ * @returns {object} Action
+ */
+export const showNotification = (message, options = {}) => {
+  return enqueueNotification({ ...options, message, variant: 'success' })
+}
+
+/**
+ * showWarning - Show a warning notification.
+ *
+ * @param {string} message Message
+ * @param {object} options Notification options
+ * @returns {object} Action
+ */
+export const showWarning = (message, options = {}) => {
+  return enqueueNotification({ ...options, message, variant: 'warning' })
 }
 
 // ------------------------------------
@@ -164,14 +167,5 @@ const ACTION_HANDLERS = {
     state.notifications = state.notifications.filter(item => item.id !== id)
   },
 }
-
-// ------------------------------------
-// Selectors
-// ------------------------------------
-
-const notificationSelectors = {}
-notificationSelectors.getNotificationState = state => state.notification.notifications
-
-export { notificationSelectors }
 
 export default createReducer(initialState, ACTION_HANDLERS)

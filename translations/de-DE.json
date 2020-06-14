@@ -705,7 +705,7 @@
   "reducers.messages.backup_not_found_error": "Backup-Datei konnte nicht gefunden werden",
   "reducers.messages.neutrtino_synced_body": "Visa wer? Du bist jetzt dein eigener Zahlungsabwickler!",
   "reducers.messages.neutrtino_synced_title": "Lightning Node synchronisiert",
-  "reducers.messages.settings_init_error": "Einstellungen können nicht geladen werden: {error}",
+  "reducers.settings.settings_init_error": "Einstellungen können nicht geladen werden: {error}",
   "reducers.payment.failed_error": "",
   "reducers.payment.failed_incorrect_payment_details": "",
   "reducers.payment.failed_insufficient_balance": "",

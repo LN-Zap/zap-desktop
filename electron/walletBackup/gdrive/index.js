@@ -108,6 +108,8 @@ export default class BackupService extends TokenBasedBackupService {
    * @memberof BackupService
    */
   saveBackup = chainify(async ({ walletId, locationHint, backup }) => {
+    const { connection } = this
+
     const backupExists = async id => {
       try {
         if (!id) {
@@ -124,8 +126,6 @@ export default class BackupService extends TokenBasedBackupService {
     const fileId = (await backupExists(locationHint))
       ? locationHint
       : await this.findBackupId(walletId)
-
-    const { connection } = this
 
     if (connection) {
       // if fileId is provided and backup exists - update it
@@ -147,6 +147,7 @@ export default class BackupService extends TokenBasedBackupService {
   })
 
   // Define the name of this backup service.
+  // eslint-disable-next-line class-methods-use-this
   get name() {
     return 'gdrive'
   }

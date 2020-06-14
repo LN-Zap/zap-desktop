@@ -25,7 +25,7 @@ const Dialog = ({ header, onClose, buttons, width, children }) => {
   const headerLayout = React.isValidElement(header) ? (
     header
   ) : (
-    <Heading.h2 mb={4}>{header}</Heading.h2>
+    <Heading.H2 mb={4}>{header}</Heading.H2>
   )
 
   return (

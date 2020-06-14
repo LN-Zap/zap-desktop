@@ -1,5 +1,4 @@
 /* eslint-disable react/no-multi-comp */
-
 import React, { createContext, useRef, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { Transition, config } from 'react-spring/renderprops.cjs'

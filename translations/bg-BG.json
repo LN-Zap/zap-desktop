@@ -705,7 +705,7 @@
   "reducers.messages.backup_not_found_error": "Невъзможно намирането на файла за резервно копие ",
   "reducers.messages.neutrtino_synced_body": "",
   "reducers.messages.neutrtino_synced_title": "Възелът на Lightning е синхронизиран",
-  "reducers.messages.settings_init_error": "Невъзможно зареждане на настройките: {error}",
+  "reducers.settings.settings_init_error": "Невъзможно зареждане на настройките: {error}",
   "reducers.payment.failed_error": "",
   "reducers.payment.failed_incorrect_payment_details": "",
   "reducers.payment.failed_insufficient_balance": "",

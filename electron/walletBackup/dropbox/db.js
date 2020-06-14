@@ -32,13 +32,13 @@ async function createClient({ clientId, authRedirectUrl, tokens }) {
   /**
    * postTokensReceived - Emit `tokensReceived` after tokens have been received.
    *
-   * @param {object} tokens Tokens
+   * @param {object} tokensReceived Tokens
    */
-  async function postTokensReceived(tokens) {
+  async function postTokensReceived(tokensReceived) {
     // schedule event posting for the next event loop iteration
     // to give listeners chance to subscribe before the first update
     await delay(0)
-    emitter.emit('tokensReceived', tokens)
+    emitter.emit('tokensReceived', tokensReceived)
   }
 
   let { client, accessTokens } = await createConnection({ clientId, authRedirectUrl, tokens })

@@ -26,19 +26,19 @@ const ChannelCapacity = ({ localBalance, remoteBalance, opacity, ...rest }) => {
     <Card as="article" {...rest}>
       <Flex alignItems="center" as="header" justifyContent="space-between" opacity={opacity}>
         <Text width={1 / 3}>
-          <Heading.h4 fontWeight="normal">
+          <Heading.H4 fontWeight="normal">
             <FormattedMessage {...messages.local_balance} />
-          </Heading.h4>
+          </Heading.H4>
         </Text>
         <Text textAlign="center" width={1 / 3}>
-          <Heading.h4 fontWeight="normal">
+          <Heading.H4 fontWeight="normal">
             <FormattedMessage {...messages.capacity} />
-          </Heading.h4>
+          </Heading.H4>
         </Text>
         <Text textAlign="right" width={1 / 3}>
-          <Heading.h4 fontWeight="normal">
+          <Heading.H4 fontWeight="normal">
             <FormattedMessage {...messages.remote_balance} />
-          </Heading.h4>
+          </Heading.H4>
         </Text>
       </Flex>
 

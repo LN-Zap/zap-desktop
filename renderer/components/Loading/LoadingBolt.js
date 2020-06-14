@@ -53,9 +53,9 @@ const LoadingBolt = ({ isLoading, message, onClose, hasClose }) => {
           px={3}
         >
           <CloudLightning height="140px" width="140px" />
-          <Heading.h2 mt={4}>
+          <Heading.H2 mt={4}>
             <FormattedMessage {...message} />
-          </Heading.h2>
+          </Heading.H2>
         </FullHeightContent>
         {hasClose && (
           <CloseButton onClick={onClose} sx={{ position: 'absolute', right: 16, top: 16 }} />

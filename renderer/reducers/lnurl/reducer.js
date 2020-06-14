@@ -45,7 +45,7 @@ const initialState = {
 /**
  * setLnurlAuthParams - Set request details.
  *
- * @param {object|null} params lnurl request details or null to clear
+ * @param {object|null} params lnurl request details or null to clear.
  * @returns {object} Action
  */
 export function setLnurlAuthParams(params) {
@@ -132,7 +132,7 @@ export const finishLnurlAuth = () => async (dispatch, getState) => {
 /**
  * setLnurlChannelParams - Set request details.
  *
- * @param {object|null} params lnurl request details or null to clear
+ * @param {object|null} params lnurl request details or null to clear.
  * @returns {object} Action
  */
 export function setLnurlChannelParams(params) {
@@ -143,7 +143,7 @@ export function setLnurlChannelParams(params) {
 }
 
 /**
- * clearLnurlChannel - Clears lnurl channel state
+ * clearLnurlChannel - Clears lnurl channel state.
  *
  * @returns {(dispatch:Function) => void} Thunk
  */

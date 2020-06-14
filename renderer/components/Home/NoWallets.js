@@ -19,21 +19,21 @@ const NoWallets = ({ history, wallets }) => {
     <Flex alignItems="center" flexDirection="column" height="100%" justifyContent="center">
       {wallets.length === 0 ? (
         <>
-          <Heading.h4>
+          <Heading.H4>
             <FormattedMessage {...messages.no_wallets_message} />
-          </Heading.h4>
+          </Heading.H4>
         </>
       ) : (
         <>
-          <Heading.h4>
+          <Heading.H4>
             <FormattedMessage {...messages.no_active_wallet_message} />
-          </Heading.h4>
+          </Heading.H4>
         </>
       )}
-      <Heading.h4 my={1}>{decoratedOr()}</Heading.h4>
-      <Heading.h4>
+      <Heading.H4 my={1}>{decoratedOr()}</Heading.H4>
+      <Heading.H4>
         <FormattedMessage {...messages.create_wallet_prompt} />
-      </Heading.h4>
+      </Heading.H4>
       <CreateWalletButton history={history} mt={3} p={3} />
     </Flex>
   )

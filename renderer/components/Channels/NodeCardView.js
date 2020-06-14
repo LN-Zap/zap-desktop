@@ -46,9 +46,9 @@ const NodeCardView = ({ description, host, image, nickname, nodeClicked, pubkey,
   <CardWithBg src={image} {...rest} onClick={() => nodeClicked(`${pubkey}@${host}`)}>
     <GradientOverlay />
     <TextOverlay alignItems="center" justifyContent="center">
-      <Heading.h1 fontWeight="normal" textAlign="center">
+      <Heading.H1 fontWeight="normal" textAlign="center">
         {nickname}
-      </Heading.h1>
+      </Heading.H1>
     </TextOverlay>
   </CardWithBg>
 )

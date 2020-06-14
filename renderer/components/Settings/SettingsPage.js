@@ -135,7 +135,7 @@ const SettingsPage = ({
   return (
     <>
       <Flex width={1} {...rest}>
-        <Sidebar.medium pt={40}>
+        <Sidebar.Medium pt={40}>
           <Panel>
             <Panel.Header mb={40} px={4}>
               <ZapLogo height={28} width={28} />
@@ -144,11 +144,11 @@ const SettingsPage = ({
               <SettingsMenu group={group} isLoggedIn={isLoggedIn} setGroup={setGroup} />
             </Panel.Body>
           </Panel>
-        </Sidebar.medium>
+        </Sidebar.Medium>
         <MainContent pb={2} pl={5} pr={6} pt={4}>
-          <Heading.h1 fontSize={60}>
+          <Heading.H1 fontSize={60}>
             <FormattedMessage {...messages.settings_title} />
-          </Heading.h1>
+          </Heading.H1>
 
           <SettingsForm>
             <FieldGroup currentConfig={currentConfig} />

@@ -12,6 +12,7 @@ import { CoinBig } from '@zap/utils/coin'
  * @param {string} options.currency Currency to display as (btc, bits, sats, msats, fiat).
  * @param {object} options.currentTicker Current fiat ticker info.
  * @param {object} options.fiatTicker Key of fiat ticker to use for fiat conversions.
+ * @param {string} options.style Display style
  * @returns {object} Component
  */
 const Value = ({ value, currency, currentTicker, fiatTicker, style }) => {

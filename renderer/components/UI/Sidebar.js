@@ -25,12 +25,12 @@ Sidebar.defaultProps = {
   hasShadow: true,
 }
 
-Sidebar.small = props => <Sidebar {...props} width={3 / 16} />
-Sidebar.medium = props => <Sidebar {...props} width={4 / 16} />
-Sidebar.large = props => <Sidebar {...props} width={6 / 16} />
+Sidebar.Small = props => <Sidebar {...props} width={3 / 16} />
+Sidebar.Medium = props => <Sidebar {...props} width={4 / 16} />
+Sidebar.Large = props => <Sidebar {...props} width={6 / 16} />
 
-Sidebar.small.displayName = 'Sidebar Small'
-Sidebar.medium.displayName = 'Sidebar Medium'
-Sidebar.large.displayName = 'Sidebar Large'
+Sidebar.Small.displayName = 'Sidebar Small'
+Sidebar.Medium.displayName = 'Sidebar Medium'
+Sidebar.Large.displayName = 'Sidebar Large'
 
 export default Sidebar

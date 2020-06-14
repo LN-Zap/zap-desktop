@@ -124,6 +124,7 @@ export const setGrpcActiveInterface = grpcActiveInterface => {
  * @param {object} options Options
  * @param {string} options.code Exit code
  * @param {string} options.lastError Last message output to lnd's stderror stream
+ * @param {string} options.signal Exit signal
  * @returns {object} Action
  */
 export const neutrinoCrashed = ({ code, signal, lastError }) => {

@@ -1,4 +1,5 @@
 import uniqBy from 'lodash/uniqBy'
+import { showError } from 'reducers/notification'
 import createReducer from '@zap/utils/createReducer'
 import { showSystemNotification } from '@zap/utils/notifications'
 import { convert } from '@zap/utils/btc'
@@ -8,12 +9,11 @@ import { sha256digest } from '@zap/utils/sha256'
 import { grpc } from 'workers'
 import { fetchBalance } from 'reducers/balance'
 import { fetchChannels } from 'reducers/channels'
-import { showError } from 'reducers/notification'
 import { walletSelectors } from 'reducers/wallet'
 import { settingsSelectors } from 'reducers/settings'
 import { decorateInvoice } from './utils'
 import messages from './messages'
-import selectors from './selectors'
+import invoiceSelectors from './selectors'
 import * as constants from './constants'
 
 const {
@@ -205,7 +205,7 @@ export const cancelInvoice = paymentHash => async (dispatch, getState) => {
   dispatch({ type: CANCEL_INVOICE })
   try {
     await grpc.services.Invoices.cancelInvoice({ paymentHash })
-    const invoices = selectors.invoices(getState())
+    const invoices = invoiceSelectors.invoices(getState())
     const invoice = invoices.find(i => i.rHash === paymentHash)
     if (invoice) {
       invoice.state = 'CANCELED'
@@ -230,7 +230,7 @@ export const settleInvoice = preimage => async (dispatch, getState) => {
   const preimageHash = sha256digest(preimageBytes)
   try {
     await grpc.services.Invoices.settleInvoice({ preimage: preimageHash })
-    const invoices = selectors.invoices(getState())
+    const invoices = invoiceSelectors.invoices(getState())
     const invoice = invoices.find(i => i.rPreimage === preimage)
     if (invoice) {
       invoice.state = 'SETTLED'
@@ -248,7 +248,7 @@ export const settleInvoice = preimage => async (dispatch, getState) => {
  * @returns {(dispatch:Function, getState:Function) => void} Thunk
  */
 export const clearSettleInvoiceError = () => (dispatch, getState) => {
-  if (selectors.settleInvoiceError(getState())) {
+  if (invoiceSelectors.settleInvoiceError(getState())) {
     dispatch({ type: CLEAR_SETTLE_INVOICE_ERROR })
   }
 }

@@ -12,45 +12,45 @@ storiesOf('General', module).addWithChapters('Typography', {
         {
           title: 'h1',
           sectionFn: () => (
-            <Heading.h1>
+            <Heading.H1>
               The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy
               dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the
               lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over
               the lazy dog.
-            </Heading.h1>
+            </Heading.H1>
           ),
         },
         {
           title: 'h2',
           sectionFn: () => (
-            <Heading.h2>
+            <Heading.H2>
               The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy
               dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the
               lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over
               the lazy dog.
-            </Heading.h2>
+            </Heading.H2>
           ),
         },
         {
           title: 'h3',
           sectionFn: () => (
-            <Heading.h3>
+            <Heading.H3>
               The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy
               dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the
               lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over
               the lazy dog.
-            </Heading.h3>
+            </Heading.H3>
           ),
         },
         {
           title: 'h4',
           sectionFn: () => (
-            <Heading.h4>
+            <Heading.H4>
               The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy
               dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the
               lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over
               the lazy dog.
-            </Heading.h4>
+            </Heading.H4>
           ),
         },
       ],

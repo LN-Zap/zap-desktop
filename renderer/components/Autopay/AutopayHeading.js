@@ -8,15 +8,15 @@ import messages from './messages'
 
 const AutopayHeading = ({ intl, ...rest }) => (
   <Flex alignItems="baseline" {...rest}>
-    <Heading.h1 fontSize="xxxl" mr={2}>
+    <Heading.H1 fontSize="xxxl" mr={2}>
       <FormattedMessage {...messages.title} />
-    </Heading.h1>
+    </Heading.H1>
     <Box alignSelf="flex-start">
       <Autopay height={28} width={28} />
     </Box>
-    <Heading.h1>
+    <Heading.H1>
       <FormattedMessage {...messages.subtitle} />
-    </Heading.h1>
+    </Heading.H1>
   </Flex>
 )
 

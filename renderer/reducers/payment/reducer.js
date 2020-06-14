@@ -187,7 +187,7 @@ export const paymentFailed = ({ paymentId, error }) => async (dispatch, getState
       const retryIndex = maxRetries - remainingRetries + 1
       // add increasing delay
       await delay(config.invoices.baseRetryDelay * retryIndex * retryIndex)
-      dispatch(payInvoice(data))
+      dispatch(payInvoice(data)) // eslint-disable-line no-use-before-define
     } else {
       // Ensure payment stays in sending state for at least 2 seconds.
       await delay(2000 - (Date.now() - creationDate * 1000))

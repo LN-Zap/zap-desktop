@@ -23,9 +23,9 @@ const AutopayList = ({ merchants, openAutopayCreateModal, ...rest }) => {
 
   return (
     <Box as="article" {...rest}>
-      <Heading.h1 mb={3} ml={4} mt={4}>
+      <Heading.H1 mb={3} ml={4} mt={4}>
         <FormattedMessage {...messages.active_list_title} />
-      </Heading.h1>
+      </Heading.H1>
       <Flex ref={scroller} sx={{ overflowX: 'hidden' }} width={1}>
         {merchants.map((item, index) => {
           return (

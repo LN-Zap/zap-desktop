@@ -93,9 +93,6 @@ MenuItemText.defaultProps = {
   py: 2,
 }
 
-/**
- * MenuItem
- */
 export const MenuItem = ({
   item,
   onClick,

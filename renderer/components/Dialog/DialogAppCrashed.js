@@ -27,9 +27,9 @@ const DialogAppCrashed = ({ onClose, onSubmit, error, isOpen }) => {
       <Box color="primaryAccent" mb={2}>
         <Delete height={72} width={72} />
       </Box>
-      <Heading.h1>
+      <Heading.H1>
         <FormattedMessage {...messages.app_crashed_dialog_header} />
-      </Heading.h1>
+      </Heading.H1>
     </Flex>
   )
 

@@ -5,7 +5,7 @@ import { getIntl } from '@zap/i18n'
 import { getTag } from '@zap/utils/crypto'
 import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
 import { contactFormSelectors } from './contactsform'
-import { tickerSelectors } from './ticker'
+import { tickerSelectors } from 'reducers/ticker'
 import { getNodeDisplayName, networkSelectors } from './network'
 import messages from './messages'
 

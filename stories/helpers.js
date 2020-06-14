@@ -8,9 +8,9 @@ export const Window = props => <Page height="calc(100vh - 40px)" {...props} />
 export const Column = props => <Box mr={5} width={1 / 2} {...props} />
 export const Group = ({ title, children, hasBar = true }) => (
   <Box mb={4}>
-    <Heading.h3 fontWeight="normal" mb={2}>
+    <Heading.H3 fontWeight="normal" mb={2}>
       {title}
-    </Heading.h3>
+    </Heading.H3>
     {hasBar && <Bar mb={3} />}
     {children}
   </Box>

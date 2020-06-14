@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { settingsSelectors } from '../settings'
+import { settingsSelectors } from 'reducers/settings'
 
 /**
  * @typedef {import('../index').State} State

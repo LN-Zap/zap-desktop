@@ -87,7 +87,7 @@ const dbVersions = db => {
     ]
     const newConfig = {}
     await tx.settings.toCollection().modify((setting, ref) => {
-      const c = configMap.find(c => c.settingsKey === setting.key)
+      const c = configMap.find(i => i.settingsKey === setting.key)
       if (c) {
         try {
           const defaultValue = Dexie.getByKeyPath(config, c.configPath)

@@ -63,6 +63,7 @@ describe('formatValue', () => {
     expect(formatValue(from[0], from[1])).toEqual(to)
   }
 
+  /* eslint-disable jest/expect-expect */
   it('turns parsed number into a string', () => {
     test(['0', null], '0')
     test(['00', null], '00')
@@ -81,10 +82,12 @@ describe('formatValue', () => {
     test(['1', '0'], '1.0')
     test(['01', '0'], '01.0')
   })
+  /* eslint-enable jest/expect-expect */
 })
 
 describe('getMinFee', () => {
   const test = (from, to) => expect(getMinFee(from)).toEqual(to)
+  /* eslint-disable jest/expect-expect */
   it('returns the minimum fee (1 above the lowest value)', () => {
     test([], null)
     test([{ totalFees: 2, totalFeesMsat: 2000 }], '3')
@@ -105,10 +108,12 @@ describe('getMinFee', () => {
       '86'
     )
   })
+  /* eslint-enable jest/expect-expect */
 })
 
 describe('getMaxFee', () => {
   const test = (from, to) => expect(getMaxFee(from)).toEqual(to)
+  /* eslint-disable jest/expect-expect */
   it('returns the maximum fee (1 above the highest value)', () => {
     test([], null)
     test([{ totalFees: 2, totalFeesMsat: 2000 }], '3')
@@ -129,10 +134,12 @@ describe('getMaxFee', () => {
       '96'
     )
   })
+  /* eslint-enable jest/expect-expect */
 })
 
 describe('getMaxFeeInclusive', () => {
   const test = (from, to) => expect(getMaxFeeInclusive(from)).toEqual(to)
+  /* eslint-disable jest/expect-expect */
   it('returns the minimum fee includding increases after all retry attempts', () => {
     test([], null)
     test([{ totalFees: 2, totalFeesMsat: 2000 }], '5')
@@ -153,4 +160,5 @@ describe('getMaxFeeInclusive', () => {
       '117'
     )
   })
+  /* eslint-enable jest/expect-expect */
 })

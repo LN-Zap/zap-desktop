@@ -57,9 +57,9 @@ const AutopayCardView = ({
     <CardWithBg mb="12px" src={image}>
       <GradientOverlay />
       <TextOverlay alignItems="center" flexDirection="column" justifyContent="center" p={3}>
-        <Heading.h1 fontWeight="normal" textAlign="center">
+        <Heading.H1 fontWeight="normal" textAlign="center">
           {nickname}
-        </Heading.h1>
+        </Heading.H1>
       </TextOverlay>
       <Overlay alignItems="flex-end" justifyContent="center" mt={isActive ? -15 : 12}>
         {isActive ? (

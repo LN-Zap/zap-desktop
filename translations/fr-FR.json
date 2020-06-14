@@ -705,7 +705,7 @@
   "reducers.messages.backup_not_found_error": "Impossible de trouver un fichier de sauvegarde",
   "reducers.messages.neutrtino_synced_body": "Visa, vous dites ? Vous êtes désormais votre propre système de paiement !",
   "reducers.messages.neutrtino_synced_title": "Nœud Lightning synchronisé",
-  "reducers.messages.settings_init_error": "Impossible de charger les réglages : {error}",
+  "reducers.settings.settings_init_error": "Impossible de charger les réglages : {error}",
   "reducers.payment.failed_error": "",
   "reducers.payment.failed_incorrect_payment_details": "",
   "reducers.payment.failed_insufficient_balance": "",

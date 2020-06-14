@@ -1,9 +1,10 @@
+/* eslint-disable no-shadow */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
 import { connect } from 'react-redux'
-import CopyButton from 'components/UI/CopyButton'
 import { showNotification } from 'reducers/notification'
+import CopyButton from 'components/UI/CopyButton'
 import messages from './messages'
 import { intlShape } from '@zap/i18n'
 
