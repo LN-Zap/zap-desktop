@@ -21,9 +21,9 @@ const LnurlAuthPrompt = ({ params, onOk, onCancel, onClose }) => {
 
   const header = (
     <Flex alignItems="center" flexDirection="column" mb={4}>
-      <Heading.h1>
+      <Heading.H1>
         <FormattedMessage {...messages.lnurl_auth_prompt_dialog_header} />
-      </Heading.h1>
+      </Heading.H1>
     </Flex>
   )
 

@@ -4,8 +4,6 @@ import { createIntl, createIntlCache } from 'react-intl'
 import jstz from 'jstimezonedetect'
 import translations from '@zap/i18n/translation'
 
-let intl = createIntlObj('en')
-
 /**
  * createIntlObj - Creates intl object using `locale`.
  *
@@ -25,6 +23,8 @@ function createIntlObj(locale) {
     cache
   )
 }
+
+let intl = createIntlObj('en')
 
 /**
  * setIntlLocale - Set current locale.

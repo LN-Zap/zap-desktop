@@ -11,8 +11,8 @@ const transactions = createSelector(
   channelsSelectors.allChannelsRaw,
   channelsSelectors.closingPendingChannelsRaw,
   channelsSelectors.pendingOpenChannelsRaw,
-  (transactions, allChannelsRaw, closingPendingChannelsRaw, pendingOpenChannelsRaw) => {
-    return transactions
+  (allTransactions, allChannelsRaw, closingPendingChannelsRaw, pendingOpenChannelsRaw) => {
+    return allTransactions
       .map(transaction => decorateTransaction(transaction))
       .map(transaction => {
         const fundedChannel = allChannelsRaw.find(channelObj => {
@@ -42,8 +42,8 @@ const transactions = createSelector(
   }
 )
 
-const transactionsSending = createSelector(transactionsSendingSelector, transactionsSending =>
-  transactionsSending.map(transaction => decorateTransaction(transaction))
+const transactionsSending = createSelector(transactionsSendingSelector, ts =>
+  ts.map(transaction => decorateTransaction(transaction))
 )
 
 export default {

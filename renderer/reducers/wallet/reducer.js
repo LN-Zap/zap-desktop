@@ -75,11 +75,11 @@ export const getWallets = () => async dispatch => {
 /**
  * setActiveWallet - Set the currently active wallet.
  *
- * @param {number} activeWallet Wallet Id
+ * @param {number} walletId Wallet Id
  * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
-export const setActiveWallet = activeWallet => async dispatch => {
-  dispatch(putSetting('activeWallet', activeWallet))
+export const setActiveWallet = walletId => async dispatch => {
+  dispatch(putSetting('activeWallet', walletId))
 }
 
 /**

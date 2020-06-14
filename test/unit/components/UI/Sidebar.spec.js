@@ -10,7 +10,7 @@ describe('component.UI.Sidebar', () => {
 
   describe('Sidenbar.{small|medium|large}', () => {
     it(`should render a sidebar of the correct size`, () => {
-      const sizes = ['small', 'medium', 'large']
+      const sizes = ['Small', 'Medium', 'Large']
       sizes.forEach(size => {
         const Element = Sidebar[size]
         const wrapper = renderWithTheme(<Element />)

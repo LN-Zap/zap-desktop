@@ -6,7 +6,7 @@ import { getIntl } from '@zap/i18n'
 import { isSCBRestoreEnabled } from '@zap/utils/featureFlag'
 import { walletSelectors } from './wallet'
 import { infoSelectors } from './info'
-import { showError, showNotification } from './notification'
+import { showError, showNotification } from 'reducers/notification'
 import messages from './messages'
 // ------------------------------------
 // Initial State

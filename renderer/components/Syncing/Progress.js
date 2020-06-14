@@ -110,7 +110,7 @@ const Progress = ({
       <Text fontWeight="normal" my={2}>
         {caption}
       </Text>
-      <Heading.h1>{mainMessage}</Heading.h1>
+      <Heading.H1>{mainMessage}</Heading.H1>
       {['in-progress', 'recovering'].includes(syncStatus) && (
         <ProgressBar
           my={2}

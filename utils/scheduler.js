@@ -97,6 +97,50 @@ export default function createScheduler() {
   }
 
   /**
+   * isScheduled - Checks whether `task` is in the execution queue.
+   *
+   * @param {string|Function} task - either original callback or `taskId` or internal task id
+   * @returns {boolean} Boolean indicating whether the task is scheduled
+   */
+  const isScheduled = task => {
+    const taskDesc = findTask(task)
+    return Boolean(taskDesc && !taskDesc.isCancelled)
+  }
+
+  /**
+   * cancelTask - Internal helper that sets `taskDesc` to a cancelled state and adds task to a
+   * `cancelledTasks` list.
+   *
+   *  @param {object} taskDesc  one of `taskList` values
+   */
+  const cancelTask = taskDesc => {
+    taskDesc.isCancelled = true
+    cancelledTasks[taskDesc.internalId] = true
+  }
+
+  /**
+   * removeTask - Removes `task` from the execution queue.
+   *
+   * @param {string|Function} task - either original callback or `taskId`
+   * @returns {boolean} Boolean indicating whether the task was removed
+   */
+  const removeTask = task => {
+    const taskDesc = findTask(task)
+    if (taskDesc) {
+      cancelTask(taskDesc)
+      return true
+    }
+    return false
+  }
+
+  /**
+   * removeAllTasks - Clears the entire execution queue.
+   */
+  const removeAllTasks = () => {
+    Object.values(taskList).forEach(cancelTask)
+  }
+
+  /**
    * addTask - Enqueues `task` for the continuous execution.
    *
    * @param {*} taskDefinition task configuration
@@ -141,50 +185,6 @@ export default function createScheduler() {
       backoff,
       onCancelComplete: () => onCancelComplete(internalId),
     })
-  }
-
-  /**
-   * cancelTask - Internal helper that sets `taskDesc` to a cancelled state and adds task to a
-   * `cancelledTasks` list.
-   *
-   *  @param {object} taskDesc  one of `taskList` values
-   */
-  const cancelTask = taskDesc => {
-    taskDesc.isCancelled = true
-    cancelledTasks[taskDesc.internalId] = true
-  }
-
-  /**
-   * removeTask - Removes `task` from the execution queue.
-   *
-   * @param {string|Function} task - either original callback or `taskId`
-   * @returns {boolean} Boolean indicating whether the task was removed
-   */
-  const removeTask = task => {
-    const taskDesc = findTask(task)
-    if (taskDesc) {
-      cancelTask(taskDesc)
-      return true
-    }
-    return false
-  }
-
-  /**
-   * removeAllTasks - Clears the entire execution queue.
-   */
-  const removeAllTasks = () => {
-    Object.values(taskList).forEach(cancelTask)
-  }
-
-  /**
-   * isScheduled - Checks whether `task` is in the execution queue.
-   *
-   * @param {string|Function} task - either original callback or `taskId` or internal task id
-   * @returns {boolean} Boolean indicating whether the task is scheduled
-   */
-  const isScheduled = task => {
-    const taskDesc = findTask(task)
-    return Boolean(taskDesc && !taskDesc.isCancelled)
   }
 
   return {

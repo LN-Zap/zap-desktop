@@ -15,9 +15,9 @@ const ChannelsMenuHeader = ({
 }) => {
   return (
     <Flex justifyContent="space-between" {...rest}>
-      <Heading.h1>
+      <Heading.H1>
         <FormattedMessage {...messages.title} />
-      </Heading.h1>
+      </Heading.H1>
       <Box width={80}>
         <ChannelsCapacityDonut
           channelCount={channelCount}

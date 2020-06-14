@@ -92,11 +92,11 @@ class BackupSetup extends React.Component {
           onSubmitFailure={onSubmitFailure}
           width={BACKUP_FORM_WIDTH}
         >
-          <Heading.h1 mb={3} textAlign="center">
+          <Heading.H1 mb={3} textAlign="center">
             <FormattedMessage
               {...(isRestoreMode ? messages.backup_import_header : messages.backup_header)}
             />
-          </Heading.h1>
+          </Heading.H1>
           <Bar mb={6} />
           <RadioGroup field="backupType" initialValue="local" isRequired name="backupType">
             <Flex alignItems="space-around" justifyContent="center" mt={3}>

@@ -12,11 +12,11 @@ const Header = ({ title, subtitle, align, logo }) => (
       </Text>
     )}
     {title && (
-      <Heading.h1 mb={1} textAlign={align}>
+      <Heading.H1 mb={1} textAlign={align}>
         {title}
-      </Heading.h1>
+      </Heading.H1>
     )}
-    {subtitle && <Heading.h4 textAlign={align}>{subtitle}</Heading.h4>}
+    {subtitle && <Heading.H4 textAlign={align}>{subtitle}</Heading.H4>}
   </Flex>
 )
 Header.propTypes = {

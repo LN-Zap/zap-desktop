@@ -9,7 +9,7 @@ import ChannelMoreButton from './ChannelMoreButton'
 import ChannelStatus from './ChannelStatus'
 import Padlock from 'components/Icon/Padlock'
 
-const ClippedHeading = withEllipsis(Heading.h1)
+const ClippedHeading = withEllipsis(Heading.H1)
 const ClippedText = withEllipsis(Text)
 
 const areEqual = (prevProps, nextProps) => isEqual(prevProps, nextProps)

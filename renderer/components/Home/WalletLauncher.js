@@ -493,9 +493,9 @@ class WalletLauncher extends React.Component {
 
               {wallet.type === 'local' ? (
                 <>
-                  <Heading.h1 mb={5}>
+                  <Heading.H1 mb={5}>
                     <FormattedMessage {...messages.settings_title} />
-                  </Heading.h1>
+                  </Heading.H1>
 
                   <WalletSettingsFormLocal
                     autopilotDefaults={autopilotDefaults}

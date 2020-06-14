@@ -10,7 +10,7 @@ const Loading = ({ isLoading }) => {
   return (
     <Transition isLoading={isLoading}>
       <Flex bg="primaryColor" height="100%">
-        <Sidebar.medium height="100%" pl={4} pt={40}>
+        <Sidebar.Medium height="100%" pl={4} pt={40}>
           <Box mb={40}>
             <ZapLogo height={28} width={28} />
           </Box>
@@ -19,7 +19,7 @@ const Loading = ({ isLoading }) => {
           <Placeholder height={15} mb={3} width={100} />
           <Placeholder height={15} mb={3} width={100} />
           <Placeholder height={15} mb={3} width={100} />
-        </Sidebar.medium>
+        </Sidebar.Medium>
         <MainContent height="100%" pb={2} pl={5} pr={6} pt={4} width={1}>
           <Flex alignItems="center" justifyContent="space-between" mb={5} width={1}>
             <Placeholder height={60} width={2 / 3} />

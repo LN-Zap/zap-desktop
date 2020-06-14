@@ -4,7 +4,7 @@ import LndConfig from '@zap/utils/lndConfig'
 
 jest.mock('child_process', () => {
   /* eslint-disable global-require */
-  const mockSpawn = require('mock-spawn')
+  const mockSpawn = require('mock-spawn') /* eslint-disable-line no-shadow */
   return {
     spawn: mockSpawn(),
   }

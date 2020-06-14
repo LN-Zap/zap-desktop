@@ -16,9 +16,9 @@ const ErrorDialog = ({ onClose, error, isRestoreMode, isOpen, position }) => {
       <Box color="superRed" mb={2}>
         <Delete height={72} width={72} />
       </Box>
-      <Heading.h1 textAlign="center">
+      <Heading.H1 textAlign="center">
         <FormattedMessage {...messages.error_dialog_header} />
-      </Heading.h1>
+      </Heading.H1>
     </Flex>
   )
 

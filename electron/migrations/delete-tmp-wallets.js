@@ -15,7 +15,7 @@ const migration = async () => {
   mainLog.debug('Found tmp wallets to delete: %O', tmpWallets)
 
   for (const wallet of tmpWallets) {
-    await deleteLocalWallet(wallet)
+    await deleteLocalWallet(wallet) // eslint-disable-line no-await-in-loop
   }
 }
 

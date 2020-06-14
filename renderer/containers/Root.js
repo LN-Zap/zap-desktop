@@ -139,7 +139,7 @@ Root.propTypes = {
 
 const mapStateToProps = (state, ownProps) => ({
   hasWallets: walletSelectors.hasWallets(state),
-  notifications: notificationSelectors.getNotificationState(state),
+  notifications: notificationSelectors.notificationState(state),
   theme: themeSelectors.currentThemeSettings(state),
   isLoading: isLoading(state) || isLoadingPerPath(state, ownProps.history.location),
   loadingMessage: getLoadingMessage(state, ownProps.history.location),

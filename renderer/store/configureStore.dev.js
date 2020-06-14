@@ -30,9 +30,9 @@ const composeEnhancers =
                 // Strip out long data from invoices to avoid bloat.
                 invoice: {
                   ...invoice,
-                  invoices: invoice.invoices.map(invoice => {
+                  invoices: invoice.invoices.map(item => {
                     return {
-                      ...invoice,
+                      ...item,
                       rHash: '<<R_HASH_BUFFER_DATA>>',
                       rPreimage: '<<R_PREIMAGE_BUFFER_DATA>>',
                     }

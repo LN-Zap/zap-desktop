@@ -35,9 +35,9 @@ const DialogWrapper = ({ intl, isOpen, isRestoreMode, onSkip, onCancel, position
       <Box color="primaryAccent" mb={2}>
         <Warning height={72} width={72} />
       </Box>
-      <Heading.h1 textAlign="center">
+      <Heading.H1 textAlign="center">
         <FormattedMessage {...messages.skip_backup_dialog_warning_header} />
-      </Heading.h1>
+      </Heading.H1>
     </Flex>
   )
 

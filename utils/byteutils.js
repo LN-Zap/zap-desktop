@@ -5,8 +5,8 @@ import CryptoJS from 'crypto-js'
 /**
  * byteArrayToWordArray - Convert a word array to a byte array.
  *
- * @param {ByteArray} byteArray Byte array
- * @returns {WordArray} Word array
+ * @param {Array} byteArray Byte array
+ * @returns {Array} Word array
  */
 export function byteArrayToWordArray(byteArray) {
   const wa = []
@@ -21,9 +21,9 @@ export function byteArrayToWordArray(byteArray) {
 /**
  * wordToByteArray - Convert a word to a byte array.
  *
- * @param {Word} word Word
+ * @param {number} word Word
  * @param {number} length Length
- * @returns {ByteArray} Byte array
+ * @returns {Array} Byte array
  */
 export function wordToByteArray(word, length) {
   const ba = []
@@ -47,9 +47,9 @@ export function wordToByteArray(word, length) {
 /**
  * wordArrayToByteArray - Convert a word array to a byte array.
  *
- * @param {WordArray} wordArray Word array
+ * @param {number} wordArray Word array
  * @param {number} wordLength Length
- * @returns {ByteArray} Byte array
+ * @returns {Array} Byte array
  */
 export function wordArrayToByteArray(wordArray, wordLength) {
   let length = wordLength

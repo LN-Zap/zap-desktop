@@ -84,6 +84,15 @@ function killNeutrino(signal) {
 }
 
 /**
+ * getUserDataDir - Get the electron user data directory.
+ *
+ * @returns {string} Electron user data directory.
+ */
+function getUserDataDir() {
+  return remote.app.getPath('userData')
+}
+
+/**
  * generateLndConfigFromWallet - Generates an lnd config object from a wallet config.
  *
  * @param {object} wallet Wallet config
@@ -107,15 +116,6 @@ async function generateLndConfigFromWallet(wallet) {
   // between the renderer and Web Worker processes without needing to proxy. This also flattens getter method
   // properties to plan props.
   return { ...lndConfig }
-}
-
-/**
- * getUserDataDir - Get the electron user data directory.
- *
- * @returns {string} Electron user data directory.
- */
-function getUserDataDir() {
-  return remote.app.getPath('userData')
 }
 
 // Provide access to whitelisted environment variables.

@@ -12,9 +12,9 @@ const ErrorDetailsDialog = ({ error, isOpen, onCopy, onClose, position, ...rest 
 
   const { details: { message, code } = {}, header } = error
   const headerEl = (
-    <Heading.h2 mb={4}>
+    <Heading.H2 mb={4}>
       {header || <FormattedMessage {...messages.error_dialog_header} />}
-    </Heading.h2>
+    </Heading.H2>
   )
 
   const handleCopy = () => {

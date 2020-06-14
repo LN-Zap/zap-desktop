@@ -55,24 +55,12 @@ export const SKIP_BACKUP_DIALOG_ID = 'SKIP_BACKUP_DIALOG_ID'
 // IPC
 // ------------------------------------
 
-/**
- * lndconnectUri - Set the lndconnect uri.
- * Used to initiate new wallet creation.
- *
- * @param {object} event Event
- * @param {string} lndConnect LND Connect URI
- * @returns {(dispatch:Function) => void} Thunk
- */
-export const lndconnectUri = (event, lndConnect) => dispatch => {
-  dispatch(setLndconnect(lndConnect))
-}
-
 // ------------------------------------
 // Actions
 // ------------------------------------
 
 /**
- * resetOnboarding - Reset onboarding state
+ * resetOnboarding - Reset onboarding state.
  *
  * @returns {(dispatch:Function) => void} Thunk
  */
@@ -260,6 +248,18 @@ export function setLndconnect(lndConnect) {
     type: SET_LNDCONNECT,
     lndConnect,
   }
+}
+
+/**
+ * lndconnectUri - Set the lndconnect uri.
+ * Used to initiate new wallet creation.
+ *
+ * @param {object} event Event
+ * @param {string} lndConnect LND Connect URI
+ * @returns {(dispatch:Function) => void} Thunk
+ */
+export const lndconnectUri = (event, lndConnect) => dispatch => {
+  dispatch(setLndconnect(lndConnect))
 }
 
 /**

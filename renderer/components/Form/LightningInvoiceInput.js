@@ -51,11 +51,7 @@ const LightningInvoiceInput = props => {
     chainName += ` (${network})`
   }
 
-  const doValidate = useCallback(value => validate(intl, network, chain, value), [
-    chain,
-    intl,
-    network,
-  ])
+  const doValidate = useCallback(v => validate(intl, network, chain, v), [chain, intl, network])
 
   return (
     <>

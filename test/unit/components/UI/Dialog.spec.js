@@ -31,7 +31,7 @@ describe('component.UI.Dialog', () => {
       const customHeader = (
         <Flex alignItems="center" alignSelf="stretch" flexDirection="column" mb={3}>
           <Eye color="white" height={64} width={64} />
-          <Heading.h2>Custom heading</Heading.h2>
+          <Heading.H2>Custom heading</Heading.H2>
         </Flex>
       )
 

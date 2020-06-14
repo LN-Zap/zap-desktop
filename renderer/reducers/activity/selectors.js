@@ -244,9 +244,9 @@ export const currentActivity = createSelector(
   pendingActivityRaw,
   expiredActivityRaw,
   internalActivityRaw,
-  (searchTextValue, filters, sent, received, pending, expired, internal) => {
+  (searchTextValue, currentFilter, sent, received, pending, expired, internal) => {
     const result = []
-    const curFilter = filters.size ? filters : defaultFilter
+    const curFilter = currentFilter.size ? currentFilter : defaultFilter
 
     curFilter.has('SENT_ACTIVITY') && result.push(...sent)
     curFilter.has('RECEIVED_ACTIVITY') && result.push(...received)
@@ -258,11 +258,11 @@ export const currentActivity = createSelector(
   }
 )
 
-export const isCustomFilter = createSelector(filter, filters => {
-  if (filters.size && filters.size !== defaultFilter.size) {
+export const isCustomFilter = createSelector(filter, currentFilter => {
+  if (currentFilter.size && currentFilter.size !== defaultFilter.size) {
     return true
   }
-  const difference = new Set([...filters].filter(x => !defaultFilter.has(x)))
+  const difference = new Set([...currentFilter].filter(x => !defaultFilter.has(x)))
   return difference.size > 0
 })
 
