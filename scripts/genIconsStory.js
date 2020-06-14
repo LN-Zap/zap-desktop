@@ -123,6 +123,8 @@ storiesOf('General', module).addWithChapters('Icons', {
  * @param {string} inputDir directory to look for icons in
  * @param {string} iconImportPath base import path form the icons e.g 'components/Icon/'
  * @param {object} outputFile output storybook file path
+ * @param {string} outputFile.allIconsOutput All icons story
+ * @param {string} outputFile.iconListOutputFile Icons index story
  */
 export default async function updateStorybook(
   inputDir,

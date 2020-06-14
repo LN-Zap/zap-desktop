@@ -93,7 +93,7 @@ class LndConfig {
       host: {
         enumerable: true,
         set(host) {
-          return this.setConnectionProp('host', host)
+          this.setConnectionProp('host', host)
         },
         get() {
           return this.getConnectionProp('host')
@@ -102,7 +102,7 @@ class LndConfig {
       cert: {
         enumerable: true,
         set(cert) {
-          return this.setConnectionProp('cert', cert)
+          this.setConnectionProp('cert', cert)
         },
         get() {
           return this.getConnectionProp('cert')
@@ -111,7 +111,7 @@ class LndConfig {
       macaroon: {
         enumerable: true,
         set(macaroon) {
-          return this.setConnectionProp('macaroon', macaroon)
+          this.setConnectionProp('macaroon', macaroon)
         },
         get() {
           return this.getConnectionProp('macaroon')

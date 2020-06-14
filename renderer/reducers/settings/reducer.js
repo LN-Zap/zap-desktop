@@ -6,15 +6,23 @@ import difference from '@zap/utils/difference'
 import { getIntl } from '@zap/i18n'
 import { showError } from 'reducers/notification'
 import * as constants from './constants'
-import selectors from './selectors'
+import settingsSelectors from './selectors'
 import messages from './messages'
 
 const { INIT_SETTINGS, INIT_SETTINGS_SUCCESS, INIT_SETTINGS_FAILURE, SET_SETTING } = constants
+
+/**
+ * @typedef State
+ * @property {boolean} isSettingsLoaded Boolean indicating if settings have been loaded
+ * @property {string|null} initSettingsError Settings load error message
+ * @property {object} config Current config
+ */
 
 // ------------------------------------
 // Initial State
 // ------------------------------------
 
+/** @type {State} */
 const initialState = {
   isSettingsLoaded: false,
   initSettingsError: null,
@@ -69,7 +77,7 @@ export const putSetting = (key, value) => async dispatch => {
  * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const saveConfigOverrides = values => async (dispatch, getState) => {
-  const currentConfig = selectors.currentConfig(getState())
+  const currentConfig = settingsSelectors.currentConfig(getState())
   const updatedConfig = merge({}, currentConfig, values)
   const overrides = difference(updatedConfig, config)
   await dispatch(putSetting('config', overrides))
@@ -83,7 +91,7 @@ export const saveConfigOverrides = values => async (dispatch, getState) => {
  * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const putConfig = (path, value) => async (dispatch, getState) => {
-  const currentConfig = selectors.currentConfig(getState())
+  const currentConfig = settingsSelectors.currentConfig(getState())
   const updatedConfig = set({ ...currentConfig }, path, value)
   await dispatch(saveConfigOverrides(updatedConfig))
 }

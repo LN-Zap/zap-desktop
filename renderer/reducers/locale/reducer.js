@@ -4,7 +4,7 @@ import createReducer from '@zap/utils/createReducer'
 import translations from '@zap/i18n/translation'
 import { setIntlLocale } from '@zap/i18n'
 import { putConfig, settingsSelectors } from 'reducers/settings'
-import selectors from './selectors'
+import localeSelectors from './selectors'
 
 /**
  * setLocale - Set the current locale.
@@ -38,7 +38,7 @@ export const setLocale = locale => async (dispatch, getState) => {
 export const initLocale = () => async (dispatch, getState) => {
   const state = getState()
   const currentConfig = settingsSelectors.currentConfig(state)
-  const currentLocale = selectors.currentLocale(state)
+  const currentLocale = localeSelectors.currentLocale(state)
 
   if (currentConfig.locale !== currentLocale) {
     await dispatch(setLocale(currentConfig.locale))

@@ -1,4 +1,4 @@
-var path = require('path')
+const path = require('path')
 
 const downgraded = [
   'class-methods-use-this',
@@ -11,10 +11,7 @@ const downgraded = [
 ]
 
 module.exports = {
-  extends: [
-    '@ln-zap',
-    'plugin:testcafe/recommended',
-  ],
+  extends: ['@ln-zap', 'plugin:testcafe/recommended'],
   rules: downgraded.reduce(
     (acc, next) => {
       acc[next] = 'warn'
@@ -28,10 +25,7 @@ module.exports = {
       'shopify/jsx-no-hardcoded-content': 'error',
     }
   ),
-  plugins: [
-    'shopify',
-    'testcafe',
-  ],
+  plugins: ['shopify', 'testcafe'],
   settings: {
     'import/resolver': {
       'babel-module': {},
