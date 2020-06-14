@@ -21,7 +21,6 @@ class CryptoAmountInput extends React.Component {
     const { cryptoUnit, fieldApi, fieldState } = this.props
     // Reformat the value when the currency unit has changed.
     if (cryptoUnit !== prevProps.cryptoUnit) {
-      const { fieldApi } = this.props
       let { value } = fieldState
       const convertedValue = convert(prevProps.cryptoUnit, cryptoUnit, value)
       const [integer, fractional] = parseNumber(convertedValue, this.getRules().precision)

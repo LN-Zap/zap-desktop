@@ -1,0 +1,2 @@
+export const GET_TICKERS = 'GET_TICKERS'
+export const RECIEVE_TICKERS = 'RECIEVE_TICKERS'

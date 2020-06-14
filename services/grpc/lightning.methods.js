@@ -165,8 +165,8 @@ async function openChannel(payload = {}) {
         reject(e)
       })
 
-      call.on('status', status => {
-        grpcLog.debug('OPEN_CHANNEL STATUS', status)
+      call.on('status', s => {
+        grpcLog.debug('OPEN_CHANNEL STATUS', s)
       })
 
       call.on('end', () => {
@@ -221,8 +221,8 @@ async function closeChannel(payload = {}) {
         reject(e)
       })
 
-      call.on('status', status => {
-        grpcLog.debug('CLOSE_CHANNEL STATUS', status)
+      call.on('status', s => {
+        grpcLog.debug('CLOSE_CHANNEL STATUS', s)
       })
 
       call.on('end', () => {
@@ -285,8 +285,8 @@ async function sendPayment(payload = {}) {
         call.end()
       })
 
-      call.on('status', status => {
-        grpcLog.debug('PAYMENT STATUS', status)
+      call.on('status', s => {
+        grpcLog.debug('PAYMENT STATUS', s)
       })
 
       call.on('end', () => {

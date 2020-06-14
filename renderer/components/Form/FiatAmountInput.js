@@ -26,7 +26,6 @@ class FiatAmountInput extends React.Component {
 
     // Reformat the value when the currency unit has changed.
     if (currency !== prevProps.currency) {
-      const { fieldApi } = this.props
       let { value } = fieldState
       const lastPriceInOrigCurrency = currentTicker[prevProps.currency]
       const lastPriceInNewCurrency = currentTicker[currency]

@@ -210,20 +210,22 @@ class ZapGrpc extends EventEmitter {
   subscribe(...streams) {
     // some of the streams may have params
     // create a map <streamName, params> out of them
-    const getSubscriptionParams = streams => {
-      if (!(streams && streams.length)) {
+    const getSubscriptionParams = items => {
+      if (!(items && items.length)) {
         return {}
       }
-      return streams.reduce((acc, next) => {
+      return items.reduce((acc, next) => {
         if (isObject(next)) {
           acc[next.name] = next.params
         }
         return acc
       }, {})
     }
+
     // flattens @streams into an Array<string> of stream names to subscribe to
-    const getSubscriptionsNames = streams =>
-      streams && streams.map(entry => (isObject(entry) ? entry.name : entry))
+    const getSubscriptionsNames = items =>
+      items && items.map(entry => (isObject(entry) ? entry.name : entry))
+
     // make sure we are subscribing to known streams if a specific list is provided
     const allSubKeys = Object.keys(this.availableSubscriptions)
 

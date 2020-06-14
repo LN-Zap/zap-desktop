@@ -705,7 +705,7 @@
   "reducers.messages.backup_not_found_error": "Nelze najít zálohovací soubor ",
   "reducers.messages.neutrtino_synced_body": "Visa kdo? Jste nyní svým vlastním zpracovatelem plateb!",
   "reducers.messages.neutrtino_synced_title": "Lightning uzel synchronizován",
-  "reducers.messages.settings_init_error": "Nastavení nelze načíst: {error}",
+  "reducers.settings.settings_init_error": "Nastavení nelze načíst: {error}",
   "reducers.payment.failed_error": "Došlo k neopravitelné chybě.",
   "reducers.payment.failed_incorrect_payment_details": "Nesprávné údaje o platbě (neznámý hash, neplatný amt nebo neplatný cltv delta).",
   "reducers.payment.failed_insufficient_balance": "Nedostatečný místní zůstatek.",

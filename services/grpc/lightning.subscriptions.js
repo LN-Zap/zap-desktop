@@ -23,9 +23,9 @@ function subscribeChannelGraph(payload = {}) {
       this.emit('subscribeChannelGraph.error', error)
     }
   })
-  call.on('status', status => {
-    grpcLog.info('CHANNELGRAPH STATUS: %o', status)
-    this.emit('subscribeChannelGraph.status', status)
+  call.on('status', s => {
+    grpcLog.info('CHANNELGRAPH STATUS: %o', s)
+    this.emit('subscribeChannelGraph.status', s)
   })
   call.on('end', () => {
     grpcLog.info('CHANNELGRAPH END')
@@ -52,9 +52,9 @@ function subscribeInvoices(payload = {}) {
       this.emit('subscribeInvoices.error', error)
     }
   })
-  call.on('status', status => {
-    grpcLog.info('INVOICES STATUS: %o', status)
-    this.emit('subscribeInvoices.status', status)
+  call.on('status', s => {
+    grpcLog.info('INVOICES STATUS: %o', s)
+    this.emit('subscribeInvoices.status', s)
   })
   call.on('end', () => {
     grpcLog.info('INVOICES END')
@@ -81,9 +81,9 @@ function subscribeTransactions(payload = {}) {
       this.emit('subscribeTransactions.error', error)
     }
   })
-  call.on('status', status => {
-    grpcLog.info('TRANSACTIONS STATUS: %o', status)
-    this.emit('subscribeTransactions.status', status)
+  call.on('status', s => {
+    grpcLog.info('TRANSACTIONS STATUS: %o', s)
+    this.emit('subscribeTransactions.status', s)
   })
   call.on('end', () => {
     grpcLog.info('TRANSACTIONS END')
@@ -110,9 +110,9 @@ function subscribeChannelBackups(payload = {}) {
         this.emit('subscribeChannelBackup.error', error)
       }
     })
-    call.on('status', status => {
-      grpcLog.debug('CHANNEL BACKUP: %o', status)
-      this.emit('subscribeChannelBackup.status', status)
+    call.on('status', s => {
+      grpcLog.debug('CHANNEL BACKUP: %o', s)
+      this.emit('subscribeChannelBackup.status', s)
     })
     call.on('end', () => {
       grpcLog.debug('CHANNEL BACKUP END')

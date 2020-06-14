@@ -52,7 +52,7 @@ const settleInvoiceError = state => state.invoice.settleInvoiceError
  * @param {State} state Redux state
  * @returns {Invoice[]} List of decorated invoices
  */
-export const invoices = createSelector(invoicesSelector, item => item.map(decorateInvoice))
+const invoices = createSelector(invoicesSelector, item => item.map(decorateInvoice))
 
 export default {
   invoices,

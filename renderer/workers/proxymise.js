@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+/* eslint-disable no-use-before-define */
 // adapted from https://github.com/kozhevnikov/proxymise
 // comlink compatible version
 

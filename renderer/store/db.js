@@ -7,23 +7,6 @@ import Setting from './schema/setting'
 import dbVersions from './dbVersions'
 
 /**
- * initDb - Initialise the database and make it globally accessible.
- *
- * @returns {Promise} Resolves once database connection is open
- */
-export const initDb = () => {
-  const { namespace, domain } = config.db
-  const { NODE_ENV: environment } = process.env
-  const dbName = getDbName({
-    namespace,
-    domain,
-    environment,
-  })
-  window.db = getDb(dbName)
-  return window.db.open()
-}
-
-/**
  * getDb - Define the database.
  *
  * @param {string} name Database name
@@ -46,4 +29,21 @@ export const getDb = name => {
   db.wallets.hook('reading', walletHooks.reading)
 
   return db
+}
+
+/**
+ * initDb - Initialise the database and make it globally accessible.
+ *
+ * @returns {Promise} Resolves once database connection is open
+ */
+export const initDb = () => {
+  const { namespace, domain } = config.db
+  const { NODE_ENV: environment } = process.env
+  const dbName = getDbName({
+    namespace,
+    domain,
+    environment,
+  })
+  window.db = getDb(dbName)
+  return window.db.open()
 }

@@ -1,12 +1,15 @@
 import config from 'config'
 import merge from 'lodash/merge'
 import set from 'lodash/set'
-import { createSelector } from 'reselect'
 import createReducer from '@zap/utils/createReducer'
 import difference from '@zap/utils/difference'
 import { getIntl } from '@zap/i18n'
-import { showError } from './notification'
+import { showError } from 'reducers/notification'
+import * as constants from './constants'
+import selectors from './selectors'
 import messages from './messages'
+
+const { INIT_SETTINGS, INIT_SETTINGS_SUCCESS, INIT_SETTINGS_FAILURE, SET_SETTING } = constants
 
 // ------------------------------------
 // Initial State
@@ -17,16 +20,6 @@ const initialState = {
   initSettingsError: null,
   config: {},
 }
-
-// ------------------------------------
-// Constants
-// ------------------------------------
-
-export const INIT_SETTINGS = 'INIT_SETTINGS'
-export const INIT_SETTINGS_SUCCESS = 'INIT_SETTINGS_SUCCESS'
-export const INIT_SETTINGS_FAILURE = 'INIT_SETTINGS_FAILURE'
-
-export const SET_SETTING = 'SET_SETTING'
 
 // ------------------------------------
 // Actions
@@ -70,6 +63,19 @@ export const putSetting = (key, value) => async dispatch => {
 }
 
 /**
+ * saveConfigOverrides - Save config overrides.
+ *
+ * @param {object} values Config object that matches the structure of root config.
+ * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
+ */
+export const saveConfigOverrides = values => async (dispatch, getState) => {
+  const currentConfig = selectors.currentConfig(getState())
+  const updatedConfig = merge({}, currentConfig, values)
+  const overrides = difference(updatedConfig, config)
+  await dispatch(putSetting('config', overrides))
+}
+
+/**
  * putConfig - Save a config property.
  *
  * @param {string} path Config path property to set
@@ -77,22 +83,9 @@ export const putSetting = (key, value) => async dispatch => {
  * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const putConfig = (path, value) => async (dispatch, getState) => {
-  const currentConfig = settingsSelectors.currentConfig(getState())
+  const currentConfig = selectors.currentConfig(getState())
   const updatedConfig = set({ ...currentConfig }, path, value)
   await dispatch(saveConfigOverrides(updatedConfig))
-}
-
-/**
- * saveConfigOverrides - Save config overrides.
- *
- * @param {object} values Config object that matches the structure of root config.
- * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
- */
-export const saveConfigOverrides = values => async (dispatch, getState) => {
-  const currentConfig = settingsSelectors.currentConfig(getState())
-  const updatedConfig = merge({}, currentConfig, values)
-  const overrides = difference(updatedConfig, config)
-  await dispatch(putSetting('config', overrides))
 }
 
 // ------------------------------------
@@ -113,18 +106,5 @@ const ACTION_HANDLERS = {
     state[key] = value
   },
 }
-
-// ------------------------------------
-// Selectors
-// ------------------------------------
-
-const isSettingsLoadedSelector = state => state.settings.isSettingsLoaded
-const configSelector = state => state.settings.config
-const settingsSelectors = {}
-settingsSelectors.isSettingsLoaded = isSettingsLoadedSelector
-settingsSelectors.currentConfig = createSelector(configSelector, overrides =>
-  merge({}, config, overrides)
-)
-export { settingsSelectors }
 
 export default createReducer(initialState, ACTION_HANDLERS)

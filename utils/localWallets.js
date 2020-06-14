@@ -69,7 +69,7 @@ export async function getAllLocalWallets(chains = [], networks = []) {
   let res = []
   for (const config of configs) {
     const { chain, network } = config
-    const wallets = await getLocalWallets(chain, network)
+    const wallets = await getLocalWallets(chain, network) // eslint-disable-line no-await-in-loop
     res = res.concat(wallets)
   }
 
@@ -100,7 +100,7 @@ export async function purgeLocalWallet(chain, network, wallet) {
 export async function purgeAllLocalWallets(chains = [], networks = []) {
   const wallets = await getAllLocalWallets(chains, networks)
   for (const wallet of wallets) {
-    await purgeLocalWallet(wallet.chain, wallet.network, wallet.wallet)
+    await purgeLocalWallet(wallet.chain, wallet.network, wallet.wallet) // eslint-disable-line no-await-in-loop
   }
 }
 
