@@ -4,13 +4,7 @@ import { Flex, Text } from 'rebass/styled-components'
 import CryptoValue from './CryptoValue'
 import CryptoSelector from './CryptoSelector'
 
-/**
- * CryptValueSelector - Crypto value with denomination selector.
- *
- * @param {object} { fontSize, value }
- * @returns {object} Component
- */
-export default function CryptoValueSelector({ fontSize, value, ...rest }) {
+const CryptoValueSelector = ({ fontSize, value, ...rest }) => {
   return (
     <Flex alignItems="baseline" flexWrap="wrap" {...rest}>
       <Text fontSize={fontSize} textAlign="left">
@@ -25,3 +19,5 @@ CryptoValueSelector.propTypes = {
   fontSize: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 }
+
+export default CryptoValueSelector

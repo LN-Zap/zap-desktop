@@ -304,6 +304,11 @@ export const fetchSuggestedNodes = () => async dispatch => {
  * receiveChannels - Receive channels data from lnd.
  *
  * @param {object} data Details of all current channels
+ * @param {object} data.channels Channel data
+ * @param {object[]} data.channels.channels Channel data
+ * @param {object[]} data.pendingChannels Pending channels
+ * @param {object} data.closedChannels Closed channels
+ * @param {object[]} data.closedChannels.channels Closed channels
  * @returns {(dispatch:Function) => void} Thunk
  */
 export const receiveChannels = ({
@@ -329,6 +334,9 @@ export const fetchChannels = () => async dispatch => {
  * pushchannelupdated - Receive a channel update notification from lnd.
  *
  * @param {object} data Channel update notification
+ * @param {string} data.nodePubkey Node pubkey
+ * @param {string} data.chanId Channel Id
+ * @param {object} data.data Channel update data
  * @returns {(dispatch:Function) => void} Thunk
  */
 export const pushchannelupdated = ({ nodePubkey, chanId, data }) => dispatch => {
@@ -357,6 +365,9 @@ export const pushchannelupdated = ({ nodePubkey, chanId, data }) => dispatch => 
  * pushchannelerror - Receive a channel error notification from lnd.
  *
  * @param {object} data Channel error notification
+ * @param {string} [data.nodePubkey] Node pubkey
+ * @param {string} [data.chanId] Channel id
+ * @param {string} data.error Error
  * @returns {(dispatch:Function) => void} Thunk
  */
 export const pushchannelerror = ({ nodePubkey, chanId, error }) => dispatch => {
@@ -381,6 +392,7 @@ export const pushchannelerror = ({ nodePubkey, chanId, error }) => dispatch => {
  * pushclosechannelupdated - Receive a channel cloase update notification from lnd.
  *
  * @param {object} data Channel close update notification
+ * @param {string} data.chanId Channel Id
  * @returns {(dispatch:Function) => void} Thunk
  */
 export const pushclosechannelupdated = ({ chanId }) => dispatch => {
@@ -484,6 +496,8 @@ export const closeChannel = () => async (dispatch, getState) => {
  * pushclosechannelerror - Receive a channel cloase error notification from lnd.
  *
  * @param {object} data Channel close error notification
+ * @param {string} data.error Error
+ * @param {string} data.chanId Channel Id
  * @returns {(dispatch:Function) => void} Thunk
  */
 export const pushclosechannelerror = ({ error, chanId }) => dispatch => {

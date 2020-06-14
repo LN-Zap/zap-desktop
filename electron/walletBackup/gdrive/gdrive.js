@@ -16,13 +16,13 @@ function createConnection({ clientId, authRedirectUrl, scope, tokens }) {
   /**
    * createDriveInstance - Create gdrive api connection.
    *
-   * @param {object} tokens Tokens
+   * @param {object} gDriveTokens Tokens
    * @returns {object} Gdrive api connection
    */
-  async function createDriveInstance(tokens) {
-    const result = { accessTokens: tokens }
-    if (tokens) {
-      oAuthClient.setCredentials(tokens)
+  async function createDriveInstance(gDriveTokens) {
+    const result = { accessTokens: gDriveTokens }
+    if (gDriveTokens) {
+      oAuthClient.setCredentials(gDriveTokens)
     } else {
       const code = await api.createAuthWindow(oAuthClient, scope)
       const accessTokens = await api.fetchAccessTokens(oAuthClient, code)

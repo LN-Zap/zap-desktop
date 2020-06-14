@@ -24,7 +24,7 @@ const getServiceName = url => {
   }
 }
 
-/*
+/**
  * Lnurl handler class. Allows to process lnurl withdraw request.
  */
 export default class LnurlService {
@@ -96,6 +96,7 @@ export default class LnurlService {
    * process - Process an lnurl.
    *
    * @param {string} lnurl decoded lnurl
+   * @returns {void}
    */
   async process(lnurl) {
     mainLog.info('Attempting to process lnurl: %s', lnurl)
@@ -180,6 +181,8 @@ export default class LnurlService {
    *
    * @param {object} event Event
    * @param {object} data Data
+   * @param {string} data.sig Signature
+   * @param {string} data.key Key
    */
   onFinishAuth = async (event, { sig, key }) => {
     mainLog.info('Finishing lnurl auth request: %o', this.authParams)
@@ -257,6 +260,7 @@ export default class LnurlService {
    *
    * @param {object} event Event
    * @param {object} data Data
+   * @param {string} data.pubkey Pubkey
    */
   onFinishChannel = async (event, { pubkey }) => {
     mainLog.info('Finishing lnurl channel request: %o', this.channelParams)
@@ -332,6 +336,7 @@ export default class LnurlService {
    *
    * @param {object} event Event
    * @param {object} data Data
+   * @param {string} data.paymentRequest Payment request
    */
   onFinishWithdraw = async (event, { paymentRequest }) => {
     mainLog.info('Finishing lnurl withdraw request: %o', this.withdrawParams)

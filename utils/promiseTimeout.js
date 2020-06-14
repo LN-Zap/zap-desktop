@@ -6,7 +6,7 @@
  * @param {string} message messaged passed to the reject promise
  * @returns {Promise} Promise that rejects in <ms> milliseconds
  */
-export default function(ms, promise, message = 'Timed out') {
+const promiseTimeout = (ms, promise, message = 'Timed out') => {
   // Create a promise that rejects in <ms> milliseconds
   let timerId
 
@@ -20,3 +20,5 @@ export default function(ms, promise, message = 'Timed out') {
   // Returns a race between our timeout and the passed in promise
   return Promise.race([promise, timeout]).finally(clearTimer)
 }
+
+export default promiseTimeout
