@@ -5,7 +5,8 @@ import genId from '@zap/utils/genId'
 import * as constants from './constants'
 
 const {
-  NOTIFICATION_TIMEOUT,
+  NOTIFICATION_TIMEOUT_SHORT,
+  NOTIFICATION_TIMEOUT_LONG,
   ENQUEUE_NOTIFICATION,
   REMOVE_NOTIFICATION,
   UPDATE_NOTIFICATION,
@@ -32,7 +33,10 @@ const initialState = {
  * @returns {object} Notification
  */
 const createNotification = (options = {}) => {
-  const { timeout = NOTIFICATION_TIMEOUT, variant = 'success' } = options
+  const {
+    variant = 'success',
+    timeout = variant === 'success' ? NOTIFICATION_TIMEOUT_SHORT : NOTIFICATION_TIMEOUT_LONG,
+  } = options
   return {
     ...options,
     timeout,
