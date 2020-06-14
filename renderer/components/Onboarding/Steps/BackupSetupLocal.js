@@ -72,9 +72,9 @@ class BackupSetupLocal extends React.Component {
           }}
           onSubmitFailure={onSubmitFailure}
         >
-          <Heading.h1 mb={3} textAlign="center">
+          <Heading.H1 mb={3} textAlign="center">
             <FormattedMessage {...messages.backup_header} />
-          </Heading.h1>
+          </Heading.H1>
           <Bar mb={4} />
           <OpenDialogInput
             description={<FormattedMessage {...messages.backup_path_description} />}

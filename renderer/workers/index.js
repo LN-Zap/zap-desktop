@@ -1,3 +1,4 @@
+/* eslint-disable  max-classes-per-file */
 import { wrap } from 'comlink'
 import proxymise from './proxymise'
 

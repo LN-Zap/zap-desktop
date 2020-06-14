@@ -19,9 +19,9 @@ const Autopay = props => (
         </Panel.Header>
         <Panel.Body sx={{ overflowY: 'overlay', overflowX: 'hidden' }}>
           <AutopayList />
-          <Heading.h1 mt={4} mx={4}>
+          <Heading.H1 mt={4} mx={4}>
             <FormattedMessage {...messages.merchant_list_title} />
-          </Heading.h1>
+          </Heading.H1>
           <AutopayActions mx={4} my={3} />
           <AutopayMerchantList mx={4} />
         </Panel.Body>

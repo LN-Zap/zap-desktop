@@ -81,6 +81,7 @@ function ModalStack(props) {
 
 ModalStack.propTypes = {
   closeModal: PropTypes.func.isRequired,
+  modalDefinitions: PropTypes.object.isRequired,
   modals: PropTypes.array.isRequired,
 }
 

@@ -14,9 +14,9 @@ storiesOf('Layouts', module).addWithChapters('Page', {
 
           sectionFn: () => (
             <Window>
-              <Sidebar.medium bg="green">
+              <Sidebar.Medium bg="green">
                 <Content>Sidebar</Content>
-              </Sidebar.medium>
+              </Sidebar.Medium>
               <MainContent bg="blue">
                 <Content>MainContent</Content>
               </MainContent>
@@ -30,9 +30,9 @@ storiesOf('Layouts', module).addWithChapters('Page', {
               <MainContent bg="blue">
                 <Content>MainContent</Content>
               </MainContent>
-              <Sidebar.large bg="green">
+              <Sidebar.Large bg="green">
                 <Content>Sidebar</Content>
-              </Sidebar.large>
+              </Sidebar.Large>
             </Window>
           ),
         },

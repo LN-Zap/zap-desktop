@@ -15,9 +15,9 @@ const LoginNotAllowed = ({ platform = window.Zap.getPlatform() }) => {
           <Box color="superRed" mb={2}>
             <Delete height={72} width={72} />
           </Box>
-          <Heading.h1>
+          <Heading.H1>
             <FormattedMessage {...messages.header} />
-          </Heading.h1>
+          </Heading.H1>
           <Text color="gray" mt={3} textAlign="left">
             <FormattedMessage {...descMsg} />
           </Text>

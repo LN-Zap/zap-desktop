@@ -25,9 +25,9 @@ const DialogWrapper = ({ loginError, clearLoginError, onOk, onCancel }) => {
 
   const header = (
     <Flex alignItems="center" flexDirection="column" mb={4}>
-      <Heading.h1>
+      <Heading.H1>
         <FormattedMessage {...messages.password_prompt_dialog_header} />
-      </Heading.h1>
+      </Heading.H1>
     </Flex>
   )
 

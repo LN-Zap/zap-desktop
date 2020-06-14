@@ -15,7 +15,7 @@ import ChannelStatus from './ChannelStatus'
 import Padlock from 'components/Icon/Padlock'
 import messages from './messages'
 
-const ClippedHeading = withEllipsis(Heading.h1)
+const ClippedHeading = withEllipsis(Heading.H1)
 const ClippedText = withEllipsis(Text)
 const Box = styled(BaseBox)(opacity)
 const Flex = styled(BaseFlex)(opacity)

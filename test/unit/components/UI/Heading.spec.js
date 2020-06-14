@@ -8,10 +8,10 @@ describe('component.UI.Heading', () => {
     expect(tree).toMatchSnapshot()
   })
 
-  describe('Heading.{h1|h2|h3|h4|h5|h6}', () => {
+  describe('Heading.{H1|H2|H3|H4|H5|H6}', () => {
     it(`should render a heading of the correct level`, () => {
       for (let i = 1; i <= 6; i++) {
-        const Element = Heading[`h${i}`]
+        const Element = Heading[`H${i}`]
         const testRenderer = renderWithTheme(<Element>Heading here</Element>)
         expect(testRenderer.root.findByType(`h${i}`)).toBeTruthy()
       }

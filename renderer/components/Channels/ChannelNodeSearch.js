@@ -106,12 +106,12 @@ const ChannelNodeSearch = ({
 
       {searchQuery && (
         <>
-          <Heading.h1 mt={4}>
+          <Heading.H1 mt={4}>
             <FormattedMessage
               {...messages.node_search_results_header}
               values={{ count: filteredNetworkNodes.length }}
             />
-          </Heading.h1>
+          </Heading.H1>
           {filteredNetworkNodes.length > 0 ? (
             <SearchResults
               filteredNetworkNodes={filteredNetworkNodes}

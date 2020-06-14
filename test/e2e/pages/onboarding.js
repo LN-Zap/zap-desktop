@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import { ReactSelector } from 'testcafe-react-selectors'
 import range from 'lodash/range'
 

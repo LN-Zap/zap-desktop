@@ -92,7 +92,7 @@ class Home extends React.Component {
 
     return (
       <>
-        <Sidebar.medium pt={40}>
+        <Sidebar.Medium pt={40}>
           <Panel>
             <Panel.Header mb={40} px={4}>
               <ZapLogo height={28} width={28} />
@@ -111,7 +111,7 @@ class Home extends React.Component {
               </Box>
             </Panel.Footer>
           </Panel>
-        </Sidebar.medium>
+        </Sidebar.Medium>
 
         <MainContent pb={2} pl={5} pr={6} pt={4}>
           <Switch>

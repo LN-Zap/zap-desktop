@@ -112,12 +112,12 @@ const AutopayCreateForm = props => {
         /* eslint-disable */
         return (
           <Box px={5}>
-            <Heading.h1 textAlign="center">
+            <Heading.H1 textAlign="center">
               <FormattedMessage
                 values={{ merchantNickname }}
                 {...(isActive ? messages.header_success : messages.header_add)}
               />
-            </Heading.h1>
+            </Heading.H1>
             <Bar my={2} />
             <Box height={isEditMode ? 250 : 195}>
               <Spring

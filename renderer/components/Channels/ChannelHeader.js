@@ -9,7 +9,7 @@ import { Bar, Heading, Text } from 'components/UI'
 import { withEllipsis } from 'hocs'
 import ChannelStatus from './ChannelStatus'
 
-const ClippedHeading = withEllipsis(Heading.h1)
+const ClippedHeading = withEllipsis(Heading.H1)
 const ClippedText = withEllipsis(Text)
 const Box = styled(BaseBox)(opacity)
 const Flex = styled(BaseFlex)(opacity, height)
