@@ -228,13 +228,20 @@ export const payInvoice = ({
   const isKeysend = isPubkey(payReq)
   let payload
 
-  const defaultPaymentOptions = pick(currentConfig.payments, [
+  const paymentOptions = pick(currentConfig.payments, [
     'allowSelfPayment',
     'timeoutSeconds',
     'feeLimit',
     'maxParts',
   ])
-  defaultPaymentOptions.paymentId = paymentId
+
+  const defaultPaymentOptions = {
+    allowSelfPayment: paymentOptions.allowSelfPayment,
+    timeoutSeconds: paymentOptions.timeoutSeconds,
+    feeLimitSat: paymentOptions.feeLimit,
+    maxParts: paymentOptions.feeLimit,
+    paymentId,
+  }
 
   // Prepare payload for lnd.
   if (isKeysend) {

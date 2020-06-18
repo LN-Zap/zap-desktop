@@ -94,11 +94,17 @@ export const queryRoutes = (payReqOrPubkey, amt, feeLimit) => async (dispatch, g
   let paymentHash
   let payload
 
-  const defaultPaymentOptions = pick(currentConfig.payments, [
+  const paymentOptions = pick(currentConfig.payments, [
     'allowSelfPayment',
     'timeoutSeconds',
     'feeLimit',
   ])
+
+  const defaultPaymentOptions = {
+    allowSelfPayment: paymentOptions.allowSelfPayment,
+    timeoutSeconds: paymentOptions.timeoutSeconds,
+    feeLimitSat: paymentOptions.feeLimit,
+  }
 
   // Prepare payload for lnd.
   if (isKeysend) {
@@ -120,8 +126,12 @@ export const queryRoutes = (payReqOrPubkey, amt, feeLimit) => async (dispatch, g
   }
 
   const callProbePayment = async () => {
+    const routerProbePayment = infoSelectors.hasSendPaymentV2Support(getState())
+      ? grpc.services.Router.probePaymentV2
+      : grpc.services.Router.probePayment
+
     const routes = []
-    const route = await grpc.services.Router.probePayment(payload)
+    const route = await routerProbePayment(payload)
     // Flag this as an exact route. This can be used as a hint for whether to use sendToRoute to fulfil the payment.
     route.isExact = true
     // Store the payment hash for use with keysend.
