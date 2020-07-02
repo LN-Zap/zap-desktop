@@ -326,7 +326,7 @@
   "components.Loading.loading": "Lädt",
   "components.Loading.starting_lnd": "Starte Lnd",
   "components.Loading.starting_neutrino": "Neutrino starten",
-  "components.Loading.starting_tor_proxy": "",
+  "components.Loading.starting_tor_proxy": "Starte Tor-Proxy",
   "components.Loading.starting_wallet_unlocker": "Wallet-Entsperrung starten",
   "components.Login.error_desc_darwin": "Der Mac OS Keychain ist nicht verfügbar. Dieser ist erforderlich, Zap Wallet zu starten.",
   "components.Login.error_desc_linux": "Gnome Keyring ist nicht verfügbar. Es ist möglicherweise nicht installiert oder der Prozess wird nicht ausgeführt. Bitte stelle sicher, dass es installiert und ausgeführt ist. Starte die App neu.",
