@@ -44,7 +44,7 @@
   },
   "config": {
     "lnd-binary": {
-      "binaryVersion": "0.10.1-beta-2-g84d742736",
+      "binaryVersion": "0.10.2-beta-2-g32345b0d2",
       "binarySite": "https://github.com/LN-Zap/lnd/releases/download"
     }
   },
