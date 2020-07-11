@@ -46,11 +46,8 @@ const CurrencyFieldGroup = React.forwardRef(
       blockUpdates.current = true
     }
 
-    // informed calls onValueChange multiple time during value updates
-    // because of masks and patterns applied on top of UI elements
-    // give value a chance to settle before enabling updates again
-    const unblockLinkedUpdates = async () => {
-      await Promise.resolve()
+    // Enable updates of linked form values.
+    const unblockLinkedUpdates = () => {
       blockUpdates.current = false
     }
 
@@ -70,7 +67,7 @@ const CurrencyFieldGroup = React.forwardRef(
         const lastPrice = currentTicker[fiatCurrency]
         const fiatValue = convert(cryptoUnit, 'fiat', value, lastPrice)
         formApi.setValue('amountFiat', fiatValue)
-        await unblockLinkedUpdates()
+        unblockLinkedUpdates()
       }
       onChange && onChange()
     }
@@ -86,7 +83,7 @@ const CurrencyFieldGroup = React.forwardRef(
         const lastPrice = currentTicker[fiatCurrency]
         const cryptoValue = convert('fiat', cryptoUnit, value, lastPrice)
         formApi.setValue('amountCrypto', cryptoValue)
-        await unblockLinkedUpdates()
+        unblockLinkedUpdates()
       }
       onChange && onChange()
     }

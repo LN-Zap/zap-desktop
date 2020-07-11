@@ -3,7 +3,16 @@ import PropTypes from 'prop-types'
 import config from 'config'
 import get from 'lodash/get'
 import { injectIntl } from 'react-intl'
-import { decodePayReq, getMaxFeeInclusive, isOnchain, isBolt11, isPubkey } from '@zap/utils/crypto'
+import bip21 from 'bip21'
+import {
+  decodePayReq,
+  getMaxFeeInclusive,
+  isOnchain,
+  isBip21,
+  isBolt11,
+  isPubkey,
+} from '@zap/utils/crypto'
+import { convert } from '@zap/utils/btc'
 import { Panel } from 'components/UI'
 import { Form } from 'components/Form'
 import { getAmountInSats, getFeeRate } from './utils'
@@ -16,6 +25,7 @@ import { intlShape } from '@zap/i18n'
 class Pay extends React.Component {
   static propTypes = {
     addFilter: PropTypes.func.isRequired,
+    bip21decoded: PropTypes.object,
     chain: PropTypes.string.isRequired,
     chainName: PropTypes.string.isRequired,
     channelBalance: PropTypes.string.isRequired,
@@ -65,6 +75,8 @@ class Pay extends React.Component {
     previousStep: null,
     paymentType: PAYMENT_TYPES.none,
     loaded: false,
+    invoice: null,
+    bip21decoded: null,
   }
 
   // Set a flag so that we can trigger form submission in componentDidUpdate once the form is loaded.
@@ -76,8 +88,8 @@ class Pay extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { redirectPayReq, queryRoutes, setRedirectPayReq, queryFees } = this.props
-    const { currentStep, invoice, paymentType } = this.state
+    const { cryptoUnit, redirectPayReq, queryRoutes, setRedirectPayReq } = this.props
+    const { currentStep, bip21decoded, invoice, paymentType } = this.state
     const { address, amount } = redirectPayReq || {}
     const { payReq: prevPayReq } = prevProps || {}
     const { address: prevAddress, amount: prevAmount } = prevPayReq || {}
@@ -90,32 +102,43 @@ class Pay extends React.Component {
     }
 
     // If payReq address or amount has has changed update the relevant form values.
-    const isChangedAddress = address !== prevAddress
-    const isChangedAmount = amount !== prevAmount
-    if (isChangedAddress || isChangedAmount) {
+    const isChangedRedirectPayReqAddress = address !== prevAddress
+    const isChangedRedirectPayReqAmount = amount !== prevAmount
+    if (isChangedRedirectPayReqAddress || isChangedRedirectPayReqAmount) {
       this.autoFillForm(address, amount)
       return
     }
 
-    // If we have gone back to the address step, unmark all fields from being touched.
+    // If we have changed page, unmark all fields from being touched.
     if (currentStep !== prevState.currentStep) {
-      if (currentStep === PAY_FORM_STEPS.address) {
-        Object.keys(this.formApi.getState().touched).forEach(field => {
-          this.formApi.setTouched(field, false)
-        })
-      }
+      Object.keys(this.formApi.getState().touched).forEach(field => {
+        this.formApi.setTouched(field, false)
+      })
     }
 
-    // If we now have a valid onchain address, trigger the form submit to move to the amount step.
-    const isNowOnchain =
-      paymentType === PAYMENT_TYPES.onchain && paymentType !== prevState.paymentType
-    if (currentStep === PAY_FORM_STEPS.address && isNowOnchain) {
-      queryFees()
+    // If we now have a valid onchain address from pasted bip21 uri into address field
+    // fextract the values, fill out the form, and submit to next step.
+    const isNowBip21 = bip21decoded && bip21decoded !== prevState.bip21decoded
+    if (currentStep === PAY_FORM_STEPS.address && isNowBip21) {
+      this.formApi.reset()
+      this.formApi.setValues({
+        payReq: bip21decoded.address,
+        amountCrypto: convert('btc', cryptoUnit, get(bip21decoded, 'options.amount')),
+      })
       this.formApi.submitForm()
       return
     }
 
-    // If we now have a valid onchain address, trigger the form submit to move to the amount step.
+    // If we now have a valid onchain address from pasted bitcoin address into address field
+    // trigger the form submit to move to the amount step.
+    const isNowOnchain =
+      paymentType === PAYMENT_TYPES.onchain && paymentType !== prevState.paymentType
+    if (currentStep === PAY_FORM_STEPS.address && isNowOnchain) {
+      this.formApi.submitForm()
+      return
+    }
+
+    // If we now have a valid pubkey, trigger the form submit to move to the amount step.
     const isNowPubkey =
       paymentType === PAYMENT_TYPES.pubkey && paymentType !== prevState.paymentType
     if (currentStep === PAY_FORM_STEPS.address && isNowPubkey) {
@@ -123,7 +146,7 @@ class Pay extends React.Component {
       return
     }
 
-    // If we now have a valid lightning invoice submit the form.
+    // If we now have a valid lightning invoice, trigger the form submit to move to the amount step.
     const isNowLightning = invoice && invoice !== prevState.invoice
     if (currentStep === PAY_FORM_STEPS.address && isNowLightning) {
       this.formApi.submitForm()
@@ -331,6 +354,7 @@ class Pay extends React.Component {
       currentStep: PAY_FORM_STEPS.address,
       paymentType: PAYMENT_TYPES.none,
       invoice: null,
+      bip21decoded: null,
     }
 
     // See if the user has entered a valid lightning payment request.
@@ -342,6 +366,17 @@ class Pay extends React.Component {
         return
       }
       state.paymentType = PAYMENT_TYPES.bolt11
+    }
+
+    // Or a valid bip21 payment uri.
+    else if (isBip21(payReq)) {
+      try {
+        const bip21decoded = bip21.decode(payReq)
+        state.bip21decoded = bip21decoded
+      } catch (e) {
+        return
+      }
+      state.paymentType = PAYMENT_TYPES.onchain
     }
 
     // Otherwise, see if we have a valid onchain address.
@@ -362,6 +397,7 @@ class Pay extends React.Component {
     const { currentStep, invoice, paymentType, previousStep } = this.state
 
     const {
+      bip21decoded,
       chain,
       chainName,
       addFilter,
@@ -405,6 +441,7 @@ class Pay extends React.Component {
             <Panel.Body py={3}>
               <PayPanelBody
                 amountInSats={this.amountInSats()}
+                bip21decoded={bip21decoded}
                 chain={chain}
                 chainName={chainName}
                 cryptoUnit={cryptoUnit}

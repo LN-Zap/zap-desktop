@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import debounce from 'lodash/debounce'
 import { Keyframes } from 'react-spring/renderprops.cjs'
 import { intlShape } from '@zap/i18n'
+import { CoinBig } from '@zap/utils/coin'
 import { TransactionFeeInput, Toggle, Label } from 'components/Form'
 import { Bar } from 'components/UI'
 import { CurrencyFieldGroup } from 'containers/Form'
@@ -40,10 +41,13 @@ class PayAmountFields extends React.Component {
     const { payReq: address } = formState.values
     const amount = formApi.getValue('amountCrypto') || 0
     const amountInSats = getAmountInSats(amount, cryptoUnit, invoice)
-    queryFees(address, amountInSats)
+    if (CoinBig(amountInSats).gt(0)) {
+      queryFees(address, amountInSats)
+    }
   }, 500)
 
   static propTypes = {
+    bip21decoded: PropTypes.object,
     cryptoUnit: PropTypes.string.isRequired,
     currentStep: PropTypes.string.isRequired,
     formApi: PropTypes.object.isRequired,
