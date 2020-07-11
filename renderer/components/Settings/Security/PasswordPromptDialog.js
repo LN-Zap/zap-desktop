@@ -7,7 +7,7 @@ import { PasswordInput, Form } from 'components/Form'
 import messages from './messages'
 import { useFormError } from 'hooks'
 
-const DialogWrapper = ({ loginError, clearLoginError, onOk, onCancel }) => {
+const PasswordPromptDialog = ({ loginError, clearLoginError, onOk, onCancel }) => {
   const intl = useIntl()
   const formApiRef = useRef(null)
   useFormError(loginError, clearLoginError, formApiRef)
@@ -71,7 +71,7 @@ const DialogWrapper = ({ loginError, clearLoginError, onOk, onCancel }) => {
   )
 }
 
-DialogWrapper.propTypes = {
+PasswordPromptDialog.propTypes = {
   clearLoginError: PropTypes.func.isRequired,
   isRestoreMode: PropTypes.bool,
   loginError: PropTypes.string,
@@ -79,4 +79,4 @@ DialogWrapper.propTypes = {
   onOk: PropTypes.func.isRequired,
 }
 
-export default DialogWrapper
+export default PasswordPromptDialog
