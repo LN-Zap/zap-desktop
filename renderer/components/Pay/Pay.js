@@ -121,11 +121,10 @@ class Pay extends React.Component {
     const isNowBip21 = bip21decoded && bip21decoded !== prevState.bip21decoded
     if (currentStep === PAY_FORM_STEPS.address && isNowBip21) {
       this.formApi.reset()
-      this.formApi.setValue('payReq', bip21decoded.address)
-      this.formApi.setValue(
-        'amountCrypto',
-        convert('btc', cryptoUnit, get(bip21decoded, 'options.amount'))
-      )
+      this.formApi.setValues({
+        payReq: bip21decoded.address,
+        amountCrypto: convert('btc', cryptoUnit, get(bip21decoded, 'options.amount')),
+      })
       this.formApi.submitForm()
       return
     }
