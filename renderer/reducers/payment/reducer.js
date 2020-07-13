@@ -239,7 +239,7 @@ export const payInvoice = ({
     allowSelfPayment: paymentOptions.allowSelfPayment,
     timeoutSeconds: paymentOptions.timeoutSeconds,
     feeLimitSat: paymentOptions.feeLimit,
-    maxParts: paymentOptions.feeLimit,
+    maxParts: paymentOptions.maxParts,
     paymentId,
   }
 
