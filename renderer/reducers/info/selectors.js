@@ -177,7 +177,7 @@ const hasMppSupport = createSelector(grpcProtoVersion, v => {
  * @returns {string} Node pubkey
  */
 const nodePubkey = createSelector(nodeUris, identityPubkey, (n, pk) => {
-  const parseFromDataUri = () => n && n[0].split('@')[0]
+  const parseFromDataUri = () => n && n[0] && n[0].split('@')[0]
   return pk || parseFromDataUri()
 })
 
