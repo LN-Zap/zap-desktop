@@ -107,7 +107,7 @@ module.exports = {
 
   payments: {
     timeoutSeconds: 30, // Upper limit on the amount of time (s) we should spend when attempting to send a payment.
-    feeLimit: 5000, // Upper limit on the routing fees we should accept when sending payment without a limit.
+    feeLimit: 100, // Upper limit on the routing fees we should accept when sending payment without a limit.
     maxParts: 10, // The maximum number of partial payments that may be used to send a payment.
     allowSelfPayment: true, // If set, circular payments to self are permitted.
   },
