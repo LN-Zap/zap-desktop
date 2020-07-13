@@ -11,7 +11,7 @@
 export const isAccountLoading = state => state.account.isAccountLoading
 
 /**
- * isLoggingIn - Aaccount logging in state.
+ * isLoggingIn - Account logging in state.
  *
  * @param {State} state Redux state
  * @returns {boolean} Boolean indicating wether the current account is being logged into
