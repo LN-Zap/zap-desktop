@@ -85,7 +85,7 @@ const version = state => get(state, 'info.data.version')
  * @param {State} state Redux state
  * @returns {string} Node pubkey
  */
-const identityPubkey = state => get(state, 'info.data.identity_pubkey')
+const identityPubkey = state => get(state, 'info.data.identityPubkey')
 
 /**
  * version - Node urls.
