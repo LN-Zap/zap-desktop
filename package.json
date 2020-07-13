@@ -138,9 +138,7 @@
       "target": [
         {
           "target": "nsis",
-          "arch": [
-            "x64"
-          ]
+          "arch": "x64"
         }
       ]
     },
@@ -151,9 +149,11 @@
       "target": [
         {
           "target": "AppImage",
-          "arch": [
-            "x64"
-          ]
+          "arch": "x64"
+        },
+        {
+          "target": "snap",
+          "arch": "x64"
         }
       ],
       "desktop": {
