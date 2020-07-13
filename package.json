@@ -150,10 +150,6 @@
         {
           "target": "AppImage",
           "arch": "x64"
-        },
-        {
-          "target": "snap",
-          "arch": "x64"
         }
       ],
       "desktop": {
