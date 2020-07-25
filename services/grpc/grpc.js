@@ -11,6 +11,7 @@ import { forwardAll, unforwardAll } from '@zap/utils/events'
 import lightningMethods from './lightning.methods'
 import routerMethods from './router.methods'
 import lightningSubscriptions from './lightning.subscriptions'
+import routerSubscriptions from './router.subscriptions'
 
 const GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE = 'GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE'
 const GRPC_LIGHTNING_SERVICE_ACTIVE = 'GRPC_LIGHTNING_SERVICE_ACTIVE'
@@ -47,6 +48,7 @@ class ZapGrpc extends EventEmitter {
     this.registerSubscription('channelgraph', 'Lightning', 'subscribeChannelGraph')
     this.registerSubscription('info', 'Lightning', 'subscribeGetInfo')
     this.registerSubscription('backups', 'Lightning', 'subscribeChannelBackups')
+    this.registerSubscription('htlcs', 'Router', 'subscribeHtlcEvents')
 
     Object.assign(this, ZapGrpc.VOLATILE_STATE)
   }
@@ -74,7 +76,9 @@ class ZapGrpc extends EventEmitter {
     // Inject helper methods.
     Object.assign(this.services.Lightning, lightningMethods)
     Object.assign(this.services.Lightning, lightningSubscriptions)
+
     Object.assign(this.services.Router, routerMethods)
+    Object.assign(this.services.Router, routerSubscriptions)
 
     // Setup gRPC event handlers.
     this.grpc.on('locked', () => {
@@ -173,7 +177,7 @@ class ZapGrpc extends EventEmitter {
    * subscribeAll - Subscribe to all gRPC streams.
    */
   async subscribeAll() {
-    this.subscribe('invoices', 'transactions', 'backups')
+    this.subscribe('invoices', 'transactions', 'backups', 'htlcs')
 
     // Finalize subscriptions if `data.syncedToChain` is true.
     // Returns true if subscriptions were finalized and false otherwise
@@ -250,6 +254,12 @@ class ZapGrpc extends EventEmitter {
       // Set up the subscription.
       const { serviceName, methodName } = this.availableSubscriptions[key]
       const service = this.services[serviceName]
+
+      if (!service) {
+        grpcLog.warn(`gRPC subscription "${key}" not available.`)
+        return
+      }
+
       const subscriptionParams = params[key] || {}
       this.activeSubscriptions[key] = service[methodName](subscriptionParams)
       grpcLog.info(`gRPC subscription "${key}" started.`)
