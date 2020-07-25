@@ -44,6 +44,7 @@ import lnurl from './lnurl'
  * @property {import('./invoice').State} invoice Invoice reducer.
  * @property {import('./lnurl').State} lnurl Lnurl reducer.
  * @property {import('./network').State} network Network reducer.
+ * @property {import('./payment').State} payment Payment reducer.
  * @property {import('./settings').State} settings Settings reducer.
  * @property {import('./transaction').State} transaction Transaction reducer.
  */

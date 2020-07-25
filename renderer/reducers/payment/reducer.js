@@ -19,6 +19,35 @@ import { paymentsSending } from './selectors'
 import { prepareKeysendPayload, prepareBolt11Payload, errorCodeToMessage } from './utils'
 import * as constants from './constants'
 
+/**
+ * @typedef HtlcEvent
+ * @property {string} incomingChannelId The short channel id that the incoming htlc arrived at our node on.
+ * @property {string} outgoingChannelId The short channel id that the outgoing htlc left our node on.
+ * @property {string} incomingHtlcId Incoming id is the index of the incoming htlc in the incoming channel.
+ * @property {string} outgoingHtlcId Outgoing id is the index of the outgoing htlc in the outgoing channel.
+ * @property {string} timestampNs The time in unix nanoseconds that the event occurred.
+ * @property {string} eventType The event type indicates whether the htlc was part of a send, receive or forward.
+ * @property {object} forwardEvent ForwardEvent
+ * @property {object} forwardFailEvent ForwardFailEvent
+ * @property {object} settleEvent SettleEvent
+ * @property {object} linkFailEvent LinkFailEvent
+ */
+
+/**
+ * @typedef PaymentSending
+ * @property {string} paymentId Internal payment id.
+ * @property {string} paymentRequest Bol11 payment request.
+ * @property {string} feeLimit Max fee (satoshis)
+ * @property {number} value Payment value (satoshis)
+ * @property {number} remainingRetries Number of payment retry attempts remaining.
+ * @property {number} maxRetries Maximum number of payment retries.
+ * @property {'sending'|'successful'|'failed'} status Payment status.
+ * @property {number} creationDate Creadtion date.
+ * @property {boolean} isKeysend Boolean indicating if the payment is a keysend payment.
+ * @property {boolean} isSending ForwardEvent.
+ * @property {object} object Send payment error.
+ */
+
 const {
   GET_PAYMENTS,
   RECEIVE_PAYMENTS,
@@ -32,10 +61,18 @@ const {
   PAYMENT_STATUS_FAILED,
 } = constants
 
+/**
+ * @typedef State
+ * @property {boolean} paymentLoading Boolean indicating if payments are loading
+ * @property {object[]} payments List of transactions
+ * @property {PaymentSending[]} paymentsSending List of transactions in process of sending
+ */
+
 // ------------------------------------
 // Initial State
 // ------------------------------------
 
+/** @type {State} */
 const initialState = {
   paymentLoading: false,
   payments: [],
@@ -147,7 +184,7 @@ export const paymentSuccessful = paymentId => async (dispatch, getState) => {
  *
  * @param {object} options Options
  * @param {string} options.paymentId Internal payment id
- * @param {number} options.error Error
+ * @param {object} options.error Error
  * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const paymentFailed = ({ paymentId, error }) => async (dispatch, getState) => {
@@ -327,6 +364,28 @@ export const payInvoice = ({
   }
 }
 
+/**
+ * receiveHtlcEventData - Listener for when a new transaction is pushed from the subscriber.
+ *
+ * @param {HtlcEvent} htlcEvent HtlcEvent
+ * @returns {(dispatch:Function, getState:Function) => void} Thunk
+ */
+export const receiveHtlcEventData = htlcEvent => async (dispatch, getState) => {
+  if (htlcEvent.eventType === 'SEND' && htlcEvent.settleEvent) {
+    const isSending = find(paymentsSending(getState()), { status: PAYMENT_STATUS_SENDING })
+    if (!isSending) {
+      const { payments } = await grpc.services.Lightning.listPayments({
+        maxPayments: 1,
+        indexOffset: 0,
+        reversed: true,
+      })
+      dispatch(receivePayments(payments))
+      dispatch(fetchChannels())
+      dispatch(fetchBalance())
+    }
+  }
+}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
@@ -367,6 +426,7 @@ const ACTION_HANDLERS = {
     const item = find(state.paymentsSending, { paymentId })
     if (item) {
       item.status = PAYMENT_STATUS_FAILED
+      item.isSending = false
       item.error = error
     }
   },
