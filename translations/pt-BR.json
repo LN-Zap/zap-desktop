@@ -319,7 +319,7 @@
   "components.Lnurl.lnurl_withdraw_prompt_dialog_body": "Você confirma a retirada de {amount} sats de",
   "components.Lnurl.lnurl_withdraw_prompt_dialog_confirm_text": "Confirmar",
   "components.Lnurl.lnurl_withdraw_prompt_dialog_decline_text": "Recusar",
-  "components.Lnurl.lnurl_withdraw_prompt_dialog_header": "",
+  "components.Lnurl.lnurl_withdraw_prompt_dialog_header": "Confirmar a retirada",
   "components.Loading.connecting_to_lnd": "",
   "components.Loading.connecting_to_unlocker": "",
   "components.Loading.fetching_tickers": "",
