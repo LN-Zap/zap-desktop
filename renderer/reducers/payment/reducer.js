@@ -143,7 +143,7 @@ export const paymentComplete = paymentId => async dispatch => {
     indexOffset: 0,
     reversed: true,
   })
-  dispatch(receivePayments(payments))
+  payments && dispatch(receivePayments(payments))
   dispatch({ type: PAYMENT_COMPLETED, paymentId })
 }
 
@@ -379,7 +379,7 @@ export const receiveHtlcEventData = htlcEvent => async (dispatch, getState) => {
         indexOffset: 0,
         reversed: true,
       })
-      dispatch(receivePayments(payments))
+      payments && dispatch(receivePayments(payments))
       dispatch(fetchChannels())
       dispatch(fetchBalance())
     }
