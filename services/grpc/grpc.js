@@ -256,7 +256,9 @@ class ZapGrpc extends EventEmitter {
       const service = this.services[serviceName]
 
       if (!service) {
-        grpcLog.warn(`gRPC subscription "${key}" not available.`)
+        grpcLog.warn(
+          `Attempt to initialize ${serviceName} has failed. gRPC subscription "${key}" not available.`
+        )
         return
       }
 
