@@ -125,7 +125,7 @@ export default class LnurlService {
         case 'withdrawRequest':
           if (config.features.lnurlWithdraw) {
             this.withdrawParams = res
-            await this.startWithdraw()
+            return await this.startWithdraw()
           }
           throw new Error('lnurl-withdraw not supported.')
 

@@ -1,7 +1,7 @@
 {
   "name": "zap-desktop",
   "productName": "Zap",
-  "version": "0.7.0-beta",
+  "version": "0.7.2-beta",
   "description": "desktop application for the lightning network",
   "scripts": {
     "build": "cross-env NODE_CONFIG_ENV=production webpack -r @babel/register --config webpack/webpack.config.prod.js",
@@ -44,7 +44,7 @@
   },
   "config": {
     "lnd-binary": {
-      "binaryVersion": "0.10.1-beta-2-g84d742736",
+      "binaryVersion": "0.10.2-beta-3-g13ebe90aa",
       "binarySite": "https://github.com/LN-Zap/lnd/releases/download"
     }
   },
@@ -138,9 +138,7 @@
       "target": [
         {
           "target": "nsis",
-          "arch": [
-            "x64"
-          ]
+          "arch": "x64"
         }
       ]
     },
@@ -151,9 +149,7 @@
       "target": [
         {
           "target": "AppImage",
-          "arch": [
-            "x64"
-          ]
+          "arch": "x64"
         }
       ],
       "desktop": {
@@ -252,7 +248,7 @@
     "babel-plugin-styled-components": "1.10.7",
     "babel-plugin-transform-react-pure-class-to-function": "1.0.1",
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
-    "browserslist": "4.12.0",
+    "browserslist": "4.13.0",
     "circular-dependency-plugin": "5.2.0",
     "clean-webpack-plugin": "3.0.0",
     "copy-webpack-plugin": "5.1.1",
@@ -260,10 +256,10 @@
     "cross-env": "7.0.2",
     "cross-spawn": "7.0.3",
     "csp-html-webpack-plugin": "4.0.0",
-    "electron": "8.3.1",
+    "electron": "8.4.0",
     "electron-builder": "22.7.0",
-    "electron-devtools-installer": "3.0.0",
-    "electron-notarize": "0.3.0",
+    "electron-devtools-installer": "3.1.0",
+    "electron-notarize": "1.0.0",
     "electron-updater": "4.3.1",
     "enzyme": "3.11.0",
     "enzyme-adapter-react-16": "1.15.2",

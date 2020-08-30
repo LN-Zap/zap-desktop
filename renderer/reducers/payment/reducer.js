@@ -1,6 +1,9 @@
-import config from 'config'
 import uniqBy from 'lodash/uniqBy'
 import find from 'lodash/find'
+import pick from 'lodash/pick'
+import defaults from 'lodash/defaults'
+import omitBy from 'lodash/omitBy'
+import isNil from 'lodash/isNil'
 import createReducer from '@zap/utils/createReducer'
 import { isPubkey } from '@zap/utils/crypto'
 import delay from '@zap/utils/delay'
@@ -11,6 +14,7 @@ import { grpc } from 'workers'
 import { fetchBalance } from 'reducers/balance'
 import { fetchChannels } from 'reducers/channels'
 import { infoSelectors } from 'reducers/info'
+import { settingsSelectors } from 'reducers/settings'
 import { paymentsSending } from './selectors'
 import { prepareKeysendPayload, prepareBolt11Payload, errorCodeToMessage } from './utils'
 import * as constants from './constants'
@@ -59,12 +63,16 @@ export const receivePayments = payments => dispatch => {
  * decPaymentRetry - Decrement payment request retry count.
  *
  * @param {string} paymentId Internal id of payment whose retry count to decrease
- * @returns {object} Action
+ * @returns {(dispatch:Function, getState:Function) => void} Thunk
  */
-const decPaymentRetry = paymentId => ({
-  type: DECREASE_PAYMENT_RETRIES,
-  paymentId,
-})
+const decPaymentRetry = paymentId => (dispatch, getState) => {
+  const config = settingsSelectors.currentConfig(getState())
+  dispatch({
+    type: DECREASE_PAYMENT_RETRIES,
+    paymentId,
+    feeIncrementExponent: config.invoices.feeIncrementExponent,
+  })
+}
 
 /**
  * sendPayment - After initiating a lightning payment, store details of it in paymentSending array.
@@ -144,6 +152,7 @@ export const paymentSuccessful = paymentId => async (dispatch, getState) => {
  */
 export const paymentFailed = ({ paymentId, error }) => async (dispatch, getState) => {
   const paymentSending = find(paymentsSending(getState()), { paymentId })
+  const config = settingsSelectors.currentConfig(getState())
 
   // errors that trigger retry mechanism
   const RETRIABLE_ERRORS = [
@@ -210,22 +219,38 @@ export const payInvoice = ({
   retries = 0,
   originalPaymentId,
 }) => async (dispatch, getState) => {
-  const routerSendPayment = infoSelectors.hasSendPaymentV2Support(getState())
+  const state = getState()
+  const currentConfig = settingsSelectors.currentConfig(state)
+  const routerSendPayment = infoSelectors.hasSendPaymentV2Support(state)
     ? grpc.services.Router.sendPaymentV2
     : grpc.services.Router.sendPayment
   const paymentId = originalPaymentId || genId()
   const isKeysend = isPubkey(payReq)
   let payload
 
-  // Prepare payload for lnd.
-  if (isKeysend) {
-    payload = prepareKeysendPayload(payReq, amt, feeLimit)
-  } else {
-    payload = prepareBolt11Payload(payReq, amt, feeLimit)
+  const paymentOptions = pick(currentConfig.payments, [
+    'allowSelfPayment',
+    'timeoutSeconds',
+    'feeLimit',
+    'maxParts',
+  ])
+
+  const defaultPaymentOptions = {
+    allowSelfPayment: paymentOptions.allowSelfPayment,
+    timeoutSeconds: paymentOptions.timeoutSeconds,
+    feeLimitSat: paymentOptions.feeLimit,
+    maxParts: paymentOptions.maxParts,
+    paymentId,
   }
 
-  // Add id into the payload as a way to allow identification later.
-  payload.paymentId = paymentId
+  // Prepare payload for lnd.
+  if (isKeysend) {
+    const options = prepareKeysendPayload(payReq, amt, feeLimit)
+    payload = defaults(omitBy(options, isNil), defaultPaymentOptions)
+  } else {
+    const options = prepareBolt11Payload(payReq, amt, feeLimit)
+    payload = defaults(omitBy(options, isNil), defaultPaymentOptions)
+  }
 
   // If we already have an id then this is a retry. Decrease the retry count.
   // Otherwise, add to paymentsSending in the state.
@@ -317,13 +342,13 @@ const ACTION_HANDLERS = {
   [SEND_PAYMENT]: (state, { payment }) => {
     state.paymentsSending.push(payment)
   },
-  [DECREASE_PAYMENT_RETRIES]: (state, { paymentId }) => {
+  [DECREASE_PAYMENT_RETRIES]: (state, { paymentId, feeIncrementExponent }) => {
     const item = find(state.paymentsSending, { paymentId })
     if (item) {
       item.remainingRetries = Math.max(item.remainingRetries - 1, 0)
       if (item.feeLimit) {
         item.feeLimit = CoinBig(item.feeLimit)
-          .times(config.invoices.feeIncrementExponent)
+          .times(feeIncrementExponent)
           .decimalPlaces(0)
           .toString()
       }

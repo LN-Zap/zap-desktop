@@ -15,6 +15,10 @@ const isEnoughFunds = props => {
   // convert entered amount to satoshis
   const { amountInSats, channelBalance, invoice, paymentType, walletBalanceConfirmed } = props
 
+  if (amountInSats === 'NaN') {
+    return true
+  }
+
   // Determine whether we have enough funds available.
   let hasEnoughFunds = true
   const isBolt11 = paymentType === PAYMENT_TYPES.bolt11

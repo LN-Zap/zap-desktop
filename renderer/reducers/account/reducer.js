@@ -102,7 +102,7 @@ export const initAccount = () => async dispatch => {
  */
 const setPassword = password => async dispatch => {
   const { sha256digest } = window.Zap
-  dispatch(waitForIpcEvent('setPassword', { value: await sha256digest(password) }))
+  dispatch(waitForIpcEvent('setPassword', { value: await sha256digest(password, 'hex') }))
 }
 
 /**
@@ -114,7 +114,7 @@ const setPassword = password => async dispatch => {
 const requirePassword = password => async dispatch => {
   const { sha256digest } = window.Zap
   const { password: hash } = await dispatch(waitForIpcEvent('getPassword'))
-  const passwordHash = await sha256digest(password)
+  const passwordHash = await sha256digest(password, 'hex')
   // compare hash received from the main thread to a hash of a password provided
   if (hash === passwordHash) {
     return true

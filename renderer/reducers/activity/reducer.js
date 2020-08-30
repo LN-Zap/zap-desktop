@@ -1,7 +1,6 @@
 import { send } from 'redux-electron-ipc'
 import groupBy from 'lodash/groupBy'
 import range from 'lodash/range'
-import config from 'config'
 import createReducer from '@zap/utils/createReducer'
 import { getIntl } from '@zap/i18n'
 import { mainLog } from '@zap/utils/log'
@@ -9,6 +8,7 @@ import { openModal, closeModal } from 'reducers/modal'
 import { receiveTransactions } from 'reducers/transaction'
 import { receivePayments } from 'reducers/payment'
 import { receiveInvoices } from 'reducers/invoice'
+import { settingsSelectors } from 'reducers/settings'
 import { fetchBalance } from 'reducers/balance'
 import { fetchChannels } from 'reducers/channels'
 import { showError, showNotification } from 'reducers/notification'
@@ -240,6 +240,7 @@ export const resetPaginator = () => () => {
  * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const loadPage = (reload = false) => async (dispatch, getState) => {
+  const config = settingsSelectors.currentConfig(getState())
   const thisPaginator = getPaginator()
   if (reload || hasNextPage(getState())) {
     const { pageSize } = config.activity

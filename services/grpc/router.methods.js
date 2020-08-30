@@ -1,27 +1,8 @@
-import config from 'config'
-import defaults from 'lodash/defaults'
-import omitBy from 'lodash/omitBy'
-import isNil from 'lodash/isNil'
 import { grpcLog } from '@zap/utils/log'
 import { generatePreimage } from '@zap/utils/crypto'
 import { logGrpcCmd } from './helpers'
 
-const PAYMENT_TIMEOUT = config.payments.timeout
-const PAYMENT_FEE_LIMIT = config.payments.feeLimit
-const PAYMENT_MAX_PARTS = config.payments.maxParts
-
 export const KEYSEND_PREIMAGE_TYPE = '5482373484'
-
-const defaultPaymentOptions = {
-  timeoutSeconds: PAYMENT_TIMEOUT,
-  feeLimitSat: PAYMENT_FEE_LIMIT,
-  allowSelfPayment: true,
-}
-
-const defaultPaymentOptionsV2 = {
-  ...defaultPaymentOptions,
-  maxParts: PAYMENT_MAX_PARTS,
-}
 
 // ------------------------------------
 // Overrides
@@ -30,14 +11,10 @@ const defaultPaymentOptionsV2 = {
 /**
  * probePayment - Call lnd grpc sendPayment method with a fake payment hash in order to probe for a route.
  *
- * @param {object} options Options
+ * @param {object} payload Payload
  * @returns {Promise} The route route when state is SUCCEEDED
  */
-async function probePayment(options) {
-  // Use a payload that has the payment hash set to some random bytes.
-  // This will cause the payment to fail at the final destination.
-  const payload = defaults(omitBy(options, isNil), defaultPaymentOptions)
-
+async function probePayment(payload) {
   // Use a payload that has the payment hash set to some random bytes.
   // This will cause the payment to fail at the final destination.
   payload.paymentHash = new Uint8Array(generatePreimage())
@@ -111,13 +88,97 @@ async function probePayment(options) {
 }
 
 /**
+ * probePaymentV2 - Call lnd grpc sendPayment method with a fake payment hash in order to probe for a route.
+ *
+ * @param {object} payload Payload
+ * @returns {Promise} The route route when state is SUCCEEDED
+ */
+async function probePaymentV2(payload) {
+  // Use a payload that has the payment hash set to some random bytes.
+  // This will cause the payment to fail at the final destination.
+  payload.paymentHash = new Uint8Array(generatePreimage())
+
+  logGrpcCmd('Router.probePaymentV2', payload)
+
+  let result
+  let error
+
+  const decorateError = e => {
+    e.details = result
+    return e
+  }
+
+  return new Promise((resolve, reject) => {
+    grpcLog.time('probePayment')
+    const call = this.service.sendPaymentV2(payload)
+    let route
+
+    call.on('data', data => {
+      grpcLog.debug('PROBE DATA :%o', data)
+
+      switch (data.status) {
+        case 'IN_FLIGHT':
+          grpcLog.info('PROBE IN_FLIGHT...')
+          break
+
+        case 'FAILED':
+          if (data.failureReason !== 'FAILURE_REASON_INCORRECT_PAYMENT_DETAILS') {
+            grpcLog.warn('PROBE FAILED: %o', data)
+            error = new Error(data.status)
+            break
+          }
+
+          grpcLog.info('PROBE SUCCESS: %o', data)
+          // Prior to lnd v0.10.0 sendPayment would return a single route under the `route` key.
+          route = data.route || data.htlcs[0].route
+          // FIXME: For some reason the customRecords key is corrupt in the grpc response object.
+          // For now, assume that if a custom_record key is set that it is a keysend record and fix it accordingly.
+          route.hops = route.hops.map(hop => {
+            Object.keys(hop.customRecords).forEach(key => {
+              hop.customRecords[KEYSEND_PREIMAGE_TYPE] = hop.customRecords[key]
+              delete hop.customRecords[key]
+            })
+            return hop
+          })
+          result = route
+          break
+
+        default:
+          grpcLog.warn('PROBE FAILED: %o', data)
+          error = new Error(data.status)
+      }
+    })
+
+    call.on('status', status => {
+      grpcLog.info('PROBE STATUS :%o', status)
+    })
+
+    call.on('error', e => {
+      grpcLog.warn('PROBE ERROR :%o', e)
+      error = new Error(e.details || e.message)
+    })
+
+    call.on('end', () => {
+      grpcLog.timeEnd('probePaymentV2')
+      grpcLog.info('PROBE END')
+      if (error) {
+        return reject(decorateError(error))
+      }
+      if (!result) {
+        return reject(decorateError(new Error('TERMINATED_EARLY')))
+      }
+      return resolve(result)
+    })
+  })
+}
+
+/**
  * sendPayment - Call lnd grpc sendPayment method.
  *
- * @param {object} options Options
+ * @param {object} payload Payload
  * @returns {Promise} Original payload augmented with lnd sendPayment response data
  */
-async function sendPayment(options = {}) {
-  const payload = defaults(omitBy(options, isNil), defaultPaymentOptions)
+async function sendPayment(payload = {}) {
   logGrpcCmd('Router.sendPayment', payload)
 
   // Our response will always include the original payload.
@@ -183,11 +244,10 @@ async function sendPayment(options = {}) {
 /**
  * sendPaymentV2 - Call lnd grpc sendPaymentV2 method.
  *
- * @param {object} options Options
+ * @param {object} payload Payload
  * @returns {Promise} Original payload augmented with lnd sendPaymentV2 response data
  */
-async function sendPaymentV2(options = {}) {
-  const payload = defaults(omitBy(options, isNil), defaultPaymentOptionsV2)
+async function sendPaymentV2(payload = {}) {
   logGrpcCmd('Router.sendPaymentV2', payload)
 
   // Our response will always include the original payload.
@@ -249,6 +309,7 @@ async function sendPaymentV2(options = {}) {
 
 export default {
   probePayment,
+  probePaymentV2,
   sendPayment,
   sendPaymentV2,
 }

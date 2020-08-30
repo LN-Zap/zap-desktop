@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { useFormState } from 'informed'
-import { isOnchain, isBolt11, isPubkey, decodePayReq } from '@zap/utils/crypto'
+import { isOnchain, isBip21, isBolt11, isPubkey, decodePayReq } from '@zap/utils/crypto'
 import { Message } from 'components/UI'
 import TextArea from './TextArea'
 import messages from './messages'
@@ -33,7 +33,7 @@ const validate = (intl, network, chain, value) => {
       } catch (e) {
         return invalidRequestMessage
       }
-    } else if (!isOnchain(value, chain, network) && !isPubkey(value)) {
+    } else if (!isOnchain(value, chain, network) && !isPubkey(value) && !isBip21(value)) {
       return invalidRequestMessage
     }
   }

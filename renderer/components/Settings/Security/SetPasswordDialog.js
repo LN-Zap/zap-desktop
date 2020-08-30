@@ -7,7 +7,7 @@ import { PasswordInput, Form } from 'components/Form'
 import messages from './messages'
 import { useFormError } from 'hooks'
 
-const DialogWrapper = ({ loginError, clearLoginError, onOk, onCancel }) => {
+const SetPasswordDialog = ({ loginError, clearLoginError, onOk, onCancel }) => {
   const intl = useIntl()
   const formApiRef = useRef(null)
 
@@ -93,11 +93,11 @@ const DialogWrapper = ({ loginError, clearLoginError, onOk, onCancel }) => {
   )
 }
 
-DialogWrapper.propTypes = {
+SetPasswordDialog.propTypes = {
   clearLoginError: PropTypes.func.isRequired,
   loginError: PropTypes.string,
   onCancel: PropTypes.func.isRequired,
   onOk: PropTypes.func.isRequired,
 }
 
-export default DialogWrapper
+export default SetPasswordDialog

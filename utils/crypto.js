@@ -4,6 +4,7 @@ import config from 'config'
 import range from 'lodash/range'
 import { address } from 'bitcoinjs-lib'
 import lightningRequestReq from 'bolt11'
+import bip21 from 'bip21'
 import coininfo from 'coininfo'
 import { CoinBig } from '@zap/utils/coin'
 import { convert } from '@zap/utils/btc'
@@ -139,6 +140,25 @@ export const isOnchain = (input, chain, network) => {
 
   try {
     address.toOutputScript(input, networks[chain][network])
+    return true
+  } catch (e) {
+    return false
+  }
+}
+
+/**
+ * isBip21 - Test to see if a string is a valid bip21 payment uri
+ *
+ * @param {string} input Value to check
+ * @returns {boolean} Boolean indicating whether the address is a valid bip21 payment uri
+ */
+export const isBip21 = input => {
+  if (!input) {
+    return false
+  }
+
+  try {
+    bip21.decode(input)
     return true
   } catch (e) {
     return false

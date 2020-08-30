@@ -1,4 +1,3 @@
-import config from 'config'
 import get from 'lodash/get'
 import cloneDeep from 'lodash/cloneDeep'
 import { chanNumber } from 'bolt07'
@@ -9,8 +8,6 @@ import { sha256digest } from '@zap/utils/sha256'
 import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
 import { DEFAULT_CLTV_DELTA, KEYSEND_PREIMAGE_TYPE } from './constants'
 import messages from './messages'
-
-const PAYMENT_TIMEOUT = config.invoices.paymentTimeout
 
 /**
  * decoratePayment - Decorate payment object with custom/computed properties.
@@ -95,18 +92,6 @@ export const decoratePayment = (payment, nodes = []) => {
 }
 
 /**
- * getPaymentConfig - Get common payment settings.
- *
- * @returns {object} common payment settings
- */
-export const getPaymentConfig = () => {
-  return {
-    allowSelfPayment: true,
-    timeoutSeconds: PAYMENT_TIMEOUT,
-  }
-}
-
-/**
  * prepareKeysendPayload - Prepare a keysend payment.
  *
  * @param {string} pubkey Pubkey
@@ -118,7 +103,6 @@ export const prepareKeysendPayload = (pubkey, amt, feeLimit) => {
   const preimage = generatePreimage()
 
   return {
-    ...getPaymentConfig(),
     dest: Buffer.from(pubkey, 'hex'),
     feeLimitSat: feeLimit,
     paymentHash: sha256digest(preimage),
@@ -143,7 +127,6 @@ export const prepareBolt11Payload = (payReq, amt, feeLimit) => {
   const { millisatoshis } = invoice
 
   return {
-    ...getPaymentConfig(),
     paymentRequest: invoice.paymentRequest,
     feeLimitSat: feeLimit,
     amt: millisatoshis ? null : amt,
@@ -162,7 +145,6 @@ export const prepareKeysendProbe = (pubkey, amt, feeLimit) => {
   const preimage = generatePreimage()
 
   return {
-    ...getPaymentConfig(),
     dest: Buffer.from(pubkey, 'hex'),
     feeLimitSat: feeLimit,
     amt,
@@ -196,7 +178,6 @@ export const prepareBolt11Probe = (payReq, feeLimit) => {
   }))
 
   return {
-    ...getPaymentConfig(),
     dest: Buffer.from(pubkey, 'hex'),
     feeLimitSat: feeLimit,
     amtMsat: millisatoshis,

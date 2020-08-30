@@ -85,7 +85,7 @@ const version = state => get(state, 'info.data.version')
  * @param {State} state Redux state
  * @returns {string} Node pubkey
  */
-const identityPubkey = state => get(state, 'info.data.identity_pubkey')
+const identityPubkey = state => get(state, 'info.data.identityPubkey')
 
 /**
  * version - Node urls.
@@ -177,7 +177,7 @@ const hasMppSupport = createSelector(grpcProtoVersion, v => {
  * @returns {string} Node pubkey
  */
 const nodePubkey = createSelector(nodeUris, identityPubkey, (n, pk) => {
-  const parseFromDataUri = () => n && n[0].split('@')[0]
+  const parseFromDataUri = () => n && n[0] && n[0].split('@')[0]
   return pk || parseFromDataUri()
 })
 
@@ -186,7 +186,12 @@ const nodePubkey = createSelector(nodeUris, identityPubkey, (n, pk) => {
  *
  * @returns {string} Node uri or pubkey
  */
-const nodeUrisOrPubkey = createSelector(nodeUris, nodePubkey, (uris, pk) => uris || [pk])
+const nodeUrisOrPubkey = createSelector(nodeUris, nodePubkey, (uris, pk) => {
+  if (uris && uris.length) {
+    return uris
+  }
+  return [pk]
+})
 
 /**
  * networkInfo - Node network info.

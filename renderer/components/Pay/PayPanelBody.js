@@ -10,6 +10,7 @@ import { PAYMENT_TYPES } from './constants'
 const PayPanelBody = props => {
   const {
     amountInSats,
+    bip21decoded,
     chain,
     chainName,
     cryptoUnit,
@@ -54,6 +55,7 @@ const PayPanelBody = props => {
         redirectPayReq={redirectPayReq}
       />
       <PayAmountFields
+        bip21decoded={bip21decoded}
         cryptoUnit={cryptoUnit}
         currentStep={currentStep}
         formApi={formApi}
@@ -83,6 +85,7 @@ const PayPanelBody = props => {
 
 PayPanelBody.propTypes = {
   amountInSats: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  bip21decoded: PropTypes.object,
   chain: PropTypes.string.isRequired,
   chainName: PropTypes.string.isRequired,
   cryptoUnit: PropTypes.string.isRequired,
