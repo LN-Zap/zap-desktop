@@ -129,8 +129,12 @@ async function probePaymentV2(payload) {
           }
 
           grpcLog.info('PROBE SUCCESS: %o', data)
+
           // Prior to lnd v0.10.0 sendPayment would return a single route under the `route` key.
-          route = data.route || data.htlcs[0].route
+          route =
+            data.route ||
+            data.htlcs.find(a => a.failure.code === 'INCORRECT_OR_UNKNOWN_PAYMENT_DETAILS').route
+
           // FIXME: For some reason the customRecords key is corrupt in the grpc response object.
           // For now, assume that if a custom_record key is set that it is a keysend record and fix it accordingly.
           route.hops = route.hops.map(hop => {
