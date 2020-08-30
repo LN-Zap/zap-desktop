@@ -353,7 +353,7 @@
     "keytar": "5.6.0",
     "lnd-grpc": "0.4.4",
     "lndconnect": "0.2.10",
-    "lodash": "4.17.15",
+    "lodash": "4.17.19",
     "new-github-issue-url": "0.2.1",
     "node-fetch": "2.6.0",
     "pdfmake": "0.1.65",
