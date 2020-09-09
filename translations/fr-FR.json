@@ -706,7 +706,7 @@
   "reducers.messages.neutrtino_synced_body": "Visa, vous dites ? Vous êtes désormais votre propre système de paiement !",
   "reducers.messages.neutrtino_synced_title": "Nœud Lightning synchronisé",
   "reducers.settings.settings_init_error": "Impossible de charger les réglages : {error}",
-  "reducers.payment.failed_error": "",
+  "reducers.payment.failed_error": "Une erreur non-récuperable est survenue.",
   "reducers.payment.failed_incorrect_payment_details": "",
   "reducers.payment.failed_insufficient_balance": "",
   "reducers.payment.failed_no_route": "",
