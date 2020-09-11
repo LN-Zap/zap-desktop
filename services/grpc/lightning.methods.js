@@ -282,7 +282,6 @@ async function sendPayment(payload = {}) {
           error.details = res
           reject(error)
         }
-        call.end()
       })
 
       call.on('status', s => {

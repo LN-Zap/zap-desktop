@@ -1,8 +1,6 @@
 import { grpcLog } from '@zap/utils/log'
 import { generatePreimage } from '@zap/utils/crypto'
-import { logGrpcCmd } from './helpers'
-
-export const KEYSEND_PREIMAGE_TYPE = '5482373484'
+import { logGrpcCmd, formatRouteHops, getViableRoute, KEYSEND_PREIMAGE_TYPE } from './helpers'
 
 // ------------------------------------
 // Overrides
@@ -119,32 +117,28 @@ async function probePaymentV2(payload) {
       switch (data.status) {
         case 'IN_FLIGHT':
           grpcLog.info('PROBE IN_FLIGHT...')
+          // Prior to lnd v0.10.0 sendPayment would return a single route under the `route` key.
+          route = data.route || getViableRoute(data.htlcs)
+          if (route) {
+            route.hops = formatRouteHops(route.hops)
+            result = route
+            grpcLog.info('PROBE SUCCESS: %o', data)
+          }
+
           break
 
         case 'FAILED':
-          if (data.failureReason !== 'FAILURE_REASON_INCORRECT_PAYMENT_DETAILS') {
+          // Prior to lnd v0.10.0 sendPayment would return a single route under the `route` key.
+          route = data.route || getViableRoute(data.htlcs)
+          if (route) {
+            route.hops = formatRouteHops(route.hops)
+            result = route
+            grpcLog.info('PROBE SUCCESS: %o', data)
+          } else {
             grpcLog.warn('PROBE FAILED: %o', data)
             error = new Error(data.status)
-            break
           }
 
-          grpcLog.info('PROBE SUCCESS: %o', data)
-
-          // Prior to lnd v0.10.0 sendPayment would return a single route under the `route` key.
-          route =
-            data.route ||
-            data.htlcs.find(a => a.failure.code === 'INCORRECT_OR_UNKNOWN_PAYMENT_DETAILS').route
-
-          // FIXME: For some reason the customRecords key is corrupt in the grpc response object.
-          // For now, assume that if a custom_record key is set that it is a keysend record and fix it accordingly.
-          route.hops = route.hops.map(hop => {
-            Object.keys(hop.customRecords).forEach(key => {
-              hop.customRecords[KEYSEND_PREIMAGE_TYPE] = hop.customRecords[key]
-              delete hop.customRecords[key]
-            })
-            return hop
-          })
-          result = route
           break
 
         default:
