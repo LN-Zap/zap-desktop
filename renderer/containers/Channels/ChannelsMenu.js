@@ -8,7 +8,7 @@ import { channelsSelectors } from 'reducers/channels'
 const mapStateToProps = state => ({
   cryptoUnitName: tickerSelectors.cryptoUnitName(state),
   lightningBalance: balanceSelectors.channelBalanceConfirmed(state),
-  pendingBalance: balanceSelectors.channelBalancePending(state),
+  pendingBalance: balanceSelectors.pendingBalance(state),
   onchainBalance: balanceSelectors.walletBalance(state),
   channelCount: channelsSelectors.allChannelsCount(state),
 })
