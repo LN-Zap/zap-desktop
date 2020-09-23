@@ -11,6 +11,7 @@ import { setSeed } from './onboarding'
 import { receiveInvoiceData } from './invoice'
 import { receiveChannelGraphData } from './channels'
 import { receiveTransactionData } from './transaction'
+import { receiveHtlcEventData } from './payment'
 import { backupCurrentWallet, setupBackupService } from './backup'
 
 // ------------------------------------
@@ -120,11 +121,13 @@ const handleLndStartError = (e, lndConfig) => {
  * @param {object} lndGrpc Lnd Grpc instance
  */
 function unsubFromGrpcEvents(lndGrpc) {
+  lndGrpc.removeAllListeners('subscribeHtlcEvents.data')
   lndGrpc.removeAllListeners('subscribeInvoices.data')
   lndGrpc.removeAllListeners('subscribeTransactions.data')
   lndGrpc.removeAllListeners('subscribeChannelGraph.data')
   lndGrpc.removeAllListeners('subscribeGetInfo.data')
   lndGrpc.removeAllListeners('subscribeChannelBackups.data')
+
   lndGrpc.removeAllListeners('GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE')
   lndGrpc.removeAllListeners('GRPC_LIGHTNING_SERVICE_ACTIVE')
   lndGrpc.removeAllListeners('GRPC_TOR_PROXY_STARTING')
@@ -144,11 +147,13 @@ function unsubFromGrpcEvents(lndGrpc) {
 export const connectGrpcService = lndConfig => async dispatch => {
   dispatch({ type: CONNECT_GRPC })
 
+  const handleHtlcEventsSubscription = proxy(data => dispatch(receiveHtlcEventData(data)))
   const handleInvoiceSubscription = proxy(data => dispatch(receiveInvoiceData(data)))
   const handleGetInfoSubscription = proxy(data => dispatch(setInfo(data)))
   const handleTransactionSubscription = proxy(data => dispatch(receiveTransactionData(data)))
   const handleChannelGraphSubscription = proxy(data => dispatch(receiveChannelGraphData(data)))
   const handleBackupsSubscription = proxy(data => dispatch(backupCurrentWallet(lndConfig.id, data)))
+
   const handleWalletUnlockerActive = proxy(data => dispatch(setWalletUnlockerGrpcActive(data)))
   const handleLightningActive = proxy(data => dispatch(setLightningGrpcActive(data)))
   const handleTorProxyStarting = proxy(data => dispatch(setTorProxyStarting(data)))
@@ -156,6 +161,7 @@ export const connectGrpcService = lndConfig => async dispatch => {
 
   try {
     // Hook up event listeners for stream subscriptions.
+    grpc.on('subscribeHtlcEvents.data', handleHtlcEventsSubscription)
     grpc.on('subscribeInvoices.data', handleInvoiceSubscription)
     grpc.on('subscribeTransactions.data', handleTransactionSubscription)
     grpc.on('subscribeChannelGraph.data', handleChannelGraphSubscription)
