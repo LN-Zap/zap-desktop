@@ -313,7 +313,7 @@ channelsSelectors.selectedChannel = createSelector(
 )
 
 channelsSelectors.capacity = createSelector(
-  channelsSelectors.allChannelsRaw,
+  channelsSelectors.activeChannels,
   infoSelectors.hasMppSupport,
   (allChannels, hasMppSupport) => {
     let maxOneTimeSend = 0
