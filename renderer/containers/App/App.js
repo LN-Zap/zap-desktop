@@ -14,6 +14,7 @@ import {
   lnurlSelectors,
 } from 'reducers/lnurl'
 import { initBackupService } from 'reducers/backup'
+import { infoSelectors } from 'reducers/info'
 import { setModals, modalSelectors } from 'reducers/modal'
 import { fetchSuggestedNodes } from 'reducers/channels'
 import { initTickers } from 'reducers/ticker'
@@ -23,6 +24,7 @@ import AppErrorBoundary from './ErrorBoundary'
 
 const mapStateToProps = state => ({
   isAppReady: appSelectors.isAppReady(state),
+  isSyncedToGraph: infoSelectors.isSyncedToGraph(),
   redirectPayReq: state.pay.redirectPayReq,
   modals: modalSelectors.getModalState(state),
   lnurlWithdrawParams: lnurlSelectors.lnurlWithdrawParams(state),

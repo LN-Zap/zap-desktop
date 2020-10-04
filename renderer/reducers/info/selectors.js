@@ -64,12 +64,20 @@ const infoLoaded = state => state.info.infoLoaded
 const hasSynced = state => state.info.hasSynced
 
 /**
- * hasSynced - Node sync state.
+ * isSyncedToChain - Chain sync state.
  *
  * @param {State} state Redux state
- * @returns {boolean} Boolean indicating if node is synced
+ * @returns {boolean} Boolean indicating if chain is synced
  */
 const isSyncedToChain = state => get(state, 'info.data.syncedToChain', false)
+
+/**
+ * isSyncedToGraph - Graph sync state.
+ *
+ * @param {State} state Redux state
+ * @returns {boolean} Boolean indicating if node graph is synced
+ */
+const isSyncedToGraph = state => get(state, 'info.data.syncedToGraph', false)
 
 /**
  * version - Node version.
@@ -230,6 +238,7 @@ export default {
   infoLoaded,
   hasSynced,
   isSyncedToChain,
+  isSyncedToGraph,
   version,
   identityPubkey,
   nodeUris,

@@ -39,6 +39,7 @@ const App = ({
   fetchTransactions,
   setModals,
   initBackupService,
+  isSyncedToGraph,
   fetchSuggestedNodes,
   initTickers,
   lnurlAuthParams,
@@ -60,41 +61,31 @@ const App = ({
      * node data quite frequently but as time goes on the frequency is reduced to a max of PEERS_MAX_REFETCH_INTERVAL
      */
     appScheduler.addTask({
-      task: () => fetchDescribeNetwork() && fetchPeers(),
+      task: () => !isSyncedToGraph && fetchDescribeNetwork(),
       taskId: 'fetchNetworkData',
       baseDelay: PEERS_INITIAL_REFETCH_INTERVAL,
       maxDelay: PEERS_MAX_REFETCH_INTERVAL,
       backoff: PEERS_REFETCH_BACKOFF_SCHEDULE,
     })
-
     appScheduler.addTask({
       task: () => fetchTransactions(true),
       taskId: 'fetchTransactions',
       baseDelay: TX_REFETCH_INTERVAL,
     })
-
     appScheduler.addTask({
       task: updateAutopilotNodeScores,
       taskId: 'updateAutopilotNodeScores',
       baseDelay: AUTOPILOT_SCORES_REFRESH_INTERVAL,
     })
 
-    return () => {
-      appScheduler.removeAllTasks()
-    }
-  }, [fetchDescribeNetwork, fetchPeers, fetchTransactions, updateAutopilotNodeScores])
-
-  useEffect(() => {
     // Set wallet open state.
     setIsWalletOpen(true)
     // fetch data from lnd.
-    initActivityHistory()
-    // fetch node info.
-    fetchPeers()
-    // fetch network info
-    fetchDescribeNetwork()
-    // Update autopilot node scores.
     updateAutopilotNodeScores()
+    initActivityHistory()
+    fetchPeers()
+    fetchDescribeNetwork()
+    // fetch other application data.
     fetchSuggestedNodes()
     initTickers()
     // initialize backup service in forceUseTokens mode to avoid
@@ -109,8 +100,13 @@ const App = ({
     if (lnurlWithdrawParams && !willShowLnurlWithdrawPrompt) {
       finishLnurlWithdraw()
     }
+
+    return () => {
+      appScheduler.removeAllTasks()
+    }
   }, [
     initActivityHistory,
+    isSyncedToGraph,
     fetchDescribeNetwork,
     fetchPeers,
     fetchSuggestedNodes,
@@ -165,6 +161,7 @@ App.propTypes = {
   initBackupService: PropTypes.func.isRequired,
   initTickers: PropTypes.func.isRequired,
   isAppReady: PropTypes.bool.isRequired,
+  isSyncedToGraph: PropTypes.bool.isRequired,
   lnurlAuthParams: PropTypes.object,
   lnurlChannelParams: PropTypes.object,
   lnurlWithdrawParams: PropTypes.object,
