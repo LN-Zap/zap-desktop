@@ -12737,21 +12737,21 @@ lnd-binary@0.3.18:
     "true-case-path" "^2.2.1"
     unzip-stream "^0.3.0"
 
-lnd-grpc@0.4.5:
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.4.5.tgz#46a962b7273b63f499a9fe9cf0f848060bba9935"
-  integrity sha512-KIWjIW/5QS0LAISjFap9keD2H7Cbx6NfKsxpqDh7gZbj2pCzKQMNhwMRwAS79RUnY4KmPRbyv7PXkFVJtFLO/Q==
+lnd-grpc@0.4.6:
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.4.6.tgz#5ef3e6429531a3f814a5ec4cfadc5d5c2dd7d4a0"
+  integrity sha512-dzHpS9lLyJE6xzGrqs/nCFkBOT3edqFibK+nL1ibCx9fuG5PXs7QBFrhwYgu4vbWva44xrxkz/JSHifPEBUH7A==
   dependencies:
     "@grpc/grpc-js" "^1.1.7"
     "@ln-zap/proto-loader" "0.5.4"
-    debug "4.1.1"
+    debug "^4.2.0"
     get-port "5.1.1"
     javascript-state-machine "3.1.0"
     lndconnect "0.2.10"
     lodash.defaultsdeep "4.6.1"
     semver "^7.1.3"
     untildify "4.0.0"
-    validator "^13.0.0"
+    validator "^13.1.17"
 
 lndconnect@0.2.10:
   version "0.2.10"
@@ -19292,10 +19292,10 @@ validator@13.0.0:
   resolved "https://registry.yarnpkg.com/validator/-/validator-13.0.0.tgz#0fb6c6bb5218ea23d368a8347e6d0f5a70e3bcab"
   integrity sha512-anYx5fURbgF04lQV18nEQWZ/3wHGnxiKdG4aL8J+jEDsm98n/sU/bey+tYk6tnGJzm7ioh5FoqrAiQ6m03IgaA==
 
-validator@^13.0.0:
-  version "13.1.1"
-  resolved "https://registry.yarnpkg.com/validator/-/validator-13.1.1.tgz#f8811368473d2173a9d8611572b58c5783f223bf"
-  integrity sha512-8GfPiwzzRoWTg7OV1zva1KvrSemuMkv07MA9TTl91hfhe+wKrsrgVN4H2QSFd/U/FhiU3iWPYVgvbsOGwhyFWw==
+validator@^13.1.17:
+  version "13.1.17"
+  resolved "https://registry.yarnpkg.com/validator/-/validator-13.1.17.tgz#ad677736950adddd3c37209484a6b2e0966579ad"
+  integrity sha512-zL5QBoemJ3jYFb2/j38y7ljhwYGXVLUp8H6W1nVxadnAOvUOytec+L7BHh1oBQ82/TzWXHd+GSaxUWp4lROkLg==
 
 value-equal@^1.0.1:
   version "1.0.1"
