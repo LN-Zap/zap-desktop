@@ -382,7 +382,7 @@
     "styled-reset": "4.2.3",
     "tildify": "2.0.0",
     "untildify": "4.0.0",
-    "validator": "13.0.0",
+    "validator": "13.1.17",
     "yup": "0.28.3"
   },
   "main": "./dist/main.js"
