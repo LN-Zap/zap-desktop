@@ -91,15 +91,6 @@ const App = ({
     // initialize backup service in forceUseTokens mode to avoid
     // launching it for wallets that don't have backup setup
     initBackupService()
-    if (lnurlAuthParams && !willShowLnurlAuthPrompt) {
-      finishLnurlAuth()
-    }
-    if (lnurlChannelParams && !willShowLnurlChannelPrompt) {
-      finishLnurlChannel()
-    }
-    if (lnurlWithdrawParams && !willShowLnurlWithdrawPrompt) {
-      finishLnurlWithdraw()
-    }
 
     return () => {
       appScheduler.removeAllTasks()
@@ -110,10 +101,24 @@ const App = ({
     fetchDescribeNetwork,
     fetchPeers,
     fetchSuggestedNodes,
+    fetchTransactions,
     initBackupService,
     initTickers,
     setIsWalletOpen,
     updateAutopilotNodeScores,
+  ])
+
+  useEffect(() => {
+    if (lnurlAuthParams && !willShowLnurlAuthPrompt) {
+      finishLnurlAuth()
+    }
+    if (lnurlChannelParams && !willShowLnurlChannelPrompt) {
+      finishLnurlChannel()
+    }
+    if (lnurlWithdrawParams && !willShowLnurlWithdrawPrompt) {
+      finishLnurlWithdraw()
+    }
+  }, [
     finishLnurlAuth,
     finishLnurlChannel,
     finishLnurlWithdraw,
