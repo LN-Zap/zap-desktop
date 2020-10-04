@@ -191,6 +191,7 @@ export const transactionFailed = ({ internalId, error }) => async (dispatch, get
  * @param {number}  options.targetConf Number of blocks to target for conf time
  * @param {number}  options.satPerByte Sat per byte fee rate to apply
  * @param {boolean} options.isCoinSweep Boolean indicating whether this is a coin sweep (will send all funds).
+ * @param {boolean} options.spendUnconfirmed Whether unconfirmed outputs should be used as inputs for the transaction.
  * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
 export const sendCoins = ({
@@ -200,6 +201,7 @@ export const sendCoins = ({
   targetConf,
   satPerByte,
   isCoinSweep,
+  spendUnconfirmed = true,
 }) => async dispatch => {
   // backend needs amount in satoshis no matter what currency we are using
   const amount = convert(cryptoUnit, 'sats', value)
@@ -215,6 +217,7 @@ export const sendCoins = ({
     targetConf,
     satPerByte,
     sendAll: isCoinSweep,
+    spendUnconfirmed,
   }
   dispatch(sendTransaction(payload))
 
