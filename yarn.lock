@@ -1695,25 +1695,6 @@
     lodash.camelcase "^4.3.0"
     protobufjs "^6.8.6"
 
-"@ln-zap/testcafe-browser-provider-electron@0.0.15-alpha.3":
-  version "0.0.15-alpha.3"
-  resolved "https://registry.yarnpkg.com/@ln-zap/testcafe-browser-provider-electron/-/testcafe-browser-provider-electron-0.0.15-alpha.3.tgz#cbcac058eb88f524ac32d31d94750baf2d062607"
-  integrity sha512-M00Vl2WFIGmgYDNer1Bqcc+/XfnDsreBKJ0sgi0EOX2cWhyJmyjQtBYzv+3C0Ic9r7cJQwc8Pd/U92AICglNpQ==
-  dependencies:
-    babel-runtime "^6.25.0"
-    chrome-remote-interface "^0.27.0"
-    debug "4.1.1"
-    dedent "^0.7.0"
-    endpoint-utils "^1.0.2"
-    lodash "^4.17.4"
-    mustache "^2.3.0"
-    node-ipc "^9.1.0"
-    os-family "^1.0.0"
-    pify "^2.3.0"
-    pinkie "^2.0.4"
-    promisify-event "^1.0.0"
-    proxyquire "^1.7.10"
-
 "@marionebl/sander@^0.6.0":
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/@marionebl/sander/-/sander-0.6.1.tgz#1958965874f24bc51be48875feb50d642fc41f7b"
@@ -18170,6 +18151,25 @@ test-exclude@^6.0.0:
     "@istanbuljs/schema" "^0.1.2"
     glob "^7.1.4"
     minimatch "^3.0.4"
+
+testcafe-browser-provider-electron@0.0.15:
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/testcafe-browser-provider-electron/-/testcafe-browser-provider-electron-0.0.15.tgz#4c0d084222349501cf2eb400ccac50029cb454ae"
+  integrity sha512-nmsYcaf0HXv+8yDQxHR9b8kWkPwRPDVV5cwrZUCR2bh43pCozkcmgvWCFn9uD2twFo/oead61oBh9eMMxdTdZA==
+  dependencies:
+    babel-runtime "^6.25.0"
+    chrome-remote-interface "^0.27.0"
+    debug "4.1.1"
+    dedent "^0.7.0"
+    endpoint-utils "^1.0.2"
+    lodash "^4.17.4"
+    mustache "^2.3.0"
+    node-ipc "^9.1.0"
+    os-family "^1.0.0"
+    pify "^2.3.0"
+    pinkie "^2.0.4"
+    promisify-event "^1.0.0"
+    proxyquire "^1.7.10"
 
 testcafe-browser-tools@2.0.13:
   version "2.0.13"
