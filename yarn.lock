@@ -11091,12 +11091,12 @@ inflight@^1.0.4:
     once "^1.3.0"
     wrappy "1"
 
-informed@3.6.1:
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/informed/-/informed-3.6.1.tgz#259d07e3dcfe52ba37a960f0efa3eb0e0221a1d0"
-  integrity sha512-8LJ04Ypjhw90ksTKjT3D/0iwxhNtBSMn0yfd3W2CENdgPNR4hODIVGbjsxFdR2BqUr5pSOvuP07dotvh1xPUGQ==
+informed@3.10.0:
+  version "3.10.0"
+  resolved "https://registry.yarnpkg.com/informed/-/informed-3.10.0.tgz#690aa48cfe08c8d650051ef9e4e399d65ea133a3"
+  integrity sha512-VQw5QDvwKZ2y7aqWLwE0C4P7SqG1i9OhUNQenOi/2xFh6MAHKQFOdiC3UnC8hoKS5Iy9gNKjCjXCH/aUN3GcKQ==
   dependencies:
-    lodash "^4.17.11"
+    lodash "^4.17.15"
 
 inherits@2, inherits@2.0.4, inherits@^2.0.0, inherits@^2.0.1, inherits@^2.0.3, inherits@^2.0.4, inherits@~2.0.1, inherits@~2.0.3:
   version "2.0.4"
