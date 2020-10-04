@@ -284,9 +284,9 @@ export const reloadPages = () => async dispatch => {
 export const initActivityHistory = () => async dispatch => {
   dispatch({ type: FETCH_ACTIVITY_HISTORY })
   try {
-    await dispatch(loadPage())
     dispatch(fetchChannels())
     dispatch(fetchBalance())
+    await dispatch(loadPage())
     dispatch({ type: FETCH_ACTIVITY_HISTORY_SUCCESS })
   } catch (error) {
     dispatch({ type: FETCH_ACTIVITY_HISTORY_FAILURE, error })
