@@ -49,7 +49,7 @@
     }
   },
   "browserslist": [
-    "electron 8.5.2"
+    "electron 8.4.1"
   ],
   "engines": {
     "node": ">=12.0.0",
