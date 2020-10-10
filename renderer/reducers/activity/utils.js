@@ -1,6 +1,6 @@
 import { grpc } from 'workers'
 import combinePaginators from '@zap/utils/pagination'
-
+import { mainLog } from '@zap/utils/log'
 export const months = [
   'Jan',
   'Feb',
@@ -155,21 +155,36 @@ export const createActivityPaginator = () => {
   }
 
   const fetchTransactions = async (pageSize, offset, blockHeight) => {
-    // Lets load 10x more bloks that page size is set to since blocks only cover a 10 minute period.
-    const vPagesize = pageSize * 5
+    // Lets load 25x more bloks than page size is set to since blocks only cover a 10 minute period.
+    // with a 50 item page size, that would mean loading transactions in chunks of about 10 days.
+    var vPageSize = pageSize * 25
 
-    // Determine start point.
-    const firstStart = blockHeight - vPagesize
-    const nextStart = offset - vPagesize
-    const startHeight = offset === 0 ? firstStart : nextStart
+    let count = 0
+    let items = []
+    var hasItems = !offset || 500000 < offset
+    while (hasItems && count < pageSize) {
+      // Determine start point.
+      const firstStart = blockHeight - vPageSize
+      const nextStart = offset - vPageSize
+      const startHeight = offset === 0 ? firstStart : nextStart
 
-    // Determine end height.
-    const endHeight = offset || -1
-    const { transactions } = await grpc.services.Lightning.getTransactions({
-      startHeight,
-      endHeight,
-    })
-    return { items: transactions, offset: startHeight }
+      // Determine end height.
+      const endHeight = offset || -1
+
+      // Load items.
+      mainLog.info(`Loading transactions from block height ${startHeight} to ${endHeight}`)
+      const { transactions } = await grpc.services.Lightning.getTransactions({
+        startHeight,
+        endHeight,
+      })
+      mainLog.info(`Loaded ${transactions.length} transactions from block height ${startHeight} to ${endHeight}`)
+      count += transactions.length
+      items = items.concat(transactions);
+      offset = startHeight
+    }
+    mainLog.info(`Loaded ${items.length} transactions in total for paginator`)
+
+    return { items : items.slice(0, vPageSize), offset }
   }
 
   const getTimestamp = item =>
