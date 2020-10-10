@@ -156,24 +156,24 @@ export const createActivityPaginator = () => {
   }
 
   const fetchTransactions = async (pageSize, offset, blockHeight) => {
-    // Lets load 25x more bloks than page size is set to since blocks only cover a 10 minute period.
-    // with a 50 item page size, that would mean loading transactions in chunks of about 10 days.
-    const vPageSize = pageSize * 25
-    let nextOffset = offset
+    // Lets load 50x more bloks than page size is set to since blocks only cover a 10 minute period.
+    // with a 50 item page size, that would mean loading transactions in chunks of about 15 days.
+    const vPageSize = pageSize * 50
+    const firstStart = blockHeight - vPageSize
+
+    // Determine end height.
+    let endHeight = offset || -1
+
+    // Determine start point.
+    let startHeight = offset === 0 ? firstStart : offset - vPageSize
 
     let count = 0
     let items = []
-    const hasItems = !offset || offset > 500000
+
+    let hasMoreItems = startHeight > 500000 && count < pageSize
+
     /* eslint-disable no-await-in-loop */
-    while (hasItems && count < pageSize) {
-      // Determine start point.
-      const firstStart = blockHeight - vPageSize
-      const nextStart = offset - vPageSize
-      const startHeight = offset === 0 ? firstStart : nextStart
-
-      // Determine end height.
-      const endHeight = offset || -1
-
+    while (hasMoreItems) {
       // Load items.
       mainLog.info(`Loading transactions from block height ${startHeight} to ${endHeight}`)
       const { transactions } = await grpc.services.Lightning.getTransactions({
@@ -183,13 +183,21 @@ export const createActivityPaginator = () => {
       mainLog.info(
         `Loaded ${transactions.length} transactions from block height ${startHeight} to ${endHeight}`
       )
+
       count += transactions.length
       items = items.concat(transactions)
-      nextOffset = startHeight
+
+      hasMoreItems = startHeight > 500000 && count < pageSize
+      if (hasMoreItems) {
+        // Determine next end height.
+        endHeight = startHeight
+
+        // Determine next start point.
+        startHeight = endHeight - vPageSize
+      }
     }
     mainLog.info(`Loaded ${items.length} transactions in total for paginator`)
-
-    return { items: items.slice(0, vPageSize), offset: nextOffset }
+    return { items, offset: startHeight }
   }
 
   const getTimestamp = item =>
