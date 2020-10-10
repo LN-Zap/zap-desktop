@@ -271,13 +271,7 @@ export const reloadPages = () => async dispatch => {
   const pageCount = loadedPages
   mainLog.debug(`reloading ${pageCount} activity pages`)
   dispatch(resetPaginator())
-
-  // eslint-disable-next-line no-unused-vars
-  for (const page of range(pageCount)) {
-    mainLog.debug(`reloading activity page ${page}`)
-    // eslint-disable-next-line no-await-in-loop
-    await dispatch(loadPage(true))
-  }
+  await dispatch(loadPage(true))
 }
 
 /**
