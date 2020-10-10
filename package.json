@@ -311,7 +311,7 @@
     "testcafe": "1.9.4",
     "testcafe-browser-provider-electron": "0.0.15",
     "testcafe-react-selectors": "4.0.0",
-    "typescript": "3.9.5",
+    "typescript": "3.9.7",
     "url-loader": "4.1.1",
     "webpack": "4.43.0",
     "webpack-bundle-analyzer": "3.8.0",
