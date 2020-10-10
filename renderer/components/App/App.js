@@ -28,6 +28,7 @@ const PEERS_REFETCH_BACKOFF_SCHEDULE = 2
 const appScheduler = createScheduler()
 
 const App = ({
+  activeWalletSettings,
   isAppReady,
   modals,
   redirectPayReq,
@@ -68,15 +69,17 @@ const App = ({
       backoff: PEERS_REFETCH_BACKOFF_SCHEDULE,
     })
     appScheduler.addTask({
-      task: () => fetchTransactions(true),
-      taskId: 'fetchTransactions',
-      baseDelay: TX_REFETCH_INTERVAL,
-    })
-    appScheduler.addTask({
       task: updateAutopilotNodeScores,
       taskId: 'updateAutopilotNodeScores',
       baseDelay: AUTOPILOT_SCORES_REFRESH_INTERVAL,
     })
+    if (activeWalletSettings.type === 'local') {
+      appScheduler.addTask({
+        task: () => fetchTransactions(true),
+        taskId: 'fetchTransactions',
+        baseDelay: TX_REFETCH_INTERVAL,
+      })
+    }
 
     // Set wallet open state.
     setIsWalletOpen(true)
@@ -96,6 +99,7 @@ const App = ({
       appScheduler.removeAllTasks()
     }
   }, [
+    activeWalletSettings,
     initActivityHistory,
     isSyncedToGraph,
     fetchDescribeNetwork,
@@ -155,6 +159,7 @@ const App = ({
 }
 
 App.propTypes = {
+  activeWalletSettings: PropTypes.object,
   fetchDescribeNetwork: PropTypes.func.isRequired,
   fetchPeers: PropTypes.func.isRequired,
   fetchSuggestedNodes: PropTypes.func.isRequired,

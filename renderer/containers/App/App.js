@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { fetchPeers } from 'reducers/peers'
 import { fetchDescribeNetwork } from 'reducers/network'
-import { setIsWalletOpen } from 'reducers/wallet'
+import { setIsWalletOpen, walletSelectors } from 'reducers/wallet'
 import { updateAutopilotNodeScores } from 'reducers/autopilot'
 import { initActivityHistory } from 'reducers/activity'
 import { fetchTransactions } from 'reducers/transaction'
@@ -23,6 +23,7 @@ import ModalStack from './ModalStack'
 import AppErrorBoundary from './ErrorBoundary'
 
 const mapStateToProps = state => ({
+  activeWalletSettings: walletSelectors.activeWalletSettings(state),
   isAppReady: appSelectors.isAppReady(state),
   isSyncedToGraph: infoSelectors.isSyncedToGraph(),
   redirectPayReq: state.pay.redirectPayReq,
