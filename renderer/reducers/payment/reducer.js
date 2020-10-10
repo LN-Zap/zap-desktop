@@ -365,7 +365,7 @@ export const payInvoice = ({
 }
 
 /**
- * receiveHtlcEventData - Listener for when a new transaction is pushed from the subscriber.
+ * receiveHtlcEventData - Listener for when a new htlc event is pushed from the subscriber.
  *
  * @param {HtlcEvent} htlcEvent HtlcEvent
  * @returns {(dispatch:Function, getState:Function) => void} Thunk

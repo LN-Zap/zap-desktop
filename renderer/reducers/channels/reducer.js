@@ -32,6 +32,8 @@ const {
   RECEIVE_SUGGESTED_NODES,
 } = constants
 
+const CHANNEL_REFRESH_THROTTLE = 1000 * 60
+
 // ------------------------------------
 // Initial State
 // ------------------------------------
@@ -513,7 +515,7 @@ const throttledFetchChannels = throttle(
     dispatch(fetchChannels())
     dispatch(fetchBalance())
   },
-  1000,
+  CHANNEL_REFRESH_THROTTLE,
   {
     leading: true,
     trailing: true,
