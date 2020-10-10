@@ -80,6 +80,14 @@ const isSyncedToChain = state => get(state, 'info.data.syncedToChain', false)
 const isSyncedToGraph = state => get(state, 'info.data.syncedToGraph', false)
 
 /**
+ * blockHeight - Block height.
+ *
+ * @param {State} state Redux state
+ * @returns {number} Current block height
+ */
+const blockHeight = state => get(state, 'info.data.blockHeight')
+
+/**
  * version - Node version.
  *
  * @param {State} state Redux state
@@ -230,6 +238,7 @@ const chainName = createSelector(chainSelector, chainsSelector, (chain, chains) 
 )
 
 export default {
+  blockHeight,
   chainSelector,
   chainsSelector,
   networkSelector,

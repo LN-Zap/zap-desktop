@@ -1,6 +1,5 @@
 import { send } from 'redux-electron-ipc'
 import groupBy from 'lodash/groupBy'
-import range from 'lodash/range'
 import createReducer from '@zap/utils/createReducer'
 import { getIntl } from '@zap/i18n'
 import { mainLog } from '@zap/utils/log'
@@ -11,6 +10,7 @@ import { receiveInvoices } from 'reducers/invoice'
 import { settingsSelectors } from 'reducers/settings'
 import { fetchBalance } from 'reducers/balance'
 import { fetchChannels } from 'reducers/channels'
+import { fetchInfo, infoSelectors } from 'reducers/info'
 import { showError, showNotification } from 'reducers/notification'
 import { createActivityPaginator, getItemType } from './utils'
 import { hasNextPage } from './selectors'
@@ -240,11 +240,14 @@ export const resetPaginator = () => () => {
  * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const loadPage = (reload = false) => async (dispatch, getState) => {
+  await dispatch(fetchInfo())
   const config = settingsSelectors.currentConfig(getState())
+  const blockHeight = infoSelectors.blockHeight(getState())
   const thisPaginator = getPaginator()
+
   if (reload || hasNextPage(getState())) {
     const { pageSize } = config.activity
-    const { items, hasNextPage: paginatorHasNextPage } = await thisPaginator(pageSize)
+    const { items, hasNextPage: paginatorHasNextPage } = await thisPaginator(pageSize, blockHeight)
 
     if (!reload) {
       loadedPages += 1
@@ -252,6 +255,7 @@ export const loadPage = (reload = false) => async (dispatch, getState) => {
     }
 
     const { invoices, payments, transactions } = groupBy(items, getItemType)
+
     invoices && dispatch(receiveInvoices(invoices))
     payments && dispatch(receivePayments(payments))
     transactions && dispatch(receiveTransactions(transactions))

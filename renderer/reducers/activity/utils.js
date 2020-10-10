@@ -154,9 +154,22 @@ export const createActivityPaginator = () => {
     return { items: payments, offset: parseInt(firstIndexOffset || 0, 10) }
   }
 
-  const fetchTransactions = async () => {
-    const { transactions } = await grpc.services.Lightning.getTransactions()
-    return { items: transactions, offset: 0 }
+  const fetchTransactions = async (pageSize, offset, blockHeight) => {
+    // Lets load 10x more bloks that page size is set to since blocks only cover a 10 minute period.
+    const vPagesize = pageSize * 5
+
+    // Determine start point.
+    const firstStart = blockHeight - vPagesize
+    const nextStart = offset - vPagesize
+    const startHeight = offset === 0 ? firstStart : nextStart
+
+    // Determine end height.
+    const endHeight = offset || -1
+    const { transactions } = await grpc.services.Lightning.getTransactions({
+      startHeight,
+      endHeight,
+    })
+    return { items: transactions, offset: startHeight }
   }
 
   const getTimestamp = item =>
