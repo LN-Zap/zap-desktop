@@ -256,19 +256,17 @@ export const resetPaginator = () => () => {
  * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const loadPage = (reload = false) => async (dispatch, getState) => {
-  const state = getState()
-
-  if (isPageLoading(state)) {
+  if (isPageLoading(getState())) {
     return
   }
   dispatch(setPageLoading(true))
 
   await dispatch(fetchInfo())
-  const config = settingsSelectors.currentConfig(state)
-  const blockHeight = infoSelectors.blockHeight(state)
+  const config = settingsSelectors.currentConfig(getState())
+  const blockHeight = infoSelectors.blockHeight(getState())
   const thisPaginator = getPaginator()
 
-  if (reload || hasNextPage(state)) {
+  if (reload || hasNextPage(getState())) {
     const { pageSize } = config.activity
     const { items, hasNextPage: paginatorHasNextPage } = await thisPaginator(pageSize, blockHeight)
 
