@@ -7972,10 +7972,10 @@ electron-updater@4.3.5:
     lodash.isequal "^4.5.0"
     semver "^7.3.2"
 
-electron@8.5.2:
-  version "8.5.2"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-8.5.2.tgz#7b0246c6676a39df0e5e384b11cfe854fe5917f0"
-  integrity sha512-VU+zZnmCzxoZ5UfBg2UGVm+nyxlNlQOQkotMLfk7FCtnkIOhX+sosl618OCxUWjOvPc+Mpg5MEkEmxPU5ziW4Q==
+electron@8.4.1:
+  version "8.4.1"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-8.4.1.tgz#124d6c65d02a644b389f498d549f2411a0a94c27"
+  integrity sha512-2UK0dUlkwoUAxRDS9VHm3M/zKW+Vm71b1mqSfHx+L7VEfTjiO1Vt2l+kGFg0sUpa/CVMtSCqaeZucrNN6VQwwA==
   dependencies:
     "@electron/get" "^1.0.1"
     "@types/node" "^12.0.12"
