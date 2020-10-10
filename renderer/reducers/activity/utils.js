@@ -1,6 +1,7 @@
 import { grpc } from 'workers'
 import combinePaginators from '@zap/utils/pagination'
 import { mainLog } from '@zap/utils/log'
+
 export const months = [
   'Jan',
   'Feb',
@@ -157,11 +158,13 @@ export const createActivityPaginator = () => {
   const fetchTransactions = async (pageSize, offset, blockHeight) => {
     // Lets load 25x more bloks than page size is set to since blocks only cover a 10 minute period.
     // with a 50 item page size, that would mean loading transactions in chunks of about 10 days.
-    var vPageSize = pageSize * 25
+    const vPageSize = pageSize * 25
+    let nextOffset = offset
 
     let count = 0
     let items = []
-    var hasItems = !offset || 500000 < offset
+    const hasItems = !offset || offset > 500000
+    /* eslint-disable no-await-in-loop */
     while (hasItems && count < pageSize) {
       // Determine start point.
       const firstStart = blockHeight - vPageSize
@@ -177,14 +180,16 @@ export const createActivityPaginator = () => {
         startHeight,
         endHeight,
       })
-      mainLog.info(`Loaded ${transactions.length} transactions from block height ${startHeight} to ${endHeight}`)
+      mainLog.info(
+        `Loaded ${transactions.length} transactions from block height ${startHeight} to ${endHeight}`
+      )
       count += transactions.length
-      items = items.concat(transactions);
-      offset = startHeight
+      items = items.concat(transactions)
+      nextOffset = startHeight
     }
     mainLog.info(`Loaded ${items.length} transactions in total for paginator`)
 
-    return { items : items.slice(0, vPageSize), offset }
+    return { items: items.slice(0, vPageSize), offset: nextOffset }
   }
 
   const getTimestamp = item =>
