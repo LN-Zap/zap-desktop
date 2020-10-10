@@ -1,5 +1,6 @@
 import { grpc } from 'workers'
 import combinePaginators from '@zap/utils/pagination'
+import { mainLog } from '@zap/utils/log'
 
 export const months = [
   'Jan',
@@ -154,9 +155,49 @@ export const createActivityPaginator = () => {
     return { items: payments, offset: parseInt(firstIndexOffset || 0, 10) }
   }
 
-  const fetchTransactions = async () => {
-    const { transactions } = await grpc.services.Lightning.getTransactions()
-    return { items: transactions, offset: 0 }
+  const fetchTransactions = async (pageSize, offset, blockHeight) => {
+    // Lets load 10x more bloks than page size is set to since blocks only cover a 10 minute period.
+    // with a 250 item page size, that would mean loading transactions in chunks of about 20 days.
+    const vPageSize = pageSize * 10
+    const firstStart = blockHeight - vPageSize
+
+    // Determine end height.
+    let endHeight = offset || -1
+
+    // Determine start point.
+    let startHeight = offset === 0 ? firstStart : offset - vPageSize
+
+    let count = 0
+    let items = []
+
+    let hasMoreItems = startHeight > 500000 && count < pageSize
+
+    /* eslint-disable no-await-in-loop */
+    while (hasMoreItems) {
+      // Load items.
+      mainLog.info(`Loading transactions from block height ${startHeight} to ${endHeight}`)
+      const { transactions } = await grpc.services.Lightning.getTransactions({
+        startHeight,
+        endHeight,
+      })
+      mainLog.info(
+        `Loaded ${transactions.length} transactions from block height ${startHeight} to ${endHeight}`
+      )
+
+      count += transactions.length
+      items = items.concat(transactions)
+
+      hasMoreItems = startHeight > 500000 && count < pageSize
+      if (hasMoreItems) {
+        // Determine next end height.
+        endHeight = startHeight
+
+        // Determine next start point.
+        startHeight = endHeight - vPageSize
+      }
+    }
+    mainLog.info(`Loaded ${items.length} transactions in total for paginator`)
+    return { items, offset: startHeight }
   }
 
   const getTimestamp = item =>

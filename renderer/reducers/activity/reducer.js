@@ -1,6 +1,5 @@
 import { send } from 'redux-electron-ipc'
 import groupBy from 'lodash/groupBy'
-import range from 'lodash/range'
 import createReducer from '@zap/utils/createReducer'
 import { getIntl } from '@zap/i18n'
 import { mainLog } from '@zap/utils/log'
@@ -11,9 +10,10 @@ import { receiveInvoices } from 'reducers/invoice'
 import { settingsSelectors } from 'reducers/settings'
 import { fetchBalance } from 'reducers/balance'
 import { fetchChannels } from 'reducers/channels'
+import { fetchInfo, infoSelectors } from 'reducers/info'
 import { showError, showNotification } from 'reducers/notification'
 import { createActivityPaginator, getItemType } from './utils'
-import { hasNextPage } from './selectors'
+import { hasNextPage, isPageLoading } from './selectors'
 import messages from './messages'
 import * as constants from './constants'
 
@@ -28,6 +28,7 @@ const {
   ADD_FILTER,
   SET_HAS_NEXT_PAGE,
   SET_ERROR_DIALOG_DETAILS,
+  SET_PAGE_LOADING,
 } = constants
 
 // ------------------------------------
@@ -44,6 +45,7 @@ const {
  * @property {boolean} isActivityLoading Boolean indicating if activity is loading.
  * @property {Error|null} activityLoadingError Error from loading activity.
  * @property {boolean} hasNextPage Boolean indicating if there are more activity pages to fetch.
+ * @property {boolean} isPageLoading Boolean indicating if the activity page is loading.
  */
 
 /** @type {State} */
@@ -65,6 +67,7 @@ const initialState = {
   isActivityLoading: false,
   activityLoadingError: null,
   hasNextPage: true,
+  isPageLoading: false,
 }
 
 // ------------------------------------
@@ -92,6 +95,19 @@ export const getPaginator = () => {
 // ------------------------------------
 // Actions
 // ------------------------------------
+
+/**
+ * setPageLoading - Set boolean indicating if page is in the process of loading.
+ *
+ * @param {boolean} isPageLoading Boolean indicating if page is loading
+ * @returns {object} Action
+ */
+export const setPageLoading = isPageLoading => {
+  return {
+    type: SET_PAGE_LOADING,
+    isPageLoading,
+  }
+}
 
 /**
  * setErorDialogDetails - Set the error dialog details.
@@ -240,11 +256,19 @@ export const resetPaginator = () => () => {
  * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const loadPage = (reload = false) => async (dispatch, getState) => {
+  if (isPageLoading(getState())) {
+    return
+  }
+  dispatch(setPageLoading(true))
+
+  await dispatch(fetchInfo())
   const config = settingsSelectors.currentConfig(getState())
+  const blockHeight = infoSelectors.blockHeight(getState())
   const thisPaginator = getPaginator()
+
   if (reload || hasNextPage(getState())) {
     const { pageSize } = config.activity
-    const { items, hasNextPage: paginatorHasNextPage } = await thisPaginator(pageSize)
+    const { items, hasNextPage: paginatorHasNextPage } = await thisPaginator(pageSize, blockHeight)
 
     if (!reload) {
       loadedPages += 1
@@ -252,10 +276,13 @@ export const loadPage = (reload = false) => async (dispatch, getState) => {
     }
 
     const { invoices, payments, transactions } = groupBy(items, getItemType)
+
     invoices && dispatch(receiveInvoices(invoices))
     payments && dispatch(receivePayments(payments))
     transactions && dispatch(receiveTransactions(transactions))
   }
+
+  dispatch(setPageLoading(false))
 }
 
 /**
@@ -267,13 +294,7 @@ export const reloadPages = () => async dispatch => {
   const pageCount = loadedPages
   mainLog.debug(`reloading ${pageCount} activity pages`)
   dispatch(resetPaginator())
-
-  // eslint-disable-next-line no-unused-vars
-  for (const page of range(pageCount)) {
-    mainLog.debug(`reloading activity page ${page}`)
-    // eslint-disable-next-line no-await-in-loop
-    await dispatch(loadPage(true))
-  }
+  await dispatch(loadPage(true))
 }
 
 /**
@@ -284,9 +305,9 @@ export const reloadPages = () => async dispatch => {
 export const initActivityHistory = () => async dispatch => {
   dispatch({ type: FETCH_ACTIVITY_HISTORY })
   try {
-    await dispatch(loadPage())
     dispatch(fetchChannels())
     dispatch(fetchBalance())
+    await dispatch(loadPage())
     dispatch({ type: FETCH_ACTIVITY_HISTORY_SUCCESS })
   } catch (error) {
     dispatch({ type: FETCH_ACTIVITY_HISTORY_FAILURE, error })
@@ -356,6 +377,9 @@ const ACTION_HANDLERS = {
   },
   [SET_ERROR_DIALOG_DETAILS]: (state, { details }) => {
     state.errorDialogDetails = details
+  },
+  [SET_PAGE_LOADING]: (state, { isPageLoading }) => {
+    state.isPageLoading = isPageLoading
   },
 }
 

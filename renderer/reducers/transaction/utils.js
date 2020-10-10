@@ -5,7 +5,7 @@ import { CoinBig } from '@zap/utils/coin'
  */
 
 /**
- * @typedef {Object} Decoration Transaction decorated with additional useful properties.
+ * @typedef {object} Decoration Transaction decorated with additional useful properties.
  * @property {'transaction'} type Activity type
  * @property {boolean} isReceived Boolean indicating if transaction is incoming
  * @property {boolean} isSent Boolean indicating if transaction is outgoing

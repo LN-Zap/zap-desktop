@@ -28,6 +28,7 @@ const PEERS_REFETCH_BACKOFF_SCHEDULE = 2
 const appScheduler = createScheduler()
 
 const App = ({
+  activeWalletSettings,
   isAppReady,
   modals,
   redirectPayReq,
@@ -39,6 +40,7 @@ const App = ({
   fetchTransactions,
   setModals,
   initBackupService,
+  isSyncedToGraph,
   fetchSuggestedNodes,
   initTickers,
   lnurlAuthParams,
@@ -60,46 +62,57 @@ const App = ({
      * node data quite frequently but as time goes on the frequency is reduced to a max of PEERS_MAX_REFETCH_INTERVAL
      */
     appScheduler.addTask({
-      task: () => fetchDescribeNetwork() && fetchPeers(),
+      task: () => !isSyncedToGraph && fetchDescribeNetwork(),
       taskId: 'fetchNetworkData',
       baseDelay: PEERS_INITIAL_REFETCH_INTERVAL,
       maxDelay: PEERS_MAX_REFETCH_INTERVAL,
       backoff: PEERS_REFETCH_BACKOFF_SCHEDULE,
     })
-
-    appScheduler.addTask({
-      task: () => fetchTransactions(true),
-      taskId: 'fetchTransactions',
-      baseDelay: TX_REFETCH_INTERVAL,
-    })
-
     appScheduler.addTask({
       task: updateAutopilotNodeScores,
       taskId: 'updateAutopilotNodeScores',
       baseDelay: AUTOPILOT_SCORES_REFRESH_INTERVAL,
     })
-
-    return () => {
-      appScheduler.removeAllTasks()
+    if (activeWalletSettings.type === 'local') {
+      appScheduler.addTask({
+        task: () => fetchTransactions(true),
+        taskId: 'fetchTransactions',
+        baseDelay: TX_REFETCH_INTERVAL,
+      })
     }
-  }, [fetchDescribeNetwork, fetchPeers, fetchTransactions, updateAutopilotNodeScores])
 
-  useEffect(() => {
     // Set wallet open state.
     setIsWalletOpen(true)
     // fetch data from lnd.
-    initActivityHistory()
-    // fetch node info.
-    fetchPeers()
-    // fetch network info
-    fetchDescribeNetwork()
-    // Update autopilot node scores.
     updateAutopilotNodeScores()
+    initActivityHistory()
+    fetchPeers()
+    fetchDescribeNetwork()
+    // fetch other application data.
     fetchSuggestedNodes()
     initTickers()
     // initialize backup service in forceUseTokens mode to avoid
     // launching it for wallets that don't have backup setup
     initBackupService()
+
+    return () => {
+      appScheduler.removeAllTasks()
+    }
+  }, [
+    activeWalletSettings,
+    initActivityHistory,
+    isSyncedToGraph,
+    fetchDescribeNetwork,
+    fetchPeers,
+    fetchSuggestedNodes,
+    fetchTransactions,
+    initBackupService,
+    initTickers,
+    setIsWalletOpen,
+    updateAutopilotNodeScores,
+  ])
+
+  useEffect(() => {
     if (lnurlAuthParams && !willShowLnurlAuthPrompt) {
       finishLnurlAuth()
     }
@@ -110,14 +123,6 @@ const App = ({
       finishLnurlWithdraw()
     }
   }, [
-    initActivityHistory,
-    fetchDescribeNetwork,
-    fetchPeers,
-    fetchSuggestedNodes,
-    initBackupService,
-    initTickers,
-    setIsWalletOpen,
-    updateAutopilotNodeScores,
     finishLnurlAuth,
     finishLnurlChannel,
     finishLnurlWithdraw,
@@ -154,6 +159,7 @@ const App = ({
 }
 
 App.propTypes = {
+  activeWalletSettings: PropTypes.object,
   fetchDescribeNetwork: PropTypes.func.isRequired,
   fetchPeers: PropTypes.func.isRequired,
   fetchSuggestedNodes: PropTypes.func.isRequired,
@@ -165,6 +171,7 @@ App.propTypes = {
   initBackupService: PropTypes.func.isRequired,
   initTickers: PropTypes.func.isRequired,
   isAppReady: PropTypes.bool.isRequired,
+  isSyncedToGraph: PropTypes.bool.isRequired,
   lnurlAuthParams: PropTypes.object,
   lnurlChannelParams: PropTypes.object,
   lnurlWithdrawParams: PropTypes.object,

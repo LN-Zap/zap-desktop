@@ -5,4 +5,5 @@ export default defineMessages({
   pay: 'Pay',
   request: 'Receive',
   menu_item_autopay: 'Autopay',
+  qrcode_tooltip: 'Deposit Bitcoin',
 })

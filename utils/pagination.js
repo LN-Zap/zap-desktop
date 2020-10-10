@@ -18,7 +18,7 @@ export default function combinePaginators(itemSorter, ...paginators) {
   // pagination tip fo reach of `paginators`
   const offsets = new Map()
 
-  return async pageSize => {
+  return async (pageSize, blockHeight) => {
     // splits `items` into two parts - result and rest based on`pageSize`
     // rest is a leftover which should be merged into cache
     const splitResult = (...items) => {
@@ -34,7 +34,7 @@ export default function combinePaginators(itemSorter, ...paginators) {
       const depleted = { offset: 0, items: [] }
       const missing = { offset: 1, items: [] }
       const next = p =>
-        p(pageSize, offsets.get(p) || 0).catch(e => {
+        p(pageSize, offsets.get(p) || 0, blockHeight).catch(e => {
           mainLog.error('Unable to fetch activity items from %s paginator: %o', p.name, e)
           return missing
         })
@@ -44,7 +44,10 @@ export default function combinePaginators(itemSorter, ...paginators) {
     // returns true if some of the paginators have next page
     const hasNextPage = () => [...offsets.values()].find(Boolean)
     // prepares function result
-    const createResult = items => ({ items, hasNextPage: Boolean(cache.length || hasNextPage()) })
+    const createResult = items => ({
+      items,
+      hasNextPage: Boolean(cache.length || hasNextPage()),
+    })
 
     const current = await fetchNextPage()
 

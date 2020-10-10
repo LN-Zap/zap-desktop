@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { fetchPeers } from 'reducers/peers'
 import { fetchDescribeNetwork } from 'reducers/network'
-import { setIsWalletOpen } from 'reducers/wallet'
+import { setIsWalletOpen, walletSelectors } from 'reducers/wallet'
 import { updateAutopilotNodeScores } from 'reducers/autopilot'
 import { initActivityHistory } from 'reducers/activity'
 import { fetchTransactions } from 'reducers/transaction'
@@ -14,6 +14,7 @@ import {
   lnurlSelectors,
 } from 'reducers/lnurl'
 import { initBackupService } from 'reducers/backup'
+import { infoSelectors } from 'reducers/info'
 import { setModals, modalSelectors } from 'reducers/modal'
 import { fetchSuggestedNodes } from 'reducers/channels'
 import { initTickers } from 'reducers/ticker'
@@ -22,7 +23,9 @@ import ModalStack from './ModalStack'
 import AppErrorBoundary from './ErrorBoundary'
 
 const mapStateToProps = state => ({
+  activeWalletSettings: walletSelectors.activeWalletSettings(state),
   isAppReady: appSelectors.isAppReady(state),
+  isSyncedToGraph: infoSelectors.isSyncedToGraph(),
   redirectPayReq: state.pay.redirectPayReq,
   modals: modalSelectors.getModalState(state),
   lnurlWithdrawParams: lnurlSelectors.lnurlWithdrawParams(state),

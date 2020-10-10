@@ -39,6 +39,7 @@ Snapshot Diff:
     ],
     "hasNextPage": true,
     "isActivityLoading": false,
+    "isPageLoading": false,
     "modal": Object {
       "itemId": null,
       "itemType": null,
@@ -82,6 +83,7 @@ Snapshot Diff:
     "hasNextPage": true,
 -   "isActivityLoading": false,
 +   "isActivityLoading": true,
+    "isPageLoading": false,
     "modal": Object {
       "itemId": null,
       "itemType": null,
@@ -125,6 +127,7 @@ Snapshot Diff:
     ],
     "hasNextPage": true,
     "isActivityLoading": false,
+    "isPageLoading": false,
     "modal": Object {
       "itemId": null,
       "itemType": null,
@@ -141,6 +144,51 @@ Compared values have no visual difference.
 exports[`reducers activityReducer should handle HIDE_ACTIVITY_MODAL 1`] = `
 Snapshot Diff:
 Compared values have no visual difference.
+`;
+
+exports[`reducers activityReducer should handle SET_ACTIVITY_MODAL 1`] = `
+Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    "activityLoadingError": null,
+    "errorDialogDetails": null,
+    "filter": Set {
+      "SENT_ACTIVITY",
+      "RECEIVED_ACTIVITY",
+      "PENDING_ACTIVITY",
+      "EXPIRED_ACTIVITY",
+      "INTERNAL_ACTIVITY",
+    },
+    "filters": Array [
+      Object {
+        "key": "SENT_ACTIVITY",
+      },
+      Object {
+        "key": "RECEIVED_ACTIVITY",
+      },
+      Object {
+        "key": "PENDING_ACTIVITY",
+      },
+      Object {
+        "key": "EXPIRED_ACTIVITY",
+      },
+      Object {
+        "key": "INTERNAL_ACTIVITY",
+      },
+    ],
+    "hasNextPage": true,
+    "isActivityLoading": false,
+    "isPageLoading": false,
+    "modal": Object {
+-     "itemId": null,
+-     "itemType": null,
++     "itemId": "123",
++     "itemType": "transaction",
+    },
+    "searchText": null,
+  }
 `;
 
 exports[`reducers activityReducer should handle SET_HAS_NEXT_PAGE 1`] = `
@@ -178,53 +226,10 @@ Snapshot Diff:
 -   "hasNextPage": true,
 +   "hasNextPage": undefined,
     "isActivityLoading": false,
+    "isPageLoading": false,
     "modal": Object {
       "itemId": null,
       "itemType": null,
-    },
-    "searchText": null,
-  }
-`;
-
-exports[`reducers activityReducer should handle SET_ACTIVITY_MODAL 1`] = `
-Snapshot Diff:
-- First value
-+ Second value
-
-  Object {
-    "activityLoadingError": null,
-    "errorDialogDetails": null,
-    "filter": Set {
-      "SENT_ACTIVITY",
-      "RECEIVED_ACTIVITY",
-      "PENDING_ACTIVITY",
-      "EXPIRED_ACTIVITY",
-      "INTERNAL_ACTIVITY",
-    },
-    "filters": Array [
-      Object {
-        "key": "SENT_ACTIVITY",
-      },
-      Object {
-        "key": "RECEIVED_ACTIVITY",
-      },
-      Object {
-        "key": "PENDING_ACTIVITY",
-      },
-      Object {
-        "key": "EXPIRED_ACTIVITY",
-      },
-      Object {
-        "key": "INTERNAL_ACTIVITY",
-      },
-    ],
-    "hasNextPage": true,
-    "isActivityLoading": false,
-    "modal": Object {
--     "itemId": null,
--     "itemType": null,
-+     "itemId": "123",
-+     "itemType": "transaction",
     },
     "searchText": null,
   }
@@ -264,6 +269,7 @@ Snapshot Diff:
     ],
     "hasNextPage": true,
     "isActivityLoading": false,
+    "isPageLoading": false,
     "modal": Object {
       "itemId": null,
       "itemType": null,

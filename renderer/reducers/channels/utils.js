@@ -96,7 +96,7 @@ export const getStatus = (channelObj, closingChannelIds = [], loadingChannelPubK
 export const getChannelEffectiveCapacity = channel =>
   CoinBig(get(channel, 'localBalance', 0))
     .plus(CoinBig(get(channel, 'remoteBalance', 0)))
-    .toString()
+    .toNumber()
 
 /**
  * decorateChannel - Decorate a channel object with additional calculated properties.

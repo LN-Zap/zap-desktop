@@ -62,6 +62,16 @@ export const walletBalanceUnconfirmed = state => state.balance.walletBalanceUnco
 export const limboBalance = state => state.channels.pendingChannels.totalLimboBalance
 
 /**
+ * pendingBalance - Pending balance.
+ *
+ * @param {State} state Redux state
+ * @returns {string|null} Pending balance
+ */
+export const pendingBalance = createSelector(channelBalancePending, limboBalance, (cb, lb) => {
+  return CoinBig.sum(cb, lb).toString()
+})
+
+/**
  * totalBalance - Total balance.
  *
  * @param {State} state Redux state
@@ -96,5 +106,6 @@ export default {
   walletBalanceConfirmed,
   walletBalanceUnconfirmed,
   limboBalance,
+  pendingBalance,
   totalBalance,
 }

@@ -68,6 +68,14 @@ export const filter = state => state.activity.filter
 export const hasNextPage = state => state.activity.hasNextPage
 
 /**
+ * isPageLoading - Activity page loading state.
+ *
+ * @param {State} state Redux state
+ * @returns {boolean} Boolean indicating if the activty pager is loading items.
+ */
+export const isPageLoading = state => state.activity.isPageLoading
+
+/**
  * filters - List of activity filters.
  *
  * @param {State} state Redux state

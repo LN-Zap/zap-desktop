@@ -1,5 +1,7 @@
 import { grpc } from 'workers'
+import { mainLog } from '@zap/utils/log'
 import createReducer from '@zap/utils/createReducer'
+import { updateNodeData } from 'reducers/network'
 
 // ------------------------------------
 // Initial State
@@ -32,6 +34,14 @@ export const fetchPeers = () => async dispatch => {
   dispatch({ type: FETCH_PEERS })
   try {
     const { peers } = await grpc.services.Lightning.listPeers()
+    peers.forEach(async ({ pubKey }) => {
+      try {
+        const { node } = await grpc.services.Lightning.getNodeInfo({ pubKey })
+        dispatch(updateNodeData([node]))
+      } catch (error) {
+        mainLog.warn('Unable to get node info for peer %s: %s', pubKey, error)
+      }
+    })
     dispatch({ type: FETCH_PEERS_SUCCESS, peers })
   } catch (error) {
     dispatch({ type: FETCH_PEERS_FAILURE, error })

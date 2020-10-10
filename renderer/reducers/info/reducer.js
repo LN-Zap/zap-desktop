@@ -2,7 +2,7 @@ import get from 'lodash/get'
 import createReducer from '@zap/utils/createReducer'
 import { networks } from '@zap/utils/crypto'
 import { grpc } from 'workers'
-import { initAddresses } from 'reducers/address'
+import { initAddresses, addressSelectors } from 'reducers/address'
 import { putWallet, walletSelectors } from 'reducers/wallet'
 import * as constants from './constants'
 
@@ -157,7 +157,11 @@ export const receiveInfo = data => async (dispatch, getState) => {
   }
 
   // Now that we have the node info, get the current wallet addresses.
-  dispatch(initAddresses())
+  const currentAddresses = addressSelectors.currentAddresses(state)
+  const hasAddresses = currentAddresses.np2wkh || currentAddresses.p2wkh
+  if (!hasAddresses) {
+    dispatch(initAddresses())
+  }
 
   // Update the active wallet settings with info discovered from getinfo.
   const chain = get(state, 'info.chain')

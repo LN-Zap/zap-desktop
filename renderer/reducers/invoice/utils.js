@@ -5,7 +5,7 @@ import { convert } from '@zap/utils/btc'
  */
 
 /**
- * @typedef {Object} Decoration Invoice decorated with additional useful properties.
+ * @typedef {object} Decoration Invoice decorated with additional useful properties.
  * @property {'invoice'} type Activity type
  * @property {number} expiryDate Expiry date
  * @property {boolean} isExpired Boolean indicating if the invoice is expired
