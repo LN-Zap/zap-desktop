@@ -156,9 +156,9 @@ export const createActivityPaginator = () => {
   }
 
   const fetchTransactions = async (pageSize, offset, blockHeight) => {
-    // Lets load 50x more bloks than page size is set to since blocks only cover a 10 minute period.
-    // with a 50 item page size, that would mean loading transactions in chunks of about 15 days.
-    const vPageSize = pageSize * 50
+    // Lets load 10x more bloks than page size is set to since blocks only cover a 10 minute period.
+    // with a 250 item page size, that would mean loading transactions in chunks of about 20 days.
+    const vPageSize = pageSize * 10
     const firstStart = blockHeight - vPageSize
 
     // Determine end height.
