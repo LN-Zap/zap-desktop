@@ -464,8 +464,8 @@
   "reducers.messages.autopay_notification_detail": "за \"{reason}\"",
   "reducers.messages.backup_not_found_error": "Невъзможно намирането на файла за резервно копие ",
   "reducers.messages.neutrtino_synced_title": "Възелът на Lightning е синхронизиран",
-  "reducers.settings.settings_init_error": "Невъзможно зареждане на настройките: {error}",
   "reducers.payment.unknown": "Непознато",
+  "reducers.settings.settings_init_error": "Невъзможно зареждане на настройките: {error}",
   "reducers.transaction.transaction_received_title": "Транзакция On-chain е получена!",
   "reducers.transaction.transaction_sent_title": "Транзакция On-chain е изпратена!"
 }
