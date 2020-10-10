@@ -1316,10 +1316,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@formatjs/ecma402-abstract@^1.2.4":
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/@formatjs/ecma402-abstract/-/ecma402-abstract-1.2.4.tgz#0f11e0309bc885d53ddc823e36d04d520fda7674"
-  integrity sha512-5XEuvm+bImBmSFlhbE9FeRQKXWtpt+WIYRsma96bneoNMnUMeCADHJxNNSA5JSY4TlrjVZFHW3jE4HYm10bLbA==
+"@formatjs/ecma402-abstract@^1.2.5":
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/@formatjs/ecma402-abstract/-/ecma402-abstract-1.2.5.tgz#5a61ac1990ff2df8d1348ab12e186c1ca2a2bd71"
+  integrity sha512-k0fqS3LBNOHueAoMdgig8Ni6TchsH+zbzWBzX2gTFm50X9mxHwnuXdCk0XLlCIbvgVVlzcO254Men/mHAheMbg==
   dependencies:
     tslib "^2.0.1"
 
@@ -1338,11 +1338,11 @@
     "@formatjs/intl-utils" "^2.3.0"
 
 "@formatjs/intl-numberformat@^5.5.2":
-  version "5.6.4"
-  resolved "https://registry.yarnpkg.com/@formatjs/intl-numberformat/-/intl-numberformat-5.6.4.tgz#5a7de8f2dd2f73925a0379455c9cf00774246911"
-  integrity sha512-Rr2dWfooBLL96t4fj0tE8VfF4XF8cToogFg1G2d1zHGa8JgClHqPsaCUA05CxXOnAADg7n+o+HzR/D2heaN/Ew==
+  version "5.6.5"
+  resolved "https://registry.yarnpkg.com/@formatjs/intl-numberformat/-/intl-numberformat-5.6.5.tgz#9c55131fbc6eec88fa22db9d1b1297d0bb46d3f2"
+  integrity sha512-c8P9kXO7y2jI7LyuPOoYZE5OlLyrMzFqN3wOD3c+FVakz6B7ceQI37c+xisyIZDPk+0p2N+z8AoAyYf44YI0LQ==
   dependencies:
-    "@formatjs/ecma402-abstract" "^1.2.4"
+    "@formatjs/ecma402-abstract" "^1.2.5"
     tslib "^2.0.1"
 
 "@formatjs/intl-relativetimeformat@^4.5.14", "@formatjs/intl-relativetimeformat@^4.5.9":
@@ -1365,11 +1365,11 @@
   integrity sha512-KWk80UPIzPmUg+P0rKh6TqspRw0G6eux1PuJr+zz47ftMaZ9QDwbGzHZbtzWkl5hgayM/qrKRutllRC7D/vVXQ==
 
 "@formatjs/ts-transformer@^2.6.0":
-  version "2.11.2"
-  resolved "https://registry.yarnpkg.com/@formatjs/ts-transformer/-/ts-transformer-2.11.2.tgz#49cb570a3ea1a0fdd73b1e72e6b3cf7de9d4d7e5"
-  integrity sha512-4e+nmJWNqSGHpt1jcdKuRyOS7l39LghmKuA17tKycHHgLqM4B050n3CoDWEf/SBSPwQPm5hvIeCtXvgZkhvYpA==
+  version "2.11.3"
+  resolved "https://registry.yarnpkg.com/@formatjs/ts-transformer/-/ts-transformer-2.11.3.tgz#9d253ba4681f1654dddbfb43e453d0692f8c85c9"
+  integrity sha512-nt51rmoeDnORFXGkJGX3tpC1oYY6WDkJTpOCCsYkRxWxmgY1kT5v8wckNB/CvBmz4egFNShr1iRNDa7o+EsKZA==
   dependencies:
-    intl-messageformat-parser "^6.0.9"
+    intl-messageformat-parser "^6.0.10"
     tslib "^2.0.1"
     typescript "^4.0"
 
@@ -3564,9 +3564,9 @@ ajv-keywords@^3.1.0, ajv-keywords@^3.4.1, ajv-keywords@^3.5.2:
   integrity sha512-5p6WTN0DdTGVQk6VjcEju19IgaHudalcfabD7yhDGeA6bcQnmL+CpveLJq/3hvfwd1aof6L386Ougkx6RfyMIQ==
 
 ajv@^6.1.0, ajv@^6.10.0, ajv@^6.10.2, ajv@^6.12.0, ajv@^6.12.3, ajv@^6.12.4, ajv@^6.12.5:
-  version "6.12.5"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.12.5.tgz#19b0e8bae8f476e5ba666300387775fb1a00a4da"
-  integrity sha512-lRF8RORchjpKG50/WFf8xmg7sgCLFiYNNnqdKflk63whMQcWR5ngGjiSXkL9bjxy6B2npOK2HSMN49jEBMSkag==
+  version "6.12.6"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.12.6.tgz#baf5a62e802b07d977034586f8c3baf5adf26df4"
+  integrity sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==
   dependencies:
     fast-deep-equal "^3.1.1"
     fast-json-stable-stringify "^2.0.0"
@@ -6047,9 +6047,9 @@ camelcase@^5.0.0, camelcase@^5.3.1:
   integrity sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==
 
 camelcase@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-6.0.0.tgz#5259f7c30e35e278f1bdc2a4d91230b37cad981e"
-  integrity sha512-8KMDF1Vz2gzOq54ONPJS65IvTUaB1cHJ2DMM7MbPmLZljDH1qpzzLsWdiN9pHh6qvkRVDTi/07+eNGch/oLU4w==
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-6.1.0.tgz#27dc176173725fb0adf8a48b647f4d7871944d78"
+  integrity sha512-WCMml9ivU60+8rEJgELlFp1gxFcEGxwYleE3bziHEDeqsqAWGHdimB7beBFGjLzVNgPGyDsfgXLQEYMpmIFnVQ==
 
 camelize@^1.0.0:
   version "1.0.0"
@@ -7972,10 +7972,10 @@ electron-updater@4.3.5:
     lodash.isequal "^4.5.0"
     semver "^7.3.2"
 
-electron@9.3.2:
-  version "9.3.2"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-9.3.2.tgz#afa2942e2642ee25b422b90f1497f7d9bbeec550"
-  integrity sha512-0lleEf9msAXGDi2GukAuiGdw3VDgSTlONOnJgqDEz1fuSEVsXz5RX+hNPKDsVDerLTFg/C34RuJf4LwHvkKcBA==
+electron@8.5.2:
+  version "8.5.2"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-8.5.2.tgz#7b0246c6676a39df0e5e384b11cfe854fe5917f0"
+  integrity sha512-VU+zZnmCzxoZ5UfBg2UGVm+nyxlNlQOQkotMLfk7FCtnkIOhX+sosl618OCxUWjOvPc+Mpg5MEkEmxPU5ziW4Q==
   dependencies:
     "@electron/get" "^1.0.1"
     "@types/node" "^12.0.12"
@@ -11041,12 +11041,12 @@ intl-messageformat-parser@^5.0.2, intl-messageformat-parser@^5.2.1, intl-message
   dependencies:
     "@formatjs/intl-numberformat" "^5.5.2"
 
-intl-messageformat-parser@^6.0.9:
-  version "6.0.9"
-  resolved "https://registry.yarnpkg.com/intl-messageformat-parser/-/intl-messageformat-parser-6.0.9.tgz#323b3631afc8202276243134507c1ee11d206c80"
-  integrity sha512-cWYP9l/3/zgs90wZf8lBPWDxBwJSa86j0QFXVTsvuFUsS0pdPweZhvLx5KV78vXQgN3WOQYzdS6/R87A8mZcVw==
+intl-messageformat-parser@^6.0.10:
+  version "6.0.10"
+  resolved "https://registry.yarnpkg.com/intl-messageformat-parser/-/intl-messageformat-parser-6.0.10.tgz#6202bd4e9b59eaa5bf34d4db2ef8c2af46d40037"
+  integrity sha512-xURB8PchDsdLEpedzPLzBmGCK996FPBl3yLQIUxcM3EAA3TdhXPArX6GY4LVXQNeq8V4WtwmgxaJOKtdOpA8pg==
   dependencies:
-    "@formatjs/ecma402-abstract" "^1.2.4"
+    "@formatjs/ecma402-abstract" "^1.2.5"
     tslib "^2.0.1"
 
 intl-messageformat@^7.8.4:
@@ -14853,9 +14853,9 @@ pretty-hrtime@^1.0.3:
   integrity sha1-t+PqQkNaTJsnWdmeDyAesZWALuE=
 
 prismjs@^1.8.4:
-  version "1.21.0"
-  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.21.0.tgz#36c086ec36b45319ec4218ee164c110f9fc015a3"
-  integrity sha512-uGdSIu1nk3kej2iZsLyDoJ7e9bnPzIgY0naW/HdknGj61zScaprVEVGHrPoXqI+M9sP0NDnTK2jpkvmldpuqDw==
+  version "1.22.0"
+  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.22.0.tgz#73c3400afc58a823dd7eed023f8e1ce9fd8977fa"
+  integrity sha512-lLJ/Wt9yy0AiSYBf212kK3mM5L8ycwlyTlSxHBAneXLR0nzFMlZ5y7riFPF3E33zXOF2IH95xdY5jIyZbM9z/w==
   optionalDependencies:
     clipboard "^2.0.0"
 
