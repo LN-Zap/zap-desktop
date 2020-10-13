@@ -305,9 +305,7 @@ export const reloadPages = () => async dispatch => {
 export const initActivityHistory = () => async dispatch => {
   dispatch({ type: FETCH_ACTIVITY_HISTORY })
   try {
-    dispatch(fetchChannels())
-    dispatch(fetchBalance())
-    await dispatch(loadPage())
+    await Promise.all([dispatch(loadPage()), dispatch(fetchChannels()), dispatch(fetchBalance())])
     dispatch({ type: FETCH_ACTIVITY_HISTORY_SUCCESS })
   } catch (error) {
     dispatch({ type: FETCH_ACTIVITY_HISTORY_FAILURE, error })
@@ -322,9 +320,11 @@ export const initActivityHistory = () => async dispatch => {
 export const reloadActivityHistory = () => async dispatch => {
   dispatch({ type: FETCH_ACTIVITY_HISTORY })
   try {
-    await dispatch(reloadPages())
-    dispatch(fetchChannels())
-    dispatch(fetchBalance())
+    await Promise.all([
+      dispatch(reloadPages()),
+      dispatch(fetchChannels()),
+      dispatch(fetchBalance()),
+    ])
     dispatch({ type: FETCH_ACTIVITY_HISTORY_SUCCESS })
   } catch (error) {
     dispatch({ type: FETCH_ACTIVITY_HISTORY_FAILURE, error })
