@@ -4,6 +4,7 @@ import { CoinBig } from '@zap/utils/coin'
 import { getIntl } from '@zap/i18n'
 import { requestSuggestedNodes } from '@zap/utils/api'
 import { grpc } from 'workers'
+import { fetchPeers } from 'reducers/peers'
 import { fetchBalance } from 'reducers/balance'
 import { updateNotification, showWarning, showError } from 'reducers/notification'
 import { walletSelectors } from 'reducers/wallet'
@@ -330,6 +331,15 @@ export const fetchChannels = () => async dispatch => {
   dispatch(getChannels())
   const channels = await grpc.services.Lightning.getChannels()
   await dispatch(receiveChannels(channels))
+}
+
+/**
+ * refreshChannels - Refresh channel data from lnd.
+ *
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
+ */
+export const refreshChannels = () => async dispatch => {
+  await Promise.all([dispatch(fetchChannels()), dispatch(fetchPeers())])
 }
 
 /**
