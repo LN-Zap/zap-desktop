@@ -28,6 +28,9 @@ export default defineMessages({
   open_channel_form_description:
     "To open a channel, enter the desired node's publickey@host, set the amount of BTC you'd like to commit to the channel, and submit.",
   open_channel_form_next_button_text: 'Next',
+  remote_csv_delay_label: 'Timelock',
+  remote_csv_delay_tooltip:
+    'The number of blocks we will require our channel counterparty to wait before accessing its funds in case of unilateral close. If this is not set, we will scale the value according to the channel size.',
   open_channel_summary_next_button_text: 'Open Channel with {amount}',
   open_channel_form_onchain_balance: 'Your current confirmed on-chain balance:',
   open_channel_notification: 'Channel opening initiated',

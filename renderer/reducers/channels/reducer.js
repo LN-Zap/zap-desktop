@@ -420,7 +420,15 @@ export const pushclosechannelupdated = ({ chanId }) => dispatch => {
  * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const openChannel = data => async (dispatch, getState) => {
-  const { pubkey, host, localamt, satPerByte, isPrivate, spendUnconfirmed = true } = data
+  const {
+    pubkey,
+    host,
+    localamt,
+    satPerByte,
+    isPrivate,
+    remoteCsvDelay,
+    spendUnconfirmed = true,
+  } = data
 
   // Grab the activeWallet type from our local store. If the active connection type is local (light clients using
   // neutrino) we will flag manually created channels as private. Other connections like remote node and BTCPay Server
@@ -455,6 +463,7 @@ export const openChannel = data => async (dispatch, getState) => {
       localamt,
       private: channelIsPrivate,
       satPerByte,
+      remoteCsvDelay,
       spendUnconfirmed,
     })
     dispatch(pushchannelupdated(channelData))

@@ -119,12 +119,21 @@ async function ensurePeerConnected(payload = {}) {
  * @returns {Promise} OpenStatusUpdate
  */
 async function connectAndOpen(payload = {}) {
-  const { pubkey, host, localamt, private: privateChannel, satPerByte, spendUnconfirmed } = payload
+  const {
+    pubkey,
+    host,
+    localamt,
+    private: privateChannel,
+    satPerByte,
+    remoteCsvDelay,
+    spendUnconfirmed,
+  } = payload
   const req = {
     nodePubkey: Buffer.from(pubkey, 'hex'),
     localFundingAmount: Number(localamt),
     private: privateChannel,
     satPerByte,
+    remoteCsvDelay,
     spendUnconfirmed,
   }
   try {

@@ -8,7 +8,14 @@ import { intlShape } from '@zap/i18n'
 import { convert } from '@zap/utils/btc'
 import { CoinBig } from '@zap/utils/coin'
 import { Bar, Button, Panel, Span, Text } from 'components/UI'
-import { Form, NodePubkeyInput, Label, Toggle, TransactionFeeInput } from 'components/Form'
+import {
+  Form,
+  NodePubkeyInput,
+  Label,
+  Toggle,
+  TransactionFeeInput,
+  IntegerInput,
+} from 'components/Form'
 import { CryptoValue } from 'containers/UI'
 import { CurrencyFieldGroup } from 'containers/Form'
 import Padlock from 'components/Icon/Padlock'
@@ -178,7 +185,7 @@ class ChannelCreateForm extends React.Component {
   // Open a channel using the supplied details.
   onSubmit = values => {
     const { cryptoUnit, openChannel } = this.props
-    const { amountCrypto, nodePubkey } = values
+    const { amountCrypto, nodePubkey, remoteCsvDelay, private: isPrivate } = values
 
     // Convert amount to satoshis.
     const amountInSatoshis = convert(cryptoUnit, 'sats', amountCrypto)
@@ -195,7 +202,8 @@ class ChannelCreateForm extends React.Component {
       host,
       localamt: amountInSatoshis,
       satPerByte,
-      isPrivate: values.private,
+      isPrivate,
+      remoteCsvDelay,
     })
   }
 
@@ -300,6 +308,17 @@ class ChannelCreateForm extends React.Component {
             </Flex>
           </>
         )}
+
+        <Flex alignItems="center" justifyContent="space-between" mt={2}>
+          <Label
+            htmlFor="remoteCsvDelay"
+            tooltip={intl.formatMessage({ ...messages.remote_csv_delay_tooltip })}
+          >
+            <FormattedMessage {...messages.remote_csv_delay_label} />
+          </Label>
+
+          <IntegerInput field="remoteCsvDelay" placeholder="test" width={80} />
+        </Flex>
       </Box>
     )
   }
