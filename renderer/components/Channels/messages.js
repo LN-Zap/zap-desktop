@@ -118,4 +118,9 @@ export default defineMessages({
   no_search_results: 'Your search did not return any results.',
   crypto_amount_with_unit: '{amount} {cryptoUnitName}',
   channels_filter_hint: 'Channels filter',
+  maturity_height_label: 'Maturity height',
+  maturity_height_description: 'The height at which funds can be swept into the wallet.',
+  blocks_til_maturity_label: 'Blocks til maturity',
+  blocks_til_maturity_description:
+    'Remaining # of blocks until the commitment output can be swept. Negative values indicate how many blocks have passed since becoming mature.',
 })
