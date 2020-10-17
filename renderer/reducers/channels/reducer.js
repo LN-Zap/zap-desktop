@@ -31,6 +31,9 @@ const {
   GET_SUGGESTED_NODES,
   RECEIVE_SUGGESTED_NODES_ERROR,
   RECEIVE_SUGGESTED_NODES,
+  OPEN_CHANNEL,
+  OPEN_CHANNEL_SUCCESS,
+  OPEN_CHANNEL_FAILURE,
 } = constants
 
 const CHANNEL_REFRESH_THROTTLE = 1000 * 60
@@ -430,6 +433,8 @@ export const openChannel = data => async (dispatch, getState) => {
     spendUnconfirmed = true,
   } = data
 
+  dispatch({ type: OPEN_CHANNEL, data })
+
   // Grab the activeWallet type from our local store. If the active connection type is local (light clients using
   // neutrino) we will flag manually created channels as private. Other connections like remote node and BTCPay Server
   // we will announce to the network as these users are using Zap to drive nodes that are online 24/7
@@ -467,6 +472,7 @@ export const openChannel = data => async (dispatch, getState) => {
       spendUnconfirmed,
     })
     dispatch(pushchannelupdated(channelData))
+    dispatch({ type: OPEN_CHANNEL_SUCCESS })
   } catch (e) {
     dispatch(
       pushchannelerror({
@@ -474,6 +480,7 @@ export const openChannel = data => async (dispatch, getState) => {
         nodePubkey: pubkey,
       })
     )
+    dispatch({ type: OPEN_CHANNEL_FAILURE })
   }
 }
 
