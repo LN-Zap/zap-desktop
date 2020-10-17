@@ -109,7 +109,9 @@ async function ensurePeerConnected(payload = {}) {
   if (peer) {
     return peer
   }
-  return this.connectPeer({ addr: payload })
+  const finalPayload = { addr: payload }
+  logGrpcCmd('Lightning.connectPeer', finalPayload)
+  return this.connectPeer({ addr: finalPayload })
 }
 
 /**
@@ -119,6 +121,7 @@ async function ensurePeerConnected(payload = {}) {
  * @returns {Promise} OpenStatusUpdate
  */
 async function connectAndOpen(payload = {}) {
+  logGrpcCmd('Lightning.connectAndOpen', payload)
   const {
     pubkey,
     host,
@@ -159,6 +162,7 @@ async function openChannel(payload = {}) {
   })
   return new Promise((resolve, reject) => {
     try {
+      logGrpcCmd('Lightning.openChannel', payload)
       const call = this.service.openChannel(payload)
 
       call.on('data', data => {
@@ -215,6 +219,7 @@ async function closeChannel(payload = {}) {
         },
         force,
       }
+      logGrpcCmd('Lightning.closeChannel', payload)
       const call = this.service.closeChannel(req)
 
       call.on('data', data => {
