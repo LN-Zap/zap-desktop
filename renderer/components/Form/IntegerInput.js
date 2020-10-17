@@ -70,7 +70,7 @@ const preventNonNumericOnPaste = e => {
  */
 class IntegerInput extends React.Component {
   render() {
-    return <BasicInput {...this.props} pattern="[0-9]*" placeholder="0" type="number" />
+    return <BasicInput pattern="[0-9]*" placeholder="0" {...this.props} type="number" />
   }
 }
 

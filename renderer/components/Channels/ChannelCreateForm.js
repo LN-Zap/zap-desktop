@@ -310,14 +310,25 @@ class ChannelCreateForm extends React.Component {
         )}
 
         <Flex alignItems="center" justifyContent="space-between" mt={2}>
-          <Label
-            htmlFor="remoteCsvDelay"
-            tooltip={intl.formatMessage({ ...messages.remote_csv_delay_tooltip })}
-          >
-            <FormattedMessage {...messages.remote_csv_delay_label} />
-          </Label>
+          <Flex>
+            <Span color="gray" fontSize="s" mr={2}>
+              <Padlock />
+            </Span>
+            <Label
+              htmlFor="remoteCsvDelay"
+              tooltip={intl.formatMessage({ ...messages.remote_csv_delay_tooltip })}
+            >
+              <FormattedMessage {...messages.remote_csv_delay_label} />
+            </Label>
+          </Flex>
 
-          <IntegerInput field="remoteCsvDelay" placeholder="test" width={80} />
+          <IntegerInput
+            field="remoteCsvDelay"
+            placeholder="auto"
+            textAlign="right"
+            variant="thin"
+            width={80}
+          />
         </Flex>
       </Box>
     )
