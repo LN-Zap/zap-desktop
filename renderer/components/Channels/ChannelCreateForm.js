@@ -298,7 +298,10 @@ class ChannelCreateForm extends React.Component {
                 <Span color="gray" fontSize="s" mr={2}>
                   <Padlock />
                 </Span>
-                <Label htmlFor="private">
+                <Label
+                  htmlFor="private"
+                  tooltip={intl.formatMessage({ ...messages.private_tooltip })}
+                >
                   <FormattedMessage {...messages.private_label} />
                 </Label>
               </Flex>
