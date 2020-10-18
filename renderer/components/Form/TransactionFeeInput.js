@@ -42,15 +42,16 @@ const speedMessageMap = [
 
 const TransactionFeeInput = ({
   lndTargetConfirmations,
-  isQueryingFees,
-  initialValue,
+  hasFee = true,
+  isQueryingFees = false,
+  initialValue = TRANSACTION_SPEED_SLOW,
   label,
   field,
   formApi,
   fee,
 }) => {
   const value = formApi.getValue(field)
-  const hasFee = CoinBig(fee).isFinite()
+  const isFeeKnown = CoinBig(fee).isFinite()
   return (
     <Flex alignItems="center" justifyContent="space-between">
       <Box>
@@ -78,22 +79,24 @@ const TransactionFeeInput = ({
           </Flex>
         )}
 
-        {!isQueryingFees && !hasFee && <FormattedMessage {...messages.fee_unknown} />}
+        {!isQueryingFees && hasFee && !isFeeKnown && <FormattedMessage {...messages.fee_unknown} />}
 
-        {!isQueryingFees && hasFee && value && (
-          <Flex alignItems="flex-end" flexDirection="column">
+        <Flex alignItems="flex-end" flexDirection="column">
+          {!isQueryingFees && hasFee && value && (
             <Box>
               <CryptoValue value={fee} />
               <CryptoSelector mx={2} />
               <FormattedMessage {...messages.fee_per_byte} />
             </Box>
+          )}
+          {value && (
             <TransactionSpeedDesc
               color="gray"
               lndTargetConfirmations={lndTargetConfirmations}
               speed={value}
             />
-          </Flex>
-        )}
+          )}
+        </Flex>
       </Box>
     </Flex>
   )
@@ -126,6 +129,7 @@ TransactionFeeInput.propTypes = {
   fee: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   field: PropTypes.string.isRequired,
   formApi: PropTypes.object.isRequired,
+  hasFee: PropTypes.bool,
   initialValue: PropTypes.string,
   isQueryingFees: PropTypes.bool,
   label: PropTypes.string,
@@ -134,10 +138,6 @@ TransactionFeeInput.propTypes = {
     medium: PropTypes.number.isRequired,
     slow: PropTypes.number.isRequired,
   }).isRequired,
-}
-
-TransactionFeeInput.defaultProps = {
-  initialValue: TRANSACTION_SPEED_SLOW,
 }
 
 export default withFormApi(TransactionFeeInput)
