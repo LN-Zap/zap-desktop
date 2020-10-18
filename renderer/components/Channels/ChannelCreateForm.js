@@ -27,6 +27,7 @@ import {
   TRANSACTION_SPEED_MEDIUM,
   TRANSACTION_SPEED_FAST,
 } from './constants'
+
 /**
  * Animation to handle showing/hiding the amount fields.
  */

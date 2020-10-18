@@ -206,6 +206,7 @@ async function closeChannel(payload = {}) {
         channelPoint: { fundingTxid, outputIndex },
         chanId,
         force,
+        targetConf,
       } = payload
       const tx = fundingTxid
         .match(/.{2}/g)
@@ -218,8 +219,9 @@ async function closeChannel(payload = {}) {
           outputIndex: Number(outputIndex),
         },
         force,
+        targetConf,
       }
-      logGrpcCmd('Lightning.closeChannel', payload)
+      logGrpcCmd('Lightning.closeChannel', req)
       const call = this.service.closeChannel(req)
 
       call.on('data', data => {

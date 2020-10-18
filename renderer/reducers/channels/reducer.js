@@ -487,9 +487,11 @@ export const openChannel = data => async (dispatch, getState) => {
 /**
  * closeChannel - Close the currently selected channel.
  *
+ * @param {object} data Channel error notification
+ * @param {string|number} [data.targetConf] The target number of blocks the closure transaction should be confirmed by.
  * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
-export const closeChannel = () => async (dispatch, getState) => {
+export const closeChannel = ({ targetConf }) => async (dispatch, getState) => {
   const selectedChannel = channelsSelectors.selectedChannel(getState())
 
   if (selectedChannel) {
@@ -507,6 +509,7 @@ export const closeChannel = () => async (dispatch, getState) => {
         },
         chanId,
         force: !active,
+        targetConf,
       })
       dispatch(pushclosechannelupdated(data))
     } catch (e) {
