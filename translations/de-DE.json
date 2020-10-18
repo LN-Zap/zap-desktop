@@ -198,6 +198,7 @@
   "components.Channels.pending_force_close": "ausstehende Kraft schließen",
   "components.Channels.pending_open": "ausstehende Öffnung",
   "components.Channels.private_label": "Diesen Kanal privat behalten",
+  "components.Channels.private_tooltip": "",
   "components.Channels.refresh_button_hint": "Kanalliste aktualisieren",
   "components.Channels.remote_balance": "Remote Kontostand",
   "components.Channels.remote_chan_reserve_sat_description": "Das Minimum an Satoshi des anderen Knoten ist erforderlich, um in seinem Gleichgewicht zu bleiben.",

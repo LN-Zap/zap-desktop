@@ -198,6 +198,7 @@
   "components.Channels.pending_force_close": "čeka se na prisilno zatvaranje",
   "components.Channels.pending_open": "čeka se na otvaranje",
   "components.Channels.private_label": "Držite ovaj kanal privatnim",
+  "components.Channels.private_tooltip": "",
   "components.Channels.refresh_button_hint": "Osvježi popis kanala",
   "components.Channels.remote_balance": "Udaljeni saldo",
   "components.Channels.remote_chan_reserve_sat_description": "",

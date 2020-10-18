@@ -198,6 +198,7 @@
   "components.Channels.pending_force_close": "encerramento forçado pendente",
   "components.Channels.pending_open": "abertura pendente",
   "components.Channels.private_label": "Manter este canal privado",
+  "components.Channels.private_tooltip": "",
   "components.Channels.refresh_button_hint": "Atualizar lista de canais",
   "components.Channels.remote_balance": "Saldo Remoto",
   "components.Channels.remote_chan_reserve_sat_description": "",

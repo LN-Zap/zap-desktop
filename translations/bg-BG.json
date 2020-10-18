@@ -198,6 +198,7 @@
   "components.Channels.pending_force_close": "",
   "components.Channels.pending_open": "",
   "components.Channels.private_label": "Дръжте този канал частен",
+  "components.Channels.private_tooltip": "",
   "components.Channels.refresh_button_hint": "Опресняване на списъка с канали",
   "components.Channels.remote_balance": "",
   "components.Channels.remote_chan_reserve_sat_description": "",

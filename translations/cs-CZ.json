@@ -198,6 +198,7 @@
   "components.Channels.pending_force_close": "čekající vynucené uzavření",
   "components.Channels.pending_open": "čekající otevřené",
   "components.Channels.private_label": "Uchovávat tento kanál soukromý",
+  "components.Channels.private_tooltip": "",
   "components.Channels.refresh_button_hint": "Aktualizovat seznam kanálů",
   "components.Channels.remote_balance": "Vzdálený zůstatek",
   "components.Channels.remote_chan_reserve_sat_description": "Minimální počet satoshi, který druhý uzel potřebuje rezervovat ve svém zůstatku.",

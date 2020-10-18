@@ -198,6 +198,7 @@
   "components.Channels.pending_force_close": "fermeture forcée en attente",
   "components.Channels.pending_open": "ouverture en attente",
   "components.Channels.private_label": "Garder ce canal privé",
+  "components.Channels.private_tooltip": "",
   "components.Channels.refresh_button_hint": "Rafraîchir la liste des canaux",
   "components.Channels.remote_balance": "Solde distant",
   "components.Channels.remote_chan_reserve_sat_description": "Le nombre minimum de satoshis que votre pair doit garder en réserve dans ce canal.",

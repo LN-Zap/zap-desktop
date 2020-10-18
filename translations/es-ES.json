@@ -198,6 +198,7 @@
   "components.Channels.pending_force_close": "pendiente de cierre a fuerza",
   "components.Channels.pending_open": "pendiente apertura",
   "components.Channels.private_label": "Mantener este canal privado",
+  "components.Channels.private_tooltip": "",
   "components.Channels.refresh_button_hint": "Actualizar lista de canales",
   "components.Channels.remote_balance": "Balance Remoto",
   "components.Channels.remote_chan_reserve_sat_description": "El mínimo de satoshis que el otro nodo requiere para reserva en su saldo.",

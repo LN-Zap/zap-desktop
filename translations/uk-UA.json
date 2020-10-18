@@ -198,6 +198,7 @@
   "components.Channels.pending_force_close": "очікування примусового закриття",
   "components.Channels.pending_open": "очікування на відкриття",
   "components.Channels.private_label": "Зберігайте цей канал приватним",
+  "components.Channels.private_tooltip": "",
   "components.Channels.refresh_button_hint": "Оновити список каналів",
   "components.Channels.remote_balance": "Віддалений баланс",
   "components.Channels.remote_chan_reserve_sat_description": "Мінімальний сатоші інших вузлів, необхіднх для резервування власного балансу.",

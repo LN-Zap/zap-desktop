@@ -198,6 +198,7 @@
   "components.Channels.pending_force_close": "bekleyen zorla kapanış",
   "components.Channels.pending_open": "bekleyen açılış",
   "components.Channels.private_label": "Bu kanalı gizli tut",
+  "components.Channels.private_tooltip": "",
   "components.Channels.refresh_button_hint": "Kanal listesini yenile",
   "components.Channels.remote_balance": "Karşıdaki bakiye",
   "components.Channels.remote_chan_reserve_sat_description": "",

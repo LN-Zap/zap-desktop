@@ -198,6 +198,7 @@
   "components.Channels.pending_force_close": "pending force close",
   "components.Channels.pending_open": "pending open",
   "components.Channels.private_label": "Keep this channel private",
+  "components.Channels.private_tooltip": "Whether this channel should be private, not announced to the greater network.",
   "components.Channels.refresh_button_hint": "Refresh channels list",
   "components.Channels.remote_balance": "Remote Balance",
   "components.Channels.remote_chan_reserve_sat_description": "The minimum satoshis the other node is required to reserve in its balance.",
