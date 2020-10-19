@@ -28,10 +28,14 @@ export default defineMessages({
   open_channel_form_description:
     "To open a channel, enter the desired node's publickey@host, set the amount of BTC you'd like to commit to the channel, and submit.",
   open_channel_form_next_button_text: 'Next',
+  remote_csv_delay_label: 'Timelock',
+  remote_csv_delay_tooltip:
+    'The number of blocks we will require our channel counterparty to wait before accessing its funds in case of unilateral close. If this is not set, we will scale the value according to the channel size.',
   open_channel_summary_next_button_text: 'Open Channel with {amount}',
   open_channel_form_onchain_balance: 'Your current confirmed on-chain balance:',
   open_channel_notification: 'Channel opening initiated',
   private_label: 'Keep this channel private',
+  private_tooltip: 'Whether this channel should be private, not announced to the greater network.',
   search_placeholder: 'Search Channels',
   view_mode_list: 'View as a list',
   view_mode_card: 'View as cards',
@@ -115,4 +119,9 @@ export default defineMessages({
   no_search_results: 'Your search did not return any results.',
   crypto_amount_with_unit: '{amount} {cryptoUnitName}',
   channels_filter_hint: 'Channels filter',
+  maturity_height_label: 'Maturity height',
+  maturity_height_description: 'The height at which funds can be swept into the wallet.',
+  blocks_til_maturity_label: 'Blocks til maturity',
+  blocks_til_maturity_description:
+    'Remaining # of blocks until the commitment output can be swept. Negative values indicate how many blocks have passed since becoming mature.',
 })

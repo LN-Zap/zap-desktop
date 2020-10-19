@@ -24,6 +24,8 @@ const ChannelData = ({ channel, cryptoUnitName, intl, networkInfo, viewMode, ...
     totalSatoshisSent,
     totalSatoshisReceived,
     csvDelay,
+    maturityHeight,
+    blocksTilMaturity,
     activity,
     numUpdates,
     fundingTxTimestamp,
@@ -135,6 +137,18 @@ const ChannelData = ({ channel, cryptoUnitName, intl, networkInfo, viewMode, ...
       value: <Text>{csvDelay}</Text>,
     }),
 
+    maturityHeight: () => ({
+      label: <FormattedMessage {...messages.maturity_height_label} />,
+      body: <FormattedMessage {...messages.maturity_height_description} />,
+      value: <Text>{maturityHeight}</Text>,
+    }),
+
+    blocksTilMaturity: () => ({
+      label: <FormattedMessage {...messages.blocks_til_maturity_label} />,
+      body: <FormattedMessage {...messages.blocks_til_maturity_description} />,
+      value: <Text>{blocksTilMaturity}</Text>,
+    }),
+
     totalSatoshisSent: () => ({
       label: <FormattedMessage {...messages.total_sent_label} />,
       body: <FormattedMessage {...messages.total_sent_description} />,
@@ -194,11 +208,13 @@ const ChannelData = ({ channel, cryptoUnitName, intl, networkInfo, viewMode, ...
     viewMode === CHANNEL_DATA_VIEW_MODE_BASIC
       ? [isClosing ? 'closingTxid' : 'channelPoint', 'numUpdates', 'csvDelay', 'activity']
       : [
-          'channelPoint',
           'fundingTxTimestamp',
+          'channelPoint',
           'closingTxid',
           'numUpdates',
           'csvDelay',
+          'maturityHeight',
+          'blocksTilMaturity',
           'activity',
           'totalSatoshisSent',
           'totalSatoshisReceived',
