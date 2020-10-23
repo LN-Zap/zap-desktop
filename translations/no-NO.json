@@ -1,5 +1,6 @@
 {
   "components.Activity.ActivityActions.actiity_filter_expired": "Utløpt",
+  "components.Activity.ActivityActions.actiity_filter_internal": "Intern",
   "components.Activity.ActivityActions.actiity_filter_pending": "Venter",
   "components.Activity.ActivityActions.actiity_filter_received": "Mottatt",
   "components.Activity.ActivityActions.actiity_filter_sent": "Sendt",
