@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Box, Flex } from 'rebass/styled-components'
-import { withFormApi } from 'informed'
+import { useFieldState } from 'informed'
 import { CoinBig } from '@zap/utils/coin'
 import { Spinner, Text } from 'components/UI'
 import CryptoValue from 'containers/UI/CryptoValue'
@@ -47,11 +47,11 @@ const TransactionFeeInput = ({
   initialValue = TRANSACTION_SPEED_SLOW,
   label,
   field,
-  formApi,
   fee,
 }) => {
-  const value = formApi.getValue(field)
+  const { value } = useFieldState(field)
   const isFeeKnown = CoinBig(fee).isFinite()
+
   return (
     <Flex alignItems="center" justifyContent="space-between">
       <Box>
@@ -128,7 +128,6 @@ TransactionSpeedDesc.propTypes = {
 TransactionFeeInput.propTypes = {
   fee: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   field: PropTypes.string.isRequired,
-  formApi: PropTypes.object.isRequired,
   hasFee: PropTypes.bool,
   initialValue: PropTypes.string,
   isQueryingFees: PropTypes.bool,
@@ -140,4 +139,4 @@ TransactionFeeInput.propTypes = {
   }).isRequired,
 }
 
-export default withFormApi(TransactionFeeInput)
+export default TransactionFeeInput
