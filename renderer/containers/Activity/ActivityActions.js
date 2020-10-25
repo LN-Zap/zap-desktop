@@ -18,6 +18,7 @@ const mapStateToProps = state => ({
   filters: activitySelectors.filters(state),
   searchText: activitySelectors.searchText(state),
   isCustomFilter: activitySelectors.isCustomFilter(state),
+  isPageLoading: activitySelectors.isPageLoading(state),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ActivityActions)
