@@ -10,6 +10,7 @@ import { settingsSelectors } from 'reducers/settings'
 import { fetchBalance } from 'reducers/balance'
 import { fetchChannels } from 'reducers/channels'
 import { fetchInfo, infoSelectors } from 'reducers/info'
+import { walletSelectors } from 'reducers/wallet'
 import { showError, showNotification } from 'reducers/notification'
 import { createActivityPaginator } from './utils'
 import { hasNextPage, isPageLoading } from './selectors'
@@ -255,19 +256,32 @@ export const loadPage = (reload = false) => async (dispatch, getState) => {
   dispatch(setPageLoading(true))
 
   await dispatch(fetchInfo())
-  const config = settingsSelectors.currentConfig(getState())
-  const blockHeight = infoSelectors.blockHeight(getState())
+  const state = getState()
+  const config = settingsSelectors.currentConfig(state)
+  const blockHeight = infoSelectors.blockHeight(state)
+  const activeWallet = walletSelectors.activeWallet(state)
+
+  // Checks to see if the currently active wallet is the same one as when the page load started.
+  const isStllActiveWallet = () => walletSelectors.activeWallet(getState()) === activeWallet
+
+  // It's possible that the grpc response is received after the wallet has been disconnected.
+  // See https://github.com/grpc/grpc-node/issues/1603
+  // Ensure that the items received belong to the currently active wallet.
+  const shouldUpdate = items => items && isStllActiveWallet()
 
   const handlers = {
-    invoiceHandler: items => items && dispatch(receiveInvoices(items)),
-    paymentHandler: items => items && dispatch(receivePayments(items)),
-    transactionHandler: items => items && dispatch(receiveTransactions(items)),
+    invoiceHandler: items => shouldUpdate(items) && dispatch(receiveInvoices(items)),
+    paymentHandler: items => shouldUpdate(items) && dispatch(receivePayments(items)),
+    transactionHandler: items => shouldUpdate(items) && dispatch(receiveTransactions(items)),
   }
   const thisPaginator = reload ? createActivityPaginator(handlers) : getPaginator(handlers)
 
   if (hasNextPage(getState())) {
     const { pageSize } = config.activity
     const { hasNextPage } = await thisPaginator(pageSize, blockHeight)
+    if (!isStllActiveWallet()) {
+      return
+    }
     dispatch({ type: SET_HAS_NEXT_PAGE, value: hasNextPage })
   }
 
