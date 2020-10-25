@@ -134,15 +134,20 @@ export const prepareData = (data, searchText) => {
 /**
  * createActivityPaginator - Creates activity paginator object.
  *
+ * @param {object} options Options.
+ * @param {Function} options.invoiceHandler Invoice handler. Called when new invoices are fetched.
+ * @param {Function} options.paymentHandler Payment handler. Called when new payments are fetched.
+ * @param {Function} options.transactionHandler Transaction handler. Called when new transactions are fetched.
  * @returns {Function} Paginator
  */
-export const createActivityPaginator = () => {
+export const createActivityPaginator = ({ invoiceHandler, paymentHandler, transactionHandler }) => {
   const fetchInvoices = async (pageSize, offset) => {
     const { invoices, firstIndexOffset } = await grpc.services.Lightning.listInvoices({
       numMaxInvoices: pageSize,
       indexOffset: offset,
       reversed: true,
     })
+    invoiceHandler(invoices)
     return { items: invoices, offset: parseInt(firstIndexOffset || 0, 10) }
   }
 
@@ -152,6 +157,7 @@ export const createActivityPaginator = () => {
       indexOffset: offset,
       reversed: true,
     })
+    paymentHandler(payments)
     return { items: payments, offset: parseInt(firstIndexOffset || 0, 10) }
   }
 
@@ -183,10 +189,13 @@ export const createActivityPaginator = () => {
       mainLog.info(
         `Loaded ${transactions.length} transactions from block height ${startHeight} to ${endHeight}`
       )
+      transactionHandler(transactions)
 
       count += transactions.length
       items = items.concat(transactions)
 
+      // Lightning didn't exist prior to this so no point in going back further.
+      // TOOO: Figure out the wallet birthday and stop at that point.
       hasMoreItems = startHeight > 500000 && count < pageSize
       if (hasMoreItems) {
         // Determine next end height.

@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { resetApp } from 'reducers/app'
 import { neutrinoSelectors } from 'reducers/neutrino'
 import {
   setActiveWallet,
@@ -51,6 +52,7 @@ const mapDispatchToProps = {
   clearStartLndError,
   stopLnd,
   putWallet,
+  resetApp,
   showNotification,
   startLnd,
   unlockWallet,

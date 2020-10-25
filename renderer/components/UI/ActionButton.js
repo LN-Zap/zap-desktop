@@ -16,7 +16,7 @@ StyledButton.propTypes = {
   active: PropTypes.bool,
 }
 
-const ActionButton = ({ children, hint, onClick, timeout, ...rest }) => {
+const ActionButton = ({ children, hint, isLoading, onClick, timeout = 1000, ...rest }) => {
   const [status, setStatus] = useState(null)
   const buttonRef = useRef()
 
@@ -49,7 +49,7 @@ const ActionButton = ({ children, hint, onClick, timeout, ...rest }) => {
       variant="secondary"
       {...rest}
     >
-      {status === 'fetching' ? <Spinner height="16px" width="16px" /> : children}
+      {status === 'fetching' || isLoading ? <Spinner height="16px" width="16px" /> : children}
     </StyledButton>
   )
 }
@@ -57,12 +57,9 @@ const ActionButton = ({ children, hint, onClick, timeout, ...rest }) => {
 ActionButton.propTypes = {
   children: PropTypes.node,
   hint: PropTypes.node,
+  isLoading: PropTypes.bool,
   onClick: PropTypes.func.isRequired,
   timeout: PropTypes.number,
-}
-
-ActionButton.defaultProps = {
-  timeout: 1000,
 }
 
 export default ActionButton

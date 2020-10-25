@@ -201,6 +201,7 @@ class WalletLauncher extends React.Component {
     isStartingLnd: PropTypes.bool.isRequired,
     isWalletUnlockerGrpcActive: PropTypes.bool.isRequired,
     putWallet: PropTypes.func.isRequired,
+    resetApp: PropTypes.func.isRequired,
     showError: PropTypes.func.isRequired,
     showNotification: PropTypes.func.isRequired,
     startLnd: PropTypes.func.isRequired,
@@ -259,8 +260,9 @@ class WalletLauncher extends React.Component {
 
   launchWallet = async () => {
     try {
-      const { startLnd, wallet } = this.props
+      const { resetApp, startLnd, wallet } = this.props
       // discard settings edits and just launch current saved config
+      resetApp()
       return await startLnd(wallet)
     } catch (e) {
       // this error is handled via startLndErrors mechanism

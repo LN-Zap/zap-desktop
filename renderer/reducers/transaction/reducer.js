@@ -97,7 +97,6 @@ export const receiveTransactions = (transactions, updateOnly = false) => async (
   getState
 ) => {
   const state = getState()
-
   const currentAddresses = addressSelectors.currentAddresses(state)
 
   // index of the last tx in `transactions`

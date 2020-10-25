@@ -54,26 +54,15 @@ const App = ({
   willShowLnurlWithdrawPrompt,
 }) => {
   /**
-   * App scheduler / polling service setup. Add new app-wide polls here
+   * General app initialization.
    */
   useEffect(() => {
-    /**
-     * Fetch node data on an exponentially incrementing backoff schedule so that when the app is first mounted, we fetch
-     * node data quite frequently but as time goes on the frequency is reduced to a max of PEERS_MAX_REFETCH_INTERVAL
-     */
-    appScheduler.addTask({
-      task: () => !isSyncedToGraph && fetchDescribeNetwork(),
-      taskId: 'fetchNetworkData',
-      baseDelay: PEERS_INITIAL_REFETCH_INTERVAL,
-      maxDelay: PEERS_MAX_REFETCH_INTERVAL,
-      backoff: PEERS_REFETCH_BACKOFF_SCHEDULE,
-    })
-    appScheduler.addTask({
-      task: updateAutopilotNodeScores,
-      taskId: 'updateAutopilotNodeScores',
-      baseDelay: AUTOPILOT_SCORES_REFRESH_INTERVAL,
-    })
     if (activeWalletSettings.type === 'local') {
+      appScheduler.addTask({
+        task: updateAutopilotNodeScores,
+        taskId: 'updateAutopilotNodeScores',
+        baseDelay: AUTOPILOT_SCORES_REFRESH_INTERVAL,
+      })
       appScheduler.addTask({
         task: () => fetchTransactions(true),
         taskId: 'fetchTransactions',
@@ -101,7 +90,6 @@ const App = ({
   }, [
     activeWalletSettings,
     initActivityHistory,
-    isSyncedToGraph,
     fetchDescribeNetwork,
     fetchPeers,
     fetchSuggestedNodes,
@@ -112,6 +100,27 @@ const App = ({
     updateAutopilotNodeScores,
   ])
 
+  /**
+   * Fetch node data on an exponentially incrementing backoff schedule so that when the app is first mounted, we fetch
+   * node data quite frequently but as time goes on the frequency is reduced to a max of PEERS_MAX_REFETCH_INTERVAL
+   */
+  useEffect(() => {
+    if (isSyncedToGraph) {
+      appScheduler.removeTask('fetchNetworkData')
+    } else {
+      appScheduler.addTask({
+        task: () => fetchDescribeNetwork(),
+        taskId: 'fetchNetworkData',
+        baseDelay: PEERS_INITIAL_REFETCH_INTERVAL,
+        maxDelay: PEERS_MAX_REFETCH_INTERVAL,
+        backoff: PEERS_REFETCH_BACKOFF_SCHEDULE,
+      })
+    }
+  }, [isSyncedToGraph, fetchDescribeNetwork])
+
+  /**
+   * Lnurl handlers.
+   */
   useEffect(() => {
     if (lnurlAuthParams && !willShowLnurlAuthPrompt) {
       finishLnurlAuth()
