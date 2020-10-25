@@ -83,11 +83,16 @@ let loadedPages = 0
  * getPaginator - Returns current activity paginator object. This acts as a singleton
  * and creates paginator if it's not initialized.
  *
+ * @param {Function} dispatch Reduc dispatcher.
  * @returns {Function} Paginator
  */
-export const getPaginator = () => {
+export const getPaginator = dispatch => {
   if (!paginator) {
-    paginator = createActivityPaginator()
+    paginator = createActivityPaginator({
+      invoiceHandler: items => dispatch(receiveInvoices(items)),
+      paymentHandler: items => dispatch(receivePayments(items)),
+      transactionHandler: items => dispatch(receiveTransactions(items)),
+    })
   }
   return paginator
 }
@@ -264,7 +269,7 @@ export const loadPage = (reload = false) => async (dispatch, getState) => {
   await dispatch(fetchInfo())
   const config = settingsSelectors.currentConfig(getState())
   const blockHeight = infoSelectors.blockHeight(getState())
-  const thisPaginator = getPaginator()
+  const thisPaginator = getPaginator(dispatch)
 
   if (reload || hasNextPage(getState())) {
     const { pageSize } = config.activity
