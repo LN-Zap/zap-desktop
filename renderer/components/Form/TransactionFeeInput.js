@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Box, Flex } from 'rebass/styled-components'
-import { withFormApi } from 'informed'
+import { useFieldState } from 'informed'
 import { CoinBig } from '@zap/utils/coin'
 import { Spinner, Text } from 'components/UI'
 import CryptoValue from 'containers/UI/CryptoValue'
@@ -42,15 +42,16 @@ const speedMessageMap = [
 
 const TransactionFeeInput = ({
   lndTargetConfirmations,
-  isQueryingFees,
-  initialValue,
+  hasFee = true,
+  isQueryingFees = false,
+  initialValue = TRANSACTION_SPEED_SLOW,
   label,
   field,
-  formApi,
   fee,
 }) => {
-  const value = formApi.getValue(field)
-  const hasFee = CoinBig(fee).isFinite()
+  const { value } = useFieldState(field)
+  const isFeeKnown = CoinBig(fee).isFinite()
+
   return (
     <Flex alignItems="center" justifyContent="space-between">
       <Box>
@@ -78,22 +79,24 @@ const TransactionFeeInput = ({
           </Flex>
         )}
 
-        {!isQueryingFees && !hasFee && <FormattedMessage {...messages.fee_unknown} />}
+        {!isQueryingFees && hasFee && !isFeeKnown && <FormattedMessage {...messages.fee_unknown} />}
 
-        {!isQueryingFees && hasFee && value && (
-          <Flex alignItems="flex-end" flexDirection="column">
+        <Flex alignItems="flex-end" flexDirection="column">
+          {!isQueryingFees && hasFee && value && (
             <Box>
               <CryptoValue value={fee} />
               <CryptoSelector mx={2} />
               <FormattedMessage {...messages.fee_per_byte} />
             </Box>
+          )}
+          {value && (
             <TransactionSpeedDesc
               color="gray"
               lndTargetConfirmations={lndTargetConfirmations}
               speed={value}
             />
-          </Flex>
-        )}
+          )}
+        </Flex>
       </Box>
     </Flex>
   )
@@ -125,7 +128,7 @@ TransactionSpeedDesc.propTypes = {
 TransactionFeeInput.propTypes = {
   fee: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   field: PropTypes.string.isRequired,
-  formApi: PropTypes.object.isRequired,
+  hasFee: PropTypes.bool,
   initialValue: PropTypes.string,
   isQueryingFees: PropTypes.bool,
   label: PropTypes.string,
@@ -136,8 +139,4 @@ TransactionFeeInput.propTypes = {
   }).isRequired,
 }
 
-TransactionFeeInput.defaultProps = {
-  initialValue: TRANSACTION_SPEED_SLOW,
-}
-
-export default withFormApi(TransactionFeeInput)
+export default TransactionFeeInput

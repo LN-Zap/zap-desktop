@@ -278,11 +278,12 @@ export const isCustomFilter = createSelector(filter, currentFilter => {
  * All selectors to export.
  */
 export default {
+  errorDialogDetails,
   filter,
   filters,
   searchText,
   hasNextPage,
-  errorDialogDetails,
+  isPageLoading,
   isErrorDialogOpen,
   currentActivity,
   activityModalItem,

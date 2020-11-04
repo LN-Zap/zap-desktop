@@ -5,7 +5,7 @@ import {
   changeSort,
   changeFilter,
   channelsSelectors,
-  fetchChannels,
+  refreshChannels,
   setSelectedChannel,
   setChannelViewMode,
   switchSortOrder,
@@ -39,7 +39,7 @@ const mapDispatchToProps = {
   openModal,
   switchSortOrder,
   updateChannelSearchQuery,
-  fetchChannels,
+  refreshChannels,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChannelsHeader)

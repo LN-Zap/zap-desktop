@@ -16,6 +16,7 @@ const ActivityActions = ({
   changeFilter,
   reloadActivityHistory,
   updateSearchText,
+  isPageLoading,
   isCustomFilter,
   intl,
   ...rest
@@ -39,7 +40,7 @@ const ActivityActions = ({
           mx={3}
         />
 
-        <ActivityRefresh mx={3} onClick={reloadActivityHistory} />
+        <ActivityRefresh isPageLoading={isPageLoading} mx={3} onClick={reloadActivityHistory} />
       </Flex>
     </Flex>
   </Card>
@@ -51,6 +52,7 @@ ActivityActions.propTypes = {
   filters: PropTypes.array.isRequired,
   intl: intlShape.isRequired,
   isCustomFilter: PropTypes.bool,
+  isPageLoading: PropTypes.bool,
   reloadActivityHistory: PropTypes.func.isRequired,
   searchText: PropTypes.string,
   updateSearchText: PropTypes.func.isRequired,

@@ -10,7 +10,9 @@ import { getNodeDisplayName } from 'reducers/network'
  * @param {object} channelObj Channel object
  * @returns {object} Channel data
  */
-export const getChannelData = channelObj => channelObj.channel || channelObj
+export const getChannelData = channelObj => {
+  return channelObj.channel ? { ...channelObj, ...channelObj.channel } : channelObj
+}
 
 /**
  * getRemoteNodePubKey - Get the remote pubkey depending on what type of channel.

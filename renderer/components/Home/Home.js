@@ -35,6 +35,7 @@ class Home extends React.Component {
     isWalletUnlockerGrpcActive: PropTypes.bool.isRequired,
     lndConnect: PropTypes.string,
     putWallet: PropTypes.func.isRequired,
+    resetApp: PropTypes.func.isRequired,
     setActiveWallet: PropTypes.func.isRequired,
     setIsWalletOpen: PropTypes.func.isRequired,
     setUnlockWalletError: PropTypes.func.isRequired,
@@ -77,6 +78,7 @@ class Home extends React.Component {
       wallets,
       setActiveWallet,
       clearStartLndError,
+      resetApp,
       showError,
       stopLnd,
       isNeutrinoRunning,
@@ -135,6 +137,7 @@ class Home extends React.Component {
                     isStartingLnd={isStartingLnd}
                     isWalletUnlockerGrpcActive={isWalletUnlockerGrpcActive}
                     putWallet={putWallet}
+                    resetApp={resetApp}
                     showError={showError}
                     showNotification={showNotification}
                     startLnd={startLnd}

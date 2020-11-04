@@ -240,7 +240,7 @@ channelsSelectors.allChannelsRaw = createSelector(
 
 const applyChannelSort = (channels, sort, sortOrder) => {
   const SORTERS = {
-    [CHANNELS_SORT_OPEN_DATE]: c => c.index,
+    [CHANNELS_SORT_OPEN_DATE]: c => c.chanId,
     [CHANNELS_SORT_REMOTE_BALANCE]: c =>
       Number(convert('sats', 'btc', get(c, 'remoteBalance', 0))) || 0,
     [CHANNELS_SORT_LOCAL_BALANCE]: c =>

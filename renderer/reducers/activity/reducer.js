@@ -1,5 +1,4 @@
 import { send } from 'redux-electron-ipc'
-import groupBy from 'lodash/groupBy'
 import createReducer from '@zap/utils/createReducer'
 import { getIntl } from '@zap/i18n'
 import { mainLog } from '@zap/utils/log'
@@ -11,8 +10,9 @@ import { settingsSelectors } from 'reducers/settings'
 import { fetchBalance } from 'reducers/balance'
 import { fetchChannels } from 'reducers/channels'
 import { fetchInfo, infoSelectors } from 'reducers/info'
+import { walletSelectors } from 'reducers/wallet'
 import { showError, showNotification } from 'reducers/notification'
-import { createActivityPaginator, getItemType } from './utils'
+import { createActivityPaginator } from './utils'
 import { hasNextPage, isPageLoading } from './selectors'
 import messages from './messages'
 import * as constants from './constants'
@@ -77,17 +77,21 @@ const initialState = {
 // activity paginator object. must be reset for each wallet login
 /** @type {Function | null} */
 let paginator = null
-let loadedPages = 0
 
 /**
  * getPaginator - Returns current activity paginator object. This acts as a singleton
  * and creates paginator if it's not initialized.
  *
+ * @param {{
+ *  invoiceHandler: function,
+ *  paymentHandler: function,
+ *  transactionHandler: function
+ * }} handlers Pagination handlers
  * @returns {Function} Paginator
  */
-export const getPaginator = () => {
+export const getPaginator = handlers => {
   if (!paginator) {
-    paginator = createActivityPaginator()
+    paginator = createActivityPaginator(handlers)
   }
   return paginator
 }
@@ -237,22 +241,12 @@ export const hideActivityModal = () => dispatch => {
  */
 export const resetActivity = () => () => {
   paginator = null
-  loadedPages = 0
-}
-
-/**
- * resetPaginator - Reset activity paginator.
- *
- * @returns {() => void} Thunk
- */
-export const resetPaginator = () => () => {
-  paginator = null
 }
 
 /**
  * loadPage - Loads next activity page if it's available.
  *
- * @param {boolean} reload Boolean indicating if this page load is part of a reload.
+ * @param {boolean} reload Boolean indicating wether to load first page.
  * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const loadPage = (reload = false) => async (dispatch, getState) => {
@@ -262,38 +256,45 @@ export const loadPage = (reload = false) => async (dispatch, getState) => {
   dispatch(setPageLoading(true))
 
   await dispatch(fetchInfo())
-  const config = settingsSelectors.currentConfig(getState())
-  const blockHeight = infoSelectors.blockHeight(getState())
-  const thisPaginator = getPaginator()
+  const state = getState()
+  const config = settingsSelectors.currentConfig(state)
+  const blockHeight = infoSelectors.blockHeight(state)
+  const activeWallet = walletSelectors.activeWallet(state)
 
-  if (reload || hasNextPage(getState())) {
+  // Checks to see if the currently active wallet is the same one as when the page load started.
+  const isStllActiveWallet = () => walletSelectors.activeWallet(getState()) === activeWallet
+
+  // It's possible that the grpc response is received after the wallet has been disconnected.
+  // See https://github.com/grpc/grpc-node/issues/1603
+  // Ensure that the items received belong to the currently active wallet.
+  const shouldUpdate = items => items && isStllActiveWallet()
+
+  const handlers = {
+    invoiceHandler: items => shouldUpdate(items) && dispatch(receiveInvoices(items)),
+    paymentHandler: items => shouldUpdate(items) && dispatch(receivePayments(items)),
+    transactionHandler: items => shouldUpdate(items) && dispatch(receiveTransactions(items)),
+  }
+  const thisPaginator = reload ? createActivityPaginator(handlers) : getPaginator(handlers)
+
+  if (hasNextPage(getState())) {
     const { pageSize } = config.activity
-    const { items, hasNextPage: paginatorHasNextPage } = await thisPaginator(pageSize, blockHeight)
-
-    if (!reload) {
-      loadedPages += 1
-      dispatch({ type: SET_HAS_NEXT_PAGE, value: paginatorHasNextPage })
+    const { hasNextPage } = await thisPaginator(pageSize, blockHeight)
+    if (!isStllActiveWallet()) {
+      return
     }
-
-    const { invoices, payments, transactions } = groupBy(items, getItemType)
-
-    invoices && dispatch(receiveInvoices(invoices))
-    payments && dispatch(receivePayments(payments))
-    transactions && dispatch(receiveTransactions(transactions))
+    dispatch({ type: SET_HAS_NEXT_PAGE, value: hasNextPage })
   }
 
   dispatch(setPageLoading(false))
 }
 
 /**
- * reloadPages - Reloads all already loaded activity pages.
+ * reloadActivityHead - Reloads activity head.
  *
  * @returns {(dispatch:Function) => Promise<void>} Thunk
  */
-export const reloadPages = () => async dispatch => {
-  const pageCount = loadedPages
-  mainLog.debug(`reloading ${pageCount} activity pages`)
-  dispatch(resetPaginator())
+export const reloadActivityHead = () => async dispatch => {
+  mainLog.debug(`reloading activity pages`)
   await dispatch(loadPage(true))
 }
 
@@ -305,9 +306,7 @@ export const reloadPages = () => async dispatch => {
 export const initActivityHistory = () => async dispatch => {
   dispatch({ type: FETCH_ACTIVITY_HISTORY })
   try {
-    dispatch(fetchChannels())
-    dispatch(fetchBalance())
-    await dispatch(loadPage())
+    await Promise.all([dispatch(loadPage()), dispatch(fetchChannels()), dispatch(fetchBalance())])
     dispatch({ type: FETCH_ACTIVITY_HISTORY_SUCCESS })
   } catch (error) {
     dispatch({ type: FETCH_ACTIVITY_HISTORY_FAILURE, error })
@@ -322,9 +321,11 @@ export const initActivityHistory = () => async dispatch => {
 export const reloadActivityHistory = () => async dispatch => {
   dispatch({ type: FETCH_ACTIVITY_HISTORY })
   try {
-    await dispatch(reloadPages())
-    dispatch(fetchChannels())
-    dispatch(fetchBalance())
+    await Promise.all([
+      dispatch(reloadActivityHead()),
+      dispatch(fetchChannels()),
+      dispatch(fetchBalance()),
+    ])
     dispatch({ type: FETCH_ACTIVITY_HISTORY_SUCCESS })
   } catch (error) {
     dispatch({ type: FETCH_ACTIVITY_HISTORY_FAILURE, error })

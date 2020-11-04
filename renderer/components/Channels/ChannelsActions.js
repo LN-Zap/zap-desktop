@@ -35,7 +35,7 @@ ResetSearch.propTypes = {
 }
 
 const ChannelsActions = ({
-  fetchChannels,
+  refreshChannels,
   filter,
   filters,
   sort,
@@ -80,7 +80,7 @@ const ChannelsActions = ({
             isCustomFilter={isCustomFilter}
             mx={2}
           />
-          <ChannelsRefresh mx={2} onClick={fetchChannels} />
+          <ChannelsRefresh mx={2} onClick={refreshChannels} />
           <ChannelsViewButtons
             channelViewMode={channelViewMode}
             setChannelViewMode={setChannelViewMode}
@@ -114,12 +114,12 @@ ChannelsActions.propTypes = {
   channels: PropTypes.array.isRequired,
   channelViewMode: PropTypes.string.isRequired,
   currentChannelCount: PropTypes.number.isRequired,
-  fetchChannels: PropTypes.func.isRequired,
   filter: PropTypes.object.isRequired,
   filters: PropTypes.array.isRequired,
   intl: intlShape.isRequired,
   isCustomFilter: PropTypes.bool,
   openModal: PropTypes.func.isRequired,
+  refreshChannels: PropTypes.func.isRequired,
   searchQuery: PropTypes.string,
   setChannelViewMode: PropTypes.func.isRequired,
   sort: PropTypes.string.isRequired,

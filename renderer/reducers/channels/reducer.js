@@ -4,6 +4,7 @@ import { CoinBig } from '@zap/utils/coin'
 import { getIntl } from '@zap/i18n'
 import { requestSuggestedNodes } from '@zap/utils/api'
 import { grpc } from 'workers'
+import { fetchPeers } from 'reducers/peers'
 import { fetchBalance } from 'reducers/balance'
 import { updateNotification, showWarning, showError } from 'reducers/notification'
 import { walletSelectors } from 'reducers/wallet'
@@ -30,6 +31,9 @@ const {
   GET_SUGGESTED_NODES,
   RECEIVE_SUGGESTED_NODES_ERROR,
   RECEIVE_SUGGESTED_NODES,
+  OPEN_CHANNEL,
+  OPEN_CHANNEL_SUCCESS,
+  OPEN_CHANNEL_FAILURE,
 } = constants
 
 const CHANNEL_REFRESH_THROTTLE = 1000 * 60
@@ -333,6 +337,15 @@ export const fetchChannels = () => async dispatch => {
 }
 
 /**
+ * refreshChannels - Refresh channel data from lnd.
+ *
+ * @returns {(dispatch:Function) => Promise<void>} Thunk
+ */
+export const refreshChannels = () => async dispatch => {
+  await Promise.all([dispatch(fetchChannels()), dispatch(fetchPeers())])
+}
+
+/**
  * pushchannelupdated - Receive a channel update notification from lnd.
  *
  * @param {object} data Channel update notification
@@ -410,7 +423,17 @@ export const pushclosechannelupdated = ({ chanId }) => dispatch => {
  * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
 export const openChannel = data => async (dispatch, getState) => {
-  const { pubkey, host, localamt, satPerByte, isPrivate, spendUnconfirmed = true } = data
+  const {
+    pubkey,
+    host,
+    localamt,
+    satPerByte,
+    isPrivate,
+    remoteCsvDelay,
+    spendUnconfirmed = true,
+  } = data
+
+  dispatch({ type: OPEN_CHANNEL, data })
 
   // Grab the activeWallet type from our local store. If the active connection type is local (light clients using
   // neutrino) we will flag manually created channels as private. Other connections like remote node and BTCPay Server
@@ -445,9 +468,11 @@ export const openChannel = data => async (dispatch, getState) => {
       localamt,
       private: channelIsPrivate,
       satPerByte,
+      remoteCsvDelay,
       spendUnconfirmed,
     })
     dispatch(pushchannelupdated(channelData))
+    dispatch({ type: OPEN_CHANNEL_SUCCESS })
   } catch (e) {
     dispatch(
       pushchannelerror({
@@ -455,15 +480,18 @@ export const openChannel = data => async (dispatch, getState) => {
         nodePubkey: pubkey,
       })
     )
+    dispatch({ type: OPEN_CHANNEL_FAILURE })
   }
 }
 
 /**
  * closeChannel - Close the currently selected channel.
  *
+ * @param {object} data Channel error notification
+ * @param {string|number} [data.targetConf] The target number of blocks the closure transaction should be confirmed by.
  * @returns {(dispatch:Function, getState:Function) => Promise<void>} Thunk
  */
-export const closeChannel = () => async (dispatch, getState) => {
+export const closeChannel = ({ targetConf }) => async (dispatch, getState) => {
   const selectedChannel = channelsSelectors.selectedChannel(getState())
 
   if (selectedChannel) {
@@ -481,6 +509,7 @@ export const closeChannel = () => async (dispatch, getState) => {
         },
         chanId,
         force: !active,
+        targetConf,
       })
       dispatch(pushclosechannelupdated(data))
     } catch (e) {

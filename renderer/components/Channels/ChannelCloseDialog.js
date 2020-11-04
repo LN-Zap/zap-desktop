@@ -6,10 +6,23 @@ import { withFieldState } from 'informed'
 import { intlShape } from '@zap/i18n'
 import Delete from 'components/Icon/Delete'
 import { Dialog, Text, Heading, Button, DialogOverlay } from 'components/UI'
-import { Checkbox, Form } from 'components/Form'
+import { Checkbox, Form, TransactionFeeInput } from 'components/Form'
 import messages from './messages'
+import {
+  TRANSACTION_SPEED_SLOW,
+  TRANSACTION_SPEED_MEDIUM,
+  TRANSACTION_SPEED_FAST,
+} from './constants'
 
-const DialogWrapper = ({ intl, isForceClose, isOpen, onClose, onCancel, csvDelay }) => {
+const DialogWrapper = ({
+  intl,
+  isForceClose,
+  isOpen,
+  lndTargetConfirmations,
+  onClose,
+  onCancel,
+  csvDelay,
+}) => {
   if (!isOpen) {
     return null
   }
@@ -45,7 +58,16 @@ const DialogWrapper = ({ intl, isForceClose, isOpen, onClose, onCancel, csvDelay
     </Flex>
   )
 
-  const handleSubmit = () => onClose(intl.formatMessage({ ...messages.close_channel_notification }))
+  const handleSubmit = ({ speed }) => {
+    const speedMap = {
+      [TRANSACTION_SPEED_SLOW]: 'slow',
+      [TRANSACTION_SPEED_MEDIUM]: 'medium',
+      [TRANSACTION_SPEED_FAST]: 'fast',
+    }
+    const speedKey = speedMap[speed]
+    const targetConf = lndTargetConfirmations[speedKey]
+    onClose(targetConf, intl.formatMessage({ ...messages.close_channel_notification }))
+  }
 
   return (
     <DialogOverlay alignItems="center" justifyContent="center">
@@ -60,6 +82,14 @@ const DialogWrapper = ({ intl, isForceClose, isOpen, onClose, onCancel, csvDelay
                 values={{ csvDelay }}
               />
             </Text>
+            <TransactionFeeInput
+              field="speed"
+              hasFee={false}
+              isQueryingFees={false}
+              label={intl.formatMessage({ ...messages.fee })}
+              lndTargetConfirmations={lndTargetConfirmations}
+              required
+            />
             {isForceClose && (
               <Checkbox
                 field={checkboxFieldName}
@@ -79,6 +109,11 @@ DialogWrapper.propTypes = {
   intl: intlShape.isRequired,
   isForceClose: PropTypes.bool.isRequired,
   isOpen: PropTypes.bool.isRequired,
+  lndTargetConfirmations: PropTypes.shape({
+    fast: PropTypes.number.isRequired,
+    medium: PropTypes.number.isRequired,
+    slow: PropTypes.number.isRequired,
+  }).isRequired,
   onCancel: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 }

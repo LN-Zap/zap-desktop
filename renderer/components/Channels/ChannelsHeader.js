@@ -8,7 +8,7 @@ const ChannelsHeader = ({
   channels,
   channelViewMode,
   changeFilter,
-  fetchChannels,
+  refreshChannels,
   filter,
   filters,
   sort,
@@ -41,12 +41,12 @@ const ChannelsHeader = ({
       channels={channels}
       channelViewMode={channelViewMode}
       currentChannelCount={currentChannelCount}
-      fetchChannels={fetchChannels}
       filter={filter}
       filters={filters}
       isCustomFilter={isCustomFilter}
       mx={4}
       openModal={openModal}
+      refreshChannels={refreshChannels}
       searchQuery={searchQuery}
       setChannelViewMode={setChannelViewMode}
       sort={sort}
@@ -64,12 +64,12 @@ ChannelsHeader.propTypes = {
   channels: PropTypes.array,
   channelViewMode: PropTypes.string.isRequired,
   currentChannelCount: PropTypes.number.isRequired,
-  fetchChannels: PropTypes.func.isRequired,
   filter: PropTypes.object.isRequired,
   filters: PropTypes.array.isRequired,
   isCustomFilter: PropTypes.bool,
   openModal: PropTypes.func.isRequired,
   receiveCapacity: PropTypes.string.isRequired,
+  refreshChannels: PropTypes.func.isRequired,
   searchQuery: PropTypes.string,
   sendCapacity: PropTypes.string.isRequired,
   setChannelViewMode: PropTypes.func.isRequired,
