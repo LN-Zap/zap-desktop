@@ -42,9 +42,9 @@ Zap installs `lnd` for you as part of the installation process. Zap will automat
 
 #### Connecting to lnd with lncli
 
-It is possible to connect to the `lnd` instance that Zap runs using a standard `lncli` binary which you can download from the [lnd releases](https://github.com/lightningnetwork/lnd/releases) page (lncli is bunded with the lnd download). Please be to download the version of `lncli` that corrisponds with the version of `lnd` that Zap is running (you can find this out by navigating to the "Profile" screen when logged into your Zap wallet).
+It is possible to connect to the `lnd` instance that Zap runs using a standard `lncli` binary which you can download from the [lnd releases](https://github.com/lightningnetwork/lnd/releases) page (lncli is bunded with the lnd download). Please be sure to download the version of `lncli` that corresponds with the version of `lnd` that Zap is running (you can find this out by navigating to the "Profile" screen when logged into your Zap wallet).
 
-To connect to `lnd` using `lncli` you must have Zap open and logged into your wallet. Then, run `lncli` telling it the hsot and port where `lnd` is running and the location of the `lnd` data directory.
+To connect to `lnd` using `lncli` you must have Zap open and logged into your wallet. Then, run `lncli` telling it the host and port where `lnd` is running and the location of the `lnd` data directory.
 
 The lnd data directory will be located within:
 
