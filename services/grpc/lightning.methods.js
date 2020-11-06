@@ -111,7 +111,7 @@ async function ensurePeerConnected(payload = {}) {
   }
   const finalPayload = { addr: payload }
   logGrpcCmd('Lightning.connectPeer', finalPayload)
-  return this.connectPeer({ addr: finalPayload })
+  return this.connectPeer(finalPayload)
 }
 
 /**
