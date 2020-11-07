@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import ChannelCreateForm from 'components/Channels/ChannelCreateForm'
 import { fetchTickers, tickerSelectors } from 'reducers/ticker'
 import { openChannel } from 'reducers/channels'
-import { queryFees } from 'reducers/pay'
+import { queryFees, paySelectors } from 'reducers/pay'
 import { balanceSelectors } from 'reducers/balance'
 import { updateContactFormSearchQuery, contactFormSelectors } from 'reducers/contactsform'
 import { walletSelectors } from 'reducers/wallet'
@@ -15,8 +15,8 @@ const mapStateToProps = state => ({
   cryptoUnit: tickerSelectors.cryptoUnit(state),
   walletBalance: balanceSelectors.walletBalanceConfirmed(state),
   cryptoUnitName: tickerSelectors.cryptoUnitName(state),
-  isQueryingFees: state.pay.isQueryingFees,
-  onchainFees: state.pay.onchainFees,
+  isQueryingFees: paySelectors.isQueryingFees(state),
+  onchainFees: paySelectors.onchainFees(state),
   lndTargetConfirmations: settingsSelectors.currentConfig(state).lndTargetConfirmations,
 })
 

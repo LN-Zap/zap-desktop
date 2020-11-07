@@ -44,9 +44,9 @@ HtlcHops.propTypes = {
   hops: PropTypes.array.isRequired,
 }
 
-const Htlc = ({ htlc, isAmountVisible = true, ...rest }) => {
-  const amountExcludingFees = CoinBig(htlc.route.totalAmt)
-    .minus(htlc.route.totalFees)
+export const Htlc = ({ route, isAmountVisible = true, ...rest }) => {
+  const amountExcludingFees = CoinBig(route.totalAmt)
+    .minus(route.totalFees)
     .toString()
   return (
     <Flex alignItems="center" justifyContent="space-between" {...rest}>
@@ -56,14 +56,14 @@ const Htlc = ({ htlc, isAmountVisible = true, ...rest }) => {
           <CryptoSelector ml={2} />
         </Text>
       )}
-      <HtlcHops hops={htlc.route.hops} />
+      <HtlcHops hops={route.hops} />
     </Flex>
   )
 }
 
 Htlc.propTypes = {
-  htlc: PropTypes.object.isRequired,
   isAmountVisible: PropTypes.bool.isRequired,
+  route: PropTypes.object.isRequired,
 }
 
 const Route = ({ htlcs, ...rest }) => {
@@ -75,7 +75,7 @@ const Route = ({ htlcs, ...rest }) => {
         return (
           <React.Fragment key={htlc.attemptTimeNs + htlc.resolveTimeNs}>
             {!isFirst && <Bar my={2} opacity={0.2} variant="light" />}
-            <Htlc htlc={htlc} isAmountVisible={isMpp} />
+            <Htlc isAmountVisible={isMpp} route={htlc.route} />
           </React.Fragment>
         )
       })}

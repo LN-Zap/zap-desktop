@@ -9,6 +9,7 @@ import BigArrowRight from 'components/Icon/BigArrowRight'
 import { Bar, DataRow, Link, Spinner, Text, Tooltip } from 'components/UI'
 import { CryptoSelector, CryptoValue, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
+import { Htlc } from 'components/Activity/PaymentModal/Route'
 import messages from './messages'
 
 const ConfigLink = ({ feeLimit, openModal, ...rest }) => (
@@ -34,6 +35,7 @@ class PaySummaryLightning extends React.Component {
     nodes: PropTypes.array,
     openModal: PropTypes.func.isRequired,
     payReq: PropTypes.string.isRequired,
+    route: PropTypes.object,
   }
 
   static defaultProps = {
@@ -110,6 +112,7 @@ class PaySummaryLightning extends React.Component {
       minFee,
       nodes,
       payReq,
+      route,
       ...rest
     } = this.props
 
@@ -157,9 +160,13 @@ class PaySummaryLightning extends React.Component {
               </Text>
             </Box>
             <Box width={5 / 11}>
-              <Text className="hint--bottom-left" data-hint={payeeNodeKey} textAlign="right">
-                <Truncate maxlen={nodeAlias ? 30 : 15} text={nodeAlias || payeeNodeKey} />
-              </Text>
+              {route ? (
+                <Htlc route={route} />
+              ) : (
+                <Text className="hint--bottom-left" data-hint={payeeNodeKey} textAlign="right">
+                  <Truncate maxlen={nodeAlias ? 30 : 15} text={nodeAlias || payeeNodeKey} />
+                </Text>
+              )}
             </Box>
           </Flex>
         </Box>

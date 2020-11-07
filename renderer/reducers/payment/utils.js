@@ -74,21 +74,45 @@ export const decoratePayment = (payment, nodes = []) => {
 
   // Try to add some info about the nodes involved in payment htlcs.
   if (payment.htlcs) {
-    const decoratedHtlcs = cloneDeep(payment.htlcs)
-    decoratedHtlcs.map(htlc => {
-      htlc.route.hops.map(hop => {
-        hop.alias = getNodeAlias(hop.pubKey, nodes)
-        return hop
-      })
-      return htlc
-    })
-    decoration.htlcs = decoratedHtlcs
+    decoration.htlcs = decorateHtlcs(payment.htlcs, nodes)
   }
 
   return {
     ...payment,
     ...decoration,
   }
+}
+
+/**
+ * decorateHtlcs - Decorate htlcs list with custom/computed properties.
+ *
+ * @param {object[]} htlcs Htlcs
+ * @param {object[]} nodes Nodes
+ * @returns {object} Decorated htlcs
+ */
+export const decorateHtlcs = (htlcs, nodes = []) => {
+  const decoratedHtlcs = cloneDeep(htlcs)
+  decoratedHtlcs.map(htlc => {
+    htlc.route = decorateRoute(htlc.route, nodes)
+    return htlc
+  })
+  return decoratedHtlcs
+}
+
+/**
+ * decorateRoute - Decorate route object with custom/computed properties.
+ *
+ * @param {object} route Htlcs
+ * @param {object[]} nodes Nodes
+ * @returns {object} Decorated route
+ */
+export const decorateRoute = (route, nodes = []) => {
+  const decoratedRoute = cloneDeep(route)
+  decoratedRoute.hops = decoratedRoute.hops.map(hop => {
+    hop.alias = getNodeAlias(hop.pubKey, nodes)
+    return hop
+  })
+  return decoratedRoute
 }
 
 /**

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { Pay } from 'components/Pay'
 import { fetchTickers, tickerSelectors } from 'reducers/ticker'
-import { setRedirectPayReq, queryFees, queryRoutes } from 'reducers/pay'
+import { setRedirectPayReq, queryFees, queryRoutes, paySelectors } from 'reducers/pay'
 import { balanceSelectors } from 'reducers/balance'
 import { addFilter } from 'reducers/activity'
 import { channelsSelectors } from 'reducers/channels'
@@ -18,11 +18,11 @@ const mapStateToProps = state => ({
   channelBalance: balanceSelectors.channelBalance(state),
   cryptoUnit: tickerSelectors.cryptoUnit(state),
   cryptoUnitName: tickerSelectors.cryptoUnitName(state),
-  isQueryingFees: state.pay.isQueryingFees,
+  isQueryingFees: paySelectors.isQueryingFees(state),
   lndTargetConfirmations: settingsSelectors.currentConfig(state).lndTargetConfirmations,
-  redirectPayReq: state.pay.redirectPayReq,
-  onchainFees: state.pay.onchainFees,
-  routes: state.pay.routes,
+  redirectPayReq: paySelectors.redirectPayReq(state),
+  onchainFees: paySelectors.onchainFees(state),
+  routes: paySelectors.routes(state),
   maxOneTimeSend: channelsSelectors.maxOneTimeSend(state),
   walletBalanceConfirmed: balanceSelectors.walletBalanceConfirmed(state),
 })
