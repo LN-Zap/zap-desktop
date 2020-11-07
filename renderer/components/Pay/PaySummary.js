@@ -38,6 +38,7 @@ const PaySummary = props => {
       minFee={getMinFee(routes)}
       mt={-3}
       payReq={payReq}
+      route={routes[0]}
     />
   )
 }

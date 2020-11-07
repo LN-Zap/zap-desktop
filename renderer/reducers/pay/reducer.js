@@ -22,10 +22,22 @@ const {
   SET_REDIRECT_PAY_REQ,
 } = constants
 
+/**
+ * @typedef State
+ * @property {boolean} isQueryingRoutes Boolean indicating if routes are being probed
+ * @property {boolean} isQueryingFees Boolean indicating if fees are being queried
+ * @property {{fast:string|null, medium:string|null, slow:string|null}} onchainFees Onchain fee rates
+ * @property {string|null} queryFeesError Query fees error message
+ * @property {string|null} queryRoutesError Query routes error message
+ * @property {string|null} redirectPayReq Payrequest injected from external source
+ * @property {object[]} routes Routes from last probe attempt
+ */
+
 // ------------------------------------
 // Initial State
 // ------------------------------------
 
+/** @type {State} */
 const initialState = {
   isQueryingRoutes: false,
   isQueryingFees: false,

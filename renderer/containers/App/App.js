@@ -15,6 +15,7 @@ import {
 } from 'reducers/lnurl'
 import { initBackupService } from 'reducers/backup'
 import { infoSelectors } from 'reducers/info'
+import { paySelectors } from 'reducers/pay'
 import { setModals, modalSelectors } from 'reducers/modal'
 import { fetchSuggestedNodes } from 'reducers/channels'
 import { initTickers } from 'reducers/ticker'
@@ -26,7 +27,7 @@ const mapStateToProps = state => ({
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
   isAppReady: appSelectors.isAppReady(state),
   isSyncedToGraph: infoSelectors.isSyncedToGraph(),
-  redirectPayReq: state.pay.redirectPayReq,
+  redirectPayReq: paySelectors.redirectPayReq(state),
   modals: modalSelectors.getModalState(state),
   lnurlWithdrawParams: lnurlSelectors.lnurlWithdrawParams(state),
   willShowLnurlAuthPrompt: lnurlSelectors.willShowLnurlAuthPrompt(state),
