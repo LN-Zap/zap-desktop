@@ -10,7 +10,7 @@ const routesSelector = state => state.pay.routes
 const nodesSelector = state => networkSelectors.nodes(state)
 
 /**
- * routes - Routes relating to current payment probe..
+ * routes - Routes relating to current payment probe.
  *
  * @param {State} state Redux state
  * @returns {object} Config overrides
@@ -36,7 +36,7 @@ const isQueryingFees = state => state.pay.isQueryingFees
 const isQueryingRoutes = state => state.pay.isQueryingRoutes
 
 /**
- * onchainFees - Onchain fee rates
+ * onchainFees - Onchain fee rates.
  *
  * @param {State} state Redux state
  * @returns {{fast:string|null, medium:string|null, slow:string|null}} Onchain fee rates
@@ -44,7 +44,7 @@ const isQueryingRoutes = state => state.pay.isQueryingRoutes
 const onchainFees = state => state.pay.onchainFees
 
 /**
- * redirectPayReq - Payrequest injected from external source
+ * redirectPayReq - Payrequest injected from external source.
  *
  * @param {State} state Redux state
  * @returns {string|null} Payrequest injected from external source

@@ -102,7 +102,7 @@ export const decorateHtlcs = (htlcs, nodes = []) => {
 /**
  * decorateRoute - Decorate route object with custom/computed properties.
  *
- * @param {object} route Htlcs
+ * @param {object} route Route
  * @param {object[]} nodes Nodes
  * @returns {object} Decorated route
  */
