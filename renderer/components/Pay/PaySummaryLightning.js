@@ -9,7 +9,7 @@ import BigArrowRight from 'components/Icon/BigArrowRight'
 import { Bar, DataRow, Link, Spinner, Text, Tooltip } from 'components/UI'
 import { CryptoSelector, CryptoValue, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
-import { Htlc } from 'components/Activity/PaymentModal'
+import { HtlcHops } from 'components/Activity/PaymentModal'
 import messages from './messages'
 
 const ConfigLink = ({ feeLimit, openModal, ...rest }) => (
@@ -161,7 +161,7 @@ class PaySummaryLightning extends React.Component {
             </Box>
             <Box width={5 / 11}>
               {route ? (
-                <Htlc route={route} />
+                <HtlcHops hops={route.hops} isAmountVisible={false} />
               ) : (
                 <Text className="hint--bottom-left" data-hint={payeeNodeKey} textAlign="right">
                   <Truncate maxlen={nodeAlias ? 30 : 15} text={nodeAlias || payeeNodeKey} />

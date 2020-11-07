@@ -22,6 +22,8 @@ class PaymentModal extends React.PureComponent {
     const { item, intl, ...rest } = this.props
     const memo = item && getTag(item.paymentRequest, 'description')
     const htlcs = item.htlcs.filter(htlc => htlc.status === 'SUCCEEDED')
+    const isMpp = htlcs.length > 1
+    const isRouted = htlcs.filter(htlc => htlc.route.hops.length > 1).length > 0
 
     return (
       <Panel {...rest}>
@@ -109,12 +111,16 @@ class PaymentModal extends React.PureComponent {
             }
           />
 
-          <Bar variant="light" />
+          {(isMpp || isRouted) && (
+            <>
+              <Bar variant="light" />
 
-          <DataRow
-            left={<FormattedMessage {...messages.htlc_title} />}
-            right={<Route htlcs={htlcs} />}
-          />
+              <DataRow
+                left={<FormattedMessage {...messages.htlc_title} />}
+                right={<Route htlcs={htlcs} />}
+              />
+            </>
+          )}
         </Panel.Body>
       </Panel>
     )
