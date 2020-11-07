@@ -9,7 +9,7 @@ import BigArrowRight from 'components/Icon/BigArrowRight'
 import { Bar, DataRow, Link, Spinner, Text, Tooltip } from 'components/UI'
 import { CryptoSelector, CryptoValue, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
-import { Htlc } from 'components/Activity/PaymentModal/Route'
+import { Htlc } from 'components/Activity/PaymentModal'
 import messages from './messages'
 
 const ConfigLink = ({ feeLimit, openModal, ...rest }) => (
