@@ -63,4 +63,8 @@ export default defineMessages({
   payments_maxParts_label: 'Payment parts',
   payments_maxParts_description:
     'Maximum number of partial payments that may be used to send a payment.',
+  timeDisplayMode_label: 'Time display mode',
+  timeDisplayMode_description: 'Your preferred time display mode.',
+  timeDisplayMode_option_12hour: '12 Hour',
+  timeDisplayMode_option_24hour: '24 Hour',
 })

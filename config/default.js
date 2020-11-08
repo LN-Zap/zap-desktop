@@ -21,6 +21,9 @@ module.exports = {
   currency: 'USD',
   locale: 'en',
 
+  // Default time dipslay mode (12hour|24hour).
+  timeDisplayMode: '12hour',
+
   autoupdate: {
     active: true,
     channel: 'beta',
