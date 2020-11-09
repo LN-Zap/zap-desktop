@@ -8,6 +8,7 @@ import bip21 from 'bip21'
 import coininfo from 'coininfo'
 import { CoinBig } from '@zap/utils/coin'
 import { convert } from '@zap/utils/btc'
+import { sha256digest } from '@zap/utils/sha256'
 
 export const PREIMAGE_BYTE_LENGTH = 32
 
@@ -315,3 +316,20 @@ export const getFeeRange = (routes = []) => ({
  * @returns {Uint8Array} hash bytes
  */
 export const generatePreimage = () => randomBytes(PREIMAGE_BYTE_LENGTH)
+
+/**
+ * generateHash - Generates probe hash from payment hash.
+ *
+ * @param {string} paymentHash payment hash (hex)
+ * @returns {Uint8Array} probe hash (bytes)
+ */
+export const generateProbeHash = paymentHash => {
+  const idx = Buffer.from('probing-01:', 'utf8')
+  const hash = Buffer.from(paymentHash, 'hex')
+  const totalLength = idx.length + hash.length
+
+  const probeHashBuffer = Buffer.concat([idx, hash], totalLength)
+  const probeHash = sha256digest(probeHashBuffer)
+
+  return probeHash
+}

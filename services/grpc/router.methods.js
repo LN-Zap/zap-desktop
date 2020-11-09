@@ -1,5 +1,4 @@
 import { grpcLog } from '@zap/utils/log'
-import { generatePreimage } from '@zap/utils/crypto'
 import { logGrpcCmd } from './helpers'
 
 export const KEYSEND_PREIMAGE_TYPE = '5482373484'
@@ -15,10 +14,6 @@ export const KEYSEND_PREIMAGE_TYPE = '5482373484'
  * @returns {Promise} The route route when state is SUCCEEDED
  */
 async function probePayment(payload) {
-  // Use a payload that has the payment hash set to some random bytes.
-  // This will cause the payment to fail at the final destination.
-  payload.paymentHash = new Uint8Array(generatePreimage())
-
   logGrpcCmd('Router.probePayment', payload)
 
   let result
@@ -94,10 +89,6 @@ async function probePayment(payload) {
  * @returns {Promise} The route route when state is SUCCEEDED
  */
 async function probePaymentV2(payload) {
-  // Use a payload that has the payment hash set to some random bytes.
-  // This will cause the payment to fail at the final destination.
-  payload.paymentHash = new Uint8Array(generatePreimage())
-
   logGrpcCmd('Router.probePaymentV2', payload)
 
   let result
