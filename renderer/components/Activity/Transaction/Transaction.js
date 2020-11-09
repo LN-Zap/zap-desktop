@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import findLast from 'lodash/findLast'
-import { FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass/styled-components'
 import config from 'config'
 import { intlShape } from '@zap/i18n'
 import { CoinBig } from '@zap/utils/coin'
 import { Message, Text } from 'components/UI'
 import ChainLink from 'components/Icon/ChainLink'
-import { CryptoValue, FiatValue } from 'containers/UI'
+import { CryptoValue, FiatValue, FormattedDateTime } from 'containers/UI'
 import ErrorLink from '../ErrorLink'
 import messages from './messages'
 
@@ -45,7 +45,7 @@ const Transaction = ({
     if (CoinBig(numConfirmations).gt(confirmed)) {
       return (
         <Text color="gray" fontSize="xs" fontWeight="normal">
-          <FormattedTime value={activity.timeStamp * 1000} />
+          <FormattedDateTime format="time" value={activity.timeStamp * 1000} />
         </Text>
       )
     }

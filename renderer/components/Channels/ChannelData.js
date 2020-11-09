@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedDate, FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import styled from 'styled-components'
 import { opacity } from 'styled-system'
 import { Box as BaseBox, Flex } from 'rebass/styled-components'
@@ -8,7 +8,7 @@ import { intlShape } from '@zap/i18n'
 import blockExplorer from '@zap/utils/blockExplorer'
 import { Bar, DataRow, Link, Text } from 'components/UI'
 import { Truncate } from 'components/Util'
-import { CopyButton, CryptoValue } from 'containers/UI'
+import { CopyButton, CryptoValue, FormattedDateTime } from 'containers/UI'
 import { CHANNEL_DATA_VIEW_MODE_BASIC, CHANNEL_DATA_VIEW_MODE_FULL } from './constants'
 import messages from './messages'
 
@@ -62,13 +62,7 @@ const ChannelData = ({ channel, cryptoUnitName, intl, networkInfo, viewMode, ...
       body: <FormattedMessage {...messages.funding_date_description} />,
       value: (
         <Text>
-          <FormattedDate
-            day="2-digit"
-            month="short"
-            value={fundingTxTimestamp * 1000}
-            year="numeric"
-          />{' '}
-          <FormattedTime value={fundingTxTimestamp * 1000} />
+          <FormattedDateTime month="short" value={fundingTxTimestamp * 1000} />
         </Text>
       ),
     }),
