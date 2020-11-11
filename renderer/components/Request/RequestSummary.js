@@ -1,10 +1,16 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass/styled-components'
-import { FormattedMessage, FormattedTime, useIntl } from 'react-intl'
+import { FormattedMessage, useIntl } from 'react-intl'
 import copy from 'copy-to-clipboard'
 import { Bar, DataRow, Button, QRCode, Text, Countdown } from 'components/UI'
-import { CryptoSelector, CryptoValue, FiatSelector, FiatValue } from 'containers/UI'
+import {
+  CryptoSelector,
+  CryptoValue,
+  FiatSelector,
+  FiatValue,
+  FormattedDateTime,
+} from 'containers/UI'
 import { Truncate } from 'components/Util'
 import RequestSettlePrompt from './RequestSettlePrompt'
 import messages from './messages'
@@ -99,9 +105,7 @@ const RequestSummary = ({
 
       <DataRow
         left={<FormattedMessage {...messages.created} />}
-        right={
-          <FormattedTime day="2-digit" month="long" value={creationDate * 1000} year="numeric" />
-        }
+        right={<FormattedDateTime month="long" value={creationDate * 1000} />}
       />
 
       <Bar variant="light" />
@@ -213,12 +217,7 @@ const RequestSummary = ({
                 >
                   <FormattedMessage {...messages.paid} />
                   <br />
-                  <FormattedTime
-                    day="2-digit"
-                    month="long"
-                    value={settleDate * 1000}
-                    year="numeric"
-                  />
+                  <FormattedDateTime month="long" value={settleDate * 1000} />
                 </Text>
               ) : (
                 <Text color={getStatusColor()} fontWeight="light">

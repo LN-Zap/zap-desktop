@@ -1,12 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedDate, FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { Flex } from 'rebass/styled-components'
 import { intlShape } from '@zap/i18n'
 import { getDisplayNodeName } from 'reducers/payment/utils'
 import { Bar, DataRow, Header, Panel, Text } from 'components/UI'
 import { getTag } from '@zap/utils/crypto'
-import { CopyButton, CryptoSelector, CryptoValue, FiatSelector, FiatValue } from 'containers/UI'
+import {
+  CopyButton,
+  CryptoSelector,
+  CryptoValue,
+  FiatSelector,
+  FiatValue,
+  FormattedDateTime,
+} from 'containers/UI'
 import { Truncate } from 'components/Util'
 import Lightning from 'components/Icon/Lightning'
 import Route from './Route'
@@ -78,15 +85,10 @@ class PaymentModal extends React.PureComponent {
             right={
               <>
                 <Text>
-                  <FormattedDate
-                    day="2-digit"
-                    month="long"
-                    value={item.creationDate * 1000}
-                    year="numeric"
-                  />
+                  <FormattedDateTime format="date" month="long" value={item.creationDate * 1000} />
                 </Text>
                 <Text>
-                  <FormattedTime value={item.creationDate * 1000} />
+                  <FormattedDateTime format="time" value={item.creationDate * 1000} />
                 </Text>
               </>
             }
