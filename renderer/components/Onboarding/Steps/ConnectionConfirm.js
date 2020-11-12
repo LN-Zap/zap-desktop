@@ -18,6 +18,7 @@ class ConnectionConfirm extends React.Component {
     isLightningGrpcActive: PropTypes.bool,
     isWalletUnlockerGrpcActive: PropTypes.bool,
     lndConnect: PropTypes.string,
+    name: PropTypes.string,
     startLnd: PropTypes.func.isRequired,
     startLndCertError: PropTypes.string,
     startLndHostError: PropTypes.string,
@@ -40,10 +41,11 @@ class ConnectionConfirm extends React.Component {
 
   handleSubmit = async () => {
     const {
-      connectionHost,
       connectionCert,
+      connectionHost,
       connectionMacaroon,
       connectionString,
+      name,
       startLnd,
     } = this.props
     const cleanConnectionString = connectionString && connectionString.trim()
@@ -57,6 +59,7 @@ class ConnectionConfirm extends React.Component {
           cert: connectionCert,
           macaroon: connectionMacaroon,
         }),
+        name,
       })
     }
 
@@ -78,6 +81,7 @@ class ConnectionConfirm extends React.Component {
         type: 'custom',
         decoder: 'lnd.lndconnect.v1',
         lndconnectUri,
+        name,
       })
     }
 
@@ -93,6 +97,7 @@ class ConnectionConfirm extends React.Component {
       type: 'custom',
       decoder: 'lnd.lndconnect.v1',
       lndconnectUri,
+      name,
     })
   }
 
@@ -106,6 +111,7 @@ class ConnectionConfirm extends React.Component {
       connectionMacaroon,
       connectionString,
       lndConnect,
+      name,
       isLightningGrpcActive,
       isWalletUnlockerGrpcActive,
       startLndHostError,
