@@ -51,6 +51,7 @@ test('provide access to basic wallet functionality', async t => {
     .typeText(onboarding.macaroonInput, path.join(__dirname, 'fixtures', 'readonly.macaroon'), {
       paste: true,
     })
+    .typeText(onboarding.nameInput, 'My Test Wallet', { paste: true })
     .click(onboarding.nextButton)
 
     // Confirm connection details and submit
