@@ -18,11 +18,13 @@ class ConnectionDetails extends React.Component {
     connectionMacaroon: PropTypes.string,
     connectionString: PropTypes.string,
     lndConnect: PropTypes.string,
+    name: PropTypes.string,
     setConnectionCert: PropTypes.func.isRequired,
     setConnectionHost: PropTypes.func.isRequired,
     setConnectionMacaroon: PropTypes.func.isRequired,
     setConnectionString: PropTypes.func.isRequired,
     setLndconnect: PropTypes.func.isRequired,
+    setName: PropTypes.func.isRequired,
     startLndCertError: PropTypes.string,
     startLndHostError: PropTypes.string,
     startLndMacaroonError: PropTypes.string,
@@ -46,22 +48,25 @@ class ConnectionDetails extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const {
       lndConnect,
-      setConnectionHost,
       setConnectionCert,
+      setConnectionHost,
       setConnectionMacaroon,
       setConnectionString,
+      setName,
     } = this.props
     const { formType } = this.state
     if (formType && formType !== prevState.formType && prevState.formType) {
       switch (formType) {
         case FORM_TYPE_CONNECTION_STRING:
-          setConnectionHost(null)
           setConnectionCert(null)
+          setConnectionHost(null)
           setConnectionMacaroon(null)
+          setName(null)
           break
 
         case FORM_TYPE_MANUAL:
           setConnectionString(null)
+          setName(null)
           break
 
         default:
@@ -79,25 +84,27 @@ class ConnectionDetails extends React.Component {
 
   render() {
     const {
-      wizardApi,
-      wizardState,
-      connectionHost,
+      clearStartLndError,
       connectionCert,
+      connectionHost,
       connectionMacaroon,
       connectionString,
-      startLndHostError,
-      startLndCertError,
-      startLndMacaroonError,
       lndConnect,
-      setLndconnect,
-      setConnectionHost,
+      name,
       setConnectionCert,
+      setConnectionHost,
       setConnectionMacaroon,
       setConnectionString,
-      clearStartLndError,
-      validateHost,
+      setLndconnect,
+      setName,
+      startLndCertError,
+      startLndHostError,
+      startLndMacaroonError,
       validateCert,
+      validateHost,
       validateMacaroon,
+      wizardApi,
+      wizardState,
     } = this.props
     const { formType } = this.state
 
@@ -123,8 +130,10 @@ class ConnectionDetails extends React.Component {
               clearStartLndError={clearStartLndError}
               connectionString={connectionString}
               lndConnect={lndConnect}
+              name={name}
               setConnectionString={setConnectionString}
               setLndconnect={setLndconnect}
+              setName={setName}
               startLndCertError={startLndCertError}
               startLndHostError={startLndHostError}
               startLndMacaroonError={startLndMacaroonError}
@@ -139,10 +148,12 @@ class ConnectionDetails extends React.Component {
               connectionMacaroon={connectionMacaroon}
               connectionString={connectionString}
               lndConnect={lndConnect}
+              name={name}
               setConnectionCert={setConnectionCert}
               setConnectionHost={setConnectionHost}
               setConnectionMacaroon={setConnectionMacaroon}
               setLndconnect={setLndconnect}
+              setName={setName}
               startLndCertError={startLndCertError}
               startLndHostError={startLndHostError}
               startLndMacaroonError={startLndMacaroonError}

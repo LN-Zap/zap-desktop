@@ -55,6 +55,10 @@ test('should connect to an external wallet (btcpay)', async t => {
   }`,
       { paste: true }
     )
+    // Fill out wallet name and submit.
+    .expect(onboarding.nameInput.exists)
+    .ok()
+    .typeText(onboarding.nameInput, 'External Wallet (lndconnect)', { paste: true })
     .click(onboarding.nextButton)
 
     // Confirm connection details and submit.

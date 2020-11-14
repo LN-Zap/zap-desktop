@@ -10,6 +10,7 @@ import {
   setConnectionMacaroon,
   setConnectionString,
   setLndconnect,
+  setName,
 } from 'reducers/onboarding'
 
 const mapStateToProps = state => ({
@@ -19,6 +20,7 @@ const mapStateToProps = state => ({
   connectionHost: state.onboarding.connectionHost,
   connectionCert: state.onboarding.connectionCert,
   lndConnect: state.onboarding.lndConnect,
+  name: state.onboarding.name,
   startLndHostError: lndSelectors.startLndHostError(state),
   startLndCertError: lndSelectors.startLndCertError(state),
   startLndMacaroonError: lndSelectors.startLndMacaroonError(state),
@@ -33,6 +35,7 @@ const mapDispatchToProps = {
   setConnectionMacaroon,
   setConnectionString,
   setLndconnect,
+  setName,
   clearStartLndError,
 }
 

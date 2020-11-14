@@ -19,7 +19,7 @@ class Name extends React.Component {
   static defaultProps = {
     wizardApi: {},
     wizardState: {},
-    name: '',
+    name: null,
   }
 
   setFormApi = formApi => {
