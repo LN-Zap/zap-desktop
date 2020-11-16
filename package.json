@@ -154,7 +154,7 @@
       ],
       "desktop": {
         "Comment": "Zap - Lightning wallet",
-        "Icon": "zap",
+        "Icon": "zap-desktop.png",
         "Name": "Zap",
         "StartupNotify": "true",
         "Terminal": "false",
