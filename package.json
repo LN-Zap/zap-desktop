@@ -351,7 +351,7 @@
     "is-electron-renderer": "2.0.1",
     "jstimezonedetect": "1.0.7",
     "keytar": "5.6.0",
-    "lnd-grpc": "0.4.6",
+    "lnd-grpc": "0.4.7-beta.1",
     "lndconnect": "0.2.10",
     "lodash": "4.17.20",
     "new-github-issue-url": "0.2.1",
