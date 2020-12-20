@@ -372,10 +372,12 @@ class Neutrino extends EventEmitter {
     const { chain, network, whitelistPeers, neutrinoNodes } = this.lndConfig
     const nodes = neutrinoNodes || config.lnd.neutrino[chain][network]
     const connectFlag = whitelistPeers ? 'connect' : 'addpeer'
+    const feeUrl = 'https://nodes.lightning.computer/fees/v1/btc-fee-estimates.json'
 
     neutrinoArgs.push('--bitcoin.node=neutrino')
     neutrinoArgs.push('--neutrino.useragentname=zap-desktop')
     neutrinoArgs.push(`--neutrino.useragentversion=${getPackageDetails().version}`)
+    neutrinoArgs.push(`--neutrino.feeurl=${feeUrl}`)
     neutrinoArgs.push(`--${chain}.${network}`)
     nodes.forEach(node => neutrinoArgs.push(`--neutrino.${connectFlag}=${node}`))
 
