@@ -478,12 +478,13 @@ class Neutrino extends EventEmitter {
   }
 
   /**
+   *
    * notifyOnWalletUnlockerActivation - Update state if log line indicates WalletUnlocker gRPC became active.
    *
    * @param {string} line log output line
    */
   notifyOnWalletUnlockerActivation(line) {
-    if (line.includes('RPC server listening on') && line.includes('password')) {
+    if (line.includes('RPC server listening on') && line.toLowerCase().includes('password')) {
       this.isWalletUnlockerGrpcActive = true
       this.isLightningGrpcActive = false
       this.emit(NEUTRINO_WALLET_UNLOCKER_GRPC_ACTIVE)
@@ -496,7 +497,7 @@ class Neutrino extends EventEmitter {
    * @param {string} line log output line
    */
   notifyLightningActivation(line) {
-    if (line.includes('RPC server listening on') && !line.includes('password')) {
+    if (line.includes('RPC server listening on') && !line.toLowerCase().includes('password')) {
       this.isLightningGrpcActive = true
       this.isWalletUnlockerGrpcActive = false
       this.emit(NEUTRINO_LIGHTNING_GRPC_ACTIVE)
