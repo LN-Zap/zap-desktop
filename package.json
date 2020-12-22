@@ -323,7 +323,7 @@
     "@hot-loader/react-dom": "16.13.0",
     "@rebass/forms": "4.0.6",
     "@styled-system/theme-get": "5.1.2",
-    "axios": "0.19.2",
+    "axios": "0.21.1",
     "bech32": "1.1.4",
     "bignumber.js": "9.0.1",
     "bip21": "2.0.3",
