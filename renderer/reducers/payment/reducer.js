@@ -4,8 +4,9 @@ import pick from 'lodash/pick'
 import defaults from 'lodash/defaults'
 import omitBy from 'lodash/omitBy'
 import isNil from 'lodash/isNil'
+import cloneDeep from 'lodash/cloneDeep'
 import createReducer from '@zap/utils/createReducer'
-import { isPubkey } from '@zap/utils/crypto'
+import { isPubkey, getTag } from '@zap/utils/crypto'
 import delay from '@zap/utils/delay'
 import genId from '@zap/utils/genId'
 import { mainLog } from '@zap/utils/log'
@@ -316,13 +317,25 @@ export const payInvoice = ({
       if (route && route.isExact) {
         let result = {}
         try {
-          const routeToUse = { ...route }
+          const routeToUse = cloneDeep(route)
           delete routeToUse.isExact
           delete routeToUse.paymentHash
-          result = await grpc.services.Router.sendToRoute({
+
+          // Add payment secret into the route.
+          const paymentAddress = getTag(payReq, 'payment_secret')
+          if (paymentAddress) {
+            routeToUse.hops[routeToUse.hops.length - 1].tlvPayload = true
+            routeToUse.hops[routeToUse.hops.length - 1].mppRecord = {
+              paymentAddr: Buffer.from(paymentAddress, 'hex'),
+              totalAmtMsat: routeToUse.totalAmtMsat - routeToUse.totalFeesMsat,
+            }
+          }
+
+          result = await grpc.services.Router.sendToRouteV2({
             paymentHash: route.paymentHash ? Buffer.from(route.paymentHash, 'hex') : null,
             route: routeToUse,
           })
+
           if (result.failure) {
             throw new Error(result.failure.code)
           }

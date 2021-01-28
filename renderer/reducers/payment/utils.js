@@ -176,6 +176,8 @@ export const prepareBolt11Probe = (payReq, feeLimit) => {
   // Extract route hints from the invoice.
   const routingInfo = getTag(invoice, 'routing_info') || []
   const paymentHash = getTag(invoice, 'payment_hash')
+  const paymentAddress = getTag(invoice, 'payment_secret')
+
   const hopHints = routingInfo.map(hint => ({
     nodeId: hint.pubkey,
     chanId: chanNumber({ id: hint.short_channel_id }).number,
@@ -191,6 +193,7 @@ export const prepareBolt11Probe = (payReq, feeLimit) => {
     finalCltvDelta: getTag(invoice, 'min_final_cltv_expiry') || DEFAULT_CLTV_DELTA,
     routeHints: [{ hopHints }],
     paymentHash: generateProbeHash(paymentHash),
+    paymentAddr: Buffer.from(paymentAddress, 'hex'),
   }
 }
 
