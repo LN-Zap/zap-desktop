@@ -1373,19 +1373,19 @@
     tslib "^2.0.1"
     typescript "^4.0"
 
-"@grpc/grpc-js@^1.2.0":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.2.2.tgz#ee4a7417fe15a686a8e369c36ec4c80678445c67"
-  integrity sha512-iK/T984Ni6VnmlQK/LJdUk+VsXSaYIWkgzJ0LyOcxN2SowAmoRjG28kS7B1ui/q/MAv42iM3051WBt5QorFxmg==
+"@grpc/grpc-js@1.2.5":
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.2.5.tgz#d1ef9ae8b99c3b46bb6cc8c82be1aa80080b7300"
+  integrity sha512-CBCNwedw8McnEBq9jvoiJikws16WN0OiHFejQPovY71XkFWSiIqgvydYiDwpvIYDJmhPQ7qZNzW9BPndhXbx1Q==
   dependencies:
     "@types/node" "^12.12.47"
     google-auth-library "^6.1.1"
     semver "^6.2.0"
 
-"@grpc/proto-loader@^0.5.5":
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/@grpc/proto-loader/-/proto-loader-0.5.5.tgz#6725e7a1827bdf8e92e29fbf4e9ef0203c0906a9"
-  integrity sha512-WwN9jVNdHRQoOBo9FDH7qU+mgfjPc8GygPYms3M+y3fbQLfnCe/Kv/E01t7JRgnrsOHH8euvSbed3mIalXhwqQ==
+"@grpc/proto-loader@0.5.6":
+  version "0.5.6"
+  resolved "https://registry.yarnpkg.com/@grpc/proto-loader/-/proto-loader-0.5.6.tgz#1dea4b8a6412b05e2d58514d507137b63a52a98d"
+  integrity sha512-DT14xgw3PSzPxwS13auTEwxhMMOoz33DPUKNtmYK/QYbBSpLXJy78FGGs5yVoxVobEqPm4iW9MOIoz0A3bLTRQ==
   dependencies:
     lodash.camelcase "^4.3.0"
     protobufjs "^6.8.6"
@@ -1591,6 +1591,20 @@
     "@types/node" "*"
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
+
+"@ln-zap/bolt11@1.2.8-beta.3":
+  version "1.2.8-beta.3"
+  resolved "https://registry.yarnpkg.com/@ln-zap/bolt11/-/bolt11-1.2.8-beta.3.tgz#201b080c0113932fba482df14573403ff8a8b0cf"
+  integrity sha512-K9mnrVRpqmWu8nlpZod2yrWj3MN22rKOOkmxOqgC2uoRAq8zPlT/1FPDwKmkqAtnVsRFCPxKo+KKvZBqMsW+Aw==
+  dependencies:
+    "@types/bn.js" "^4.11.3"
+    bech32 "^1.1.2"
+    bitcoinjs-lib "^3.3.1"
+    bn.js "^4.11.8"
+    create-hash "^1.2.0"
+    lodash "^4.17.11"
+    safe-buffer "^5.1.1"
+    secp256k1 "^3.4.0"
 
 "@ln-zap/eslint-config@0.3.2":
   version "0.3.2"
@@ -7246,7 +7260,7 @@ debug@2.6.9, debug@^2.1.0, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0, debug@^2.6.
   dependencies:
     ms "2.0.0"
 
-debug@4, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.2.0:
+debug@4, debug@4.2.0, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.2.0.tgz#7f150f93920e94c58f5574c2fd01a3110effe7f1"
   integrity sha512-IX2ncY78vDTjZMFUdmsvIRFY2Cf4FnD0wRs+nQwJU8Lu99/tPFdb0VybiiMTPe3I6rQmwsqQqRBvxU+bZ/I8sg==
@@ -12585,21 +12599,21 @@ lnd-binary@0.3.18:
     "true-case-path" "^2.2.1"
     unzip-stream "^0.3.0"
 
-lnd-grpc@0.4.7-beta.1:
-  version "0.4.7-beta.1"
-  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.4.7-beta.1.tgz#a897e5911f69cdb68d69f083f7bd60b379294717"
-  integrity sha512-8xMge64IwYHIrYiN/3zYp86aK05uN60v09fC7ORyqLBMSgVLuLYcGpKVWjnL6bP9QYCXuaYa+YyZ+N4YyVUr6Q==
+lnd-grpc@0.4.7:
+  version "0.4.7"
+  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.4.7.tgz#a69de1d0a9238c3baf14cedc1e9f1896db1e081d"
+  integrity sha512-/hzdQr5eDwjHAZ5Tcqt5VzzT5loHFZyVWbu9GtqXrBA6BuSN6YNtiaOy0rlLH0+8zEVQcUJPUfFhvAndB0o3QA==
   dependencies:
-    "@grpc/grpc-js" "^1.2.0"
-    "@grpc/proto-loader" "^0.5.5"
-    debug "^4.2.0"
+    "@grpc/grpc-js" "1.2.5"
+    "@grpc/proto-loader" "0.5.6"
+    debug "4.2.0"
     get-port "5.1.1"
     javascript-state-machine "3.1.0"
     lndconnect "0.2.10"
     lodash.defaultsdeep "4.6.1"
-    semver "^7.1.3"
+    semver "7.1.3"
     untildify "4.0.0"
-    validator "^13.1.17"
+    validator "13.1.17"
 
 lndconnect@0.2.10:
   version "0.2.10"
@@ -16579,7 +16593,12 @@ semver@7.0.0:
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.0.0.tgz#5f3ca35761e47e05b206c6daff2cf814f0316b8e"
   integrity sha512-+GB6zVA9LWh6zovYQLALHwv5rb2PHGlJi3lfiqIHxR0uuwCgefcOJc59v9fv1w8GbStwxuuqqAjI9NMAOOgq1A==
 
-semver@7.3.2, semver@^7.1.3, semver@^7.2.1, semver@^7.3.2:
+semver@7.1.3:
+  version "7.1.3"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-7.1.3.tgz#e4345ce73071c53f336445cfc19efb1c311df2a6"
+  integrity sha512-ekM0zfiA9SCBlsKa2X1hxyxiI4L3B6EbVJkkdgQXnSEEaHlGdvyodMruTiulSRWMMB4NeIuYNMC9rTKTz97GxA==
+
+semver@7.3.2, semver@^7.2.1, semver@^7.3.2:
   version "7.3.2"
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.3.2.tgz#604962b052b81ed0786aae84389ffba70ffd3938"
   integrity sha512-OrOb32TeeambH6UrhtShmF7CRDqhL6/5XpPNp2DuRH6+9QLw/orhp72j87v8Qa1ScDkvrrBNpZcDejAirJmfXQ==
@@ -19021,7 +19040,7 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-validator@13.1.17, validator@^13.1.17:
+validator@13.1.17:
   version "13.1.17"
   resolved "https://registry.yarnpkg.com/validator/-/validator-13.1.17.tgz#ad677736950adddd3c37209484a6b2e0966579ad"
   integrity sha512-zL5QBoemJ3jYFb2/j38y7ljhwYGXVLUp8H6W1nVxadnAOvUOytec+L7BHh1oBQ82/TzWXHd+GSaxUWp4lROkLg==
