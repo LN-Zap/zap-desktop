@@ -193,7 +193,7 @@ export const prepareBolt11Probe = (payReq, feeLimit) => {
     finalCltvDelta: getTag(invoice, 'min_final_cltv_expiry') || DEFAULT_CLTV_DELTA,
     routeHints: [{ hopHints }],
     paymentHash: generateProbeHash(paymentHash),
-    paymentAddr: Buffer.from(paymentAddress, 'hex'),
+    paymentAddr: paymentAddress && Buffer.from(paymentAddress, 'hex'),
   }
 }
 
