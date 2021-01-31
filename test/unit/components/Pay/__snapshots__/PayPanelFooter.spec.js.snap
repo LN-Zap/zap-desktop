@@ -38,7 +38,7 @@ exports[`component.Pay.PayPanelFooter current step is "address" should render co
       values={
         Object {
           "amount": <CryptoValue
-            value={1}
+            value="1"
           />,
           "cryptoUnitName": "sats",
         }
@@ -55,7 +55,7 @@ exports[`component.Pay.PayPanelFooter current step is "address" should render co
       values={
         Object {
           "amount": <CryptoValue
-            value={1}
+            value="1"
           />,
           "cryptoUnitName": "sats",
         }
@@ -70,8 +70,11 @@ exports[`component.Pay.PayPanelFooter current step is "summary" should render co
   flexDirection="column"
 >
   <LiquidityWarning
-    amountInSats={1}
+    amountInSats="1"
+    cryptoUnit="sats"
     isNotEnoughFunds={false}
+    maxOneTimeSend="1"
+    paymentType="onchain"
   />
   <PayButtons
     hasBackButton={true}
@@ -85,7 +88,7 @@ exports[`component.Pay.PayPanelFooter current step is "summary" should render co
         />
          
         <CryptoValue
-          value={1}
+          value="1"
         />
          
         sats
@@ -114,7 +117,7 @@ exports[`component.Pay.PayPanelFooter current step is "summary" should render co
       values={
         Object {
           "amount": <CryptoValue
-            value={1}
+            value="1"
           />,
           "cryptoUnitName": "sats",
         }
@@ -131,7 +134,7 @@ exports[`component.Pay.PayPanelFooter current step is "summary" should render co
       values={
         Object {
           "amount": <CryptoValue
-            value={1}
+            value="1"
           />,
           "cryptoUnitName": "sats",
         }
