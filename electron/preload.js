@@ -2,7 +2,8 @@
  * When running `npm run build` or `npm run build-preload`, this file is compiled to
  * `/dist/preload.js` using webpack.
  */
-import { ipcRenderer, remote, shell } from 'electron'
+import { ipcRenderer, shell } from 'electron'
+import { app, dialog } from '@electron/remote'
 import url from 'url'
 import os from 'os'
 import defaults from 'lodash/defaults'
@@ -89,7 +90,7 @@ function killNeutrino(signal) {
  * @returns {string} Electron user data directory.
  */
 function getUserDataDir() {
-  return remote.app.getPath('userData')
+  return app.getPath('userData')
 }
 
 /**
@@ -154,4 +155,6 @@ window.Zap = {
 window.ipcRenderer = ipcRenderer
 
 // Provide access to electron remote
-window.showOpenDialog = remote.dialog.showOpenDialog
+window.showOpenDialog = dialog.showOpenDialog
+
+console.log('PRELOAD complete')

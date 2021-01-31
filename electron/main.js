@@ -18,6 +18,7 @@ import os from 'os'
 import fs from 'fs'
 import bip21 from 'bip21'
 import config from 'config'
+import { initialize } from '@electron/remote/main'
 import { mainLog } from '@zap/utils/log'
 import { parseLnUrl } from '@zap/utils/lnurl'
 import appRootPath from '@zap/utils/appRootPath'
@@ -31,6 +32,10 @@ import createPDFGeneratorService from './pdfGenerator/service'
 import ZapUpdater from './updater'
 import ZapMigrator from './migrator'
 import fetchSettings from './utils/fetchSettings'
+
+// Initialise electron remote.
+// TOSO: migrate away from electron remote.
+initialize()
 
 // Set the Electron userDir to a temporary directory if the ELECTRON_USER_DIR_TEMP env var is set.
 // This provides an easy way to run the app with a completely fresh environment, useful for e2e tests.
@@ -237,6 +242,7 @@ app.on('ready', async () => {
       ? path.resolve('resources', 'icon.png')
       : path.resolve(appRootPath(), 'resources', 'icon.png'),
     webPreferences: {
+      enableRemoteModule: true,
       nodeIntegration: false,
       contextIsolation: false,
       nodeIntegrationInWorker: true,
