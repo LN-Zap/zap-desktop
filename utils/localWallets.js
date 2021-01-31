@@ -1,4 +1,5 @@
-import electron, { remote } from 'electron'
+import electron from 'electron'
+import { app } from '@electron/remote/main'
 import { promisify } from 'util'
 import assert from 'assert'
 import { join } from 'path'
@@ -9,7 +10,7 @@ import isSubDir from '@zap/utils/isSubDir'
 const fsReaddir = promisify(readdir)
 const fsRimraf = promisify(rimraf)
 
-const app = electron.app || remote.app
+const electronApp = electron.app || app
 
 /**
  * getWalletDir - Returns specified wallet files location.
@@ -20,7 +21,7 @@ const app = electron.app || remote.app
  * @returns {string} Path to wallet directory
  */
 export function getWalletDir(chain, network, wallet = '') {
-  const res = join(app.getPath('userData'), `lnd/${chain}/${network}/${wallet}`)
+  const res = join(electronApp.getPath('userData'), `lnd/${chain}/${network}/${wallet}`)
   return res
 }
 
@@ -86,7 +87,7 @@ export async function getAllLocalWallets(chains = [], networks = []) {
  */
 export async function purgeLocalWallet(chain, network, wallet) {
   assert(chain && network && wallet)
-  const walletDir = join(app.getPath('userData'), 'lnd', chain, network, wallet)
+  const walletDir = join(electronApp.getPath('userData'), 'lnd', chain, network, wallet)
   await fsRimraf(join(walletDir, 'data/chain', chain, network, '*.bin'))
 }
 
@@ -132,7 +133,7 @@ export async function deleteLocalWallet({ chain, network, wallet, dir }) {
   try {
     const walletDir = getDir()
     // for security considerations make sure dir we are removing is actually a wallet dir
-    if (!isSubDir(join(app.getPath('userData'), 'lnd'), walletDir)) {
+    if (!isSubDir(join(electronApp.getPath('userData'), 'lnd'), walletDir)) {
       throw new Error('Invalid directory specified')
     }
     return fsRimraf(walletDir, { disableGlob: true })

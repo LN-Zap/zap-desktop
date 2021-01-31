@@ -1,7 +1,8 @@
 import { normalize } from 'path'
-import electron, { remote } from 'electron'
+import electron from 'electron'
+import { app } from '@electron/remote/main'
 
-const app = electron.app || remote.app
+const electronApp = electron.app || app
 
 /**
  * appRootPath - Get a path to prepend to any nodejs calls that are getting at files in the package so that it works
@@ -18,7 +19,9 @@ const app = electron.app || remote.app
  * @returns {string} Path to the lnd binary.
  */
 const appRootPath = () => {
-  return app.getAppPath().indexOf('default_app.asar') < 0 ? normalize(`${app.getAppPath()}/..`) : ''
+  return electronApp.getAppPath().indexOf('default_app.asar') < 0
+    ? normalize(`${electronApp.getAppPath()}/..`)
+    : ''
 }
 
 export default appRootPath
