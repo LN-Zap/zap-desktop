@@ -3,7 +3,7 @@ import get from 'lodash/get'
 import config from 'config'
 import range from 'lodash/range'
 import { address } from 'bitcoinjs-lib'
-import lightningRequestReq from 'bolt11'
+import lightningRequestReq from '@ln-zap/bolt11'
 import bip21 from 'bip21'
 import coininfo from 'coininfo'
 import { CoinBig } from '@zap/utils/coin'
@@ -23,10 +23,10 @@ export const networks = {
 
 export const coinTypes = {
   bitcoin: {
-    mainnet: 'bitcoin',
-    testnet: 'testnet',
-    regtest: 'regtest',
-    simnet: 'simnet',
+    mainnet: 'bc',
+    testnet: 'tb',
+    regtest: 'bcrt',
+    simnet: 'sb',
   },
 }
 
@@ -180,7 +180,7 @@ export const isBolt11 = (input, chain = 'bitcoin', network = 'mainnet') => {
   }
   try {
     const decoded = lightningRequestReq.decode(input)
-    if (decoded.coinType !== get(coinTypes, `${chain}.${network}`)) {
+    if (decoded.network.bech32 !== get(coinTypes, `${chain}.${network}`)) {
       throw new Error('Invalid coin type')
     }
     return true
