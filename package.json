@@ -49,7 +49,7 @@
     }
   },
   "browserslist": [
-    "electron 9.3.4"
+    "electron 10.3.0"
   ],
   "engines": {
     "node": ">=12.0.0",
@@ -255,7 +255,7 @@
     "cross-env": "7.0.2",
     "cross-spawn": "7.0.3",
     "csp-html-webpack-plugin": "4.0.0",
-    "electron": "9.3.4",
+    "electron": "10.3.0",
     "electron-builder": "22.9.1",
     "electron-devtools-installer": "3.1.1",
     "electron-notarize": "1.0.0",
@@ -288,7 +288,7 @@
     "husky": "4.3.0",
     "jest": "26.5.3",
     "jest-styled-components": "6.3.4",
-    "lnd-binary": "0.3.18",
+    "lnd-binary": "0.3.19",
     "minimist": "1.2.5",
     "mock-spawn": "0.2.6",
     "native-ext-loader": "2.3.0",
@@ -320,6 +320,7 @@
     "webpack-merge": "4.2.2"
   },
   "dependencies": {
+    "@electron/remote": "^1.0.2",
     "@hot-loader/react-dom": "16.13.0",
     "@ln-zap/bolt11": "1.2.8-beta.3",
     "@rebass/forms": "4.0.6",
@@ -351,7 +352,7 @@
     "informed": "3.10.0",
     "is-electron-renderer": "2.0.1",
     "jstimezonedetect": "1.0.7",
-    "keytar": "5.6.0",
+    "keytar": "7.3.0",
     "lnd-grpc": "0.4.8",
     "lndconnect": "0.2.10",
     "lodash": "4.17.20",
