@@ -28,6 +28,7 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
     }
   }
   fiatCurrency="USD"
+  openModal={[Function]}
   setCryptoCurrency={[MockFunction]}
 >
   <styled.div

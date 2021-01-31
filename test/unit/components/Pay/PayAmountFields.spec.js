@@ -3,6 +3,11 @@ import { shallow } from 'enzyme'
 import toJSON from 'enzyme-to-json'
 import { PayAmountFields } from 'components/Pay'
 import { PAY_FORM_STEPS } from 'components/Pay/constants'
+import {
+  TRANSACTION_SPEED_SLOW,
+  TRANSACTION_SPEED_MEDIUM,
+  TRANSACTION_SPEED_FAST,
+} from 'components/Channels/constants'
 
 const getFormApi = values => {
   return {
@@ -28,9 +33,9 @@ const props = {
     slow: 1,
   },
   onchainFees: {
-    fast: 10,
-    medium: 5,
-    slow: 1,
+    fast: TRANSACTION_SPEED_FAST,
+    medium: TRANSACTION_SPEED_MEDIUM,
+    slow: TRANSACTION_SPEED_SLOW,
   },
   queryFees: () => {},
   walletBalanceConfirmed: '1',
