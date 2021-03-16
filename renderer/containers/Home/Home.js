@@ -19,6 +19,7 @@ import {
 } from 'reducers/lnd'
 import { openDialog } from 'reducers/modal'
 import { showError, showNotification } from 'reducers/notification'
+import { tickerSelectors } from 'reducers/ticker'
 import Home from 'components/Home'
 import DeleteWalletDialog from './DeleteWalletDialog'
 import AppErrorBoundary from 'components/ErrorBoundary/AppErrorBoundary'
@@ -44,6 +45,7 @@ const mapStateToProps = state => ({
   isStartingLnd: state.lnd.isStartingLnd,
   isUnlockingWallet: state.lnd.isUnlockingWallet,
   unlockWalletError: state.lnd.unlockWalletError,
+  cryptoUnit: tickerSelectors.cryptoUnit(state),
 })
 
 const mapDispatchToProps = {

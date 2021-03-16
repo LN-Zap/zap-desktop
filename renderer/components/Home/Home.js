@@ -25,6 +25,7 @@ class Home extends React.Component {
     activeWallet: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     activeWalletSettings: PropTypes.object,
     clearStartLndError: PropTypes.func.isRequired,
+    cryptoUnit: PropTypes.string.isRequired,
     deleteWallet: PropTypes.func.isRequired,
     generateLndConfigFromWallet: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
@@ -90,6 +91,7 @@ class Home extends React.Component {
       putWallet,
       showNotification,
       generateLndConfigFromWallet,
+      cryptoUnit,
     } = this.props
 
     return (
@@ -130,6 +132,7 @@ class Home extends React.Component {
                   <WalletLauncher
                     key={wallet.id}
                     clearStartLndError={clearStartLndError}
+                    cryptoUnit={cryptoUnit}
                     deleteWallet={deleteWallet}
                     generateLndConfigFromWallet={generateLndConfigFromWallet}
                     isLightningGrpcActive={isLightningGrpcActive}
