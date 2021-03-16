@@ -1,6 +1,7 @@
 import get from 'lodash/get'
 import { createSelector } from 'reselect'
 import { settingsSelectors } from 'reducers/settings'
+import { walletSelectors } from 'reducers/wallet'
 
 const cryptoUnitsSelector = state => state.ticker.cryptoUnits
 const ratesSelector = state => state.ticker.rates
@@ -10,9 +11,24 @@ const tickerLoadingSelector = state => state.ticker.tickerLoading
 const chainSelector = state => state.info.chain
 const networkSelector = state => state.info.network
 const networksSelector = state => state.info.networks
-const networkInfoSelector = createSelector(
+const chainSelectorWithActiveWalletFallback = createSelector(
   chainSelector,
+  walletSelectors.activeWalletSettings,
+  (chain, activeWalletSettings) => {
+    return chain || get(activeWalletSettings, 'chain', null)
+  }
+)
+const networkSelectorWithFallback = createSelector(
   networkSelector,
+  walletSelectors.activeWalletSettings,
+  (network, activeWalletSettings) => {
+    return network || get(activeWalletSettings, 'network', null)
+  }
+)
+
+const networkInfoSelector = createSelector(
+  chainSelectorWithActiveWalletFallback,
+  networkSelectorWithFallback,
   networksSelector,
   (chain, network, networks) => get(networks, `${chain}.${network}`)
 )
@@ -34,7 +50,7 @@ tickerSelectors.cryptoUnit = createSelector(
 tickerSelectors.currentTicker = createSelector(ratesSelector, rates => rates || {})
 
 tickerSelectors.cryptoUnits = createSelector(
-  chainSelector,
+  chainSelectorWithActiveWalletFallback,
   networkInfoSelector,
   cryptoUnitsSelector,
   (chain, networkInfo, cryptoUnits) => {

@@ -8,7 +8,15 @@ import { Box, Flex } from 'rebass/styled-components'
 import uniq from 'lodash/uniq'
 import { intlShape } from '@zap/i18n'
 import { Bar, Button, DataRow, Text, Tooltip } from 'components/UI'
-import { Input, Label, Toggle, TextArea, FieldLabelFactory } from 'components/Form'
+import {
+  Input,
+  Label,
+  Toggle,
+  TextArea,
+  FieldLabelFactory,
+  CryptoAmountInput,
+} from 'components/Form'
+import { CryptoSelector } from 'containers/UI'
 import messages from './messages'
 import AutopilotAllocation from './AutopilotAllocation'
 
@@ -62,6 +70,7 @@ const formatNeutrinoNodes = value => value && value.join('\n')
 class WalletSettingsFormLocal extends React.Component {
   static propTypes = {
     autopilotDefaults: PropTypes.object.isRequired,
+    cryptoUnit: PropTypes.string.isRequired,
     formApi: PropTypes.object.isRequired,
     formState: PropTypes.object.isRequired,
     intl: intlShape.isRequired,
@@ -89,7 +98,7 @@ class WalletSettingsFormLocal extends React.Component {
   }
 
   render() {
-    const { intl, formState, autopilotDefaults, wallet } = this.props
+    const { cryptoUnit, intl, formState, autopilotDefaults, wallet } = this.props
     const { chain, network } = wallet
 
     const {
@@ -272,19 +281,24 @@ class WalletSettingsFormLocal extends React.Component {
                 }
                 py={2}
                 right={
-                  <Input
-                    field="autopilotMinchansize"
-                    id="autopilotMinchansize"
-                    initialValue={autopilotMinchansize || autopilotDefaults.autopilotMinchansize}
-                    justifyContent="flex-end"
-                    max={autopilotDefaults.autopilotMaxchansize}
-                    min={autopilotDefaults.autopilotMinchansize}
-                    ml="auto"
-                    step="1"
-                    textAlign="right"
-                    type="number"
-                    width={150}
-                  />
+                  <Flex alignItems="center">
+                    <CryptoSelector />
+
+                    <CryptoAmountInput
+                      cryptoUnit={cryptoUnit}
+                      field="autopilotMinchansize"
+                      id="autopilotMinchansize"
+                      initialValue={autopilotMinchansize || autopilotDefaults.autopilotMinchansize}
+                      justifyContent="flex-end"
+                      max={autopilotDefaults.autopilotMaxchansize}
+                      min={autopilotDefaults.autopilotMinchansize}
+                      ml="2"
+                      step="1"
+                      textAlign="right"
+                      type="number"
+                      width={150}
+                    />
+                  </Flex>
                 }
               />
 
@@ -296,19 +310,24 @@ class WalletSettingsFormLocal extends React.Component {
                 }
                 py={2}
                 right={
-                  <Input
-                    field="autopilotMaxchansize"
-                    id="autopilotMaxchansize"
-                    initialValue={autopilotMaxchansize || autopilotDefaults.autopilotMaxchansize}
-                    justifyContent="flex-end"
-                    max={autopilotDefaults.autopilotMaxchansize}
-                    min={autopilotDefaults.autopilotMinchansize}
-                    ml="auto"
-                    step="1"
-                    textAlign="right"
-                    type="number"
-                    width={150}
-                  />
+                  <Flex alignItems="center">
+                    <CryptoSelector />
+
+                    <CryptoAmountInput
+                      cryptoUnit={cryptoUnit}
+                      field="autopilotMaxchansize"
+                      id="autopilotMaxchansize"
+                      initialValue={autopilotMaxchansize || autopilotDefaults.autopilotMaxchansize}
+                      justifyContent="flex-end"
+                      max={autopilotDefaults.autopilotMaxchansize}
+                      min={autopilotDefaults.autopilotMinchansize}
+                      ml="2"
+                      step="1"
+                      textAlign="right"
+                      type="number"
+                      width={150}
+                    />
+                  </Flex>
                 }
               />
 

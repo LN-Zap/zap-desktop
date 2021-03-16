@@ -190,6 +190,7 @@ const unsafeShallowCompare = (obj1, obj2, whiteList) => {
 class WalletLauncher extends React.Component {
   static propTypes = {
     clearStartLndError: PropTypes.func.isRequired,
+    cryptoUnit: PropTypes.string.isRequired,
     deleteWallet: PropTypes.func.isRequired,
     generateLndConfigFromWallet: PropTypes.func.isRequired,
     history: PropTypes.shape({
@@ -393,7 +394,7 @@ class WalletLauncher extends React.Component {
   }
 
   render() {
-    const { wallet, isStartingLnd, isNeutrinoRunning, ...rest } = this.props
+    const { cryptoUnit, wallet, isStartingLnd, isNeutrinoRunning, ...rest } = this.props
     const { isValidating } = this.state
     const actionBarButtons = formState => (
       <>
@@ -501,6 +502,7 @@ class WalletLauncher extends React.Component {
 
                   <WalletSettingsFormLocal
                     autopilotDefaults={autopilotDefaults}
+                    cryptoUnit={cryptoUnit}
                     wallet={walletConverted}
                   />
                 </>
