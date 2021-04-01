@@ -1,4 +1,5 @@
 {
+  "components.Activity.ActivityActions.activity_filter_hint": "Φίλτρα λίστας δραστηριοτήτων",
   "components.Activity.Invoice.amount": "Ποσό",
   "components.Activity.Invoice.received": "Έλαβε",
   "components.Activity.Invoice.requested": "Ζητείται",
@@ -8,7 +9,9 @@
   "components.Activity.InvoiceModal.pay_req": "Αίτηση πληρωμής",
   "components.Activity.Payment.amount": "Ποσό",
   "components.Activity.Payment.fee": "Αμοιβή",
+  "components.Activity.PaymentModal.destination": "Προορισμός",
   "components.Activity.Transaction.amount": "Ποσό",
+  "components.Activity.Transaction.confirmed": "Επιβεβαιώθηκε",
   "components.Activity.Transaction.fee": "Αμοιβή",
   "components.Activity.Transaction.received": "Έλαβε",
   "components.Activity.Transaction.sent": "Αποστέλλονται",
