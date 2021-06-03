@@ -1,4 +1,8 @@
 {
+  "components.Activity.ActivityActions.actiity_filter_expired": "समयसीमा समाप्त",
+  "components.Activity.ActivityActions.actiity_filter_internal": "अंधरुनी",
+  "components.Activity.ActivityActions.actiity_filter_pending": "लंबित",
+  "components.Activity.ActivityActions.actiity_filter_received": "प्राप्त",
   "components.Activity.InvoiceModal.paid": "भुगतान किया",
   "components.Activity.Payment.fee": "भुगतान शुल्क",
   "components.Activity.all": "सभी",
