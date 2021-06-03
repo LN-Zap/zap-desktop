@@ -27,10 +27,21 @@
   "components.Activity.Payment.status_error": "आपका भुगतान भेजने में एक समस्या हुई. अधिक विवरण के लिए क्लिक करें।",
   "components.Activity.Payment.status_processing": "आपका भुगतान संसाधित किया जा रहा है…",
   "components.Activity.Payment.status_success": "आपका भुगतान सफल रहा.",
+  "components.Activity.Payment.type": "Lightning भुगतान",
+  "components.Activity.PaymentModal.amount": "रकम",
+  "components.Activity.PaymentModal.current_value": "वर्तमान मूल्य",
+  "components.Activity.PaymentModal.date_sent": "भेजी गई तारीख",
+  "components.Activity.PaymentModal.htlc_hop_fee": "{hopFee} {cryptoUnitName} शुल्क",
+  "components.Activity.PaymentModal.htlc_hop_no_fee": "निःशुल्क",
+  "components.Activity.PaymentModal.memo": "ज्ञापन",
+  "components.Activity.Transaction.sent": "भेजा गया",
   "components.Activity.all": "सभी",
   "components.Activity.pending": "लंबित",
   "components.Onboarding.Steps.only": "केवल",
   "components.Pay.amount": "रकम",
   "components.Request.amount": "रकम",
-  "components.Request.paid": "भुगतान किया"
+  "components.Request.paid": "भुगतान किया",
+  "components.Wallet.pay": "भुकतान करें",
+  "components.Wallet.request": "प्राप्त करें",
+  "reducers.payment.failure_reason_insufficient_balance": "अपर्याप्त खाता बैलन्स"
 }
