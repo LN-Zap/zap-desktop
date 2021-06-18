@@ -1,4 +1,8 @@
 {
+  "components.Activity.ActivityActions.actiity_filter_expired": "Expirado",
+  "components.Activity.ActivityActions.actiity_filter_internal": "Interno",
+  "components.Activity.ActivityActions.actiity_filter_pending": "Pendente",
+  "components.Activity.ActivityActions.actiity_filter_sent": "Enviado",
   "components.Channels.waiting_close": "a encerrar…",
   "components.Pay.amount": "Quantidade",
   "components.Request.amount": "Quantidade"
