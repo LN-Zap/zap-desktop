@@ -14,7 +14,7 @@ import {
   Label,
   Toggle,
   TransactionFeeInput,
-  IntegerInput,
+  // IntegerInput,
 } from 'components/Form'
 import { CryptoValue } from 'containers/UI'
 import { CurrencyFieldGroup } from 'containers/Form'
@@ -313,7 +313,7 @@ class ChannelCreateForm extends React.Component {
           </>
         )}
 
-        <Flex alignItems="center" justifyContent="space-between" mt={2}>
+        {/* <Flex alignItems="center" justifyContent="space-between" mt={2}>
           <Flex>
             <Span color="gray" fontSize="s" mr={2}>
               <Padlock />
@@ -333,7 +333,7 @@ class ChannelCreateForm extends React.Component {
             variant="thin"
             width={80}
           />
-        </Flex>
+        </Flex> */}
       </Box>
     )
   }
