@@ -48,6 +48,7 @@
   "components.Activity.Transaction.fee": "Taxa de transação",
   "components.Activity.Transaction.funding": "Financiamento do Canal",
   "components.Activity.Transaction.pending": "Pendente",
+  "components.Channels.commit_fee_description": "O valor a ser pago em taxas para o conjunto atual de transações de compromisso.",
   "components.Channels.waiting_close": "a encerrar…",
   "components.Pay.amount": "Quantidade",
   "components.Request.amount": "Quantidade"
