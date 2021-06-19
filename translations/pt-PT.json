@@ -42,6 +42,12 @@
   "components.Activity.Transaction.closetype_breach_close": "Brecha",
   "components.Activity.Transaction.closetype_cooperative_close": "Fechamento Cooperativo",
   "components.Activity.Transaction.closetype_funding_canceled": "Financiamento Cancelado",
+  "components.Activity.Transaction.closetype_local_force_close": "Forçar Encerramento Local",
+  "components.Activity.Transaction.closetype_remote_force_close": "Forçar Encerramento Remoto",
+  "components.Activity.Transaction.closing": "O Canal está a encerrar",
+  "components.Activity.Transaction.fee": "Taxa de transação",
+  "components.Activity.Transaction.funding": "Financiamento do Canal",
+  "components.Activity.Transaction.pending": "Pendente",
   "components.Channels.waiting_close": "a encerrar…",
   "components.Pay.amount": "Quantidade",
   "components.Request.amount": "Quantidade"
