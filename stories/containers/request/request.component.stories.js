@@ -3,7 +3,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import lightningPayReq from 'bolt11'
+import lightningPayReq from '@ln-zap/bolt11'
 import { convert } from '@zap/utils/btc'
 import { RequestSummary } from 'components/Request'
 import { Provider } from '../../Provider'

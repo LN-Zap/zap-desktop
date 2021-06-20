@@ -1,19 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import get from 'lodash/get'
-import {
-  FormattedDate,
-  FormattedTime,
-  FormattedMessage,
-  FormattedNumber,
-  injectIntl,
-} from 'react-intl'
+import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl'
 import { Flex } from 'rebass/styled-components'
 import { CoinBig } from '@zap/utils/coin'
 import { intlShape } from '@zap/i18n'
 import blockExplorer from '@zap/utils/blockExplorer'
 import { Bar, DataRow, Header, Link, Panel, Span, Text, Button } from 'components/UI'
-import { CopyButton, CryptoSelector, CryptoValue, FiatSelector, FiatValue } from 'containers/UI'
+import {
+  CopyButton,
+  CryptoSelector,
+  CryptoValue,
+  FiatSelector,
+  FiatValue,
+  FormattedDateTime,
+} from 'containers/UI'
 import { Truncate } from 'components/Util'
 import Onchain from 'components/Icon/Onchain'
 import Padlock from 'components/Icon/Padlock'
@@ -127,15 +128,14 @@ class TransactionModal extends React.PureComponent {
                   item.numConfirmations ? (
                     <>
                       <Text>
-                        <FormattedDate
-                          day="2-digit"
+                        <FormattedDateTime
+                          format="date"
                           month="long"
                           value={item.timeStamp * 1000}
-                          year="numeric"
                         />
                       </Text>
                       <Text>
-                        <FormattedTime value={item.timeStamp * 1000} />
+                        <FormattedDateTime format="time" value={item.timeStamp * 1000} />
                       </Text>
                     </>
                   ) : (

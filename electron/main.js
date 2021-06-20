@@ -6,7 +6,7 @@
  * When running `npm run build` or `npm run build-main`, this file is compiled to
  * `/dist/main.js` using webpack. This gives us some performance wins.
  */
-import { app, BrowserWindow } from 'electron'
+import { app, session, BrowserWindow } from 'electron'
 import isDev from 'electron-is-dev'
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
@@ -397,8 +397,8 @@ app.on('ready', async () => {
    */
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD) {
     if (process.env.REINSTALL_DEVTOOLS) {
-      BrowserWindow.removeDevToolsExtension(REACT_DEVELOPER_TOOLS)
-      BrowserWindow.removeDevToolsExtension(REDUX_DEVTOOLS)
+      session.removeExtension(REACT_DEVELOPER_TOOLS)
+      session.removeExtension(REDUX_DEVTOOLS)
     }
 
     installExtension(REACT_DEVELOPER_TOOLS)

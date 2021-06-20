@@ -14,10 +14,12 @@ class ConnectionDetailsManual extends React.Component {
     connectionMacaroon: PropTypes.string,
     connectionString: PropTypes.string,
     lndConnect: PropTypes.string,
+    name: PropTypes.string,
     setConnectionCert: PropTypes.func.isRequired,
     setConnectionHost: PropTypes.func.isRequired,
     setConnectionMacaroon: PropTypes.func.isRequired,
     setLndconnect: PropTypes.func.isRequired,
+    setName: PropTypes.func.isRequired,
 
     startLndCertError: PropTypes.string,
     startLndHostError: PropTypes.string,
@@ -32,6 +34,7 @@ class ConnectionDetailsManual extends React.Component {
   static defaultProps = {
     wizardApi: {},
     wizardState: {},
+    name: null,
   }
 
   componentDidMount() {
@@ -90,10 +93,11 @@ class ConnectionDetailsManual extends React.Component {
   }
 
   handleSubmit = values => {
-    const { setConnectionHost, setConnectionCert, setConnectionMacaroon } = this.props
+    const { setConnectionHost, setConnectionCert, setConnectionMacaroon, setName } = this.props
     setConnectionHost(values.connectionHost)
     setConnectionCert(values.connectionCert)
     setConnectionMacaroon(values.connectionMacaroon)
+    setName(values.name)
   }
 
   validateHost = () => {
@@ -124,10 +128,12 @@ class ConnectionDetailsManual extends React.Component {
       connectionMacaroon,
       connectionString,
       lndConnect,
+      name,
       setConnectionHost,
       setConnectionCert,
       setConnectionMacaroon,
       setLndconnect,
+      setName,
       startLndHostError,
       startLndCertError,
       startLndMacaroonError,
@@ -211,11 +217,21 @@ class ConnectionDetailsManual extends React.Component {
                 initialValue={connectionMacaroon}
                 isRequired
                 label="Macaroon"
+                mb={3}
                 name="connectionMacaroon"
                 onBlur={this.validateMacaroon}
                 validateOnBlur={willValidateInline}
                 validateOnChange={willValidateInline}
                 width={1}
+              />
+
+              <Input
+                description={<FormattedMessage {...messages.wallet_name_description} />}
+                field="name"
+                initialValue={name}
+                label={<FormattedMessage {...messages.wallet_name_label} />}
+                maxLength={30}
+                name="name"
               />
             </>
           )

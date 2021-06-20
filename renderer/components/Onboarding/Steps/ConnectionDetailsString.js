@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Box } from 'rebass/styled-components'
 import { Bar, Header } from 'components/UI'
-import { Form, LndConnectionStringInput } from 'components/Form'
+import { Form, Input, LndConnectionStringInput } from 'components/Form'
 import ConnectionDetailsTabs from './ConnectionDetailsTabs'
 import messages from './messages'
 
@@ -12,8 +12,10 @@ class ConnectionDetailsString extends React.Component {
     clearStartLndError: PropTypes.func.isRequired,
     connectionString: PropTypes.string,
     lndConnect: PropTypes.string,
+    name: PropTypes.string,
     setConnectionString: PropTypes.func.isRequired,
     setLndconnect: PropTypes.func.isRequired,
+    setName: PropTypes.func.isRequired,
     startLndCertError: PropTypes.string,
     startLndHostError: PropTypes.string,
 
@@ -25,6 +27,7 @@ class ConnectionDetailsString extends React.Component {
   static defaultProps = {
     wizardApi: {},
     wizardState: {},
+    name: null,
   }
 
   componentDidMount() {
@@ -85,8 +88,9 @@ class ConnectionDetailsString extends React.Component {
   }
 
   handleSubmit = values => {
-    const { setConnectionString } = this.props
+    const { setConnectionString, setName } = this.props
     setConnectionString(values.connectionString)
+    setName(values.name)
   }
 
   render() {
@@ -98,8 +102,10 @@ class ConnectionDetailsString extends React.Component {
       startLndCertError,
       startLndMacaroonError,
       lndConnect,
+      name,
       setLndconnect,
       setConnectionString,
+      setName,
       clearStartLndError,
       ...rest
     } = this.props
@@ -158,10 +164,20 @@ class ConnectionDetailsString extends React.Component {
                 field="connectionString"
                 initialValue={connectionString}
                 isRequired
+                mb={3}
                 rows="12"
                 validateOnBlur={willValidateInline}
                 validateOnChange={willValidateInline}
                 willAutoFocus
+              />
+
+              <Input
+                description={<FormattedMessage {...messages.wallet_name_description} />}
+                field="name"
+                initialValue={name}
+                label={<FormattedMessage {...messages.wallet_name_label} />}
+                maxLength={30}
+                name="name"
               />
             </>
           )

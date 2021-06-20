@@ -11,6 +11,7 @@ const mapStateToProps = state => ({
   isLightningGrpcActive: state.lnd.isLightningGrpcActive,
   isWalletUnlockerGrpcActive: state.lnd.isWalletUnlockerGrpcActive,
   lndConnect: state.onboarding.lndConnect,
+  name: state.onboarding.name,
   startLndHostError: lndSelectors.startLndHostError(state),
   startLndCertError: lndSelectors.startLndCertError(state),
   startLndMacaroonError: lndSelectors.startLndMacaroonError(state),

@@ -26,6 +26,15 @@ const themeMessageMapper = key => {
   return filters[key]
 }
 
+const displayModeItems = [{ key: '12hour' }, { key: '24hour' }]
+const displayModeMessageMapper = key => {
+  const filters = {
+    '12hour': messages.timeDisplayMode_option_12hour,
+    '24hour': messages.timeDisplayMode_option_24hour,
+  }
+  return filters[key]
+}
+
 const SettingsFieldsGeneral = ({ currentConfig }) => {
   return (
     <>
@@ -66,6 +75,21 @@ const SettingsFieldsGeneral = ({ currentConfig }) => {
             initialValue={currentConfig.theme}
             items={themeItems}
             messageMapper={themeMessageMapper}
+          />
+        }
+      />
+
+      <Bar variant="light" />
+
+      <DataRow
+        left={<FieldLabel itemKey="timeDisplayMode" />}
+        right={
+          <Select
+            field="timeDisplayMode"
+            highlightOnValid={false}
+            initialValue={currentConfig.timeDisplayMode}
+            items={displayModeItems}
+            messageMapper={displayModeMessageMapper}
           />
         }
       />

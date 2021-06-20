@@ -3,11 +3,12 @@ import get from 'lodash/get'
 import config from 'config'
 import range from 'lodash/range'
 import { address } from 'bitcoinjs-lib'
-import lightningRequestReq from 'bolt11'
+import lightningRequestReq from '@ln-zap/bolt11'
 import bip21 from 'bip21'
 import coininfo from 'coininfo'
 import { CoinBig } from '@zap/utils/coin'
 import { convert } from '@zap/utils/btc'
+import { sha256digest } from '@zap/utils/sha256'
 
 export const PREIMAGE_BYTE_LENGTH = 32
 
@@ -22,10 +23,10 @@ export const networks = {
 
 export const coinTypes = {
   bitcoin: {
-    mainnet: 'bitcoin',
-    testnet: 'testnet',
-    regtest: 'regtest',
-    simnet: 'simnet',
+    mainnet: 'bc',
+    testnet: 'tb',
+    regtest: 'bcrt',
+    simnet: 'sb',
   },
 }
 
@@ -179,7 +180,7 @@ export const isBolt11 = (input, chain = 'bitcoin', network = 'mainnet') => {
   }
   try {
     const decoded = lightningRequestReq.decode(input)
-    if (decoded.coinType !== get(coinTypes, `${chain}.${network}`)) {
+    if (decoded.network.bech32 !== get(coinTypes, `${chain}.${network}`)) {
       throw new Error('Invalid coin type')
     }
     return true
@@ -315,3 +316,20 @@ export const getFeeRange = (routes = []) => ({
  * @returns {Uint8Array} hash bytes
  */
 export const generatePreimage = () => randomBytes(PREIMAGE_BYTE_LENGTH)
+
+/**
+ * generateHash - Generates probe hash from payment hash.
+ *
+ * @param {string} paymentHash payment hash (hex)
+ * @returns {Uint8Array} probe hash (bytes)
+ */
+export const generateProbeHash = paymentHash => {
+  const idx = Buffer.from('probing-01:', 'utf8')
+  const hash = Buffer.from(paymentHash, 'hex')
+  const totalLength = idx.length + hash.length
+
+  const probeHashBuffer = Buffer.concat([idx, hash], totalLength)
+  const probeHash = sha256digest(probeHashBuffer)
+
+  return probeHash
+}

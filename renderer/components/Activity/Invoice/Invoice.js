@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass/styled-components'
 import { intlShape } from '@zap/i18n'
 import { Text } from 'components/UI'
 import Zap from 'components/Icon/Zap'
-import { CryptoValue, FiatValue } from 'containers/UI'
+import { CryptoValue, FiatValue, FormattedDateTime } from 'containers/UI'
 import messages from './messages'
 import Clock from 'components/Icon/Clock'
 
@@ -33,7 +33,8 @@ const Invoice = ({ activity, showActivityModal, cryptoUnitName, intl, ...rest })
         <FormattedMessage {...messages[activity.isSettled ? 'received' : 'requested']} />
       </Text>
       <Text color="gray" fontSize="xs" fontWeight="normal">
-        <FormattedTime
+        <FormattedDateTime
+          format="time"
           value={activity.isSettled ? activity.settleDate * 1000 : activity.creationDate * 1000}
         />
       </Text>
