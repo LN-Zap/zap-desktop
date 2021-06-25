@@ -44,8 +44,7 @@
   },
   "config": {
     "lnd-binary": {
-      "binaryVersion": "0.12.0-beta-2-g2dd779205",
-      "binarySite": "https://github.com/LN-Zap/lnd/releases/download"
+      "binaryVersion": "0.13.1-beta"
     }
   },
   "browserslist": [
@@ -255,7 +254,7 @@
     "cross-env": "7.0.2",
     "cross-spawn": "7.0.3",
     "csp-html-webpack-plugin": "4.0.0",
-    "electron": "9.4.0",
+    "electron": "9.4.4",
     "electron-builder": "22.9.1",
     "electron-devtools-installer": "3.1.1",
     "electron-notarize": "1.0.0",
@@ -288,7 +287,7 @@
     "husky": "4.3.0",
     "jest": "26.5.3",
     "jest-styled-components": "6.3.4",
-    "lnd-binary": "0.3.18",
+    "lnd-binary": "0.3.22",
     "minimist": "1.2.5",
     "mock-spawn": "0.2.6",
     "native-ext-loader": "2.3.0",
@@ -324,7 +323,7 @@
     "@ln-zap/bolt11": "1.2.8-beta.3",
     "@rebass/forms": "4.0.6",
     "@styled-system/theme-get": "5.1.2",
-    "axios": "0.19.2",
+    "axios": "0.21.1",
     "bech32": "1.1.4",
     "bignumber.js": "9.0.1",
     "bip21": "2.0.3",
@@ -352,7 +351,7 @@
     "is-electron-renderer": "2.0.1",
     "jstimezonedetect": "1.0.7",
     "keytar": "5.6.0",
-    "lnd-grpc": "0.4.8",
+    "lnd-grpc": "https://github.com/rahulbile/node-lnd-grpc#9257bdd77b030a03cdacbcbdc1c8dcd255d6f8d6",
     "lndconnect": "0.2.10",
     "lodash": "4.17.21",
     "new-github-issue-url": "0.2.1",
