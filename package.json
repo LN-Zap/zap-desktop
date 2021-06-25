@@ -44,8 +44,7 @@
   },
   "config": {
     "lnd-binary": {
-      "binaryVersion": "0.12.0-beta-2-g2dd779205",
-      "binarySite": "https://github.com/LN-Zap/lnd/releases/download"
+      "binaryVersion": "0.13.0-beta"
     }
   },
   "browserslist": [
@@ -288,7 +287,7 @@
     "husky": "4.3.0",
     "jest": "26.5.3",
     "jest-styled-components": "6.3.4",
-    "lnd-binary": "0.3.18",
+    "lnd-binary": "0.3.20",
     "minimist": "1.2.5",
     "mock-spawn": "0.2.6",
     "native-ext-loader": "2.3.0",
