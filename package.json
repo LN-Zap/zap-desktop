@@ -218,7 +218,7 @@
     "@ln-zap/eslint-config": "0.3.2",
     "@ln-zap/prettier-config": "0.1.0",
     "@storybook/addon-actions": "5.3.18",
-    "@storybook/addon-console": "1.2.1",
+    "@storybook/addon-console": "1.2.3",
     "@storybook/addon-knobs": "5.3.18",
     "@storybook/addon-links": "5.3.18",
     "@storybook/addons": "5.3.18",
