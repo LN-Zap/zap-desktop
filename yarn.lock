@@ -5475,10 +5475,10 @@ babel-plugin-react-intl@^7.0.0:
     intl-messageformat-parser "^5.3.7"
     schema-utils "^2.6.6"
 
-babel-plugin-styled-components@1.10.7:
-  version "1.10.7"
-  resolved "https://registry.yarnpkg.com/babel-plugin-styled-components/-/babel-plugin-styled-components-1.10.7.tgz#3494e77914e9989b33cc2d7b3b29527a949d635c"
-  integrity sha512-MBMHGcIA22996n9hZRf/UJLVVgkEOITuR2SvjHLb5dSTUyR4ZRGn+ngITapes36FI3WLxZHfRhkA1ffHxihOrg==
+babel-plugin-styled-components@1.13.2:
+  version "1.13.2"
+  resolved "https://registry.yarnpkg.com/babel-plugin-styled-components/-/babel-plugin-styled-components-1.13.2.tgz#ebe0e6deff51d7f93fceda1819e9b96aeb88278d"
+  integrity sha512-Vb1R3d4g+MUfPQPVDMCGjm3cDocJEUTR7Xq7QS95JWWeksN1wdFRYpD2kulDgI3Huuaf1CZd+NK4KQmqUFh5dA==
   dependencies:
     "@babel/helper-annotate-as-pure" "^7.0.0"
     "@babel/helper-module-imports" "^7.0.0"
