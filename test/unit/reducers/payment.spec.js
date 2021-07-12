@@ -1,4 +1,3 @@
-import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, {
   GET_PAYMENTS,
   RECEIVE_PAYMENTS,
@@ -8,6 +7,8 @@ import reducer, {
   PAYMENT_FAILED,
   DECREASE_PAYMENT_RETRIES,
 } from 'reducers/payment'
+
+import snapshotDiff from '../__helpers__/snapshotDiff'
 
 describe('reducers', () => {
   describe('paymentReducer', () => {

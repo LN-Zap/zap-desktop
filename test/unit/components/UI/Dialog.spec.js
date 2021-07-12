@@ -1,5 +1,7 @@
 import React from 'react'
+
 import { Flex } from 'rebass/styled-components'
+
 import { renderWithTheme } from '@zap/test/unit/__helpers__/renderWithTheme'
 import Eye from 'components/Icon/Eye'
 import { Dialog, Text, Heading, Button } from 'components/UI'

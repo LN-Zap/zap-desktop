@@ -1,10 +1,13 @@
 import React from 'react'
+
+import { asField } from 'informed'
 import PropTypes from 'prop-types'
 import { compose } from 'redux'
-import { asField } from 'informed'
-import { withNumberInputMask, withNumberValidation } from 'hocs'
+
 import { convert } from '@zap/utils/btc'
 import { formatValue, parseNumber } from '@zap/utils/crypto'
+import { withNumberInputMask, withNumberValidation } from 'hocs'
+
 import { BasicInput } from './Input'
 
 class CryptoAmountInput extends React.Component {

@@ -1,9 +1,12 @@
 import React from 'react'
-import { storiesOf } from '@storybook/react'
+
 import { action } from '@storybook/addon-actions'
+import { storiesOf } from '@storybook/react'
+
+import { ChannelCardList } from 'components/Channels'
 import { infoSelectors } from 'reducers/info'
 import { tickerSelectors } from 'reducers/ticker'
-import { ChannelCardList } from 'components/Channels'
+
 import { Window } from '../../helpers'
 import { Provider, store } from '../../Provider'
 

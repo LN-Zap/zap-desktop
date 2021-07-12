@@ -1,7 +1,9 @@
 import React from 'react'
-import { Flex } from 'rebass/styled-components'
+
 import { asField } from 'informed'
 import PropTypes from 'prop-types'
+import { Flex } from 'rebass/styled-components'
+
 import { BasicRange, BasicInput } from 'components/Form'
 
 const AutopilotAllocation = ({ fieldState, fieldApi, sliderWidthNumber }) => {

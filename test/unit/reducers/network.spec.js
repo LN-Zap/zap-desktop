@@ -1,9 +1,10 @@
-import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, {
   GET_DESCRIBE_NETWORK,
   RECEIVE_DESCRIBE_NETWORK,
   UPDATE_NODE_DATA,
 } from 'reducers/network'
+
+import snapshotDiff from '../__helpers__/snapshotDiff'
 
 describe('reducers', () => {
   describe('networkReducer', () => {

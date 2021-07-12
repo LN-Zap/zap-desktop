@@ -1,9 +1,12 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
-import { SwitchButton } from 'components/UI'
-import ArrowUp from 'components/Icon/ArrowUp'
+
 import ArrowDown from 'components/Icon/ArrowDown'
+import ArrowUp from 'components/Icon/ArrowUp'
+import { SwitchButton } from 'components/UI'
+
 import messages from './messages'
 
 const ChannelSortDirectionButton = injectIntl(({ onClick, isAsc, intl, ...rest }) => {

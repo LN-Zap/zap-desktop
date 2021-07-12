@@ -1,6 +1,7 @@
+import get from 'lodash/get'
 import { createSelector } from 'reselect'
 import semver from 'semver'
-import get from 'lodash/get'
+
 import { settingsSelectors } from 'reducers/settings'
 
 /**

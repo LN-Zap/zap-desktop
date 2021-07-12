@@ -1,5 +1,7 @@
 import React from 'react'
+
 import { Box } from 'rebass/styled-components'
+
 import AutopayHeading from './AutopayHeading'
 
 const AutopayHeader = props => (

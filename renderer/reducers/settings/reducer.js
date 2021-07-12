@@ -1,13 +1,15 @@
 import config from 'config'
 import merge from 'lodash/merge'
 import set from 'lodash/set'
+
+import { getIntl } from '@zap/i18n'
 import createReducer from '@zap/utils/createReducer'
 import difference from '@zap/utils/difference'
-import { getIntl } from '@zap/i18n'
 import { showError } from 'reducers/notification'
+
 import * as constants from './constants'
-import settingsSelectors from './selectors'
 import messages from './messages'
+import settingsSelectors from './selectors'
 
 const { INIT_SETTINGS, INIT_SETTINGS_SUCCESS, INIT_SETTINGS_FAILURE, SET_SETTING } = constants
 

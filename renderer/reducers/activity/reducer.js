@@ -1,21 +1,23 @@
 import { send } from 'redux-electron-ipc'
-import createReducer from '@zap/utils/createReducer'
+
 import { getIntl } from '@zap/i18n'
+import createReducer from '@zap/utils/createReducer'
 import { mainLog } from '@zap/utils/log'
-import { openModal, closeModal } from 'reducers/modal'
-import { receiveTransactions } from 'reducers/transaction'
-import { receivePayments } from 'reducers/payment'
-import { receiveInvoices } from 'reducers/invoice'
-import { settingsSelectors } from 'reducers/settings'
 import { fetchBalance } from 'reducers/balance'
 import { fetchChannels } from 'reducers/channels'
 import { fetchInfo, infoSelectors } from 'reducers/info'
-import { walletSelectors } from 'reducers/wallet'
+import { receiveInvoices } from 'reducers/invoice'
+import { openModal, closeModal } from 'reducers/modal'
 import { showError, showNotification } from 'reducers/notification'
-import { createActivityPaginator } from './utils'
-import { hasNextPage, isPageLoading } from './selectors'
-import messages from './messages'
+import { receivePayments } from 'reducers/payment'
+import { settingsSelectors } from 'reducers/settings'
+import { receiveTransactions } from 'reducers/transaction'
+import { walletSelectors } from 'reducers/wallet'
+
 import * as constants from './constants'
+import messages from './messages'
+import { hasNextPage, isPageLoading } from './selectors'
+import { createActivityPaginator } from './utils'
 
 const {
   SET_ACTIVITY_MODAL,

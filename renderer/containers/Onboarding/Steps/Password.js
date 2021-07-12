@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+
 import { Password } from 'components/Onboarding/Steps'
 import { setPassword } from 'reducers/onboarding'
 

@@ -1,7 +1,10 @@
 import React from 'react'
-import { Flex } from 'rebass/styled-components'
+
 import { FormattedMessage } from 'react-intl'
+import { Flex } from 'rebass/styled-components'
+
 import { Button, Text } from 'components/UI'
+
 import messages from './messages'
 
 const Tutorials = props => (

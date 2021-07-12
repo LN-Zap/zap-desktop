@@ -1,10 +1,13 @@
 import React, { useState, useCallback } from 'react'
+
 import PropTypes from 'prop-types'
 import { Box, Flex, Text } from 'rebass/styled-components'
-import X from 'components/Icon/X'
+
+import Error from 'components/Icon/Error'
 import Success from 'components/Icon/Success'
 import Warning from 'components/Icon/Warning'
-import Error from 'components/Icon/Error'
+import X from 'components/Icon/X'
+
 import Spinner from './Spinner'
 
 const Icon = ({ type }) => {

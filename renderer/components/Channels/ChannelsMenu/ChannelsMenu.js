@@ -1,7 +1,10 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
+
 import { Dropmenu } from 'components/UI'
+
 import ChannelsMenuHeader from './ChannelsMenuHeader'
 import ChannelsMenuSummary from './ChannelsMenuSummary'
 import messages from './messages'

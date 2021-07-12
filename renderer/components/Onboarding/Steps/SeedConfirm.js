@@ -1,10 +1,13 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Flex } from 'rebass/styled-components'
+
 import { intlShape } from '@zap/i18n'
-import { Bar, Header, Span } from 'components/UI'
 import { Form, Input, Label } from 'components/Form'
+import { Bar, Header, Span } from 'components/UI'
+
 import messages from './messages'
 
 /**
@@ -64,7 +67,7 @@ class SeedConfirm extends React.Component {
   }
 
   render() {
-    const { wizardApi, wizardState, seed, intl, ...rest } = this.props
+    const { wizardApi, wizardState, intl, ...rest } = this.props
     const { seedWordIndexes } = this.state
     const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
@@ -107,7 +110,7 @@ class SeedConfirm extends React.Component {
           {seedWordIndexes.map((wordIndex, index) => {
             // Only validate if the word has been entered correctly already or the form has been submitted.
             return (
-              <Flex key={`word${index}`} justifyContent="flex-start" mb={3}>
+              <Flex justifyContent="flex-start" key={`word${index}`} mb={3}>
                 <Label htmlFor="alias" mt={18} width={25}>
                   {wordIndex}
                 </Label>

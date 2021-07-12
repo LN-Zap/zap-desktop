@@ -1,8 +1,10 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { Flex } from 'rebass/styled-components'
+
 import { themeGet } from '@styled-system/theme-get'
+import PropTypes from 'prop-types'
+import { Flex } from 'rebass/styled-components'
+import styled from 'styled-components'
+
 import { Card, Heading } from 'components/UI'
 
 const CardWithBg = styled(Card)`
@@ -42,7 +44,7 @@ const TextOverlay = styled(Flex)`
   height: 100%;
 `
 
-const NodeCardView = ({ description, host, image, nickname, nodeClicked, pubkey, ...rest }) => (
+const NodeCardView = ({ host, image, nickname, nodeClicked, pubkey, ...rest }) => (
   <CardWithBg src={image} {...rest} onClick={() => nodeClicked(`${pubkey}@${host}`)}>
     <GradientOverlay />
     <TextOverlay alignItems="center" justifyContent="center">
@@ -54,7 +56,6 @@ const NodeCardView = ({ description, host, image, nickname, nodeClicked, pubkey,
 )
 
 NodeCardView.propTypes = {
-  description: PropTypes.string.isRequired,
   host: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
   nickname: PropTypes.string.isRequired,

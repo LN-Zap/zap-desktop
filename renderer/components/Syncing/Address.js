@@ -1,11 +1,14 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+
 import copy from 'copy-to-clipboard'
-import { Flex } from 'rebass/styled-components'
+import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { Button, QRCode, Spinner, Text } from 'components/UI'
-import messages from './messages'
+import { Flex } from 'rebass/styled-components'
+
 import { intlShape } from '@zap/i18n'
+import { Button, QRCode, Spinner, Text } from 'components/UI'
+
+import messages from './messages'
 
 const Address = ({ address, isAddressLoading, intl, showNotification, ...rest }) => {
   const copyToClipboard = data => {

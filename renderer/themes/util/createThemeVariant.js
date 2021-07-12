@@ -1,4 +1,5 @@
 import merge from 'lodash/merge'
+
 import base from '../base'
 
 const createThemeVariant = (name, overrides = {}) => {

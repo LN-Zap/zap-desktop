@@ -1,8 +1,11 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage } from 'react-intl'
+import { Box, Flex } from 'rebass/styled-components'
+
 import { Heading } from 'components/UI'
+
 import ChannelsCapacityDonut from '../ChannelsCapacityDonut'
 import messages from './messages'
 

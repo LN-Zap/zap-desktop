@@ -1,8 +1,10 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { animated, Transition } from 'react-spring/renderprops.cjs'
-import styled from 'styled-components'
 import { Box } from 'rebass/styled-components'
+import styled from 'styled-components'
+
 import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
 import { Notification } from 'components/UI'
 
@@ -35,10 +37,10 @@ class GlobalNotification extends React.Component {
       <Wrapper mt="22px" mx="auto" px={3} width={0.9}>
         {notifications.map(item => (
           <Transition
-            key={item.id}
             enter={{ opacity: 1 }}
             from={{ opacity: 0 }}
             items={item}
+            key={item.id}
             leave={{ opacity: 0 }}
             native
           >

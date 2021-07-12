@@ -1,11 +1,14 @@
 import React, { useRef } from 'react'
+
 import PropTypes from 'prop-types'
-import { Flex } from 'rebass/styled-components'
 import { FormattedMessage, useIntl } from 'react-intl'
-import { Dialog, Heading, Message, Button, DialogOverlay } from 'components/UI'
+import { Flex } from 'rebass/styled-components'
+
 import { PasswordInput, Form } from 'components/Form'
-import messages from './messages'
+import { Dialog, Heading, Message, Button, DialogOverlay } from 'components/UI'
 import { useFormError } from 'hooks'
+
+import messages from './messages'
 
 const ChangePasswordDialog = ({ loginError, clearLoginError, onChange, onCancel }) => {
   const intl = useIntl()

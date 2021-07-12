@@ -1,6 +1,8 @@
 import React from 'react'
+
 import { shallow } from 'enzyme'
 import toJSON from 'enzyme-to-json'
+
 import { PayPanelHeader } from 'components/Pay'
 import { PAYMENT_TYPES } from 'components/Pay/constants'
 

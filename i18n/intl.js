@@ -1,7 +1,8 @@
 // Provides support of intl outside of the React context
 
-import { createIntl, createIntlCache } from 'react-intl'
 import jstz from 'jstimezonedetect'
+import { createIntl, createIntlCache } from 'react-intl'
+
 import translations from '@zap/i18n/translation'
 
 /**

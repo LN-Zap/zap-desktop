@@ -1,12 +1,15 @@
 import React, { useRef } from 'react'
+
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Flex } from 'rebass/styled-components'
-import { useFormError } from 'hooks'
-import { Button, CenteredContent, Message, Text } from 'components/UI'
+
 import { Form, PasswordInput } from 'components/Form'
 import ArrowRight from 'components/Icon/ArrowRight'
 import ZapLogo from 'components/Icon/ZapLogo'
+import { Button, CenteredContent, Message, Text } from 'components/UI'
+import { useFormError } from 'hooks'
+
 import messages from './messages'
 
 const Login = ({ login, loginError, clearLoginError, ...rest }) => {

@@ -1,7 +1,8 @@
 import { connect } from 'react-redux'
-import { tickerSelectors } from 'reducers/ticker'
-import { showActivityModal } from 'reducers/activity'
+
 import Invoice from 'components/Activity/Invoice'
+import { showActivityModal } from 'reducers/activity'
+import { tickerSelectors } from 'reducers/ticker'
 
 const mapDispatchToProps = {
   showActivityModal,

@@ -1,9 +1,10 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
+
 import { themeGet } from '@styled-system/theme-get'
-import { Card as BaseCard } from 'rebass/styled-components'
 import { tint } from 'polished'
+import PropTypes from 'prop-types'
+import { Card as BaseCard } from 'rebass/styled-components'
+import styled from 'styled-components'
 
 const EmptyBar = ({ children, height, ...rest }) => (
   <BaseCard color="primaryText" height={height} sx={{ borderRadius: 100 }} {...rest}>

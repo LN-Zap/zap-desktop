@@ -1,17 +1,20 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass/styled-components'
-import { FormattedMessage } from 'react-intl'
+
 import debounce from 'lodash/debounce'
+import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import { Keyframes } from 'react-spring/renderprops.cjs'
+import { Box, Flex } from 'rebass/styled-components'
+
 import { intlShape } from '@zap/i18n'
+import { convert } from '@zap/utils/btc'
 import { CoinBig } from '@zap/utils/coin'
 import { TransactionFeeInput, Toggle, Label } from 'components/Form'
 import { Bar } from 'components/UI'
 import { CurrencyFieldGroup } from 'containers/Form'
-import { convert } from '@zap/utils/btc'
-import messages from './messages'
+
 import { PAY_FORM_STEPS } from './constants'
+import messages from './messages'
 import { getAmountInSats, getFeeRate } from './utils'
 
 /**

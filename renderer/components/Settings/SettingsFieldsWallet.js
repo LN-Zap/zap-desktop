@@ -1,12 +1,15 @@
 import React from 'react'
+
+import get from 'lodash/get'
+import map from 'lodash/map'
 import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
-import map from 'lodash/map'
-import get from 'lodash/get'
-import { Bar, DataRow } from 'components/UI'
-import { Select, Toggle, FieldLabelFactory, PositiveIntegerField } from 'components/Form'
-import { getSupportedProviders } from '@zap/utils/rateProvider'
+
 import { intlShape } from '@zap/i18n'
+import { getSupportedProviders } from '@zap/utils/rateProvider'
+import { Select, Toggle, FieldLabelFactory, PositiveIntegerField } from 'components/Form'
+import { Bar, DataRow } from 'components/UI'
+
 import messages from './messages'
 
 const FieldLabel = FieldLabelFactory(messages)

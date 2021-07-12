@@ -1,9 +1,12 @@
 import React from 'react'
+
+import copy from 'copy-to-clipboard'
 import PropTypes from 'prop-types'
 import { useIntl } from 'react-intl'
-import copy from 'copy-to-clipboard'
-import Button from 'components/UI/Button'
+
 import Copy from 'components/Icon/Copy'
+import Button from 'components/UI/Button'
+
 import messages from './messages'
 
 const CopyButton = ({ value, hint, onCopy, p, size, ...rest }) => {

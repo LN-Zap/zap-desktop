@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
+
 import PropTypes from 'prop-types'
 import { FormattedMessage, FormattedRelativeTime } from 'react-intl'
+
 import { useTimeout } from 'hooks'
-import Text from './Text'
+
 import messages from './messages'
+import Text from './Text'
 
 const Countdown = ({
   offset,

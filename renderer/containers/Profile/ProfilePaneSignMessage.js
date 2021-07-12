@@ -1,7 +1,8 @@
 import { connect } from 'react-redux'
-import { showNotification } from 'reducers/notification'
-import { signMessage } from 'reducers/lnd'
+
 import ProfilePaneSignMessage from 'components/Profile/ProfilePaneSignMessage'
+import { signMessage } from 'reducers/lnd'
+import { showNotification } from 'reducers/notification'
 
 const mapDispatchToProps = {
   showNotification,

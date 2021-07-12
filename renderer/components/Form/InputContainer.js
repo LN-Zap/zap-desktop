@@ -1,8 +1,9 @@
 import React, { useContext } from 'react'
-import PropTypes from 'prop-types'
-import { ThemeContext } from 'styled-components'
+
 import { themeGet } from '@styled-system/theme-get'
+import PropTypes from 'prop-types'
 import { Flex } from 'rebass/styled-components'
+import { ThemeContext } from 'styled-components'
 
 const InputContainer = ({ isDisabled, isReadOnly, ...rest }) => {
   const theme = useContext(ThemeContext)

@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
+
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Heading, MainContent, Panel, Sidebar } from 'components/UI'
+
 import ZapLogo from 'components/Icon/ZapLogo'
+import { Heading, MainContent, Panel, Sidebar } from 'components/UI'
 import ProfilePaneConnect from 'containers/Profile/ProfilePaneConnect'
 import ProfilePaneNodeInfo from 'containers/Profile/ProfilePaneNodeInfo'
 import ProfilePaneSignMessage from 'containers/Profile/ProfilePaneSignMessage'
 import ProfilePaneVerifyMessage from 'containers/Profile/ProfilePaneVerifyMessage'
-import ProfileMenu from '../ProfileMenu'
+
 import {
   PANE_NODEINFO,
   PANE_LNDCONNECT,
@@ -15,6 +17,7 @@ import {
   PANE_VERIFYMESSAGE,
   DEFAULT_PANE,
 } from '../constants'
+import ProfileMenu from '../ProfileMenu'
 import messages from './messages'
 
 const ProfilePage = ({ activeWalletSettings }) => {

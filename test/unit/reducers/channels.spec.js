@@ -1,4 +1,3 @@
-import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, {
   SET_CHANNEL_VIEW_MODE,
   SET_SELECTED_CHANNEL,
@@ -16,6 +15,8 @@ import reducer, {
   RECEIVE_SUGGESTED_NODES_ERROR,
   RECEIVE_SUGGESTED_NODES,
 } from 'reducers/channels'
+
+import snapshotDiff from '../__helpers__/snapshotDiff'
 
 describe('reducers', () => {
   describe('channelsReducer', () => {

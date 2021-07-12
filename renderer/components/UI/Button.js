@@ -1,7 +1,9 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { Button as BaseButton, Flex, Box } from 'rebass/styled-components'
+import styled from 'styled-components'
+
 import Spinner from './Spinner'
 
 const Wrapper = styled(BaseButton)`
@@ -67,11 +69,11 @@ const Button = React.forwardRef((props, ref) => {
     .join(' ')
   return (
     <Wrapper
-      ref={ref}
       className={wrapperClasses}
       disabled={isDisabled}
       px={dimensions.x}
       py={dimensions.y}
+      ref={ref}
       {...rest}
       sx={{
         borderRadius,

@@ -1,12 +1,14 @@
 import { createSelector } from 'reselect'
+
 import messages from 'components/Loading/messages'
-import { walletSelectors } from './wallet'
-import { neutrinoSelectors } from './neutrino'
-import { lndSelectors } from './lnd'
+
 import { appSelectors } from './app'
+import { channelsSelectors } from './channels'
+import { lndSelectors } from './lnd'
+import { neutrinoSelectors } from './neutrino'
 import { tickerSelectors } from './ticker'
 import { transactionSelectors } from './transaction'
-import { channelsSelectors } from './channels'
+import { walletSelectors } from './wallet'
 
 /**
  * Aggregated isLoading selector that accounts for current wallet and lnd state

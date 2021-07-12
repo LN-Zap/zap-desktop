@@ -1,8 +1,10 @@
 /* eslint-disable react/no-this-in-sfc */
 import { status } from '@grpc/grpc-js'
+
+import { forwardAll } from '@zap/utils/events'
 import { grpcLog } from '@zap/utils/log'
 import streamify from '@zap/utils/streamify'
-import { forwardAll } from '@zap/utils/events'
+
 import methods from './lightning.methods'
 
 /**

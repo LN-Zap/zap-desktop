@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
-import { storiesOf } from '@storybook/react'
+
 import { action } from '@storybook/addon-actions'
-import { Dropdown, Button } from 'components/UI'
+import { storiesOf } from '@storybook/react'
+
 import Settings from 'components/Icon/Settings'
+import { Dropdown, Button } from 'components/UI'
 
 // eslint-disable-next-line react/prop-types
 const IconDropdownButton = ({ onToggle }) => {

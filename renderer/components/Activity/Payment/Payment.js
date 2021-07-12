@@ -1,12 +1,15 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass/styled-components'
+
 import { intlShape } from '@zap/i18n'
-import { getDisplayNodeName } from 'reducers/payment/utils'
-import { Message, Text } from 'components/UI'
 import Zap from 'components/Icon/Zap'
+import { Message, Text } from 'components/UI'
 import { CryptoValue, FiatValue, FormattedDateTime } from 'containers/UI'
+import { getDisplayNodeName } from 'reducers/payment/utils'
+
 import ErrorLink from '../ErrorLink'
 import messages from './messages'
 

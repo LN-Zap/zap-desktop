@@ -1,11 +1,14 @@
 import React, { useCallback } from 'react'
+
+import { useFormState } from 'informed'
 import PropTypes from 'prop-types'
 import { FormattedMessage, useIntl } from 'react-intl'
-import { useFormState } from 'informed'
+
 import { isOnchain, isBip21, isBolt11, isPubkey, decodePayReq } from '@zap/utils/crypto'
 import { Message } from 'components/UI'
-import TextArea from './TextArea'
+
 import messages from './messages'
+import TextArea from './TextArea'
 
 const mask = value => (value ? value.split('@')[0].trim() : value)
 

@@ -1,11 +1,12 @@
 import { convert } from '@zap/utils/btc'
 import { CoinBig } from '@zap/utils/coin'
-import { isAutopayEnabled } from '@zap/utils/featureFlag'
 import { decodePayReq } from '@zap/utils/crypto'
-import { walletSelectors } from 'reducers/wallet'
+import { isAutopayEnabled } from '@zap/utils/featureFlag'
 import { showAutopayNotification, autopaySelectors } from 'reducers/autopay'
 import { payInvoice } from 'reducers/payment'
 import { tickerSelectors } from 'reducers/ticker'
+import { walletSelectors } from 'reducers/wallet'
+
 import { setRedirectPayReq } from './reducer'
 
 // ------------------------------------

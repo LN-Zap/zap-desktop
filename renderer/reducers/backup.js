@@ -1,13 +1,15 @@
 import set from 'lodash/set'
 import { send } from 'redux-electron-ipc'
-import { grpc } from 'workers'
-import createReducer from '@zap/utils/createReducer'
+
 import { getIntl } from '@zap/i18n'
+import createReducer from '@zap/utils/createReducer'
 import { isSCBRestoreEnabled } from '@zap/utils/featureFlag'
-import { walletSelectors } from './wallet'
-import { infoSelectors } from './info'
 import { showError, showNotification } from 'reducers/notification'
+import { grpc } from 'workers'
+
+import { infoSelectors } from './info'
 import messages from './messages'
+import { walletSelectors } from './wallet'
 // ------------------------------------
 // Initial State
 // ------------------------------------

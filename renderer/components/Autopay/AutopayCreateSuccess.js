@@ -1,10 +1,13 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { Text } from 'components/UI'
+import { Box, Flex } from 'rebass/styled-components'
+import styled from 'styled-components'
+
 import AutopayCheck from 'components/Icon/AutopayCheck'
+import { Text } from 'components/UI'
+
 import messages from './messages'
 
 const Container = styled(Flex)`

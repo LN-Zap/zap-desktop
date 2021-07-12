@@ -1,11 +1,14 @@
 import React from 'react'
+
+import decode from 'lndconnect/decode'
+import encode from 'lndconnect/encode'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import encode from 'lndconnect/encode'
-import decode from 'lndconnect/decode'
+
 import parseConnectionString from '@zap/utils/btcpayserver'
-import { Bar, Header, Span, Text } from 'components/UI'
 import { Form } from 'components/Form'
+import { Bar, Header, Span, Text } from 'components/UI'
+
 import messages from './messages'
 
 class ConnectionConfirm extends React.Component {
@@ -104,20 +107,9 @@ class ConnectionConfirm extends React.Component {
   render() {
     const {
       wizardApi,
-      wizardState,
-      connectionType,
       connectionHost,
-      connectionCert,
-      connectionMacaroon,
       connectionString,
-      lndConnect,
-      name,
       isLightningGrpcActive,
-      isWalletUnlockerGrpcActive,
-      startLndHostError,
-      startLndCertError,
-      startLndMacaroonError,
-      startLnd,
       ...rest
     } = this.props
     const { getApi, onSubmit, onSubmitFailure } = wizardApi

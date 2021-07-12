@@ -1,11 +1,14 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { compose } from 'redux'
+
 import { asField } from 'informed'
+import PropTypes from 'prop-types'
 import { Flex } from 'rebass/styled-components'
+import { compose } from 'redux'
+import styled from 'styled-components'
+
 import { withInputValidation, WithOpenDialog } from 'hocs'
 import { extractSpaceProps } from 'themes/util'
+
 import { BasicInput } from './Input'
 import OpenDialogButton from './OpenDialogButton'
 

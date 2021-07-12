@@ -1,11 +1,14 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Flex } from 'rebass/styled-components'
+
 import { intlShape } from '@zap/i18n'
-import { getDisplayNodeName } from 'reducers/payment/utils'
-import { Bar, DataRow, Header, Panel, Text } from 'components/UI'
 import { getTag } from '@zap/utils/crypto'
+import Lightning from 'components/Icon/Lightning'
+import { Bar, DataRow, Header, Panel, Text } from 'components/UI'
+import { Truncate } from 'components/Util'
 import {
   CopyButton,
   CryptoSelector,
@@ -14,10 +17,10 @@ import {
   FiatValue,
   FormattedDateTime,
 } from 'containers/UI'
-import { Truncate } from 'components/Util'
-import Lightning from 'components/Icon/Lightning'
-import Route from './Route'
+import { getDisplayNodeName } from 'reducers/payment/utils'
+
 import messages from './messages'
+import Route from './Route'
 
 class PaymentModal extends React.PureComponent {
   static propTypes = {

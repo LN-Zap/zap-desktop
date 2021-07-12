@@ -1,4 +1,5 @@
 import { grpcLog } from '@zap/utils/log'
+
 import { logGrpcCmd } from './helpers'
 
 export const KEYSEND_PREIMAGE_TYPE = '5482373484'

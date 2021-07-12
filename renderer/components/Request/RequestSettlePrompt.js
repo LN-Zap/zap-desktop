@@ -1,11 +1,14 @@
 import React, { useRef } from 'react'
+
 import PropTypes from 'prop-types'
-import { Flex } from 'rebass/styled-components'
 import { FormattedMessage, useIntl } from 'react-intl'
-import { Button, Dialog, DialogOverlay, Heading, Message, Text } from 'components/UI'
+import { Flex } from 'rebass/styled-components'
+
 import { Input, Form } from 'components/Form'
-import messages from './messages'
+import { Button, Dialog, DialogOverlay, Heading, Message, Text } from 'components/UI'
 import { useFormError } from 'hooks'
+
+import messages from './messages'
 
 const RequestSettlePrompt = ({ submitError, clearError, onOk, onCancel }) => {
   const intl = useIntl()

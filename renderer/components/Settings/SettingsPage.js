@@ -1,22 +1,25 @@
 import React, { useState } from 'react'
+
+import config from 'config'
+import { useFormState, useFormApi } from 'informed'
+import merge from 'lodash/merge'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { useFormState, useFormApi } from 'informed'
-import styled from 'styled-components'
 import { Box, Flex } from 'rebass/styled-components'
-import merge from 'lodash/merge'
-import config from 'config'
+import styled from 'styled-components'
+
 import difference from '@zap/utils/difference'
-import { ActionBar, Button, Heading, MainContent, Menu, Panel, Sidebar } from 'components/UI'
 import ZapLogo from 'components/Icon/ZapLogo'
-import SettingsForm from 'containers/Settings/SettingsForm'
-import SettingsFieldsWallet from './SettingsFieldsWallet'
-import SettingsFieldsGeneral from './SettingsFieldsGeneral'
-import SettingsFieldsSecurity from 'containers/Settings/SettingsFieldsSecurity'
+import { ActionBar, Button, Heading, MainContent, Menu, Panel, Sidebar } from 'components/UI'
 import ChangePasswordDialog from 'containers/Settings/ChangePasswordDialog'
 import PasswordPromptDialog from 'containers/Settings/PasswordPromptDialog'
 import PasswordSetDialog from 'containers/Settings/PasswordSetDialog'
+import SettingsFieldsSecurity from 'containers/Settings/SettingsFieldsSecurity'
+import SettingsForm from 'containers/Settings/SettingsForm'
+
 import messages from './messages'
+import SettingsFieldsGeneral from './SettingsFieldsGeneral'
+import SettingsFieldsWallet from './SettingsFieldsWallet'
 
 const isSecurityPaneEnabled =
   window.Zap.getPlatform() !== 'win32' || config.secureStorage.isWinPlatformSupported
@@ -78,8 +81,8 @@ const SettingsActionBarButtons = () => {
       </Button>
 
       <Button
-        key="save"
         isDisabled={formState.submits > 0 && formState.invalid}
+        key="save"
         type="submit"
         variant="normal"
       >

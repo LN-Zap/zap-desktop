@@ -1,7 +1,10 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+
 import { RadioGroup as InformedRadioGroup } from 'informed'
+import PropTypes from 'prop-types'
+
 import { Text } from 'components/UI'
+
 import Label from './Label'
 
 const RadioGroup = ({ label, field, description, isRequired, tooltip, children, ...rest }) => (

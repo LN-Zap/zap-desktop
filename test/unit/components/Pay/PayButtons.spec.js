@@ -1,6 +1,8 @@
 import React from 'react'
+
 import { shallow } from 'enzyme'
 import toJSON from 'enzyme-to-json'
+
 import { PayButtons } from 'components/Pay'
 
 describe('component.Form.PayButtons', () => {

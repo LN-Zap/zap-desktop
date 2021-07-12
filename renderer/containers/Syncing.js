@@ -1,16 +1,18 @@
 import React from 'react'
-import { connect } from 'react-redux'
+
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { infoSelectors } from 'reducers/info'
-import { addressSelectors } from 'reducers/address'
-import { neutrinoSelectors } from 'reducers/neutrino'
-import { setIsWalletOpen } from 'reducers/wallet'
-import { showNotification } from 'reducers/notification'
+
+import AppErrorBoundary from 'components/ErrorBoundary/AppErrorBoundary'
 import Syncing from 'components/Syncing'
 import { Modal, ModalOverlayStyles } from 'components/UI'
 import { useOnKeydown } from 'hooks'
-import AppErrorBoundary from 'components/ErrorBoundary/AppErrorBoundary'
+import { addressSelectors } from 'reducers/address'
+import { infoSelectors } from 'reducers/info'
+import { neutrinoSelectors } from 'reducers/neutrino'
+import { showNotification } from 'reducers/notification'
+import { setIsWalletOpen } from 'reducers/wallet'
 
 const mapStateToProps = state => ({
   address: addressSelectors.currentAddress(state),

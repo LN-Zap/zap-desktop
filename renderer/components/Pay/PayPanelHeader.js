@@ -1,10 +1,13 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
+
 import { Bar } from 'components/UI'
-import PayHeader from './PayHeader'
-import messages from './messages'
+
 import { PAY_HEADER_TYPES, PAYMENT_TYPES } from './constants'
+import messages from './messages'
+import PayHeader from './PayHeader'
 
 const PayPanelHeader = props => {
   const { chainName, cryptoUnitName, paymentType } = props

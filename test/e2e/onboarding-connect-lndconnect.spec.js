@@ -1,4 +1,7 @@
 import { waitForReact } from 'testcafe-react-selectors'
+
+import Loading from './pages/loading'
+import Onboarding from './pages/onboarding'
 import {
   getBaseUrl,
   getUserDataDir,
@@ -6,8 +9,6 @@ import {
   cleanTestEnvironment,
   cleanElectronEnvironment,
 } from './utils/helpers'
-import Onboarding from './pages/onboarding'
-import Loading from './pages/loading'
 
 const onboarding = new Onboarding()
 const loading = new Loading()

@@ -1,17 +1,19 @@
 import throttle from 'lodash/throttle'
-import createReducer from '@zap/utils/createReducer'
-import { CoinBig } from '@zap/utils/coin'
+
 import { getIntl } from '@zap/i18n'
 import { requestSuggestedNodes } from '@zap/utils/api'
-import { grpc } from 'workers'
-import { fetchPeers } from 'reducers/peers'
+import { CoinBig } from '@zap/utils/coin'
+import createReducer from '@zap/utils/createReducer'
 import { fetchBalance } from 'reducers/balance'
-import { updateNotification, showWarning, showError } from 'reducers/notification'
-import { walletSelectors } from 'reducers/wallet'
 import { updateNodeData } from 'reducers/network'
+import { updateNotification, showWarning, showError } from 'reducers/notification'
+import { fetchPeers } from 'reducers/peers'
 import { putConfig, settingsSelectors } from 'reducers/settings'
-import messages from './messages'
+import { walletSelectors } from 'reducers/wallet'
+import { grpc } from 'workers'
+
 import * as constants from './constants'
+import messages from './messages'
 import channelsSelectors from './selectors'
 
 const {

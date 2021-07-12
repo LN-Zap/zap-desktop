@@ -1,11 +1,15 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { clean } from 'semver'
 import { Box, Flex } from 'rebass/styled-components'
-import { Bar, CopyBox, DataRow, QRCode, Text } from 'components/UI'
-import messages from './messages'
+import { clean } from 'semver'
+
 import { intlShape } from '@zap/i18n'
+import { Bar, CopyBox, DataRow, QRCode, Text } from 'components/UI'
+
+import messages from './messages'
+
 /**
  * backupMethodMessageMapper - Returns intl message for the specified provider.
  *

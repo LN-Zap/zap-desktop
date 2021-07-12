@@ -1,5 +1,7 @@
 import { ipcMain } from 'electron'
+
 import { mainLog } from '@zap/utils/log'
+
 import getBackupService from './serviceFactory'
 
 /**

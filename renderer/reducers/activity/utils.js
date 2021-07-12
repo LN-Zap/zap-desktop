@@ -1,6 +1,6 @@
-import { grpc } from 'workers'
-import combinePaginators from '@zap/utils/pagination'
 import { mainLog } from '@zap/utils/log'
+import combinePaginators from '@zap/utils/pagination'
+import { grpc } from 'workers'
 
 export const months = [
   'Jan',

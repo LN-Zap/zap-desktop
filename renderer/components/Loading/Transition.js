@@ -1,7 +1,8 @@
 import React from 'react'
-import styled from 'styled-components'
+
 import PropTypes from 'prop-types'
 import { animated, Transition as RPTransition } from 'react-spring/renderprops.cjs'
+import styled from 'styled-components'
 
 const AnimationContainer = styled(animated.div)`
   z-index: 1000;

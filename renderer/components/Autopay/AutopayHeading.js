@@ -1,12 +1,14 @@
 import React from 'react'
-import { FormattedMessage, injectIntl } from 'react-intl'
+
+import { FormattedMessage } from 'react-intl'
 import { Box, Flex } from 'rebass/styled-components'
-import { intlShape } from '@zap/i18n'
-import { Heading } from 'components/UI'
+
 import Autopay from 'components/Icon/Autopay'
+import { Heading } from 'components/UI'
+
 import messages from './messages'
 
-const AutopayHeading = ({ intl, ...rest }) => (
+const AutopayHeading = ({ ...rest }) => (
   <Flex alignItems="baseline" {...rest}>
     <Heading.H1 fontSize="xxxl" mr={2}>
       <FormattedMessage {...messages.title} />
@@ -20,8 +22,4 @@ const AutopayHeading = ({ intl, ...rest }) => (
   </Flex>
 )
 
-AutopayHeading.propTypes = {
-  intl: intlShape.isRequired,
-}
-
-export default injectIntl(AutopayHeading)
+export default AutopayHeading

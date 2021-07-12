@@ -1,8 +1,10 @@
 import matches from 'lodash/matches'
+
 import createReducer from '@zap/utils/createReducer'
 import genId from '@zap/utils/genId'
-import modalSelectors from './selectors'
+
 import * as constants from './constants'
+import modalSelectors from './selectors'
 
 const {
   OPEN_MODAL,

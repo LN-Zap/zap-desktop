@@ -1,9 +1,11 @@
-import electron, { remote } from 'electron'
-import { promisify } from 'util'
 import assert from 'assert'
-import { join } from 'path'
 import { readdir, existsSync } from 'fs'
+import { join } from 'path'
+import { promisify } from 'util'
+
+import electron, { remote } from 'electron'
 import rimraf from 'rimraf'
+
 import isSubDir from '@zap/utils/isSubDir'
 
 const fsReaddir = promisify(readdir)

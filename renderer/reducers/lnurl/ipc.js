@@ -1,7 +1,8 @@
 import { getIntl } from '@zap/i18n'
 import { showNotification, showError, updateNotification } from 'reducers/notification'
-import { setLnurlAuthParams, setLnurlChannelParams, setLnurlWithdrawParams } from './reducer'
+
 import messages from './messages'
+import { setLnurlAuthParams, setLnurlChannelParams, setLnurlWithdrawParams } from './reducer'
 
 /**
  * lnurlError - IPC handler for lnurlError event.

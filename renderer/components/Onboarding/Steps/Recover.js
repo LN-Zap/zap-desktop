@@ -1,13 +1,16 @@
 import React, { useRef } from 'react'
-import PropTypes from 'prop-types'
+
 import range from 'lodash/range'
+import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Flex } from 'rebass/styled-components'
-import SeedWordInput from './components/SeedWordInput'
+
 import { intlShape } from '@zap/i18n'
 import parseSeed from '@zap/utils/parseSeed'
-import { Bar, Header } from 'components/UI'
 import { Form } from 'components/Form'
+import { Bar, Header } from 'components/UI'
+
+import SeedWordInput from './components/SeedWordInput'
 import messages from './messages'
 
 const getInputKey = idx => `word${idx}`
@@ -83,16 +86,16 @@ const Recover = ({ wizardApi, wizardState, setSeed, intl, ...rest }) => {
           [18, 24],
         ].map((slice, sliceIndex) => (
           <Flex
-            key={sliceIndex}
             as="ul"
             flexDirection="column"
+            key={sliceIndex}
             ml={sliceIndex > 0 ? 2 : 0}
             mr={sliceIndex < 3 ? 2 : 0}
           >
             {indexes.slice(...slice).map(index => (
               <SeedWordInput
-                key={index + 1}
                 index={index + 1}
+                key={index + 1}
                 onPaste={index === 0 ? handlePaste : null}
                 placeholder={intl.formatMessage({ ...messages.word_placeholder })}
                 setFormApiFieldValue={word => {

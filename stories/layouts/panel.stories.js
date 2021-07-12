@@ -1,6 +1,9 @@
 import React from 'react'
+
 import { storiesOf } from '@storybook/react'
+
 import { Panel } from 'components/UI'
+
 import { Window, Content } from '../helpers'
 
 storiesOf('Layouts', module).addWithChapters('Panel', {

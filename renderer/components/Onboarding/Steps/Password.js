@@ -1,10 +1,13 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
-import { Box } from 'rebass/styled-components'
 import { FormattedMessage, injectIntl } from 'react-intl'
+import { Box } from 'rebass/styled-components'
+
 import { intlShape } from '@zap/i18n'
-import { Bar, Header } from 'components/UI'
 import { Form, PasswordInput } from 'components/Form'
+import { Bar, Header } from 'components/UI'
+
 import messages from './messages'
 
 class Password extends React.Component {
@@ -30,7 +33,7 @@ class Password extends React.Component {
   }
 
   render() {
-    const { wizardApi, wizardState, setPassword, intl, ...rest } = this.props
+    const { wizardApi, wizardState, intl, ...rest } = this.props
     const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
 

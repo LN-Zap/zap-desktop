@@ -1,6 +1,9 @@
-import get from 'lodash/get'
-import cloneDeep from 'lodash/cloneDeep'
 import { chanNumber } from 'bolt07'
+import cloneDeep from 'lodash/cloneDeep'
+import get from 'lodash/get'
+
+import { getIntl } from '@zap/i18n'
+import { convert } from '@zap/utils/btc'
 import {
   getTag,
   decodePayReq,
@@ -8,10 +11,9 @@ import {
   generatePreimage,
   generateProbeHash,
 } from '@zap/utils/crypto'
-import { convert } from '@zap/utils/btc'
-import { getIntl } from '@zap/i18n'
 import { sha256digest } from '@zap/utils/sha256'
 import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
+
 import { DEFAULT_CLTV_DELTA, KEYSEND_PREIMAGE_TYPE } from './constants'
 import messages from './messages'
 

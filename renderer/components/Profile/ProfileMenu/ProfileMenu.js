@@ -1,7 +1,10 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
+
 import { Menu } from 'components/UI'
+
 import { PANE_NODEINFO, PANE_LNDCONNECT, PANE_SIGNMESSAGE, PANE_VERIFYMESSAGE } from '../constants'
 import messages from './messages'
 

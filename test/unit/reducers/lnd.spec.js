@@ -1,4 +1,3 @@
-import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, {
   START_LND,
   START_LND_SUCCESS,
@@ -25,6 +24,8 @@ import reducer, {
   DISCONNECT_GRPC_SUCCESS,
   DISCONNECT_GRPC_FAILURE,
 } from 'reducers/lnd'
+
+import snapshotDiff from '../__helpers__/snapshotDiff'
 
 describe('reducers', () => {
   describe('lndReducer', () => {

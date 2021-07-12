@@ -1,4 +1,3 @@
-import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, {
   SET_ACTIVITY_MODAL,
   HIDE_ACTIVITY_MODAL,
@@ -10,6 +9,8 @@ import reducer, {
   SET_HAS_NEXT_PAGE,
   ADD_FILTER,
 } from 'reducers/activity'
+
+import snapshotDiff from '../__helpers__/snapshotDiff'
 
 describe('reducers', () => {
   describe('activityReducer', () => {

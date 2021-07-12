@@ -1,11 +1,14 @@
 /* eslint-disable react/no-multi-comp */
 import React, { createContext, useRef, useCallback } from 'react'
+
 import PropTypes from 'prop-types'
 import { Transition, config } from 'react-spring/renderprops.cjs'
 import { Box, Flex } from 'rebass/styled-components'
-import { useOnKeydown } from 'hooks'
+
 import ArrowLeft from 'components/Icon/ArrowLeft'
 import ArrowRight from 'components/Icon/ArrowRight'
+import { useOnKeydown } from 'hooks'
+
 import Button from './Button'
 
 export const WizardContext = createContext()

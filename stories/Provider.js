@@ -1,15 +1,18 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import config from 'config'
 import EventEmitter from 'events'
-import { Provider as ReduxProvider } from 'react-intl-redux'
+
+import React from 'react'
+
+import config from 'config'
 import jstz from 'jstimezonedetect'
+import PropTypes from 'prop-types'
+import { Provider as ReduxProvider } from 'react-intl-redux'
+
+import { getDefaultLocale } from '@zap/i18n'
 import translations from '@zap/i18n/translation'
 import { configureStore } from '@zap/renderer/store/configureStore'
-import { getDefaultLocale } from '@zap/i18n'
 import { getDb } from '@zap/renderer/store/db'
-import { sha256digest } from '@zap/utils/sha256'
 import getDbName from '@zap/utils/db'
+import { sha256digest } from '@zap/utils/sha256'
 import { setTheme } from 'reducers/theme'
 import { setCryptoUnit } from 'reducers/ticker'
 

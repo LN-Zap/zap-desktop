@@ -1,9 +1,10 @@
 import { connect } from 'react-redux'
-import { showNotification } from 'reducers/notification'
-import { infoSelectors } from 'reducers/info'
-import { walletSelectors } from 'reducers/wallet'
-import { backupSelectors } from 'reducers/backup'
+
 import ProfilePaneNodeInfo from 'components/Profile/ProfilePaneNodeInfo'
+import { backupSelectors } from 'reducers/backup'
+import { infoSelectors } from 'reducers/info'
+import { showNotification } from 'reducers/notification'
+import { walletSelectors } from 'reducers/wallet'
 
 const mapStateToProps = state => ({
   activeWalletSettings: walletSelectors.activeWalletSettings(state),

@@ -1,12 +1,14 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react'
+
 import PropTypes from 'prop-types'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { Flex } from 'rebass/styled-components'
-import { Bar, Header, Message, Span, Spinner, Text } from 'components/UI'
+
 import { Form, Input } from 'components/Form'
+import { Bar, Header, Message, Span, Spinner, Text } from 'components/UI'
+
 import messages from './messages'
-import { intlShape } from '@zap/i18n'
 
 const SeedWord = ({ index, word }) => (
   <Text as="li" my={2}>
@@ -26,7 +28,6 @@ SeedWord.propTypes = {
 class SeedView extends React.Component {
   static propTypes = {
     fetchSeed: PropTypes.func.isRequired,
-    intl: intlShape.isRequired,
     isFetchingSeed: PropTypes.bool,
     seed: PropTypes.array,
     wizardApi: PropTypes.object,
@@ -62,7 +63,7 @@ class SeedView extends React.Component {
   }
 
   render() {
-    const { wizardApi, wizardState, seed, fetchSeed, isFetchingSeed, intl, ...rest } = this.props
+    const { wizardApi, wizardState, seed, isFetchingSeed, ...rest } = this.props
     const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
 
@@ -106,22 +107,22 @@ class SeedView extends React.Component {
                 <Flex justifyContent="space-between">
                   <Flex as="ul" flexDirection="column">
                     {seed.slice(0, 6).map((word, index) => (
-                      <SeedWord key={index} index={index + 1} word={word} />
+                      <SeedWord index={index + 1} key={index} word={word} />
                     ))}
                   </Flex>
                   <Flex as="ul" flexDirection="column">
                     {seed.slice(6, 12).map((word, index) => (
-                      <SeedWord key={index} index={index + 7} word={word} />
+                      <SeedWord index={index + 7} key={index} word={word} />
                     ))}
                   </Flex>
                   <Flex as="ul" flexDirection="column">
                     {seed.slice(12, 18).map((word, index) => (
-                      <SeedWord key={index} index={index + 13} word={word} />
+                      <SeedWord index={index + 13} key={index} word={word} />
                     ))}
                   </Flex>
                   <Flex as="ul" flexDirection="column">
                     {seed.slice(18, 24).map((word, index) => (
-                      <SeedWord key={index} index={index + 19} word={word} />
+                      <SeedWord index={index + 19} key={index} word={word} />
                     ))}
                   </Flex>
                 </Flex>
@@ -146,4 +147,4 @@ class SeedView extends React.Component {
   }
 }
 
-export default injectIntl(SeedView)
+export default SeedView

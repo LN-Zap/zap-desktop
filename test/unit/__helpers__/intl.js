@@ -1,4 +1,5 @@
 import { createIntl, createIntlCache } from 'react-intl'
+
 import messages from '@zap/translations/en.json'
 // This is optional but highly recommended
 // since it prevents memory leak

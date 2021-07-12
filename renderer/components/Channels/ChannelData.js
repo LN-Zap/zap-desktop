@@ -1,14 +1,17 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
+import { Box as BaseBox, Flex } from 'rebass/styled-components'
 import styled from 'styled-components'
 import { opacity } from 'styled-system'
-import { Box as BaseBox, Flex } from 'rebass/styled-components'
+
 import { intlShape } from '@zap/i18n'
 import blockExplorer from '@zap/utils/blockExplorer'
 import { Bar, DataRow, Link, Text } from 'components/UI'
 import { Truncate } from 'components/Util'
 import { CopyButton, CryptoValue, FormattedDateTime } from 'containers/UI'
+
 import { CHANNEL_DATA_VIEW_MODE_BASIC, CHANNEL_DATA_VIEW_MODE_FULL } from './constants'
 import messages from './messages'
 

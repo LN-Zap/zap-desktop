@@ -1,7 +1,9 @@
 import React from 'react'
-import { Box } from 'rebass/styled-components'
+
 import PropTypes from 'prop-types'
+import { Box } from 'rebass/styled-components'
 import styled from 'styled-components'
+
 import AutopayCardView from './AutopayCardView'
 
 const Grid = styled(Box)`

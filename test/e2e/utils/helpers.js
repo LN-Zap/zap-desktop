@@ -1,9 +1,10 @@
-import { ClientFunction } from 'testcafe'
-import path from 'path'
-import rimraf from 'rimraf'
 import os from 'os'
-import ps from 'ps-node'
+import path from 'path'
 import { promisify } from 'util'
+
+import ps from 'ps-node'
+import rimraf from 'rimraf'
+import { ClientFunction } from 'testcafe'
 
 const rimrafPromise = promisify(rimraf)
 const psLookup = promisify(ps.lookup)

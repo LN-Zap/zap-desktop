@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
+
 import { storiesOf } from '@storybook/react'
-import { SwitchButton } from 'components/UI'
-import ArrowUp from 'components/Icon/ArrowUp'
+
 import ArrowDown from 'components/Icon/ArrowDown'
+import ArrowUp from 'components/Icon/ArrowUp'
+import { SwitchButton } from 'components/UI'
 
 const ArrowSwitchButton = () => {
   const [isActive, setIsActive] = useState(false)

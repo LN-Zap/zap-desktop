@@ -1,4 +1,3 @@
-import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, {
   GET_TRANSACTIONS,
   RECEIVE_TRANSACTIONS,
@@ -7,6 +6,8 @@ import reducer, {
   TRANSACTION_FAILED,
   TRANSACTION_COMPLETE,
 } from 'reducers/transaction'
+
+import snapshotDiff from '../__helpers__/snapshotDiff'
 
 describe('reducers', () => {
   describe('transactionReducer', () => {

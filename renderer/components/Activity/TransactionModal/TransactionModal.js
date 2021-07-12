@@ -1,12 +1,18 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+
 import get from 'lodash/get'
+import PropTypes from 'prop-types'
 import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl'
 import { Flex } from 'rebass/styled-components'
-import { CoinBig } from '@zap/utils/coin'
+
 import { intlShape } from '@zap/i18n'
 import blockExplorer from '@zap/utils/blockExplorer'
+import { CoinBig } from '@zap/utils/coin'
+import Download from 'components/Icon/Download'
+import Onchain from 'components/Icon/Onchain'
+import Padlock from 'components/Icon/Padlock'
 import { Bar, DataRow, Header, Link, Panel, Span, Text, Button } from 'components/UI'
+import { Truncate } from 'components/Util'
 import {
   CopyButton,
   CryptoSelector,
@@ -15,10 +21,7 @@ import {
   FiatValue,
   FormattedDateTime,
 } from 'containers/UI'
-import { Truncate } from 'components/Util'
-import Onchain from 'components/Icon/Onchain'
-import Padlock from 'components/Icon/Padlock'
-import Download from 'components/Icon/Download'
+
 import messages from './messages'
 
 class TransactionModal extends React.PureComponent {
@@ -30,7 +33,6 @@ class TransactionModal extends React.PureComponent {
       name: PropTypes.string,
     }),
     saveInvoice: PropTypes.func.isRequired,
-    showNotification: PropTypes.func.isRequired,
   }
 
   saveInvoice = () => {
@@ -79,7 +81,7 @@ class TransactionModal extends React.PureComponent {
   }
 
   render() {
-    const { intl, item, showNotification, ...rest } = this.props
+    const { intl, item, ...rest } = this.props
     const destAddress = get(item, 'destAddresses[0]')
     const amount = item.amount || item.limboAmount || 0
     const isIncoming = item.isReceived || (item.limboAmount && CoinBig(item.limboAmount).gt(0))

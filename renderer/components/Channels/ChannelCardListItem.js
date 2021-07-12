@@ -1,18 +1,21 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+
 import isEqual from 'lodash/isEqual'
+import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
+import { Box as BaseBox, Flex as BaseFlex } from 'rebass/styled-components'
 import styled from 'styled-components'
 import { opacity } from 'styled-system'
-import { Box as BaseBox, Flex as BaseFlex } from 'rebass/styled-components'
+
 import { intlShape } from '@zap/i18n'
+import Padlock from 'components/Icon/Padlock'
 import { Bar, Card, Heading, Panel, Text } from 'components/UI'
 import { withEllipsis } from 'hocs'
-import ChannelData from './ChannelData'
+
 import ChannelCapacity from './ChannelCapacity'
+import ChannelData from './ChannelData'
 import ChannelMoreButton from './ChannelMoreButton'
 import ChannelStatus from './ChannelStatus'
-import Padlock from 'components/Icon/Padlock'
 import messages from './messages'
 
 const ClippedHeading = withEllipsis(Heading.H1)

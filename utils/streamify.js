@@ -1,5 +1,7 @@
-import isEqual from 'lodash/isEqual'
 import EventEmitter from 'events'
+
+import isEqual from 'lodash/isEqual'
+
 import createScheduler from '@zap/utils/scheduler'
 
 /**

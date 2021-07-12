@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+
 import { WalletCreate } from 'components/Onboarding/Steps'
 import { createWallet, clearCreateWalletError } from 'reducers/lnd'
 

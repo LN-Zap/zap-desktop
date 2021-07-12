@@ -1,7 +1,9 @@
 import React, { useState, useCallback } from 'react'
+
 import PropTypes from 'prop-types'
-import styled, { ThemeProvider } from 'styled-components'
 import { animated, Transition } from 'react-spring/renderprops.cjs'
+import styled, { ThemeProvider } from 'styled-components'
+
 import { Modal, ModalOverlayStyles } from 'components/UI'
 import { useOnKeydown } from 'hooks'
 

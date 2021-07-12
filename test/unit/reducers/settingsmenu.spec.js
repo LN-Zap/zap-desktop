@@ -1,5 +1,6 @@
-import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, { OPEN_SETTINGS, CLOSE_SETTINGS } from 'reducers/settingsmenu'
+
+import snapshotDiff from '../__helpers__/snapshotDiff'
 
 describe('reducers', () => {
   describe('settingsmenuReducer', () => {

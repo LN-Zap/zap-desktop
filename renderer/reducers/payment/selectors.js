@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect'
+
 import { networkSelectors } from 'reducers/network'
+
 import { decoratePayment } from './utils'
 
 const paymentsSelector = state => state.payment.payments

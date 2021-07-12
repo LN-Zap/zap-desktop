@@ -1,9 +1,10 @@
-import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, {
   FETCH_BALANCE,
   FETCH_BALANCE_SUCCESS,
   FETCH_BALANCE_FAILURE,
 } from 'reducers/balance'
+
+import snapshotDiff from '../__helpers__/snapshotDiff'
 
 describe('reducers', () => {
   describe('balanceReducer', () => {

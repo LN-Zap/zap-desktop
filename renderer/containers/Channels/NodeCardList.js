@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
-import { updateContactFormSearchQuery, contactFormSelectors } from 'reducers/contactsform'
+
 import NodeCardList from 'components/Channels/NodeCardList'
+import { updateContactFormSearchQuery, contactFormSelectors } from 'reducers/contactsform'
 
 const mapStateToProps = state => ({
   nodes: contactFormSelectors.suggestedNodes(state),

@@ -1,10 +1,12 @@
 import config from 'config'
+
 import createReducer from '@zap/utils/createReducer'
 import { closeDialog } from 'reducers/modal'
 import { showError } from 'reducers/notification'
 import { putSetting } from 'reducers/settings'
-import { activeWallet } from './selectors'
+
 import * as constants from './constants'
+import { activeWallet } from './selectors'
 
 const {
   SET_WALLETS,

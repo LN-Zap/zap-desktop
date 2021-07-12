@@ -1,7 +1,9 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
-import LoadingBolt from './LoadingBolt'
+
 import LoadingApp from './LoadingApp'
+import LoadingBolt from './LoadingBolt'
 import LoadingLaunchpad from './LoadingLaunchpad'
 
 const VARIANTS = {

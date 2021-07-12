@@ -1,9 +1,12 @@
 import React from 'react'
-import { useIntl } from 'react-intl'
+
 import PropTypes from 'prop-types'
-import { Dropdown } from 'components/UI'
+import { useIntl } from 'react-intl'
+
 import Filter from 'components/Icon/Filter'
+import { Dropdown } from 'components/UI'
 import IconDropdownButton from 'components/UI/Dropdown/IconDropdownButton'
+
 import messages from './messages'
 
 const messageMapper = key => {

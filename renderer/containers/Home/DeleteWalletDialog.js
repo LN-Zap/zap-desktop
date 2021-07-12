@@ -1,7 +1,8 @@
 import { connect } from 'react-redux'
+
 import { DeleteWalletDialog } from 'components/Home'
-import { deleteWallet, walletSelectors, DELETE_WALLET_DIALOG_ID } from 'reducers/wallet'
 import { modalSelectors, closeDialog } from 'reducers/modal'
+import { deleteWallet, walletSelectors, DELETE_WALLET_DIALOG_ID } from 'reducers/wallet'
 
 const onCancel = closeDialog.bind(null, DELETE_WALLET_DIALOG_ID)
 const onDelete = deleteWallet

@@ -1,5 +1,5 @@
-import createStorage from '@zap/utils/secureStorage'
 import delay from '@zap/utils/delay'
+import createStorage from '@zap/utils/secureStorage'
 // eslint-disable-next-line import/order
 import { createCRUD } from '@zap/electron/secureStorage'
 

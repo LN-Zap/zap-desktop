@@ -1,5 +1,5 @@
-const { normalize } = require('path')
 const EventEmitter = require('events')
+const { normalize } = require('path')
 
 module.exports = {
   require: jest.fn(),

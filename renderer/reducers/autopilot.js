@@ -1,6 +1,7 @@
-import { grpc } from 'workers'
-import createReducer from '@zap/utils/createReducer'
 import { requestNodeScores } from '@zap/utils/api'
+import createReducer from '@zap/utils/createReducer'
+import { grpc } from 'workers'
+
 import { infoSelectors } from './info'
 
 // ------------------------------------

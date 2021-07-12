@@ -1,13 +1,16 @@
 import React from 'react'
-import { ThemeProvider } from 'styled-components'
+
 import { FormattedMessage } from 'react-intl'
-import { autopay } from 'themes'
+import { ThemeProvider } from 'styled-components'
+
 import { Panel, Heading } from 'components/UI'
+import AutopayCreateModal from 'containers/Autopay/AutopayCreateModal'
 import AutopayList from 'containers/Autopay/AutopayList'
 import AutopayMerchantList from 'containers/Autopay/AutopayMerchantList'
-import AutopayCreateModal from 'containers/Autopay/AutopayCreateModal'
-import AutopayHeader from './AutopayHeader'
+import { autopay } from 'themes'
+
 import AutopayActions from './AutopayActions'
+import AutopayHeader from './AutopayHeader'
 import messages from './messages'
 
 const Autopay = props => (

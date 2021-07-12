@@ -1,5 +1,5 @@
-import { createThemeVariant } from '../util'
 import { palette } from '../base'
+import { createThemeVariant } from '../util'
 
 const customiseTheme = theme => {
   return createThemeVariant('autopay', {

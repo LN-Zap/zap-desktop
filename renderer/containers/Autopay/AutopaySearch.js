@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+
 import AutopaySearch from 'components/Autopay/AutopaySearch'
 import { updateAutopaySearchQuery, autopaySelectors } from 'reducers/autopay'
 

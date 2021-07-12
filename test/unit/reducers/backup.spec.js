@@ -1,5 +1,6 @@
-import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, { SET_PROVIDER, SET_LOCAL_PATH, SET_RESTORE_MODE } from 'reducers/backup'
+
+import snapshotDiff from '../__helpers__/snapshotDiff'
 
 describe('reducers', () => {
   describe('backupReducer', () => {

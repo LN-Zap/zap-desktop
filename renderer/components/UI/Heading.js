@@ -1,14 +1,15 @@
 import React from 'react'
+
 import { Heading as BaseHeading } from 'rebass/styled-components'
 
 const Heading = React.forwardRef((props, ref) => {
   return (
     <BaseHeading
-      ref={ref}
       color="primaryText"
       fontSize="xl"
       fontWeight="light"
       lineHeight="normal"
+      ref={ref}
       {...props}
     />
   )

@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+
 import AutopayCreateModal from 'components/Autopay/AutopayCreateModal'
 import {
   closeAutopayCreateModal,

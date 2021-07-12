@@ -1,8 +1,10 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass/styled-components'
-import { Text } from 'components/UI'
+
 import ZapLogo from 'components/Icon/ZapLogo'
+import { Text } from 'components/UI'
 
 const WalletLogo = ({ networkInfo }) => (
   <Flex alignItems="center" as="section">

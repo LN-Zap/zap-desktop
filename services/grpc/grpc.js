@@ -1,16 +1,19 @@
 import EventEmitter from 'events'
-import intersection from 'lodash/intersection'
-import { proxy } from 'comlink'
+
 import { status } from '@grpc/grpc-js'
+import { proxy } from 'comlink'
 import LndGrpc from 'lnd-grpc'
-import { grpcLog } from '@zap/utils/log'
+import intersection from 'lodash/intersection'
+
 import delay from '@zap/utils/delay'
-import promiseTimeout from '@zap/utils/promiseTimeout'
-import isObject from '@zap/utils/isObject'
 import { forwardAll, unforwardAll } from '@zap/utils/events'
+import isObject from '@zap/utils/isObject'
+import { grpcLog } from '@zap/utils/log'
+import promiseTimeout from '@zap/utils/promiseTimeout'
+
 import lightningMethods from './lightning.methods'
-import routerMethods from './router.methods'
 import lightningSubscriptions from './lightning.subscriptions'
+import routerMethods from './router.methods'
 import routerSubscriptions from './router.subscriptions'
 
 const GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE = 'GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE'

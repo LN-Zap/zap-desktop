@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+
 import { Autopilot } from 'components/Onboarding/Steps'
 import { setAutopilot } from 'reducers/onboarding'
 

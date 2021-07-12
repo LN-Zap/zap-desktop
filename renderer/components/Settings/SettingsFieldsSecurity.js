@@ -1,7 +1,10 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
-import { DataRow } from 'components/UI'
+
 import { FieldLabelFactory, Toggle } from 'components/Form'
+import { DataRow } from 'components/UI'
+
 import messages from './messages'
 import PasswordState from './Security/PasswordState'
 

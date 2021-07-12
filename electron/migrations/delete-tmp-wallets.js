@@ -1,6 +1,7 @@
 import config from 'config'
-import { mainLog } from '@zap/utils/log'
+
 import { getAllLocalWallets, deleteLocalWallet } from '@zap/utils/localWallets'
+import { mainLog } from '@zap/utils/log'
 
 /**
  * migration - Migration script to delete all tmp wallets from the filesystem.

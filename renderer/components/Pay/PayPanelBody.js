@@ -1,11 +1,14 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
+
 import { intlShape } from '@zap/i18n'
+
+import { PAYMENT_TYPES } from './constants'
 import PayAddressField from './PayAddressField'
 import PayAmountFields from './PayAmountFields'
 import PayHelpText from './PayHelpText'
 import PaySummary from './PaySummary'
-import { PAYMENT_TYPES } from './constants'
 
 const PayPanelBody = props => {
   const {

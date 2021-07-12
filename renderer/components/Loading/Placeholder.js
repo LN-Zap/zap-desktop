@@ -1,8 +1,9 @@
 import React from 'react'
-import styled, { keyframes } from 'styled-components'
-import { Box } from 'rebass/styled-components'
+
 import { themeGet } from '@styled-system/theme-get'
 import { lighten } from 'polished'
+import { Box } from 'rebass/styled-components'
+import styled, { keyframes } from 'styled-components'
 
 const pulse = props => keyframes`
 0% {

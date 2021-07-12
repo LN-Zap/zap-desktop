@@ -1,13 +1,16 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+
 import isEqual from 'lodash/isEqual'
+import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass/styled-components'
+
+import Padlock from 'components/Icon/Padlock'
 import { Card, Heading, Text } from 'components/UI'
 import { withEllipsis } from 'hocs'
+
 import ChannelCapacity from './ChannelCapacity'
 import ChannelMoreButton from './ChannelMoreButton'
 import ChannelStatus from './ChannelStatus'
-import Padlock from 'components/Icon/Padlock'
 
 const ClippedHeading = withEllipsis(Heading.H1)
 const ClippedText = withEllipsis(Text)

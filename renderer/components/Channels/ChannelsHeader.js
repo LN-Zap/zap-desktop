@@ -1,8 +1,10 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { Box } from 'rebass/styled-components'
-import ChannelsInfo from './ChannelsInfo'
+
 import ChannelsActions from './ChannelsActions'
+import ChannelsInfo from './ChannelsInfo'
 
 const ChannelsHeader = ({
   channels,

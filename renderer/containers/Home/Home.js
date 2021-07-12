@@ -1,14 +1,10 @@
 import React from 'react'
+
 import { connect } from 'react-redux'
+
+import AppErrorBoundary from 'components/ErrorBoundary/AppErrorBoundary'
+import Home from 'components/Home'
 import { resetApp } from 'reducers/app'
-import { neutrinoSelectors } from 'reducers/neutrino'
-import {
-  setActiveWallet,
-  walletSelectors,
-  setIsWalletOpen,
-  putWallet,
-  DELETE_WALLET_DIALOG_ID,
-} from 'reducers/wallet'
 import {
   setUnlockWalletError,
   stopLnd,
@@ -18,10 +14,17 @@ import {
   clearStartLndError,
 } from 'reducers/lnd'
 import { openDialog } from 'reducers/modal'
+import { neutrinoSelectors } from 'reducers/neutrino'
 import { showError, showNotification } from 'reducers/notification'
-import Home from 'components/Home'
+import {
+  setActiveWallet,
+  walletSelectors,
+  setIsWalletOpen,
+  putWallet,
+  DELETE_WALLET_DIALOG_ID,
+} from 'reducers/wallet'
+
 import DeleteWalletDialog from './DeleteWalletDialog'
-import AppErrorBoundary from 'components/ErrorBoundary/AppErrorBoundary'
 
 const deleteWallet = openDialog.bind(null, DELETE_WALLET_DIALOG_ID)
 

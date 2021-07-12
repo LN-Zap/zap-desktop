@@ -1,10 +1,11 @@
-import merge from 'lodash/merge'
 import mapValues from 'lodash/mapValues'
-import { grpc } from 'workers'
+import merge from 'lodash/merge'
+
 import { requestFees } from '@zap/utils/api'
-import { mainLog } from '@zap/utils/log'
 import { CoinBig } from '@zap/utils/coin'
 import { createError, UNSUPPORTED } from '@zap/utils/error'
+import { mainLog } from '@zap/utils/log'
+import { grpc } from 'workers'
 
 /**
  * sanitizeFeeRange - Sanitize a fee rate object ensuring that all fees are at least 1.

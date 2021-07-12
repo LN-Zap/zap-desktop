@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+
 import { decorateInvoice } from './utils'
 
 /**

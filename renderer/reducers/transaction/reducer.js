@@ -1,22 +1,24 @@
-import uniqBy from 'lodash/uniqBy'
-import uniq from 'lodash/uniq'
-import last from 'lodash/last'
 import find from 'lodash/find'
-import createReducer from '@zap/utils/createReducer'
-import { showSystemNotification } from '@zap/utils/notifications'
-import { convert } from '@zap/utils/btc'
+import last from 'lodash/last'
+import uniq from 'lodash/uniq'
+import uniqBy from 'lodash/uniqBy'
+
 import { getIntl } from '@zap/i18n'
+import { convert } from '@zap/utils/btc'
+import createReducer from '@zap/utils/createReducer'
 import delay from '@zap/utils/delay'
 import genId from '@zap/utils/genId'
+import { showSystemNotification } from '@zap/utils/notifications'
 import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
-import { grpc } from 'workers'
 import { newAddress, addressSelectors } from 'reducers/address'
 import { fetchBalance } from 'reducers/balance'
 import { fetchChannels, channelsSelectors } from 'reducers/channels'
+import { grpc } from 'workers'
+
+import * as constants from './constants'
+import messages from './messages'
 import transactionSelectors from './selectors'
 import { decorateTransaction } from './utils'
-import messages from './messages'
-import * as constants from './constants'
 
 const {
   GET_TRANSACTIONS,

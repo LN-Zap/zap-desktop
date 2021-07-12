@@ -1,6 +1,6 @@
 import decode from 'lndconnect/decode'
-import set from 'lodash/set'
 import get from 'lodash/get'
+import set from 'lodash/set'
 
 const getlndConnectProp = (lndconnectUri, prop) => {
   const data = decode(lndconnectUri)

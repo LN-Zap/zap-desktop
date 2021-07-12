@@ -1,7 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+
 import bip39 from 'bip39-en'
+import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass/styled-components'
+
 import { Text } from 'components/UI'
 
 /**
@@ -22,12 +24,12 @@ const bip39WordMap = bip39.reduce((data, word) => {
 
 const StyledOptionList = React.forwardRef((props, ref) => (
   <Box
-    ref={ref}
     as="ul"
     bg="secondaryColor"
     maxHeight={300}
     mt={1}
     p={0}
+    ref={ref}
     sx={{
       position: 'absolute',
       zIndex: 2,
@@ -81,10 +83,10 @@ const SeedWordList = React.forwardRef(
               index,
               item,
             })}
-            key={item}
             alignItems="center"
             as="li"
             bg={highlightedIndex === index ? 'primaryColor' : null}
+            key={item}
             p={2}
             sx={{
               outline: 'none',

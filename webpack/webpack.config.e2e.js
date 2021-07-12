@@ -2,8 +2,9 @@
  * Webpack config for use with testcafe (e2e).
  */
 
-import path from 'path'
 import os from 'os'
+import path from 'path'
+
 import prodConfig from './webpack.config.prod'
 
 // Disable minification for compatibility with testcafe-react-selectors.

@@ -1,9 +1,12 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
+import { Grid, AutoSizer } from 'react-virtualized'
 import { Box } from 'rebass/styled-components'
 import styled from 'styled-components'
-import { Grid, AutoSizer } from 'react-virtualized'
+
 import { space as baseSpace } from 'themes/base'
+
 import ChannelCardListItem from './ChannelCardListItem'
 
 const StyledList = styled(Grid)`

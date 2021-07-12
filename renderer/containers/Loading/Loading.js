@@ -1,9 +1,11 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+
 import Loading from 'components/Loading'
-import { walletSelectors } from 'reducers/wallet'
 import { accountSelectors } from 'reducers/account'
+import { walletSelectors } from 'reducers/wallet'
 
 const LoadingContainer = ({
   pathname,

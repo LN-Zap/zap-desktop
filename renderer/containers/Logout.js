@@ -1,8 +1,10 @@
 /* eslint-disable no-shadow */
 import React, { useEffect } from 'react'
+
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
+
 import { logout } from 'reducers/app'
 import { walletSelectors } from 'reducers/wallet'
 

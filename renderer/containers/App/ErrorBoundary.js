@@ -1,6 +1,8 @@
 import React, { useCallback } from 'react'
+
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
+
 import AppErrorBoundary from 'components/ErrorBoundary/AppErrorBoundary'
 
 const AppWithErrorBoundaries = ({ history, children }) => {

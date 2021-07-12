@@ -1,9 +1,11 @@
 import React from 'react'
+
 import { shallow } from 'enzyme'
+
 import { renderWithTheme } from '@zap/test/unit/__helpers__/renderWithTheme'
+import Error from 'components/Icon/Error'
 import Success from 'components/Icon/Success'
 import Warning from 'components/Icon/Warning'
-import Error from 'components/Icon/Error'
 import { Notification, Spinner } from 'components/UI'
 
 describe('component.UI.Notification', () => {

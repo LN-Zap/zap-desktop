@@ -1,4 +1,3 @@
-import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, {
   OPEN_MODAL,
   CLOSE_MODAL,
@@ -7,6 +6,8 @@ import reducer, {
   OPEN_DIALOG,
   CLOSE_DIALOG,
 } from 'reducers/modal'
+
+import snapshotDiff from '../__helpers__/snapshotDiff'
 
 describe('reducers', () => {
   describe('modalReducer', () => {

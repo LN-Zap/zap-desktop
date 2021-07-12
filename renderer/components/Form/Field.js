@@ -1,7 +1,10 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass/styled-components'
+
 import { Message, Text } from 'components/UI'
+
 import Label from './Label'
 
 const Field = ({
@@ -11,8 +14,6 @@ const Field = ({
   field,
   hasFocus,
   hasMessageSpacer,
-  isDisabled,
-  isReadOnly,
   isRequired,
   justifyContent,
   label,

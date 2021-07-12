@@ -1,9 +1,12 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { useIntl } from 'react-intl'
-import { SwitchButton } from 'components/UI'
+
 import LayoutCards from 'components/Icon/LayoutCards'
 import LayoutList from 'components/Icon/LayoutList'
+import { SwitchButton } from 'components/UI'
+
 import { CHANNEL_LIST_VIEW_MODE_SUMMARY, CHANNEL_LIST_VIEW_MODE_CARD } from './constants'
 import messages from './messages'
 

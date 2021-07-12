@@ -1,4 +1,5 @@
 import get from 'lodash/get'
+
 import { CoinBig } from '@zap/utils/coin'
 import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
 import { getNodeDisplayName } from 'reducers/network'

@@ -1,4 +1,3 @@
-import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, {
   START_NEUTRINO,
   START_NEUTRINO_SUCCESS,
@@ -18,6 +17,8 @@ import reducer, {
   NEUTRINO_CRASHED,
   NEUTRINO_RESET,
 } from 'reducers/neutrino'
+
+import snapshotDiff from '../__helpers__/snapshotDiff'
 
 describe('reducers', () => {
   describe('neutrinoReducer', () => {

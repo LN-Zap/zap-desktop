@@ -1,4 +1,3 @@
-import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, {
   SET_WALLETS,
   SET_WALLETS_LOADED,
@@ -7,6 +6,8 @@ import reducer, {
   DELETE_WALLET_FAILURE,
   PUT_WALLET,
 } from 'reducers/wallet'
+
+import snapshotDiff from '../__helpers__/snapshotDiff'
 
 describe('reducers', () => {
   describe('walletReducer', () => {

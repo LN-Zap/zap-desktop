@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
-import { walletSelectors } from 'reducers/wallet'
+
 import ProfilePage from 'components/Profile/ProfilePage'
+import { walletSelectors } from 'reducers/wallet'
 
 const mapStateToProps = state => ({
   activeWalletSettings: walletSelectors.activeWalletSettings(state),

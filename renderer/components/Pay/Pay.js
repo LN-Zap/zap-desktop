@@ -1,9 +1,13 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+
+import bip21 from 'bip21'
 import config from 'config'
 import get from 'lodash/get'
+import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
-import bip21 from 'bip21'
+
+import { intlShape } from '@zap/i18n'
+import { convert } from '@zap/utils/btc'
 import {
   decodePayReq,
   getMaxFeeInclusive,
@@ -12,15 +16,14 @@ import {
   isBolt11,
   isPubkey,
 } from '@zap/utils/crypto'
-import { convert } from '@zap/utils/btc'
-import { Panel } from 'components/UI'
 import { Form } from 'components/Form'
-import { getAmountInSats, getFeeRate } from './utils'
+import { Panel } from 'components/UI'
+
+import { PAY_FORM_STEPS, PAYMENT_TYPES } from './constants'
 import PayPanelBody from './PayPanelBody'
 import PayPanelFooter from './PayPanelFooter'
 import PayPanelHeader from './PayPanelHeader'
-import { PAY_FORM_STEPS, PAYMENT_TYPES } from './constants'
-import { intlShape } from '@zap/i18n'
+import { getAmountInSats, getFeeRate } from './utils'
 
 class Pay extends React.Component {
   static propTypes = {
@@ -400,28 +403,20 @@ class Pay extends React.Component {
       bip21decoded,
       chain,
       chainName,
-      addFilter,
       channelBalance,
-      closeModal,
       cryptoUnit,
       cryptoUnitName,
-      fetchTickers,
       initialAmountCrypto,
       initialAmountFiat,
       intl,
       isProcessing,
       isQueryingFees,
-      isAnimating,
       lndTargetConfirmations,
       network,
       onchainFees,
-      payInvoice,
       queryFees,
-      queryRoutes,
       redirectPayReq,
       routes,
-      sendCoins,
-      setRedirectPayReq,
       walletBalanceConfirmed,
       maxOneTimeSend,
       ...rest

@@ -1,8 +1,11 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { Bar, Header } from 'components/UI'
+
 import { Form, Input, OpenDialogInput } from 'components/Form'
+import { Bar, Header } from 'components/UI'
+
 import ConnectionDetailsTabs from './ConnectionDetailsTabs'
 import messages from './messages'
 
@@ -126,21 +129,10 @@ class ConnectionDetailsManual extends React.Component {
       connectionHost,
       connectionCert,
       connectionMacaroon,
-      connectionString,
-      lndConnect,
       name,
-      setConnectionHost,
-      setConnectionCert,
-      setConnectionMacaroon,
-      setLndconnect,
-      setName,
       startLndHostError,
       startLndCertError,
       startLndMacaroonError,
-      clearStartLndError,
-      validateHost,
-      validateCert,
-      validateMacaroon,
       ...rest
     } = this.props
     const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi

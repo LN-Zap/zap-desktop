@@ -1,8 +1,11 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage } from 'react-intl'
+import { Box, Flex } from 'rebass/styled-components'
+
 import { Text, Tooltip } from 'components/UI'
+
 import Label from './Label'
 
 const RowLabel = ({ tooltipMessage, nameMessage, descMessage, htmlFor, ...rest }) => {

@@ -1,8 +1,11 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
+
 import Refresh from 'components/Icon/Refresh'
 import { ActionButton } from 'components/UI'
+
 import messages from './messages'
 
 const ChannelsRefresh = injectIntl(({ intl, onClick, ...rest }) => (

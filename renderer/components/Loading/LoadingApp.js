@@ -1,13 +1,16 @@
 import React, { useMemo } from 'react'
-import PropTypes from 'prop-types'
+
 import range from 'lodash/range'
+import PropTypes from 'prop-types'
 import { Flex, Box } from 'rebass/styled-components'
-import { Card, Bar } from 'components/UI'
-import { useWindowDimensions } from 'hooks'
-import CloseButton from 'components/UI/CloseButton'
+
 import ZapLogo from 'components/Icon/ZapLogo'
-import Transition from './Transition'
+import { Card, Bar } from 'components/UI'
+import CloseButton from 'components/UI/CloseButton'
+import { useWindowDimensions } from 'hooks'
+
 import Placeholder from './Placeholder'
+import Transition from './Transition'
 
 const ActivityGroupRow = () => {
   const [rnd1, rnd2, rnd3, rnd4] = useMemo(() => range(4).map(() => Math.random() * 30), [])

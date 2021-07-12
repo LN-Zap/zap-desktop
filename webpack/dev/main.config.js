@@ -3,9 +3,11 @@
  */
 
 import path from 'path'
-import merge from 'webpack-merge'
+
 import { EnvironmentPlugin } from 'webpack'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
+import merge from 'webpack-merge'
+
 import baseConfig, { rootDir } from '../webpack.config.base'
 import { publicPath } from './common/devserver'
 

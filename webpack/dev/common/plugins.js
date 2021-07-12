@@ -1,6 +1,6 @@
+import CircularDependencyPlugin from 'circular-dependency-plugin'
 import webpack from 'webpack'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
-import CircularDependencyPlugin from 'circular-dependency-plugin'
 
 const plugins = [
   new webpack.EnvironmentPlugin({

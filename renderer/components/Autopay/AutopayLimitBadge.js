@@ -1,9 +1,10 @@
 import React, { useContext } from 'react'
+
+import { themeGet } from '@styled-system/theme-get'
+import { tint } from 'polished'
 import PropTypes from 'prop-types'
 import { Card, Flex, Box } from 'rebass/styled-components'
-import { themeGet } from '@styled-system/theme-get'
 import styled, { ThemeContext } from 'styled-components'
-import { tint } from 'polished'
 
 const Gradient = styled(Card)`
   background: linear-gradient(

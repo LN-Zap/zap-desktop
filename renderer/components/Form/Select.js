@@ -1,21 +1,24 @@
 import React, { useRef } from 'react'
-import PropTypes from 'prop-types'
-import { asField } from 'informed'
-import { compose } from 'redux'
-import { injectIntl } from 'react-intl'
-import styled, { withTheme } from 'styled-components'
+
 import { themeGet } from '@styled-system/theme-get'
 import Downshift from 'downshift'
+import { asField } from 'informed'
+import PropTypes from 'prop-types'
+import { injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass/styled-components'
-import { useIntlMap, useMaxScreenHeight } from 'hooks'
-import Check from 'components/Icon/Check'
-import AngleUp from 'components/Icon/AngleUp'
+import { compose } from 'redux'
+import styled, { withTheme } from 'styled-components'
+
+import { intlShape } from '@zap/i18n'
 import AngleDown from 'components/Icon/AngleDown'
+import AngleUp from 'components/Icon/AngleUp'
+import Check from 'components/Icon/Check'
 import { Text } from 'components/UI'
+import { useIntlMap, useMaxScreenHeight } from 'hooks'
+
 import { BasicInput } from './Input'
 import Label from './Label'
 import messages from './messages'
-import { intlShape } from '@zap/i18n'
 
 const SelectOptionList = styled.ul`
   padding: 0;
@@ -85,8 +88,8 @@ const SelectOptionListContainer = props => {
   return (
     <SelectOptionList
       {...getMenuProps({}, { suppressRefError: true })}
-      ref={measuredRef}
       maxHeight={height}
+      ref={measuredRef}
     >
       {renderSelectOptions(highlightedIndex, selectedItem, getItemProps)}
     </SelectOptionList>
@@ -137,11 +140,9 @@ const Select = props => {
     fieldState,
     iconSize,
     isRequired,
-    theme,
     label,
     field,
     tooltip,
-    color,
     onValueSelected,
     initialSelectedItem: initialSelectedItemOriginal,
     ...rest

@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react'
+
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
+
 import { Bar, Panel } from 'components/UI'
+
 import Address from './Address'
-import Tutorials from './Tutorials'
-import Progress from './Progress'
 import NewWalletHeader from './NewWalletHeader'
 import OldWalletHeader from './OldWalletHeader'
+import Progress from './Progress'
+import Tutorials from './Tutorials'
 
 const Syncing = ({
   setIsWalletOpen,

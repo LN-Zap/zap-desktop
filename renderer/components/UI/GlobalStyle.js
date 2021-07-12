@@ -1,7 +1,8 @@
-import { createGlobalStyle } from 'styled-components'
 import { themeGet } from '@styled-system/theme-get'
-import reset from 'styled-reset'
 import { rgba } from 'polished'
+import { createGlobalStyle } from 'styled-components'
+import reset from 'styled-reset'
+
 import RobotoLight from '@zap/fonts/roboto-light.woff2'
 import RobotoRegular from '@zap/fonts/roboto-regular.woff2'
 

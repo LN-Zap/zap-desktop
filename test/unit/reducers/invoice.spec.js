@@ -1,4 +1,3 @@
-import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, {
   RECEIVE_INVOICES,
   ADD_INVOICE,
@@ -6,6 +5,8 @@ import reducer, {
   ADD_INVOICE_FAILURE,
   UPDATE_INVOICE,
 } from 'reducers/invoice'
+
+import snapshotDiff from '../__helpers__/snapshotDiff'
 
 describe('reducers', () => {
   describe('invoiceReducer', () => {

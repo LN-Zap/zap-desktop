@@ -1,10 +1,13 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { animated, Transition } from 'react-spring/renderprops.cjs'
+
 import { Text } from 'components/UI'
-import messages from './messages'
+
 import { PAY_FORM_STEPS } from './constants'
+import messages from './messages'
 
 const PayHelpText = props => {
   const { chainName, cryptoUnitName, currentStep, previousStep, redirectPayReq } = props

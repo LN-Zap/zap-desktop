@@ -1,9 +1,12 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
+
 import { themeGet } from '@styled-system/theme-get'
+import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass/styled-components'
+import styled from 'styled-components'
+
 import { Card, Heading } from 'components/UI'
+
 import AutopayAddButton from './AutopayAddButton'
 import AutopayLimitBadge from './AutopayLimitBadge'
 

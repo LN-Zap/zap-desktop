@@ -1,7 +1,9 @@
 import React from 'react'
+
+import { themeGet } from '@styled-system/theme-get'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { themeGet } from '@styled-system/theme-get'
+
 import Button from 'components/UI/Button'
 
 const StyledButton = styled(Button)`

@@ -1,18 +1,21 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { Flex, Box } from 'rebass/styled-components'
-import { FormattedMessage, injectIntl } from 'react-intl'
+
 import { withFieldState } from 'informed'
+import PropTypes from 'prop-types'
+import { FormattedMessage, injectIntl } from 'react-intl'
+import { Flex, Box } from 'rebass/styled-components'
+
 import { intlShape } from '@zap/i18n'
+import { Checkbox, Form, TransactionFeeInput } from 'components/Form'
 import Delete from 'components/Icon/Delete'
 import { Dialog, Text, Heading, Button, DialogOverlay } from 'components/UI'
-import { Checkbox, Form, TransactionFeeInput } from 'components/Form'
-import messages from './messages'
+
 import {
   TRANSACTION_SPEED_SLOW,
   TRANSACTION_SPEED_MEDIUM,
   TRANSACTION_SPEED_FAST,
 } from './constants'
+import messages from './messages'
 
 const DialogWrapper = ({
   intl,

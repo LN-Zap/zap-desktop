@@ -1,12 +1,14 @@
 import React from 'react'
-import { storiesOf } from '@storybook/react'
+
 import { action } from '@storybook/addon-actions'
+import { storiesOf } from '@storybook/react'
 import { Box, Flex } from 'rebass/styled-components'
-import { Dropmenu, Text } from 'components/UI'
+
 import Padlock from 'components/Icon/Padlock'
-import Settings from 'components/Icon/Settings'
 import Search from 'components/Icon/Search'
+import Settings from 'components/Icon/Settings'
 import User from 'components/Icon/User'
+import { Dropmenu, Text } from 'components/UI'
 
 const items = [
   {

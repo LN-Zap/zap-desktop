@@ -1,10 +1,11 @@
-import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, {
   INIT_SETTINGS,
   INIT_SETTINGS_SUCCESS,
   INIT_SETTINGS_FAILURE,
   SET_SETTING,
 } from 'reducers/settings'
+
+import snapshotDiff from '../__helpers__/snapshotDiff'
 
 describe('reducers', () => {
   describe('settingsReducer', () => {

@@ -1,4 +1,5 @@
 import mockSpawn from 'mock-spawn'
+
 import Neutrino from '@zap/services/neutrino'
 import LndConfig from '@zap/utils/lndConfig'
 

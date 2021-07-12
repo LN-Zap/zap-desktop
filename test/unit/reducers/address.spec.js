@@ -1,4 +1,3 @@
-import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, {
   FETCH_ADDRESSES,
   FETCH_ADDRESSES_SUCCESS,
@@ -7,6 +6,8 @@ import reducer, {
   NEW_ADDRESS_SUCCESS,
   NEW_ADDRESS_FAILURE,
 } from 'reducers/address'
+
+import snapshotDiff from '../__helpers__/snapshotDiff'
 
 describe('reducers', () => {
   describe('addressReducer', () => {

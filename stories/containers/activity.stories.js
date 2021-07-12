@@ -1,15 +1,18 @@
 import React from 'react'
-import { storiesOf } from '@storybook/react'
+
+import lightningPayReq from '@ln-zap/bolt11'
 import { action } from '@storybook/addon-actions'
 import { boolean } from '@storybook/addon-knobs'
-import lightningPayReq from '@ln-zap/bolt11'
-import { Modal } from 'components/UI'
+import { storiesOf } from '@storybook/react'
+
 import { InvoiceModal } from 'components/Activity/InvoiceModal'
 import { PaymentModal } from 'components/Activity/PaymentModal'
 import { TransactionModal } from 'components/Activity/TransactionModal'
+import { Modal } from 'components/UI'
 import { infoSelectors } from 'reducers/info'
-import { Provider, store } from '../Provider'
+
 import { Window } from '../helpers'
+import { Provider, store } from '../Provider'
 
 storiesOf('Containers.Activity', module)
   .addDecorator(story => <Provider story={story()} />)

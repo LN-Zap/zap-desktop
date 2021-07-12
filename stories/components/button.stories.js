@@ -1,11 +1,13 @@
 import React from 'react'
-import { storiesOf } from '@storybook/react'
+
 import { action } from '@storybook/addon-actions'
+import { storiesOf } from '@storybook/react'
 import { Flex, Box } from 'rebass/styled-components'
-import { Button } from 'components/UI'
+
 import ArrowLeft from 'components/Icon/ArrowLeft'
 import ArrowRight from 'components/Icon/ArrowRight'
 import Padlock from 'components/Icon/Padlock'
+import { Button } from 'components/UI'
 
 storiesOf('Components', module).addWithChapters('Button', {
   subtitle: 'Buttons for forms and anything else that the user might want to click on.',

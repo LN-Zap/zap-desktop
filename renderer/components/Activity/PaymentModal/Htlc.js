@@ -1,9 +1,12 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass/styled-components'
+
 import { CoinBig } from '@zap/utils/coin'
 import { Text } from 'components/UI'
 import { CryptoSelector, CryptoValue } from 'containers/UI'
+
 import HtlcHops from './HtlcHops'
 
 const Htlc = ({ route, isAmountVisible = true, ...rest }) => {

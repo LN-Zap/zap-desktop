@@ -1,8 +1,9 @@
 import { connect } from 'react-redux'
+
 import { ChannelCloseDialog } from 'components/Channels'
 import { closeChannel, channelsSelectors, CLOSE_CHANNEL_DIALOG_ID } from 'reducers/channels'
-import { showNotification } from 'reducers/notification'
 import { modalSelectors, closeDialog } from 'reducers/modal'
+import { showNotification } from 'reducers/notification'
 import { settingsSelectors } from 'reducers/settings'
 
 const isForceCloseDialog = state => {

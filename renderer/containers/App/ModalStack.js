@@ -1,17 +1,19 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { closeModal, modalSelectors } from 'reducers/modal'
+
 import ModalStack from 'components/ModalStack'
-import Autopay from 'containers/Autopay'
-import Pay from 'containers/Pay'
-import Request from 'containers/Request'
-import Channels from 'containers/Channels'
-import ChannelDetailModal from 'containers/Channels/ChannelDetailModal'
-import ChannelCreate from 'containers/Channels/ChannelCreate'
-import ReceiveModal from 'containers/Wallet/ReceiveModal'
 import ActivityModal from 'containers/Activity/ActivityModal'
+import Autopay from 'containers/Autopay'
+import Channels from 'containers/Channels'
+import ChannelCreate from 'containers/Channels/ChannelCreate'
+import ChannelDetailModal from 'containers/Channels/ChannelDetailModal'
+import Pay from 'containers/Pay'
 import ProfilePage from 'containers/Profile/ProfilePage'
+import Request from 'containers/Request'
+import ReceiveModal from 'containers/Wallet/ReceiveModal'
+import { closeModal, modalSelectors } from 'reducers/modal'
 
 const RequestModalContent = ({ isAnimating }) => (
   <Request isAnimating={isAnimating} mx="auto" py={4} width={9 / 16} />

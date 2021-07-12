@@ -1,6 +1,8 @@
 import React from 'react'
+
 import { shallow } from 'enzyme'
 import toJSON from 'enzyme-to-json'
+
 import { DataRow } from 'components/UI'
 
 describe('component.Form.DataRow', () => {

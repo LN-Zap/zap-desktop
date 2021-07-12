@@ -1,8 +1,14 @@
 import React, { useRef, useState, useContext } from 'react'
+
+import { themeGet } from '@styled-system/theme-get'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass/styled-components'
 import styled from 'styled-components'
-import { themeGet } from '@styled-system/theme-get'
+
+import AngleDown from 'components/Icon/AngleDown'
+import AngleRight from 'components/Icon/AngleRight'
+import AngleUp from 'components/Icon/AngleUp'
+import Check from 'components/Icon/Check'
 import {
   useOnClickOutside,
   useOnKeydown,
@@ -10,14 +16,11 @@ import {
   useComponentSize,
   useMaxScreenHeight,
 } from 'hooks'
-import AngleRight from 'components/Icon/AngleRight'
-import AngleUp from 'components/Icon/AngleUp'
-import AngleDown from 'components/Icon/AngleDown'
-import Check from 'components/Icon/Check'
+
 import Bar from './Bar'
 import Card from './Card'
-import Span from './Span'
 import { DropdownButton } from './Dropdown'
+import Span from './Span'
 
 /**
  * getColor - Get color based on hover state.
@@ -106,10 +109,10 @@ const DropmenuItem = ({
   return (
     <Box
       {...rest}
-      ref={ref}
       onClick={onClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      ref={ref}
     >
       <MenuButton isHovered={isHovered}>
         <Box>
@@ -283,9 +286,9 @@ const DropmenuList = React.forwardRef((props, forwardRef) => {
   const listHeight = height ? height - BOTTOM_SCROLLER_HEIGHT * isScrollbarVisible : 'auto'
   return (
     <Card
-      ref={forwardRef}
       onMouseDown={preventDefault}
       p={0}
+      ref={forwardRef}
       sx={{ position: 'relative' }}
       width={width}
     >
@@ -297,7 +300,7 @@ const DropmenuList = React.forwardRef((props, forwardRef) => {
       >
         <AngleUp />
       </DropmenuListUpScroller>
-      <DropmenuListScrollContainer ref={ref} as="ul" height={listHeight} p={1}>
+      <DropmenuListScrollContainer as="ul" height={listHeight} p={1} ref={ref}>
         <Box>{children}</Box>
       </DropmenuListScrollContainer>
       {isScrollbarVisible && (
@@ -320,9 +323,9 @@ DropmenuList.displayName = 'DropmenuList'
 
 const DropmenuContent = ({ menuRef, items, height }) => {
   return (
-    <DropmenuList ref={menuRef} height={height}>
+    <DropmenuList height={height} ref={menuRef}>
       {items.map((item, index) => (
-        <DropmenuListItem key={item.id || index} item={item} />
+        <DropmenuListItem item={item} key={item.id || index} />
       ))}
     </DropmenuList>
   )

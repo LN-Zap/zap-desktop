@@ -1,14 +1,17 @@
 import React, { useRef } from 'react'
-import styled from 'styled-components'
-import PropTypes from 'prop-types'
+
 import debounce from 'lodash/debounce'
+import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass/styled-components'
+import styled from 'styled-components'
+
 import { intlShape } from '@zap/i18n'
-import { Bar, Button, Heading, Text } from 'components/UI'
 import { Form, SearchInput } from 'components/Form'
+import { Bar, Button, Heading, Text } from 'components/UI'
 import { Truncate } from 'components/Util'
 import { withEllipsis } from 'hocs'
+
 import messages from './messages'
 
 const ClippedText = withEllipsis(Text)

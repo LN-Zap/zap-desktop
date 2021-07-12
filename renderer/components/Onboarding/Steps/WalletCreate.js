@@ -1,8 +1,11 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Spinner, Text, CenteredContent } from 'components/UI'
+
 import { Form } from 'components/Form'
+import { Spinner, Text, CenteredContent } from 'components/UI'
+
 import ErrorDialog from './components/ErrorDialog'
 import messages from './messages'
 
@@ -55,15 +58,7 @@ class WalletCreate extends React.Component {
   }
 
   render() {
-    const {
-      wizardApi,
-      wizardState,
-      createWallet,
-      clearCreateWalletError,
-      createWalletError,
-      isCreatingWallet,
-      ...rest
-    } = this.props
+    const { wizardApi, wizardState, createWalletError, ...rest } = this.props
     const { getApi, onChange, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
 

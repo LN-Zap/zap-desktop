@@ -1,13 +1,14 @@
 import React from 'react'
+
+import get from 'lodash/get'
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Keyframes } from 'react-spring/renderprops.cjs'
-import get from 'lodash/get'
 import { Box, Flex } from 'rebass/styled-components'
+
 import { intlShape } from '@zap/i18n'
 import { convert } from '@zap/utils/btc'
 import { CoinBig } from '@zap/utils/coin'
-import { Bar, Button, Panel, Span, Text } from 'components/UI'
 import {
   Form,
   NodePubkeyInput,
@@ -16,17 +17,19 @@ import {
   TransactionFeeInput,
   // IntegerInput,
 } from 'components/Form'
-import { CryptoValue } from 'containers/UI'
-import { CurrencyFieldGroup } from 'containers/Form'
 import Padlock from 'components/Icon/Padlock'
+import { Bar, Button, Panel, Span, Text } from 'components/UI'
+import { CurrencyFieldGroup } from 'containers/Form'
+import { CryptoValue } from 'containers/UI'
+
 import ChannelBackButton from './ChannelBackButton'
 import ChannelCreateSummary from './ChannelCreateSummary'
-import messages from './messages'
 import {
   TRANSACTION_SPEED_SLOW,
   TRANSACTION_SPEED_MEDIUM,
   TRANSACTION_SPEED_FAST,
 } from './constants'
+import messages from './messages'
 
 /**
  * Animation to handle showing/hiding the amount fields.
@@ -359,24 +362,7 @@ class ChannelCreateForm extends React.Component {
   }
 
   render() {
-    const {
-      intl,
-      activeWalletSettings,
-      walletBalance,
-      cryptoUnitName,
-      isQueryingFees,
-      lndTargetConfirmations,
-      fetchTickers,
-      onchainFees,
-      onSubmit,
-      openChannel,
-      queryFees,
-      searchQuery,
-      selectedNodeDisplayName,
-      cryptoUnit,
-      updateContactFormSearchQuery,
-      ...rest
-    } = this.props
+    const { walletBalance, cryptoUnitName, ...rest } = this.props
     const { step, isSubmitComplete } = this.state
 
     return (

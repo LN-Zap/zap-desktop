@@ -1,5 +1,5 @@
-import has from 'lodash/has'
 import cloneDeep from 'lodash/cloneDeep'
+import has from 'lodash/has'
 
 /**
  * defineEvents - Creates an event definition for the specified event map.

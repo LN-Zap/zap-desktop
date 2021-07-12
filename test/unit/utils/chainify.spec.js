@@ -1,5 +1,5 @@
-import delay from '@zap/utils/delay'
 import chainify from '@zap/utils/chainify'
+import delay from '@zap/utils/delay'
 
 describe('chainify util', () => {
   it('works with regular functions', async () => {

@@ -1,27 +1,30 @@
 import React from 'react'
+
 import { connect } from 'react-redux'
-import { fetchPeers } from 'reducers/peers'
-import { fetchDescribeNetwork } from 'reducers/network'
-import { setIsWalletOpen, walletSelectors } from 'reducers/wallet'
-import { updateAutopilotNodeScores } from 'reducers/autopilot'
+
+import App from 'components/App'
 import { initActivityHistory } from 'reducers/activity'
-import { fetchTransactions } from 'reducers/transaction'
 import { appSelectors } from 'reducers/app'
+import { updateAutopilotNodeScores } from 'reducers/autopilot'
+import { initBackupService } from 'reducers/backup'
+import { fetchSuggestedNodes } from 'reducers/channels'
+import { infoSelectors } from 'reducers/info'
 import {
   finishLnurlAuth,
   finishLnurlChannel,
   finishLnurlWithdraw,
   lnurlSelectors,
 } from 'reducers/lnurl'
-import { initBackupService } from 'reducers/backup'
-import { infoSelectors } from 'reducers/info'
-import { paySelectors } from 'reducers/pay'
 import { setModals, modalSelectors } from 'reducers/modal'
-import { fetchSuggestedNodes } from 'reducers/channels'
+import { fetchDescribeNetwork } from 'reducers/network'
+import { paySelectors } from 'reducers/pay'
+import { fetchPeers } from 'reducers/peers'
 import { initTickers } from 'reducers/ticker'
-import App from 'components/App'
-import ModalStack from './ModalStack'
+import { fetchTransactions } from 'reducers/transaction'
+import { setIsWalletOpen, walletSelectors } from 'reducers/wallet'
+
 import AppErrorBoundary from './ErrorBoundary'
+import ModalStack from './ModalStack'
 
 const mapStateToProps = state => ({
   activeWalletSettings: walletSelectors.activeWalletSettings(state),

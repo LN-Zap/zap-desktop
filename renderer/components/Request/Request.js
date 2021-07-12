@@ -1,14 +1,17 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage, injectIntl } from 'react-intl'
+import { Box, Flex } from 'rebass/styled-components'
+
 import { intlShape } from '@zap/i18n'
 import { convert } from '@zap/utils/btc'
 import { CoinBig } from '@zap/utils/coin'
-import { Bar, Button, Header, Panel, Text, Tooltip, Message } from 'components/UI'
 import { Form, Input, Label, TextArea, Toggle } from 'components/Form'
-import { CurrencyFieldGroup } from 'containers/Form'
 import Lightning from 'components/Icon/Lightning'
+import { Bar, Button, Header, Panel, Text, Tooltip, Message } from 'components/UI'
+import { CurrencyFieldGroup } from 'containers/Form'
+
 import messages from './messages'
 
 class Request extends React.Component {
@@ -217,24 +220,11 @@ class Request extends React.Component {
   render() {
     const {
       activeWalletSettings,
-      cancelInvoice,
-      addInvoice,
-      cryptoUnit,
       cryptoUnitName,
       chainName,
-      fetchTickers,
       intl,
       isProcessing,
       isHoldInvoiceEnabled,
-      isAnimating,
-      setTopModal,
-      setActivityModal,
-      showNotification,
-      createNewAddress,
-      settleInvoice,
-      showError,
-      willUseFallback,
-      maxOneTimeReceive,
       ...rest
     } = this.props
 

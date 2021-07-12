@@ -1,10 +1,13 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass/styled-components'
+
 import { Bar, Panel } from 'components/UI'
-import ChannelNodeSearch from 'containers/Channels/ChannelNodeSearch'
 import ChannelCreateForm from 'containers/Channels/ChannelCreateForm'
+import ChannelNodeSearch from 'containers/Channels/ChannelNodeSearch'
 import NodeCardList from 'containers/Channels/NodeCardList'
+
 import ChannelCreateHeader from './ChannelCreateHeader'
 
 class ChannelCreate extends React.Component {

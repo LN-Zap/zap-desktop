@@ -5,11 +5,13 @@
  */
 
 import { createSelector } from 'reselect'
-import { transactionSelectors } from 'reducers/transaction'
-import { paymentSelectors } from 'reducers/payment'
+
 import { invoiceSelectors } from 'reducers/invoice'
-import { addDate, prepareData } from './utils'
+import { paymentSelectors } from 'reducers/payment'
+import { transactionSelectors } from 'reducers/transaction'
+
 import { defaultFilter } from './constants'
+import { addDate, prepareData } from './utils'
 
 /**
  * paymentsSelector - Payments.

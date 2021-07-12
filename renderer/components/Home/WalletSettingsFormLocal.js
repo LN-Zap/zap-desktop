@@ -1,16 +1,19 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+
 import config from 'config'
-import { compose } from 'redux'
 import { withFormApi, withFormState } from 'informed'
+import uniq from 'lodash/uniq'
+import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass/styled-components'
-import uniq from 'lodash/uniq'
+import { compose } from 'redux'
+
 import { intlShape } from '@zap/i18n'
-import { Bar, Button, DataRow, Text, Tooltip } from 'components/UI'
 import { Input, Label, Toggle, TextArea, FieldLabelFactory } from 'components/Form'
-import messages from './messages'
+import { Bar, Button, DataRow, Text, Tooltip } from 'components/UI'
+
 import AutopilotAllocation from './AutopilotAllocation'
+import messages from './messages'
 
 const FieldLabel = FieldLabelFactory(messages)
 

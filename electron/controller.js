@@ -1,4 +1,5 @@
 import { app, ipcMain } from 'electron'
+
 import { mainLog } from '@zap/utils/log'
 import sanitize from '@zap/utils/sanitize'
 

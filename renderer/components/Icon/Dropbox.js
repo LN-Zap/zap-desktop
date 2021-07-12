@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
-import { ThemeContext } from 'styled-components'
+
 import { themeGet } from '@styled-system/theme-get'
+import { ThemeContext } from 'styled-components'
 
 const SvgDropbox = props => {
   const theme = useContext(ThemeContext)

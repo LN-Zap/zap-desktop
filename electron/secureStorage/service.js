@@ -1,5 +1,7 @@
 import config from 'config'
+
 import createStorage from '@zap/utils/secureStorage'
+
 import createCRUD from './ipcCRUD'
 
 /**

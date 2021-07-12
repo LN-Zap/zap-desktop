@@ -1,6 +1,7 @@
 import Coin from '@zap/utils/coin'
-import { grpc } from 'workers'
 import createReducer from '@zap/utils/createReducer'
+import { grpc } from 'workers'
+
 import * as constants from './constants'
 
 const { FETCH_BALANCE, FETCH_BALANCE_SUCCESS, FETCH_BALANCE_FAILURE } = constants

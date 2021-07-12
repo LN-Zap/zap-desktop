@@ -1,9 +1,12 @@
 /* eslint-disable no-shadow */
 import React, { useEffect } from 'react'
+
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { decoratedSelectedChannel } from 'reducers/utils'
+
 import { closeAllModals } from 'reducers/modal'
+import { decoratedSelectedChannel } from 'reducers/utils'
+
 import ChannelCloseDialog from './ChannelCloseDialog'
 import ChannelDetail from './ChannelDetail'
 

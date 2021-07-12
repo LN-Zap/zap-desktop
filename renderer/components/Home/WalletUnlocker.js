@@ -1,12 +1,15 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
+
 import { intlShape } from '@zap/i18n'
-import { Button } from 'components/UI'
 import { Form, PasswordInput } from 'components/Form'
-import WalletHeader from './WalletHeader'
+import { Button } from 'components/UI'
+
 import messages from './messages'
+import WalletHeader from './WalletHeader'
 
 class WalletUnlocker extends React.Component {
   static displayName = 'WalletUnlocker'
@@ -60,21 +63,11 @@ class WalletUnlocker extends React.Component {
   }
 
   render = () => {
-    const {
-      intl,
-      isLightningGrpcActive,
-      isUnlockingWallet,
-      setUnlockWalletError,
-      unlockWallet,
-      unlockWalletError,
-      wallet,
-      staticContext,
-      ...rest
-    } = this.props
+    const { intl, isUnlockingWallet, wallet, ...rest } = this.props
     return (
       <Form
-        key={`wallet-unlocker-form-${wallet.id}`}
         getApi={this.setFormApi}
+        key={`wallet-unlocker-form-${wallet.id}`}
         onSubmit={this.onSubmit}
         {...rest}
       >

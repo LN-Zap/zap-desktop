@@ -1,11 +1,14 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
+
 import { withFieldApi } from 'informed'
+import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import { Box, Flex } from 'rebass/styled-components'
+import styled from 'styled-components'
+
 import { Form, RadioGroup } from 'components/Form'
 import ZapLogo from 'components/Icon/ZapLogo'
+
 import BaseConnectionTypeItem from './components/ConnectionTypeItem'
 import BaseContainer from './components/Container'
 import messages from './messages'
@@ -61,16 +64,7 @@ class ConnectionType extends React.Component {
   }
 
   render() {
-    const {
-      wizardApi,
-      wizardState,
-      connectionType,
-      lndConnect,
-      setConnectionType,
-      resetOnboarding,
-      stopLnd,
-      ...rest
-    } = this.props
+    const { wizardApi, wizardState, connectionType, lndConnect, ...rest } = this.props
     const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
 

@@ -1,10 +1,13 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass/styled-components'
-import { Bar, MainContent, Sidebar } from 'components/UI'
+
 import ZapLogo from 'components/Icon/ZapLogo'
-import Transition from './Transition'
+import { Bar, MainContent, Sidebar } from 'components/UI'
+
 import Placeholder from './Placeholder'
+import Transition from './Transition'
 
 const Loading = ({ isLoading }) => {
   return (

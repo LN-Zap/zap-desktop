@@ -1,6 +1,6 @@
+import config from 'config'
 import Dexie from 'dexie'
 import encode from 'lndconnect/encode'
-import config from 'config'
 
 const dbVersions = db => {
   // Initial database schema.

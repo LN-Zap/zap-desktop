@@ -1,12 +1,15 @@
 import React, { useState, useContext } from 'react'
-import { compose } from 'redux'
-import PropTypes from 'prop-types'
-import { asField } from 'informed'
-import { ThemeContext } from 'styled-components'
+
 import { Input as BaseInput } from '@rebass/forms/styled-components'
-import { extractSpaceProps } from 'themes/util'
+import { asField } from 'informed'
+import PropTypes from 'prop-types'
+import { compose } from 'redux'
+import { ThemeContext } from 'styled-components'
+
 import { withInputValidation } from 'hocs'
 import { useAutoFocus } from 'hooks'
+import { extractSpaceProps } from 'themes/util'
+
 import Field from './Field'
 import { mapDefaultBorderColor, mapFocusBorderColor } from './util'
 

@@ -59,7 +59,7 @@ describe('eventDefinition util', () => {
     // Assignment with event definitions is considered a bad practice and should
     // be discouraged.
     const a = events.order.post
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line unused-imports/no-unused-vars
     const b = events.order
     expect(() => events.order.list.end).toThrow()
     expect(() => events.order.post.error).toThrow()

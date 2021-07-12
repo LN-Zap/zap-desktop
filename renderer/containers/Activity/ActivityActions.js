@@ -1,11 +1,12 @@
 import { connect } from 'react-redux'
+
+import ActivityActions from 'components/Activity/ActivityActions'
 import {
   changeFilter,
   reloadActivityHistory,
   updateSearchText,
   activitySelectors,
 } from 'reducers/activity'
-import ActivityActions from 'components/Activity/ActivityActions'
 
 const mapDispatchToProps = {
   changeFilter,

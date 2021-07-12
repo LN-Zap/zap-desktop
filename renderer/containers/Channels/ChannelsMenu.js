@@ -1,9 +1,10 @@
 import { connect } from 'react-redux'
+
 import ChannelsMenu from 'components/Channels/ChannelsMenu'
-import { openModal } from 'reducers/modal'
-import { tickerSelectors } from 'reducers/ticker'
 import { balanceSelectors } from 'reducers/balance'
 import { channelsSelectors } from 'reducers/channels'
+import { openModal } from 'reducers/modal'
+import { tickerSelectors } from 'reducers/ticker'
 
 const mapStateToProps = state => ({
   cryptoUnitName: tickerSelectors.cryptoUnitName(state),

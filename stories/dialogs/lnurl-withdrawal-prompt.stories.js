@@ -1,6 +1,9 @@
 import React from 'react'
+
 import { storiesOf } from '@storybook/react'
+
 import { LnurlWithdrawPrompt } from 'components/Lnurl'
+
 import { Window } from '../helpers'
 
 storiesOf('Dialogs', module)

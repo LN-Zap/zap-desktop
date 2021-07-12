@@ -1,9 +1,11 @@
-import { send } from 'redux-electron-ipc'
 import { updateIntl } from 'react-intl-redux'
-import createReducer from '@zap/utils/createReducer'
-import translations from '@zap/i18n/translation'
+import { send } from 'redux-electron-ipc'
+
 import { setIntlLocale } from '@zap/i18n'
+import translations from '@zap/i18n/translation'
+import createReducer from '@zap/utils/createReducer'
 import { putConfig, settingsSelectors } from 'reducers/settings'
+
 import localeSelectors from './selectors'
 
 /**

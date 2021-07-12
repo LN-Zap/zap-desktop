@@ -1,12 +1,13 @@
-import createReducer from '@zap/utils/createReducer'
 import { getIntl } from '@zap/i18n'
+import createReducer from '@zap/utils/createReducer'
 import { mainLog } from '@zap/utils/log'
 import waitForIpcEvent from '@zap/utils/waitForIpc'
 import { closeDialog } from 'reducers/modal'
 import { showNotification } from 'reducers/notification'
-import { loginError } from './selectors'
-import messages from './messages'
+
 import * as constants from './constants'
+import messages from './messages'
+import { loginError } from './selectors'
 
 const {
   INIT_ACCOUNT,

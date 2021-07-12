@@ -1,6 +1,8 @@
-import { ipcMain } from 'electron'
-import config from 'config'
 import { parse } from 'url'
+
+import config from 'config'
+import { ipcMain } from 'electron'
+
 import {
   fetchLnurlParams,
   makeAuthRequest,

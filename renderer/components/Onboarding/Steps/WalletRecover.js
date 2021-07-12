@@ -1,9 +1,12 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { Bar, Header, Spinner, Text } from 'components/UI'
-import { Form, PasswordInput } from 'components/Form'
+
 import { intlShape } from '@zap/i18n'
+import { Form, PasswordInput } from 'components/Form'
+import { Bar, Header, Spinner, Text } from 'components/UI'
+
 import ErrorDialog from './components/ErrorDialog'
 import messages from './messages'
 
@@ -74,10 +77,6 @@ class WalletRecover extends React.Component {
     const {
       wizardApi,
       wizardState,
-      passphrase,
-      createWallet,
-      setPassphrase,
-      clearCreateWalletError,
       isCreatingWallet,
       createWalletError,
       intl,

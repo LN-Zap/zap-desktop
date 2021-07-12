@@ -1,6 +1,8 @@
-import camelCase from 'lodash/camelCase'
 import { execSync } from 'child_process'
 import path from 'path'
+
+import camelCase from 'lodash/camelCase'
+
 import updateStorybook from './genIconsStory'
 
 const OUTPUT_DIR = 'renderer/components/Icon'

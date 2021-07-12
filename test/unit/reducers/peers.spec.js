@@ -1,5 +1,6 @@
-import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, { FETCH_PEERS, FETCH_PEERS_SUCCESS, FETCH_PEERS_FAILURE } from 'reducers/peers'
+
+import snapshotDiff from '../__helpers__/snapshotDiff'
 
 describe('reducers', () => {
   describe('peersReducer', () => {

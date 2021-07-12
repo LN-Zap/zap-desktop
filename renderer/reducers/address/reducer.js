@@ -1,10 +1,12 @@
 import get from 'lodash/get'
-import { grpc } from 'workers'
-import createReducer from '@zap/utils/createReducer'
+
 import { getIntl } from '@zap/i18n'
+import createReducer from '@zap/utils/createReducer'
 import { openModal, closeModal } from 'reducers/modal'
-import { settingsSelectors } from 'reducers/settings'
 import { showError } from 'reducers/notification'
+import { settingsSelectors } from 'reducers/settings'
+import { grpc } from 'workers'
+
 import messages from '../messages'
 import * as constants from './constants'
 

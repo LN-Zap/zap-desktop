@@ -1,9 +1,11 @@
-import { createStore, applyMiddleware, compose } from 'redux'
-import thunk from 'redux-thunk'
 import { createMemoryHistory } from 'history'
+import { createStore, applyMiddleware, compose } from 'redux'
 import { createLogger } from 'redux-logger'
+import thunk from 'redux-thunk'
+
 import rootReducer from 'reducers'
 import ipc from 'reducers/ipc'
+
 import debounceMiddleware from './middleware/debounceMiddleware'
 
 export const history = createMemoryHistory({

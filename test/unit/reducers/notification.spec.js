@@ -1,9 +1,10 @@
-import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, {
   ENQUEUE_NOTIFICATION,
   REMOVE_NOTIFICATION,
   UPDATE_NOTIFICATION,
 } from 'reducers/notification'
+
+import snapshotDiff from '../__helpers__/snapshotDiff'
 
 describe('reducers', () => {
   describe('notificationReducer', () => {

@@ -1,7 +1,9 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { FormattedDate, FormattedTime } from 'react-intl'
+import { connect } from 'react-redux'
+
 import { settingsSelectors } from 'reducers/settings'
 
 const mapStateToProps = state => ({

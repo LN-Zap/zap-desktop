@@ -1,8 +1,9 @@
 import React, { useContext } from 'react'
-import PropTypes from 'prop-types'
-import { asField } from 'informed'
-import styled, { ThemeContext } from 'styled-components'
+
 import { themeGet } from '@styled-system/theme-get'
+import { asField } from 'informed'
+import PropTypes from 'prop-types'
+import styled, { ThemeContext } from 'styled-components'
 
 /**
  * makelongshadow - Helper method to create the box-shadow for slider-thumb.
@@ -93,7 +94,6 @@ const Range = ({ fieldState, fieldApi, ...props }) => {
       min={0}
       step={1}
       {...rest}
-      ref={forwardedRef}
       onBlur={e => {
         setTouched(true)
         if (onBlur) {
@@ -106,6 +106,7 @@ const Range = ({ fieldState, fieldApi, ...props }) => {
           onChange(e)
         }
       }}
+      ref={forwardedRef}
       theme={theme}
       type="range"
       value={value || 0}

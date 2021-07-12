@@ -3,6 +3,7 @@
 
 const fs = require('fs')
 const path = require('path')
+
 const electron_notarize = require('electron-notarize')
 
 module.exports = async function afterSignHook(params) {

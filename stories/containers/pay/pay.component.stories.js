@@ -1,11 +1,14 @@
 /* eslint-disable max-len */
 
 import React from 'react'
-import { storiesOf } from '@storybook/react'
+
 import { action } from '@storybook/addon-actions'
 import { number, text } from '@storybook/addon-knobs'
+import { storiesOf } from '@storybook/react'
+
 import { PayButtons, PayHeader, PaySummaryLightning, PaySummaryOnChain } from 'components/Pay'
 import { tickerSelectors } from 'reducers/ticker'
+
 import { Provider, store } from '../../Provider'
 
 const data = {

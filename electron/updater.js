@@ -1,10 +1,11 @@
-import { dialog, ipcMain } from 'electron'
-import { autoUpdater } from 'electron-updater'
-import isDev from 'electron-is-dev'
 import config from 'config'
+import { dialog, ipcMain } from 'electron'
+import isDev from 'electron-is-dev'
+import { autoUpdater } from 'electron-updater'
+
 import delay from '@zap/utils/delay'
-import createScheduler from '@zap/utils/scheduler'
 import { updaterLog } from '@zap/utils/log'
+import createScheduler from '@zap/utils/scheduler'
 
 autoUpdater.logger = updaterLog
 

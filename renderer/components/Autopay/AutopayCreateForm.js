@@ -1,15 +1,18 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+
 import config from 'config'
-import styled from 'styled-components'
+import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Spring, animated, Transition } from 'react-spring/renderprops.cjs'
 import { Box, Flex } from 'rebass/styled-components'
+import styled from 'styled-components'
+
 import { intlShape } from '@zap/i18n'
-import { Bar, Heading, Button } from 'components/UI'
 import { Form } from 'components/Form'
-import AutopayCreateSuccess from './AutopayCreateSuccess'
+import { Bar, Heading, Button } from 'components/UI'
+
 import AutopayCreateSettings from './AutopayCreateSettings'
+import AutopayCreateSuccess from './AutopayCreateSuccess'
 import messages from './messages'
 
 const { min, max, defaultValue } = config.autopay

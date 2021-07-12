@@ -1,9 +1,12 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
-import { Flex, Box } from 'rebass/styled-components'
 import { FormattedMessage } from 'react-intl'
+import { Flex, Box } from 'rebass/styled-components'
+
 import Delete from 'components/Icon/Delete'
 import { Dialog, Heading, DialogOverlay, Text, Button } from 'components/UI'
+
 import messages from './messages'
 
 const ErrorDialog = ({ onClose, error, isRestoreMode, isOpen, position }) => {

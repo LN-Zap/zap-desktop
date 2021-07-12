@@ -1,5 +1,7 @@
 import uniq from 'lodash/uniq'
+
 import { mainLog } from '@zap/utils/log'
+
 import { getSupportedProviders } from './providers'
 import requestTicker from './requestTicker'
 /**

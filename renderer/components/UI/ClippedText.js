@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+
 import Text from 'components/UI/Text'
 
 const ClippedText = styled(Text)`

@@ -1,13 +1,15 @@
 import { createSelector } from 'reselect'
-import { isAutopayEnabled } from '@zap/utils/featureFlag'
-import { showSystemNotification } from '@zap/utils/notifications'
+
 import { getIntl } from '@zap/i18n'
 import { getTag } from '@zap/utils/crypto'
+import { isAutopayEnabled } from '@zap/utils/featureFlag'
+import { showSystemNotification } from '@zap/utils/notifications'
 import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
-import { contactFormSelectors } from './contactsform'
 import { tickerSelectors } from 'reducers/ticker'
-import { getNodeDisplayName, networkSelectors } from './network'
+
+import { contactFormSelectors } from './contactsform'
 import messages from './messages'
+import { getNodeDisplayName, networkSelectors } from './network'
 
 // ------------------------------------
 // Initial State

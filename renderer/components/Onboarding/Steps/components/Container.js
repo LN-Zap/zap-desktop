@@ -1,5 +1,5 @@
-import styled from 'styled-components'
 import { Flex } from 'rebass/styled-components'
+import styled from 'styled-components'
 
 const Container = styled(Flex)`
   position: absolute;
