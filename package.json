@@ -44,7 +44,7 @@
   },
   "config": {
     "lnd-binary": {
-      "binaryVersion": "0.13.0-beta"
+      "binaryVersion": "0.12.0-beta"
     }
   },
   "browserslist": [
