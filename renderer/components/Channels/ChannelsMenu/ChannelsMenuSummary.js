@@ -1,10 +1,13 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage } from 'react-intl'
+import { Box, Flex } from 'rebass/styled-components'
+
 import { CoinBig } from '@zap/utils/coin'
 import { Bar, Text } from 'components/UI'
 import { CryptoValue } from 'containers/UI'
+
 import messages from './messages'
 
 const SummaryRow = ({ title, body, color, ...rest }) => (

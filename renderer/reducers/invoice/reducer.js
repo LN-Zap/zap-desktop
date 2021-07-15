@@ -1,20 +1,22 @@
 import uniqBy from 'lodash/uniqBy'
-import { showError } from 'reducers/notification'
-import createReducer from '@zap/utils/createReducer'
-import { showSystemNotification } from '@zap/utils/notifications'
-import { convert } from '@zap/utils/btc'
+
 import { getIntl } from '@zap/i18n'
+import { convert } from '@zap/utils/btc'
+import createReducer from '@zap/utils/createReducer'
 import { generatePreimage } from '@zap/utils/crypto'
+import { showSystemNotification } from '@zap/utils/notifications'
 import { sha256digest } from '@zap/utils/sha256'
-import { grpc } from 'workers'
 import { fetchBalance } from 'reducers/balance'
 import { fetchChannels } from 'reducers/channels'
-import { walletSelectors } from 'reducers/wallet'
+import { showError } from 'reducers/notification'
 import { settingsSelectors } from 'reducers/settings'
-import { decorateInvoice } from './utils'
+import { walletSelectors } from 'reducers/wallet'
+import { grpc } from 'workers'
+
+import * as constants from './constants'
 import messages from './messages'
 import invoiceSelectors from './selectors'
-import * as constants from './constants'
+import { decorateInvoice } from './utils'
 
 const {
   RECEIVE_INVOICES,

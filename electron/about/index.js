@@ -1,6 +1,7 @@
 // based on https://github.com/rhysd/electron-about-window
 
 import path from 'path'
+
 import electron, { BrowserWindow } from 'electron'
 import isDev from 'electron-is-dev'
 

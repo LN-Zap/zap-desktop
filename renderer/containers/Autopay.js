@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+
 import Autopay from 'components/Autopay'
 
 const mapStateToProps = () => ({})

@@ -1,7 +1,8 @@
 import { connect } from 'react-redux'
+
 import { ConnectionType } from 'components/Onboarding/Steps'
-import { setConnectionType, resetOnboarding } from 'reducers/onboarding'
 import { stopLnd } from 'reducers/lnd'
+import { setConnectionType, resetOnboarding } from 'reducers/onboarding'
 
 const mapStateToProps = state => ({
   lndConnect: state.onboarding.lndConnect,

@@ -1,12 +1,13 @@
-import { createSelector } from 'reselect'
 import get from 'lodash/get'
 import orderBy from 'lodash/orderBy'
-import { CoinBig } from '@zap/utils/coin'
+import { createSelector } from 'reselect'
+
 import { convert } from '@zap/utils/btc'
+import { CoinBig } from '@zap/utils/coin'
+import { infoSelectors } from 'reducers/info'
 import { networkSelectors } from 'reducers/network'
 import { settingsSelectors } from 'reducers/settings'
-import { infoSelectors } from 'reducers/info'
-import { getChannelData, getChannelEffectiveCapacity, decorateChannel } from './utils'
+
 import {
   DEFAULT_FILTER,
   CHANNELS_SORT_OPEN_DATE,
@@ -16,6 +17,7 @@ import {
   CHANNELS_SORT_NAME,
   CHANNELS_SORT_CAPACITY,
 } from './constants'
+import { getChannelData, getChannelEffectiveCapacity, decorateChannel } from './utils'
 
 const channelsSelectors = {}
 

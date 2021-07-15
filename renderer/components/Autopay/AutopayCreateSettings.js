@@ -1,15 +1,18 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Flex } from 'rebass/styled-components'
+import styled from 'styled-components'
+
 import { intlShape } from '@zap/i18n'
-import { CryptoValue, CryptoSelector, FiatValue } from 'containers/UI'
-import { Bar, DataRow, Text } from 'components/UI'
 import { Range, Toggle } from 'components/Form'
+import { Bar, DataRow, Text } from 'components/UI'
 import { Truncate } from 'components/Util'
-import messages from './messages'
+import { CryptoValue, CryptoSelector, FiatValue } from 'containers/UI'
+
 import AutopayStatus from './AutopayStatus'
+import messages from './messages'
 
 const SettingsContainer = styled.div`
   position: relative;

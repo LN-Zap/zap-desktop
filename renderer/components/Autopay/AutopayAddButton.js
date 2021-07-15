@@ -1,8 +1,10 @@
 import React, { useContext } from 'react'
-import { Card, Flex } from 'rebass/styled-components'
+
 import { themeGet } from '@styled-system/theme-get'
-import styled, { ThemeContext } from 'styled-components'
 import { tint } from 'polished'
+import { Card, Flex } from 'rebass/styled-components'
+import styled, { ThemeContext } from 'styled-components'
+
 import { Text } from 'components/UI'
 
 const Gradient = styled(Card)`

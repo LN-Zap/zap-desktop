@@ -1,7 +1,7 @@
-import get from 'lodash/get'
 import { lookup } from 'country-data-lookup'
 import createDebug from 'debug'
 import isRenderer from 'is-electron-renderer'
+import get from 'lodash/get'
 import PropTypes from 'prop-types'
 
 export { getIntl, setIntlLocale } from './intl'

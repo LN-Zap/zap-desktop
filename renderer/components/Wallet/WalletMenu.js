@@ -1,12 +1,15 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import { Flex } from 'rebass/styled-components'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import SettingsMenu from 'containers/Settings/SettingsMenu'
-import ChannelsMenu from 'containers/Channels/ChannelsMenu'
-import { Text } from 'components/UI'
+
 import { isAutopayEnabled } from '@zap/utils/featureFlag'
+import { Text } from 'components/UI'
+import ChannelsMenu from 'containers/Channels/ChannelsMenu'
+import SettingsMenu from 'containers/Settings/SettingsMenu'
+
 import messages from './messages'
 
 const StyledText = styled(Text)`

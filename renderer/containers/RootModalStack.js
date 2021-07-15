@@ -1,11 +1,13 @@
 /* eslint-disable no-shadow */
 import React, { useCallback } from 'react'
+
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { closeModal, modalSelectors } from 'reducers/modal'
-import ModalStack from 'components/ModalStack'
+
 import AppErrorBoundary from 'components/ErrorBoundary/AppErrorBoundary'
+import ModalStack from 'components/ModalStack'
 import SettingsPage from 'containers/Settings/SettingsPage'
+import { closeModal, modalSelectors } from 'reducers/modal'
 
 const MODALS = {
   SETTINGS: {

@@ -1,6 +1,8 @@
 import React from 'react'
+
 import { storiesOf } from '@storybook/react'
 import { Box, Flex } from 'rebass/styled-components'
+
 import AngleDown from 'components/Icon/AngleDown'
 import AngleLeft from 'components/Icon/AngleLeft'
 import AngleRight from 'components/Icon/AngleRight'
@@ -155,9 +157,9 @@ Object.keys(zapIconsList).forEach(name => {
   zapIconStories.add(name, () => (
     <>
       {iconSizes.map(size => (
-        <Flex key={`${name}-${size}`} alignItems="center" mb={3}>
+        <Flex alignItems="center" key={`${name}-${size}`} mb={3}>
           <Box mr={2}>
-            {size} x {size}:
+            {size} x{size}:
           </Box>
           <Icon height={size} width={size} />
         </Flex>

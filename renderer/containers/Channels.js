@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
+
 import Channels from 'components/Channels'
-import { openModal } from 'reducers/modal'
 import {
   changeSort,
   changeFilter,
@@ -12,6 +12,7 @@ import {
   updateChannelSearchQuery,
 } from 'reducers/channels'
 import { infoSelectors } from 'reducers/info'
+import { openModal } from 'reducers/modal'
 import { tickerSelectors } from 'reducers/ticker'
 
 const mapStateToProps = state => ({

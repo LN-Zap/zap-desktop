@@ -1,11 +1,12 @@
 import { connect } from 'react-redux'
+
+import { LnurlChannelPrompt } from 'components/Lnurl'
 import {
   lnurlSelectors,
   finishLnurlChannel,
   clearLnurlChannel,
   declineLnurlChannel,
 } from 'reducers/lnurl'
-import { LnurlChannelPrompt } from 'components/Lnurl'
 
 const mapStateToProps = state => ({
   params: lnurlSelectors.lnurlChannelParams(state),

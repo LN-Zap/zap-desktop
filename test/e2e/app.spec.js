@@ -1,6 +1,7 @@
 import { waitForReact } from 'testcafe-react-selectors'
-import { getBaseUrl, getPageTitle, assertNoConsoleErrors } from './utils/helpers'
+
 import Loading from './pages/loading'
+import { getBaseUrl, getPageTitle, assertNoConsoleErrors } from './utils/helpers'
 
 const loadingPage = new Loading()
 

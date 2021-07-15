@@ -1,8 +1,11 @@
 import React from 'react'
+
 import { storiesOf } from '@storybook/react'
+
 import SettingsMenu from 'containers/Settings/SettingsMenu'
-import { Provider } from '../Provider'
+
 import { Window } from '../helpers'
+import { Provider } from '../Provider'
 
 storiesOf('Containers.SettingsMenu', module)
   .addDecorator(story => <Window>{story()}</Window>)

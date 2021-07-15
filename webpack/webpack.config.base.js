@@ -4,8 +4,9 @@
 
 import fs from 'fs'
 import path from 'path'
-import { IgnorePlugin } from 'webpack'
+
 import config from 'config'
+import { IgnorePlugin } from 'webpack'
 
 export const rootDir = path.join(__dirname, '..')
 

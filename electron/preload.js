@@ -2,20 +2,23 @@
  * When running `npm run build` or `npm run build-preload`, this file is compiled to
  * `/dist/preload.js` using webpack.
  */
-import { ipcRenderer, remote, shell } from 'electron'
-import url from 'url'
 import os from 'os'
+import url from 'url'
+
+import { ipcRenderer, remote, shell } from 'electron'
 import defaults from 'lodash/defaults'
-import fileExists from '@zap/utils/fileExists'
+
 import dirExists from '@zap/utils/dirExists'
-import { getAllLocalWallets, getWalletDir, deleteLocalWallet } from '@zap/utils/localWallets'
-import lndBinaryPath from '@zap/utils/lndBinaryPath'
-import lndGrpcProtoDir from '@zap/utils/lndGrpcProtoDir'
-import validateHost from '@zap/utils/validateHost'
-import splitHostname from '@zap/utils/splitHostname'
-import { sha256digest } from '@zap/utils/sha256'
-import LndConfig from '@zap/utils/lndConfig'
+import fileExists from '@zap/utils/fileExists'
 import getPackageDetails from '@zap/utils/getPackageDetails'
+import lndBinaryPath from '@zap/utils/lndBinaryPath'
+import LndConfig from '@zap/utils/lndConfig'
+import lndGrpcProtoDir from '@zap/utils/lndGrpcProtoDir'
+import { getAllLocalWallets, getWalletDir, deleteLocalWallet } from '@zap/utils/localWallets'
+import { sha256digest } from '@zap/utils/sha256'
+import splitHostname from '@zap/utils/splitHostname'
+import validateHost from '@zap/utils/validateHost'
+
 import { normalizeBackupDir } from './walletBackup/local'
 
 /**

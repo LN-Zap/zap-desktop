@@ -1,6 +1,8 @@
 import React from 'react'
+
 import { shallow } from 'enzyme'
 import toJSON from 'enzyme-to-json'
+
 import { PayHeader } from 'components/Pay'
 
 describe('component.Pay.PayHeader', () => {

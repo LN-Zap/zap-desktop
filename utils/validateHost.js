@@ -1,8 +1,10 @@
 import dns from 'dns'
 import { promisify } from 'util'
+
 import isFQDN from 'validator/lib/isFQDN'
 import isIP from 'validator/lib/isIP'
 import isPort from 'validator/lib/isPort'
+
 import splitHostname from '@zap/utils/splitHostname'
 
 const dnsLookup = promisify(dns.lookup)

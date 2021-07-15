@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react'
+
 import PropTypes from 'prop-types'
+
 import { Form, SearchInput } from 'components/Form'
 
 const ChannelSearch = ({ searchQuery, placeholder, updateChannelSearchQuery, ...rest }) => {

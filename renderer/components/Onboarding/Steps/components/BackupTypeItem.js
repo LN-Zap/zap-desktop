@@ -1,8 +1,9 @@
 import React from 'react'
+
 import { RadioCard } from 'components/Form'
 import BackupLocal from 'components/Icon/BackupLocal'
-import GoogleDrive from 'components/Icon/GoogleDrive'
 import Dropbox from 'components/Icon/Dropbox'
+import GoogleDrive from 'components/Icon/GoogleDrive'
 
 const ICONS = {
   local: { icon: BackupLocal, width: 80, height: 80 },

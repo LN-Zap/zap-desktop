@@ -1,7 +1,7 @@
-import { grpc } from 'workers'
-import { mainLog } from '@zap/utils/log'
 import createReducer from '@zap/utils/createReducer'
+import { mainLog } from '@zap/utils/log'
 import { updateNodeData } from 'reducers/network'
+import { grpc } from 'workers'
 
 // ------------------------------------
 // Initial State

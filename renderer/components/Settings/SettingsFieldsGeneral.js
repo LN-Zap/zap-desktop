@@ -1,8 +1,11 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
+
 import { currencies, locales, getLanguageName } from '@zap/i18n'
-import { Bar, DataRow } from 'components/UI'
 import { Toggle, Select, FieldLabelFactory } from 'components/Form'
+import { Bar, DataRow } from 'components/UI'
+
 import messages from './messages'
 
 const FieldLabel = FieldLabelFactory(messages)

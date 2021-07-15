@@ -1,5 +1,7 @@
 import React from 'react'
+
 import { storiesOf } from '@storybook/react'
+
 import { Countdown } from 'components/UI'
 
 storiesOf('Components', module).addWithChapters('Countdown', {

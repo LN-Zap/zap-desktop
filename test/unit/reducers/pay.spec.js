@@ -1,4 +1,3 @@
-import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, {
   QUERY_FEES,
   QUERY_FEES_SUCCESS,
@@ -8,6 +7,8 @@ import reducer, {
   QUERY_ROUTES_FAILURE,
   SET_REDIRECT_PAY_REQ,
 } from 'reducers/pay'
+
+import snapshotDiff from '../__helpers__/snapshotDiff'
 
 describe('reducers', () => {
   describe('payReducer', () => {

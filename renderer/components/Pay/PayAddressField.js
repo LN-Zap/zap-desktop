@@ -1,11 +1,14 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
-import { Box } from 'rebass/styled-components'
 import { Keyframes } from 'react-spring/renderprops.cjs'
+import { Box } from 'rebass/styled-components'
+
 import { intlShape } from '@zap/i18n'
 import { LightningInvoiceInput } from 'components/Form'
-import messages from './messages'
+
 import { PAY_FORM_STEPS, PAYMENT_TYPES } from './constants'
+import messages from './messages'
 
 /**
  * Animation to handle showing/hiding the payReq field.

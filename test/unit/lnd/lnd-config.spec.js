@@ -1,4 +1,5 @@
 import { join } from 'path'
+
 import LndConfig from '@zap/utils/lndConfig'
 
 const userDataDir = '/some/data/dir'

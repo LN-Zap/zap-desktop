@@ -1,6 +1,8 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import * as yup from 'yup'
+
 import getDisplayName from '@zap/utils/getDisplayName'
 
 /**

@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+
 import { Name } from 'components/Onboarding/Steps'
 import { setName } from 'reducers/onboarding'
 

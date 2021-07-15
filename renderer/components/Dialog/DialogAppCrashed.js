@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import { Flex, Box } from 'rebass/styled-components'
-import { FormattedMessage, injectIntl } from 'react-intl'
-import styled from 'styled-components'
+
 import { themeGet } from '@styled-system/theme-get'
+import PropTypes from 'prop-types'
+import { FormattedMessage, injectIntl } from 'react-intl'
+import { Flex, Box } from 'rebass/styled-components'
+import styled from 'styled-components'
+
 import Delete from 'components/Icon/Delete'
 import { Dialog, Heading, DialogOverlay, Text, Button, Bar, Span } from 'components/UI'
+
 import messages from './messages'
 
 const ShowDetails = styled(Span)`

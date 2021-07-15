@@ -1,8 +1,11 @@
 import React from 'react'
+
 import { storiesOf } from '@storybook/react'
 import { Flex } from 'rebass/styled-components'
-import { Button, Dropdown, Message, Notification } from 'components/UI'
+
 import { Form, Input, LightningInvoiceInput, Range, TextArea, Toggle } from 'components/Form'
+import { Button, Dropdown, Message, Notification } from 'components/UI'
+
 import { Column, Group, Element } from '../helpers'
 import { Provider } from '../Provider'
 

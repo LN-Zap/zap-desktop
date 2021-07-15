@@ -1,5 +1,5 @@
-import { createSelector } from 'reselect'
 import find from 'lodash/find'
+import { createSelector } from 'reselect'
 
 /**
  * wallets - All wallets.

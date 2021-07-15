@@ -1,11 +1,13 @@
 /* eslint global-require: 0, import/no-dynamic-require: 0 */
 import path from 'path'
-import webpack from 'webpack'
-import merge from 'webpack-merge'
+
 import AddAssetHtmlPlugin from 'add-asset-html-webpack-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
-import HtmlWebpackPlugin from 'html-webpack-plugin'
 import CspHtmlWebpackPlugin from 'csp-html-webpack-plugin'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import webpack from 'webpack'
+import merge from 'webpack-merge'
+
 import baseConfig, { rootDir } from '../webpack.config.base'
 import devServer, { publicPath } from './common/devserver'
 import plugins from './common/plugins'

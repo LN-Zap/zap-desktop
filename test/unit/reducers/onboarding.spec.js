@@ -1,4 +1,3 @@
-import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, {
   SET_CONNECTION_TYPE,
   SET_CONNECTION_STRING,
@@ -19,6 +18,8 @@ import reducer, {
   RESET_ONBOARDING,
   SET_LNDCONNECT,
 } from 'reducers/onboarding'
+
+import snapshotDiff from '../__helpers__/snapshotDiff'
 
 describe('reducers', () => {
   describe('onboardingReducer', () => {

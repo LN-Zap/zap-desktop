@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
+
 import PropTypes from 'prop-types'
-import { useDebounce } from 'hooks'
+
 import { Form, SearchInput } from 'components/Form'
+import { useDebounce } from 'hooks'
 
 const ActivitySearch = ({ searchText, placeholder, updateSearchText, ...rest }) => {
   const [value, setValue] = useState()

@@ -1,13 +1,16 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass/styled-components'
+
 import { intlShape } from '@zap/i18n'
-import { Text } from 'components/UI'
-import Zap from 'components/Icon/Zap'
-import { CryptoValue, FiatValue, FormattedDateTime } from 'containers/UI'
-import messages from './messages'
 import Clock from 'components/Icon/Clock'
+import Zap from 'components/Icon/Zap'
+import { Text } from 'components/UI'
+import { CryptoValue, FiatValue, FormattedDateTime } from 'containers/UI'
+
+import messages from './messages'
 
 const ZapIcon = () => <Zap height="1.6em" width="1.6em" />
 

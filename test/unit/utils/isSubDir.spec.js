@@ -1,4 +1,5 @@
 import os from 'os'
+
 import isSubDir from '@zap/utils/isSubDir'
 
 describe('isSubDir', () => {

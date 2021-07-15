@@ -1,11 +1,14 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass/styled-components'
+
 import { Card } from 'components/UI'
+
 import WalletBalance from './WalletBalance'
 import WalletButtons from './WalletButtons'
-import WalletMenu from './WalletMenu'
 import WalletLogo from './WalletLogo'
+import WalletMenu from './WalletMenu'
 
 const Wallet = ({ totalBalance, networkInfo, openWalletModal, openModal }) => (
   <Card bg="secondaryColor" p={0} pb={3} pt={4}>

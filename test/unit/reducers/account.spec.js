@@ -1,4 +1,3 @@
-import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, {
   INIT_ACCOUNT,
   INIT_ACCOUNT_SUCCESS,
@@ -8,6 +7,8 @@ import reducer, {
   LOGIN_FAILURE,
   LOGIN_CLEAR_ERROR,
 } from 'reducers/account'
+
+import snapshotDiff from '../__helpers__/snapshotDiff'
 
 describe('reducers', () => {
   describe('accountReducer', () => {

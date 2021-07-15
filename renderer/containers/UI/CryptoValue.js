@@ -1,6 +1,8 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+
 import Span from 'components/UI/Span'
 import Value from 'components/UI/Value'
 import { tickerSelectors } from 'reducers/ticker'

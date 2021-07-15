@@ -1,8 +1,10 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { tickerSelectors } from 'reducers/ticker'
+
 import { Span, Value } from 'components/UI'
+import { tickerSelectors } from 'reducers/ticker'
 
 const mapStateToProps = state => ({
   currentTicker: tickerSelectors.currentTicker(state),

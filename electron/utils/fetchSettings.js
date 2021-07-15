@@ -1,7 +1,8 @@
-import { BrowserWindow } from 'electron'
 import config from 'config'
-import { mainLog } from '@zap/utils/log'
+import { BrowserWindow } from 'electron'
+
 import getDbName from '@zap/utils/db'
+import { mainLog } from '@zap/utils/log'
 
 /**
  * fetchSettings - Fetch user settings from indexedDb.

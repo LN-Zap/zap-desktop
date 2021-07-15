@@ -1,9 +1,11 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
-import { login, clearLoginError, accountSelectors, LOGIN_NOT_ALLOWED } from 'reducers/account'
+
 import Login from 'components/Login'
+import { login, clearLoginError, accountSelectors, LOGIN_NOT_ALLOWED } from 'reducers/account'
 
 const WrappedLogin = ({
   isAccountPasswordEnabled,

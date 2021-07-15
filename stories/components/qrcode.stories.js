@@ -1,5 +1,7 @@
 import React from 'react'
+
 import { storiesOf } from '@storybook/react'
+
 import { QRCode } from 'components/UI'
 
 /* eslint-disable max-len */

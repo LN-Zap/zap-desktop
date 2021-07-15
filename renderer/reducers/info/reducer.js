@@ -1,9 +1,11 @@
 import get from 'lodash/get'
+
 import createReducer from '@zap/utils/createReducer'
 import { networks } from '@zap/utils/crypto'
-import { grpc } from 'workers'
 import { initAddresses, addressSelectors } from 'reducers/address'
 import { putWallet, walletSelectors } from 'reducers/wallet'
+import { grpc } from 'workers'
+
 import * as constants from './constants'
 
 const { GET_INFO, RECEIVE_INFO, SET_HAS_SYNCED } = constants

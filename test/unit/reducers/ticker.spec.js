@@ -1,5 +1,6 @@
-import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, { GET_TICKERS, RECIEVE_TICKERS } from 'reducers/ticker'
+
+import snapshotDiff from '../__helpers__/snapshotDiff'
 
 describe('reducers', () => {
   describe('tickerReducer', () => {

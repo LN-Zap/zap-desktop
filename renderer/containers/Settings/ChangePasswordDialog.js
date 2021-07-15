@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+
 import ChangePasswordDialog from 'components/Settings/Security/ChangePasswordDialog'
 import {
   changePassword as onChange,

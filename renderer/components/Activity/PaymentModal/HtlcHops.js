@@ -1,11 +1,14 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
-import { Flex } from 'rebass/styled-components'
 import { useIntl } from 'react-intl'
+import { Flex } from 'rebass/styled-components'
+
 import { CoinBig } from '@zap/utils/coin'
-import { getDisplayNodeName } from 'reducers/payment/utils'
-import { Truncate } from 'components/Util'
 import ArrowRight from 'components/Icon/ArrowRight'
+import { Truncate } from 'components/Util'
+import { getDisplayNodeName } from 'reducers/payment/utils'
+
 import messages from './messages'
 
 const HtlcHops = ({ hops, ...rest }) => {
@@ -19,7 +22,6 @@ const HtlcHops = ({ hops, ...rest }) => {
         const multiHop = hops.length > 1
         return (
           <Flex
-            key={hop.pubKey}
             alignItems="center"
             className="hint--top-left"
             color={isLast ? null : 'grey'}
@@ -28,6 +30,7 @@ const HtlcHops = ({ hops, ...rest }) => {
               { hopFee: formatNumber(hop.feeMsat), cryptoUnitName: 'msat' }
             )}
             justifyContent="flex-end"
+            key={hop.pubKey}
             my={1}
           >
             {multiHop && (

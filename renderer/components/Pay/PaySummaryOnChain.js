@@ -1,12 +1,15 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage } from 'react-intl'
+import { Box, Flex } from 'rebass/styled-components'
+
+import { TransactionSpeedDesc } from 'components/Form'
 import BigArrowRight from 'components/Icon/BigArrowRight'
 import { Bar, DataRow, Spinner, Text } from 'components/UI'
-import { TransactionSpeedDesc } from 'components/Form'
-import { CryptoValueSelector, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
+import { CryptoValueSelector, FiatValue } from 'containers/UI'
+
 import messages from './messages'
 
 class PaySummaryOnChain extends React.Component {
@@ -92,18 +95,7 @@ class PaySummaryOnChain extends React.Component {
   }
 
   render() {
-    const {
-      amount,
-      address,
-      cryptoUnitName,
-      onchainFees,
-      isQueryingFees,
-      isCoinSweep,
-      lndTargetConfirmations,
-      fee,
-      speed,
-      ...rest
-    } = this.props
+    const { amount, address, isCoinSweep, ...rest } = this.props
     return (
       <Box {...rest}>
         <Box py={3}>

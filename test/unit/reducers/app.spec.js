@@ -1,4 +1,3 @@
-import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, {
   SET_LOADING,
   SET_MOUNTED,
@@ -10,6 +9,8 @@ import reducer, {
   TERMINATE_APP,
   TERMINATE_APP_SUCCESS,
 } from 'reducers/app'
+
+import snapshotDiff from '../__helpers__/snapshotDiff'
 
 describe('reducers', () => {
   describe('appReducer', () => {

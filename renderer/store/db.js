@@ -1,10 +1,12 @@
-import Dexie from 'dexie'
 import config from 'config'
+import Dexie from 'dexie'
+
 import getDbName from '@zap/utils/db'
-import Node from './schema/node'
-import Wallet, { hooks as walletHooks } from './schema/wallet'
-import Setting from './schema/setting'
+
 import dbVersions from './dbVersions'
+import Node from './schema/node'
+import Setting from './schema/setting'
+import Wallet, { hooks as walletHooks } from './schema/wallet'
 
 /**
  * getDb - Define the database.

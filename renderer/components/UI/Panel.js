@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { Box, Flex } from 'rebass/styled-components'
 
 const PanelHeader = props => <Box as="header" {...props} />

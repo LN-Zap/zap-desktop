@@ -1,9 +1,10 @@
 import React, { useContext } from 'react'
-import PropTypes from 'prop-types'
-import styled, { ThemeContext } from 'styled-components'
+
 import { themeGet } from '@styled-system/theme-get'
-import { Box, Card } from 'rebass/styled-components'
+import PropTypes from 'prop-types'
 import QRCode from 'qrcode.react'
+import { Box, Card } from 'rebass/styled-components'
+import styled, { ThemeContext } from 'styled-components'
 
 const QRCODE_SIZE_SMALL = 'small'
 const QRCODE_SIZE_MEDIUM = 'medium'

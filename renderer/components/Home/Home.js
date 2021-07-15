@@ -1,9 +1,12 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom'
 import { Box, Flex } from 'rebass/styled-components'
-import { Bar, MainContent, Panel, Sidebar } from 'components/UI'
+
 import ZapLogo from 'components/Icon/ZapLogo'
+import { Bar, MainContent, Panel, Sidebar } from 'components/UI'
+
 import CreateWalletButton from './CreateWalletButton'
 import NoWallets from './NoWallets'
 import WalletLauncher from './WalletLauncher'
@@ -128,7 +131,6 @@ class Home extends React.Component {
                 }
                 return (
                   <WalletLauncher
-                    key={wallet.id}
                     clearStartLndError={clearStartLndError}
                     deleteWallet={deleteWallet}
                     generateLndConfigFromWallet={generateLndConfigFromWallet}
@@ -136,6 +138,7 @@ class Home extends React.Component {
                     isNeutrinoRunning={isNeutrinoRunning}
                     isStartingLnd={isStartingLnd}
                     isWalletUnlockerGrpcActive={isWalletUnlockerGrpcActive}
+                    key={wallet.id}
                     putWallet={putWallet}
                     resetApp={resetApp}
                     showError={showError}
@@ -159,9 +162,9 @@ class Home extends React.Component {
                 }
                 return (
                   <WalletUnlocker
-                    key={wallet.id}
                     isLightningGrpcActive={isLightningGrpcActive}
                     isUnlockingWallet={isUnlockingWallet}
+                    key={wallet.id}
                     setUnlockWalletError={setUnlockWalletError}
                     unlockWallet={unlockWallet}
                     unlockWalletError={unlockWalletError}

@@ -1,10 +1,13 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react'
+
+import { asField } from 'informed'
 import PropTypes from 'prop-types'
 import { compose } from 'redux'
-import { asField } from 'informed'
 import * as yup from 'yup'
+
 import { withInputValidation } from 'hocs'
+
 import { BasicInput } from './Input'
 
 // Regex to check for only numeric values.

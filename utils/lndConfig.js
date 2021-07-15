@@ -1,16 +1,18 @@
-import { join, isAbsolute } from 'path'
-import createDebug from 'debug'
-import untildify from 'untildify'
-import tildify from 'tildify'
-import lndconnect from 'lndconnect'
 import fs from 'fs'
 import { tmpdir } from 'os'
+import { join, isAbsolute } from 'path'
 import util from 'util'
-import pick from 'lodash/pick'
-import get from 'lodash/get'
+
 import config from 'config'
-import { mainLog } from '@zap/utils/log'
+import createDebug from 'debug'
+import lndconnect from 'lndconnect'
+import get from 'lodash/get'
+import pick from 'lodash/pick'
+import tildify from 'tildify'
+import untildify from 'untildify'
+
 import getLndListen from '@zap/utils/getLndListen'
+import { mainLog } from '@zap/utils/log'
 
 const readFile = util.promisify(fs.readFile)
 

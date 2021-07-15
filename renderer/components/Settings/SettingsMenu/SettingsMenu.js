@@ -1,14 +1,17 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
+import { withRouter } from 'react-router-dom'
 import { Flex } from 'rebass/styled-components'
+
 import { getLanguageName } from '@zap/i18n'
-import { Dropmenu, StatusIndicator } from 'components/UI'
-import { WalletName } from 'components/Util'
 import Logout from 'components/Icon/Logout'
 import Settings from 'components/Icon/Settings'
 import UserCircle from 'components/Icon/UserCircle'
+import { Dropmenu, StatusIndicator } from 'components/UI'
+import { WalletName } from 'components/Util'
+
 import messages from './messages'
 
 const buildLocaleMenu = localeProps => {

@@ -1,15 +1,17 @@
-import get from 'lodash/get'
 import defaults from 'lodash/defaults'
-import omitBy from 'lodash/omitBy'
+import get from 'lodash/get'
 import isNil from 'lodash/isNil'
+import omitBy from 'lodash/omitBy'
 import pick from 'lodash/pick'
-import { grpc } from 'workers'
+
 import createReducer from '@zap/utils/createReducer'
-import { estimateFeeRange } from '@zap/utils/fee'
 import { isPubkey, getTag } from '@zap/utils/crypto'
-import { settingsSelectors } from 'reducers/settings'
+import { estimateFeeRange } from '@zap/utils/fee'
 import { infoSelectors } from 'reducers/info'
 import { prepareKeysendProbe, prepareBolt11Probe } from 'reducers/payment'
+import { settingsSelectors } from 'reducers/settings'
+import { grpc } from 'workers'
+
 import * as constants from './constants'
 
 const {

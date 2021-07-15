@@ -1,6 +1,9 @@
 import React from 'react'
+
 import { storiesOf } from '@storybook/react'
+
 import { ChannelCreateSummary } from 'components/Channels'
+
 import { Provider } from '../../Provider'
 
 storiesOf('Containers.Channels', module)

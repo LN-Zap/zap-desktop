@@ -1,8 +1,9 @@
 import React from 'react'
-import { storiesOf } from '@storybook/react'
+
 import { linkTo } from '@storybook/addon-links'
+import { storiesOf } from '@storybook/react'
 import { Box, Flex } from 'rebass/styled-components'
-import { Text } from 'components/UI'
+
 import AngleDown from 'components/Icon/AngleDown'
 import AngleLeft from 'components/Icon/AngleLeft'
 import AngleRight from 'components/Icon/AngleRight'
@@ -75,6 +76,7 @@ import Zap from 'components/Icon/Zap'
 import ZapLogo from 'components/Icon/ZapLogo'
 import ZapLogoFull from 'components/Icon/ZapLogoFull'
 import ZapSolid from 'components/Icon/ZapSolid'
+import { Text } from 'components/UI'
 
 const zapIconsList = {
   AngleDown,
@@ -175,12 +177,12 @@ storiesOf('General', module).addWithChapters('Icons', {
                 const Icon = zapIconsList[name]
                 return (
                   <Flex
-                    key={name}
                     alignItems="center"
                     css={`
                       cursor: pointer;
                     `}
                     flexDirection="column"
+                    key={name}
                     mb={3}
                     onClick={linkTo('Icons', name)}
                   >

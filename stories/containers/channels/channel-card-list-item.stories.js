@@ -1,10 +1,13 @@
 import React from 'react'
-import { storiesOf } from '@storybook/react'
-import { number, select } from '@storybook/addon-knobs'
+
 import { action } from '@storybook/addon-actions'
+import { number, select } from '@storybook/addon-knobs'
+import { storiesOf } from '@storybook/react'
+
+import { ChannelCardListItem } from 'components/Channels'
 import { infoSelectors } from 'reducers/info'
 import { tickerSelectors } from 'reducers/ticker'
-import { ChannelCardListItem } from 'components/Channels'
+
 import { Provider, store } from '../../Provider'
 
 const setSelectedChannel = action('setSelectedChannel')

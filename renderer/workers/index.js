@@ -1,5 +1,6 @@
 /* eslint-disable  max-classes-per-file */
 import { wrap } from 'comlink'
+
 import proxymise from './proxymise'
 
 const Neutrino = wrap(new Worker(`./neutrino.worker.js`))

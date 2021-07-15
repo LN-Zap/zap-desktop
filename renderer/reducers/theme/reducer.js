@@ -1,8 +1,9 @@
-import { dark, light } from 'themes'
 import createReducer from '@zap/utils/createReducer'
 import { putConfig, settingsSelectors } from 'reducers/settings'
-import themeSelectors from './selectors'
+import { dark, light } from 'themes'
+
 import * as constants from './constants'
+import themeSelectors from './selectors'
 
 const { SET_THEME } = constants
 

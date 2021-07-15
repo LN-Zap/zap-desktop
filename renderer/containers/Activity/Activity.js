@@ -1,8 +1,9 @@
 import { connect } from 'react-redux'
-import { activitySelectors, loadPage, ERROR_DETAILS_DIALOG_ID } from 'reducers/activity'
-import { showNotification } from 'reducers/notification'
-import { modalSelectors, closeDialog } from 'reducers/modal'
+
 import Activity from 'components/Activity'
+import { activitySelectors, loadPage, ERROR_DETAILS_DIALOG_ID } from 'reducers/activity'
+import { modalSelectors, closeDialog } from 'reducers/modal'
+import { showNotification } from 'reducers/notification'
 
 const hideErrorDetailsDialog = closeDialog.bind(null, ERROR_DETAILS_DIALOG_ID)
 

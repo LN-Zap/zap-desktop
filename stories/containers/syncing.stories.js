@@ -1,12 +1,15 @@
 import React from 'react'
-import { storiesOf } from '@storybook/react'
-import { linkTo } from '@storybook/addon-links'
+
 import { boolean, number, select } from '@storybook/addon-knobs'
-import { Modal } from 'components/UI'
+import { linkTo } from '@storybook/addon-links'
+import { storiesOf } from '@storybook/react'
+
 import Syncing from 'components/Syncing'
+import { Modal } from 'components/UI'
 import { neutrinoSelectors } from 'reducers/neutrino'
-import { Provider, store } from '../Provider'
+
 import { Window } from '../helpers'
+import { Provider, store } from '../Provider'
 
 const setIsWalletOpen = () => ({})
 const showNotification = () => ({})

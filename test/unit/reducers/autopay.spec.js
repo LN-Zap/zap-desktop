@@ -1,4 +1,3 @@
-import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, {
   UPDATE_AUTOPAY_SEARCH_QUERY,
   SET_SELECTED_MERCHANT,
@@ -8,6 +7,8 @@ import reducer, {
   SET_EDIT_MODE,
   RESET_EDIT_MODE,
 } from 'reducers/autopay'
+
+import snapshotDiff from '../__helpers__/snapshotDiff'
 
 describe('reducers', () => {
   describe('autopayReducer', () => {

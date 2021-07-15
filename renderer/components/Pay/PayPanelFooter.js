@@ -1,15 +1,18 @@
 import React, { useRef } from 'react'
+
 import PropTypes from 'prop-types'
-import { Flex } from 'rebass/styled-components'
 import { FormattedMessage, useIntl } from 'react-intl'
-import { CoinBig } from '@zap/utils/coin'
+import { Flex } from 'rebass/styled-components'
+
 import { convert } from '@zap/utils/btc'
-import { usePrevious } from 'hooks'
-import { CryptoValue } from 'containers/UI'
+import { CoinBig } from '@zap/utils/coin'
 import { Message, Text } from 'components/UI'
+import { CryptoValue } from 'containers/UI'
+import { usePrevious } from 'hooks'
+
+import { PAY_FORM_STEPS, PAYMENT_TYPES } from './constants'
 import messages from './messages'
 import PayButtons from './PayButtons'
-import { PAY_FORM_STEPS, PAYMENT_TYPES } from './constants'
 
 const isEnoughFunds = props => {
   // convert entered amount to satoshis

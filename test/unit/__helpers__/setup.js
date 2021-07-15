@@ -1,8 +1,8 @@
 import 'jest-styled-components'
-import snapshotDiff from 'snapshot-diff'
 import axios from 'axios'
 import { configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
+import snapshotDiff from 'snapshot-diff'
 
 // Import the preload script in order to ensure that global helpers get injected.
 import '@zap/electron/preload'

@@ -1,8 +1,10 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
+
 import { themeGet } from '@styled-system/theme-get'
+import PropTypes from 'prop-types'
 import { Box } from 'rebass/styled-components'
+import styled from 'styled-components'
+
 import { Button } from 'components/UI'
 
 const StyledButton = styled(Button)`

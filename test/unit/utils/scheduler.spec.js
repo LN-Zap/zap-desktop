@@ -1,6 +1,6 @@
-import createScheduler from '@zap/utils/scheduler'
 import delay from '@zap/utils/delay'
 import promiseTimeout from '@zap/utils/promiseTimeout'
+import createScheduler from '@zap/utils/scheduler'
 
 describe('createScheduler tasks management', () => {
   it('add task by task callback', () => {

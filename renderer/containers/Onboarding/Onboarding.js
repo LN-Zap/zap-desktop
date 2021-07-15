@@ -1,21 +1,24 @@
 import React, { useEffect } from 'react'
+
+import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { FormattedMessage } from 'react-intl'
-import PropTypes from 'prop-types'
 import { Flex, Box } from 'rebass/styled-components'
 import styled from 'styled-components'
-import { usePrevious, useOnKeydown } from 'hooks'
-import { Panel, Wizard, Modal, ModalOverlayStyles } from 'components/UI'
-import messages from 'components/Onboarding/messages'
-import { backupSelectors } from 'reducers/backup'
+
 import {
   isMainnetAutopilot,
   isNetworkSelectionEnabled,
   isSCBRestoreEnabled,
 } from '@zap/utils/featureFlag'
-import * as Steps from './Steps'
 import AppErrorBoundary from 'components/ErrorBoundary/AppErrorBoundary'
+import messages from 'components/Onboarding/messages'
+import { Panel, Wizard, Modal, ModalOverlayStyles } from 'components/UI'
+import { usePrevious, useOnKeydown } from 'hooks'
+import { backupSelectors } from 'reducers/backup'
+
+import * as Steps from './Steps'
 
 /**
  * removeSteps - Remove for steps based on a set of conditions.
@@ -56,7 +59,7 @@ const getBaseSteps = connectionType => {
         <Steps.Name key="Name" />,
         <Steps.Network key="Network" />,
         <Steps.Autopilot key="Autopilot" />,
-        <Steps.BackupSetup key="BackupSetup" canSkip />,
+        <Steps.BackupSetup canSkip key="BackupSetup" />,
         <Steps.BackupSetupLocal key="BackupSetupLocal" />,
         <Steps.WalletCreate key="WalletCreate" />,
       ]
@@ -72,7 +75,7 @@ const getBaseSteps = connectionType => {
         <Steps.Name key="Name" />,
         <Steps.Network key="Network" />,
         <Steps.Autopilot key="Autopilot" />,
-        <Steps.BackupSetup key="BackupSetup" canSkip isRestoreMode />,
+        <Steps.BackupSetup canSkip isRestoreMode key="BackupSetup" />,
         <Steps.BackupSetupLocal key="BackupSetupLocal" />,
         <Steps.WalletRecover key="WalletRecover" />,
       ]
@@ -95,7 +98,7 @@ const getBaseSteps = connectionType => {
 
   formSteps.unshift(<Steps.ConnectionType key="ConnectionType" />)
   return formSteps.map(component => (
-    <Wizard.Step key={component.key} canSkip={component.props.canSkip} component={component} />
+    <Wizard.Step canSkip={component.props.canSkip} component={component} key={component.key} />
   ))
 }
 

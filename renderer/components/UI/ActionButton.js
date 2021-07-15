@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
+
+import { themeGet } from '@styled-system/theme-get'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { themeGet } from '@styled-system/theme-get'
+
 import delay from '@zap/utils/delay'
+
 import Button from './Button'
 import Spinner from './Spinner'
 
@@ -40,11 +43,11 @@ const ActionButton = ({ children, hint, isLoading, onClick, timeout = 1000, ...r
 
   return (
     <StyledButton
-      ref={buttonRef}
       active={status === 'fetching'}
       className="hint--bottom-left"
       data-hint={hint}
       onClick={handleClick}
+      ref={buttonRef}
       size="small"
       variant="secondary"
       {...rest}

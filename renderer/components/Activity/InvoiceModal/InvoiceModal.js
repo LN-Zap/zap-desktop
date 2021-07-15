@@ -1,9 +1,12 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Bar, Header, Panel } from 'components/UI'
-import { RequestSummary } from 'components/Request'
+
 import Lightning from 'components/Icon/Lightning'
+import { RequestSummary } from 'components/Request'
+import { Bar, Header, Panel } from 'components/UI'
+
 import messages from './messages'
 
 const InvoiceModal = ({

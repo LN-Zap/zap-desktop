@@ -1,9 +1,12 @@
 import React from 'react'
+
 import { storiesOf } from '@storybook/react'
+
 import { MainContent } from 'components/UI'
 import Wallet from 'containers/Wallet'
-import { Provider } from '../Provider'
+
 import { Window } from '../helpers'
+import { Provider } from '../Provider'
 
 storiesOf('Containers.Wallet', module)
   .addDecorator(story => <Provider story={story()} />)

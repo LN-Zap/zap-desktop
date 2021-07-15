@@ -1,10 +1,13 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass/styled-components'
 import { useIntl } from 'react-intl'
-import { CryptoSelector, CryptoValue, FiatValue } from 'containers/UI'
-import { Button, Text } from 'components/UI'
+import { Box, Flex } from 'rebass/styled-components'
+
 import Qrcode from 'components/Icon/Qrcode'
+import { Button, Text } from 'components/UI'
+import { CryptoSelector, CryptoValue, FiatValue } from 'containers/UI'
+
 import messages from './messages'
 
 const WalletBalance = ({ totalBalance, openWalletModal }) => {

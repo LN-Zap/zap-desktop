@@ -1,9 +1,12 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Bar, Header, Message } from 'components/UI'
-import { Form, RadioGroup, Radio } from 'components/Form'
+
 import { isMainnetAsDefault } from '@zap/utils/featureFlag'
+import { Form, RadioGroup, Radio } from 'components/Form'
+import { Bar, Header, Message } from 'components/UI'
+
 import messages from './messages'
 
 class Network extends React.Component {
@@ -30,19 +33,19 @@ class Network extends React.Component {
   }
 
   render() {
-    const { wizardApi, wizardState, network, setNetwork, ...rest } = this.props
+    const { wizardApi, wizardState, network, ...rest } = this.props
     const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
     const networkTypes = [
       <Radio
+        description={<FormattedMessage {...messages.network_mainnet_description} />}
         key="mainnet"
-        description=<FormattedMessage {...messages.network_mainnet_description} />
         label={<FormattedMessage {...messages.network_mainnet} />}
         value="mainnet"
       />,
       <Radio
+        description={<FormattedMessage {...messages.network_testnet_description} />}
         key="testnet"
-        description=<FormattedMessage {...messages.network_testnet_description} />
         label={<FormattedMessage {...messages.network_testnet} />}
         value="testnet"
       />,

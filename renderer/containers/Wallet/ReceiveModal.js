@@ -1,10 +1,11 @@
 import { connect } from 'react-redux'
+
 import ReceiveModal from 'components/Wallet/ReceiveModal'
 import { addressSelectors } from 'reducers/address'
-import { walletSelectors } from 'reducers/wallet'
-import { tickerSelectors } from 'reducers/ticker'
 import { infoSelectors } from 'reducers/info'
 import { showNotification } from 'reducers/notification'
+import { tickerSelectors } from 'reducers/ticker'
+import { walletSelectors } from 'reducers/wallet'
 
 const mapStateToProps = state => ({
   networkInfo: infoSelectors.networkInfo(state),

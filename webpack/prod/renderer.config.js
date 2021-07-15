@@ -1,8 +1,10 @@
 import path from 'path'
-import merge from 'webpack-merge'
+
 import CopyWebpackPlugin from 'copy-webpack-plugin'
-import HtmlWebpackPlugin from 'html-webpack-plugin'
 import CspHtmlWebpackPlugin from 'csp-html-webpack-plugin'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import merge from 'webpack-merge'
+
 import baseConfig, { rootDir } from '../webpack.config.base'
 import plugins from './common/plugins'
 

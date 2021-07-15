@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass/styled-components'
-import { FormattedMessage, useIntl } from 'react-intl'
+
 import copy from 'copy-to-clipboard'
+import PropTypes from 'prop-types'
+import { FormattedMessage, useIntl } from 'react-intl'
+import { Box, Flex } from 'rebass/styled-components'
+
 import { Bar, DataRow, Button, QRCode, Text, Countdown } from 'components/UI'
+import { Truncate } from 'components/Util'
 import {
   CryptoSelector,
   CryptoValue,
@@ -11,10 +14,10 @@ import {
   FiatValue,
   FormattedDateTime,
 } from 'containers/UI'
-import { Truncate } from 'components/Util'
-import RequestSettlePrompt from './RequestSettlePrompt'
-import messages from './messages'
 import { useIntlMap } from 'hooks'
+
+import messages from './messages'
+import RequestSettlePrompt from './RequestSettlePrompt'
 
 const messageMap = [{ key: 'OPEN' }, { key: 'SETTLED' }, { key: 'CANCELED' }, { key: 'ACCEPTED' }]
 const messageMapper = key => {
@@ -34,7 +37,6 @@ const RequestSummary = ({
   settleInvoiceError,
   invoice = {},
   showNotification,
-  isHoldInvoiceEnabled,
   isInvoiceCancelling,
   isInvoiceSettling,
   ...rest
@@ -245,7 +247,6 @@ RequestSummary.propTypes = {
   cancelInvoice: PropTypes.func.isRequired,
   clearSettleInvoiceError: PropTypes.func.isRequired,
   invoice: PropTypes.object.isRequired,
-  isHoldInvoiceEnabled: PropTypes.bool,
   isInvoiceCancelling: PropTypes.bool,
   isInvoiceSettling: PropTypes.bool,
   settleInvoice: PropTypes.func.isRequired,

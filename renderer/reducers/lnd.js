@@ -1,18 +1,20 @@
+import { proxy } from 'comlink'
 import config from 'config'
 import { createSelector } from 'reselect'
-import { proxy } from 'comlink'
-import { grpc } from 'workers'
+
 import createReducer from '@zap/utils/createReducer'
-import { fetchInfo, setInfo } from './info'
-import { startNeutrino, stopNeutrino } from './neutrino'
-import { putWallet, removeWallet, setActiveWallet, walletSelectors } from './wallet'
-import { fetchBalance } from './balance'
-import { setSeed } from './onboarding'
-import { receiveInvoiceData } from './invoice'
-import { receiveChannelGraphData } from './channels'
-import { receiveTransactionData } from './transaction'
-import { receiveHtlcEventData } from './payment'
+import { grpc } from 'workers'
+
 import { backupCurrentWallet, setupBackupService } from './backup'
+import { fetchBalance } from './balance'
+import { receiveChannelGraphData } from './channels'
+import { fetchInfo, setInfo } from './info'
+import { receiveInvoiceData } from './invoice'
+import { startNeutrino, stopNeutrino } from './neutrino'
+import { setSeed } from './onboarding'
+import { receiveHtlcEventData } from './payment'
+import { receiveTransactionData } from './transaction'
+import { putWallet, removeWallet, setActiveWallet, walletSelectors } from './wallet'
 
 // ------------------------------------
 // Initial State

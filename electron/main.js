@@ -6,31 +6,34 @@
  * When running `npm run build` or `npm run build-main`, this file is compiled to
  * `/dist/main.js` using webpack. This gives us some performance wins.
  */
+import fs from 'fs'
+import os from 'os'
+import path from 'path'
+
+import bip21 from 'bip21'
+import config from 'config'
 import { app, session, BrowserWindow } from 'electron'
-import isDev from 'electron-is-dev'
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS,
 } from 'electron-devtools-installer'
+import isDev from 'electron-is-dev'
 import get from 'lodash/get'
-import path from 'path'
-import os from 'os'
-import fs from 'fs'
-import bip21 from 'bip21'
-import config from 'config'
-import { mainLog } from '@zap/utils/log'
-import { parseLnUrl } from '@zap/utils/lnurl'
-import appRootPath from '@zap/utils/appRootPath'
+
 import themes from '@zap/renderer/themes'
-import ZapMenuBuilder from './menuBuilder'
+import appRootPath from '@zap/utils/appRootPath'
+import { parseLnUrl } from '@zap/utils/lnurl'
+import { mainLog } from '@zap/utils/log'
+
 import ZapController from './controller'
-import createBackupService from './walletBackup/service'
-import createStorageService from './secureStorage'
 import LnurlService from './lnurl'
-import createPDFGeneratorService from './pdfGenerator/service'
-import ZapUpdater from './updater'
+import ZapMenuBuilder from './menuBuilder'
 import ZapMigrator from './migrator'
+import createPDFGeneratorService from './pdfGenerator/service'
+import createStorageService from './secureStorage'
+import ZapUpdater from './updater'
 import fetchSettings from './utils/fetchSettings'
+import createBackupService from './walletBackup/service'
 
 // Set the Electron userDir to a temporary directory if the ELECTRON_USER_DIR_TEMP env var is set.
 // This provides an easy way to run the app with a completely fresh environment, useful for e2e tests.

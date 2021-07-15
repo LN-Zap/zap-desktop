@@ -1,8 +1,11 @@
 import React from 'react'
+
 import { FormattedMessage } from 'react-intl'
 import { Box, Flex } from 'rebass/styled-components'
-import { Button } from 'components/UI'
+
 import ArrowLeft from 'components/Icon/ArrowLeft'
+import { Button } from 'components/UI'
+
 import messages from './messages'
 
 const ChannelBackButton = props => {

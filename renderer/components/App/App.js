@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react'
+
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass/styled-components'
+
 import createScheduler from '@zap/utils/scheduler'
-import Wallet from 'containers/Wallet'
 import Activity from 'containers/Activity'
 import LnurlAuthPrompt from 'containers/Lnurl/LnurlAuthPrompt'
-import LnurlWithdrawPrompt from 'containers/Lnurl/LnurlWithdrawPrompt'
 import LnurlChannelPrompt from 'containers/Lnurl/LnurlChannelPrompt'
+import LnurlWithdrawPrompt from 'containers/Lnurl/LnurlWithdrawPrompt'
+import Wallet from 'containers/Wallet'
 
 // Bitcoin blocks come on average every 10 mins
 // but we poll a lot more frequently to make UI a little bit more responsive

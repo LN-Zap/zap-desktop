@@ -1,9 +1,11 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { Box } from 'rebass/styled-components'
+
+import ConnectionDetailsContext from './ConnectionDetailsContext'
 import ConnectionDetailsManual from './ConnectionDetailsManual'
 import ConnectionDetailsString from './ConnectionDetailsString'
-import ConnectionDetailsContext from './ConnectionDetailsContext'
 import { FORM_TYPE_CONNECTION_STRING, FORM_TYPE_MANUAL } from './constants'
 
 class ConnectionDetails extends React.Component {

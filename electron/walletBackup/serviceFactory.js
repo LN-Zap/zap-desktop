@@ -1,7 +1,8 @@
 import createSingletonFactory from '@zap/utils/singleton'
+
+import Dropbox from './dropbox'
 import GoogleDrive from './gdrive'
 import Local from './local'
-import Dropbox from './dropbox'
 
 export const GOOGLE_DRIVE = 'gdrive'
 export const DROPBOX = 'dropbox'

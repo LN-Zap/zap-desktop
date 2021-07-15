@@ -1,7 +1,10 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { Box } from 'rebass/styled-components'
+
 import Circle from 'components/Icon/Circle'
+
 import Spinner from './Spinner'
 
 const StatusIndicator = ({ variant, ...rest }) => (

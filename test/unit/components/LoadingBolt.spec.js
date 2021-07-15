@@ -1,10 +1,13 @@
 import React from 'react'
-import { ThemeProvider } from 'styled-components'
-import { RawIntlProvider } from 'react-intl'
+
 import { mount } from 'enzyme'
-import LoadingBolt from 'components/Loading/LoadingBolt'
+import { RawIntlProvider } from 'react-intl'
+import { ThemeProvider } from 'styled-components'
+
 import CloudLightning from 'components/Icon/CloudLightning'
+import LoadingBolt from 'components/Loading/LoadingBolt'
 import { dark } from 'themes'
+
 import intl from '../__helpers__/intl'
 
 describe('component.LoadingBolt', () => {

@@ -1,8 +1,11 @@
 import React from 'react'
+
 import { storiesOf } from '@storybook/react'
+
 import Channels from 'containers/Channels'
-import { Provider } from '../../Provider'
+
 import { Window } from '../../helpers'
+import { Provider } from '../../Provider'
 
 storiesOf('Containers.Channels', module)
   .addDecorator(story => <Provider story={story()} />)

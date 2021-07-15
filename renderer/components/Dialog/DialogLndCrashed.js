@@ -1,10 +1,13 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
-import { Flex, Box } from 'rebass/styled-components'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
+import { Flex, Box } from 'rebass/styled-components'
+
 import Delete from 'components/Icon/Delete'
 import { Dialog, Heading, DialogOverlay, Text } from 'components/UI'
+
 import messages from './messages'
 
 const ErrorRow = ({ messageKey, value }) => (

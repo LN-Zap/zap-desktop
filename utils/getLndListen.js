@@ -1,5 +1,5 @@
-import getPort from 'get-port'
 import config from 'config'
+import getPort from 'get-port'
 
 /**
  * getLndListen - Find a port for lnd to listen on.

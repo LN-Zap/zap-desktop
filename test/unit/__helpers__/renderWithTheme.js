@@ -1,6 +1,8 @@
 import React from 'react'
-import { ThemeProvider } from 'styled-components'
+
 import renderer from 'react-test-renderer'
+import { ThemeProvider } from 'styled-components'
+
 import { dark } from 'themes'
 
 export const renderWithTheme = component => {

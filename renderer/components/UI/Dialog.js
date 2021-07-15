@@ -1,11 +1,14 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass/styled-components'
+
 import { useCloseOnUnmount, useOnKeydown } from 'hooks'
+
 import Button from './Button'
 import Card from './Card'
-import Heading from './Heading'
 import CloseButton from './CloseButton'
+import Heading from './Heading'
 
 const createButtons = buttons =>
   buttons.map((entry, index) => (

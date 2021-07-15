@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+
 import Dropdown from 'components/UI/Dropdown'
 import { tickerSelectors, setCryptoUnit } from 'reducers/ticker'
 

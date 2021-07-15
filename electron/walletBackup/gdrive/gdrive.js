@@ -1,7 +1,10 @@
-import { google } from 'googleapis'
 import EventEmitter from 'events'
-import { mainLog } from '@zap/utils/log'
+
+import { google } from 'googleapis'
+
 import delay from '@zap/utils/delay'
+import { mainLog } from '@zap/utils/log'
+
 import * as api from './gdriveApi'
 
 /**

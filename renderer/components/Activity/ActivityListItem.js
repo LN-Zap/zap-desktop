@@ -1,5 +1,7 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
+
 import Invoice from 'containers/Activity/Invoice'
 import Payment from 'containers/Activity/Payment'
 import Transaction from 'containers/Activity/Transaction'

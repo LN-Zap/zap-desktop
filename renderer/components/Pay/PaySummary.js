@@ -1,9 +1,12 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { animated, Transition } from 'react-spring/renderprops.cjs'
+
+import { getMaxFeeInclusive, getMinFee, getExactFee } from '@zap/utils/crypto'
 import PaySummaryLightning from 'containers/Pay/PaySummaryLightning'
 import PaySummaryOnChain from 'containers/Pay/PaySummaryOnChain'
-import { getMaxFeeInclusive, getMinFee, getExactFee } from '@zap/utils/crypto'
+
 import { PAY_FORM_STEPS, PAYMENT_TYPES } from './constants'
 import { getFeeRate } from './utils'
 

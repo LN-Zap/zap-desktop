@@ -1,20 +1,23 @@
 import React from 'react'
+
+import { useFieldState } from 'informed'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Box, Flex } from 'rebass/styled-components'
-import { useFieldState } from 'informed'
+
 import { CoinBig } from '@zap/utils/coin'
 import { Spinner, Text } from 'components/UI'
-import CryptoValue from 'containers/UI/CryptoValue'
 import CryptoSelector from 'containers/UI/CryptoSelector'
-import Radio from './Radio'
-import RadioGroup from './RadioGroup'
-import messages from './messages'
+import CryptoValue from 'containers/UI/CryptoValue'
+
 import {
   TRANSACTION_SPEED_SLOW,
   TRANSACTION_SPEED_MEDIUM,
   TRANSACTION_SPEED_FAST,
 } from './constants'
+import messages from './messages'
+import Radio from './Radio'
+import RadioGroup from './RadioGroup'
 
 const speeds = [TRANSACTION_SPEED_SLOW, TRANSACTION_SPEED_MEDIUM, TRANSACTION_SPEED_FAST]
 const speedMessageMap = [

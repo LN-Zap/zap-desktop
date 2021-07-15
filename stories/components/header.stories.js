@@ -1,7 +1,9 @@
 import React from 'react'
+
 import { storiesOf } from '@storybook/react'
-import { Header } from 'components/UI'
+
 import Lightning from 'components/Icon/Lightning'
+import { Header } from 'components/UI'
 
 storiesOf('Components', module).addWithChapters('Header', {
   subtitle: 'A section heading with on optional title, subtitle, and icon.',

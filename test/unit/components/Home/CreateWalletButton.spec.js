@@ -1,5 +1,7 @@
 import React from 'react'
+
 import { IntlProvider } from 'react-intl'
+
 import { renderWithTheme } from '@zap/test/unit/__helpers__/renderWithTheme'
 import CreateWalletButton from 'components/Home/CreateWalletButton'
 

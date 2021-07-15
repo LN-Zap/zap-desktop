@@ -1,7 +1,8 @@
-import { grpc } from 'workers'
 import createReducer from '@zap/utils/createReducer'
-import { mergeNodeUpdates } from './utils'
+import { grpc } from 'workers'
+
 import * as constants from './constants'
+import { mergeNodeUpdates } from './utils'
 
 const { GET_DESCRIBE_NETWORK, RECEIVE_DESCRIBE_NETWORK, UPDATE_NODE_DATA } = constants
 

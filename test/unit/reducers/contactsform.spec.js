@@ -1,5 +1,6 @@
-import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, { UPDATE_CONTACT_FORM_SEARCH_QUERY } from 'reducers/contactsform'
+
+import snapshotDiff from '../__helpers__/snapshotDiff'
 
 describe('reducers', () => {
   describe('contactsformReducer', () => {

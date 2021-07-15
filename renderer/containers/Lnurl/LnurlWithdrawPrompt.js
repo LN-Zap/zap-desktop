@@ -1,11 +1,12 @@
 import { connect } from 'react-redux'
+
+import { LnurlWithdrawPrompt } from 'components/Lnurl'
 import {
   finishLnurlWithdraw,
   clearLnurlWithdraw,
   declineLnurlWithdraw,
   lnurlSelectors,
 } from 'reducers/lnurl'
-import { LnurlWithdrawPrompt } from 'components/Lnurl'
 
 const mapStateToProps = state => ({
   params: lnurlSelectors.lnurlWithdrawParams(state),

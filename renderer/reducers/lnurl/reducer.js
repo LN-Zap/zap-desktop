@@ -1,15 +1,17 @@
-import { send } from 'redux-electron-ipc'
 import CryptoJS from 'crypto-js'
-import createReducer from '@zap/utils/createReducer'
-import { wordArrayToByteArray, byteToHexString } from '@zap/utils/byteutils'
+import { send } from 'redux-electron-ipc'
+
 import { getIntl } from '@zap/i18n'
-import { grpc } from 'workers'
+import { wordArrayToByteArray, byteToHexString } from '@zap/utils/byteutils'
+import createReducer from '@zap/utils/createReducer'
 import { infoSelectors } from 'reducers/info'
-import { showWarning } from 'reducers/notification'
 import { addInvoice } from 'reducers/invoice'
+import { showWarning } from 'reducers/notification'
+import { grpc } from 'workers'
+
 import * as constants from './constants'
-import lnurlSelectors from './selectors'
 import messages from './messages'
+import lnurlSelectors from './selectors'
 
 const {
   SET_LNURL_AUTH_PARAMS,

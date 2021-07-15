@@ -1,12 +1,15 @@
 import React from 'react'
+
+import debounce from 'lodash/debounce'
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import debounce from 'lodash/debounce'
+
 import { intlShape } from '@zap/i18n'
-import { Heading, Bar } from 'components/UI'
 import { Form, OpenDialogInput } from 'components/Form'
-import { BACKUP_FORM_WIDTH, BACKUP_FORM_HEIGHT } from './components/settings'
+import { Heading, Bar } from 'components/UI'
+
 import Container from './components/Container'
+import { BACKUP_FORM_WIDTH, BACKUP_FORM_HEIGHT } from './components/settings'
 import messages from './messages'
 
 class BackupSetupLocal extends React.Component {
@@ -46,7 +49,7 @@ class BackupSetupLocal extends React.Component {
   }
 
   render() {
-    const { wizardApi, wizardState, setBackupPathLocal, ...rest } = this.props
+    const { wizardApi, wizardState, ...rest } = this.props
     const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
 

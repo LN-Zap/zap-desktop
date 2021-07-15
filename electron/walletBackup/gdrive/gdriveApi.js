@@ -1,7 +1,8 @@
+import { Readable } from 'stream'
+import { parse } from 'url'
+
 import { BrowserWindow } from 'electron'
 import { google } from 'googleapis'
-import { parse } from 'url'
-import { Readable } from 'stream'
 
 /**
  * createAuthUrl - Creates a Google Drive authentication url.

@@ -1,6 +1,6 @@
+import autopay from './autopay'
 import dark from './dark'
 import light from './light'
-import autopay from './autopay'
 
 export { dark }
 export { light }

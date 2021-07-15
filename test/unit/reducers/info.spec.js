@@ -1,5 +1,6 @@
-import snapshotDiff from '../__helpers__/snapshotDiff'
 import reducer, { GET_INFO, RECEIVE_INFO, SET_HAS_SYNCED } from 'reducers/info'
+
+import snapshotDiff from '../__helpers__/snapshotDiff'
 
 describe('reducers', () => {
   describe('infoReducer', () => {

@@ -1,7 +1,9 @@
 import matches from 'lodash/matches'
+
 import createReducer from '@zap/utils/createReducer'
 import delay from '@zap/utils/delay'
 import genId from '@zap/utils/genId'
+
 import * as constants from './constants'
 
 const {

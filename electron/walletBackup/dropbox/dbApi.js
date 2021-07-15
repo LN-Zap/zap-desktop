@@ -1,7 +1,9 @@
+import { parse } from 'url'
+
+import { Dropbox } from 'dropbox/lib'
 import { BrowserWindow } from 'electron'
 import fetch from 'node-fetch'
-import { Dropbox } from 'dropbox/lib'
-import { parse } from 'url'
+
 import parseUrlFragments from '@zap/utils/parseUrlFragments'
 
 /**

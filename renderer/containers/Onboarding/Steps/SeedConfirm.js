@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+
 import { SeedConfirm } from 'components/Onboarding/Steps'
 
 const mapStateToProps = state => ({

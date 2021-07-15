@@ -1,9 +1,12 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Box } from 'rebass/styled-components'
-import { Bar, Header } from 'components/UI'
+
 import { Form, Input, LndConnectionStringInput } from 'components/Form'
+import { Bar, Header } from 'components/UI'
+
 import ConnectionDetailsTabs from './ConnectionDetailsTabs'
 import messages from './messages'
 
@@ -101,12 +104,7 @@ class ConnectionDetailsString extends React.Component {
       startLndHostError,
       startLndCertError,
       startLndMacaroonError,
-      lndConnect,
       name,
-      setLndconnect,
-      setConnectionString,
-      setName,
-      clearStartLndError,
       ...rest
     } = this.props
     const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi

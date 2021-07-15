@@ -1,10 +1,13 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Box, Flex } from 'rebass/styled-components'
+
 import { Heading } from 'components/UI'
-import NodeCardView from './NodeCardView'
+
 import messages from './messages'
+import NodeCardView from './NodeCardView'
 
 const NodeCardList = ({ nodes, updateContactFormSearchQuery, ...rest }) => (
   <Box as="article" {...rest}>

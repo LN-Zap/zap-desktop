@@ -1,13 +1,16 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
-import { opacity } from 'styled-system'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Card, Box, Flex as BaseFlex } from 'rebass/styled-components'
+import styled from 'styled-components'
+import { opacity } from 'styled-system'
+
 import { CoinBig } from '@zap/utils/coin'
+import ZapSolid from 'components/Icon/ZapSolid'
 import { Heading, ProgressBar, Text as BaseText } from 'components/UI'
 import { CryptoSelector, CryptoValue } from 'containers/UI'
-import ZapSolid from 'components/Icon/ZapSolid'
+
 import messages from './messages'
 
 const Flex = styled(BaseFlex)(opacity)

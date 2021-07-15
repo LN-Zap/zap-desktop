@@ -1,5 +1,7 @@
 import React from 'react'
+
 import { storiesOf } from '@storybook/react'
+
 import { WalletHeader } from 'components/Home'
 import { Text } from 'components/UI'
 

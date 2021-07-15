@@ -1,6 +1,7 @@
-import promisifiedCall from '@zap/utils/promisifiedCall'
 import { decodePayReq as bolt11DecodePayReq, getTag } from '@zap/utils/crypto'
 import { grpcLog } from '@zap/utils/log'
+import promisifiedCall from '@zap/utils/promisifiedCall'
+
 import { logGrpcCmd } from './helpers'
 
 // ------------------------------------

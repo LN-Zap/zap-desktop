@@ -1,12 +1,15 @@
 import React, { useState, useContext } from 'react'
+
+import { Textarea as BaseTextArea } from '@rebass/forms/styled-components'
+import { asField } from 'informed'
 import PropTypes from 'prop-types'
 import { compose } from 'redux'
-import { asField } from 'informed'
-import { Textarea as BaseTextArea } from '@rebass/forms/styled-components'
 import { ThemeContext } from 'styled-components'
-import { extractSpaceProps } from 'themes/util'
+
 import { withInputValidation } from 'hocs'
 import { useAutoFocus } from 'hooks'
+import { extractSpaceProps } from 'themes/util'
+
 import Field from './Field'
 import { mapDefaultBorderColor, mapFocusBorderColor } from './util'
 
@@ -30,7 +33,6 @@ const TextArea = props => {
     onFocus,
     sx,
     tooltip,
-    variant,
     willAutoFocus,
     ...rest
   } = props
@@ -129,7 +131,6 @@ TextArea.propTypes = {
   onFocus: PropTypes.func,
   sx: PropTypes.object,
   tooltip: PropTypes.string,
-  variant: PropTypes.string,
   willAutoFocus: PropTypes.bool,
 }
 

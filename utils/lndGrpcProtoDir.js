@@ -1,5 +1,7 @@
 import { dirname, join } from 'path'
+
 import isDev from 'electron-is-dev'
+
 import appRootPath from '@zap/utils/appRootPath'
 
 /**

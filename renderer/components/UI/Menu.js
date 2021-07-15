@@ -1,6 +1,8 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { Box } from 'rebass/styled-components'
+
 import MenuItem from 'components/UI/MenuItem'
 
 const Menu = ({ items, selectedItem, ...rest }) => {
@@ -13,7 +15,7 @@ const Menu = ({ items, selectedItem, ...rest }) => {
           }
         }
         return (
-          <MenuItem key={id} isActive={id === selectedItem} onClick={handleClick} value={id}>
+          <MenuItem isActive={id === selectedItem} key={id} onClick={handleClick} value={id}>
             {title}
           </MenuItem>
         )

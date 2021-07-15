@@ -1,14 +1,17 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage } from 'react-intl'
+import { Box, Flex } from 'rebass/styled-components'
+
 import { CoinBig } from '@zap/utils/coin'
+import { TransactionSpeedDesc } from 'components/Form'
 import BigArrowRight from 'components/Icon/BigArrowRight'
 import { Bar, DataRow, Text } from 'components/UI'
-import { TransactionSpeedDesc } from 'components/Form'
-import { CryptoValueSelector, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
+import { CryptoValueSelector, FiatValue } from 'containers/UI'
 import { withEllipsis } from 'hocs'
+
 import {
   TRANSACTION_SPEED_SLOW,
   TRANSACTION_SPEED_MEDIUM,

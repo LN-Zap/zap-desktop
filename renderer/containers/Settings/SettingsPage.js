@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
+
 import SettingsPage from 'components/Settings/SettingsPage'
-import { settingsSelectors } from 'reducers/settings'
 import {
   accountSelectors,
   CHANGE_PASSWORD_DIALOG_ID,
@@ -8,6 +8,7 @@ import {
   PASSWORD_SET_DIALOG_ID,
 } from 'reducers/account'
 import { modalSelectors } from 'reducers/modal'
+import { settingsSelectors } from 'reducers/settings'
 
 const mapStateToProps = state => ({
   currentConfig: settingsSelectors.currentConfig(state),

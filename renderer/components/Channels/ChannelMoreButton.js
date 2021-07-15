@@ -1,6 +1,9 @@
 import React from 'react'
+
 import { FormattedMessage } from 'react-intl'
+
 import { Button } from 'components/UI'
+
 import messages from './messages'
 
 const ChannelMoreButton = props => (

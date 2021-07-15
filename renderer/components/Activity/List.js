@@ -1,7 +1,8 @@
 import React from 'react'
+
 import { List } from 'react-virtualized'
-import { space } from 'styled-system'
 import styled from 'styled-components'
+import { space } from 'styled-system'
 
 const ROW_HEIGHT = 53
 
@@ -12,7 +13,7 @@ const StyledList = styled(List)`
 `
 
 const ActivityList = React.forwardRef((props, ref) => (
-  <StyledList ref={ref} pr={4} rowHeight={ROW_HEIGHT} {...props} />
+  <StyledList pr={4} ref={ref} rowHeight={ROW_HEIGHT} {...props} />
 ))
 
 ActivityList.displayName = 'ActivityList'

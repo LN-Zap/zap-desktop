@@ -1,10 +1,13 @@
 import React from 'react'
+
+import snakeCase from 'lodash/snakeCase'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Flex } from 'rebass/styled-components'
-import snakeCase from 'lodash/snakeCase'
+import styled from 'styled-components'
+
 import { StatusIndicator, Text } from 'components/UI'
+
 import messages from './messages'
 
 const variantMap = {

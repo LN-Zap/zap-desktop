@@ -1,14 +1,17 @@
 import React from 'react'
+
+import { themeGet } from '@styled-system/theme-get'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import styled, { keyframes } from 'styled-components'
-import { themeGet } from '@styled-system/theme-get'
 import { Box, Flex } from 'rebass/styled-components'
+import styled, { keyframes } from 'styled-components'
+
+import CloudLightning from 'components/Icon/CloudLightning'
 import CloseButton from 'components/UI/CloseButton'
 import Heading from 'components/UI/Heading'
-import CloudLightning from 'components/Icon/CloudLightning'
-import Transition from './Transition'
+
 import messages from './messages'
+import Transition from './Transition'
 
 const gradientMotion = keyframes`
   0% {

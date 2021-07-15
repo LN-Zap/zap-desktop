@@ -1,8 +1,11 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
-import { Box } from 'rebass/styled-components'
 import { FormattedMessage } from 'react-intl'
+import { Box } from 'rebass/styled-components'
+
 import { Button } from 'components/UI'
+
 import messages from './messages'
 
 const WalletButtons = ({ openModal }) => (

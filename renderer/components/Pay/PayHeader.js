@@ -1,12 +1,15 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Header } from 'components/UI'
+
 import Lightning from 'components/Icon/Lightning'
 import Onchain from 'components/Icon/Onchain'
 import Send from 'components/Icon/Send'
-import messages from './messages'
+import { Header } from 'components/UI'
+
 import { PAY_HEADER_TYPES } from './constants'
+import messages from './messages'
 
 /**
  * Header for payment form.

@@ -1,6 +1,8 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { FormattedNumber } from 'react-intl'
+
 import { convert } from '@zap/utils/btc'
 import { CoinBig } from '@zap/utils/coin'
 

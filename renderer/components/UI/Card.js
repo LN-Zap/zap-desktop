@@ -1,15 +1,16 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { Card as BaseCard } from 'rebass/styled-components'
 
 const Card = React.forwardRef(({ sx, ...rest }, ref) => {
   return (
     <BaseCard
-      ref={ref}
       as="section"
       bg="primaryColor"
       color="primaryText"
       p={3}
+      ref={ref}
       sx={{
         borderRadius: 's',
         boxShadow: 'm',

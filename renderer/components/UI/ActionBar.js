@@ -1,6 +1,8 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass/styled-components'
+
 import Button from './Button'
 
 const createButtons = buttons =>

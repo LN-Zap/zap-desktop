@@ -1,15 +1,16 @@
 import { connect } from 'react-redux'
+
 import { Pay } from 'components/Pay'
-import { fetchTickers, tickerSelectors } from 'reducers/ticker'
-import { setRedirectPayReq, queryFees, queryRoutes, paySelectors } from 'reducers/pay'
-import { balanceSelectors } from 'reducers/balance'
 import { addFilter } from 'reducers/activity'
+import { balanceSelectors } from 'reducers/balance'
 import { channelsSelectors } from 'reducers/channels'
-import { sendCoins } from 'reducers/transaction'
-import { payInvoice } from 'reducers/payment'
-import { closeModal } from 'reducers/modal'
-import { settingsSelectors } from 'reducers/settings'
 import { infoSelectors } from 'reducers/info'
+import { closeModal } from 'reducers/modal'
+import { setRedirectPayReq, queryFees, queryRoutes, paySelectors } from 'reducers/pay'
+import { payInvoice } from 'reducers/payment'
+import { settingsSelectors } from 'reducers/settings'
+import { fetchTickers, tickerSelectors } from 'reducers/ticker'
+import { sendCoins } from 'reducers/transaction'
 
 const mapStateToProps = state => ({
   chain: state.info.chain,

@@ -1,5 +1,6 @@
-import debounce from 'lodash/debounce'
 import { useEffect, useRef } from 'react'
+
+import debounce from 'lodash/debounce'
 
 /**
  * useDebounce - React hook that calls a debounced version of a @func when @value is changed.

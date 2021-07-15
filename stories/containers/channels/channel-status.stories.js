@@ -1,5 +1,7 @@
 import React from 'react'
+
 import { storiesOf } from '@storybook/react'
+
 import { ChannelStatus } from 'components/Channels'
 
 storiesOf('Containers.Channels', module)

@@ -1,4 +1,5 @@
 import nock from 'nock'
+
 import { fetchLnurlParams, parseLnUrl } from '@zap/utils/lnurl'
 
 describe('lnurl', () => {

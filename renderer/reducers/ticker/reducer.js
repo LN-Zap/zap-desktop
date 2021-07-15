@@ -1,10 +1,11 @@
-import createReducer from '@zap/utils/createReducer'
 import { currencies, getDefaultCurrency } from '@zap/i18n'
+import createReducer from '@zap/utils/createReducer'
 import { requestTickerWithFallback } from '@zap/utils/rateProvider'
-import { putConfig, settingsSelectors } from 'reducers/settings'
 import { infoSelectors } from 'reducers/info'
-import tickerSelectors from './selectors'
+import { putConfig, settingsSelectors } from 'reducers/settings'
+
 import * as constants from './constants'
+import tickerSelectors from './selectors'
 
 const { GET_TICKERS, RECIEVE_TICKERS } = constants
 

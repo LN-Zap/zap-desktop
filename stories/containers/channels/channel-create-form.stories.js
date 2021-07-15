@@ -1,10 +1,13 @@
 import React from 'react'
-import { storiesOf } from '@storybook/react'
+
 import { action } from '@storybook/addon-actions'
-import ChannelCreateForm from 'containers/Channels/ChannelCreateForm'
+import { storiesOf } from '@storybook/react'
+
 import { Modal } from 'components/UI'
-import { Provider } from '../../Provider'
+import ChannelCreateForm from 'containers/Channels/ChannelCreateForm'
+
 import { Window } from '../../helpers'
+import { Provider } from '../../Provider'
 
 storiesOf('Containers.Channels', module)
   .addDecorator(story => <Provider story={story()} />)

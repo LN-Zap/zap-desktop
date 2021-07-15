@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+
 import { networkSelectors } from 'reducers/network'
 import { decorateRoute } from 'reducers/payment/utils'
 

@@ -1,10 +1,13 @@
 import React, { useRef } from 'react'
+
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
 import { Box, Flex } from 'rebass/styled-components'
+import styled from 'styled-components'
+
 import { Heading } from 'components/UI'
 import { useScrollDrag } from 'hooks'
+
 import AutopayCardView from './AutopayCardView'
 import messages from './messages'
 

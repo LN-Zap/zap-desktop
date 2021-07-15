@@ -1,6 +1,8 @@
 import React from 'react'
+
 import { shallow } from 'enzyme'
 import toJSON from 'enzyme-to-json'
+
 import { PayAmountFields } from 'components/Pay'
 import { PAY_FORM_STEPS } from 'components/Pay/constants'
 

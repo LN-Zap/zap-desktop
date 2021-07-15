@@ -1,8 +1,11 @@
 import React from 'react'
-import styled from 'styled-components'
+
 import { themeGet } from '@styled-system/theme-get'
-import Input from './Input'
+import styled from 'styled-components'
+
 import Search from 'components/Icon/Search'
+
+import Input from './Input'
 
 const Icon = styled(Search)`
   cursor: pointer;

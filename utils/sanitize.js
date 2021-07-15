@@ -1,4 +1,5 @@
 import isObject from '@zap/utils/isObject'
+
 import truncate from './truncate'
 
 /**

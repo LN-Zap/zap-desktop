@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+
 import { SeedView } from 'components/Onboarding/Steps'
 import { fetchSeed } from 'reducers/lnd'
 

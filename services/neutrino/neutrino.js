@@ -1,13 +1,15 @@
 /* eslint-disable class-methods-use-this */
-import split2 from 'split2'
-import EventEmitter from 'events'
 import { spawn } from 'child_process'
+import EventEmitter from 'events'
+
 import config from 'config'
+import split2 from 'split2'
+
 import delay from '@zap/utils/delay'
-import { mainLog, lndLog, lndLogGetLevel } from '@zap/utils/log'
-import getPackageDetails from '@zap/utils/getPackageDetails'
-import getLndListen from '@zap/utils/getLndListen'
 import fetchBlockHeight from '@zap/utils/fetchBlockHeight'
+import getLndListen from '@zap/utils/getLndListen'
+import getPackageDetails from '@zap/utils/getPackageDetails'
+import { mainLog, lndLog, lndLogGetLevel } from '@zap/utils/log'
 
 // Sync statuses.
 export const NEUTRINO_CHAIN_SYNC_PENDING = 'NEUTRINO_CHAIN_SYNC_PENDING'

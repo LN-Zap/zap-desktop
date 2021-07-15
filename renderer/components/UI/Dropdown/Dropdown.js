@@ -1,16 +1,19 @@
 import React, { useRef, useState } from 'react'
+
+import { themeGet } from '@styled-system/theme-get'
 import PropTypes from 'prop-types'
 import { useIntl } from 'react-intl'
 import { Box, Flex } from 'rebass/styled-components'
 import styled from 'styled-components'
-import { themeGet } from '@styled-system/theme-get'
 import { opacity, fontWeight } from 'styled-system'
-import { useOnClickOutside, useIntlMap, useMaxScreenHeight } from 'hooks'
+
+import AngleDown from 'components/Icon/AngleDown'
 import AngleLeft from 'components/Icon/AngleLeft'
 import AngleRight from 'components/Icon/AngleRight'
 import AngleUp from 'components/Icon/AngleUp'
-import AngleDown from 'components/Icon/AngleDown'
 import Check from 'components/Icon/Check'
+import { useOnClickOutside, useIntlMap, useMaxScreenHeight } from 'hooks'
+
 import Text from '../Text'
 
 /**
@@ -235,14 +238,14 @@ const Dropdown = ({
         />
         {isOpen && (
           <MenuContainer>
-            <Menu ref={measuredRef} justify={justify} maxHeight={height}>
+            <Menu justify={justify} maxHeight={height} ref={measuredRef}>
               {itemsArray.map(item => {
                 return (
                   <MenuItem
-                    key={item.key}
                     isActive={isActiveItem(item.key)}
                     isMultiselect={isMultiselect}
                     item={item}
+                    key={item.key}
                     onClick={() => handleClick(item.key)}
                     valueField={valueField}
                   />

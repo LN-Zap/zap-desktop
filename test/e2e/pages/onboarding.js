@@ -1,6 +1,6 @@
 /* eslint-disable max-classes-per-file */
-import { ReactSelector } from 'testcafe-react-selectors'
 import range from 'lodash/range'
+import { ReactSelector } from 'testcafe-react-selectors'
 
 class ConnectionTypeOption {
   constructor(key) {

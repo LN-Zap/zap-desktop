@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+
 import PasswordPromptDialog from 'components/Settings/Security/PasswordPromptDialog'
 import {
   accountSelectors,

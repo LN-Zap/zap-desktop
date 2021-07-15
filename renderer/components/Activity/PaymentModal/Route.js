@@ -1,7 +1,10 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { Box } from 'rebass/styled-components'
+
 import { Bar } from 'components/UI'
+
 import Htlc from './Htlc'
 
 const Route = ({ htlcs, ...rest }) => {

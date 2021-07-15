@@ -1,8 +1,10 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { Box, Flex } from 'rebass/styled-components'
+
 import { Label as BaseLabel } from '@rebass/forms/styled-components'
+import PropTypes from 'prop-types'
+import { Box, Flex } from 'rebass/styled-components'
+import styled from 'styled-components'
+
 import { Span, Tooltip } from 'components/UI'
 
 const Supertext = styled(Span)`

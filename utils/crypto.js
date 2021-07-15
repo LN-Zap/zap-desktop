@@ -1,13 +1,15 @@
 import { randomBytes } from 'crypto'
-import get from 'lodash/get'
-import config from 'config'
-import range from 'lodash/range'
-import { address } from 'bitcoinjs-lib'
+
 import lightningRequestReq from '@ln-zap/bolt11'
 import bip21 from 'bip21'
+import { address } from 'bitcoinjs-lib'
 import coininfo from 'coininfo'
-import { CoinBig } from '@zap/utils/coin'
+import config from 'config'
+import get from 'lodash/get'
+import range from 'lodash/range'
+
 import { convert } from '@zap/utils/btc'
+import { CoinBig } from '@zap/utils/coin'
 import { sha256digest } from '@zap/utils/sha256'
 
 export const PREIMAGE_BYTE_LENGTH = 32

@@ -1,7 +1,8 @@
 import { connect } from 'react-redux'
+
 import ChannelCreate from 'components/Channels/ChannelCreate'
-import { closeModal } from 'reducers/modal'
 import { updateContactFormSearchQuery, contactFormSelectors } from 'reducers/contactsform'
+import { closeModal } from 'reducers/modal'
 
 const onSubmit = () => closeModal()
 

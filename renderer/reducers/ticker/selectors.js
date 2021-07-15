@@ -1,5 +1,6 @@
 import get from 'lodash/get'
 import { createSelector } from 'reselect'
+
 import { settingsSelectors } from 'reducers/settings'
 
 const cryptoUnitsSelector = state => state.ticker.cryptoUnits

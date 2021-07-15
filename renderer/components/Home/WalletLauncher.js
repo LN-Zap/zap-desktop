@@ -1,25 +1,28 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+
 import config from 'config'
-import { compose } from 'redux'
+import parse from 'lndconnect/parse'
+import isEqual from 'lodash/isEqual'
+import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
 import { Box, Flex } from 'rebass/styled-components'
+import { compose } from 'redux'
 import styled from 'styled-components'
-import parse from 'lndconnect/parse'
-import isEqual from 'lodash/isEqual'
+
 import { intlShape } from '@zap/i18n'
-import { isValidBtcPayConfig, isEmbeddedLndConnectURI } from '@zap/utils/connectionString'
 import parseConnectionString from '@zap/utils/btcpayserver'
-import { Bar, Button, Heading, Text, ActionBar } from 'components/UI'
+import { isValidBtcPayConfig, isEmbeddedLndConnectURI } from '@zap/utils/connectionString'
 import { Form } from 'components/Form'
+import { Bar, Button, Heading, Text, ActionBar } from 'components/UI'
+
+import messages from './messages'
+import WalletHeader from './WalletHeader'
 import WalletSettingsFormLocal, {
   validateNeutrinoNodes,
   sanitizeNeutrinoNodes,
 } from './WalletSettingsFormLocal'
 import WalletSettingsFormRemote from './WalletSettingsFormRemote'
-import WalletHeader from './WalletHeader'
-import messages from './messages'
 
 const WalletActionBar = styled(ActionBar)`
   position: absolute;
@@ -402,9 +405,9 @@ class WalletLauncher extends React.Component {
         </Button>
 
         <Button
-          key="save"
           isDisabled={(formState.submits > 0 && formState.invalid) || isValidating}
           isProcessing={isValidating}
+          key="save"
           type="submit"
           variant="normal"
         >

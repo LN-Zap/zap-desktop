@@ -1,12 +1,13 @@
 import { connect } from 'react-redux'
-import { setLocale } from 'reducers/locale'
-import { setFiatTicker, tickerSelectors } from 'reducers/ticker'
+
+import SettingsMenu from 'components/Settings/SettingsMenu'
 import { infoSelectors } from 'reducers/info'
+import { setLocale } from 'reducers/locale'
+import { openModal } from 'reducers/modal'
 import { openSettingsMenu, closeSettingsMenu } from 'reducers/settingsmenu'
 import { setTheme, themeSelectors } from 'reducers/theme'
+import { setFiatTicker, tickerSelectors } from 'reducers/ticker'
 import { walletSelectors } from 'reducers/wallet'
-import { openModal } from 'reducers/modal'
-import SettingsMenu from 'components/Settings/SettingsMenu'
 
 const mapStateToProps = state => ({
   activeWalletSettings: walletSelectors.activeWalletSettings(state),

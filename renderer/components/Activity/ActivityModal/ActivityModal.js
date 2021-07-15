@@ -1,6 +1,8 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { Box } from 'rebass/styled-components'
+
 import { InvoiceModal } from 'components/Activity/InvoiceModal'
 import { PaymentModal } from 'components/Activity/PaymentModal'
 import { TransactionModal } from 'components/Activity/TransactionModal'

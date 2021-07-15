@@ -1,6 +1,9 @@
 import React from 'react'
+
 import { FormattedMessage } from 'react-intl'
+
 import { Header } from 'components/UI'
+
 import messages from './messages'
 
 const OldWalletHeader = () => (

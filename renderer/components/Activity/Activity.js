@@ -1,15 +1,18 @@
 import React, { useCallback } from 'react'
+
 import PropTypes from 'prop-types'
-import { AutoSizer, InfiniteLoader } from 'react-virtualized'
 import { injectIntl } from 'react-intl'
+import { AutoSizer, InfiniteLoader } from 'react-virtualized'
+
 import { intlShape } from '@zap/i18n'
 import { Panel } from 'components/UI'
 import ActivityActions from 'containers/Activity/ActivityActions'
-import ErrorDetailsDialog from './ErrorDetailsDialog'
+
 import ActivityListItem from './ActivityListItem'
-import Row from './Row'
+import ErrorDetailsDialog from './ErrorDetailsDialog'
 import List from './List'
 import messages from './messages'
+import Row from './Row'
 
 const Activity = props => {
   const {
@@ -28,7 +31,7 @@ const Activity = props => {
 
   const renderRow = useCallback(
     ({ index, key, style }) => (
-      <Row key={key} item={currentActivity[index]} RowComponent={ActivityListItem} style={style} />
+      <Row item={currentActivity[index]} key={key} RowComponent={ActivityListItem} style={style} />
     ),
     [currentActivity]
   )
@@ -48,9 +51,9 @@ const Activity = props => {
             {({ width, height }) => {
               return (
                 <List
-                  ref={registerChild}
                   height={height}
                   onRowsRendered={onRowsRendered}
+                  ref={registerChild}
                   rowCount={currentActivity.length}
                   rowRenderer={renderRow}
                   width={width}

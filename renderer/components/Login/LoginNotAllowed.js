@@ -1,9 +1,12 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
-import { Flex, Box } from 'rebass/styled-components'
 import { FormattedMessage } from 'react-intl'
+import { Flex, Box } from 'rebass/styled-components'
+
 import Delete from 'components/Icon/Delete'
 import { Heading, Text, Card, CenteredContent } from 'components/UI'
+
 import messages from './messages'
 
 const LoginNotAllowed = ({ platform = window.Zap.getPlatform() }) => {

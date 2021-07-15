@@ -1,7 +1,10 @@
 import React from 'react'
-import { storiesOf } from '@storybook/react'
+
 import { number } from '@storybook/addon-knobs'
+import { storiesOf } from '@storybook/react'
+
 import { ChannelBalance } from 'components/Channels'
+
 import { Provider } from '../../Provider'
 
 storiesOf('Containers.Channels', module)

@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+
 import ChannelNodeSearch from 'components/Channels/ChannelNodeSearch'
 import { updateContactFormSearchQuery, contactFormSelectors } from 'reducers/contactsform'
 

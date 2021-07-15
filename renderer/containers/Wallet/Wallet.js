@@ -1,10 +1,11 @@
 import { connect } from 'react-redux'
-import { tickerSelectors } from 'reducers/ticker'
+
+import Wallet from 'components/Wallet'
 import { openWalletModal } from 'reducers/address'
-import { openModal } from 'reducers/modal'
 import { balanceSelectors } from 'reducers/balance'
 import { infoSelectors } from 'reducers/info'
-import Wallet from 'components/Wallet'
+import { openModal } from 'reducers/modal'
+import { tickerSelectors } from 'reducers/ticker'
 
 const mapDispatchToProps = {
   openWalletModal,

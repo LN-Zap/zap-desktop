@@ -1,10 +1,13 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+
 import debounce from 'lodash/debounce'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Panel } from 'components/UI'
+
 import PersistentTabControl from 'components/TabControl/PersistentTabControl'
+import { Panel } from 'components/UI'
 import ChannelsHeader from 'containers/Channels/ChannelsHeader'
+
 import ChannelCardList from './ChannelCardList'
 import ChannelSummaryList from './ChannelSummaryList'
 import { CHANNEL_LIST_VIEW_MODE_CARD } from './constants'
@@ -42,7 +45,6 @@ class Channels extends React.Component {
       networkInfo,
       openModal,
       setSelectedChannel,
-      updateChannelSearchQuery,
       ...rest
     } = this.props
 

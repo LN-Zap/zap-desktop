@@ -1,10 +1,13 @@
 import React, { useRef } from 'react'
+
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage } from 'react-intl'
+import { Box, Flex } from 'rebass/styled-components'
+
 import { convert } from '@zap/utils/btc'
-import CryptoAmountInput from './CryptoAmountInput'
 import { Span, Dropdown } from 'components/UI'
+
+import CryptoAmountInput from './CryptoAmountInput'
 import FiatAmountInput from './FiatAmountInput'
 import messages from './messages'
 
@@ -20,7 +23,6 @@ const CurrencyFieldGroup = React.forwardRef(
       fiatCurrency,
       fiatCurrencies,
       formApi,
-      forwardedRef,
       initialAmountCrypto,
       initialAmountFiat,
       isRequired,
@@ -191,7 +193,6 @@ CurrencyFieldGroup.propTypes = {
   fiatCurrency: PropTypes.string.isRequired,
   fiatLabel: PropTypes.node,
   formApi: PropTypes.object.isRequired,
-  forwardedRef: PropTypes.object,
   initialAmountCrypto: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   initialAmountFiat: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   isDisabled: PropTypes.bool,

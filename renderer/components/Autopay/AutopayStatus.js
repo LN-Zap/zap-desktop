@@ -1,9 +1,12 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { compose } from 'redux'
+
 import { withFieldState } from 'informed'
+import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
+import { compose } from 'redux'
+
 import { Text } from 'components/UI'
+
 import messages from './messages'
 
 const AutopayStatus = ({ fieldState, ...rest }) => (

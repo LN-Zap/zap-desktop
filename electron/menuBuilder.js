@@ -1,10 +1,13 @@
 import os from 'os'
 import path from 'path'
+
 import { app, Menu, shell, ipcMain } from 'electron'
 import isDev from 'electron-is-dev'
+
 import { getLanguageName, locales } from '@zap/i18n'
 import appRootPath from '@zap/utils/appRootPath'
 import getPackageDetails from '@zap/utils/getPackageDetails'
+
 import openAboutWindow from './about'
 
 const buildAboutMenu = () => {

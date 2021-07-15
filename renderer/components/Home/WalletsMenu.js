@@ -1,11 +1,14 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
 import { Box } from 'rebass/styled-components'
+
 import { intlShape } from '@zap/i18n'
 import { Text, Menu } from 'components/UI'
 import { WalletName } from 'components/Util'
+
 import messages from './messages'
 
 const WalletGroupHeader = props => (
@@ -13,7 +16,7 @@ const WalletGroupHeader = props => (
 )
 
 const WalletGroup = withRouter(
-  ({ location, history, activeWallet, setActiveWallet, title, wallets, ...rest }) => {
+  ({ history, activeWallet, setActiveWallet, title, wallets, ...rest }) => {
     /**
      * generateMenuItemId - Generate a menu item id from a wallet id.
      *

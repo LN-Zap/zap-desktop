@@ -1,15 +1,18 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass/styled-components'
 import { FormattedMessage } from 'react-intl'
-import { CoinBig } from '@zap/utils/coin'
+import { Box, Flex } from 'rebass/styled-components'
+
 import { convert } from '@zap/utils/btc'
+import { CoinBig } from '@zap/utils/coin'
 import { decodePayReq, getNodeAlias, getTag } from '@zap/utils/crypto'
+import { HtlcHops } from 'components/Activity/PaymentModal'
 import BigArrowRight from 'components/Icon/BigArrowRight'
 import { Bar, DataRow, Link, Spinner, Text, Tooltip } from 'components/UI'
-import { CryptoSelector, CryptoValue, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
-import { HtlcHops } from 'components/Activity/PaymentModal'
+import { CryptoSelector, CryptoValue, FiatValue } from 'containers/UI'
+
 import messages from './messages'
 
 const ConfigLink = ({ feeLimit, openModal, ...rest }) => (
@@ -109,7 +112,6 @@ class PaySummaryLightning extends React.Component {
       isPubkey,
       isQueryingRoutes,
       maxFee,
-      minFee,
       nodes,
       payReq,
       route,

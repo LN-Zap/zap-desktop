@@ -1,6 +1,8 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { Box } from 'rebass/styled-components'
+
 import { Bar, Heading } from 'components/UI'
 import { FormattedDateTime } from 'containers/UI'
 

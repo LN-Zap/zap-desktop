@@ -1,9 +1,11 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass/styled-components'
+
+import PlusCircle from 'components/Icon/PlusCircle'
 import Button from 'components/UI/Button'
 import Text from 'components/UI/Text'
-import PlusCircle from 'components/Icon/PlusCircle'
 
 const Icon = props => <PlusCircle height="22px" width="22px" {...props} />
 const IconWrapper = props => <Text color="primaryAccent" {...props} />

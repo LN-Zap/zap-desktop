@@ -1,10 +1,13 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+
 import { storiesOf } from '@storybook/react'
-import { ThemeProvider, withTheme } from 'styled-components'
+import PropTypes from 'prop-types'
 import { Box, Card, Flex } from 'rebass/styled-components'
+import { ThemeProvider, withTheme } from 'styled-components'
+
 import { BackgroundPrimary, Text } from 'components/UI'
 import { dark, light } from 'themes'
+
 import { Column, Group, Element } from '../helpers'
 
 const Swatch = ({ name, color }) => (
@@ -34,7 +37,7 @@ Swatch.propTypes = {
 const Palette = withTheme(({ theme, ...rest }) => (
   <Box {...rest}>
     {Object.keys(theme.colors).map(key => (
-      <Swatch key={key} color={theme.colors[key]} name={key} />
+      <Swatch color={theme.colors[key]} key={key} name={key} />
     ))}
   </Box>
 ))

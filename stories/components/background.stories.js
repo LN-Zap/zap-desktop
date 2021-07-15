@@ -1,7 +1,10 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+
 import { storiesOf } from '@storybook/react'
+import PropTypes from 'prop-types'
+
 import { BackgroundPrimary, BackgroundTertiary, BackgroundSecondary, Page } from 'components/UI'
+
 import { Content } from '../helpers'
 
 const Wrapper = ({ children }) => (

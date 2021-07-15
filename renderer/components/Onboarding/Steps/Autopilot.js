@@ -1,8 +1,11 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Bar, Header } from 'components/UI'
+
 import { Form, RadioGroup, Radio } from 'components/Form'
+import { Bar, Header } from 'components/UI'
+
 import messages from './messages'
 
 class Autopilot extends React.Component {
@@ -29,7 +32,7 @@ class Autopilot extends React.Component {
   }
 
   render() {
-    const { wizardApi, wizardState, autopilot, setAutopilot, ...rest } = this.props
+    const { wizardApi, wizardState, autopilot, ...rest } = this.props
     const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
     return (

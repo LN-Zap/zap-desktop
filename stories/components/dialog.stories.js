@@ -1,9 +1,11 @@
 /* eslint-disable no-alert */
 import React from 'react'
-import { Flex } from 'rebass/styled-components'
+
 import { storiesOf } from '@storybook/react'
-import { Dialog, Text, Heading, Countdown, Button, Page } from 'components/UI'
+import { Flex } from 'rebass/styled-components'
+
 import Eye from 'components/Icon/Eye'
+import { Dialog, Text, Heading, Countdown, Button, Page } from 'components/UI'
 
 storiesOf('Components', module)
   .addDecorator(story => (

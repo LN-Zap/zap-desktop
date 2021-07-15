@@ -1,20 +1,16 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
+
 import { Panel } from 'components/UI'
+
 import ChannelCapacity from './ChannelCapacity'
 import ChannelData from './ChannelData'
 import ChannelFooter from './ChannelFooter'
 import ChannelHeader from './ChannelHeader'
 import { CHANNEL_DATA_VIEW_MODE_FULL } from './constants'
 
-const ChannelDetail = ({
-  channel,
-  cryptoUnitName,
-  closeChannel,
-  setSelectedChannel,
-  networkInfo,
-  ...rest
-}) => {
+const ChannelDetail = ({ channel, cryptoUnitName, closeChannel, networkInfo, ...rest }) => {
   return channel ? (
     <Panel {...rest}>
       <Panel.Header mx="auto" width={9 / 16}>

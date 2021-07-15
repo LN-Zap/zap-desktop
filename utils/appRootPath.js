@@ -1,4 +1,5 @@
 import { normalize } from 'path'
+
 import electron, { remote } from 'electron'
 
 const app = electron.app || remote.app

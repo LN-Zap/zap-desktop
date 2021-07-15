@@ -1,10 +1,13 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { Radio as InformedRadio } from 'informed'
-import styled from 'styled-components'
-import { Box } from 'rebass/styled-components'
+
 import { themeGet } from '@styled-system/theme-get'
+import { Radio as InformedRadio } from 'informed'
+import PropTypes from 'prop-types'
+import { Box } from 'rebass/styled-components'
+import styled from 'styled-components'
+
 import { Text } from 'components/UI'
+
 import Label from './Label'
 
 const Wrapper = styled(Box)`
@@ -66,16 +69,7 @@ const Wrapper = styled(Box)`
     background: ${themeGet('colors.primaryAccent')};
   }
 `
-const Radio = ({
-  value,
-  label,
-  description,
-  fontWeight,
-  onChange,
-  onBlur,
-  isDisabled,
-  ...rest
-}) => (
+const Radio = ({ value, label, description, onChange, onBlur, isDisabled, ...rest }) => (
   <Wrapper>
     <Label
       className="container"
@@ -105,7 +99,6 @@ const Radio = ({
 
 Radio.propTypes = {
   description: PropTypes.node,
-  fontWeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   isDisabled: PropTypes.bool,
   label: PropTypes.node,
   onBlur: PropTypes.func,

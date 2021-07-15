@@ -1,14 +1,17 @@
 import React from 'react'
+
+import { withFieldApi } from 'informed'
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { withFieldApi } from 'informed'
 import { Flex } from 'rebass/styled-components'
+
 import { intlShape } from '@zap/i18n'
-import { Heading, Bar } from 'components/UI'
 import { Form, RadioGroup } from 'components/Form'
-import { BACKUP_FORM_WIDTH, BACKUP_FORM_HEIGHT } from './components/settings'
+import { Heading, Bar } from 'components/UI'
+
 import BaseBackupTypeItem from './components/BackupTypeItem'
 import Container from './components/Container'
+import { BACKUP_FORM_WIDTH, BACKUP_FORM_HEIGHT } from './components/settings'
 import SkipBackupsDialog from './components/SkipBackupsDialog'
 import messages from './messages'
 

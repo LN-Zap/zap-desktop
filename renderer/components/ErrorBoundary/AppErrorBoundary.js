@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+
 import PropTypes from 'prop-types'
+
 import createZapIssueTemplate from '@zap/utils/github'
 import { mainLog } from '@zap/utils/log'
 import { DialogAppCrashed } from 'components/Dialog'

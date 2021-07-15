@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
-import { finishLnurlAuth, lnurlSelectors, clearLnurlAuth, declineLnurlAuth } from 'reducers/lnurl'
+
 import { LnurlAuthPrompt } from 'components/Lnurl'
+import { finishLnurlAuth, lnurlSelectors, clearLnurlAuth, declineLnurlAuth } from 'reducers/lnurl'
 
 const mapStateToProps = state => ({
   params: lnurlSelectors.lnurlAuthParams(state),

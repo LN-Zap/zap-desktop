@@ -1,8 +1,9 @@
 import { connect } from 'react-redux'
+
 import PaySummaryOnChain from 'components/Pay/PaySummaryOnChain'
-import { tickerSelectors } from 'reducers/ticker'
-import { queryFees, paySelectors } from 'reducers/pay'
 import { networkSelectors } from 'reducers/network'
+import { queryFees, paySelectors } from 'reducers/pay'
+import { tickerSelectors } from 'reducers/ticker'
 
 const mapStateToProps = state => ({
   cryptoUnitName: tickerSelectors.cryptoUnitName(state),

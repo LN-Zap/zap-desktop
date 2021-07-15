@@ -1,12 +1,15 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import Downshift from 'downshift'
+
 import bip39 from 'bip39-en'
-import { Box, Flex } from 'rebass/styled-components'
+import Downshift from 'downshift'
 import { useFieldApi } from 'informed'
-import { useMaxScreenHeight } from 'hooks'
-import SeedWordList from './SeedWordList'
+import PropTypes from 'prop-types'
+import { Box, Flex } from 'rebass/styled-components'
+
 import { Input, Label } from 'components/Form'
+import { useMaxScreenHeight } from 'hooks'
+
+import SeedWordList from './SeedWordList'
 
 const SeedWordInput = ({ index, onPaste, placeholder, setFormApiFieldValue }) => {
   const inputKey = `word${index}`
@@ -91,8 +94,8 @@ const SeedWordInput = ({ index, onPaste, placeholder, setFormApiFieldValue }) =>
                 getItemProps,
                 inputValue,
               }}
-              ref={measuredRef}
               maxHeight={height}
+              ref={measuredRef}
             />
           )}
         </Box>

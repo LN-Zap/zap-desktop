@@ -1,16 +1,17 @@
 import { connect } from 'react-redux'
+
 import { isHoldInvoiceEnabled } from '@zap/utils/featureFlag'
 import { Request } from 'components/Request'
-import { fetchTickers, tickerSelectors } from 'reducers/ticker'
 import { setActivityModal } from 'reducers/activity'
 import { createNewAddress } from 'reducers/address'
-import { addInvoice, cancelInvoice, settleInvoice, invoiceSelectors } from 'reducers/invoice'
-import { showNotification, showError } from 'reducers/notification'
 import { channelsSelectors } from 'reducers/channels'
-import { walletSelectors } from 'reducers/wallet'
-import { setTopModal } from 'reducers/modal'
 import { infoSelectors } from 'reducers/info'
+import { addInvoice, cancelInvoice, settleInvoice, invoiceSelectors } from 'reducers/invoice'
+import { setTopModal } from 'reducers/modal'
+import { showNotification, showError } from 'reducers/notification'
 import { settingsSelectors } from 'reducers/settings'
+import { fetchTickers, tickerSelectors } from 'reducers/ticker'
+import { walletSelectors } from 'reducers/wallet'
 
 const mapStateToProps = state => ({
   activeWalletSettings: walletSelectors.activeWalletSettings(state),

@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect'
+
 import { channelsSelectors, getChannelData } from 'reducers/channels'
+
 import { decorateTransaction } from './utils'
 
 const transactionsSelector = state => state.transaction.transactions

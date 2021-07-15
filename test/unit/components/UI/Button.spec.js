@@ -1,6 +1,7 @@
 import React from 'react'
-import { Button } from 'components/UI'
+
 import { renderWithTheme } from '@zap/test/unit/__helpers__/renderWithTheme'
+import { Button } from 'components/UI'
 
 describe('component.UI.Button', () => {
   it('should render correctly', () => {

@@ -1,15 +1,16 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { Box } from 'rebass/styled-components'
-import { intlShape } from '@zap/i18n'
-import { Bar, Header } from 'components/UI'
+
 import { Form, Input } from 'components/Form'
+import { Bar, Header } from 'components/UI'
+
 import messages from './messages'
 
 class Name extends React.Component {
   static propTypes = {
-    intl: intlShape.isRequired,
     name: PropTypes.string,
     setName: PropTypes.func.isRequired,
     wizardApi: PropTypes.object,
@@ -32,7 +33,7 @@ class Name extends React.Component {
   }
 
   render() {
-    const { wizardApi, wizardState, name, setName, intl, ...rest } = this.props
+    const { wizardApi, wizardState, name, ...rest } = this.props
     const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
 
@@ -83,4 +84,4 @@ class Name extends React.Component {
   }
 }
 
-export default injectIntl(Name)
+export default Name

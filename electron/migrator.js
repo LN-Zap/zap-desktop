@@ -1,9 +1,11 @@
 import { writeFile, readFile } from 'fs'
 import { join } from 'path'
 import { promisify } from 'util'
+
 import { app } from 'electron'
-import purgeLocalWallets from './migrations/purge-local-wallets'
+
 import deleteTmpWallets from './migrations/delete-tmp-wallets'
+import purgeLocalWallets from './migrations/purge-local-wallets'
 
 const fsWriteFile = promisify(writeFile)
 const fsReadFile = promisify(readFile)

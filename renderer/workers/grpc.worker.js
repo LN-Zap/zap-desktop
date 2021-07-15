@@ -1,8 +1,9 @@
 /* eslint-disable no-restricted-globals */
 
 import { expose } from 'comlink'
-import * as Protobuf from 'protobufjs'
 import Long from 'long'
+import * as Protobuf from 'protobufjs'
+
 import ZapGrpc from '@zap/services/grpc/grpc'
 
 // Protobuf assumes that long.js is either available on the global scope or available to be required. However, when

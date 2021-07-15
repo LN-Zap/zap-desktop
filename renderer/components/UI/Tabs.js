@@ -1,6 +1,8 @@
 import React, { useCallback } from 'react'
+
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass/styled-components'
+
 import Tab from './Tab'
 
 const Tabs = ({ items, activeKey, onClick, ...rest }) => {
@@ -19,10 +21,10 @@ const Tabs = ({ items, activeKey, onClick, ...rest }) => {
         const { key, name } = item
         return (
           <Tab
-            key={key}
             isActive={key === activeKey}
             itemKey={key}
             itemValue={name}
+            key={key}
             onClick={handleClick}
           />
         )

@@ -1,8 +1,10 @@
 import React from 'react'
+
 import PropTypes from 'prop-types'
 import { Flex, Box } from 'rebass/styled-components'
-import { Card, CloseButton } from 'components/UI'
+
 import Autopay from 'components/Icon/Autopay'
+import { Card, CloseButton } from 'components/UI'
 
 const AutopayModalBody = ({ children, onClose }) => (
   <Box sx={{ position: 'relative' }}>

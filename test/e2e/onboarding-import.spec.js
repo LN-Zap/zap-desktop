@@ -1,5 +1,9 @@
-import { waitForReact } from 'testcafe-react-selectors'
 import range from 'lodash/range'
+import { waitForReact } from 'testcafe-react-selectors'
+
+import { isNetworkSelectionEnabled, isMainnetAutopilot } from '../../utils/featureFlag'
+import Loading from './pages/loading'
+import Onboarding from './pages/onboarding'
 import {
   getBaseUrl,
   getUserDataDir,
@@ -7,9 +11,6 @@ import {
   cleanTestEnvironment,
   cleanElectronEnvironment,
 } from './utils/helpers'
-import Onboarding from './pages/onboarding'
-import Loading from './pages/loading'
-import { isNetworkSelectionEnabled, isMainnetAutopilot } from '../../utils/featureFlag'
 
 const onboarding = new Onboarding()
 const loading = new Loading()

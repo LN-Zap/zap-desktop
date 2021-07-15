@@ -1,5 +1,7 @@
 import React from 'react'
+
 import { storiesOf } from '@storybook/react'
+
 import { Heading, Text } from 'components/UI'
 
 storiesOf('General', module).addWithChapters('Typography', {

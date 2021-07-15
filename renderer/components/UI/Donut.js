@@ -1,8 +1,9 @@
 import React, { useContext } from 'react'
-import PropTypes from 'prop-types'
-import { ThemeContext } from 'styled-components'
+
 import { themeGet } from '@styled-system/theme-get'
 import { tint } from 'polished'
+import PropTypes from 'prop-types'
+import { ThemeContext } from 'styled-components'
 
 const Segment = ({ color, strokeWidth, amount = 0, rotate, ...rest }) => {
   const radius = 17.5

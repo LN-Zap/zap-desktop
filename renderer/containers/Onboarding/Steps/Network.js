@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+
 import { Network } from 'components/Onboarding/Steps'
 import { setNetwork } from 'reducers/onboarding'
 

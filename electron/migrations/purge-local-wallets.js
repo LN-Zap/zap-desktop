@@ -1,4 +1,5 @@
 import config from 'config'
+
 import { purgeAllLocalWallets } from '@zap/utils/localWallets'
 
 /**

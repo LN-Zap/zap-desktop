@@ -1,8 +1,9 @@
 import React, { createRef } from 'react'
-import { storiesOf } from '@storybook/react'
+
 import { action } from '@storybook/addon-actions'
+import { storiesOf } from '@storybook/react'
 import { Box } from 'rebass/styled-components'
-import { Button, MainContent, Page } from 'components/UI'
+
 import {
   Checkbox,
   CurrencyFieldGroup,
@@ -25,6 +26,7 @@ import {
   TextArea,
   Toggle,
 } from 'components/Form'
+import { Button, MainContent, Page } from 'components/UI'
 
 const validate = value => {
   return !value || value.length < 5 ? 'Field must be at least five characters' : null

@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react'
+
 import PropTypes from 'prop-types'
-import { Flex } from 'rebass/styled-components'
 import { injectIntl } from 'react-intl'
-import { useTimeout } from 'hooks'
-import { Heading, ProgressBar, Text } from 'components/UI'
-import messages from './messages'
+import { Flex } from 'rebass/styled-components'
+
 import { intlShape } from '@zap/i18n'
+import { Heading, ProgressBar, Text } from 'components/UI'
+import { useTimeout } from 'hooks'
+
+import messages from './messages'
 
 const getSyncMessages = ({
   syncStatus,

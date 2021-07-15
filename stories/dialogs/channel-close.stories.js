@@ -1,6 +1,9 @@
 import React from 'react'
+
 import { storiesOf } from '@storybook/react'
+
 import { ChannelCloseDialog } from 'components/Channels'
+
 import { Window } from '../helpers'
 
 storiesOf('Dialogs', module)
