@@ -13576,10 +13576,9 @@ linux-platform-info@^0.0.3:
   dependencies:
     os-family "^1.0.0"
 
-lnd-binary@0.3.20:
+"lnd-binary@https://github.com/rahulbile/lnd-binary#d1fd046dcde123a2a3356f1114198bf85e4e0638":
   version "0.3.20"
-  resolved "https://registry.yarnpkg.com/lnd-binary/-/lnd-binary-0.3.20.tgz#70e791da88172e90a7f425d2604fac6979ac2545"
-  integrity sha512-0D/pVIo5bsQl5TQfWKcje1dIkNV0kQ4g4cTLkKQXt6E9WT4HUtcAe8ifcu5mDvikbZ3UmjpwHk6K3D7TJUkOoQ==
+  resolved "https://github.com/rahulbile/lnd-binary#d1fd046dcde123a2a3356f1114198bf85e4e0638"
   dependencies:
     axios "^0.21.1"
     cacache "^15.0.5"
