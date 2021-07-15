@@ -147,7 +147,6 @@ class LndConfig {
         allocation: autopilotAllocation,
         minconfs: autopilotMinconfs,
       },
-      assumechanvalid,
       whitelistPeers,
     } = config.lnd
 
@@ -162,7 +161,6 @@ class LndConfig {
       autopilotMaxchansize,
       autopilotAllocation,
       autopilotMinconfs,
-      assumechanvalid,
       whitelistPeers,
     }
     // Merge in whitelisted settings.

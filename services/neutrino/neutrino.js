@@ -302,7 +302,6 @@ class Neutrino extends EventEmitter {
       `--restlisten=${restlisten}`,
       '--accept-keysend',
       '--protocol.wumbo-channels',
-      `${this.lndConfig.assumechanvalid ? '--routing.assumechanvalid' : ''}`,
       `${this.lndConfig.alias ? `--alias=${this.lndConfig.alias}` : ''}`,
       ...autopilotArgs,
       ...neutrinoArgs,
@@ -378,6 +377,8 @@ class Neutrino extends EventEmitter {
     neutrinoArgs.push('--neutrino.useragentname=zap-desktop')
     neutrinoArgs.push(`--neutrino.useragentversion=${getPackageDetails().version}`)
     neutrinoArgs.push(`--neutrino.feeurl=${feeUrl}`)
+    neutrinoArgs.push(`
+      ${config.lnd.neutrino.validateChannels ? `--neutrino.validatechannels` : ''}`)
     neutrinoArgs.push(`--${chain}.${network}`)
     nodes.forEach(node => neutrinoArgs.push(`--neutrino.${connectFlag}=${node}`))
 

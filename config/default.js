@@ -83,10 +83,9 @@ module.exports = {
         testnet: ['testnet3-btcd.zaphq.io', 'testnet4-btcd.zaphq.io'],
         mainnet: ['mainnet3-btcd.zaphq.io', 'mainnet4-btcd.zaphq.io'],
       },
-      validatechannels: true,
+      validateChannels: false,
     },
 
-    assumechanvalid: false,
     recoveryWindow: 2500,
     whitelistPeers: false,
   },
