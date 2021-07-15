@@ -302,7 +302,6 @@ class Neutrino extends EventEmitter {
       `--restlisten=${restlisten}`,
       '--accept-keysend',
       '--protocol.wumbo-channels',
-      `${this.lndConfig.assumechanvalid ? '--routing.assumechanvalid' : ''}`,
       `${this.lndConfig.alias ? `--alias=${this.lndConfig.alias}` : ''}`,
       ...autopilotArgs,
       ...neutrinoArgs,
