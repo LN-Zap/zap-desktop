@@ -377,6 +377,7 @@ class Neutrino extends EventEmitter {
     neutrinoArgs.push('--neutrino.useragentname=zap-desktop')
     neutrinoArgs.push(`--neutrino.useragentversion=${getPackageDetails().version}`)
     neutrinoArgs.push(`--neutrino.feeurl=${feeUrl}`)
+    neutrinoArgs.push(`--neutrino.validatechannels=${config.lnd.neutrino.validateChannels}`)
     neutrinoArgs.push(`--${chain}.${network}`)
     nodes.forEach(node => neutrinoArgs.push(`--neutrino.${connectFlag}=${node}`))
 
