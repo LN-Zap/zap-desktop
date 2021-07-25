@@ -1,4 +1,7 @@
 {
+  "components.Activity.ActivityActions.actiity_filter_pending": "În aşteptare",
+  "components.Activity.ActivityActions.actiity_filter_received": "Primit",
+  "components.Activity.ActivityActions.actiity_filter_sent": "Trimis",
   "components.Activity.Invoice.amount": "Suma",
   "components.Activity.Invoice.received": "Primite",
   "components.Activity.Invoice.requested": "Solicitat",
