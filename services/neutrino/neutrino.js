@@ -432,7 +432,6 @@ class Neutrino extends EventEmitter {
     stdout.pipe(split2()).on('data', line => {
       this.handleErrors(line)
       this.notifyOnWalletUnlockerActivation(line)
-      this.notifyLightningActivation(line)
 
       // If the sync has already completed then we don't need to do any more log processing.
       if (this.is(NEUTRINO_CHAIN_SYNC_COMPLETE)) {
@@ -487,23 +486,10 @@ class Neutrino extends EventEmitter {
    * @param {string} line log output line
    */
   notifyOnWalletUnlockerActivation(line) {
-    if (line.includes('RPC server listening on') && line.toLowerCase().includes('password')) {
+    if (line.includes('Waiting for wallet encryption password')) {
       this.isWalletUnlockerGrpcActive = true
       this.isLightningGrpcActive = false
       this.emit(NEUTRINO_WALLET_UNLOCKER_GRPC_ACTIVE)
-    }
-  }
-
-  /**
-   * notifyLightningActivation - Update state if log line indicates Lightning gRPC became active.
-   *
-   * @param {string} line log output line
-   */
-  notifyLightningActivation(line) {
-    if (line.includes('RPC server listening on') && !line.toLowerCase().includes('password')) {
-      this.isLightningGrpcActive = true
-      this.isWalletUnlockerGrpcActive = false
-      this.emit(NEUTRINO_LIGHTNING_GRPC_ACTIVE)
     }
   }
 
