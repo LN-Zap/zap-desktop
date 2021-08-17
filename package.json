@@ -216,7 +216,7 @@
     "@babel/register": "7.14.5",
     "@commitlint/cli": "8.3.5",
     "@commitlint/config-conventional": "8.3.4",
-    "@ln-zap/eslint-config": "LN-Zap/zap-eslint-config#89c7a0bd716182dd66e811b608a6441ddc4ae290",
+    "@ln-zap/eslint-config": "0.3.3",
     "@ln-zap/prettier-config": "0.1.0",
     "@storybook/addon-actions": "5.3.18",
     "@storybook/addon-console": "1.2.1",

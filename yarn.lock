@@ -2460,9 +2460,10 @@
     safe-buffer "^5.1.1"
     secp256k1 "^3.4.0"
 
-"@ln-zap/eslint-config@LN-Zap/zap-eslint-config#89c7a0bd716182dd66e811b608a6441ddc4ae290":
-  version "0.3.2"
-  resolved "https://codeload.github.com/LN-Zap/zap-eslint-config/tar.gz/89c7a0bd716182dd66e811b608a6441ddc4ae290"
+"@ln-zap/eslint-config@0.3.3":
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/@ln-zap/eslint-config/-/eslint-config-0.3.3.tgz#af48d395b91330b9e74fb8d5ddc369f70cfbe7d9"
+  integrity sha512-ijRoyQOwlXZy/a0dAlx0802qSLS0becTd55v3TSPFn9hE1vGr5zWAWKVFw3ixGbQXSN2XTvJqImEGVe+zIWgig==
 
 "@ln-zap/prettier-config@0.1.0":
   version "0.1.0"
