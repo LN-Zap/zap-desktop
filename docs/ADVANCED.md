@@ -15,7 +15,8 @@
 To compile the Zap wallet, you will need:
 
 - **[Node.js version >= 12](https://nodejs.org)** and **[npm version >= 5](https://www.npmjs.com)**
-- **[yarn](https://yarnpkg.com/lang/en/docs/install/)**
+- **[yarn](https://classic.yarnpkg.com/en/docs/install)**
+- [nvm](https://github.com/nvm-sh/nvm#intro) is suppported but not required
 
 ### Downloading Zap
 
@@ -48,17 +49,17 @@ To connect to `lnd` using `lncli` you must have Zap open and logged into your wa
 
 The lnd data directory will be located within:
 
- - `%APPDATA%\Zap` on Windows
- - `$XDG_CONFIG_HOME/Zap` or `~/.config/Zap` on Linux
- - `~/Library/Application Support/Zap` on macOS
+- `%APPDATA%\Zap` on Windows
+- `$XDG_CONFIG_HOME/Zap` or `~/.config/Zap` on Linux
+- `~/Library/Application Support/Zap` on macOS
 
 For example, on a Mac:
+
 ```sh
 lncli --rpcserver=localhost:11009 --lnddir=~/Library/Application\ Support/Zap/lnd/bitcoin/mainnet/wallet-2 getinfo
 ```
 
 See `lncli --help` for help with lncli.
-
 
 ### Option 2: custom:
 
