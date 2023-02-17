@@ -44,7 +44,7 @@
   },
   "config": {
     "lnd-binary": {
-      "binaryVersion": "0.14.1-beta"
+      "binaryVersion": "0.14.4-beta"
     }
   },
   "browserslist": [
@@ -287,7 +287,7 @@
     "husky": "4.3.0",
     "jest": "26.5.3",
     "jest-styled-components": "6.3.4",
-    "lnd-binary": "0.3.24",
+    "lnd-binary": "0.3.26",
     "minimist": "1.2.5",
     "mock-spawn": "0.2.6",
     "native-ext-loader": "2.3.0",
@@ -351,7 +351,7 @@
     "is-electron-renderer": "2.0.1",
     "jstimezonedetect": "1.0.7",
     "keytar": "5.6.0",
-    "lnd-grpc": "0.5.3",
+    "lnd-grpc": "0.5.4",
     "lndconnect": "0.2.10",
     "lodash": "4.17.21",
     "new-github-issue-url": "0.2.1",

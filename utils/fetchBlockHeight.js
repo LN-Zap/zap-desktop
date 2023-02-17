@@ -14,21 +14,21 @@ const fetchBlockHeight = (chain, network) => {
     bitcoin: {
       mainnet: [
         {
-          baseUrl: `https://api.smartbit.com.au/v1/blockchain/blocks?limit=1`,
-          path: 'blocks[0].height',
+          baseUrl: 'https://chain.api.btc.com/v3/block/latest',
+          path: 'data.height',
         },
         {
-          baseUrl: `https://api.blockcypher.com/v1/btc/main`,
+          baseUrl: 'https://api.blockcypher.com/v1/btc/main',
           path: 'height',
         },
       ],
       testnet: [
         {
-          baseUrl: `https://testnet-api.smartbit.com.au/v1/blockchain/blocks?limit=1`,
+          baseUrl: 'https://testnet-api.smartbit.com.au/v1/blockchain/blocks?limit=1',
           path: 'blocks[0].height',
         },
         {
-          baseUrl: `https://api.blockcypher.com/v1/btc/test3`,
+          baseUrl: 'https://api.blockcypher.com/v1/btc/test3',
           path: 'height',
         },
       ],

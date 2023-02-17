@@ -22,6 +22,7 @@ export const sanitizeNeutrinoNodes = nodes =>
 export const validateNeutrinoNodes = async formApi => {
   const field = 'neutrinoNodes'
   const value = sanitizeNeutrinoNodes(formApi.getValue(field))
+
   if (!value) {
     return
   }
@@ -49,6 +50,10 @@ export const validateNeutrinoNodes = async formApi => {
 
 // informed parser for neutrinoNodes field
 const parseNeutrinoNodes = value => {
+  if (!value) {
+    return []
+  }
+
   if (Array.isArray(value)) {
     return value
   }
@@ -97,6 +102,7 @@ class WalletSettingsFormLocal extends React.Component {
       autopilotMinchansize,
       autopilotMaxchansize,
       autopilotAllocation,
+      neutrinoNodes,
     } = wallet
 
     return (
@@ -181,7 +187,8 @@ class WalletSettingsFormLocal extends React.Component {
                 field="neutrinoNodes"
                 format={formatNeutrinoNodes}
                 highlightOnValid={false}
-                initialValue={config.lnd.neutrino[chain][network]}
+                id="neutrinoNodes"
+                initialValue={neutrinoNodes || config.lnd.neutrino[chain][network]}
                 onBlur={this.validateHost}
                 onChange={this.validateHost}
                 parse={parseNeutrinoNodes}

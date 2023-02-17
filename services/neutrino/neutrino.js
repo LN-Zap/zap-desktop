@@ -515,9 +515,8 @@ class Neutrino extends EventEmitter {
       line.match(/Syncing to block height (\d+)/) ||
       line.match(/Starting cfilters sync at block_height=(\d+)/) ||
       line.match(/Starting cfheaders sync from \(block_height=(\d+)/) ||
-      line.includes('Waiting for chain backend to finish sync') ||
-      line.includes('Waiting for block headers to sync, then will start cfheaders sync') ||
-      line.includes('Starting rescan from known block')
+      line.match(/Starting cfheaders sync from \(block_height=(\d+)/) ||
+      line.match(/Started rescan from block .* \(height (\d+)\)/)
     if (match) {
       this.setState(NEUTRINO_CHAIN_SYNC_IN_PROGRESS)
 
