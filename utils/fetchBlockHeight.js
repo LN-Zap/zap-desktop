@@ -34,25 +34,42 @@ const fetchBlockHeight = (chain, network) => {
       ],
     },
   }
-  const fetchData = (baseUrl, path) => {
-    mainLog.info(`Fetching current block height from ${baseUrl}`)
-    return axios({
-      method: 'get',
-      timeout: 5000,
-      url: baseUrl,
-    })
+
+  const sources = get(allSources, `${chain}.${network}`, [])
+  const promises = sources.map(source =>
+    axios({ method: 'get', timeout: 5000, url: source.baseUrl })
       .then(response => {
-        const height = Number(get(response.data, path))
-        mainLog.info(`Fetched block height as ${height} from: ${baseUrl}`)
+        const height = Number(get(response.data, source.path))
+        mainLog.info(`Fetched block height as ${height} from: ${source.baseUrl}`)
         return height
       })
       .catch(err => {
-        mainLog.warn(`Unable to fetch block height from ${baseUrl}: ${err.message}`)
+        mainLog.warn(`Unable to fetch block height from ${source.baseUrl}: ${err.message}`)
+        throw err
       })
-  }
+  )
 
-  const sources = get(allSources, `${chain}.${network}`, [])
-  return Promise.race(sources.map(source => fetchData(source.baseUrl, source.path)))
+  return new Promise((resolve, reject) => {
+    const errors = []
+    promises.forEach((promise, index) => {
+      promise
+        .then(result => {
+          return resolve(result)
+        })
+        .catch(error => {
+          errors.push(error)
+          if (errors.length === promises.length) {
+            const errorMessages = errors
+              .map(e => `${sources[index].baseUrl}: ${e.message}`)
+              .join(', ')
+            const finalError = new Error(
+              `Unable to fetch block height from all sources: ${errorMessages}`
+            )
+            reject(finalError)
+          }
+        })
+    })
+  })
 }
 
 export default fetchBlockHeight
