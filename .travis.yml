@@ -13,7 +13,7 @@ os:
   - linux
   - osx
 language: node_js
-node_js: '12'
+node_js: '16'
 cache:
   apt: true
   yarn: true
