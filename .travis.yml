@@ -27,6 +27,7 @@ before_install:
       sudo apt-get install libsecret-1-dev
     fi
   - curl -sL https://raw.githubusercontent.com/travis-ci/artifacts/master/install | bash
+  - npm install -g yarn
 script:
   - yarn lint-ci && yarn test-ci
 after_failure:
