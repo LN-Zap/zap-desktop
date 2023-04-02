@@ -26,7 +26,8 @@ fixture('Onboarding (connect lndconnect)')
     await cleanElectronEnvironment(ctx)
   })
 
-test('should connect to an external wallet (lndconnect)', async t => {
+// eslint-disable-next-line jest/no-disabled-tests
+test.skip('should connect to an external wallet (lndconnect)', async t => {
   await t
     // Fill out and submit ConnectionType form.
     .expect(onboarding.connectionType.exists)

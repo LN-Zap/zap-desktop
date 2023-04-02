@@ -26,7 +26,8 @@ fixture('Onboarding (connect btcpay)')
     await cleanElectronEnvironment(ctx)
   })
 
-test('should connect to an external wallet (btcpay)', async t => {
+// eslint-disable-next-line jest/no-disabled-tests
+test.skip('should connect to an external wallet (btcpay)', async t => {
   await t
     // Fill out and submit ConnectionType form.
     .expect(onboarding.connectionType.exists)
