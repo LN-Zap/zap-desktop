@@ -1,4 +1,6 @@
-# Zap
+# Zap (UNMAINTAINED)
+
+Zap Desktop is not actively maintained at the moment. If you're looking for a simple way to make lightning transactions take a look at [Strike](https://strike.me/).
 
 <p align='center'>
   <a href='https://zap.jackmallers.com'>
